@@ -104,6 +104,59 @@ export interface OpsPromotionArchiveVerification {
   nextActions: string[];
 }
 
+export type OpsPromotionArchiveAttestationState = "not-started" | "blocked" | "ready";
+
+export interface OpsPromotionArchiveAttestationEvidenceSource {
+  name: string;
+  type: OpsPromotionArchiveArtifactType;
+  present: boolean;
+  verified: boolean;
+  source: string;
+  digest: {
+    algorithm: "sha256";
+    value: string;
+  };
+}
+
+export interface OpsPromotionArchiveAttestation {
+  service: "orderops-node";
+  generatedAt: string;
+  title: string;
+  archiveName: string;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  manifestDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  verificationDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  sealDigest: {
+    algorithm: "sha256";
+    value: string;
+    coveredFields: string[];
+  };
+  decision: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    latestSequence?: number;
+    latestOutcome?: OpsPromotionDecision;
+    latestReadyForPromotion?: boolean;
+    latestDigestValid?: boolean;
+  };
+  checks: {
+    manifestVerified: boolean;
+    artifactsVerified: boolean;
+    archiveReady: boolean;
+    latestDecisionReady: boolean;
+    integrityVerified: boolean;
+  };
+  evidenceSources: OpsPromotionArchiveAttestationEvidenceSource[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -224,6 +277,95 @@ export function createOpsPromotionArchiveVerification(input: {
   };
 }
 
+export function createOpsPromotionArchiveAttestation(input: {
+  bundle: OpsPromotionArchiveBundle;
+  manifest: OpsPromotionArchiveManifest;
+  verification: OpsPromotionArchiveVerification;
+}): OpsPromotionArchiveAttestation {
+  const verificationDigest = digestStable(archiveVerificationDigestPayload(input.verification));
+  const evidenceSources = input.manifest.artifacts.map((artifact) => {
+    const verificationArtifact = input.verification.artifacts.find((candidate) => candidate.name === artifact.name);
+
+    return {
+      name: artifact.name,
+      type: artifact.type,
+      present: artifact.present,
+      verified: verificationArtifact?.valid === true,
+      source: artifact.source,
+      digest: { ...artifact.digest },
+    };
+  });
+  const checks = {
+    manifestVerified: input.verification.checks.manifestDigestValid,
+    artifactsVerified: input.verification.checks.artifactsValid,
+    archiveReady: input.bundle.state === "ready" && input.manifest.state === "ready" && input.verification.state === "ready",
+    latestDecisionReady: input.bundle.summary.latestOutcome === "approved"
+      && input.bundle.summary.latestReadyForPromotion === true
+      && input.bundle.summary.latestDigestValid === true,
+    integrityVerified: input.bundle.summary.integrityValid
+      && input.manifest.summary.integrityRootDigest === input.bundle.summary.integrityRootDigest
+      && input.verification.summary.integrityRootDigest === input.bundle.summary.integrityRootDigest,
+  };
+  const handoffReady = input.verification.valid && Object.values(checks).every(Boolean);
+  const state = handoffReady ? "ready" : input.bundle.summary.totalDecisions === 0 ? "not-started" : "blocked";
+  const decision = {
+    totalDecisions: input.bundle.summary.totalDecisions,
+    latestDecisionId: input.bundle.summary.latestDecisionId,
+    latestSequence: input.bundle.summary.latestSequence,
+    latestOutcome: input.bundle.summary.latestOutcome,
+    latestReadyForPromotion: input.bundle.summary.latestReadyForPromotion,
+    latestDigestValid: input.bundle.summary.latestDigestValid,
+  };
+  const nextActions = archiveAttestationNextActions(state, checks, input.bundle, input.verification);
+  const sealPayload = archiveAttestationDigestPayload({
+    archiveName: input.bundle.archiveName,
+    state,
+    handoffReady,
+    manifestDigest: input.manifest.manifestDigest.value,
+    verificationDigest,
+    decision,
+    checks,
+    evidenceSources,
+    nextActions,
+  });
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    title: `Promotion archive attestation for ${input.bundle.archiveName}`,
+    archiveName: input.bundle.archiveName,
+    state,
+    handoffReady,
+    manifestDigest: {
+      algorithm: "sha256",
+      value: input.manifest.manifestDigest.value,
+    },
+    verificationDigest: {
+      algorithm: "sha256",
+      value: verificationDigest,
+    },
+    sealDigest: {
+      algorithm: "sha256",
+      value: digestStable(sealPayload),
+      coveredFields: [
+        "archiveName",
+        "state",
+        "handoffReady",
+        "manifestDigest",
+        "verificationDigest",
+        "decision",
+        "checks",
+        "evidenceSources",
+        "nextActions",
+      ],
+    },
+    decision,
+    checks,
+    evidenceSources,
+    nextActions,
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -251,6 +393,51 @@ export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBun
     "## Next Actions",
     "",
     ...bundle.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionArchiveAttestationMarkdown(attestation: OpsPromotionArchiveAttestation): string {
+  const lines = [
+    "# Promotion archive attestation",
+    "",
+    `- Service: ${attestation.service}`,
+    `- Generated at: ${attestation.generatedAt}`,
+    `- Title: ${attestation.title}`,
+    `- Archive name: ${attestation.archiveName}`,
+    `- State: ${attestation.state}`,
+    `- Handoff ready: ${attestation.handoffReady}`,
+    `- Manifest digest: ${attestation.manifestDigest.algorithm}:${attestation.manifestDigest.value}`,
+    `- Verification digest: ${attestation.verificationDigest.algorithm}:${attestation.verificationDigest.value}`,
+    `- Seal digest: ${attestation.sealDigest.algorithm}:${attestation.sealDigest.value}`,
+    `- Covered fields: ${attestation.sealDigest.coveredFields.join(", ")}`,
+    "",
+    "## Decision",
+    "",
+    `- Total decisions: ${attestation.decision.totalDecisions}`,
+    `- Latest decision id: ${attestation.decision.latestDecisionId ?? "none"}`,
+    `- Latest sequence: ${attestation.decision.latestSequence ?? "none"}`,
+    `- Latest outcome: ${attestation.decision.latestOutcome ?? "none"}`,
+    `- Latest ready for promotion: ${attestation.decision.latestReadyForPromotion ?? "none"}`,
+    `- Latest digest valid: ${attestation.decision.latestDigestValid ?? "none"}`,
+    "",
+    "## Checks",
+    "",
+    `- Manifest verified: ${attestation.checks.manifestVerified}`,
+    `- Artifacts verified: ${attestation.checks.artifactsVerified}`,
+    `- Archive ready: ${attestation.checks.archiveReady}`,
+    `- Latest decision ready: ${attestation.checks.latestDecisionReady}`,
+    `- Integrity verified: ${attestation.checks.integrityVerified}`,
+    "",
+    "## Evidence Sources",
+    "",
+    ...renderAttestationEvidenceSources(attestation.evidenceSources),
+    "",
+    "## Next Actions",
+    "",
+    ...attestation.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -348,6 +535,60 @@ function manifestDigestPayload(input: {
   };
 }
 
+function archiveVerificationDigestPayload(verification: OpsPromotionArchiveVerification) {
+  return {
+    archiveName: verification.archiveName,
+    valid: verification.valid,
+    state: verification.state,
+    manifestDigest: verification.manifestDigest.value,
+    recomputedManifestDigest: verification.recomputedManifestDigest.value,
+    checks: verification.checks,
+    summary: verification.summary,
+    artifacts: verification.artifacts.map((artifact) => ({
+      name: artifact.name,
+      type: artifact.type,
+      valid: artifact.valid,
+      presentMatches: artifact.presentMatches,
+      sourceMatches: artifact.sourceMatches,
+      digestMatches: artifact.digestMatches,
+      manifestDigest: artifact.manifestDigest.value,
+      recomputedDigest: artifact.recomputedDigest.value,
+      source: artifact.source,
+    })),
+  };
+}
+
+function archiveAttestationDigestPayload(input: {
+  archiveName: string;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  manifestDigest: string;
+  verificationDigest: string;
+  decision: OpsPromotionArchiveAttestation["decision"];
+  checks: OpsPromotionArchiveAttestation["checks"];
+  evidenceSources: OpsPromotionArchiveAttestationEvidenceSource[];
+  nextActions: string[];
+}) {
+  return {
+    archiveName: input.archiveName,
+    state: input.state,
+    handoffReady: input.handoffReady,
+    manifestDigest: input.manifestDigest,
+    verificationDigest: input.verificationDigest,
+    decision: input.decision,
+    checks: input.checks,
+    evidenceSources: input.evidenceSources.map((source) => ({
+      name: source.name,
+      type: source.type,
+      present: source.present,
+      verified: source.verified,
+      source: source.source,
+      digest: source.digest.value,
+    })),
+    nextActions: input.nextActions,
+  };
+}
+
 function archiveVerificationNextActions(
   manifestDigestValid: boolean,
   artifactsValid: boolean,
@@ -366,6 +607,35 @@ function archiveVerificationNextActions(
   }
 
   return manifest.nextActions;
+}
+
+function archiveAttestationNextActions(
+  state: OpsPromotionArchiveAttestationState,
+  checks: OpsPromotionArchiveAttestation["checks"],
+  bundle: OpsPromotionArchiveBundle,
+  verification: OpsPromotionArchiveVerification,
+): string[] {
+  if (!verification.valid) {
+    return ["Resolve archive verification failures before issuing a promotion archive attestation."];
+  }
+
+  if (bundle.summary.totalDecisions === 0 || state === "not-started") {
+    return ["Record an approved promotion decision before issuing a promotion archive attestation."];
+  }
+
+  if (!checks.integrityVerified) {
+    return ["Repair promotion decision ledger integrity before sealing the archive attestation."];
+  }
+
+  if (!checks.latestDecisionReady) {
+    return ["Complete readiness, runbook, and baseline requirements before recording an approved promotion decision."];
+  }
+
+  if (!checks.archiveReady) {
+    return bundle.nextActions;
+  }
+
+  return ["Archive attestation is ready; attach the seal digest to the promotion handoff record."];
 }
 
 function archiveState(
@@ -499,6 +769,19 @@ function renderVerificationArtifacts(artifacts: OpsPromotionArchiveVerificationA
     `- Manifest digest: ${artifact.manifestDigest.algorithm}:${artifact.manifestDigest.value}`,
     `- Recomputed digest: ${artifact.recomputedDigest.algorithm}:${artifact.recomputedDigest.value}`,
     `- Source: ${artifact.source}`,
+    "",
+  ]);
+}
+
+function renderAttestationEvidenceSources(sources: OpsPromotionArchiveAttestationEvidenceSource[]): string[] {
+  return sources.flatMap((source) => [
+    `### ${source.name}`,
+    "",
+    `- Type: ${source.type}`,
+    `- Present: ${source.present}`,
+    `- Verified: ${source.verified}`,
+    `- Digest: ${source.digest.algorithm}:${source.digest.value}`,
+    `- Source: ${source.source}`,
     "",
   ]);
 }

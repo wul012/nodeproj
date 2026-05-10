@@ -40,6 +40,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion archive bundle in JSON or Markdown for combining latest evidence and ledger integrity
 - Local promotion archive manifest with SHA-256 artifact digests for final archive fingerprinting
 - Local promotion archive verification for rechecking manifest and artifact digests
+- Local promotion archive attestation with a sealed handoff digest
 
 ## Setup
 
@@ -96,6 +97,8 @@ GET    /api/v1/ops/promotion-archive/manifest
 GET    /api/v1/ops/promotion-archive/manifest?format=markdown
 GET    /api/v1/ops/promotion-archive/verification
 GET    /api/v1/ops/promotion-archive/verification?format=markdown
+GET    /api/v1/ops/promotion-archive/attestation
+GET    /api/v1/ops/promotion-archive/attestation?format=markdown
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity

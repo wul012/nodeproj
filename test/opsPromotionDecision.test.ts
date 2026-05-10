@@ -559,6 +559,108 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("seals a promotion archive attestation as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyAttestation = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "attestation-reviewer",
+          note: "seal archive attestation",
+        },
+      });
+      const attestation = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation?format=markdown",
+      });
+
+      expect(emptyAttestation.statusCode).toBe(200);
+      expect(emptyAttestation.json()).toMatchObject({
+        service: "orderops-node",
+        state: "not-started",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        checks: {
+          manifestVerified: true,
+          artifactsVerified: true,
+          archiveReady: false,
+          latestDecisionReady: false,
+          integrityVerified: true,
+        },
+      });
+      expect(emptyAttestation.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyAttestation.json().verificationDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyAttestation.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyAttestation.json().sealDigest.coveredFields).toEqual([
+        "archiveName",
+        "state",
+        "handoffReady",
+        "manifestDigest",
+        "verificationDigest",
+        "decision",
+        "checks",
+        "evidenceSources",
+        "nextActions",
+      ]);
+      expect(decision.statusCode).toBe(201);
+      expect(attestation.statusCode).toBe(200);
+      expect(attestation.json()).toMatchObject({
+        service: "orderops-node",
+        state: "blocked",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestSequence: 1,
+          latestOutcome: "blocked",
+          latestReadyForPromotion: false,
+          latestDigestValid: true,
+        },
+        checks: {
+          manifestVerified: true,
+          artifactsVerified: true,
+          archiveReady: false,
+          latestDecisionReady: false,
+          integrityVerified: true,
+        },
+      });
+      expect(attestation.json().title).toContain(attestation.json().archiveName);
+      expect(attestation.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(attestation.json().verificationDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(attestation.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(attestation.json().evidenceSources.map((source: { name: string }) => source.name)).toEqual([
+        "archive-summary",
+        "latest-evidence",
+        "ledger-integrity",
+      ]);
+      expect(attestation.json().evidenceSources.every((source: { verified: boolean }) => source.verified)).toBe(true);
+      expect(attestation.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion archive attestation");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Seal digest: sha256:${attestation.json().sealDigest.value}`);
+      expect(markdown.body).toContain("## Evidence Sources");
+      expect(markdown.body).toContain("### latest-evidence");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -618,6 +720,14 @@ describe("ops promotion decision routes", () => {
           note: "approved decision",
         },
       });
+      const attestation = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation",
+      });
+      const attestationReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation?format=markdown",
+      });
 
       expect(decision.statusCode).toBe(201);
       expect(decision.json()).toMatchObject({
@@ -633,6 +743,32 @@ describe("ops promotion decision routes", () => {
           },
         },
       });
+      expect(attestation.statusCode).toBe(200);
+      expect(attestation.json()).toMatchObject({
+        state: "ready",
+        handoffReady: true,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "approved",
+          latestReadyForPromotion: true,
+          latestDigestValid: true,
+        },
+        checks: {
+          manifestVerified: true,
+          artifactsVerified: true,
+          archiveReady: true,
+          latestDecisionReady: true,
+          integrityVerified: true,
+        },
+      });
+      expect(attestation.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(attestation.json().nextActions).toEqual([
+        "Archive attestation is ready; attach the seal digest to the promotion handoff record.",
+      ]);
+      expect(attestationReport.statusCode).toBe(200);
+      expect(attestationReport.headers["content-type"]).toContain("text/markdown");
+      expect(attestationReport.body).toContain("- Handoff ready: true");
+      expect(attestationReport.body).toContain(`- Seal digest: sha256:${attestation.json().sealDigest.value}`);
     } finally {
       await app.close();
     }

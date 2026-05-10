@@ -105,6 +105,9 @@
 
 30-ops-promotion-archive-verification-v26.md
  -> 第二十六版本地 promotion archive verification：复核 manifest digest、artifact digest 和归档一致性
+
+31-ops-promotion-archive-attestation-v27.md
+ -> 第二十七版本地 promotion archive attestation：把 manifest、verification、decision 和 evidence source 封成交接 seal digest
 ```
 
 ## 项目整体理解
