@@ -1,4 +1,4 @@
-export type SourceState = "online" | "offline" | "degraded";
+export type SourceState = "online" | "offline" | "degraded" | "disabled";
 
 export interface ProbeResult {
   name: string;

@@ -168,6 +168,12 @@ export function dashboardHtml(): string {
       border-color: #ffc9c9;
     }
 
+    .disabled {
+      color: #475467;
+      background: #f2f4f7;
+      border-color: #d0d5dd;
+    }
+
     .muted {
       color: var(--muted);
       font-size: 13px;

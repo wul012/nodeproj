@@ -61,7 +61,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
 
   const orderPlatform = new OrderPlatformClient(config.orderPlatformUrl, config.orderPlatformTimeoutMs);
   const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs);
-  const snapshots = new OpsSnapshotService(orderPlatform, miniKv);
+  const snapshots = new OpsSnapshotService(orderPlatform, miniKv, config.upstreamProbesEnabled);
   const auditLog = new AuditLog();
   const requestStartTimes = new WeakMap<object, number>();
 

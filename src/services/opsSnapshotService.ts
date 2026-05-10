@@ -6,6 +6,7 @@ export class OpsSnapshotService {
   constructor(
     private readonly orderPlatformClient: OrderPlatformClient,
     private readonly miniKvClient: MiniKvClient,
+    private readonly upstreamProbesEnabled: boolean,
   ) {}
 
   async sample(): Promise<OpsSnapshot> {
@@ -26,6 +27,9 @@ export class OpsSnapshotService {
 
   private async probeOrderPlatform(): Promise<ProbeResult> {
     const sampledAt = new Date().toISOString();
+    if (!this.upstreamProbesEnabled) {
+      return disabledProbe("advanced-order-platform", sampledAt);
+    }
 
     try {
       const response = await this.orderPlatformClient.health();
@@ -50,6 +54,9 @@ export class OpsSnapshotService {
 
   private async probeMiniKv(): Promise<ProbeResult> {
     const sampledAt = new Date().toISOString();
+    if (!this.upstreamProbesEnabled) {
+      return disabledProbe("mini-kv", sampledAt);
+    }
 
     try {
       const [ping, size] = await Promise.all([this.miniKvClient.ping(), this.miniKvClient.size()]);
@@ -75,6 +82,15 @@ export class OpsSnapshotService {
       };
     }
   }
+}
+
+function disabledProbe(name: string, sampledAt: string): ProbeResult {
+  return {
+    name,
+    state: "disabled",
+    sampledAt,
+    message: "Upstream probes are disabled by UPSTREAM_PROBES_ENABLED=false",
+  };
 }
 
 function readStatus(data: unknown): string | undefined {

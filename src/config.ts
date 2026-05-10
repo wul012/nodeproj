@@ -8,6 +8,7 @@ export interface AppConfig {
   miniKvPort: number;
   miniKvTimeoutMs: number;
   opsSampleIntervalMs: number;
+  upstreamProbesEnabled: boolean;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -29,6 +30,23 @@ function readNumber(env: NodeJS.ProcessEnv, key: string, fallback: number): numb
   return Math.floor(parsed);
 }
 
+function readBoolean(env: NodeJS.ProcessEnv, key: string, fallback: boolean): boolean {
+  const raw = env[key]?.trim().toLowerCase();
+  if (!raw) {
+    return fallback;
+  }
+
+  if (["1", "true", "yes", "on"].includes(raw)) {
+    return true;
+  }
+
+  if (["0", "false", "no", "off"].includes(raw)) {
+    return false;
+  }
+
+  return fallback;
+}
+
 function stripTrailingSlash(value: string): string {
   return value.endsWith("/") ? value.slice(0, -1) : value;
 }
@@ -44,5 +62,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     miniKvPort: readNumber(env, "MINIKV_PORT", 6379),
     miniKvTimeoutMs: readNumber(env, "MINIKV_TIMEOUT_MS", 800),
     opsSampleIntervalMs: readNumber(env, "OPS_SAMPLE_INTERVAL_MS", 2000),
+    upstreamProbesEnabled: readBoolean(env, "UPSTREAM_PROBES_ENABLED", false),
   };
 }

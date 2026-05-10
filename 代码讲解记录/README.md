@@ -33,6 +33,9 @@
 
 06-audit-log-v2.md
  -> 第二版审计日志：AuditLog、请求 hook、审计 API、Dashboard 审计面板和测试
+
+07-upstream-probe-safety-v3.md
+ -> 第三版上游探测安全开关：UPSTREAM_PROBES_ENABLED、disabled 状态、Dashboard 标识和测试
 ```
 
 ## 项目整体理解

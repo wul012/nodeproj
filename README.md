@@ -16,6 +16,7 @@ This V1 is intentionally small. Node owns the gateway, live operations view, and
 - mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, and `EXPIRE`
 - Live SSE status stream at `/api/v1/events/ops`
 - In-memory audit log and request summary endpoints
+- Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
 
 ## Setup
 
@@ -35,8 +36,11 @@ The service reads configuration from environment variables. Use `.env.example` a
 ```powershell
 $env:ORDER_PLATFORM_URL = "http://localhost:8080"
 $env:MINIKV_PORT = "6379"
+$env:UPSTREAM_PROBES_ENABLED = "true"
 npm run dev
 ```
+
+By default, upstream probes are disabled so the dashboard does not automatically touch the Java or mini-kv processes while they are being debugged.
 
 Optional upstream services:
 
