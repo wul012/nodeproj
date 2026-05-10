@@ -408,6 +408,28 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid audit-grid">
+      <article class="card">
+        <div class="metric-name">Readiness</div>
+        <div class="metric-value" id="opsReadinessState">-</div>
+        <div class="muted" id="opsReadinessReady">Not checked</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Blockers</div>
+        <div class="metric-value" id="opsReadinessBlockers">0</div>
+        <div class="muted" id="opsReadinessBlockerText">No blockers checked</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Warnings</div>
+        <div class="metric-value" id="opsReadinessWarnings">0</div>
+        <div class="muted" id="opsReadinessWarningText">No warnings checked</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Next action</div>
+        <div class="muted" id="opsReadinessNext">-</div>
+      </article>
+    </section>
+
     <section class="grid work-grid">
       <article class="card">
         <h2>Order Platform</h2>
@@ -453,6 +475,7 @@ export function dashboardHtml(): string {
         <button data-action="auditEvents">Recent Events</button>
         <button data-action="runtimeConfig">Runtime Config</button>
         <button data-action="opsSummary">Ops Summary</button>
+        <button data-action="opsReadiness">Readiness</button>
       </div>
       <div class="row">
         <select id="planAction" aria-label="Action plan">
@@ -585,6 +608,20 @@ export function dashboardHtml(): string {
       return summary;
     }
 
+    async function refreshOpsReadiness() {
+      const readiness = await api("/api/v1/ops/readiness");
+      $("opsReadinessState").textContent = readiness.state;
+      $("opsReadinessReady").textContent = readiness.readyForUpstreamExecution ? "ready for execution" : "not ready for execution";
+      $("opsReadinessBlockers").textContent = readiness.blockers;
+      $("opsReadinessWarnings").textContent = readiness.warnings;
+      const firstBlocker = readiness.checks.find((check) => check.severity === "blocker");
+      const firstWarning = readiness.checks.find((check) => check.severity === "warning");
+      $("opsReadinessBlockerText").textContent = firstBlocker ? firstBlocker.code : "No blockers";
+      $("opsReadinessWarningText").textContent = firstWarning ? firstWarning.code : "No warnings";
+      $("opsReadinessNext").textContent = readiness.nextActions[0] || "No action needed";
+      return readiness;
+    }
+
     document.body.addEventListener("click", async (event) => {
       const button = event.target.closest("button[data-action]");
       if (!button) {
@@ -648,6 +685,9 @@ export function dashboardHtml(): string {
         }
         if (action === "opsSummary") {
           write(await refreshOpsSummary());
+        }
+        if (action === "opsReadiness") {
+          write(await refreshOpsReadiness());
         }
         if (action === "planAction") {
           write(await api("/api/v1/action-plans", {
@@ -727,6 +767,7 @@ export function dashboardHtml(): string {
     void refreshAudit().catch(() => {});
     void refreshRuntimeConfig().catch(() => {});
     void refreshOpsSummary().catch(() => {});
+    void refreshOpsReadiness().catch(() => {});
   </script>
 </body>
 </html>`;

@@ -60,6 +60,9 @@
 
 15-ops-summary-v11.md
  -> 第十一版本地运营指标汇总：audit、intent、dispatch、timeline event、rate limit 和 Dashboard 指标卡
+
+16-ops-readiness-v12.md
+ -> 第十二版本地 readiness gate：基于 ops summary 的 blocker/warning/pass 检查和 Dashboard 就绪度指标
 ```
 
 ## 项目整体理解
