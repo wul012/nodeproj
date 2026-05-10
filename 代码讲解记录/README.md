@@ -57,6 +57,9 @@
 
 14-mutation-rate-limit-v10.md
  -> 第十版本地 mutation 限流：intent/dispatch POST 防重复刷、429 错误、限流 header 和 runtime config
+
+15-ops-summary-v11.md
+ -> 第十一版本地运营指标汇总：audit、intent、dispatch、timeline event、rate limit 和 Dashboard 指标卡
 ```
 
 ## 项目整体理解

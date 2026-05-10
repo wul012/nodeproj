@@ -123,6 +123,14 @@ export function routeGroupForPath(path: string): string {
     return "audit";
   }
 
+  if (normalized.startsWith("/api/v1/operation-")) {
+    return "operations";
+  }
+
+  if (normalized.startsWith("/api/v1/ops")) {
+    return "ops";
+  }
+
   return "other";
 }
 

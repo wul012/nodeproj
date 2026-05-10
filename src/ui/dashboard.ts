@@ -385,6 +385,29 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid audit-grid">
+      <article class="card">
+        <div class="metric-name">Ops intents</div>
+        <div class="metric-value" id="opsIntentTotal">0</div>
+        <div class="muted" id="opsIntentSignal">No intents yet</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Dispatches</div>
+        <div class="metric-value" id="opsDispatchTotal">0</div>
+        <div class="muted" id="opsDispatchSignal">No dispatches yet</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Timeline events</div>
+        <div class="metric-value" id="opsEventTotal">0</div>
+        <div class="muted" id="opsEventSignal">No events yet</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Rate limited</div>
+        <div class="metric-value" id="opsRateLimited">0</div>
+        <div class="muted" id="opsRateLimitConfig">-</div>
+      </article>
+    </section>
+
     <section class="grid work-grid">
       <article class="card">
         <h2>Order Platform</h2>
@@ -429,6 +452,7 @@ export function dashboardHtml(): string {
         <button class="primary" data-action="auditSummary">Summary</button>
         <button data-action="auditEvents">Recent Events</button>
         <button data-action="runtimeConfig">Runtime Config</button>
+        <button data-action="opsSummary">Ops Summary</button>
       </div>
       <div class="row">
         <select id="planAction" aria-label="Action plan">
@@ -548,6 +572,19 @@ export function dashboardHtml(): string {
       return config;
     }
 
+    async function refreshOpsSummary() {
+      const summary = await api("/api/v1/ops/summary");
+      $("opsIntentTotal").textContent = summary.intents.total;
+      $("opsIntentSignal").textContent = "blocked " + summary.signals.blockedIntents + " / pending " + summary.signals.pendingConfirmations;
+      $("opsDispatchTotal").textContent = summary.dispatches.total;
+      $("opsDispatchSignal").textContent = "rejected " + summary.signals.rejectedDispatches + " / dry-run " + summary.signals.dryRunDispatches;
+      $("opsEventTotal").textContent = summary.events.total;
+      $("opsEventSignal").textContent = summary.events.latest ? summary.events.latest.type : "No events yet";
+      $("opsRateLimited").textContent = summary.signals.rateLimitedRequests;
+      $("opsRateLimitConfig").textContent = summary.mutationRateLimit.maxRequests + " per " + Math.round(summary.mutationRateLimit.windowMs / 1000) + "s";
+      return summary;
+    }
+
     document.body.addEventListener("click", async (event) => {
       const button = event.target.closest("button[data-action]");
       if (!button) {
@@ -608,6 +645,9 @@ export function dashboardHtml(): string {
         }
         if (action === "runtimeConfig") {
           write(await refreshRuntimeConfig());
+        }
+        if (action === "opsSummary") {
+          write(await refreshOpsSummary());
         }
         if (action === "planAction") {
           write(await api("/api/v1/action-plans", {
@@ -686,6 +726,7 @@ export function dashboardHtml(): string {
     void refreshStatus().catch(write);
     void refreshAudit().catch(() => {});
     void refreshRuntimeConfig().catch(() => {});
+    void refreshOpsSummary().catch(() => {});
   </script>
 </body>
 </html>`;

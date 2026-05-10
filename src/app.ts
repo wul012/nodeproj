@@ -13,6 +13,7 @@ import { registerAuditRoutes } from "./routes/auditRoutes.js";
 import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
+import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
@@ -97,6 +98,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerActionPlanRoutes(app, { config });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });
+  await registerOpsSummaryRoutes(app, { config, auditLog, operationIntents, operationDispatches });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
   await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });
