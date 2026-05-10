@@ -661,6 +661,102 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies a promotion archive attestation seal as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "attestation-verifier",
+          note: "verify archive attestation seal",
+        },
+      });
+      const attestationVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        checks: {
+          sealDigestValid: true,
+          verificationDigestValid: true,
+          manifestDigestMatches: true,
+          archiveNameMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          decisionMatches: true,
+          checksMatch: true,
+          evidenceSourcesMatch: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          evidenceSourceCount: 3,
+          handoffReady: false,
+        },
+      });
+      expect(emptyVerification.json().sealDigest.value).toBe(emptyVerification.json().recomputedSealDigest.value);
+      expect(emptyVerification.json().verificationDigest.value).toBe(emptyVerification.json().recomputedVerificationDigest.value);
+      expect(decision.statusCode).toBe(201);
+      expect(attestationVerification.statusCode).toBe(200);
+      expect(attestationVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        checks: {
+          sealDigestValid: true,
+          verificationDigestValid: true,
+          manifestDigestMatches: true,
+          archiveNameMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          decisionMatches: true,
+          checksMatch: true,
+          evidenceSourcesMatch: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          evidenceSourceCount: 3,
+          handoffReady: false,
+        },
+      });
+      expect(attestationVerification.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(attestationVerification.json().verificationDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(attestationVerification.json().sealDigest.value).toBe(attestationVerification.json().recomputedSealDigest.value);
+      expect(attestationVerification.json().verificationDigest.value).toBe(attestationVerification.json().recomputedVerificationDigest.value);
+      expect(attestationVerification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion archive attestation verification");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Seal digest: sha256:${attestationVerification.json().sealDigest.value}`);
+      expect(markdown.body).toContain("## Checks");
+      expect(markdown.body).toContain("## Summary");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -728,6 +824,14 @@ describe("ops promotion decision routes", () => {
         method: "GET",
         url: "/api/v1/ops/promotion-archive/attestation?format=markdown",
       });
+      const attestationVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation/verification",
+      });
+      const attestationVerificationReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/attestation/verification?format=markdown",
+      });
 
       expect(decision.statusCode).toBe(201);
       expect(decision.json()).toMatchObject({
@@ -769,6 +873,36 @@ describe("ops promotion decision routes", () => {
       expect(attestationReport.headers["content-type"]).toContain("text/markdown");
       expect(attestationReport.body).toContain("- Handoff ready: true");
       expect(attestationReport.body).toContain(`- Seal digest: sha256:${attestation.json().sealDigest.value}`);
+      expect(attestationVerification.statusCode).toBe(200);
+      expect(attestationVerification.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        checks: {
+          sealDigestValid: true,
+          verificationDigestValid: true,
+          manifestDigestMatches: true,
+          archiveNameMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          decisionMatches: true,
+          checksMatch: true,
+          evidenceSourcesMatch: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          latestDecisionId: decision.json().id,
+          evidenceSourceCount: 3,
+          handoffReady: true,
+        },
+      });
+      expect(attestationVerification.json().nextActions).toEqual([
+        "Attestation verification is complete; keep the verified seal digest with the promotion handoff record.",
+      ]);
+      expect(attestationVerificationReport.statusCode).toBe(200);
+      expect(attestationVerificationReport.headers["content-type"]).toContain("text/markdown");
+      expect(attestationVerificationReport.body).toContain("- Handoff ready: true");
+      expect(attestationVerificationReport.body).toContain("- Seal digest valid: true");
     } finally {
       await app.close();
     }

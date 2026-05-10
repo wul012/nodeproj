@@ -108,6 +108,9 @@
 
 31-ops-promotion-archive-attestation-v27.md
  -> 第二十七版本地 promotion archive attestation：把 manifest、verification、decision 和 evidence source 封成交接 seal digest
+
+32-ops-promotion-archive-attestation-verification-v28.md
+ -> 第二十八版本地 promotion archive attestation verification：复核 seal digest、verification digest 和 handoff seal 一致性
 ```
 
 ## 项目整体理解

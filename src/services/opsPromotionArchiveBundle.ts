@@ -157,6 +157,50 @@ export interface OpsPromotionArchiveAttestation {
   nextActions: string[];
 }
 
+export interface OpsPromotionArchiveAttestationVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  sealDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedSealDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  verificationDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedVerificationDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    sealDigestValid: boolean;
+    verificationDigestValid: boolean;
+    manifestDigestMatches: boolean;
+    archiveNameMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    decisionMatches: boolean;
+    checksMatch: boolean;
+    evidenceSourcesMatch: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    evidenceSourceCount: number;
+    handoffReady: boolean;
+  };
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -366,6 +410,77 @@ export function createOpsPromotionArchiveAttestation(input: {
   };
 }
 
+export function createOpsPromotionArchiveAttestationVerification(input: {
+  bundle: OpsPromotionArchiveBundle;
+  manifest: OpsPromotionArchiveManifest;
+  verification: OpsPromotionArchiveVerification;
+  attestation: OpsPromotionArchiveAttestation;
+}): OpsPromotionArchiveAttestationVerification {
+  const expectedAttestation = createOpsPromotionArchiveAttestation({
+    bundle: input.bundle,
+    manifest: input.manifest,
+    verification: input.verification,
+  });
+  const recomputedVerificationDigest = digestStable(archiveVerificationDigestPayload(input.verification));
+  const recomputedSealDigest = digestStable(archiveAttestationDigestPayload({
+    archiveName: input.attestation.archiveName,
+    state: input.attestation.state,
+    handoffReady: input.attestation.handoffReady,
+    manifestDigest: input.attestation.manifestDigest.value,
+    verificationDigest: input.attestation.verificationDigest.value,
+    decision: input.attestation.decision,
+    checks: input.attestation.checks,
+    evidenceSources: input.attestation.evidenceSources,
+    nextActions: input.attestation.nextActions,
+  }));
+  const checks = {
+    sealDigestValid: input.attestation.sealDigest.value === recomputedSealDigest,
+    verificationDigestValid: input.attestation.verificationDigest.value === recomputedVerificationDigest,
+    manifestDigestMatches: input.attestation.manifestDigest.value === input.manifest.manifestDigest.value,
+    archiveNameMatches: input.attestation.archiveName === expectedAttestation.archiveName,
+    stateMatches: input.attestation.state === expectedAttestation.state,
+    handoffReadyMatches: input.attestation.handoffReady === expectedAttestation.handoffReady,
+    decisionMatches: stableJson(input.attestation.decision) === stableJson(expectedAttestation.decision),
+    checksMatch: stableJson(input.attestation.checks) === stableJson(expectedAttestation.checks),
+    evidenceSourcesMatch: stableJson(input.attestation.evidenceSources) === stableJson(expectedAttestation.evidenceSources),
+    nextActionsMatch: stableJson(input.attestation.nextActions) === stableJson(expectedAttestation.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    archiveName: input.attestation.archiveName,
+    valid,
+    state: input.attestation.state,
+    handoffReady: input.attestation.handoffReady,
+    sealDigest: {
+      algorithm: "sha256",
+      value: input.attestation.sealDigest.value,
+    },
+    recomputedSealDigest: {
+      algorithm: "sha256",
+      value: recomputedSealDigest,
+    },
+    verificationDigest: {
+      algorithm: "sha256",
+      value: input.attestation.verificationDigest.value,
+    },
+    recomputedVerificationDigest: {
+      algorithm: "sha256",
+      value: recomputedVerificationDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.attestation.decision.totalDecisions,
+      latestDecisionId: input.attestation.decision.latestDecisionId,
+      evidenceSourceCount: input.attestation.evidenceSources.length,
+      handoffReady: input.attestation.handoffReady,
+    },
+    nextActions: archiveAttestationVerificationNextActions(checks, input.attestation),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -393,6 +508,52 @@ export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBun
     "## Next Actions",
     "",
     ...bundle.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionArchiveAttestationVerificationMarkdown(
+  verification: OpsPromotionArchiveAttestationVerification,
+): string {
+  const lines = [
+    "# Promotion archive attestation verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Seal digest: ${verification.sealDigest.algorithm}:${verification.sealDigest.value}`,
+    `- Recomputed seal digest: ${verification.recomputedSealDigest.algorithm}:${verification.recomputedSealDigest.value}`,
+    `- Verification digest: ${verification.verificationDigest.algorithm}:${verification.verificationDigest.value}`,
+    `- Recomputed verification digest: ${verification.recomputedVerificationDigest.algorithm}:${verification.recomputedVerificationDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Seal digest valid: ${verification.checks.sealDigestValid}`,
+    `- Verification digest valid: ${verification.checks.verificationDigestValid}`,
+    `- Manifest digest matches: ${verification.checks.manifestDigestMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Checks match: ${verification.checks.checksMatch}`,
+    `- Evidence sources match: ${verification.checks.evidenceSourcesMatch}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Evidence source count: ${verification.summary.evidenceSourceCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -607,6 +768,29 @@ function archiveVerificationNextActions(
   }
 
   return manifest.nextActions;
+}
+
+function archiveAttestationVerificationNextActions(
+  checks: OpsPromotionArchiveAttestationVerification["checks"],
+  attestation: OpsPromotionArchiveAttestation,
+): string[] {
+  if (!checks.sealDigestValid) {
+    return ["Regenerate the archive attestation before trusting this seal digest."];
+  }
+
+  if (!checks.verificationDigestValid) {
+    return ["Rebuild archive verification before trusting this attestation seal."];
+  }
+
+  if (!checks.manifestDigestMatches || !checks.decisionMatches || !checks.checksMatch || !checks.evidenceSourcesMatch) {
+    return ["Recreate the archive attestation from the latest bundle, manifest, and verification objects."];
+  }
+
+  if (attestation.handoffReady) {
+    return ["Attestation verification is complete; keep the verified seal digest with the promotion handoff record."];
+  }
+
+  return attestation.nextActions;
 }
 
 function archiveAttestationNextActions(
