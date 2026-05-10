@@ -22,16 +22,20 @@ public class FailedEventMessageService {
 
     private final FailedEventMessageRepository failedEventMessageRepository;
 
+    private final FailedEventReplayAttemptRepository failedEventReplayAttemptRepository;
+
     private final RabbitTemplate rabbitTemplate;
 
     private final OutboxRabbitMqProperties outboxRabbitMqProperties;
 
     public FailedEventMessageService(
             FailedEventMessageRepository failedEventMessageRepository,
+            FailedEventReplayAttemptRepository failedEventReplayAttemptRepository,
             RabbitTemplate rabbitTemplate,
             OutboxRabbitMqProperties outboxRabbitMqProperties
     ) {
         this.failedEventMessageRepository = failedEventMessageRepository;
+        this.failedEventReplayAttemptRepository = failedEventReplayAttemptRepository;
         this.rabbitTemplate = rabbitTemplate;
         this.outboxRabbitMqProperties = outboxRabbitMqProperties;
     }
@@ -51,13 +55,28 @@ public class FailedEventMessageService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<FailedEventReplayAttemptResponse> listReplayAttempts(Long failedEventMessageId) {
+        if (!failedEventMessageRepository.existsById(failedEventMessageId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "failed event message not found");
+        }
+        return failedEventReplayAttemptRepository
+                .findByFailedEventMessageIdOrderByAttemptedAtDescIdDesc(failedEventMessageId)
+                .stream()
+                .map(FailedEventReplayAttemptResponse::from)
+                .toList();
+    }
+
     @Transactional
     public FailedEventMessageResponse replay(Long id, ReplayFailedEventRequest request) {
+        return replay(id, request, "system");
+    }
+
+    @Transactional
+    public FailedEventMessageResponse replay(Long id, ReplayFailedEventRequest request, String operatorId) {
         FailedEventMessage failedMessage = failedEventMessageRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "failed event message not found"));
-        if (failedMessage.getStatus() == FailedEventMessageStatus.REPLAYED) {
-            return FailedEventMessageResponse.from(failedMessage);
-        }
+        String normalizedOperatorId = normalizeOperatorId(operatorId);
         if (!outboxRabbitMqProperties.isEnabled()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "RabbitMQ outbox is disabled");
         }
@@ -74,12 +93,55 @@ public class FailedEventMessageService {
         );
         String payload = requiredReplayField("payload", firstNonBlank(requestPayload(request), failedMessage.getPayload()));
         Instant replayedAt = Instant.now();
+        if (failedMessage.getStatus() == FailedEventMessageStatus.REPLAYED) {
+            saveReplayAttempt(
+                    failedMessage,
+                    request,
+                    normalizedOperatorId,
+                    eventId,
+                    eventType,
+                    aggregateType,
+                    aggregateId,
+                    payload,
+                    FailedEventReplayAttemptStatus.SKIPPED_ALREADY_REPLAYED,
+                    null,
+                    replayedAt
+            );
+            return FailedEventMessageResponse.from(failedMessage);
+        }
 
         try {
             publishReplay(failedMessage, eventId, eventType, aggregateType, aggregateId, payload);
             failedMessage.markReplayed(eventId, replayedAt);
+            saveReplayAttempt(
+                    failedMessage,
+                    request,
+                    normalizedOperatorId,
+                    eventId,
+                    eventType,
+                    aggregateType,
+                    aggregateId,
+                    payload,
+                    FailedEventReplayAttemptStatus.SUCCEEDED,
+                    null,
+                    replayedAt
+            );
         } catch (AmqpException ex) {
-            failedMessage.markReplayFailed(eventId, truncate(errorMessage(ex), 500), replayedAt);
+            String errorMessage = truncate(errorMessage(ex), 500);
+            failedMessage.markReplayFailed(eventId, errorMessage, replayedAt);
+            saveReplayAttempt(
+                    failedMessage,
+                    request,
+                    normalizedOperatorId,
+                    eventId,
+                    eventType,
+                    aggregateType,
+                    aggregateId,
+                    payload,
+                    FailedEventReplayAttemptStatus.FAILED,
+                    errorMessage,
+                    replayedAt
+            );
         }
         return FailedEventMessageResponse.from(failedMessage);
     }
@@ -133,6 +195,34 @@ public class FailedEventMessageService {
         );
     }
 
+    private void saveReplayAttempt(
+            FailedEventMessage failedMessage,
+            ReplayFailedEventRequest request,
+            String operatorId,
+            String eventId,
+            String eventType,
+            String aggregateType,
+            String aggregateId,
+            String payload,
+            FailedEventReplayAttemptStatus status,
+            String errorMessage,
+            Instant attemptedAt
+    ) {
+        failedEventReplayAttemptRepository.save(FailedEventReplayAttempt.record(
+                failedMessage,
+                operatorId,
+                request,
+                eventId,
+                eventType,
+                aggregateType,
+                aggregateId,
+                payload,
+                status,
+                errorMessage,
+                attemptedAt
+        ));
+    }
+
     private String resolveReplayEventId(FailedEventMessage failedMessage, ReplayFailedEventRequest request) {
         String eventId = firstNonBlank(requestEventId(request), failedMessage.getEventId(), UUID.randomUUID().toString());
         try {
@@ -148,6 +238,11 @@ public class FailedEventMessageService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fieldName + " is required for replay");
         }
         return value;
+    }
+
+    private String normalizeOperatorId(String operatorId) {
+        String normalized = firstNonBlank(operatorId, "anonymous");
+        return truncate(normalized.strip(), 80);
     }
 
     private String resolveMessageId(Message message, String payload) {

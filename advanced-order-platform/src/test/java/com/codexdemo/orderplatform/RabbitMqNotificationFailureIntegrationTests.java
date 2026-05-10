@@ -5,6 +5,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.codexdemo.orderplatform.notification.FailedEventMessage;
 import com.codexdemo.orderplatform.notification.FailedEventMessageRepository;
 import com.codexdemo.orderplatform.notification.FailedEventMessageResponse;
+import com.codexdemo.orderplatform.notification.FailedEventReplayAttempt;
+import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptRepository;
+import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptStatus;
 import com.codexdemo.orderplatform.notification.FailedEventMessageService;
 import com.codexdemo.orderplatform.notification.FailedEventMessageStatus;
 import com.codexdemo.orderplatform.notification.NotificationMessage;
@@ -86,6 +89,9 @@ class RabbitMqNotificationFailureIntegrationTests {
     private FailedEventMessageService failedEventMessageService;
 
     @Autowired
+    private FailedEventReplayAttemptRepository failedEventReplayAttemptRepository;
+
+    @Autowired
     private NotificationMessageRepository notificationMessageRepository;
 
     @Autowired
@@ -131,9 +137,13 @@ class RabbitMqNotificationFailureIntegrationTests {
 
         FailedEventMessageResponse replayed = failedEventMessageService.replay(
                 failedMessage.getId(),
-                new ReplayFailedEventRequest(REPLAY_EVENT_ID, null, null, null, null)
+                new ReplayFailedEventRequest(REPLAY_EVENT_ID, null, null, null, null),
+                "qa-operator"
         );
         NotificationMessage notification = waitForNotificationMessageCount(1).getFirst();
+        FailedEventReplayAttempt replayAttempt = failedEventReplayAttemptRepository
+                .findByFailedEventMessageIdOrderByAttemptedAtDescIdDesc(failedMessage.getId())
+                .getFirst();
 
         assertThat(replayed.status()).isEqualTo(FailedEventMessageStatus.REPLAYED);
         assertThat(replayed.replayCount()).isEqualTo(1);
@@ -143,6 +153,17 @@ class RabbitMqNotificationFailureIntegrationTests {
         assertThat(notification.getEventId()).isEqualTo(UUID.fromString(REPLAY_EVENT_ID));
         assertThat(notification.getEventType()).isEqualTo("OrderCreated");
         assertThat(notification.getOrderId()).isEqualTo(404L);
+        assertThat(replayAttempt.getFailedEventMessage().getId()).isEqualTo(failedMessage.getId());
+        assertThat(replayAttempt.getOperatorId()).isEqualTo("qa-operator");
+        assertThat(replayAttempt.getRequestedEventId()).isEqualTo(REPLAY_EVENT_ID);
+        assertThat(replayAttempt.getRequestedEventType()).isNull();
+        assertThat(replayAttempt.getEffectiveEventId()).isEqualTo(REPLAY_EVENT_ID);
+        assertThat(replayAttempt.getEffectiveEventType()).isEqualTo("OrderCreated");
+        assertThat(replayAttempt.getEffectiveAggregateId()).isEqualTo("404");
+        assertThat(replayAttempt.getEffectivePayload()).contains("\"orderId\":404");
+        assertThat(replayAttempt.getStatus()).isEqualTo(FailedEventReplayAttemptStatus.SUCCEEDED);
+        assertThat(replayAttempt.getErrorMessage()).isNull();
+        assertThat(replayAttempt.getAttemptedAt()).isNotNull();
     }
 
     private List<FailedEventMessage> waitForFailedMessageCount(int expectedCount) throws InterruptedException {
