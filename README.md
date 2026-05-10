@@ -20,6 +20,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
 - Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
 - In-memory operation intent flow with role policy and explicit confirmation text
+- In-memory operation intent event feed and per-intent timeline
 
 ## Setup
 
@@ -70,6 +71,8 @@ GET    /api/v1/action-plans/catalog
 POST   /api/v1/action-plans
 GET    /api/v1/operation-intents
 GET    /api/v1/operation-intents/:intentId
+GET    /api/v1/operation-intents/:intentId/timeline
+GET    /api/v1/operation-intent-events
 POST   /api/v1/operation-intents
 POST   /api/v1/operation-intents/:intentId/confirm
 GET    /api/v1/audit/events

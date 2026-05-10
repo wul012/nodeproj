@@ -462,6 +462,8 @@ export function dashboardHtml(): string {
         <input id="intentId" placeholder="Intent ID">
         <input id="confirmText" placeholder="CONFIRM kv-set">
         <button class="secondary" data-action="confirmIntent">Confirm Intent</button>
+        <button data-action="intentTimeline">Timeline</button>
+        <button data-action="intentEvents">Event Feed</button>
       </div>
     </section>
 
@@ -638,6 +640,12 @@ export function dashboardHtml(): string {
               confirmText: $("confirmText").value,
             }),
           }));
+        }
+        if (action === "intentTimeline") {
+          write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));
+        }
+        if (action === "intentEvents") {
+          write(await api("/api/v1/operation-intent-events?limit=30"));
         }
       } catch (error) {
         write(error);

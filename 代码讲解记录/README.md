@@ -45,6 +45,9 @@
 
 10-operation-intents-v6.md
  -> 第六版操作意图流：本地 RBAC、确认短语、intent 状态机和不执行上游的控制面流程
+
+11-operation-timeline-v7.md
+ -> 第七版操作时间线：intent event feed、单个 intent timeline、确认失败追踪和 Dashboard 查询入口
 ```
 
 ## 项目整体理解

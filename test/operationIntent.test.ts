@@ -31,6 +31,11 @@ describe("operation intent policy", () => {
         allowed: false,
       },
     });
+
+    expect(store.listEvents({ intentId: intent.id }).map((event) => event.type)).toEqual([
+      "intent.blocked",
+      "intent.created",
+    ]);
   });
 
   it("requires admin role for write actions after the action gate opens", () => {
@@ -71,6 +76,11 @@ describe("operation intent policy", () => {
         confirmedBy: "dev-viewer",
       },
     });
+    expect(store.getTimeline(intent.id).events.map((event) => event.type)).toEqual([
+      "intent.created",
+      "intent.awaiting_confirmation",
+      "intent.confirmation.accepted",
+    ]);
   });
 
   it("rejects mismatched confirmation text", () => {
@@ -85,6 +95,7 @@ describe("operation intent policy", () => {
       operatorId: "dev-viewer",
       confirmText: "CONFIRM wrong",
     })).toThrow(AppHttpError);
+    expect(store.listEvents({ type: "intent.confirmation.rejected" })).toHaveLength(1);
   });
 });
 
@@ -119,6 +130,28 @@ describe("operation intent routes", () => {
 
       expect(listed.statusCode).toBe(200);
       expect(listed.json().intents).toHaveLength(1);
+
+      const events = await app.inject({
+        method: "GET",
+        url: "/api/v1/operation-intent-events?limit=5",
+      });
+
+      expect(events.statusCode).toBe(200);
+      expect(events.json().events.map((event: { type: string }) => event.type)).toEqual([
+        "intent.blocked",
+        "intent.created",
+      ]);
+
+      const timeline = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-intents/${created.json().id}/timeline`,
+      });
+
+      expect(timeline.statusCode).toBe(200);
+      expect(timeline.json().events.map((event: { type: string }) => event.type)).toEqual([
+        "intent.created",
+        "intent.blocked",
+      ]);
     } finally {
       await app.close();
     }
