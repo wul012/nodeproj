@@ -56,6 +56,10 @@ public class OutboxEvent {
         return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderPaid", orderPayload(order));
     }
 
+    public static OutboxEvent orderCancelled(SalesOrder order) {
+        return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCancelled", orderPayload(order));
+    }
+
     private static String orderPayload(SalesOrder order) {
         return """
                 {"orderId":%d,"customerId":"%s","status":"%s","totalAmount":%s}

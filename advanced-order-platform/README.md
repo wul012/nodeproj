@@ -6,6 +6,7 @@
 - 库存锁定与扣减
 - 幂等下单
 - 订单支付模拟
+- 订单取消与预占库存释放
 - Outbox 事件表
 - Actuator 健康检查
 - H2 本地快速启动，PostgreSQL 配置预留
@@ -70,6 +71,12 @@ Invoke-RestMethod `
 Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/pay
 ```
 
+取消订单：
+
+```powershell
+Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/cancel
+```
+
 查看 Outbox 事件：
 
 ```powershell
@@ -82,15 +89,16 @@ Invoke-RestMethod http://localhost:8080/api/v1/outbox/events
 
 - `catalog`: 商品目录
 - `inventory`: 库存与并发控制
-- `order`: 订单编排、幂等、防重复提交
+- `order`: 订单编排、幂等、防重复提交、支付和取消状态流转
 - `outbox`: 事件表，为后续 Kafka/RabbitMQ 做准备
 - `common`: 异常与统一错误响应
 
 后续建议按这个顺序升级：
 
 1. 接入 Redis：缓存商品、热点库存、限流。
-2. 接入 Kafka/RabbitMQ：把 Outbox 发布为真实异步事件。
-3. 增加支付、防欺诈、优惠券模块。
-4. 引入 Testcontainers 做数据库/消息队列集成测试。
-5. 接入 OpenTelemetry、Prometheus、Grafana。
-6. 从模块化单体拆分为订单、库存、支付服务。
+2. 增加定时取消：超时未支付订单自动取消并释放库存。
+3. 接入 Kafka/RabbitMQ：把 Outbox 发布为真实异步事件。
+4. 增加支付、防欺诈、优惠券模块。
+5. 引入 Testcontainers 做数据库/消息队列集成测试。
+6. 接入 OpenTelemetry、Prometheus、Grafana。
+7. 从模块化单体拆分为订单、库存、支付服务。

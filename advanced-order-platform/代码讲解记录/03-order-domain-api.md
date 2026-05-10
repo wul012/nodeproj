@@ -48,7 +48,7 @@ Body:
 ```text
 SalesOrder
  -> 一张订单
- -> 有 customerId、idempotencyKey、status、totalAmount、createdAt、paidAt
+ -> 有 customerId、idempotencyKey、status、totalAmount、createdAt、paidAt、canceledAt
 
 OrderLine
  -> 订单里的一个商品行
@@ -69,7 +69,7 @@ public enum OrderStatus {
 }
 ```
 
-当前主要用到两个状态：
+当前三个状态都已经参与业务流转：
 
 ```text
 CREATED
@@ -77,18 +77,12 @@ CREATED
 
 PAID
  -> 订单已支付，预占库存已经确认扣减
+
+CANCELLED
+ -> 订单已取消，预占库存已经释放回 available
 ```
 
-`CANCELLED` 现在预留，后续可以做：
-
-```text
-订单超时取消
-用户主动取消
-支付失败取消
-释放 reserved 库存
-```
-
-一句话总结：`OrderStatus` 是订单状态机的起点，后续所有订单流程都会围绕它扩展。
+一句话总结：`OrderStatus` 是订单状态机的起点，当前已经支持 CREATED 到 PAID，以及 CREATED 到 CANCELLED 两条路径。
 
 ---
 
@@ -127,6 +121,9 @@ createdAt
 
 paidAt
  -> 支付时间
+
+canceledAt
+ -> 取消时间
 
 lines
  -> 订单行列表
@@ -212,7 +209,38 @@ public void markPaid() {
 只有 CREATED 状态可以变成 PAID
 ```
 
-一句话总结：`SalesOrder` 不只是数据库表映射，它把订单创建、金额计算、支付状态流转这些业务规则也收在一起。
+取消状态流转是：
+
+```java
+public boolean cancel() {
+    if (status == OrderStatus.CANCELLED) {
+        return false;
+    }
+    if (status != OrderStatus.CREATED) {
+        throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                "Only CREATED orders can be cancelled");
+    }
+    status = OrderStatus.CANCELLED;
+    canceledAt = Instant.now();
+    return true;
+}
+```
+
+这里有三个关键点：
+
+```text
+已经 CANCELLED 的订单再次取消，返回 false
+只有 CREATED 状态可以变成 CANCELLED
+真正取消时记录 canceledAt
+```
+
+为什么返回 `boolean`？
+
+因为应用服务要根据返回值判断是否需要释放库存和写取消事件。
+
+如果已经取消过，就不能再次释放库存，否则库存会被加回太多。
+
+一句话总结：`SalesOrder` 不只是数据库表映射，它把订单创建、金额计算、支付和取消状态流转这些业务规则也收在一起。
 
 ---
 
@@ -387,12 +415,13 @@ public record OrderResponse(
         BigDecimal totalAmount,
         Instant createdAt,
         Instant paidAt,
+        Instant canceledAt,
         List<OrderLineResponse> lines
 ) {
 }
 ```
 
-它包含订单主信息和订单行列表。
+它包含订单主信息、支付/取消时间和订单行列表。
 
 转换方法是：
 
@@ -405,6 +434,7 @@ static OrderResponse from(SalesOrder order) {
             order.getTotalAmount(),
             order.getCreatedAt(),
             order.getPaidAt(),
+            order.getCanceledAt(),
             order.getLines().stream().map(OrderLineResponse::from).toList()
     );
 }
@@ -570,10 +600,29 @@ public ResponseEntity<OrderResponse> pay(@PathVariable Long orderId)
 202 Accepted
 ```
 
+取消接口：
+
+```java
+@PostMapping("/{orderId}/cancel")
+public ResponseEntity<OrderResponse> cancel(@PathVariable Long orderId)
+```
+
+取消成功或重复取消已取消订单时返回：
+
+```text
+202 Accepted
+```
+
+如果订单已经支付，再取消会返回业务错误：
+
+```text
+409 ORDER_STATUS_INVALID
+```
+
 一句话总结：`OrderController` 只负责 HTTP 参数接收和响应状态码，真正业务编排交给 `OrderApplicationService`。
 
 ---
 
 # 本次讲解总结
 
-第三次讲解的是订单 API 和领域模型：Controller 负责入口，DTO 负责请求响应，Repository 负责数据库访问，`SalesOrder` 和 `OrderLine` 负责表达订单的真实业务结构。
+第三次讲解的是订单 API 和领域模型：Controller 负责入口，DTO 负责请求响应，Repository 负责数据库访问，`SalesOrder` 和 `OrderLine` 负责表达订单的真实业务结构；第二版补上了取消时间、取消状态流转和取消接口。

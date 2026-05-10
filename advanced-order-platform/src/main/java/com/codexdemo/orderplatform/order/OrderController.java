@@ -46,4 +46,9 @@ public class OrderController {
     public ResponseEntity<OrderResponse> pay(@PathVariable Long orderId) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.pay(orderId));
     }
+
+    @PostMapping("/{orderId}/cancel")
+    public ResponseEntity<OrderResponse> cancel(@PathVariable Long orderId) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.cancel(orderId));
+    }
 }

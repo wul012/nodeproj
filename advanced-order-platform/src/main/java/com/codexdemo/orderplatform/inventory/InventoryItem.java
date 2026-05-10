@@ -63,6 +63,18 @@ public class InventoryItem {
         reserved -= quantity;
     }
 
+    public void releaseReserved(int quantity) {
+        if (quantity <= 0) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_QUANTITY", "Quantity must be greater than zero");
+        }
+        if (reserved < quantity) {
+            throw new BusinessException(HttpStatus.CONFLICT, "RESERVATION_MISMATCH",
+                    "Product " + productId + " reservation is lower than requested release quantity");
+        }
+        reserved -= quantity;
+        available += quantity;
+    }
+
     public Long getId() {
         return id;
     }

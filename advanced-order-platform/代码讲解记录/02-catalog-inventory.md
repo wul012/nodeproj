@@ -363,6 +363,9 @@ reserved 减少
 
 支付成功
  -> 预占库存变成真正卖出
+
+取消订单
+ -> 预占库存释放回可售库存
 ```
 
 `reserve` 方法：
@@ -408,7 +411,32 @@ public void commitReserved(int quantity) {
 
 这里没有再减少 `available`，因为 `available` 在下单预占时已经减过了。
 
-一句话总结：`InventoryItem` 把库存拆成 available 和 reserved，从而支持“先占库存，后确认支付”的订单流程。
+`releaseReserved` 方法：
+
+```java
+public void releaseReserved(int quantity) {
+    if (quantity <= 0) {
+        throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_QUANTITY", "Quantity must be greater than zero");
+    }
+    if (reserved < quantity) {
+        throw new BusinessException(HttpStatus.CONFLICT, "RESERVATION_MISMATCH",
+                "Product " + productId + " reservation is lower than requested release quantity");
+    }
+    reserved -= quantity;
+    available += quantity;
+}
+```
+
+它表示取消订单时释放预占库存。
+
+和支付确认不同，取消不是卖出商品，所以它要把库存加回 `available`：
+
+```text
+reserved -= quantity
+available += quantity
+```
+
+一句话总结：`InventoryItem` 把库存拆成 available 和 reserved，从而支持“先占库存，再支付确认或取消释放”的订单流程。
 
 ---
 
@@ -526,10 +554,24 @@ public void commitReserved(Map<Long, Integer> productQuantities) {
 
 支付时也要锁库存记录，避免同一订单重复支付或其他流程同时改库存。
 
-一句话总结：`InventoryService` 是库存并发控制的门面，所有预占和确认扣减都从这里走。
+第二版新增的 `releaseReserved` 也走同一套锁定流程：
+
+```java
+public void releaseReserved(Map<Long, Integer> productQuantities) {
+    productQuantities.entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .forEach(entry -> findLocked(entry.getKey()).releaseReserved(entry.getValue()));
+}
+```
+
+取消订单时也要锁库存记录。
+
+因为取消和支付可能同时发生，必须让数据库保证同一条库存记录在同一时间只被一个事务修改。
+
+一句话总结：`InventoryService` 是库存并发控制的门面，所有预占、确认扣减和取消释放都从这里走。
 
 ---
 
 # 本次讲解总结
 
-第二次讲解的是商品和库存：`catalog` 负责展示商品，`inventory` 负责库存状态和并发锁，`available / reserved` 是订单系统里非常重要的库存设计。
+第二次讲解的是商品和库存：`catalog` 负责展示商品，`inventory` 负责库存状态和并发锁，`available / reserved` 是订单系统里非常重要的库存设计；第二版又补上了取消订单时把 `reserved` 释放回 `available` 的反向链路。

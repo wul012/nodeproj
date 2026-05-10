@@ -47,6 +47,8 @@ public class SalesOrder {
 
     private Instant paidAt;
 
+    private Instant canceledAt;
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<OrderLine> lines = new ArrayList<>();
 
@@ -91,6 +93,19 @@ public class SalesOrder {
         paidAt = Instant.now();
     }
 
+    public boolean cancel() {
+        if (status == OrderStatus.CANCELLED) {
+            return false;
+        }
+        if (status != OrderStatus.CREATED) {
+            throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                    "Only CREATED orders can be cancelled");
+        }
+        status = OrderStatus.CANCELLED;
+        canceledAt = Instant.now();
+        return true;
+    }
+
     public Map<Long, Integer> quantitiesByProductId() {
         return lines.stream()
                 .collect(Collectors.toMap(OrderLine::getProductId, OrderLine::getQuantity, Integer::sum));
@@ -122,6 +137,10 @@ public class SalesOrder {
 
     public Instant getPaidAt() {
         return paidAt;
+    }
+
+    public Instant getCanceledAt() {
+        return canceledAt;
     }
 
     public List<OrderLine> getLines() {

@@ -26,6 +26,12 @@ public class InventoryService {
                 .forEach(entry -> findLocked(entry.getKey()).commitReserved(entry.getValue()));
     }
 
+    public void releaseReserved(Map<Long, Integer> productQuantities) {
+        productQuantities.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> findLocked(entry.getKey()).releaseReserved(entry.getValue()));
+    }
+
     private InventoryItem findLocked(Long productId) {
         return inventoryRepository.findByProductIdForUpdate(productId)
                 .orElseThrow(() -> new BusinessException(HttpStatus.NOT_FOUND, "INVENTORY_NOT_FOUND",

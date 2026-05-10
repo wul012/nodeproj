@@ -514,8 +514,8 @@ public OrderResponse pay(Long orderId) {
         return OrderResponse.from(order);
     }
 
-    inventoryService.commitReserved(order.quantitiesByProductId());
     order.markPaid();
+    inventoryService.commitReserved(order.quantitiesByProductId());
     outboxRepository.save(OutboxEvent.orderPaid(order));
     return OrderResponse.from(order);
 }
@@ -526,18 +526,40 @@ public OrderResponse pay(Long orderId) {
 ```text
 查询订单
 如果已经支付，直接返回
+订单标记为 PAID
 汇总订单行商品数量
 确认扣减 reserved 库存
-订单标记为 PAID
 写入 OrderPaid 事件
 返回订单响应
 ```
 
-为什么先 `commitReserved` 再 `markPaid`？
+为什么先 `markPaid` 再 `commitReserved`？
 
-因为支付成功意味着库存预占也要被确认。
+因为当前要先确认订单状态允许支付。
 
-如果库存预占状态异常，应该先失败，不应该把订单标记为已支付。
+`markPaid` 内部会检查：
+
+```java
+if (status == OrderStatus.PAID) {
+    return;
+}
+if (status != OrderStatus.CREATED) {
+    throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+            "Only CREATED orders can be paid");
+}
+status = OrderStatus.PAID;
+paidAt = Instant.now();
+```
+
+如果订单已经取消：
+
+```text
+status = CANCELLED
+ -> markPaid 抛出 ORDER_STATUS_INVALID
+ -> 不会继续扣减 reserved 库存
+```
+
+这样错误语义更准确。
 
 `order.quantitiesByProductId()` 会把订单行重新汇总成：
 
@@ -551,7 +573,139 @@ productId -> quantity
 
 ---
 
-# 12. 当前实现的一个重要边界
+# 12. `cancel`：取消订单并释放库存
+
+第二版新增取消方法：
+
+```java
+@Transactional
+public OrderResponse cancel(Long orderId) {
+    SalesOrder order = findOrder(orderId);
+    if (order.cancel()) {
+        inventoryService.releaseReserved(order.quantitiesByProductId());
+        outboxRepository.save(OutboxEvent.orderCancelled(order));
+    }
+    return OrderResponse.from(order);
+}
+```
+
+流程是：
+
+```text
+查询订单
+调用 SalesOrder.cancel()
+如果这次真的从 CREATED 变成 CANCELLED
+ -> 释放 reserved 库存
+ -> 写入 OrderCancelled 事件
+返回订单响应
+```
+
+关键点在这一句：
+
+```java
+if (order.cancel()) {
+```
+
+`SalesOrder.cancel()` 返回 `boolean`。
+
+它的含义是：
+
+```text
+true
+ -> 本次调用真正完成了取消
+ -> 需要释放库存和写事件
+
+false
+ -> 订单之前已经取消过
+ -> 直接返回，不重复释放库存，不重复写事件
+```
+
+对应的领域代码是：
+
+```java
+public boolean cancel() {
+    if (status == OrderStatus.CANCELLED) {
+        return false;
+    }
+    if (status != OrderStatus.CREATED) {
+        throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                "Only CREATED orders can be cancelled");
+    }
+    status = OrderStatus.CANCELLED;
+    canceledAt = Instant.now();
+    return true;
+}
+```
+
+为什么重复取消不抛错，而是返回已有取消状态？
+
+因为取消接口做成幂等更好用。
+
+调用方如果因为网络重试发了两次：
+
+```text
+POST /api/v1/orders/1/cancel
+POST /api/v1/orders/1/cancel
+```
+
+第二次应该看到订单仍然是 `CANCELLED`，而不是造成库存二次释放。
+
+库存释放调用是：
+
+```java
+inventoryService.releaseReserved(order.quantitiesByProductId());
+```
+
+它会进入库存服务：
+
+```java
+public void releaseReserved(Map<Long, Integer> productQuantities) {
+    productQuantities.entrySet().stream()
+            .sorted(Map.Entry.comparingByKey())
+            .forEach(entry -> findLocked(entry.getKey()).releaseReserved(entry.getValue()));
+}
+```
+
+最后进入库存实体：
+
+```java
+public void releaseReserved(int quantity) {
+    if (quantity <= 0) {
+        throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_QUANTITY", "Quantity must be greater than zero");
+    }
+    if (reserved < quantity) {
+        throw new BusinessException(HttpStatus.CONFLICT, "RESERVATION_MISMATCH",
+                "Product " + productId + " reservation is lower than requested release quantity");
+    }
+    reserved -= quantity;
+    available += quantity;
+}
+```
+
+所以取消订单时库存变化是：
+
+```text
+reserved -= quantity
+available += quantity
+```
+
+取消事件写入是：
+
+```java
+outboxRepository.save(OutboxEvent.orderCancelled(order));
+```
+
+它让后续消息系统可以感知：
+
+```text
+某张订单被取消了
+```
+
+一句话总结：`cancel` 把订单从 CREATED 推进到 CANCELLED，同时把 reserved 库存释放回 available，并记录取消事件。
+
+---
+
+# 13. 当前实现的一个重要边界
 
 当前代码已经有：
 
@@ -561,13 +715,15 @@ productId -> quantity
 库存事务回滚
 库存行写锁
 订单乐观锁字段
+订单取消释放库存
+取消接口幂等
 ```
 
 但它还没有做完整的：
 
 ```text
 并发相同 Idempotency-Key 冲突重试
-订单取消释放库存
+超时未支付订单自动取消
 真实支付网关回调
 Outbox 后台发布器
 Redis 分布式限流
@@ -575,10 +731,10 @@ Redis 分布式限流
 
 这是很适合作为下一阶段练习的地方。
 
-一句话总结：当前版本是一个清晰的订单核心闭环，后续可以围绕并发、取消、消息发布和支付回调继续加深。
+一句话总结：当前版本是一个清晰的订单核心闭环，后续可以围绕并发冲突、自动取消、消息发布和支付回调继续加深。
 
 ---
 
 # 本次讲解总结
 
-第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认和 Outbox 事件串成完整业务流程。
+第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、取消释放和 Outbox 事件串成完整业务流程。

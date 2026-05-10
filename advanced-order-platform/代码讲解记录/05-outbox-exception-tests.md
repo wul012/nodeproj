@@ -63,7 +63,7 @@ aggregateId
  -> 聚合 ID，比如订单 ID
 
 eventType
- -> 事件类型，比如 OrderCreated、OrderPaid
+ -> 事件类型，比如 OrderCreated、OrderPaid、OrderCancelled
 
 payload
  -> 事件内容，JSON 字符串
@@ -88,11 +88,12 @@ aggregateType = ORDER
 aggregateId = 订单 ID
 ```
 
-当前有两个事件工厂方法：
+当前有三个事件工厂方法：
 
 ```java
 public static OutboxEvent orderCreated(SalesOrder order)
 public static OutboxEvent orderPaid(SalesOrder order)
+public static OutboxEvent orderCancelled(SalesOrder order)
 ```
 
 它们分别在：
@@ -100,9 +101,34 @@ public static OutboxEvent orderPaid(SalesOrder order)
 ```text
 订单创建成功后
 订单支付成功后
+订单取消成功后
 ```
 
 被调用。
+
+三个方法的代码结构是一样的：
+
+```java
+public static OutboxEvent orderCreated(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCreated", orderPayload(order));
+}
+
+public static OutboxEvent orderPaid(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderPaid", orderPayload(order));
+}
+
+public static OutboxEvent orderCancelled(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCancelled", orderPayload(order));
+}
+```
+
+这里变化的只有：
+
+```text
+eventType
+```
+
+也就是事件名字。
 
 事件 payload 是：
 
@@ -116,7 +142,7 @@ private static String orderPayload(SalesOrder order) {
 
 也就是把订单关键字段保存成 JSON 字符串。
 
-一句话总结：`OutboxEvent` 把“订单发生了什么事”记录到数据库，为以后发消息做准备。
+一句话总结：`OutboxEvent` 把“订单发生了什么事”记录到数据库，为以后发消息做准备；第二版已经能记录创建、支付、取消三类订单事件。
 
 ---
 
@@ -240,6 +266,12 @@ OrderCreated
 
 ```text
 OrderPaid
+```
+
+取消订单后应该看到：
+
+```text
+OrderCancelled
 ```
 
 一句话总结：`OutboxController` 让你能直接观察订单流程产生了哪些领域事件。
@@ -468,6 +500,144 @@ assertThatThrownBy(() -> orderApplicationService.createOrder("test-idempotency-k
 
 一句话总结：第三个测试证明库存不足时不会创建正常订单，而是用业务异常中断流程。
 
+## 测试四：取消订单释放库存，并且重复取消幂等
+
+测试方法：
+
+```java
+void cancelOrderReleasesReservedInventoryAndIsIdempotent()
+```
+
+这个测试先记录取消前库存：
+
+```java
+InventoryItem before = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+```
+
+然后创建一张购买 3 件商品的订单：
+
+```java
+CreateOrderRequest request = new CreateOrderRequest(
+        UUID.fromString("44444444-4444-4444-4444-444444444444"),
+        List.of(new CreateOrderLineRequest(product.getId(), 3))
+);
+
+CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-004", request);
+```
+
+创建后库存应该变化：
+
+```text
+available 减少 3
+reserved 增加 3
+```
+
+对应断言是：
+
+```java
+assertThat(afterCreate.getAvailable()).isEqualTo(before.getAvailable() - 3);
+assertThat(afterCreate.getReserved()).isEqualTo(before.getReserved() + 3);
+```
+
+然后取消订单：
+
+```java
+OrderResponse cancelled = orderApplicationService.cancel(created.order().id());
+InventoryItem afterCancel = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+```
+
+取消后断言：
+
+```java
+assertThat(cancelled.status()).isEqualTo(OrderStatus.CANCELLED);
+assertThat(cancelled.canceledAt()).isNotNull();
+assertThat(afterCancel.getAvailable()).isEqualTo(before.getAvailable());
+assertThat(afterCancel.getReserved()).isEqualTo(before.getReserved());
+```
+
+这说明库存被释放回了取消前状态。
+
+最后再次取消同一张订单：
+
+```java
+OrderResponse replayedCancel = orderApplicationService.cancel(created.order().id());
+InventoryItem afterReplay = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+```
+
+关键断言：
+
+```java
+assertThat(replayedCancel.status()).isEqualTo(OrderStatus.CANCELLED);
+assertThat(afterReplay.getAvailable()).isEqualTo(afterCancel.getAvailable());
+assertThat(afterReplay.getReserved()).isEqualTo(afterCancel.getReserved());
+```
+
+这说明重复取消不会重复释放库存。
+
+一句话总结：第四个测试守住了第二版最关键的行为：取消订单释放库存，但重复取消不二次释放。
+
+## 测试五：已支付订单不能取消
+
+测试方法：
+
+```java
+void paidOrderCannotBeCancelled()
+```
+
+它先创建订单，再支付：
+
+```java
+CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-005", request);
+orderApplicationService.pay(created.order().id());
+```
+
+然后尝试取消：
+
+```java
+assertThatThrownBy(() -> orderApplicationService.cancel(created.order().id()))
+        .isInstanceOf(BusinessException.class)
+        .hasMessageContaining("Only CREATED orders can be cancelled");
+```
+
+这个测试对应订单状态机规则：
+
+```text
+PAID 不能变成 CANCELLED
+```
+
+一句话总结：第五个测试防止已支付订单被错误取消。
+
+## 测试六：已取消订单不能支付
+
+测试方法：
+
+```java
+void cancelledOrderCannotBePaid()
+```
+
+它先创建订单，再取消：
+
+```java
+CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-006", request);
+orderApplicationService.cancel(created.order().id());
+```
+
+然后尝试支付：
+
+```java
+assertThatThrownBy(() -> orderApplicationService.pay(created.order().id()))
+        .isInstanceOf(BusinessException.class)
+        .hasMessageContaining("Only CREATED orders can be paid");
+```
+
+这个测试对应订单状态机规则：
+
+```text
+CANCELLED 不能变成 PAID
+```
+
+一句话总结：第六个测试防止已取消订单又被支付。
+
 ---
 
 # 8. 运行和验证
@@ -515,6 +685,12 @@ Invoke-RestMethod `
 Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/pay
 ```
 
+取消订单：
+
+```powershell
+Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/cancel
+```
+
 查看事件：
 
 ```powershell
@@ -536,8 +712,9 @@ mvn test
 当前版本适合继续往这些方向加：
 
 ```text
-订单取消
- -> CREATED 超时后取消
+定时取消
+ -> 扫描 CREATED 且超时未支付订单
+ -> 自动调用取消链路
  -> reserved 释放回 available
 
 Outbox 发布器
@@ -569,10 +746,10 @@ Redis
  -> 测真实数据库锁行为
 ```
 
-一句话总结：当前项目已经有订单核心骨架，下一步应该围绕取消、消息发布、Redis、支付回调和观测体系继续进阶。
+一句话总结：当前项目已经有订单核心骨架和手动取消能力，下一步应该围绕自动取消、消息发布、Redis、支付回调和观测体系继续进阶。
 
 ---
 
 # 本次讲解总结
 
-第五次讲解的是工程配套能力：Outbox 让订单事件可以走向异步消息，统一异常让 API 更稳定，测试证明核心业务行为，README 和运行命令让项目可以被别人快速接手。
+第五次讲解的是工程配套能力：Outbox 让订单创建、支付、取消事件可以走向异步消息，统一异常让 API 更稳定，测试证明核心业务行为，README 和运行命令让项目可以被别人快速接手。

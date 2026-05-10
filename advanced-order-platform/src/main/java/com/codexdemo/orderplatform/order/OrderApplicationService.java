@@ -57,9 +57,19 @@ public class OrderApplicationService {
             return OrderResponse.from(order);
         }
 
-        inventoryService.commitReserved(order.quantitiesByProductId());
         order.markPaid();
+        inventoryService.commitReserved(order.quantitiesByProductId());
         outboxRepository.save(OutboxEvent.orderPaid(order));
+        return OrderResponse.from(order);
+    }
+
+    @Transactional
+    public OrderResponse cancel(Long orderId) {
+        SalesOrder order = findOrder(orderId);
+        if (order.cancel()) {
+            inventoryService.releaseReserved(order.quantitiesByProductId());
+            outboxRepository.save(OutboxEvent.orderCancelled(order));
+        }
         return OrderResponse.from(order);
     }
 

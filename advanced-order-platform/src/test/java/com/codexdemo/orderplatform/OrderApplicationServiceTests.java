@@ -83,4 +83,63 @@ class OrderApplicationServiceTests {
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("has only");
     }
+
+    @Test
+    void cancelOrderReleasesReservedInventoryAndIsIdempotent() {
+        Product product = productRepository.findAll().getFirst();
+        InventoryItem before = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("44444444-4444-4444-4444-444444444444"),
+                List.of(new CreateOrderLineRequest(product.getId(), 3))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-004", request);
+        InventoryItem afterCreate = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        OrderResponse cancelled = orderApplicationService.cancel(created.order().id());
+        InventoryItem afterCancel = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        OrderResponse replayedCancel = orderApplicationService.cancel(created.order().id());
+        InventoryItem afterReplay = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+
+        assertThat(afterCreate.getAvailable()).isEqualTo(before.getAvailable() - 3);
+        assertThat(afterCreate.getReserved()).isEqualTo(before.getReserved() + 3);
+        assertThat(cancelled.status()).isEqualTo(OrderStatus.CANCELLED);
+        assertThat(cancelled.canceledAt()).isNotNull();
+        assertThat(afterCancel.getAvailable()).isEqualTo(before.getAvailable());
+        assertThat(afterCancel.getReserved()).isEqualTo(before.getReserved());
+        assertThat(replayedCancel.status()).isEqualTo(OrderStatus.CANCELLED);
+        assertThat(afterReplay.getAvailable()).isEqualTo(afterCancel.getAvailable());
+        assertThat(afterReplay.getReserved()).isEqualTo(afterCancel.getReserved());
+    }
+
+    @Test
+    void paidOrderCannotBeCancelled() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("55555555-5555-5555-5555-555555555555"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-005", request);
+        orderApplicationService.pay(created.order().id());
+
+        assertThatThrownBy(() -> orderApplicationService.cancel(created.order().id()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("Only CREATED orders can be cancelled");
+    }
+
+    @Test
+    void cancelledOrderCannotBePaid() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("66666666-6666-6666-6666-666666666666"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-006", request);
+        orderApplicationService.cancel(created.order().id());
+
+        assertThatThrownBy(() -> orderApplicationService.pay(created.order().id()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("Only CREATED orders can be paid");
+    }
 }
