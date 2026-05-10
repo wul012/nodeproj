@@ -45,3 +45,8 @@ outbox:
   publisher:
     enabled: true
     scan-delay-ms: 60000
+  rabbitmq:
+    enabled: false
+    exchange: order-platform.outbox
+    queue: order-platform.outbox.events
+    routing-key-prefix: orders

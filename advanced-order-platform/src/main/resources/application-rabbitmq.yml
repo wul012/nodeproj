@@ -1,0 +1,13 @@
+spring:
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USERNAME:order_app}
+    password: ${RABBITMQ_PASSWORD:order_app}
+
+outbox:
+  rabbitmq:
+    enabled: true
+    exchange: ${OUTBOX_RABBITMQ_EXCHANGE:order-platform.outbox}
+    queue: ${OUTBOX_RABBITMQ_QUEUE:order-platform.outbox.events}
+    routing-key-prefix: ${OUTBOX_RABBITMQ_ROUTING_PREFIX:orders}

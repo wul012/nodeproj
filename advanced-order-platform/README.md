@@ -17,11 +17,13 @@
 - 订单状态历史查询
 - Outbox 事件表
 - Outbox 后台发布标记
+- RabbitMQ Outbox 真实消息发布
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
 - PostgreSQL profile
-- Testcontainers PostgreSQL 集成测试入口
+- RabbitMQ profile
+- Testcontainers PostgreSQL / RabbitMQ 集成测试入口
 
 ## Tech Stack
 
@@ -30,8 +32,10 @@
 - Spring MVC
 - Spring Data JPA
 - Bean Validation
+- Spring AMQP
 - Flyway
 - H2 / PostgreSQL
+- RabbitMQ
 - Testcontainers
 - Maven
 
@@ -60,7 +64,7 @@ Invoke-RestMethod http://localhost:8080/actuator/health
 本地启动 PostgreSQL：
 
 ```powershell
-docker compose up -d postgres
+docker compose -f compose.yaml up -d postgres
 ```
 
 使用 PostgreSQL profile 启动应用：
@@ -81,6 +85,50 @@ java -jar target\advanced-order-platform-0.1.0-SNAPSHOT.jar --spring.profiles.ac
 DB_URL
 DB_USERNAME
 DB_PASSWORD
+```
+
+## RabbitMQ Run
+
+本地启动 RabbitMQ：
+
+```powershell
+docker compose -f compose.yaml up -d rabbitmq
+```
+
+RabbitMQ 管理页面：
+
+```text
+http://localhost:15672
+```
+
+默认账号密码：
+
+```text
+order_app / order_app
+```
+
+启用 RabbitMQ Outbox 发布：
+
+```powershell
+mvn spring-boot:run -Dspring-boot.run.profiles=rabbitmq
+```
+
+同时使用 PostgreSQL 和 RabbitMQ：
+
+```powershell
+docker compose -f compose.yaml up -d postgres rabbitmq
+mvn spring-boot:run -Dspring-boot.run.profiles=postgres,rabbitmq
+```
+
+RabbitMQ profile 会启用：
+
+```yaml
+outbox:
+  rabbitmq:
+    enabled: true
+    exchange: order-platform.outbox
+    queue: order-platform.outbox.events
+    routing-key-prefix: orders
 ```
 
 ## API Quick Start
@@ -188,7 +236,7 @@ PostgreSQL profile 执行：
 src/main/resources/db/migration/postgresql/V1__initial_schema.sql
 ```
 
-如果 Docker 未启动，Testcontainers 的 PostgreSQL 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实 PostgreSQL 验证。
+如果 Docker 未启动，Testcontainers 的 PostgreSQL / RabbitMQ 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实中间件验证。
 
 ## Order Expiration
 
@@ -211,7 +259,7 @@ mvn spring-boot:run `
 
 ## Outbox Publisher
 
-默认每 60 秒扫描一次未发布的 Outbox 事件，并把 `publishedAt` 标记为当前时间：
+默认每 60 秒扫描一次未发布的 Outbox 事件。普通模式下只把 `publishedAt` 标记为当前时间；启用 `rabbitmq` profile 后，会先发送 RabbitMQ 消息，再标记 `publishedAt`：
 
 ```yaml
 outbox:
@@ -245,7 +293,7 @@ payment
  -> 支付成功和退款交易流水
 
 outbox
- -> 事件表、事件查询、后台发布标记
+ -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 common
  -> 业务异常和统一错误响应
@@ -253,9 +301,8 @@ common
 
 后续建议升级顺序：
 
-1. 启动 Docker 后跑通 PostgreSQL Testcontainers 测试。
-2. 接入 Kafka/RabbitMQ，把 Outbox 发布器从“标记已发布”升级为真实消息发送。
-3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
-4. 增加登录、鉴权和管理端接口。
-5. 接入 OpenTelemetry、Prometheus、Grafana。
-6. 增加并发库存压测和 Testcontainers 多中间件集成测试。
+1. 增加 RabbitMQ 消费者样例，演示通知、积分或搜索索引异步更新。
+2. 接入 Redis，训练热点商品缓存、限流、幂等 token。
+3. 增加登录、鉴权和管理端接口。
+4. 接入 OpenTelemetry、Prometheus、Grafana。
+5. 增加并发库存压测和更多 Testcontainers 多中间件集成测试。

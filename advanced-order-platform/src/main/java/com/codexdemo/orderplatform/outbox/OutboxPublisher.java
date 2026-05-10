@@ -14,8 +14,11 @@ public class OutboxPublisher {
 
     private final OutboxRepository outboxRepository;
 
-    public OutboxPublisher(OutboxRepository outboxRepository) {
+    private final OutboxEventDispatcher outboxEventDispatcher;
+
+    public OutboxPublisher(OutboxRepository outboxRepository, OutboxEventDispatcher outboxEventDispatcher) {
         this.outboxRepository = outboxRepository;
+        this.outboxEventDispatcher = outboxEventDispatcher;
     }
 
     @Transactional
@@ -24,6 +27,7 @@ public class OutboxPublisher {
         Instant publishedAt = Instant.now();
         int published = 0;
         for (OutboxEvent event : events) {
+            outboxEventDispatcher.dispatch(event);
             if (event.markPublished(publishedAt)) {
                 published++;
             }

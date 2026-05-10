@@ -55,6 +55,9 @@
 
 14-version-10-postgres-flyway-testcontainers.md
  -> 第十版 PostgreSQL 配置、Flyway 迁移脚本、Hibernate validate、Testcontainers 集成测试和 Docker 配合点
+
+15-version-11-rabbitmq-outbox-publisher.md
+ -> 第十一版 RabbitMQ Outbox 真实消息发布、exchange/queue/binding、消息头元数据和 Testcontainers 集成验证
 ```
 
 ## 项目整体理解
@@ -147,8 +150,11 @@ README.md
 
 14-version-10-postgres-flyway-testcontainers.md
  -> 理解建表责任如何从 Hibernate update 迁到 Flyway，并用 PostgreSQL/Testcontainers 验证真实数据库兼容性
+
+15-version-11-rabbitmq-outbox-publisher.md
+ -> 理解 Outbox 如何从数据库发布标记升级为 RabbitMQ 真实投递，并保留默认无消息队列运行模式
 ```
 
 ## 一句话总览
 
-这个项目的核心不是“能创建订单”这么简单，而是用 Spring Boot 把下单幂等、库存一致性、库存流水、支付/退款流水、取消/过期/发货/完成状态流转、状态历史、Outbox 发布标记、Flyway 数据库迁移和 Testcontainers 真实数据库验证串成一个可继续升级的后端系统。
+这个项目的核心不是“能创建订单”这么简单，而是用 Spring Boot 把下单幂等、库存一致性、库存流水、支付/退款流水、取消/过期/发货/完成状态流转、状态历史、Outbox 发布标记、RabbitMQ 真实消息投递、Flyway 数据库迁移和 Testcontainers 真实中间件验证串成一个可继续升级的后端系统。
