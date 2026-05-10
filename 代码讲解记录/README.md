@@ -30,6 +30,9 @@
 
 05-tests-build-docs.md
  -> package.json、TypeScript 配置、Vitest 测试、README 和项目边界
+
+06-audit-log-v2.md
+ -> 第二版审计日志：AuditLog、请求 hook、审计 API、Dashboard 审计面板和测试
 ```
 
 ## 项目整体理解

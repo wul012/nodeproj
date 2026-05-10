@@ -15,6 +15,7 @@ This V1 is intentionally small. Node owns the gateway, live operations view, and
 - Java order platform proxy endpoints
 - mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, and `EXPIRE`
 - Live SSE status stream at `/api/v1/events/ops`
+- In-memory audit log and request summary endpoints
 
 ## Setup
 
@@ -55,6 +56,8 @@ cd D:\C\mini-kv
 GET    /health
 GET    /api/v1/sources/status
 GET    /api/v1/events/ops
+GET    /api/v1/audit/events
+GET    /api/v1/audit/summary
 
 GET    /api/v1/order-platform/products
 GET    /api/v1/order-platform/outbox/events

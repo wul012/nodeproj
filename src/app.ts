@@ -1,3 +1,6 @@
+import crypto from "node:crypto";
+import { performance } from "node:perf_hooks";
+
 import Fastify from "fastify";
 import type { FastifyInstance } from "fastify";
 
@@ -5,10 +8,12 @@ import { MiniKvClient } from "./clients/miniKvClient.js";
 import { OrderPlatformClient } from "./clients/orderPlatformClient.js";
 import type { AppConfig } from "./config.js";
 import { isAppHttpError } from "./errors.js";
+import { registerAuditRoutes } from "./routes/auditRoutes.js";
 import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
+import { AuditLog } from "./services/auditLog.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
 
 export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
@@ -16,6 +21,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     logger: {
       level: config.logLevel,
     },
+    genReqId: () => crypto.randomUUID(),
   });
 
   app.setErrorHandler((error, _request, reply) => {
@@ -56,8 +62,26 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const orderPlatform = new OrderPlatformClient(config.orderPlatformUrl, config.orderPlatformTimeoutMs);
   const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs);
   const snapshots = new OpsSnapshotService(orderPlatform, miniKv);
+  const auditLog = new AuditLog();
+  const requestStartTimes = new WeakMap<object, number>();
+
+  app.addHook("onRequest", async (request) => {
+    requestStartTimes.set(request, performance.now());
+  });
+
+  app.addHook("onResponse", async (request, reply) => {
+    const startedAt = requestStartTimes.get(request);
+    auditLog.record({
+      requestId: request.id,
+      method: request.method,
+      path: request.url,
+      statusCode: reply.statusCode,
+      durationMs: startedAt === undefined ? 0 : performance.now() - startedAt,
+    });
+  });
 
   await registerDashboardRoutes(app);
+  await registerAuditRoutes(app, { auditLog });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform });
   await registerMiniKvRoutes(app, { miniKv });

@@ -89,6 +89,11 @@ export function dashboardHtml(): string {
       align-items: start;
     }
 
+    .audit-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr);
+      margin-bottom: 16px;
+    }
+
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -261,6 +266,7 @@ export function dashboardHtml(): string {
     @media (max-width: 880px) {
       .status-grid,
       .work-grid,
+      .audit-grid,
       .split {
         grid-template-columns: 1fr;
       }
@@ -311,6 +317,29 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid audit-grid">
+      <article class="card">
+        <div class="metric-name">Audit total</div>
+        <div class="metric-value" id="auditTotal">0</div>
+        <div class="muted">Recent in-memory requests</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Success</div>
+        <div class="metric-value" id="auditSuccess">0</div>
+        <div class="muted">2xx and 3xx responses</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Errors</div>
+        <div class="metric-value" id="auditErrors">0</div>
+        <div class="muted">4xx and 5xx responses</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Average</div>
+        <div class="metric-value" id="auditAverage">0ms</div>
+        <div class="muted" id="auditLatest">No requests yet</div>
+      </article>
+    </section>
+
     <section class="grid work-grid">
       <article class="card">
         <h2>Order Platform</h2>
@@ -347,6 +376,14 @@ export function dashboardHtml(): string {
           <button data-action="rawCommand">Run</button>
         </div>
       </article>
+    </section>
+
+    <section class="card" style="margin-top:16px">
+      <h2>Audit</h2>
+      <div class="row">
+        <button class="primary" data-action="auditSummary">Summary</button>
+        <button data-action="auditEvents">Recent Events</button>
+      </div>
     </section>
 
     <section class="card" style="margin-top:16px">
@@ -408,6 +445,16 @@ export function dashboardHtml(): string {
       renderSnapshot(await api("/api/v1/sources/status"));
     }
 
+    async function refreshAudit() {
+      const summary = await api("/api/v1/audit/summary");
+      $("auditTotal").textContent = summary.total;
+      $("auditSuccess").textContent = summary.success;
+      $("auditErrors").textContent = summary.clientError + summary.serverError;
+      $("auditAverage").textContent = summary.averageDurationMs + "ms";
+      $("auditLatest").textContent = summary.latest ? summary.latest.method + " " + summary.latest.path : "No requests yet";
+      return summary;
+    }
+
     document.body.addEventListener("click", async (event) => {
       const button = event.target.closest("button[data-action]");
       if (!button) {
@@ -459,6 +506,13 @@ export function dashboardHtml(): string {
             body: JSON.stringify({ command: $("rawCommand").value }),
           }));
         }
+        if (action === "auditSummary") {
+          write(await refreshAudit());
+        }
+        if (action === "auditEvents") {
+          write(await api("/api/v1/audit/events?limit=20"));
+          void refreshAudit().catch(() => {});
+        }
       } catch (error) {
         write(error);
       } finally {
@@ -475,6 +529,7 @@ export function dashboardHtml(): string {
       }
     }, 5000);
     void refreshStatus().catch(write);
+    void refreshAudit().catch(() => {});
   </script>
 </body>
 </html>`;
