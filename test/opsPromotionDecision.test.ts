@@ -1079,6 +1079,126 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies a promotion handoff certificate as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "certificate-verifier",
+          note: "verify handoff certificate",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        checks: {
+          certificateDigestValid: true,
+          coveredFieldsMatch: true,
+          attachmentsValid: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          packageDigestMatches: true,
+          verifiedPackageDigestMatches: true,
+          sealDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          attachmentCount: 5,
+          handoffReady: false,
+        },
+      });
+      expect(emptyVerification.json().certificateDigest.value).toBe(emptyVerification.json().recomputedCertificateDigest.value);
+      expect(emptyVerification.json().attachments.map((attachment: { name: string }) => attachment.name)).toEqual([
+        "archive-bundle",
+        "archive-manifest",
+        "archive-verification",
+        "archive-attestation",
+        "attestation-verification",
+      ]);
+      expect(emptyVerification.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        checks: {
+          certificateDigestValid: true,
+          coveredFieldsMatch: true,
+          attachmentsValid: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          packageDigestMatches: true,
+          verifiedPackageDigestMatches: true,
+          sealDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          attachmentCount: 5,
+          handoffReady: false,
+        },
+      });
+      expect(verification.json().certificateName).toMatch(/^promotion-certificate-[a-f0-9]{12}$/);
+      expect(verification.json().certificateDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(verification.json().certificateDigest.value).toBe(verification.json().recomputedCertificateDigest.value);
+      expect(verification.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(verification.json().attachments.every((attachment: { digestMatches: boolean }) => attachment.digestMatches)).toBe(true);
+      expect(verification.json().attachments[4]).toMatchObject({
+        name: "attestation-verification",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/attestation/verification",
+      });
+      expect(verification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion handoff certificate verification");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Certificate digest: sha256:${verification.json().certificateDigest.value}`);
+      expect(markdown.body).toContain("- Certificate digest valid: true");
+      expect(markdown.body).toContain("## Attachments");
+      expect(markdown.body).toContain("### attestation-verification");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -1177,6 +1297,14 @@ describe("ops promotion decision routes", () => {
       const handoffCertificateReport = await app.inject({
         method: "GET",
         url: "/api/v1/ops/promotion-archive/handoff-certificate?format=markdown",
+      });
+      const handoffCertificateVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate/verification",
+      });
+      const handoffCertificateVerificationReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate/verification?format=markdown",
       });
 
       expect(decision.statusCode).toBe(201);
@@ -1335,6 +1463,46 @@ describe("ops promotion decision routes", () => {
       expect(handoffCertificateReport.body).toContain(
         `- Certificate digest: sha256:${handoffCertificate.json().certificateDigest.value}`,
       );
+      expect(handoffCertificateVerification.statusCode).toBe(200);
+      expect(handoffCertificateVerification.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        checks: {
+          certificateDigestValid: true,
+          coveredFieldsMatch: true,
+          attachmentsValid: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          packageDigestMatches: true,
+          verifiedPackageDigestMatches: true,
+          sealDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          latestDecisionId: decision.json().id,
+          attachmentCount: 5,
+          handoffReady: true,
+        },
+      });
+      expect(handoffCertificateVerification.json().certificateDigest.value).toBe(
+        handoffCertificateVerification.json().recomputedCertificateDigest.value,
+      );
+      expect(handoffCertificateVerification.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(handoffCertificateVerification.json().nextActions).toEqual([
+        "Handoff certificate verification is complete; share the verified certificate digest with the handoff record.",
+      ]);
+      expect(handoffCertificateVerificationReport.statusCode).toBe(200);
+      expect(handoffCertificateVerificationReport.headers["content-type"]).toContain("text/markdown");
+      expect(handoffCertificateVerificationReport.body).toContain("# Promotion handoff certificate verification");
+      expect(handoffCertificateVerificationReport.body).toContain("- Handoff ready: true");
+      expect(handoffCertificateVerificationReport.body).toContain("- Certificate digest valid: true");
     } finally {
       await app.close();
     }

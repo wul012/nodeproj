@@ -362,6 +362,67 @@ export interface OpsPromotionHandoffCertificate {
   nextActions: string[];
 }
 
+export interface OpsPromotionHandoffCertificateVerificationAttachment {
+  name: OpsPromotionHandoffPackageAttachmentName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  digestMatches: boolean;
+  certificateDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+}
+
+export interface OpsPromotionHandoffCertificateVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  certificateDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedCertificateDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    certificateDigestValid: boolean;
+    coveredFieldsMatch: boolean;
+    attachmentsValid: boolean;
+    certificateNameMatches: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    packageDigestMatches: boolean;
+    verifiedPackageDigestMatches: boolean;
+    sealDigestMatches: boolean;
+    decisionMatches: boolean;
+    verificationMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    attachmentCount: number;
+    handoffReady: boolean;
+  };
+  attachments: OpsPromotionHandoffCertificateVerificationAttachment[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -905,6 +966,98 @@ export function createOpsPromotionHandoffCertificate(input: {
   };
 }
 
+export function createOpsPromotionHandoffCertificateVerification(input: {
+  handoffPackage: OpsPromotionHandoffPackage;
+  handoffPackageVerification: OpsPromotionHandoffPackageVerification;
+  certificate: OpsPromotionHandoffCertificate;
+}): OpsPromotionHandoffCertificateVerification {
+  const expectedCertificate = createOpsPromotionHandoffCertificate({
+    handoffPackage: input.handoffPackage,
+    handoffPackageVerification: input.handoffPackageVerification,
+  });
+  const recomputedCertificateDigest = digestStable(archiveHandoffCertificateDigestPayload({
+    certificateName: input.certificate.certificateName,
+    packageName: input.certificate.packageName,
+    archiveName: input.certificate.archiveName,
+    valid: input.certificate.valid,
+    state: input.certificate.state,
+    handoffReady: input.certificate.handoffReady,
+    packageDigest: input.certificate.packageDigest.value,
+    verifiedPackageDigest: input.certificate.verifiedPackageDigest.value,
+    sealDigest: input.certificate.sealDigest.value,
+    decision: input.certificate.decision,
+    verification: input.certificate.verification,
+    attachments: input.certificate.attachments,
+    nextActions: input.certificate.nextActions,
+  }));
+  const attachmentChecks = input.certificate.attachments.map((attachment) => {
+    const expected = expectedCertificate.attachments.find((candidate) => candidate.name === attachment.name);
+    const validMatches = expected?.valid === attachment.valid;
+    const sourceMatches = expected?.source === attachment.source;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: attachment.name }) };
+    const digestMatches = attachment.digest.value === expectedDigest.value;
+
+    return {
+      name: attachment.name,
+      valid: expected !== undefined && validMatches && sourceMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      digestMatches,
+      certificateDigest: { ...attachment.digest },
+      recomputedDigest: expectedDigest,
+      source: attachment.source,
+    };
+  });
+  const checks = {
+    certificateDigestValid: input.certificate.certificateDigest.value === recomputedCertificateDigest,
+    coveredFieldsMatch: stableJson(input.certificate.certificateDigest.coveredFields)
+      === stableJson(expectedCertificate.certificateDigest.coveredFields),
+    attachmentsValid: attachmentChecks.length === expectedCertificate.attachments.length
+      && attachmentChecks.every((attachment) => attachment.valid),
+    certificateNameMatches: input.certificate.certificateName === expectedCertificate.certificateName,
+    packageNameMatches: input.certificate.packageName === expectedCertificate.packageName,
+    archiveNameMatches: input.certificate.archiveName === expectedCertificate.archiveName,
+    validMatches: input.certificate.valid === expectedCertificate.valid,
+    stateMatches: input.certificate.state === expectedCertificate.state,
+    handoffReadyMatches: input.certificate.handoffReady === expectedCertificate.handoffReady,
+    packageDigestMatches: input.certificate.packageDigest.value === expectedCertificate.packageDigest.value,
+    verifiedPackageDigestMatches: input.certificate.verifiedPackageDigest.value === expectedCertificate.verifiedPackageDigest.value,
+    sealDigestMatches: input.certificate.sealDigest.value === expectedCertificate.sealDigest.value,
+    decisionMatches: stableJson(input.certificate.decision) === stableJson(expectedCertificate.decision),
+    verificationMatches: stableJson(input.certificate.verification) === stableJson(expectedCertificate.verification),
+    nextActionsMatch: stableJson(input.certificate.nextActions) === stableJson(expectedCertificate.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    certificateName: input.certificate.certificateName,
+    packageName: input.certificate.packageName,
+    archiveName: input.certificate.archiveName,
+    valid,
+    state: input.certificate.state,
+    handoffReady: input.certificate.handoffReady,
+    certificateDigest: {
+      algorithm: "sha256",
+      value: input.certificate.certificateDigest.value,
+    },
+    recomputedCertificateDigest: {
+      algorithm: "sha256",
+      value: recomputedCertificateDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.certificate.decision.totalDecisions,
+      latestDecisionId: input.certificate.decision.latestDecisionId,
+      attachmentCount: attachmentChecks.length,
+      handoffReady: input.certificate.handoffReady,
+    },
+    attachments: attachmentChecks,
+    nextActions: archiveHandoffCertificateVerificationNextActions(checks, input.certificate),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -976,6 +1129,61 @@ export function renderOpsPromotionHandoffCertificateMarkdown(certificate: OpsPro
     "## Next Actions",
     "",
     ...certificate.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionHandoffCertificateVerificationMarkdown(
+  verification: OpsPromotionHandoffCertificateVerification,
+): string {
+  const lines = [
+    "# Promotion handoff certificate verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Certificate name: ${verification.certificateName}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Certificate digest: ${verification.certificateDigest.algorithm}:${verification.certificateDigest.value}`,
+    `- Recomputed certificate digest: ${verification.recomputedCertificateDigest.algorithm}:${verification.recomputedCertificateDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Certificate digest valid: ${verification.checks.certificateDigestValid}`,
+    `- Covered fields match: ${verification.checks.coveredFieldsMatch}`,
+    `- Attachments valid: ${verification.checks.attachmentsValid}`,
+    `- Certificate name matches: ${verification.checks.certificateNameMatches}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Package digest matches: ${verification.checks.packageDigestMatches}`,
+    `- Verified package digest matches: ${verification.checks.verifiedPackageDigestMatches}`,
+    `- Seal digest matches: ${verification.checks.sealDigestMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Verification matches: ${verification.checks.verificationMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Attachments",
+    "",
+    ...renderHandoffCertificateVerificationAttachments(verification.attachments),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Attachment count: ${verification.summary.attachmentCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -1571,6 +1779,33 @@ function archiveHandoffCertificateNextActions(
   return handoffPackageVerification.nextActions;
 }
 
+function archiveHandoffCertificateVerificationNextActions(
+  checks: OpsPromotionHandoffCertificateVerification["checks"],
+  certificate: OpsPromotionHandoffCertificate,
+): string[] {
+  if (!checks.certificateDigestValid) {
+    return ["Regenerate the handoff certificate before trusting this certificate digest."];
+  }
+
+  if (!checks.attachmentsValid) {
+    return ["Review handoff certificate attachments before sharing the promotion handoff certificate."];
+  }
+
+  if (!checks.packageDigestMatches || !checks.verifiedPackageDigestMatches || !checks.sealDigestMatches) {
+    return ["Recreate the handoff certificate from the latest verified handoff package."];
+  }
+
+  if (!checks.decisionMatches || !checks.verificationMatches || !checks.nextActionsMatch || !checks.validMatches) {
+    return ["Reissue the handoff certificate from the latest package verification result."];
+  }
+
+  if (certificate.handoffReady) {
+    return ["Handoff certificate verification is complete; share the verified certificate digest with the handoff record."];
+  }
+
+  return certificate.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -1780,6 +2015,21 @@ function renderHandoffCertificateAttachments(attachments: OpsPromotionHandoffCer
     "",
     `- Valid: ${attachment.valid}`,
     `- Digest: ${attachment.digest.algorithm}:${attachment.digest.value}`,
+    `- Source: ${attachment.source}`,
+    "",
+  ]);
+}
+
+function renderHandoffCertificateVerificationAttachments(attachments: OpsPromotionHandoffCertificateVerificationAttachment[]): string[] {
+  return attachments.flatMap((attachment) => [
+    `### ${attachment.name}`,
+    "",
+    `- Valid: ${attachment.valid}`,
+    `- Valid matches: ${attachment.validMatches}`,
+    `- Source matches: ${attachment.sourceMatches}`,
+    `- Digest matches: ${attachment.digestMatches}`,
+    `- Certificate digest: ${attachment.certificateDigest.algorithm}:${attachment.certificateDigest.value}`,
+    `- Recomputed digest: ${attachment.recomputedDigest.algorithm}:${attachment.recomputedDigest.value}`,
     `- Source: ${attachment.source}`,
     "",
   ]);
