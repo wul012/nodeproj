@@ -972,6 +972,113 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds a promotion handoff certificate as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyCertificate = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "certificate-reviewer",
+          note: "build handoff certificate",
+        },
+      });
+      const certificate = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate?format=markdown",
+      });
+
+      expect(emptyCertificate.statusCode).toBe(200);
+      expect(emptyCertificate.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          packageVerified: true,
+          packageDigestValid: true,
+          attachmentsValid: true,
+          attachmentCount: 5,
+        },
+      });
+      expect(emptyCertificate.json().certificateName).toMatch(/^promotion-certificate-[a-f0-9]{12}$/);
+      expect(emptyCertificate.json().certificateDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyCertificate.json().certificateDigest.coveredFields).toEqual([
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "packageDigest",
+        "verifiedPackageDigest",
+        "sealDigest",
+        "decision",
+        "verification",
+        "attachments",
+        "nextActions",
+      ]);
+      expect(emptyCertificate.json().packageDigest.value).toBe(emptyCertificate.json().verifiedPackageDigest.value);
+      expect(emptyCertificate.json().attachments.map((attachment: { name: string }) => attachment.name)).toEqual([
+        "archive-bundle",
+        "archive-manifest",
+        "archive-verification",
+        "archive-attestation",
+        "attestation-verification",
+      ]);
+      expect(emptyCertificate.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(certificate.statusCode).toBe(200);
+      expect(certificate.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          packageVerified: true,
+          packageDigestValid: true,
+          attachmentsValid: true,
+          attachmentCount: 5,
+        },
+      });
+      expect(certificate.json().certificateName).toMatch(/^promotion-certificate-[a-f0-9]{12}$/);
+      expect(certificate.json().certificateDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(certificate.json().packageDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(certificate.json().verifiedPackageDigest.value).toBe(certificate.json().packageDigest.value);
+      expect(certificate.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(certificate.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(certificate.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion handoff certificate");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Certificate digest: sha256:${certificate.json().certificateDigest.value}`);
+      expect(markdown.body).toContain("## Verification");
+      expect(markdown.body).toContain("### attestation-verification");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -1062,6 +1169,14 @@ describe("ops promotion decision routes", () => {
       const handoffPackageVerificationReport = await app.inject({
         method: "GET",
         url: "/api/v1/ops/promotion-archive/handoff-package/verification?format=markdown",
+      });
+      const handoffCertificate = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate",
+      });
+      const handoffCertificateReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-certificate?format=markdown",
       });
 
       expect(decision.statusCode).toBe(201);
@@ -1191,6 +1306,35 @@ describe("ops promotion decision routes", () => {
       expect(handoffPackageVerificationReport.body).toContain("# Promotion handoff package verification");
       expect(handoffPackageVerificationReport.body).toContain("- Handoff ready: true");
       expect(handoffPackageVerificationReport.body).toContain("- Package digest valid: true");
+      expect(handoffCertificate.statusCode).toBe(200);
+      expect(handoffCertificate.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "approved",
+        },
+        verification: {
+          packageVerified: true,
+          packageDigestValid: true,
+          attachmentsValid: true,
+          attachmentCount: 5,
+        },
+      });
+      expect(handoffCertificate.json().certificateDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffCertificate.json().packageDigest.value).toBe(handoffCertificate.json().verifiedPackageDigest.value);
+      expect(handoffCertificate.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(handoffCertificate.json().nextActions).toEqual([
+        "Promotion handoff certificate is ready; share the certificate digest with the handoff record.",
+      ]);
+      expect(handoffCertificateReport.statusCode).toBe(200);
+      expect(handoffCertificateReport.headers["content-type"]).toContain("text/markdown");
+      expect(handoffCertificateReport.body).toContain("# Promotion handoff certificate");
+      expect(handoffCertificateReport.body).toContain("- Handoff ready: true");
+      expect(handoffCertificateReport.body).toContain(
+        `- Certificate digest: sha256:${handoffCertificate.json().certificateDigest.value}`,
+      );
     } finally {
       await app.close();
     }

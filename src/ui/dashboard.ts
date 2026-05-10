@@ -503,6 +503,8 @@ export function dashboardHtml(): string {
         <button data-action="opsPromotionHandoffPackageReport">Handoff Package Report</button>
         <button data-action="opsPromotionHandoffPackageVerification">Package Verification</button>
         <button data-action="opsPromotionHandoffPackageVerificationReport">Package Verification Report</button>
+        <button data-action="opsPromotionHandoffCertificate">Handoff Certificate</button>
+        <button data-action="opsPromotionHandoffCertificateReport">Handoff Certificate Report</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -870,6 +872,16 @@ export function dashboardHtml(): string {
         }
         if (action === "opsPromotionHandoffPackageVerificationReport") {
           const response = await fetch("/api/v1/ops/promotion-archive/handoff-package/verification?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "opsPromotionHandoffCertificate") {
+          write(await api("/api/v1/ops/promotion-archive/handoff-certificate"));
+        }
+        if (action === "opsPromotionHandoffCertificateReport") {
+          const response = await fetch("/api/v1/ops/promotion-archive/handoff-certificate?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }
