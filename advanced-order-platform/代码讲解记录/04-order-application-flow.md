@@ -56,6 +56,7 @@ private final OrderRepository orderRepository;
 private final ProductRepository productRepository;
 private final InventoryService inventoryService;
 private final OutboxRepository outboxRepository;
+private final OrderStatusHistoryRepository orderStatusHistoryRepository;
 ```
 
 它们分别负责：
@@ -72,6 +73,9 @@ InventoryService
 
 OutboxRepository
  -> 保存领域事件
+
+OrderStatusHistoryRepository
+ -> 保存订单状态历史，方便查询订单时间线
 ```
 
 这里体现了一个常见分层：
@@ -231,6 +235,7 @@ private CreateOrderResult placeNewOrder(String idempotencyKey, CreateOrderReques
     SalesOrder order = SalesOrder.place(request.customerId(), idempotencyKey, drafts);
     SalesOrder saved = orderRepository.saveAndFlush(order);
     outboxRepository.save(OutboxEvent.orderCreated(saved));
+    recordHistory(saved, null, "ORDER_CREATED");
     return new CreateOrderResult(OrderResponse.from(saved), false);
 }
 ```
@@ -512,13 +517,15 @@ ORDER_NOT_FOUND
 @Transactional
 public OrderResponse pay(Long orderId) {
     SalesOrder order = findOrder(orderId);
-    if (order.getStatus() == OrderStatus.PAID) {
+    OrderStatus fromStatus = order.getStatus();
+    if (fromStatus == OrderStatus.PAID) {
         return OrderResponse.from(order);
     }
 
     order.markPaid();
     inventoryService.commitReserved(order.quantitiesByProductId());
 outboxRepository.save(OutboxEvent.orderPaid(order));
+recordHistory(order, fromStatus, "ORDER_PAID");
 return OrderResponse.from(order);
 }
 ```
@@ -573,6 +580,20 @@ productId -> quantity
 
 一句话总结：`pay` 把订单从 CREATED 推进到 PAID，同时把 reserved 库存确认掉，并记录支付事件。
 
+第六版还会在支付成功后记录状态历史：
+
+```java
+recordHistory(order, fromStatus, "ORDER_PAID");
+```
+
+这条历史记录保存的是：
+
+```text
+fromStatus = CREATED
+toStatus = PAID
+action = ORDER_PAID
+```
+
 ---
 
 # 12. `ship`：订单发货
@@ -583,8 +604,10 @@ productId -> quantity
 @Transactional
 public OrderResponse ship(Long orderId) {
     SalesOrder order = findOrder(orderId);
+    OrderStatus fromStatus = order.getStatus();
     if (order.ship()) {
         outboxRepository.save(OutboxEvent.orderShipped(order));
+        recordHistory(order, fromStatus, "ORDER_SHIPPED");
     }
     return OrderResponse.from(order);
 }
@@ -629,8 +652,10 @@ public boolean ship() {
 @Transactional
 public OrderResponse complete(Long orderId) {
     SalesOrder order = findOrder(orderId);
+    OrderStatus fromStatus = order.getStatus();
     if (order.complete()) {
         outboxRepository.save(OutboxEvent.orderCompleted(order));
+        recordHistory(order, fromStatus, "ORDER_COMPLETED");
     }
     return OrderResponse.from(order);
 }
@@ -675,9 +700,11 @@ PAID
 @Transactional
 public OrderResponse cancel(Long orderId) {
     SalesOrder order = findOrder(orderId);
+    OrderStatus fromStatus = order.getStatus();
     if (order.cancel()) {
         inventoryService.releaseReserved(order.quantitiesByProductId());
         outboxRepository.save(OutboxEvent.orderCancelled(order));
+        recordHistory(order, fromStatus, "ORDER_CANCELLED");
     }
     return OrderResponse.from(order);
 }
@@ -799,7 +826,59 @@ outboxRepository.save(OutboxEvent.orderCancelled(order));
 
 ---
 
-# 15. 当前实现的一个重要边界
+# 15. `getOrderHistory` 和 `recordHistory`：订单状态时间线
+
+第六版新增历史查询用例：
+
+```java
+@Transactional(readOnly = true)
+public List<OrderStatusHistoryResponse> getOrderHistory(Long orderId) {
+    findOrder(orderId);
+    return orderStatusHistoryRepository.findByOrderIdOrderByChangedAtAscIdAsc(orderId).stream()
+            .map(OrderStatusHistoryResponse::from)
+            .toList();
+}
+```
+
+这里先调用：
+
+```java
+findOrder(orderId);
+```
+
+目的是保持和查询订单一致的错误语义：
+
+```text
+订单不存在
+ -> 404 ORDER_NOT_FOUND
+```
+
+真正保存历史的是：
+
+```java
+private void recordHistory(SalesOrder order, OrderStatus fromStatus, String action) {
+    orderStatusHistoryRepository.save(
+            OrderStatusHistory.record(order.getId(), fromStatus, order.getStatus(), action)
+    );
+}
+```
+
+每次真实状态变化后都会调用它：
+
+```text
+ORDER_CREATED
+ORDER_PAID
+ORDER_CANCELLED
+ORDER_EXPIRED
+ORDER_SHIPPED
+ORDER_COMPLETED
+```
+
+一句话总结：`recordHistory` 让订单状态机不仅“改变当前状态”，还留下可审计、可查询的状态变化轨迹。
+
+---
+
+# 16. 当前实现的一个重要边界
 
 当前代码已经有：
 
@@ -813,6 +892,7 @@ outboxRepository.save(OutboxEvent.orderCancelled(order));
 取消接口幂等
 超时未支付订单自动过期取消
 发货和完成履约状态流转
+订单状态历史查询
 ```
 
 但它还没有做完整的：
@@ -833,4 +913,4 @@ Redis 分布式限流
 
 # 本次讲解总结
 
-第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、取消释放、发货完成和 Outbox 事件串成完整业务流程。
+第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、取消释放、发货完成、状态历史和 Outbox 事件串成完整业务流程。

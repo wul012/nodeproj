@@ -14,6 +14,7 @@ import com.codexdemo.orderplatform.order.CreateOrderResult;
 import com.codexdemo.orderplatform.order.OrderApplicationService;
 import com.codexdemo.orderplatform.order.OrderResponse;
 import com.codexdemo.orderplatform.order.OrderStatus;
+import com.codexdemo.orderplatform.order.OrderStatusHistoryResponse;
 import com.codexdemo.orderplatform.outbox.OutboxEvent;
 import com.codexdemo.orderplatform.outbox.OutboxPublisher;
 import com.codexdemo.orderplatform.outbox.OutboxRepository;
@@ -170,6 +171,67 @@ class OrderApplicationServiceTests {
         assertThat(eventsAfterComplete).isEqualTo(eventsAfterShip + 1);
         assertThat(outboxRepository.findTop50ByOrderByCreatedAtDesc().stream().map(OutboxEvent::getEventType))
                 .contains("OrderShipped", "OrderCompleted");
+    }
+
+    @Test
+    void orderHistoryTracksFulfillmentTimeline() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("60606060-6060-6060-6060-606060606060"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-010-history", request);
+        orderApplicationService.pay(created.order().id());
+        orderApplicationService.ship(created.order().id());
+        orderApplicationService.complete(created.order().id());
+
+        List<OrderStatusHistoryResponse> history = orderApplicationService.getOrderHistory(created.order().id());
+
+        assertThat(history).hasSize(4);
+        assertThat(history.stream().map(OrderStatusHistoryResponse::action).toList())
+                .containsExactly("ORDER_CREATED", "ORDER_PAID", "ORDER_SHIPPED", "ORDER_COMPLETED");
+        assertThat(history.stream().map(OrderStatusHistoryResponse::fromStatus).toList())
+                .containsExactly(null, OrderStatus.CREATED, OrderStatus.PAID, OrderStatus.SHIPPED);
+        assertThat(history.stream().map(OrderStatusHistoryResponse::toStatus).toList())
+                .containsExactly(OrderStatus.CREATED, OrderStatus.PAID, OrderStatus.SHIPPED, OrderStatus.COMPLETED);
+        assertThat(history)
+                .allMatch(item -> item.id() != null)
+                .allMatch(item -> item.changedAt() != null);
+    }
+
+    @Test
+    void orderHistoryTracksCancelAndExpirationActions() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest cancelRequest = new CreateOrderRequest(
+                UUID.fromString("61616161-6161-6161-6161-616161616161"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult cancelled = orderApplicationService.createOrder("test-idempotency-key-011-history-cancel", cancelRequest);
+        orderApplicationService.cancel(cancelled.order().id());
+
+        List<OrderStatusHistoryResponse> cancelHistory = orderApplicationService.getOrderHistory(cancelled.order().id());
+
+        assertThat(cancelHistory.stream().map(OrderStatusHistoryResponse::action).toList())
+                .containsExactly("ORDER_CREATED", "ORDER_CANCELLED");
+        assertThat(cancelHistory.stream().map(OrderStatusHistoryResponse::toStatus).toList())
+                .containsExactly(OrderStatus.CREATED, OrderStatus.CANCELLED);
+
+        CreateOrderRequest expireRequest = new CreateOrderRequest(
+                UUID.fromString("62626262-6262-6262-6262-626262626262"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult expiring = orderApplicationService.createOrder("test-idempotency-key-012-history-expire", expireRequest);
+        int expired = orderApplicationService.expireCreatedOrdersBefore(Instant.now().plusSeconds(1));
+        List<OrderStatusHistoryResponse> expireHistory = orderApplicationService.getOrderHistory(expiring.order().id());
+
+        assertThat(expired).isGreaterThanOrEqualTo(1);
+        assertThat(expireHistory.stream().map(OrderStatusHistoryResponse::action).toList())
+                .containsExactly("ORDER_CREATED", "ORDER_EXPIRED");
+        assertThat(expireHistory.stream().map(OrderStatusHistoryResponse::toStatus).toList())
+                .containsExactly(OrderStatus.CREATED, OrderStatus.CANCELLED);
     }
 
     @Test

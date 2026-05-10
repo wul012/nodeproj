@@ -13,6 +13,9 @@ src/main/java/com/codexdemo/orderplatform/order/OrderResponse.java
 src/main/java/com/codexdemo/orderplatform/order/OrderLineResponse.java
 src/main/java/com/codexdemo/orderplatform/order/CreateOrderResult.java
 src/main/java/com/codexdemo/orderplatform/order/OrderRepository.java
+src/main/java/com/codexdemo/orderplatform/order/OrderStatusHistory.java
+src/main/java/com/codexdemo/orderplatform/order/OrderStatusHistoryRepository.java
+src/main/java/com/codexdemo/orderplatform/order/OrderStatusHistoryResponse.java
 src/main/java/com/codexdemo/orderplatform/order/OrderController.java
 ```
 
@@ -600,6 +603,15 @@ Location: /api/v1/orders/{id}
 @GetMapping("/{orderId}")
 public OrderResponse getOrder(@PathVariable Long orderId)
 ```
+
+查询订单状态历史接口：
+
+```java
+@GetMapping("/{orderId}/history")
+public List<OrderStatusHistoryResponse> getOrderHistory(@PathVariable Long orderId)
+```
+
+第六版新增这条接口，用来查看订单从创建到支付、发货、完成、取消或过期的状态时间线。
 
 支付接口：
 

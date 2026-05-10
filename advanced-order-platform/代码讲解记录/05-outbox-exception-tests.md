@@ -210,6 +210,20 @@ Outbox 的思路是：
 
 一句话总结：Outbox 是解决“数据库事务”和“消息发送”一致性问题的一种常见工程方案。
 
+第六版新增的 `order_status_history` 和 Outbox 不一样：
+
+```text
+outbox_events
+ -> 面向外部消息发布
+ -> 关心事件能不能被后台发布器标记 publishedAt
+
+order_status_history
+ -> 面向内部审计查询
+ -> 关心订单状态从哪里变到哪里、什么时候变、由什么动作触发
+```
+
+一句话总结：Outbox 是事件发布准备表，状态历史是订单内部审计表，两者都记录变化，但服务对象不同。
+
 ---
 
 # 3. `OutboxRepository.java`：事件仓库

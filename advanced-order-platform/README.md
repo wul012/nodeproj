@@ -8,6 +8,7 @@
 - 订单支付模拟
 - 订单取消与预占库存释放
 - 订单发货与完成履约流转
+- 订单状态历史与操作流水查询
 - 超时未支付订单自动过期取消
 - Outbox 事件表
 - Outbox 后台发布标记
@@ -92,6 +93,12 @@ Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/ship
 Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/complete
 ```
 
+查询订单状态历史：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/orders/1/history
+```
+
 查看 Outbox 事件：
 
 ```powershell
@@ -141,7 +148,7 @@ mvn spring-boot:run `
 
 - `catalog`: 商品目录
 - `inventory`: 库存与并发控制
-- `order`: 订单编排、幂等、防重复提交、支付、取消、发货、完成和超时过期状态流转
+- `order`: 订单编排、幂等、防重复提交、支付、取消、发货、完成、状态历史和超时过期状态流转
 - `outbox`: 事件表和后台发布标记，为后续 Kafka/RabbitMQ 做准备
 - `common`: 异常与统一错误响应
 

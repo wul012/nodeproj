@@ -24,17 +24,20 @@ public class OrderApplicationService {
     private final ProductRepository productRepository;
     private final InventoryService inventoryService;
     private final OutboxRepository outboxRepository;
+    private final OrderStatusHistoryRepository orderStatusHistoryRepository;
 
     public OrderApplicationService(
             OrderRepository orderRepository,
             ProductRepository productRepository,
             InventoryService inventoryService,
-            OutboxRepository outboxRepository
+            OutboxRepository outboxRepository,
+            OrderStatusHistoryRepository orderStatusHistoryRepository
     ) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.inventoryService = inventoryService;
         this.outboxRepository = outboxRepository;
+        this.orderStatusHistoryRepository = orderStatusHistoryRepository;
     }
 
     @Transactional
@@ -51,25 +54,37 @@ public class OrderApplicationService {
         return OrderResponse.from(findOrder(orderId));
     }
 
+    @Transactional(readOnly = true)
+    public List<OrderStatusHistoryResponse> getOrderHistory(Long orderId) {
+        findOrder(orderId);
+        return orderStatusHistoryRepository.findByOrderIdOrderByChangedAtAscIdAsc(orderId).stream()
+                .map(OrderStatusHistoryResponse::from)
+                .toList();
+    }
+
     @Transactional
     public OrderResponse pay(Long orderId) {
         SalesOrder order = findOrder(orderId);
-        if (order.getStatus() == OrderStatus.PAID) {
+        OrderStatus fromStatus = order.getStatus();
+        if (fromStatus == OrderStatus.PAID) {
             return OrderResponse.from(order);
         }
 
         order.markPaid();
         inventoryService.commitReserved(order.quantitiesByProductId());
         outboxRepository.save(OutboxEvent.orderPaid(order));
+        recordHistory(order, fromStatus, "ORDER_PAID");
         return OrderResponse.from(order);
     }
 
     @Transactional
     public OrderResponse cancel(Long orderId) {
         SalesOrder order = findOrder(orderId);
+        OrderStatus fromStatus = order.getStatus();
         if (order.cancel()) {
             inventoryService.releaseReserved(order.quantitiesByProductId());
             outboxRepository.save(OutboxEvent.orderCancelled(order));
+            recordHistory(order, fromStatus, "ORDER_CANCELLED");
         }
         return OrderResponse.from(order);
     }
@@ -77,8 +92,10 @@ public class OrderApplicationService {
     @Transactional
     public OrderResponse ship(Long orderId) {
         SalesOrder order = findOrder(orderId);
+        OrderStatus fromStatus = order.getStatus();
         if (order.ship()) {
             outboxRepository.save(OutboxEvent.orderShipped(order));
+            recordHistory(order, fromStatus, "ORDER_SHIPPED");
         }
         return OrderResponse.from(order);
     }
@@ -86,8 +103,10 @@ public class OrderApplicationService {
     @Transactional
     public OrderResponse complete(Long orderId) {
         SalesOrder order = findOrder(orderId);
+        OrderStatus fromStatus = order.getStatus();
         if (order.complete()) {
             outboxRepository.save(OutboxEvent.orderCompleted(order));
+            recordHistory(order, fromStatus, "ORDER_COMPLETED");
         }
         return OrderResponse.from(order);
     }
@@ -102,9 +121,11 @@ public class OrderApplicationService {
         int expired = 0;
         Instant expiredAt = Instant.now();
         for (SalesOrder order : orders) {
+            OrderStatus fromStatus = order.getStatus();
             if (order.expire(expiredAt)) {
                 inventoryService.releaseReserved(order.quantitiesByProductId());
                 outboxRepository.save(OutboxEvent.orderExpired(order));
+                recordHistory(order, fromStatus, "ORDER_EXPIRED");
                 expired++;
             }
         }
@@ -126,7 +147,14 @@ public class OrderApplicationService {
         SalesOrder order = SalesOrder.place(request.customerId(), idempotencyKey, drafts);
         SalesOrder saved = orderRepository.saveAndFlush(order);
         outboxRepository.save(OutboxEvent.orderCreated(saved));
+        recordHistory(saved, null, "ORDER_CREATED");
         return new CreateOrderResult(OrderResponse.from(saved), false);
+    }
+
+    private void recordHistory(SalesOrder order, OrderStatus fromStatus, String action) {
+        orderStatusHistoryRepository.save(
+                OrderStatusHistory.record(order.getId(), fromStatus, order.getStatus(), action)
+        );
     }
 
     private Map<Long, Integer> aggregateQuantities(CreateOrderRequest request) {

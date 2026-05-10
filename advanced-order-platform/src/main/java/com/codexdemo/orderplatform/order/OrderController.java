@@ -2,6 +2,7 @@ package com.codexdemo.orderplatform.order;
 
 import jakarta.validation.Valid;
 import java.net.URI;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -40,6 +41,11 @@ public class OrderController {
     @GetMapping("/{orderId}")
     public OrderResponse getOrder(@PathVariable Long orderId) {
         return orderApplicationService.getOrder(orderId);
+    }
+
+    @GetMapping("/{orderId}/history")
+    public List<OrderStatusHistoryResponse> getOrderHistory(@PathVariable Long orderId) {
+        return orderApplicationService.getOrderHistory(orderId);
     }
 
     @PostMapping("/{orderId}/pay")
