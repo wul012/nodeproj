@@ -2,9 +2,11 @@ import type { FastifyInstance } from "fastify";
 
 import { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import { AppHttpError } from "../errors.js";
+import { assertUpstreamActionsEnabled } from "../services/upstreamActionGuard.js";
 
 interface OrderRouteDeps {
   orderPlatform: OrderPlatformClient;
+  upstreamActionsEnabled: boolean;
 }
 
 interface OrderParams {
@@ -13,16 +15,19 @@ interface OrderParams {
 
 export async function registerOrderPlatformRoutes(app: FastifyInstance, deps: OrderRouteDeps): Promise<void> {
   app.get("/api/v1/order-platform/products", async () => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.listProducts();
     return response.data;
   });
 
   app.get("/api/v1/order-platform/outbox/events", async () => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.listOutboxEvents();
     return response.data;
   });
 
   app.get<{ Params: OrderParams }>("/api/v1/order-platform/orders/:orderId", async (request) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.getOrder(request.params.orderId);
     return response.data;
   });
@@ -59,6 +64,7 @@ export async function registerOrderPlatformRoutes(app: FastifyInstance, deps: Or
       },
     },
   }, async (request, reply) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const idempotencyKey = request.headers["idempotency-key"];
     if (typeof idempotencyKey !== "string") {
       throw new AppHttpError(400, "IDEMPOTENCY_KEY_REQUIRED", "Idempotency-Key header is required");
@@ -70,12 +76,14 @@ export async function registerOrderPlatformRoutes(app: FastifyInstance, deps: Or
   });
 
   app.post<{ Params: OrderParams }>("/api/v1/order-platform/orders/:orderId/pay", async (request, reply) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.payOrder(request.params.orderId);
     reply.code(response.statusCode);
     return response.data;
   });
 
   app.post<{ Params: OrderParams }>("/api/v1/order-platform/orders/:orderId/cancel", async (request, reply) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.cancelOrder(request.params.orderId);
     reply.code(response.statusCode);
     return response.data;

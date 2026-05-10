@@ -17,6 +17,7 @@ This V1 is intentionally small. Node owns the gateway, live operations view, and
 - Live SSE status stream at `/api/v1/events/ops`
 - In-memory audit log and request summary endpoints
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
+- Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
 
 ## Setup
 
@@ -37,10 +38,12 @@ The service reads configuration from environment variables. Use `.env.example` a
 $env:ORDER_PLATFORM_URL = "http://localhost:8080"
 $env:MINIKV_PORT = "6379"
 $env:UPSTREAM_PROBES_ENABLED = "true"
+$env:UPSTREAM_ACTIONS_ENABLED = "true"
 npm run dev
 ```
 
 By default, upstream probes are disabled so the dashboard does not automatically touch the Java or mini-kv processes while they are being debugged.
+Upstream proxy actions are also disabled by default, so dashboard buttons that would call Java or mini-kv return a Node-side 403 until `UPSTREAM_ACTIONS_ENABLED=true`.
 
 Optional upstream services:
 
@@ -60,6 +63,7 @@ cd D:\C\mini-kv
 GET    /health
 GET    /api/v1/sources/status
 GET    /api/v1/events/ops
+GET    /api/v1/runtime/config
 GET    /api/v1/audit/events
 GET    /api/v1/audit/summary
 

@@ -19,6 +19,19 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
 
   app.get("/api/v1/sources/status", async () => deps.snapshots.sample());
 
+  app.get("/api/v1/runtime/config", async () => ({
+    service: "orderops-node",
+    safety: {
+      upstreamProbesEnabled: deps.config.upstreamProbesEnabled,
+      upstreamActionsEnabled: deps.config.upstreamActionsEnabled,
+    },
+    upstreams: {
+      orderPlatformUrl: deps.config.orderPlatformUrl,
+      miniKv: `${deps.config.miniKvHost}:${deps.config.miniKvPort}`,
+    },
+    opsSampleIntervalMs: deps.config.opsSampleIntervalMs,
+  }));
+
   app.get("/api/v1/events/ops", (request, reply) => {
     reply.hijack();
     reply.raw.writeHead(200, {

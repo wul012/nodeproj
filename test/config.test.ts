@@ -11,6 +11,7 @@ describe("loadConfig", () => {
     expect(config.orderPlatformUrl).toBe("http://localhost:8080");
     expect(config.miniKvPort).toBe(6379);
     expect(config.upstreamProbesEnabled).toBe(false);
+    expect(config.upstreamActionsEnabled).toBe(false);
   });
 
   it("normalizes numeric values and strips the order URL slash", () => {
@@ -20,6 +21,7 @@ describe("loadConfig", () => {
       MINIKV_PORT: "6380",
       OPS_SAMPLE_INTERVAL_MS: "1500",
       UPSTREAM_PROBES_ENABLED: "true",
+      UPSTREAM_ACTIONS_ENABLED: "on",
     });
 
     expect(config.port).toBe(4200);
@@ -27,6 +29,7 @@ describe("loadConfig", () => {
     expect(config.miniKvPort).toBe(6380);
     expect(config.opsSampleIntervalMs).toBe(1500);
     expect(config.upstreamProbesEnabled).toBe(true);
+    expect(config.upstreamActionsEnabled).toBe(true);
   });
 
   it("parses boolean-style upstream probe flags", () => {
@@ -34,5 +37,12 @@ describe("loadConfig", () => {
     expect(loadConfig({ UPSTREAM_PROBES_ENABLED: "yes" }).upstreamProbesEnabled).toBe(true);
     expect(loadConfig({ UPSTREAM_PROBES_ENABLED: "off" }).upstreamProbesEnabled).toBe(false);
     expect(loadConfig({ UPSTREAM_PROBES_ENABLED: "not-a-bool" }).upstreamProbesEnabled).toBe(false);
+  });
+
+  it("parses boolean-style upstream action flags", () => {
+    expect(loadConfig({ UPSTREAM_ACTIONS_ENABLED: "true" }).upstreamActionsEnabled).toBe(true);
+    expect(loadConfig({ UPSTREAM_ACTIONS_ENABLED: "on" }).upstreamActionsEnabled).toBe(true);
+    expect(loadConfig({ UPSTREAM_ACTIONS_ENABLED: "0" }).upstreamActionsEnabled).toBe(false);
+    expect(loadConfig({ UPSTREAM_ACTIONS_ENABLED: "not-a-bool" }).upstreamActionsEnabled).toBe(false);
   });
 });

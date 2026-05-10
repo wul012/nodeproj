@@ -1,9 +1,11 @@
 import type { FastifyInstance } from "fastify";
 
 import { MiniKvClient, validateRawGatewayCommand } from "../clients/miniKvClient.js";
+import { assertUpstreamActionsEnabled } from "../services/upstreamActionGuard.js";
 
 interface MiniKvRouteDeps {
   miniKv: MiniKvClient;
+  upstreamActionsEnabled: boolean;
 }
 
 interface KeyParams {
@@ -21,6 +23,7 @@ interface RawCommandBody {
 
 export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRouteDeps): Promise<void> {
   app.get("/api/v1/mini-kv/status", async () => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "mini-kv");
     const [ping, size] = await Promise.all([deps.miniKv.ping(), deps.miniKv.size()]);
     return {
       ping,
@@ -28,7 +31,10 @@ export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRou
     };
   });
 
-  app.get<{ Params: KeyParams }>("/api/v1/mini-kv/:key", async (request) => deps.miniKv.getKey(request.params.key));
+  app.get<{ Params: KeyParams }>("/api/v1/mini-kv/:key", async (request) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "mini-kv");
+    return deps.miniKv.getKey(request.params.key);
+  });
 
   app.put<{ Params: KeyParams; Body: SetKeyBody }>("/api/v1/mini-kv/:key", {
     schema: {
@@ -42,9 +48,15 @@ export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRou
         additionalProperties: false,
       },
     },
-  }, async (request) => deps.miniKv.setKey(request.params.key, request.body.value, request.body.ttlSeconds));
+  }, async (request) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "mini-kv");
+    return deps.miniKv.setKey(request.params.key, request.body.value, request.body.ttlSeconds);
+  });
 
-  app.delete<{ Params: KeyParams }>("/api/v1/mini-kv/:key", async (request) => deps.miniKv.deleteKey(request.params.key));
+  app.delete<{ Params: KeyParams }>("/api/v1/mini-kv/:key", async (request) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "mini-kv");
+    return deps.miniKv.deleteKey(request.params.key);
+  });
 
   app.post<{ Body: RawCommandBody }>("/api/v1/mini-kv/commands", {
     schema: {
@@ -58,6 +70,7 @@ export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRou
       },
     },
   }, async (request) => {
+    assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "mini-kv");
     validateRawGatewayCommand(request.body.command);
     return deps.miniKv.execute(request.body.command);
   });

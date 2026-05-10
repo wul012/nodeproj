@@ -83,8 +83,8 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerDashboardRoutes(app);
   await registerAuditRoutes(app, { auditLog });
   await registerStatusRoutes(app, { config, snapshots });
-  await registerOrderPlatformRoutes(app, { orderPlatform });
-  await registerMiniKvRoutes(app, { miniKv });
+  await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
+  await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });
 
   return app;
 }

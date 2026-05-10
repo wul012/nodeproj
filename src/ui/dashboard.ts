@@ -346,6 +346,27 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid audit-grid">
+      <article class="card">
+        <div class="metric-name">Probe mode</div>
+        <div class="metric-value" id="probeMode">-</div>
+        <div class="muted">UPSTREAM_PROBES_ENABLED</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Action mode</div>
+        <div class="metric-value" id="actionMode">-</div>
+        <div class="muted">UPSTREAM_ACTIONS_ENABLED</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">Order upstream</div>
+        <div class="muted" id="orderUpstream">-</div>
+      </article>
+      <article class="card">
+        <div class="metric-name">mini-kv upstream</div>
+        <div class="muted" id="kvUpstream">-</div>
+      </article>
+    </section>
+
     <section class="grid work-grid">
       <article class="card">
         <h2>Order Platform</h2>
@@ -389,6 +410,7 @@ export function dashboardHtml(): string {
       <div class="row">
         <button class="primary" data-action="auditSummary">Summary</button>
         <button data-action="auditEvents">Recent Events</button>
+        <button data-action="runtimeConfig">Runtime Config</button>
       </div>
     </section>
 
@@ -461,6 +483,15 @@ export function dashboardHtml(): string {
       return summary;
     }
 
+    async function refreshRuntimeConfig() {
+      const config = await api("/api/v1/runtime/config");
+      $("probeMode").textContent = config.safety.upstreamProbesEnabled ? "on" : "off";
+      $("actionMode").textContent = config.safety.upstreamActionsEnabled ? "on" : "off";
+      $("orderUpstream").textContent = config.upstreams.orderPlatformUrl;
+      $("kvUpstream").textContent = config.upstreams.miniKv;
+      return config;
+    }
+
     document.body.addEventListener("click", async (event) => {
       const button = event.target.closest("button[data-action]");
       if (!button) {
@@ -519,6 +550,9 @@ export function dashboardHtml(): string {
           write(await api("/api/v1/audit/events?limit=20"));
           void refreshAudit().catch(() => {});
         }
+        if (action === "runtimeConfig") {
+          write(await refreshRuntimeConfig());
+        }
       } catch (error) {
         write(error);
       } finally {
@@ -536,6 +570,7 @@ export function dashboardHtml(): string {
     }, 5000);
     void refreshStatus().catch(write);
     void refreshAudit().catch(() => {});
+    void refreshRuntimeConfig().catch(() => {});
   </script>
 </body>
 </html>`;

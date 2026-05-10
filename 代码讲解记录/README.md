@@ -36,6 +36,9 @@
 
 07-upstream-probe-safety-v3.md
  -> 第三版上游探测安全开关：UPSTREAM_PROBES_ENABLED、disabled 状态、Dashboard 标识和测试
+
+08-upstream-action-gate-v4.md
+ -> 第四版上游动作闸门：UPSTREAM_ACTIONS_ENABLED、代理路由 403、防误点 Dashboard 和 runtime config
 ```
 
 ## 项目整体理解

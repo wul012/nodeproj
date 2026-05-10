@@ -9,6 +9,7 @@ export interface AppConfig {
   miniKvTimeoutMs: number;
   opsSampleIntervalMs: number;
   upstreamProbesEnabled: boolean;
+  upstreamActionsEnabled: boolean;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -63,5 +64,6 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     miniKvTimeoutMs: readNumber(env, "MINIKV_TIMEOUT_MS", 800),
     opsSampleIntervalMs: readNumber(env, "OPS_SAMPLE_INTERVAL_MS", 2000),
     upstreamProbesEnabled: readBoolean(env, "UPSTREAM_PROBES_ENABLED", false),
+    upstreamActionsEnabled: readBoolean(env, "UPSTREAM_ACTIONS_ENABLED", false),
   };
 }
