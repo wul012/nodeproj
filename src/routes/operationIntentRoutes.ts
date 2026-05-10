@@ -1,13 +1,15 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyReply } from "fastify";
 
 import { AppHttpError } from "../errors.js";
 import { actionKeys } from "../services/actionPlanner.js";
+import { assertMutationAllowed, mutationScope, MutationRateLimiter } from "../services/mutationRateLimiter.js";
 import { OperationIntentStore, operatorRoles } from "../services/operationIntent.js";
 import type { ActionKey, ActionTarget } from "../services/actionPlanner.js";
 import type { ConfirmOperationIntentInput, OperationIntentEventType, OperatorRole } from "../services/operationIntent.js";
 
 interface OperationIntentRouteDeps {
   operationIntents: OperationIntentStore;
+  mutationRateLimiter: MutationRateLimiter;
 }
 
 interface CreateIntentBody {
@@ -125,6 +127,7 @@ export async function registerOperationIntentRoutes(app: FastifyInstance, deps: 
       throw new AppHttpError(400, "IDEMPOTENCY_KEY_MISMATCH", "Header and body idempotency keys must match");
     }
 
+    applyMutationRateLimit(reply, deps.mutationRateLimiter.consume(mutationScope("operation-intents:create", request.body.operatorId)));
     const intent = deps.operationIntents.create({
       ...request.body,
       idempotencyKey: headerKey ?? request.body.idempotencyKey,
@@ -145,5 +148,21 @@ export async function registerOperationIntentRoutes(app: FastifyInstance, deps: 
         additionalProperties: false,
       },
     },
-  }, async (request) => deps.operationIntents.confirm(request.params.intentId, request.body));
+  }, async (request, reply) => {
+    applyMutationRateLimit(reply, deps.mutationRateLimiter.consume(mutationScope("operation-intents:confirm", request.body.operatorId)));
+    return deps.operationIntents.confirm(request.params.intentId, request.body);
+  });
+}
+
+function applyMutationRateLimit(reply: FastifyReply, decision: ReturnType<MutationRateLimiter["consume"]>): void {
+  reply
+    .header("x-mutation-ratelimit-limit", decision.limit)
+    .header("x-mutation-ratelimit-remaining", decision.remaining)
+    .header("x-mutation-ratelimit-reset", decision.resetAt);
+
+  if (!decision.allowed) {
+    reply.header("retry-after", decision.retryAfterSeconds);
+  }
+
+  assertMutationAllowed(decision);
 }

@@ -12,6 +12,8 @@ describe("loadConfig", () => {
     expect(config.miniKvPort).toBe(6379);
     expect(config.upstreamProbesEnabled).toBe(false);
     expect(config.upstreamActionsEnabled).toBe(false);
+    expect(config.mutationRateLimitWindowMs).toBe(60000);
+    expect(config.mutationRateLimitMax).toBe(30);
   });
 
   it("normalizes numeric values and strips the order URL slash", () => {
@@ -22,6 +24,8 @@ describe("loadConfig", () => {
       OPS_SAMPLE_INTERVAL_MS: "1500",
       UPSTREAM_PROBES_ENABLED: "true",
       UPSTREAM_ACTIONS_ENABLED: "on",
+      MUTATION_RATE_LIMIT_WINDOW_MS: "30000",
+      MUTATION_RATE_LIMIT_MAX: "4",
     });
 
     expect(config.port).toBe(4200);
@@ -30,6 +34,8 @@ describe("loadConfig", () => {
     expect(config.opsSampleIntervalMs).toBe(1500);
     expect(config.upstreamProbesEnabled).toBe(true);
     expect(config.upstreamActionsEnabled).toBe(true);
+    expect(config.mutationRateLimitWindowMs).toBe(30000);
+    expect(config.mutationRateLimitMax).toBe(4);
   });
 
   it("parses boolean-style upstream probe flags", () => {

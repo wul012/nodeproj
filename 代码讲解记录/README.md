@@ -54,6 +54,9 @@
 
 13-operation-dispatch-v9.md
  -> 第九版本地 dispatch ledger：confirmed intent 的 dry-run 派发、rejected 记录和 timeline 事件
+
+14-mutation-rate-limit-v10.md
+ -> 第十版本地 mutation 限流：intent/dispatch POST 防重复刷、429 错误、限流 header 和 runtime config
 ```
 
 ## 项目整体理解

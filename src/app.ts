@@ -17,6 +17,7 @@ import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoute
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { AuditLog } from "./services/auditLog.js";
+import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
 import { OperationDispatchLedger } from "./services/operationDispatch.js";
 import { OperationIntentStore } from "./services/operationIntent.js";
@@ -68,6 +69,10 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs);
   const snapshots = new OpsSnapshotService(orderPlatform, miniKv, config.upstreamProbesEnabled);
   const auditLog = new AuditLog();
+  const mutationRateLimiter = new MutationRateLimiter({
+    windowMs: config.mutationRateLimitWindowMs,
+    maxRequests: config.mutationRateLimitMax,
+  });
   const operationIntents = new OperationIntentStore(config);
   const operationDispatches = new OperationDispatchLedger(operationIntents);
   const requestStartTimes = new WeakMap<object, number>();
@@ -90,8 +95,8 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerDashboardRoutes(app);
   await registerAuditRoutes(app, { auditLog });
   await registerActionPlanRoutes(app, { config });
-  await registerOperationIntentRoutes(app, { operationIntents });
-  await registerOperationDispatchRoutes(app, { operationDispatches });
+  await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
+  await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
   await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });

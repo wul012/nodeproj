@@ -23,6 +23,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - In-memory operation intent event feed and per-intent timeline
 - Idempotency-Key support for operation intent creation and duplicate-submit replay
 - In-memory dry-run dispatch ledger for confirmed intents without touching upstreams
+- In-memory mutation rate limiter for intent and dispatch POST operations
 
 ## Setup
 
@@ -44,6 +45,8 @@ $env:ORDER_PLATFORM_URL = "http://localhost:8080"
 $env:MINIKV_PORT = "6379"
 $env:UPSTREAM_PROBES_ENABLED = "true"
 $env:UPSTREAM_ACTIONS_ENABLED = "true"
+$env:MUTATION_RATE_LIMIT_MAX = "30"
+$env:MUTATION_RATE_LIMIT_WINDOW_MS = "60000"
 npm run dev
 ```
 
@@ -100,6 +103,7 @@ POST   /api/v1/mini-kv/commands
 ```
 
 `POST /api/v1/operation-intents` accepts an optional `Idempotency-Key` header. Repeating the same request with the same key returns the original intent with HTTP 200 and `idempotency.reused=true`.
+Mutation POST routes return `429 MUTATION_RATE_LIMITED` when the same actor exceeds `MUTATION_RATE_LIMIT_MAX` within `MUTATION_RATE_LIMIT_WINDOW_MS`.
 
 ## Code Walkthrough
 

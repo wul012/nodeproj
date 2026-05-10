@@ -10,6 +10,8 @@ export interface AppConfig {
   opsSampleIntervalMs: number;
   upstreamProbesEnabled: boolean;
   upstreamActionsEnabled: boolean;
+  mutationRateLimitWindowMs: number;
+  mutationRateLimitMax: number;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -65,5 +67,7 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     opsSampleIntervalMs: readNumber(env, "OPS_SAMPLE_INTERVAL_MS", 2000),
     upstreamProbesEnabled: readBoolean(env, "UPSTREAM_PROBES_ENABLED", false),
     upstreamActionsEnabled: readBoolean(env, "UPSTREAM_ACTIONS_ENABLED", false),
+    mutationRateLimitWindowMs: readNumber(env, "MUTATION_RATE_LIMIT_WINDOW_MS", 60000),
+    mutationRateLimitMax: readNumber(env, "MUTATION_RATE_LIMIT_MAX", 30),
   };
 }

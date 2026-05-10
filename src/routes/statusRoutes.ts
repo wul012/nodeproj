@@ -29,6 +29,10 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       orderPlatformUrl: deps.config.orderPlatformUrl,
       miniKv: `${deps.config.miniKvHost}:${deps.config.miniKvPort}`,
     },
+    mutationRateLimit: {
+      windowMs: deps.config.mutationRateLimitWindowMs,
+      maxRequests: deps.config.mutationRateLimitMax,
+    },
     opsSampleIntervalMs: deps.config.opsSampleIntervalMs,
   }));
 
