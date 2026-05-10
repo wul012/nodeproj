@@ -632,6 +632,75 @@ export interface OpsPromotionHandoffClosure {
   nextActions: string[];
 }
 
+export interface OpsPromotionHandoffClosureVerificationItem {
+  name: OpsPromotionHandoffClosureItemName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  digestMatches: boolean;
+  closureDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+}
+
+export interface OpsPromotionHandoffClosureVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  closureDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedClosureDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    closureDigestValid: boolean;
+    coveredFieldsMatch: boolean;
+    closureItemsValid: boolean;
+    closureNameMatches: boolean;
+    receiptNameMatches: boolean;
+    certificateNameMatches: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    receiptDigestMatches: boolean;
+    verifiedReceiptDigestMatches: boolean;
+    certificateDigestMatches: boolean;
+    verifiedCertificateDigestMatches: boolean;
+    packageDigestMatches: boolean;
+    verifiedPackageDigestMatches: boolean;
+    sealDigestMatches: boolean;
+    decisionMatches: boolean;
+    verificationMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    closureItemCount: number;
+    handoffReady: boolean;
+  };
+  closureItems: OpsPromotionHandoffClosureVerificationItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -1583,6 +1652,112 @@ export function createOpsPromotionHandoffClosure(input: {
   };
 }
 
+export function createOpsPromotionHandoffClosureVerification(input: {
+  receipt: OpsPromotionHandoffReceipt;
+  receiptVerification: OpsPromotionHandoffReceiptVerification;
+  closure: OpsPromotionHandoffClosure;
+}): OpsPromotionHandoffClosureVerification {
+  const expectedClosure = createOpsPromotionHandoffClosure({
+    receipt: input.receipt,
+    receiptVerification: input.receiptVerification,
+  });
+  const recomputedClosureDigest = digestStable(archiveHandoffClosureDigestPayload({
+    closureName: input.closure.closureName,
+    receiptName: input.closure.receiptName,
+    certificateName: input.closure.certificateName,
+    packageName: input.closure.packageName,
+    archiveName: input.closure.archiveName,
+    valid: input.closure.valid,
+    state: input.closure.state,
+    handoffReady: input.closure.handoffReady,
+    receiptDigest: input.closure.receiptDigest.value,
+    verifiedReceiptDigest: input.closure.verifiedReceiptDigest.value,
+    certificateDigest: input.closure.certificateDigest.value,
+    verifiedCertificateDigest: input.closure.verifiedCertificateDigest.value,
+    packageDigest: input.closure.packageDigest.value,
+    verifiedPackageDigest: input.closure.verifiedPackageDigest.value,
+    sealDigest: input.closure.sealDigest.value,
+    decision: input.closure.decision,
+    verification: input.closure.verification,
+    closureItems: input.closure.closureItems,
+    nextActions: input.closure.nextActions,
+  }));
+  const closureItemChecks = input.closure.closureItems.map((item) => {
+    const expected = expectedClosure.closureItems.find((candidate) => candidate.name === item.name);
+    const validMatches = expected?.valid === item.valid;
+    const sourceMatches = expected?.source === item.source;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: item.name }) };
+    const digestMatches = item.digest.value === expectedDigest.value;
+
+    return {
+      name: item.name,
+      valid: expected !== undefined && validMatches && sourceMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      digestMatches,
+      closureDigest: { ...item.digest },
+      recomputedDigest: expectedDigest,
+      source: item.source,
+    };
+  });
+  const checks = {
+    closureDigestValid: input.closure.closureDigest.value === recomputedClosureDigest,
+    coveredFieldsMatch: stableJson(input.closure.closureDigest.coveredFields)
+      === stableJson(expectedClosure.closureDigest.coveredFields),
+    closureItemsValid: closureItemChecks.length === expectedClosure.closureItems.length
+      && closureItemChecks.every((item) => item.valid),
+    closureNameMatches: input.closure.closureName === expectedClosure.closureName,
+    receiptNameMatches: input.closure.receiptName === expectedClosure.receiptName,
+    certificateNameMatches: input.closure.certificateName === expectedClosure.certificateName,
+    packageNameMatches: input.closure.packageName === expectedClosure.packageName,
+    archiveNameMatches: input.closure.archiveName === expectedClosure.archiveName,
+    validMatches: input.closure.valid === expectedClosure.valid,
+    stateMatches: input.closure.state === expectedClosure.state,
+    handoffReadyMatches: input.closure.handoffReady === expectedClosure.handoffReady,
+    receiptDigestMatches: input.closure.receiptDigest.value === expectedClosure.receiptDigest.value,
+    verifiedReceiptDigestMatches: input.closure.verifiedReceiptDigest.value === expectedClosure.verifiedReceiptDigest.value,
+    certificateDigestMatches: input.closure.certificateDigest.value === expectedClosure.certificateDigest.value,
+    verifiedCertificateDigestMatches: input.closure.verifiedCertificateDigest.value === expectedClosure.verifiedCertificateDigest.value,
+    packageDigestMatches: input.closure.packageDigest.value === expectedClosure.packageDigest.value,
+    verifiedPackageDigestMatches: input.closure.verifiedPackageDigest.value === expectedClosure.verifiedPackageDigest.value,
+    sealDigestMatches: input.closure.sealDigest.value === expectedClosure.sealDigest.value,
+    decisionMatches: stableJson(input.closure.decision) === stableJson(expectedClosure.decision),
+    verificationMatches: stableJson(input.closure.verification) === stableJson(expectedClosure.verification),
+    nextActionsMatch: stableJson(input.closure.nextActions) === stableJson(expectedClosure.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    closureName: input.closure.closureName,
+    receiptName: input.closure.receiptName,
+    certificateName: input.closure.certificateName,
+    packageName: input.closure.packageName,
+    archiveName: input.closure.archiveName,
+    valid,
+    state: input.closure.state,
+    handoffReady: input.closure.handoffReady,
+    closureDigest: {
+      algorithm: "sha256",
+      value: input.closure.closureDigest.value,
+    },
+    recomputedClosureDigest: {
+      algorithm: "sha256",
+      value: recomputedClosureDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.closure.decision.totalDecisions,
+      latestDecisionId: input.closure.decision.latestDecisionId,
+      closureItemCount: closureItemChecks.length,
+      handoffReady: input.closure.handoffReady,
+    },
+    closureItems: closureItemChecks,
+    nextActions: archiveHandoffClosureVerificationNextActions(checks, input.closure),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -1872,6 +2047,69 @@ export function renderOpsPromotionHandoffClosureMarkdown(closure: OpsPromotionHa
     "## Next Actions",
     "",
     ...closure.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionHandoffClosureVerificationMarkdown(
+  verification: OpsPromotionHandoffClosureVerification,
+): string {
+  const lines = [
+    "# Promotion handoff closure verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Closure name: ${verification.closureName}`,
+    `- Receipt name: ${verification.receiptName}`,
+    `- Certificate name: ${verification.certificateName}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Closure digest: ${verification.closureDigest.algorithm}:${verification.closureDigest.value}`,
+    `- Recomputed closure digest: ${verification.recomputedClosureDigest.algorithm}:${verification.recomputedClosureDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Closure digest valid: ${verification.checks.closureDigestValid}`,
+    `- Covered fields match: ${verification.checks.coveredFieldsMatch}`,
+    `- Closure items valid: ${verification.checks.closureItemsValid}`,
+    `- Closure name matches: ${verification.checks.closureNameMatches}`,
+    `- Receipt name matches: ${verification.checks.receiptNameMatches}`,
+    `- Certificate name matches: ${verification.checks.certificateNameMatches}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Receipt digest matches: ${verification.checks.receiptDigestMatches}`,
+    `- Verified receipt digest matches: ${verification.checks.verifiedReceiptDigestMatches}`,
+    `- Certificate digest matches: ${verification.checks.certificateDigestMatches}`,
+    `- Verified certificate digest matches: ${verification.checks.verifiedCertificateDigestMatches}`,
+    `- Package digest matches: ${verification.checks.packageDigestMatches}`,
+    `- Verified package digest matches: ${verification.checks.verifiedPackageDigestMatches}`,
+    `- Seal digest matches: ${verification.checks.sealDigestMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Verification matches: ${verification.checks.verificationMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Closure Items",
+    "",
+    ...renderHandoffClosureVerificationItems(verification.closureItems),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Closure item count: ${verification.summary.closureItemCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -2783,6 +3021,41 @@ function archiveHandoffClosureNextActions(
   return receiptVerification.nextActions;
 }
 
+function archiveHandoffClosureVerificationNextActions(
+  checks: OpsPromotionHandoffClosureVerification["checks"],
+  closure: OpsPromotionHandoffClosure,
+): string[] {
+  if (!checks.closureDigestValid) {
+    return ["Regenerate the handoff closure before trusting this closure digest."];
+  }
+
+  if (!checks.closureItemsValid) {
+    return ["Review handoff closure items before marking the promotion handoff closed."];
+  }
+
+  if (
+    !checks.receiptDigestMatches
+    || !checks.verifiedReceiptDigestMatches
+    || !checks.certificateDigestMatches
+    || !checks.verifiedCertificateDigestMatches
+    || !checks.packageDigestMatches
+    || !checks.verifiedPackageDigestMatches
+    || !checks.sealDigestMatches
+  ) {
+    return ["Recreate the handoff closure from the latest verified receipt chain."];
+  }
+
+  if (!checks.decisionMatches || !checks.verificationMatches || !checks.nextActionsMatch || !checks.validMatches) {
+    return ["Reissue the handoff closure from the latest closure inputs."];
+  }
+
+  if (closure.handoffReady) {
+    return ["Handoff closure verification is complete; store the verified closure digest with the final handoff record."];
+  }
+
+  return closure.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -3044,6 +3317,21 @@ function renderHandoffClosureItems(items: OpsPromotionHandoffClosureItem[]): str
     "",
     `- Valid: ${item.valid}`,
     `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
+    `- Source: ${item.source}`,
+    "",
+  ]);
+}
+
+function renderHandoffClosureVerificationItems(items: OpsPromotionHandoffClosureVerificationItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Valid matches: ${item.validMatches}`,
+    `- Source matches: ${item.sourceMatches}`,
+    `- Digest matches: ${item.digestMatches}`,
+    `- Closure digest: ${item.closureDigest.algorithm}:${item.closureDigest.value}`,
+    `- Recomputed digest: ${item.recomputedDigest.algorithm}:${item.recomputedDigest.value}`,
     `- Source: ${item.source}`,
     "",
   ]);
