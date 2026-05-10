@@ -96,6 +96,9 @@
 
 27-ops-promotion-integrity-report-v23.md
  -> 第二十三版本地 promotion integrity report：把 ledger integrity 渲染成 Markdown，方便人工审阅和归档
+
+28-ops-promotion-archive-bundle-v24.md
+ -> 第二十四版本地 promotion archive bundle：把最新 evidence 和 ledger integrity 汇总成 JSON/Markdown 归档包
 ```
 
 ## 项目整体理解

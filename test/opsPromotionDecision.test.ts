@@ -274,6 +274,89 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds a promotion archive bundle as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const empty = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "archive-reviewer",
+          note: "build archive bundle",
+        },
+      });
+      const jsonBundle = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive",
+      });
+      const markdownBundle = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive?format=markdown",
+      });
+
+      expect(empty.statusCode).toBe(200);
+      expect(empty.json()).toMatchObject({
+        service: "orderops-node",
+        state: "empty",
+        summary: {
+          totalDecisions: 0,
+          integrityValid: true,
+          sequenceOrder: "empty",
+        },
+        nextActions: ["Record a promotion decision before building an archive bundle."],
+      });
+      expect(empty.json().archiveName).toMatch(/^promotion-archive-[a-f0-9]{12}$/);
+      expect(empty.json().summary.integrityRootDigest).toMatch(/^[a-f0-9]{64}$/);
+      expect(decision.statusCode).toBe(201);
+      expect(jsonBundle.statusCode).toBe(200);
+      expect(jsonBundle.json()).toMatchObject({
+        service: "orderops-node",
+        state: "attention-required",
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestSequence: 1,
+          latestOutcome: "blocked",
+          latestReadyForPromotion: false,
+          latestDigestValid: true,
+          integrityValid: true,
+          sequenceOrder: "contiguous",
+        },
+        latestEvidence: {
+          decisionId: decision.json().id,
+          verdict: "verified-blocked",
+          summary: {
+            digest: decision.json().digest.value,
+            digestValid: true,
+          },
+        },
+        integrity: {
+          valid: true,
+          totalRecords: 1,
+        },
+      });
+      expect(jsonBundle.json().archiveName).toMatch(/^promotion-archive-[a-f0-9]{12}$/);
+      expect(jsonBundle.json().summary.integrityRootDigest).toBe(jsonBundle.json().integrity.rootDigest.value);
+      expect(jsonBundle.json().nextActions.length).toBeGreaterThan(0);
+      expect(markdownBundle.statusCode).toBe(200);
+      expect(markdownBundle.headers["content-type"]).toContain("text/markdown");
+      expect(markdownBundle.body).toContain("# Promotion archive bundle");
+      expect(markdownBundle.body).toContain("- State: attention-required");
+      expect(markdownBundle.body).toContain(`- Archive name: ${jsonBundle.json().archiveName}`);
+      expect(markdownBundle.body).toContain(`- Integrity root digest: sha256:${jsonBundle.json().summary.integrityRootDigest}`);
+      expect(markdownBundle.body).toContain("## Latest Decision Evidence");
+      expect(markdownBundle.body).toContain(`- Decision id: ${decision.json().id}`);
+      expect(markdownBundle.body).toContain("## Ledger Integrity");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

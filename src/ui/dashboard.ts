@@ -489,6 +489,8 @@ export function dashboardHtml(): string {
         <button data-action="opsPromotionEvidence">Evidence Report</button>
         <button data-action="opsPromotionIntegrity">Ledger Integrity</button>
         <button data-action="opsPromotionIntegrityReport">Integrity Report</button>
+        <button data-action="opsPromotionArchive">Archive Bundle</button>
+        <button data-action="opsPromotionArchiveReport">Archive Report</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -786,6 +788,16 @@ export function dashboardHtml(): string {
         }
         if (action === "opsPromotionIntegrityReport") {
           const response = await fetch("/api/v1/ops/promotion-decisions/integrity?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "opsPromotionArchive") {
+          write(await api("/api/v1/ops/promotion-archive"));
+        }
+        if (action === "opsPromotionArchiveReport") {
+          const response = await fetch("/api/v1/ops/promotion-archive?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }

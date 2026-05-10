@@ -8,6 +8,7 @@ import { createOpsBaselineStatus, OpsBaselineStore } from "../services/opsBaseli
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
+import { createOpsPromotionArchiveBundle, renderOpsPromotionArchiveMarkdown } from "../services/opsPromotionArchiveBundle.js";
 import { OpsPromotionDecisionLedger, renderOpsPromotionDecisionLedgerIntegrityMarkdown } from "../services/opsPromotionDecision.js";
 import { createOpsPromotionEvidenceReport, renderOpsPromotionEvidenceMarkdown } from "../services/opsPromotionEvidenceReport.js";
 import { createOpsPromotionReview } from "../services/opsPromotionReview.js";
@@ -33,6 +34,10 @@ interface OpsHandoffReportQuery {
 }
 
 interface OpsRunbookQuery {
+  format?: "json" | "markdown";
+}
+
+interface OpsPromotionArchiveQuery {
   format?: "json" | "markdown";
 }
 
@@ -84,6 +89,26 @@ interface OpsCheckpointParams {
 export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): Promise<void> {
   app.get("/api/v1/ops/summary", async () => createOpsSummary(deps));
   app.get("/api/v1/ops/readiness", async () => createOpsReadiness(createOpsSummary(deps)));
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const bundle = createPromotionArchiveBundle(deps);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionArchiveMarkdown(bundle);
+    }
+
+    return bundle;
+  });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);
   });
@@ -338,5 +363,21 @@ function createPromotionReview(deps: OpsSummaryRouteDeps) {
     readiness,
     runbook: createOpsRunbook(summary, readiness),
     baseline: createBaselineStatus(deps),
+  });
+}
+
+function createPromotionArchiveBundle(deps: OpsSummaryRouteDeps) {
+  const integrity = deps.opsPromotionDecisions.integrity();
+  const latestDecision = deps.opsPromotionDecisions.list(1)[0];
+  const latestEvidence = latestDecision === undefined
+    ? undefined
+    : createOpsPromotionEvidenceReport({
+      decision: deps.opsPromotionDecisions.get(latestDecision.id),
+      verification: deps.opsPromotionDecisions.verify(latestDecision.id),
+    });
+
+  return createOpsPromotionArchiveBundle({
+    integrity,
+    latestEvidence,
   });
 }
