@@ -1959,6 +1959,130 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds promotion release evidence as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyEvidence = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "release-evidence-reviewer",
+          note: "build release evidence",
+        },
+      });
+      const evidence = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence?format=markdown",
+      });
+
+      expect(emptyEvidence.statusCode).toBe(200);
+      expect(emptyEvidence.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          completionVerified: true,
+          completionDigestValid: true,
+          completionStepsValid: true,
+          closureReferenceValid: true,
+          closeoutReady: false,
+          completionStepCount: 5,
+          evidenceItemCount: 5,
+        },
+      });
+      expect(emptyEvidence.json().evidenceName).toMatch(/^promotion-release-evidence-[a-f0-9]{12}$/);
+      expect(emptyEvidence.json().evidenceDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyEvidence.json().evidenceDigest.coveredFields).toEqual([
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "completionDigest",
+        "verifiedCompletionDigest",
+        "closureDigest",
+        "verifiedClosureDigest",
+        "decision",
+        "verification",
+        "evidenceItems",
+        "nextActions",
+      ]);
+      expect(emptyEvidence.json().completionDigest.value).toBe(emptyEvidence.json().verifiedCompletionDigest.value);
+      expect(emptyEvidence.json().closureDigest.value).toBe(emptyEvidence.json().verifiedClosureDigest.value);
+      expect(emptyEvidence.json().evidenceItems.map((item: { name: string }) => item.name)).toEqual([
+        "handoff-completion",
+        "verified-handoff-completion",
+        "handoff-closure",
+        "verified-handoff-closure",
+        "final-closeout-state",
+      ]);
+      expect(emptyEvidence.json().evidenceItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(evidence.statusCode).toBe(200);
+      expect(evidence.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          completionVerified: true,
+          completionDigestValid: true,
+          completionStepsValid: true,
+          closureReferenceValid: true,
+          closeoutReady: false,
+          completionStepCount: 5,
+          evidenceItemCount: 5,
+        },
+      });
+      expect(evidence.json().evidenceName).toMatch(/^promotion-release-evidence-[a-f0-9]{12}$/);
+      expect(evidence.json().evidenceDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(evidence.json().completionDigest.value).toBe(evidence.json().verifiedCompletionDigest.value);
+      expect(evidence.json().closureDigest.value).toBe(evidence.json().verifiedClosureDigest.value);
+      expect(evidence.json().evidenceItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(evidence.json().evidenceItems[1]).toMatchObject({
+        name: "verified-handoff-completion",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/handoff-completion/verification",
+      });
+      expect(evidence.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion release evidence");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Evidence digest: sha256:${evidence.json().evidenceDigest.value}`);
+      expect(markdown.body).toContain("- Closeout ready: false");
+      expect(markdown.body).toContain("## Evidence Items");
+      expect(markdown.body).toContain("### verified-handoff-completion");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -2113,6 +2237,14 @@ describe("ops promotion decision routes", () => {
       const handoffCompletionVerificationReport = await app.inject({
         method: "GET",
         url: "/api/v1/ops/promotion-archive/handoff-completion/verification?format=markdown",
+      });
+      const releaseEvidence = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence",
+      });
+      const releaseEvidenceReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence?format=markdown",
       });
 
       expect(decision.statusCode).toBe(201);
@@ -2548,6 +2680,43 @@ describe("ops promotion decision routes", () => {
       expect(handoffCompletionVerificationReport.body).toContain("# Promotion handoff completion verification");
       expect(handoffCompletionVerificationReport.body).toContain("- Handoff ready: true");
       expect(handoffCompletionVerificationReport.body).toContain("- Completion digest valid: true");
+      expect(releaseEvidence.statusCode).toBe(200);
+      expect(releaseEvidence.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "approved",
+        },
+        verification: {
+          completionVerified: true,
+          completionDigestValid: true,
+          completionStepsValid: true,
+          closureReferenceValid: true,
+          closeoutReady: true,
+          completionStepCount: 5,
+          evidenceItemCount: 5,
+        },
+      });
+      expect(releaseEvidence.json().evidenceDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(releaseEvidence.json().completionDigest.value).toBe(releaseEvidence.json().verifiedCompletionDigest.value);
+      expect(releaseEvidence.json().closureDigest.value).toBe(releaseEvidence.json().verifiedClosureDigest.value);
+      expect(releaseEvidence.json().evidenceItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(releaseEvidence.json().evidenceItems[4]).toMatchObject({
+        name: "final-closeout-state",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/handoff-completion/verification",
+      });
+      expect(releaseEvidence.json().nextActions).toEqual([
+        "Release evidence is ready; store the evidence digest with the final release archive.",
+      ]);
+      expect(releaseEvidenceReport.statusCode).toBe(200);
+      expect(releaseEvidenceReport.headers["content-type"]).toContain("text/markdown");
+      expect(releaseEvidenceReport.body).toContain("# Promotion release evidence");
+      expect(releaseEvidenceReport.body).toContain("- Handoff ready: true");
+      expect(releaseEvidenceReport.body).toContain("- Closeout ready: true");
+      expect(releaseEvidenceReport.body).toContain(`- Evidence digest: sha256:${releaseEvidence.json().evidenceDigest.value}`);
     } finally {
       await app.close();
     }

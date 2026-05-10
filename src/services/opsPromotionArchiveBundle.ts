@@ -829,6 +829,72 @@ export interface OpsPromotionHandoffCompletionVerification {
   nextActions: string[];
 }
 
+export type OpsPromotionReleaseEvidenceItemName =
+  | "handoff-completion"
+  | "verified-handoff-completion"
+  | "handoff-closure"
+  | "verified-handoff-closure"
+  | "final-closeout-state";
+
+export interface OpsPromotionReleaseEvidenceItem {
+  name: OpsPromotionReleaseEvidenceItemName;
+  valid: boolean;
+  source: string;
+  digest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  detail: string;
+}
+
+export interface OpsPromotionReleaseEvidence {
+  service: "orderops-node";
+  generatedAt: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  evidenceDigest: {
+    algorithm: "sha256";
+    value: string;
+    coveredFields: string[];
+  };
+  completionDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  verifiedCompletionDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  closureDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  verifiedClosureDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  decision: OpsPromotionHandoffCompletion["decision"];
+  verification: {
+    completionVerified: boolean;
+    completionDigestValid: boolean;
+    completionStepsValid: boolean;
+    closureReferenceValid: boolean;
+    closeoutReady: boolean;
+    completionStepCount: number;
+    evidenceItemCount: number;
+  };
+  evidenceItems: OpsPromotionReleaseEvidenceItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -2079,6 +2145,110 @@ export function createOpsPromotionHandoffCompletionVerification(input: {
   };
 }
 
+export function createOpsPromotionReleaseEvidence(input: {
+  completion: OpsPromotionHandoffCompletion;
+  completionVerification: OpsPromotionHandoffCompletionVerification;
+}): OpsPromotionReleaseEvidence {
+  const evidenceName = `promotion-release-evidence-${input.completionVerification.recomputedCompletionDigest.value.slice(0, 12)}`;
+  const evidenceItems = archiveReleaseEvidenceItems(input.completion, input.completionVerification);
+  const closureReferenceValid = input.completionVerification.checks.closureDigestMatches
+    && input.completionVerification.checks.verifiedClosureDigestMatches;
+  const verification = {
+    completionVerified: input.completionVerification.valid,
+    completionDigestValid: input.completionVerification.checks.completionDigestValid,
+    completionStepsValid: input.completionVerification.checks.completionStepsValid,
+    closureReferenceValid,
+    closeoutReady: input.completionVerification.summary.closeoutReady,
+    completionStepCount: input.completionVerification.summary.completionStepCount,
+    evidenceItemCount: evidenceItems.length,
+  };
+  const valid = input.completion.valid
+    && input.completionVerification.valid
+    && input.completion.completionDigest.value === input.completionVerification.recomputedCompletionDigest.value
+    && evidenceItems.every((item) => item.valid);
+  const handoffReady = valid && input.completion.handoffReady && input.completionVerification.handoffReady;
+  const nextActions = archiveReleaseEvidenceNextActions(input.completionVerification, valid, handoffReady);
+  const digestPayload = archiveReleaseEvidenceDigestPayload({
+    evidenceName,
+    completionName: input.completion.completionName,
+    closureName: input.completion.closureName,
+    receiptName: input.completion.receiptName,
+    certificateName: input.completion.certificateName,
+    packageName: input.completion.packageName,
+    archiveName: input.completion.archiveName,
+    valid,
+    state: input.completion.state,
+    handoffReady,
+    completionDigest: input.completion.completionDigest.value,
+    verifiedCompletionDigest: input.completionVerification.recomputedCompletionDigest.value,
+    closureDigest: input.completion.closureDigest.value,
+    verifiedClosureDigest: input.completion.verifiedClosureDigest.value,
+    decision: input.completion.decision,
+    verification,
+    evidenceItems,
+    nextActions,
+  });
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    evidenceName,
+    completionName: input.completion.completionName,
+    closureName: input.completion.closureName,
+    receiptName: input.completion.receiptName,
+    certificateName: input.completion.certificateName,
+    packageName: input.completion.packageName,
+    archiveName: input.completion.archiveName,
+    valid,
+    state: input.completion.state,
+    handoffReady,
+    evidenceDigest: {
+      algorithm: "sha256",
+      value: digestStable(digestPayload),
+      coveredFields: [
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "completionDigest",
+        "verifiedCompletionDigest",
+        "closureDigest",
+        "verifiedClosureDigest",
+        "decision",
+        "verification",
+        "evidenceItems",
+        "nextActions",
+      ],
+    },
+    completionDigest: {
+      algorithm: "sha256",
+      value: input.completion.completionDigest.value,
+    },
+    verifiedCompletionDigest: {
+      algorithm: "sha256",
+      value: input.completionVerification.recomputedCompletionDigest.value,
+    },
+    closureDigest: {
+      algorithm: "sha256",
+      value: input.completion.closureDigest.value,
+    },
+    verifiedClosureDigest: {
+      algorithm: "sha256",
+      value: input.completion.verifiedClosureDigest.value,
+    },
+    decision: input.completion.decision,
+    verification,
+    evidenceItems,
+    nextActions,
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -2541,6 +2711,58 @@ export function renderOpsPromotionHandoffCompletionVerificationMarkdown(
     "## Next Actions",
     "",
     ...verification.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionReleaseEvidenceMarkdown(evidence: OpsPromotionReleaseEvidence): string {
+  const lines = [
+    "# Promotion release evidence",
+    "",
+    `- Service: ${evidence.service}`,
+    `- Generated at: ${evidence.generatedAt}`,
+    `- Evidence name: ${evidence.evidenceName}`,
+    `- Completion name: ${evidence.completionName}`,
+    `- Closure name: ${evidence.closureName}`,
+    `- Receipt name: ${evidence.receiptName}`,
+    `- Certificate name: ${evidence.certificateName}`,
+    `- Package name: ${evidence.packageName}`,
+    `- Archive name: ${evidence.archiveName}`,
+    `- State: ${evidence.state}`,
+    `- Valid: ${evidence.valid}`,
+    `- Handoff ready: ${evidence.handoffReady}`,
+    `- Evidence digest: ${evidence.evidenceDigest.algorithm}:${evidence.evidenceDigest.value}`,
+    `- Completion digest: ${evidence.completionDigest.algorithm}:${evidence.completionDigest.value}`,
+    `- Verified completion digest: ${evidence.verifiedCompletionDigest.algorithm}:${evidence.verifiedCompletionDigest.value}`,
+    `- Closure digest: ${evidence.closureDigest.algorithm}:${evidence.closureDigest.value}`,
+    `- Verified closure digest: ${evidence.verifiedClosureDigest.algorithm}:${evidence.verifiedClosureDigest.value}`,
+    `- Covered fields: ${evidence.evidenceDigest.coveredFields.join(", ")}`,
+    "",
+    "## Decision",
+    "",
+    `- Total decisions: ${evidence.decision.totalDecisions}`,
+    `- Latest decision id: ${evidence.decision.latestDecisionId ?? "none"}`,
+    `- Latest outcome: ${evidence.decision.latestOutcome ?? "none"}`,
+    "",
+    "## Verification",
+    "",
+    `- Completion verified: ${evidence.verification.completionVerified}`,
+    `- Completion digest valid: ${evidence.verification.completionDigestValid}`,
+    `- Completion steps valid: ${evidence.verification.completionStepsValid}`,
+    `- Closure reference valid: ${evidence.verification.closureReferenceValid}`,
+    `- Closeout ready: ${evidence.verification.closeoutReady}`,
+    `- Completion step count: ${evidence.verification.completionStepCount}`,
+    `- Evidence item count: ${evidence.verification.evidenceItemCount}`,
+    "",
+    "## Evidence Items",
+    "",
+    ...renderReleaseEvidenceItems(evidence.evidenceItems),
+    "",
+    "## Next Actions",
+    "",
+    ...evidence.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -3084,6 +3306,54 @@ function archiveHandoffCompletionDigestPayload(input: {
   };
 }
 
+function archiveReleaseEvidenceDigestPayload(input: {
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  completionDigest: string;
+  verifiedCompletionDigest: string;
+  closureDigest: string;
+  verifiedClosureDigest: string;
+  decision: OpsPromotionReleaseEvidence["decision"];
+  verification: OpsPromotionReleaseEvidence["verification"];
+  evidenceItems: OpsPromotionReleaseEvidenceItem[];
+  nextActions: string[];
+}) {
+  return {
+    evidenceName: input.evidenceName,
+    completionName: input.completionName,
+    closureName: input.closureName,
+    receiptName: input.receiptName,
+    certificateName: input.certificateName,
+    packageName: input.packageName,
+    archiveName: input.archiveName,
+    valid: input.valid,
+    state: input.state,
+    handoffReady: input.handoffReady,
+    completionDigest: input.completionDigest,
+    verifiedCompletionDigest: input.verifiedCompletionDigest,
+    closureDigest: input.closureDigest,
+    verifiedClosureDigest: input.verifiedClosureDigest,
+    decision: input.decision,
+    verification: input.verification,
+    evidenceItems: input.evidenceItems.map((item) => ({
+      name: item.name,
+      valid: item.valid,
+      source: item.source,
+      digest: item.digest.value,
+      detail: item.detail,
+    })),
+    nextActions: input.nextActions,
+  };
+}
+
 function archiveHandoffPackageDigestPayload(input: {
   packageName: string;
   archiveName: string;
@@ -3388,6 +3658,72 @@ function archiveHandoffCompletionReferenceChecksValid(
     && closureVerification.checks.sealDigestMatches;
 }
 
+function archiveReleaseEvidenceItems(
+  completion: OpsPromotionHandoffCompletion,
+  completionVerification: OpsPromotionHandoffCompletionVerification,
+): OpsPromotionReleaseEvidenceItem[] {
+  return [
+    {
+      name: "handoff-completion",
+      valid: completion.valid && completionVerification.checks.completionDigestValid,
+      source: "/api/v1/ops/promotion-archive/handoff-completion",
+      digest: {
+        algorithm: "sha256",
+        value: completion.completionDigest.value,
+      },
+      detail: "Final handoff completion record is present and its digest is covered by verification.",
+    },
+    {
+      name: "verified-handoff-completion",
+      valid: completionVerification.valid,
+      source: "/api/v1/ops/promotion-archive/handoff-completion/verification",
+      digest: {
+        algorithm: "sha256",
+        value: completionVerification.recomputedCompletionDigest.value,
+      },
+      detail: "Completion record has been recomputed from the verified closure chain.",
+    },
+    {
+      name: "handoff-closure",
+      valid: completionVerification.checks.closureDigestMatches,
+      source: "/api/v1/ops/promotion-archive/handoff-closure",
+      digest: {
+        algorithm: "sha256",
+        value: completion.closureDigest.value,
+      },
+      detail: "Completion still references the same handoff closure digest.",
+    },
+    {
+      name: "verified-handoff-closure",
+      valid: completionVerification.checks.verifiedClosureDigestMatches,
+      source: "/api/v1/ops/promotion-archive/handoff-closure/verification",
+      digest: {
+        algorithm: "sha256",
+        value: completion.verifiedClosureDigest.value,
+      },
+      detail: "Completion still references the verified closure digest.",
+    },
+    {
+      name: "final-closeout-state",
+      valid: completionVerification.valid
+        && completionVerification.checks.handoffReadyMatches
+        && completion.verification.closeoutReady === completionVerification.summary.closeoutReady,
+      source: "/api/v1/ops/promotion-archive/handoff-completion/verification",
+      digest: {
+        algorithm: "sha256",
+        value: digestStable({
+          state: completion.state,
+          handoffReady: completion.handoffReady,
+          closeoutReady: completion.verification.closeoutReady,
+          verifiedCloseoutReady: completionVerification.summary.closeoutReady,
+          latestDecisionId: completion.decision.latestDecisionId ?? null,
+        }),
+      },
+      detail: "Release evidence records the final handoff readiness and closeout state.",
+    },
+  ];
+}
+
 function archiveVerificationNextActions(
   manifestDigestValid: boolean,
   artifactsValid: boolean,
@@ -3669,6 +4005,26 @@ function archiveHandoffCompletionVerificationNextActions(
   }
 
   return completion.nextActions;
+}
+
+function archiveReleaseEvidenceNextActions(
+  completionVerification: OpsPromotionHandoffCompletionVerification,
+  valid: boolean,
+  handoffReady: boolean,
+): string[] {
+  if (!completionVerification.valid) {
+    return ["Resolve handoff completion verification failures before publishing release evidence."];
+  }
+
+  if (!valid) {
+    return ["Regenerate release evidence after completion and verification agree."];
+  }
+
+  if (handoffReady) {
+    return ["Release evidence is ready; store the evidence digest with the final release archive."];
+  }
+
+  return completionVerification.nextActions;
 }
 
 function archiveAttestationNextActions(
@@ -3979,6 +4335,18 @@ function renderHandoffCompletionVerificationSteps(steps: OpsPromotionHandoffComp
     `- Recomputed digest: ${step.recomputedDigest.algorithm}:${step.recomputedDigest.value}`,
     `- Source: ${step.source}`,
     `- Detail: ${step.detail}`,
+    "",
+  ]);
+}
+
+function renderReleaseEvidenceItems(items: OpsPromotionReleaseEvidenceItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
+    `- Source: ${item.source}`,
+    `- Detail: ${item.detail}`,
     "",
   ]);
 }
