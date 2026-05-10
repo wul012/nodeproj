@@ -1,0 +1,96 @@
+# Advanced Order Platform
+
+一个面向高级 Java 练手的订单交易平台雏形。当前版本先采用模块化单体架构，把核心业务闭环跑通：
+
+- 商品目录查询
+- 库存锁定与扣减
+- 幂等下单
+- 订单支付模拟
+- Outbox 事件表
+- Actuator 健康检查
+- H2 本地快速启动，PostgreSQL 配置预留
+
+## Tech Stack
+
+- Java 21
+- Spring Boot 3.5.9
+- Spring MVC
+- Spring Data JPA
+- Bean Validation
+- H2 / PostgreSQL
+- Maven
+
+## Run
+
+```powershell
+mvn spring-boot:run
+```
+
+默认地址：
+
+```text
+http://localhost:8080
+```
+
+健康检查：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/actuator/health
+```
+
+## API Quick Start
+
+查询商品：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/products
+```
+
+创建订单：
+
+```powershell
+$body = @{
+  customerId = "11111111-1111-1111-1111-111111111111"
+  items = @(
+    @{ productId = 1; quantity = 2 }
+  )
+} | ConvertTo-Json -Depth 5
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri http://localhost:8080/api/v1/orders `
+  -ContentType "application/json" `
+  -Headers @{ "Idempotency-Key" = "demo-order-001" } `
+  -Body $body
+```
+
+支付订单：
+
+```powershell
+Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/pay
+```
+
+查看 Outbox 事件：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/outbox/events
+```
+
+## Architecture Direction
+
+当前代码按业务边界分包：
+
+- `catalog`: 商品目录
+- `inventory`: 库存与并发控制
+- `order`: 订单编排、幂等、防重复提交
+- `outbox`: 事件表，为后续 Kafka/RabbitMQ 做准备
+- `common`: 异常与统一错误响应
+
+后续建议按这个顺序升级：
+
+1. 接入 Redis：缓存商品、热点库存、限流。
+2. 接入 Kafka/RabbitMQ：把 Outbox 发布为真实异步事件。
+3. 增加支付、防欺诈、优惠券模块。
+4. 引入 Testcontainers 做数据库/消息队列集成测试。
+5. 接入 OpenTelemetry、Prometheus、Grafana。
+6. 从模块化单体拆分为订单、库存、支付服务。

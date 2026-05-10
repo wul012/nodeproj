@@ -1,0 +1,12 @@
+target/
+.idea/
+.vscode/
+*.iml
+*.log
+.DS_Store
+tmp/
+.tmp/
+test-output/
+playwright-report/
+__pycache__/
+.pytest_cache/

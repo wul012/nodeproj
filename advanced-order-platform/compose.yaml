@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: advanced-order-postgres
+    environment:
+      POSTGRES_DB: order_platform
+      POSTGRES_USER: order_app
+      POSTGRES_PASSWORD: order_app
+    ports:
+      - "5432:5432"
+    volumes:
+      - order-postgres-data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:7-alpine
+    container_name: advanced-order-redis
+    ports:
+      - "6379:6379"
+
+volumes:
+  order-postgres-data:
