@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>失败事件管理</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23126f8a'/%3E%3Cpath d='M8 9h16v4H8zm0 6h16v4H8zm0 6h10v4H8z' fill='white'/%3E%3C/svg%3E">
+    <link rel="stylesheet" href="/failed-events.css">
+    <script defer src="/failed-events.js"></script>
+</head>
+<body>
+<header class="topbar">
+    <div>
+        <h1>失败事件管理</h1>
+        <p>Advanced Order Platform</p>
+    </div>
+    <div class="topbar-actions">
+        <button id="refreshButton" class="icon-button" type="button" title="刷新">刷新</button>
+        <a class="ghost-link" href="/actuator/health" target="_blank" rel="noreferrer">Health</a>
+    </div>
+</header>
+
+<main class="layout">
+    <section class="panel filter-panel" aria-labelledby="filterTitle">
+        <div class="panel-heading">
+            <h2 id="filterTitle">筛选</h2>
+            <button id="resetButton" class="ghost-button" type="button">重置</button>
+        </div>
+        <div class="filter-grid">
+            <label>
+                <span>消息状态</span>
+                <select id="statusFilter">
+                    <option value="">全部</option>
+                    <option value="RECORDED">RECORDED</option>
+                    <option value="REPLAYED">REPLAYED</option>
+                    <option value="REPLAY_FAILED">REPLAY_FAILED</option>
+                </select>
+            </label>
+            <label>
+                <span>管理状态</span>
+                <select id="managementStatusFilter">
+                    <option value="">全部</option>
+                    <option value="OPEN">OPEN</option>
+                    <option value="INVESTIGATING">INVESTIGATING</option>
+                    <option value="IGNORED">IGNORED</option>
+                    <option value="RESOLVED">RESOLVED</option>
+                </select>
+            </label>
+            <label>
+                <span>事件类型</span>
+                <input id="eventTypeFilter" type="text" placeholder="OrderCreated">
+            </label>
+            <label>
+                <span>聚合类型</span>
+                <input id="aggregateTypeFilter" type="text" placeholder="ORDER">
+            </label>
+            <label>
+                <span>聚合 ID</span>
+                <input id="aggregateIdFilter" type="text" placeholder="404">
+            </label>
+            <label>
+                <span>排序</span>
+                <select id="sortFilter">
+                    <option value="failedAt,desc">failedAt,desc</option>
+                    <option value="managedAt,desc">managedAt,desc</option>
+                    <option value="managementStatus,asc">managementStatus,asc</option>
+                    <option value="eventType,asc">eventType,asc</option>
+                    <option value="aggregateId,asc">aggregateId,asc</option>
+                </select>
+            </label>
+            <label>
+                <span>每页</span>
+                <select id="sizeFilter">
+                    <option value="10">10</option>
+                    <option value="20" selected>20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </label>
+            <label>
+                <span>导出上限</span>
+                <input id="exportLimitInput" type="number" min="1" max="5000" value="1000">
+            </label>
+        </div>
+        <div class="filter-actions">
+            <button id="searchButton" class="primary-button" type="button">查询</button>
+            <button id="exportFailedButton" class="secondary-button" type="button">导出失败事件</button>
+        </div>
+    </section>
+
+    <section class="panel batch-panel" aria-labelledby="batchTitle">
+        <div class="panel-heading">
+            <h2 id="batchTitle">批量标记</h2>
+            <span id="selectedCount" class="counter">0 已选</span>
+        </div>
+        <div class="batch-grid">
+            <label>
+                <span>操作人</span>
+                <input id="operatorIdInput" type="text" value="local-admin">
+            </label>
+            <label>
+                <span>角色</span>
+                <select id="operatorRoleInput">
+                    <option value="SRE">SRE</option>
+                    <option value="ORDER_SUPPORT">ORDER_SUPPORT</option>
+                    <option value="SYSTEM">SYSTEM</option>
+                </select>
+            </label>
+            <label>
+                <span>目标状态</span>
+                <select id="targetManagementStatusInput">
+                    <option value="INVESTIGATING">INVESTIGATING</option>
+                    <option value="RESOLVED">RESOLVED</option>
+                    <option value="IGNORED">IGNORED</option>
+                    <option value="OPEN">OPEN</option>
+                </select>
+            </label>
+            <label class="note-field">
+                <span>备注</span>
+                <textarea id="managementNoteInput" rows="2">triage from management page</textarea>
+            </label>
+            <button id="markButton" class="primary-button" type="button">提交标记</button>
+        </div>
+    </section>
+
+    <section class="content-grid">
+        <section class="panel table-panel" aria-labelledby="tableTitle">
+            <div class="panel-heading">
+                <h2 id="tableTitle">失败事件</h2>
+                <div class="pagination">
+                    <button id="previousPageButton" class="icon-button" type="button" title="上一页">上一页</button>
+                    <span id="pageMeta">0 / 0</span>
+                    <button id="nextPageButton" class="icon-button" type="button" title="下一页">下一页</button>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th class="select-col"><input id="selectAllCheckbox" type="checkbox" aria-label="全选"></th>
+                        <th>ID</th>
+                        <th>事件</th>
+                        <th>聚合</th>
+                        <th>消息状态</th>
+                        <th>管理状态</th>
+                        <th>处理人</th>
+                        <th>失败时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="failedEventsBody">
+                    <tr>
+                        <td colspan="9" class="empty-cell">加载中</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <aside class="panel history-panel" aria-labelledby="historyTitle">
+            <div class="panel-heading">
+                <h2 id="historyTitle">状态流水</h2>
+                <button id="exportHistoryButton" class="secondary-button" type="button">导出流水</button>
+            </div>
+            <div id="historyMeta" class="history-meta">未选择</div>
+            <div id="historyList" class="history-list"></div>
+        </aside>
+    </section>
+</main>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

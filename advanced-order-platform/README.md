@@ -30,6 +30,7 @@
 - 失败事件管理状态和批量标记
 - 失败事件管理状态变更流水查询
 - 失败事件和管理状态流水 CSV 导出
+- 失败事件管理静态页面
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -69,6 +70,12 @@ http://localhost:8080
 
 ```powershell
 Invoke-RestMethod http://localhost:8080/actuator/health
+```
+
+失败事件管理页面：
+
+```text
+http://localhost:8080/failed-events.html
 ```
 
 ## PostgreSQL Run
@@ -360,6 +367,22 @@ limit
  -> 默认 1000，最大 5000
 ```
 
+页面入口：
+
+```text
+http://localhost:8080/failed-events.html
+```
+
+页面能力：
+
+```text
+筛选失败事件
+批量标记管理状态
+查看单条失败事件管理状态流水
+下载失败事件 CSV
+下载管理状态流水 CSV
+```
+
 修复并重放失败事件消息：
 
 ```powershell
@@ -502,12 +525,15 @@ notification
 
 common
  -> 业务异常和统一错误响应
+
+static
+ -> 失败事件管理静态页面、样式和浏览器端交互脚本
 ```
 
 后续建议升级顺序：
 
 1. 给失败事件重放接口接入真实认证鉴权、重放审批和管理端页面。
-2. 给失败事件管理接口增加前端管理页、批量筛选操作和导出下载按钮。
+2. 给失败事件管理页面增加真实登录态、权限控制和重放审批入口。
 3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 4. 接入 OpenTelemetry、Prometheus、Grafana。
 5. 增加并发库存压测和更多 Testcontainers 多中间件集成测试。
