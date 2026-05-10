@@ -36,6 +36,7 @@ export function dashboardHtml(): string {
 
     button,
     input,
+    select,
     textarea {
       font: inherit;
     }
@@ -194,6 +195,7 @@ export function dashboardHtml(): string {
     }
 
     input,
+    select,
     textarea {
       width: 100%;
       border: 1px solid var(--line);
@@ -206,9 +208,15 @@ export function dashboardHtml(): string {
     }
 
     input:focus,
+    select:focus,
     textarea:focus {
       border-color: var(--accent);
       box-shadow: 0 0 0 3px rgba(37, 87, 167, 0.14);
+    }
+
+    select {
+      appearance: none;
+      cursor: pointer;
     }
 
     textarea {
@@ -412,6 +420,23 @@ export function dashboardHtml(): string {
         <button data-action="auditEvents">Recent Events</button>
         <button data-action="runtimeConfig">Runtime Config</button>
       </div>
+      <div class="row">
+        <select id="planAction" aria-label="Action plan">
+          <option value="order-products">Order: list products</option>
+          <option value="order-outbox">Order: list outbox events</option>
+          <option value="order-load">Order: load order</option>
+          <option value="order-create">Order: create order</option>
+          <option value="order-pay">Order: pay order</option>
+          <option value="order-cancel">Order: cancel order</option>
+          <option value="kv-status">mini-kv: ping and size</option>
+          <option value="kv-get">mini-kv: get key</option>
+          <option value="kv-set">mini-kv: set key</option>
+          <option value="kv-delete">mini-kv: delete key</option>
+          <option value="kv-command">mini-kv: raw command</option>
+        </select>
+        <button class="secondary" data-action="planAction">Plan Action</button>
+        <button data-action="planCatalog">Catalog</button>
+      </div>
     </section>
 
     <section class="card" style="margin-top:16px">
@@ -552,6 +577,15 @@ export function dashboardHtml(): string {
         }
         if (action === "runtimeConfig") {
           write(await refreshRuntimeConfig());
+        }
+        if (action === "planAction") {
+          write(await api("/api/v1/action-plans", {
+            method: "POST",
+            body: JSON.stringify({ action: $("planAction").value }),
+          }));
+        }
+        if (action === "planCatalog") {
+          write(await api("/api/v1/action-plans/catalog"));
         }
       } catch (error) {
         write(error);

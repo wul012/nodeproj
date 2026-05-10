@@ -5,7 +5,7 @@ Node.js control plane for two local practice systems:
 - Java order platform: `D:\javaproj\advanced-order-platform`
 - C++ mini-kv: `D:\C\mini-kv`
 
-This V1 is intentionally small. Node owns the gateway, live operations view, and integration shell. The Java service keeps order consistency logic, and mini-kv keeps storage/network internals.
+This project keeps Node as the gateway, live operations view, and integration shell. The Java service keeps order consistency logic, and mini-kv keeps storage/network internals.
 
 ## Features
 
@@ -18,6 +18,7 @@ This V1 is intentionally small. Node owns the gateway, live operations view, and
 - In-memory audit log and request summary endpoints
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
 - Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
+- Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
 
 ## Setup
 
@@ -64,6 +65,8 @@ GET    /health
 GET    /api/v1/sources/status
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
+GET    /api/v1/action-plans/catalog
+POST   /api/v1/action-plans
 GET    /api/v1/audit/events
 GET    /api/v1/audit/summary
 
@@ -91,7 +94,7 @@ The Chinese code walkthrough lives in:
 
 It follows the same style as `mini-kv`: module role, core flow, real code excerpts, then a short summary.
 
-## Next V2 Ideas
+## Next Ideas
 
 - Persist audit logs in PostgreSQL
 - Add login, RBAC, and per-route policies

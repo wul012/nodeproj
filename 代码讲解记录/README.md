@@ -39,6 +39,9 @@
 
 08-upstream-action-gate-v4.md
  -> 第四版上游动作闸门：UPSTREAM_ACTIONS_ENABLED、代理路由 403、防误点 Dashboard 和 runtime config
+
+09-action-planner-v5.md
+ -> 第五版本地动作计划：action catalog、dry-run plan、Dashboard 预检和不触碰上游的测试
 ```
 
 ## 项目整体理解

@@ -8,6 +8,7 @@ import { MiniKvClient } from "./clients/miniKvClient.js";
 import { OrderPlatformClient } from "./clients/orderPlatformClient.js";
 import type { AppConfig } from "./config.js";
 import { isAppHttpError } from "./errors.js";
+import { registerActionPlanRoutes } from "./routes/actionPlanRoutes.js";
 import { registerAuditRoutes } from "./routes/auditRoutes.js";
 import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
@@ -82,6 +83,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
 
   await registerDashboardRoutes(app);
   await registerAuditRoutes(app, { auditLog });
+  await registerActionPlanRoutes(app, { config });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
   await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });
