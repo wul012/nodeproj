@@ -224,6 +224,34 @@ export class OpsPromotionDecisionLedger {
   }
 }
 
+export function renderOpsPromotionDecisionLedgerIntegrityMarkdown(
+  integrity: OpsPromotionDecisionLedgerIntegrity,
+): string {
+  const lines = [
+    "# Promotion decision ledger integrity",
+    "",
+    `- Service: ${integrity.service}`,
+    `- Generated at: ${integrity.generatedAt}`,
+    `- Valid: ${integrity.valid}`,
+    `- Total records: ${integrity.totalRecords}`,
+    `- Sequence range: ${sequenceRange(integrity)}`,
+    `- Root digest: ${integrity.rootDigest.algorithm}:${integrity.rootDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Decision digests valid: ${integrity.checks.digestsValid}`,
+    `- Sequences contiguous: ${integrity.checks.sequencesContiguous}`,
+    `- Sequence order: ${integrity.checks.sequenceOrder}`,
+    "",
+    "## Records",
+    "",
+    ...renderIntegrityRecords(integrity.records),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
 const DIGEST_COVERED_FIELDS = Object.freeze([
   "sequence",
   "createdAt",
@@ -274,6 +302,34 @@ function hasContiguousSequences(records: OpsPromotionDecisionRecord[]): boolean 
   }
 
   return records.every((record, index) => record.sequence === records[0].sequence + index);
+}
+
+function sequenceRange(integrity: OpsPromotionDecisionLedgerIntegrity): string {
+  if (integrity.oldestSequence === undefined || integrity.newestSequence === undefined) {
+    return "empty";
+  }
+
+  return `${integrity.oldestSequence}..${integrity.newestSequence}`;
+}
+
+function renderIntegrityRecords(records: OpsPromotionDecisionLedgerIntegrityRecord[]): string[] {
+  if (records.length === 0) {
+    return ["- No promotion decisions recorded."];
+  }
+
+  return records.flatMap((record) => [
+    `### Decision ${record.sequence}`,
+    "",
+    `- Id: ${record.id}`,
+    `- Outcome: ${record.outcome}`,
+    `- Ready for promotion: ${record.readyForPromotion}`,
+    `- Digest valid: ${record.digestValid}`,
+    `- Stored digest: ${record.storedDigest.value}`,
+    `- Recomputed digest: ${record.recomputedDigest.value}`,
+    `- Previous chain digest: ${record.previousChainDigest ?? "genesis"}`,
+    `- Chain digest: ${record.chainDigest}`,
+    "",
+  ]);
 }
 
 function stableJson(value: unknown): string {

@@ -93,6 +93,9 @@
 
 26-ops-promotion-ledger-integrity-v22.md
  -> 第二十二版本地 promotion ledger integrity：复算所有 decision digest，并生成滚动 ledger root digest
+
+27-ops-promotion-integrity-report-v23.md
+ -> 第二十三版本地 promotion integrity report：把 ledger integrity 渲染成 Markdown，方便人工审阅和归档
 ```
 
 ## 项目整体理解

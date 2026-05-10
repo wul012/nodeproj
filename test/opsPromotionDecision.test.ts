@@ -205,6 +205,10 @@ describe("ops promotion decision routes", () => {
         method: "GET",
         url: "/api/v1/ops/promotion-decisions/integrity",
       });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/integrity?format=markdown",
+      });
 
       expect(empty.statusCode).toBe(200);
       expect(empty.json()).toMatchObject({
@@ -256,6 +260,15 @@ describe("ops promotion decision routes", () => {
         previousChainDigest: integrity.json().records[0].chainDigest,
       });
       expect(integrity.json().records[1].chainDigest).toBe(integrity.json().rootDigest.value);
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion decision ledger integrity");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Root digest: sha256:${integrity.json().rootDigest.value}`);
+      expect(markdown.body).toContain("## Checks");
+      expect(markdown.body).toContain("### Decision 1");
+      expect(markdown.body).toContain("### Decision 2");
+      expect(markdown.body).toContain(`- Previous chain digest: ${integrity.json().records[0].chainDigest}`);
     } finally {
       await app.close();
     }

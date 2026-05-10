@@ -36,6 +36,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion decision digest verification for rechecking recorded evidence before handoff or promotion
 - Local promotion decision evidence report in JSON or Markdown for operator review and archival
 - Local promotion decision ledger integrity check with a rolling SHA-256 root digest
+- Local promotion decision ledger integrity report in Markdown for human review and archival
 
 ## Setup
 
@@ -89,6 +90,7 @@ GET    /api/v1/ops/readiness
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity
+GET    /api/v1/ops/promotion-decisions/integrity?format=markdown
 GET    /api/v1/ops/promotion-decisions/:decisionId/verification
 GET    /api/v1/ops/promotion-decisions/:decisionId/evidence
 GET    /api/v1/ops/promotion-decisions/:decisionId

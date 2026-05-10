@@ -8,7 +8,7 @@ import { createOpsBaselineStatus, OpsBaselineStore } from "../services/opsBaseli
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
-import { OpsPromotionDecisionLedger } from "../services/opsPromotionDecision.js";
+import { OpsPromotionDecisionLedger, renderOpsPromotionDecisionLedgerIntegrityMarkdown } from "../services/opsPromotionDecision.js";
 import { createOpsPromotionEvidenceReport, renderOpsPromotionEvidenceMarkdown } from "../services/opsPromotionEvidenceReport.js";
 import { createOpsPromotionReview } from "../services/opsPromotionReview.js";
 import { createOpsReadiness } from "../services/opsReadiness.js";
@@ -65,6 +65,10 @@ interface ListPromotionDecisionQuery {
   limit?: number;
 }
 
+interface PromotionDecisionIntegrityQuery {
+  format?: "json" | "markdown";
+}
+
 interface PromotionDecisionEvidenceQuery {
   format?: "json" | "markdown";
 }
@@ -96,7 +100,26 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
   }, async (request) => ({
     decisions: deps.opsPromotionDecisions.list(request.query.limit ?? 20),
   }));
-  app.get("/api/v1/ops/promotion-decisions/integrity", async () => deps.opsPromotionDecisions.integrity());
+  app.get<{ Querystring: PromotionDecisionIntegrityQuery }>("/api/v1/ops/promotion-decisions/integrity", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const integrity = deps.opsPromotionDecisions.integrity();
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionDecisionLedgerIntegrityMarkdown(integrity);
+    }
+
+    return integrity;
+  });
   app.get<{ Params: PromotionDecisionParams }>("/api/v1/ops/promotion-decisions/:decisionId/verification", async (request) =>
     deps.opsPromotionDecisions.verify(request.params.decisionId));
   app.get<{ Params: PromotionDecisionParams; Querystring: PromotionDecisionEvidenceQuery }>(
