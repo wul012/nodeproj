@@ -63,6 +63,12 @@
 
 16-ops-readiness-v12.md
  -> 第十二版本地 readiness gate：基于 ops summary 的 blocker/warning/pass 检查和 Dashboard 就绪度指标
+
+17-ops-handoff-report-v13.md
+ -> 第十三版本地 handoff report：把 sources、summary、readiness、最近操作记录汇总成 JSON/Markdown 交接报告
+
+18-ops-runbook-v14.md
+ -> 第十四版本地 runbook checklist：把 readiness/summary 信号转换成 blocked/todo/done/info 预检步骤
 ```
 
 ## 项目整体理解

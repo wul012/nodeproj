@@ -26,6 +26,8 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
+- Local ops handoff report in JSON or Markdown for debugging, review, and version archives
+- Local ops runbook checklist for turning readiness signals into operator-facing preflight steps
 
 ## Setup
 
@@ -76,6 +78,8 @@ GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
 GET    /api/v1/ops/readiness
+GET    /api/v1/ops/runbook
+GET    /api/v1/ops/handoff-report
 GET    /api/v1/action-plans/catalog
 POST   /api/v1/action-plans
 GET    /api/v1/operation-intents

@@ -476,6 +476,8 @@ export function dashboardHtml(): string {
         <button data-action="runtimeConfig">Runtime Config</button>
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
+        <button data-action="opsRunbook">Runbook</button>
+        <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
         <select id="planAction" aria-label="Action plan">
@@ -688,6 +690,12 @@ export function dashboardHtml(): string {
         }
         if (action === "opsReadiness") {
           write(await refreshOpsReadiness());
+        }
+        if (action === "opsRunbook") {
+          write(await api("/api/v1/ops/runbook"));
+        }
+        if (action === "opsHandoffReport") {
+          write(await api("/api/v1/ops/handoff-report?limit=10"));
         }
         if (action === "planAction") {
           write(await api("/api/v1/action-plans", {

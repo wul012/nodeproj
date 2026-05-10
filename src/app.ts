@@ -98,7 +98,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerActionPlanRoutes(app, { config });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });
-  await registerOpsSummaryRoutes(app, { config, auditLog, operationIntents, operationDispatches });
+  await registerOpsSummaryRoutes(app, { config, auditLog, operationIntents, operationDispatches, snapshots });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
   await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });
