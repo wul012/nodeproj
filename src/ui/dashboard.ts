@@ -463,8 +463,10 @@ export function dashboardHtml(): string {
         <input id="intentId" placeholder="Intent ID">
         <input id="confirmText" placeholder="CONFIRM kv-set">
         <button class="secondary" data-action="confirmIntent">Confirm Intent</button>
+        <button class="primary" data-action="dispatchIntent">Dispatch Dry Run</button>
         <button data-action="intentTimeline">Timeline</button>
         <button data-action="intentEvents">Event Feed</button>
+        <button data-action="listDispatches">Dispatches</button>
       </div>
     </section>
 
@@ -647,11 +649,24 @@ export function dashboardHtml(): string {
             }),
           }));
         }
+        if (action === "dispatchIntent") {
+          write(await api("/api/v1/operation-dispatches", {
+            method: "POST",
+            body: JSON.stringify({
+              intentId: $("intentId").value,
+              requestedBy: $("operatorId").value || "dashboard",
+              mode: "dry-run",
+            }),
+          }));
+        }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));
         }
         if (action === "intentEvents") {
           write(await api("/api/v1/operation-intent-events?limit=30"));
+        }
+        if (action === "listDispatches") {
+          write(await api("/api/v1/operation-dispatches?limit=20"));
         }
       } catch (error) {
         write(error);

@@ -45,6 +45,8 @@ const intentEventTypes = [
   "intent.idempotency_replayed",
   "intent.confirmation.accepted",
   "intent.confirmation.rejected",
+  "intent.dispatch.rejected",
+  "intent.dispatch.dry_run_completed",
   "intent.expired",
 ] as const;
 

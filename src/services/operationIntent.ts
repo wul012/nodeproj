@@ -17,6 +17,8 @@ export type OperationIntentEventType =
   | "intent.idempotency_replayed"
   | "intent.confirmation.accepted"
   | "intent.confirmation.rejected"
+  | "intent.dispatch.rejected"
+  | "intent.dispatch.dry_run_completed"
   | "intent.expired";
 
 export interface OperationIntentInput {
@@ -292,6 +294,16 @@ export class OperationIntentStore {
       intent,
       events: this.listEvents({ intentId, limit }).reverse(),
     };
+  }
+
+  recordDispatchEvent(
+    intentId: string,
+    type: Extract<OperationIntentEventType, "intent.dispatch.rejected" | "intent.dispatch.dry_run_completed">,
+    message: string,
+    details?: Record<string, unknown>,
+  ): void {
+    const intent = this.requireIntent(intentId);
+    this.recordEvent(intent, type, message, details);
   }
 
   private requireIntent(intentId: string): OperationIntent {

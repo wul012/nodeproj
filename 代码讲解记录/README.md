@@ -51,6 +51,9 @@
 
 12-operation-idempotency-v8.md
  -> 第八版操作意图幂等键：Idempotency-Key、重复提交 replay、冲突保护和 timeline 事件
+
+13-operation-dispatch-v9.md
+ -> 第九版本地 dispatch ledger：confirmed intent 的 dry-run 派发、rejected 记录和 timeline 事件
 ```
 
 ## 项目整体理解

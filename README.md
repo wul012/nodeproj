@@ -22,6 +22,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - In-memory operation intent flow with role policy and explicit confirmation text
 - In-memory operation intent event feed and per-intent timeline
 - Idempotency-Key support for operation intent creation and duplicate-submit replay
+- In-memory dry-run dispatch ledger for confirmed intents without touching upstreams
 
 ## Setup
 
@@ -73,9 +74,14 @@ POST   /api/v1/action-plans
 GET    /api/v1/operation-intents
 GET    /api/v1/operation-intents/:intentId
 GET    /api/v1/operation-intents/:intentId/timeline
+GET    /api/v1/operation-intents/:intentId/dispatches
 GET    /api/v1/operation-intent-events
 POST   /api/v1/operation-intents
 POST   /api/v1/operation-intents/:intentId/confirm
+POST   /api/v1/operation-intents/:intentId/dispatch
+GET    /api/v1/operation-dispatches
+GET    /api/v1/operation-dispatches/:dispatchId
+POST   /api/v1/operation-dispatches
 GET    /api/v1/audit/events
 GET    /api/v1/audit/summary
 
