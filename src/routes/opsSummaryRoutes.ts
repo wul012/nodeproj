@@ -18,6 +18,7 @@ import {
   createOpsPromotionHandoffCertificateVerification,
   createOpsPromotionHandoffPackage,
   createOpsPromotionHandoffPackageVerification,
+  createOpsPromotionHandoffReceipt,
   renderOpsPromotionArchiveAttestationMarkdown,
   renderOpsPromotionArchiveAttestationVerificationMarkdown,
   renderOpsPromotionArchiveManifestMarkdown,
@@ -27,6 +28,7 @@ import {
   renderOpsPromotionHandoffCertificateVerificationMarkdown,
   renderOpsPromotionHandoffPackageMarkdown,
   renderOpsPromotionHandoffPackageVerificationMarkdown,
+  renderOpsPromotionHandoffReceiptMarkdown,
 } from "../services/opsPromotionArchiveBundle.js";
 import { OpsPromotionDecisionLedger, renderOpsPromotionDecisionLedgerIntegrityMarkdown } from "../services/opsPromotionDecision.js";
 import { createOpsPromotionEvidenceReport, renderOpsPromotionEvidenceMarkdown } from "../services/opsPromotionEvidenceReport.js";
@@ -404,6 +406,63 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return certificateVerification;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/handoff-receipt", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const bundle = createPromotionArchiveBundle(deps);
+    const manifest = createOpsPromotionArchiveManifest(bundle);
+    const archiveVerification = createOpsPromotionArchiveVerification({ bundle, manifest });
+    const attestation = createOpsPromotionArchiveAttestation({ bundle, manifest, verification: archiveVerification });
+    const attestationVerification = createOpsPromotionArchiveAttestationVerification({
+      bundle,
+      manifest,
+      verification: archiveVerification,
+      attestation,
+    });
+    const handoffPackage = createOpsPromotionHandoffPackage({
+      bundle,
+      manifest,
+      verification: archiveVerification,
+      attestation,
+      attestationVerification,
+    });
+    const handoffPackageVerification = createOpsPromotionHandoffPackageVerification({
+      bundle,
+      manifest,
+      verification: archiveVerification,
+      attestation,
+      attestationVerification,
+      handoffPackage,
+    });
+    const certificate = createOpsPromotionHandoffCertificate({
+      handoffPackage,
+      handoffPackageVerification,
+    });
+    const certificateVerification = createOpsPromotionHandoffCertificateVerification({
+      handoffPackage,
+      handoffPackageVerification,
+      certificate,
+    });
+    const receipt = createOpsPromotionHandoffReceipt({
+      certificate,
+      certificateVerification,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionHandoffReceiptMarkdown(receipt);
+    }
+
+    return receipt;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);

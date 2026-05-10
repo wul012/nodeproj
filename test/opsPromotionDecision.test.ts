@@ -1199,6 +1199,124 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds a promotion handoff receipt as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyReceipt = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-receipt",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "receipt-reviewer",
+          note: "build handoff receipt",
+        },
+      });
+      const receipt = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-receipt",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-receipt?format=markdown",
+      });
+
+      expect(emptyReceipt.statusCode).toBe(200);
+      expect(emptyReceipt.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          certificateVerified: true,
+          certificateDigestValid: true,
+          packageReferenceValid: true,
+          sealReferenceValid: true,
+          attachmentsValid: true,
+          milestoneCount: 5,
+          attachmentCount: 5,
+        },
+      });
+      expect(emptyReceipt.json().receiptName).toMatch(/^promotion-receipt-[a-f0-9]{12}$/);
+      expect(emptyReceipt.json().receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyReceipt.json().receiptDigest.coveredFields).toEqual([
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "certificateDigest",
+        "verifiedCertificateDigest",
+        "packageDigest",
+        "verifiedPackageDigest",
+        "sealDigest",
+        "decision",
+        "verification",
+        "milestones",
+        "nextActions",
+      ]);
+      expect(emptyReceipt.json().certificateDigest.value).toBe(emptyReceipt.json().verifiedCertificateDigest.value);
+      expect(emptyReceipt.json().packageDigest.value).toBe(emptyReceipt.json().verifiedPackageDigest.value);
+      expect(emptyReceipt.json().milestones.map((milestone: { name: string }) => milestone.name)).toEqual([
+        "handoff-package",
+        "verified-handoff-package",
+        "archive-seal",
+        "handoff-certificate",
+        "certificate-verification",
+      ]);
+      expect(emptyReceipt.json().milestones.every((milestone: { valid: boolean }) => milestone.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(receipt.statusCode).toBe(200);
+      expect(receipt.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          certificateVerified: true,
+          certificateDigestValid: true,
+          packageReferenceValid: true,
+          sealReferenceValid: true,
+          attachmentsValid: true,
+          milestoneCount: 5,
+          attachmentCount: 5,
+        },
+      });
+      expect(receipt.json().receiptName).toMatch(/^promotion-receipt-[a-f0-9]{12}$/);
+      expect(receipt.json().receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(receipt.json().certificateDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(receipt.json().certificateDigest.value).toBe(receipt.json().verifiedCertificateDigest.value);
+      expect(receipt.json().packageDigest.value).toBe(receipt.json().verifiedPackageDigest.value);
+      expect(receipt.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(receipt.json().milestones.every((milestone: { valid: boolean }) => milestone.valid)).toBe(true);
+      expect(receipt.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion handoff receipt");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Receipt digest: sha256:${receipt.json().receiptDigest.value}`);
+      expect(markdown.body).toContain("## Milestones");
+      expect(markdown.body).toContain("### certificate-verification");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -1305,6 +1423,14 @@ describe("ops promotion decision routes", () => {
       const handoffCertificateVerificationReport = await app.inject({
         method: "GET",
         url: "/api/v1/ops/promotion-archive/handoff-certificate/verification?format=markdown",
+      });
+      const handoffReceipt = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-receipt",
+      });
+      const handoffReceiptReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-receipt?format=markdown",
       });
 
       expect(decision.statusCode).toBe(201);
@@ -1503,6 +1629,37 @@ describe("ops promotion decision routes", () => {
       expect(handoffCertificateVerificationReport.body).toContain("# Promotion handoff certificate verification");
       expect(handoffCertificateVerificationReport.body).toContain("- Handoff ready: true");
       expect(handoffCertificateVerificationReport.body).toContain("- Certificate digest valid: true");
+      expect(handoffReceipt.statusCode).toBe(200);
+      expect(handoffReceipt.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "approved",
+        },
+        verification: {
+          certificateVerified: true,
+          certificateDigestValid: true,
+          packageReferenceValid: true,
+          sealReferenceValid: true,
+          attachmentsValid: true,
+          milestoneCount: 5,
+          attachmentCount: 5,
+        },
+      });
+      expect(handoffReceipt.json().receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffReceipt.json().certificateDigest.value).toBe(handoffReceipt.json().verifiedCertificateDigest.value);
+      expect(handoffReceipt.json().packageDigest.value).toBe(handoffReceipt.json().verifiedPackageDigest.value);
+      expect(handoffReceipt.json().milestones.every((milestone: { valid: boolean }) => milestone.valid)).toBe(true);
+      expect(handoffReceipt.json().nextActions).toEqual([
+        "Promotion handoff receipt is ready; store the receipt digest with the final handoff record.",
+      ]);
+      expect(handoffReceiptReport.statusCode).toBe(200);
+      expect(handoffReceiptReport.headers["content-type"]).toContain("text/markdown");
+      expect(handoffReceiptReport.body).toContain("# Promotion handoff receipt");
+      expect(handoffReceiptReport.body).toContain("- Handoff ready: true");
+      expect(handoffReceiptReport.body).toContain(`- Receipt digest: sha256:${handoffReceipt.json().receiptDigest.value}`);
     } finally {
       await app.close();
     }
