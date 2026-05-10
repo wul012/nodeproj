@@ -4,6 +4,7 @@ import type { AppConfig } from "../config.js";
 import { AuditLog } from "../services/auditLog.js";
 import { OperationDispatchLedger } from "../services/operationDispatch.js";
 import { OperationIntentStore } from "../services/operationIntent.js";
+import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import { createOpsReadiness } from "../services/opsReadiness.js";
 import { createOpsRunbook, renderOpsRunbookMarkdown } from "../services/opsRunbook.js";
@@ -15,6 +16,7 @@ interface OpsSummaryRouteDeps {
   auditLog: AuditLog;
   operationIntents: OperationIntentStore;
   operationDispatches: OperationDispatchLedger;
+  opsCheckpoints: OpsCheckpointLedger;
   snapshots: OpsSnapshotService;
 }
 
@@ -25,6 +27,19 @@ interface OpsHandoffReportQuery {
 
 interface OpsRunbookQuery {
   format?: "json" | "markdown";
+}
+
+interface CreateOpsCheckpointBody {
+  actor?: string;
+  note?: string;
+}
+
+interface ListOpsCheckpointQuery {
+  limit?: number;
+}
+
+interface OpsCheckpointParams {
+  checkpointId: string;
 }
 
 export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): Promise<void> {
@@ -50,6 +65,46 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return runbook;
+  });
+  app.get<{ Querystring: ListOpsCheckpointQuery }>("/api/v1/ops/checkpoints", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          limit: { type: "integer", minimum: 1, maximum: 100 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => ({
+    checkpoints: deps.opsCheckpoints.list(request.query.limit ?? 20),
+  }));
+  app.get<{ Params: OpsCheckpointParams }>("/api/v1/ops/checkpoints/:checkpointId", async (request) =>
+    deps.opsCheckpoints.get(request.params.checkpointId));
+  app.post<{ Body: CreateOpsCheckpointBody }>("/api/v1/ops/checkpoints", {
+    schema: {
+      body: {
+        type: "object",
+        properties: {
+          actor: { type: "string", minLength: 1, maxLength: 80 },
+          note: { type: "string", minLength: 1, maxLength: 400 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = createOpsSummary(deps);
+    const readiness = createOpsReadiness(summary);
+    const checkpoint = deps.opsCheckpoints.create({
+      actor: request.body?.actor,
+      note: request.body?.note,
+      summary,
+      readiness,
+      runbook: createOpsRunbook(summary, readiness),
+    });
+
+    reply.code(201);
+    return checkpoint;
   });
   app.get<{ Querystring: OpsHandoffReportQuery }>("/api/v1/ops/handoff-report", {
     schema: {

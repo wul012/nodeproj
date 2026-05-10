@@ -69,6 +69,9 @@
 
 18-ops-runbook-v14.md
  -> 第十四版本地 runbook checklist：把 readiness/summary 信号转换成 blocked/todo/done/info 预检步骤
+
+19-ops-checkpoints-v15.md
+ -> 第十五版本地 checkpoint ledger：捕获 summary/readiness/runbook 快照并生成 SHA-256 摘要
 ```
 
 ## 项目整体理解

@@ -477,6 +477,8 @@ export function dashboardHtml(): string {
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
         <button data-action="opsRunbook">Runbook</button>
+        <button data-action="opsCreateCheckpoint">Create Checkpoint</button>
+        <button data-action="opsListCheckpoints">Checkpoints</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -693,6 +695,18 @@ export function dashboardHtml(): string {
         }
         if (action === "opsRunbook") {
           write(await api("/api/v1/ops/runbook"));
+        }
+        if (action === "opsCreateCheckpoint") {
+          write(await api("/api/v1/ops/checkpoints", {
+            method: "POST",
+            body: JSON.stringify({
+              actor: $("operatorId").value || "dashboard",
+              note: $("intentReason").value || "dashboard checkpoint",
+            }),
+          }));
+        }
+        if (action === "opsListCheckpoints") {
+          write(await api("/api/v1/ops/checkpoints?limit=10"));
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));
