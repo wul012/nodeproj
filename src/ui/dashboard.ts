@@ -499,6 +499,8 @@ export function dashboardHtml(): string {
         <button data-action="opsPromotionArchiveAttestationReport">Attestation Report</button>
         <button data-action="opsPromotionArchiveAttestationVerification">Attestation Verification</button>
         <button data-action="opsPromotionArchiveAttestationVerificationReport">Attestation Verification Report</button>
+        <button data-action="opsPromotionHandoffPackage">Handoff Package</button>
+        <button data-action="opsPromotionHandoffPackageReport">Handoff Package Report</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -846,6 +848,16 @@ export function dashboardHtml(): string {
         }
         if (action === "opsPromotionArchiveAttestationVerificationReport") {
           const response = await fetch("/api/v1/ops/promotion-archive/attestation/verification?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "opsPromotionHandoffPackage") {
+          write(await api("/api/v1/ops/promotion-archive/handoff-package"));
+        }
+        if (action === "opsPromotionHandoffPackageReport") {
+          const response = await fetch("/api/v1/ops/promotion-archive/handoff-package?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }

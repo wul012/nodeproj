@@ -757,6 +757,108 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds a promotion handoff package as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyPackage = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-package",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "package-reviewer",
+          note: "build handoff package",
+        },
+      });
+      const handoffPackage = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-package",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-package?format=markdown",
+      });
+
+      expect(emptyPackage.statusCode).toBe(200);
+      expect(emptyPackage.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        summary: {
+          totalDecisions: 0,
+          evidenceSourceCount: 3,
+          attachmentCount: 5,
+        },
+      });
+      expect(emptyPackage.json().packageName).toMatch(/^promotion-handoff-[a-f0-9]{12}$/);
+      expect(emptyPackage.json().packageDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyPackage.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyPackage.json().attachments.map((attachment: { name: string }) => attachment.name)).toEqual([
+        "archive-bundle",
+        "archive-manifest",
+        "archive-verification",
+        "archive-attestation",
+        "attestation-verification",
+      ]);
+      expect(emptyPackage.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(handoffPackage.statusCode).toBe(200);
+      expect(handoffPackage.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+          evidenceSourceCount: 3,
+          attachmentCount: 5,
+        },
+      });
+      expect(handoffPackage.json().packageName).toMatch(/^promotion-handoff-[a-f0-9]{12}$/);
+      expect(handoffPackage.json().packageDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffPackage.json().packageDigest.coveredFields).toEqual([
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "sealDigest",
+        "manifestDigest",
+        "verificationDigest",
+        "summary",
+        "attachments",
+        "nextActions",
+      ]);
+      expect(handoffPackage.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffPackage.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffPackage.json().verificationDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffPackage.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(handoffPackage.json().attachments[4]).toMatchObject({
+        name: "attestation-verification",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/attestation/verification",
+      });
+      expect(handoffPackage.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion handoff package");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Package digest: sha256:${handoffPackage.json().packageDigest.value}`);
+      expect(markdown.body).toContain("## Attachments");
+      expect(markdown.body).toContain("### attestation-verification");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -832,6 +934,14 @@ describe("ops promotion decision routes", () => {
         method: "GET",
         url: "/api/v1/ops/promotion-archive/attestation/verification?format=markdown",
       });
+      const handoffPackage = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-package",
+      });
+      const handoffPackageReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-package?format=markdown",
+      });
 
       expect(decision.statusCode).toBe(201);
       expect(decision.json()).toMatchObject({
@@ -903,6 +1013,28 @@ describe("ops promotion decision routes", () => {
       expect(attestationVerificationReport.headers["content-type"]).toContain("text/markdown");
       expect(attestationVerificationReport.body).toContain("- Handoff ready: true");
       expect(attestationVerificationReport.body).toContain("- Seal digest valid: true");
+      expect(handoffPackage.statusCode).toBe(200);
+      expect(handoffPackage.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        summary: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "approved",
+          evidenceSourceCount: 3,
+          attachmentCount: 5,
+        },
+      });
+      expect(handoffPackage.json().packageDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffPackage.json().attachments.every((attachment: { valid: boolean }) => attachment.valid)).toBe(true);
+      expect(handoffPackage.json().nextActions).toEqual([
+        "Handoff package is ready; share the package digest and verified seal digest with the promotion handoff record.",
+      ]);
+      expect(handoffPackageReport.statusCode).toBe(200);
+      expect(handoffPackageReport.headers["content-type"]).toContain("text/markdown");
+      expect(handoffPackageReport.body).toContain("# Promotion handoff package");
+      expect(handoffPackageReport.body).toContain("- Handoff ready: true");
+      expect(handoffPackageReport.body).toContain(`- Package digest: sha256:${handoffPackage.json().packageDigest.value}`);
     } finally {
       await app.close();
     }

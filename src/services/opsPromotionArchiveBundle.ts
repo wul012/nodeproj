@@ -201,6 +201,59 @@ export interface OpsPromotionArchiveAttestationVerification {
   nextActions: string[];
 }
 
+export type OpsPromotionHandoffPackageAttachmentName =
+  | "archive-bundle"
+  | "archive-manifest"
+  | "archive-verification"
+  | "archive-attestation"
+  | "attestation-verification";
+
+export interface OpsPromotionHandoffPackageAttachment {
+  name: OpsPromotionHandoffPackageAttachmentName;
+  valid: boolean;
+  source: string;
+  digest: {
+    algorithm: "sha256";
+    value: string;
+  };
+}
+
+export interface OpsPromotionHandoffPackage {
+  service: "orderops-node";
+  generatedAt: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  packageDigest: {
+    algorithm: "sha256";
+    value: string;
+    coveredFields: string[];
+  };
+  sealDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  manifestDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  verificationDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    latestOutcome?: OpsPromotionDecision;
+    evidenceSourceCount: number;
+    attachmentCount: number;
+  };
+  attachments: OpsPromotionHandoffPackageAttachment[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -481,6 +534,86 @@ export function createOpsPromotionArchiveAttestationVerification(input: {
   };
 }
 
+export function createOpsPromotionHandoffPackage(input: {
+  bundle: OpsPromotionArchiveBundle;
+  manifest: OpsPromotionArchiveManifest;
+  verification: OpsPromotionArchiveVerification;
+  attestation: OpsPromotionArchiveAttestation;
+  attestationVerification: OpsPromotionArchiveAttestationVerification;
+}): OpsPromotionHandoffPackage {
+  const attachments = archiveHandoffPackageAttachments(input);
+  const valid = input.attestationVerification.valid && attachments.every((attachment) => attachment.valid);
+  const nextActions = archiveHandoffPackageNextActions(input.attestation, input.attestationVerification);
+  const packageName = `promotion-handoff-${input.attestation.sealDigest.value.slice(0, 12)}`;
+  const digestPayload = archiveHandoffPackageDigestPayload({
+    packageName,
+    archiveName: input.bundle.archiveName,
+    valid,
+    state: input.attestation.state,
+    handoffReady: input.attestation.handoffReady,
+    sealDigest: input.attestation.sealDigest.value,
+    manifestDigest: input.manifest.manifestDigest.value,
+    verificationDigest: input.attestation.verificationDigest.value,
+    summary: {
+      totalDecisions: input.bundle.summary.totalDecisions,
+      latestDecisionId: input.bundle.summary.latestDecisionId,
+      latestOutcome: input.bundle.summary.latestOutcome,
+      evidenceSourceCount: input.attestation.evidenceSources.length,
+      attachmentCount: attachments.length,
+    },
+    attachments,
+    nextActions,
+  });
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    packageName,
+    archiveName: input.bundle.archiveName,
+    valid,
+    state: input.attestation.state,
+    handoffReady: input.attestation.handoffReady,
+    packageDigest: {
+      algorithm: "sha256",
+      value: digestStable(digestPayload),
+      coveredFields: [
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "sealDigest",
+        "manifestDigest",
+        "verificationDigest",
+        "summary",
+        "attachments",
+        "nextActions",
+      ],
+    },
+    sealDigest: {
+      algorithm: "sha256",
+      value: input.attestation.sealDigest.value,
+    },
+    manifestDigest: {
+      algorithm: "sha256",
+      value: input.manifest.manifestDigest.value,
+    },
+    verificationDigest: {
+      algorithm: "sha256",
+      value: input.attestation.verificationDigest.value,
+    },
+    summary: {
+      totalDecisions: input.bundle.summary.totalDecisions,
+      latestDecisionId: input.bundle.summary.latestDecisionId,
+      latestOutcome: input.bundle.summary.latestOutcome,
+      evidenceSourceCount: input.attestation.evidenceSources.length,
+      attachmentCount: attachments.length,
+    },
+    attachments,
+    nextActions,
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -508,6 +641,44 @@ export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBun
     "## Next Actions",
     "",
     ...bundle.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionHandoffPackageMarkdown(pkg: OpsPromotionHandoffPackage): string {
+  const lines = [
+    "# Promotion handoff package",
+    "",
+    `- Service: ${pkg.service}`,
+    `- Generated at: ${pkg.generatedAt}`,
+    `- Package name: ${pkg.packageName}`,
+    `- Archive name: ${pkg.archiveName}`,
+    `- State: ${pkg.state}`,
+    `- Valid: ${pkg.valid}`,
+    `- Handoff ready: ${pkg.handoffReady}`,
+    `- Package digest: ${pkg.packageDigest.algorithm}:${pkg.packageDigest.value}`,
+    `- Seal digest: ${pkg.sealDigest.algorithm}:${pkg.sealDigest.value}`,
+    `- Manifest digest: ${pkg.manifestDigest.algorithm}:${pkg.manifestDigest.value}`,
+    `- Verification digest: ${pkg.verificationDigest.algorithm}:${pkg.verificationDigest.value}`,
+    `- Covered fields: ${pkg.packageDigest.coveredFields.join(", ")}`,
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${pkg.summary.totalDecisions}`,
+    `- Latest decision id: ${pkg.summary.latestDecisionId ?? "none"}`,
+    `- Latest outcome: ${pkg.summary.latestOutcome ?? "none"}`,
+    `- Evidence source count: ${pkg.summary.evidenceSourceCount}`,
+    `- Attachment count: ${pkg.summary.attachmentCount}`,
+    "",
+    "## Attachments",
+    "",
+    ...renderHandoffPackageAttachments(pkg.attachments),
+    "",
+    "## Next Actions",
+    "",
+    ...pkg.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -696,6 +867,30 @@ function manifestDigestPayload(input: {
   };
 }
 
+function archiveBundleDigestPayload(bundle: OpsPromotionArchiveBundle) {
+  return {
+    archiveName: bundle.archiveName,
+    state: bundle.state,
+    summary: bundle.summary,
+    latestEvidence: bundle.latestEvidence === undefined
+      ? { present: false }
+      : {
+        decisionId: bundle.latestEvidence.decisionId,
+        sequence: bundle.latestEvidence.sequence,
+        verdict: bundle.latestEvidence.verdict,
+        summary: bundle.latestEvidence.summary,
+        nextActions: bundle.latestEvidence.nextActions,
+      },
+    integrity: {
+      valid: bundle.integrity.valid,
+      totalRecords: bundle.integrity.totalRecords,
+      rootDigest: bundle.integrity.rootDigest.value,
+      checks: bundle.integrity.checks,
+    },
+    nextActions: bundle.nextActions,
+  };
+}
+
 function archiveVerificationDigestPayload(verification: OpsPromotionArchiveVerification) {
   return {
     archiveName: verification.archiveName,
@@ -716,6 +911,22 @@ function archiveVerificationDigestPayload(verification: OpsPromotionArchiveVerif
       recomputedDigest: artifact.recomputedDigest.value,
       source: artifact.source,
     })),
+  };
+}
+
+function archiveAttestationVerificationDigestPayload(verification: OpsPromotionArchiveAttestationVerification) {
+  return {
+    archiveName: verification.archiveName,
+    valid: verification.valid,
+    state: verification.state,
+    handoffReady: verification.handoffReady,
+    sealDigest: verification.sealDigest.value,
+    recomputedSealDigest: verification.recomputedSealDigest.value,
+    verificationDigest: verification.verificationDigest.value,
+    recomputedVerificationDigest: verification.recomputedVerificationDigest.value,
+    checks: verification.checks,
+    summary: verification.summary,
+    nextActions: verification.nextActions,
   };
 }
 
@@ -748,6 +959,92 @@ function archiveAttestationDigestPayload(input: {
     })),
     nextActions: input.nextActions,
   };
+}
+
+function archiveHandoffPackageDigestPayload(input: {
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  sealDigest: string;
+  manifestDigest: string;
+  verificationDigest: string;
+  summary: OpsPromotionHandoffPackage["summary"];
+  attachments: OpsPromotionHandoffPackageAttachment[];
+  nextActions: string[];
+}) {
+  return {
+    packageName: input.packageName,
+    archiveName: input.archiveName,
+    valid: input.valid,
+    state: input.state,
+    handoffReady: input.handoffReady,
+    sealDigest: input.sealDigest,
+    manifestDigest: input.manifestDigest,
+    verificationDigest: input.verificationDigest,
+    summary: input.summary,
+    attachments: input.attachments.map((attachment) => ({
+      name: attachment.name,
+      valid: attachment.valid,
+      source: attachment.source,
+      digest: attachment.digest.value,
+    })),
+    nextActions: input.nextActions,
+  };
+}
+
+function archiveHandoffPackageAttachments(input: {
+  bundle: OpsPromotionArchiveBundle;
+  manifest: OpsPromotionArchiveManifest;
+  verification: OpsPromotionArchiveVerification;
+  attestation: OpsPromotionArchiveAttestation;
+  attestationVerification: OpsPromotionArchiveAttestationVerification;
+}): OpsPromotionHandoffPackageAttachment[] {
+  return [
+    {
+      name: "archive-bundle",
+      valid: input.bundle.summary.integrityValid,
+      source: "/api/v1/ops/promotion-archive",
+      digest: {
+        algorithm: "sha256",
+        value: digestStable(archiveBundleDigestPayload(input.bundle)),
+      },
+    },
+    {
+      name: "archive-manifest",
+      valid: input.verification.checks.manifestDigestValid,
+      source: "/api/v1/ops/promotion-archive/manifest",
+      digest: { ...input.manifest.manifestDigest },
+    },
+    {
+      name: "archive-verification",
+      valid: input.verification.valid,
+      source: "/api/v1/ops/promotion-archive/verification",
+      digest: {
+        algorithm: "sha256",
+        value: input.attestation.verificationDigest.value,
+      },
+    },
+    {
+      name: "archive-attestation",
+      valid: input.attestationVerification.checks.sealDigestValid,
+      source: "/api/v1/ops/promotion-archive/attestation",
+      digest: {
+        algorithm: "sha256",
+        value: input.attestation.sealDigest.value,
+      },
+    },
+    {
+      name: "attestation-verification",
+      valid: input.attestationVerification.valid,
+      source: "/api/v1/ops/promotion-archive/attestation/verification",
+      digest: {
+        algorithm: "sha256",
+        value: digestStable(archiveAttestationVerificationDigestPayload(input.attestationVerification)),
+      },
+    },
+  ];
 }
 
 function archiveVerificationNextActions(
@@ -791,6 +1088,21 @@ function archiveAttestationVerificationNextActions(
   }
 
   return attestation.nextActions;
+}
+
+function archiveHandoffPackageNextActions(
+  attestation: OpsPromotionArchiveAttestation,
+  attestationVerification: OpsPromotionArchiveAttestationVerification,
+): string[] {
+  if (!attestationVerification.valid) {
+    return ["Resolve attestation verification failures before sharing the promotion handoff package."];
+  }
+
+  if (attestation.handoffReady) {
+    return ["Handoff package is ready; share the package digest and verified seal digest with the promotion handoff record."];
+  }
+
+  return attestationVerification.nextActions;
 }
 
 function archiveAttestationNextActions(
@@ -966,6 +1278,17 @@ function renderAttestationEvidenceSources(sources: OpsPromotionArchiveAttestatio
     `- Verified: ${source.verified}`,
     `- Digest: ${source.digest.algorithm}:${source.digest.value}`,
     `- Source: ${source.source}`,
+    "",
+  ]);
+}
+
+function renderHandoffPackageAttachments(attachments: OpsPromotionHandoffPackageAttachment[]): string[] {
+  return attachments.flatMap((attachment) => [
+    `### ${attachment.name}`,
+    "",
+    `- Valid: ${attachment.valid}`,
+    `- Digest: ${attachment.digest.algorithm}:${attachment.digest.value}`,
+    `- Source: ${attachment.source}`,
     "",
   ]);
 }

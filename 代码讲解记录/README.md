@@ -111,6 +111,9 @@
 
 32-ops-promotion-archive-attestation-verification-v28.md
  -> 第二十八版本地 promotion archive attestation verification：复核 seal digest、verification digest 和 handoff seal 一致性
+
+33-ops-promotion-handoff-package-v29.md
+ -> 第二十九版本地 promotion handoff package：汇总归档链路附件、生成 package digest 和 Markdown 交接包
 ```
 
 ## 项目整体理解
