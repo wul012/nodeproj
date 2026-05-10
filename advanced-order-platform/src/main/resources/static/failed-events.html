@@ -63,6 +63,7 @@
                 <select id="sortFilter">
                     <option value="failedAt,desc">failedAt,desc</option>
                     <option value="managedAt,desc">managedAt,desc</option>
+                    <option value="replayCount,desc">replayCount,desc</option>
                     <option value="managementStatus,asc">managementStatus,asc</option>
                     <option value="eventType,asc">eventType,asc</option>
                     <option value="aggregateId,asc">aggregateId,asc</option>
@@ -143,6 +144,7 @@
                         <th>聚合</th>
                         <th>消息状态</th>
                         <th>管理状态</th>
+                        <th>重放</th>
                         <th>处理人</th>
                         <th>失败时间</th>
                         <th>操作</th>
@@ -150,20 +152,75 @@
                     </thead>
                     <tbody id="failedEventsBody">
                     <tr>
-                        <td colspan="9" class="empty-cell">加载中</td>
+                        <td colspan="10" class="empty-cell">加载中</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </section>
 
-        <aside class="panel history-panel" aria-labelledby="historyTitle">
-            <div class="panel-heading">
-                <h2 id="historyTitle">状态流水</h2>
-                <button id="exportHistoryButton" class="secondary-button" type="button">导出流水</button>
-            </div>
-            <div id="historyMeta" class="history-meta">未选择</div>
-            <div id="historyList" class="history-list"></div>
+        <aside class="side-column">
+            <section class="panel replay-panel" aria-labelledby="replayTitle">
+                <div class="panel-heading">
+                    <h2 id="replayTitle">重放工作台</h2>
+                    <button id="refreshAttemptsButton" class="secondary-button" type="button">刷新审计</button>
+                </div>
+                <div id="replayMeta" class="history-meta">未选择</div>
+                <div class="replay-grid">
+                    <label>
+                        <span>操作人</span>
+                        <input id="replayOperatorIdInput" type="text" value="local-admin">
+                    </label>
+                    <label>
+                        <span>角色</span>
+                        <select id="replayOperatorRoleInput">
+                            <option value="SRE">SRE</option>
+                            <option value="ORDER_SUPPORT">ORDER_SUPPORT</option>
+                            <option value="SYSTEM">SYSTEM</option>
+                        </select>
+                    </label>
+                    <label class="note-field">
+                        <span>重放原因</span>
+                        <textarea id="replayReasonInput" rows="2">replay from management page</textarea>
+                    </label>
+                    <label>
+                        <span>覆盖 Event ID</span>
+                        <input id="replayEventIdInput" type="text" placeholder="UUID">
+                    </label>
+                    <label>
+                        <span>覆盖事件类型</span>
+                        <input id="replayEventTypeInput" type="text" placeholder="OrderCreated">
+                    </label>
+                    <label>
+                        <span>覆盖聚合类型</span>
+                        <input id="replayAggregateTypeInput" type="text" placeholder="ORDER">
+                    </label>
+                    <label>
+                        <span>覆盖聚合 ID</span>
+                        <input id="replayAggregateIdInput" type="text" placeholder="404">
+                    </label>
+                    <label class="payload-field">
+                        <span>覆盖 Payload</span>
+                        <textarea id="replayPayloadInput" rows="5" spellcheck="false"></textarea>
+                    </label>
+                </div>
+                <div class="replay-actions">
+                    <button id="replayButton" class="primary-button" type="button">提交重放</button>
+                    <button id="clearReplayOverrideButton" class="ghost-button" type="button">清空覆盖</button>
+                </div>
+                <div id="attemptList" class="attempt-list">
+                    <div class="attempt-item">未选择</div>
+                </div>
+            </section>
+
+            <section class="panel history-panel" aria-labelledby="historyTitle">
+                <div class="panel-heading">
+                    <h2 id="historyTitle">状态流水</h2>
+                    <button id="exportHistoryButton" class="secondary-button" type="button">导出流水</button>
+                </div>
+                <div id="historyMeta" class="history-meta">未选择</div>
+                <div id="historyList" class="history-list"></div>
+            </section>
         </aside>
     </section>
 </main>

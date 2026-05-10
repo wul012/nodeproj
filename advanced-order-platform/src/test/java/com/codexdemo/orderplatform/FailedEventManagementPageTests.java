@@ -21,18 +21,31 @@ class FailedEventManagementPageTests {
                 "/failed-events.js",
                 "exportFailedButton",
                 "exportHistoryButton",
-                "markButton"
+                "markButton",
+                "replayButton",
+                "refreshAttemptsButton",
+                "attemptList",
+                "replayReasonInput"
         );
         assertThat(javascript).contains(
                 "const apiBase = \"/api/v1/failed-events\"",
                 "/management-status",
                 "/management-history",
                 "/management-history/export",
-                "/export"
+                "/replay-attempts",
+                "/replay",
+                "/export",
+                "replayActiveEvent",
+                "loadReplayAttempts",
+                "X-Operator-Id",
+                "reason"
         );
         assertThat(css).contains(
                 ".content-grid",
                 ".table-wrap",
+                ".side-column",
+                ".replay-panel",
+                ".attempt-list",
                 ".history-panel",
                 "@media (max-width: 640px)"
         );
