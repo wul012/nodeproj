@@ -8,6 +8,7 @@ import { createOpsBaselineStatus, OpsBaselineStore } from "../services/opsBaseli
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
+import { createOpsPromotionReview } from "../services/opsPromotionReview.js";
 import { createOpsReadiness } from "../services/opsReadiness.js";
 import { createOpsRunbook, renderOpsRunbookMarkdown } from "../services/opsRunbook.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
@@ -59,6 +60,16 @@ interface OpsCheckpointParams {
 export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): Promise<void> {
   app.get("/api/v1/ops/summary", async () => createOpsSummary(deps));
   app.get("/api/v1/ops/readiness", async () => createOpsReadiness(createOpsSummary(deps)));
+  app.get("/api/v1/ops/promotion-review", async () => {
+    const summary = createOpsSummary(deps);
+    const readiness = createOpsReadiness(summary);
+    return createOpsPromotionReview({
+      summary,
+      readiness,
+      runbook: createOpsRunbook(summary, readiness),
+      baseline: createBaselineStatus(deps),
+    });
+  });
   app.get<{ Querystring: OpsRunbookQuery }>("/api/v1/ops/runbook", {
     schema: {
       querystring: {
@@ -110,13 +121,7 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     deps.opsCheckpoints.get(request.query.targetId),
   ));
   app.get("/api/v1/ops/baseline", async () => {
-    const baseline = deps.opsBaseline.get();
-    const latest = deps.opsCheckpoints.list(1)[0];
-    return createOpsBaselineStatus({
-      baseline,
-      baselineCheckpoint: baseline === undefined ? undefined : deps.opsCheckpoints.get(baseline.checkpointId),
-      latest,
-    });
+    return createBaselineStatus(deps);
   });
   app.put<{ Body: SetOpsBaselineBody }>("/api/v1/ops/baseline", {
     schema: {
@@ -210,5 +215,15 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return report;
+  });
+}
+
+function createBaselineStatus(deps: OpsSummaryRouteDeps) {
+  const baseline = deps.opsBaseline.get();
+  const latest = deps.opsCheckpoints.list(1)[0];
+  return createOpsBaselineStatus({
+    baseline,
+    baselineCheckpoint: baseline === undefined ? undefined : deps.opsCheckpoints.get(baseline.checkpointId),
+    latest,
   });
 }

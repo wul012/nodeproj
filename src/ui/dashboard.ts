@@ -482,6 +482,7 @@ export function dashboardHtml(): string {
         <button data-action="opsDiffCheckpoints">Diff Latest</button>
         <button data-action="opsSetBaseline">Set Baseline</button>
         <button data-action="opsBaseline">Baseline</button>
+        <button data-action="opsPromotionReview">Promotion Review</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -738,6 +739,9 @@ export function dashboardHtml(): string {
         }
         if (action === "opsBaseline") {
           write(await api("/api/v1/ops/baseline"));
+        }
+        if (action === "opsPromotionReview") {
+          write(await api("/api/v1/ops/promotion-review"));
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));

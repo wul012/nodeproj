@@ -31,6 +31,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - In-memory ops checkpoint ledger with SHA-256 digests for capturing local readiness evidence
 - Local ops checkpoint diff for comparing readiness, runbook totals, signals, and step status changes
 - Local ops baseline tracking for comparing the latest checkpoint against a selected checkpoint baseline
+- Local ops promotion review for combining readiness, runbook, checkpoint, and baseline drift into a promotion decision
 
 ## Setup
 
@@ -81,6 +82,7 @@ GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
 GET    /api/v1/ops/readiness
+GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/runbook
 GET    /api/v1/ops/checkpoints
 GET    /api/v1/ops/checkpoints/diff

@@ -78,6 +78,9 @@
 
 21-ops-baseline-v17.md
  -> 第十七版本地 baseline tracking：把 checkpoint 设为基线，并将最新 checkpoint 与基线做 drift 对比
+
+22-ops-promotion-review-v18.md
+ -> 第十八版本地 promotion review：综合 readiness、runbook、checkpoint 和 baseline drift 输出推进决策
 ```
 
 ## 项目整体理解
