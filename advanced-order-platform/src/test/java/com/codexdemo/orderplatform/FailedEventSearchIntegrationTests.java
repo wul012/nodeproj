@@ -3,6 +3,7 @@ package com.codexdemo.orderplatform;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
+import com.codexdemo.orderplatform.common.PagedResponse;
 import com.codexdemo.orderplatform.notification.FailedEventMessage;
 import com.codexdemo.orderplatform.notification.FailedEventMessageRepository;
 import com.codexdemo.orderplatform.notification.FailedEventMessageResponse;
@@ -16,7 +17,6 @@ import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptSearchCr
 import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptStatus;
 import com.codexdemo.orderplatform.notification.ReplayFailedEventRequest;
 import java.time.Instant;
-import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,7 +73,7 @@ class FailedEventSearchIntegrationTests {
         ));
         Instant afterRecords = Instant.now().plusSeconds(5);
 
-        List<FailedEventMessageResponse> orderRecordedMessages = failedEventMessageService.searchFailedMessages(
+        PagedResponse<FailedEventMessageResponse> orderRecordedMessages = failedEventMessageService.searchFailedMessages(
                 new FailedEventMessageSearchCriteria(
                         FailedEventMessageStatus.RECORDED,
                         " OrderCreated ",
@@ -84,7 +84,7 @@ class FailedEventSearchIntegrationTests {
                         10
                 )
         );
-        List<FailedEventMessageResponse> replayedMessages = failedEventMessageService.searchFailedMessages(
+        PagedResponse<FailedEventMessageResponse> replayedMessages = failedEventMessageService.searchFailedMessages(
                 new FailedEventMessageSearchCriteria(
                         FailedEventMessageStatus.REPLAYED,
                         null,
@@ -95,17 +95,41 @@ class FailedEventSearchIntegrationTests {
                         10
                 )
         );
-        List<FailedEventMessageResponse> limitedMessages = failedEventMessageService.searchFailedMessages(
+        PagedResponse<FailedEventMessageResponse> limitedMessages = failedEventMessageService.searchFailedMessages(
                 new FailedEventMessageSearchCriteria(null, null, null, null, null, null, 2)
         );
+        PagedResponse<FailedEventMessageResponse> secondPage = failedEventMessageService.searchFailedMessages(
+                new FailedEventMessageSearchCriteria(
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        1,
+                        1,
+                        "eventType,asc",
+                        null
+                )
+        );
 
-        assertThat(orderRecordedMessages).extracting(FailedEventMessageResponse::id)
+        assertThat(orderRecordedMessages.content()).extracting(FailedEventMessageResponse::id)
                 .containsExactly(recordedOrder.getId());
-        assertThat(replayedMessages).extracting(FailedEventMessageResponse::id)
+        assertThat(replayedMessages.content()).extracting(FailedEventMessageResponse::id)
                 .containsExactly(replayedOrder.getId());
-        assertThat(limitedMessages).hasSize(2);
-        assertThat(limitedMessages).extracting(FailedEventMessageResponse::id)
+        assertThat(limitedMessages.content()).hasSize(2);
+        assertThat(limitedMessages.totalElements()).isEqualTo(3);
+        assertThat(limitedMessages.totalPages()).isEqualTo(2);
+        assertThat(limitedMessages.page()).isZero();
+        assertThat(limitedMessages.size()).isEqualTo(2);
+        assertThat(limitedMessages.sort()).isEqualTo("failedAt,desc");
+        assertThat(limitedMessages.content()).extracting(FailedEventMessageResponse::id)
                 .isSubsetOf(recordedOrder.getId(), replayedOrder.getId(), recordedPayment.getId());
+        assertThat(secondPage.page()).isEqualTo(1);
+        assertThat(secondPage.size()).isEqualTo(1);
+        assertThat(secondPage.totalElements()).isEqualTo(3);
+        assertThat(secondPage.totalPages()).isEqualTo(3);
+        assertThat(secondPage.sort()).isEqualTo("eventType,asc");
     }
 
     @Test
@@ -164,7 +188,7 @@ class FailedEventSearchIntegrationTests {
                 recentAttemptedAt
         ));
 
-        List<FailedEventReplayAttemptResponse> sreAttempts = failedEventMessageService.searchReplayAttempts(
+        PagedResponse<FailedEventReplayAttemptResponse> sreAttempts = failedEventMessageService.searchReplayAttempts(
                 new FailedEventReplayAttemptSearchCriteria(
                         failedMessage.getId(),
                         FailedEventReplayAttemptStatus.SUCCEEDED,
@@ -175,7 +199,7 @@ class FailedEventSearchIntegrationTests {
                         10
                 )
         );
-        List<FailedEventReplayAttemptResponse> supportAttempts = failedEventMessageService.searchReplayAttempts(
+        PagedResponse<FailedEventReplayAttemptResponse> supportAttempts = failedEventMessageService.searchReplayAttempts(
                 new FailedEventReplayAttemptSearchCriteria(
                         failedMessage.getId(),
                         FailedEventReplayAttemptStatus.SKIPPED_ALREADY_REPLAYED,
@@ -187,13 +211,15 @@ class FailedEventSearchIntegrationTests {
                 )
         );
 
-        assertThat(sreAttempts).singleElement().satisfies(attempt -> {
+        assertThat(sreAttempts.content()).singleElement().satisfies(attempt -> {
             assertThat(attempt.failedEventMessageId()).isEqualTo(failedMessage.getId());
             assertThat(attempt.operatorId()).isEqualTo("alice");
             assertThat(attempt.operatorRole()).isEqualTo("SRE");
             assertThat(attempt.status()).isEqualTo(FailedEventReplayAttemptStatus.SUCCEEDED);
         });
-        assertThat(supportAttempts).singleElement().satisfies(attempt -> {
+        assertThat(sreAttempts.totalElements()).isEqualTo(1);
+        assertThat(sreAttempts.sort()).isEqualTo("attemptedAt,desc");
+        assertThat(supportAttempts.content()).singleElement().satisfies(attempt -> {
             assertThat(attempt.operatorId()).isEqualTo("bob");
             assertThat(attempt.operatorRole()).isEqualTo("ORDER_SUPPORT");
             assertThat(attempt.status()).isEqualTo(FailedEventReplayAttemptStatus.SKIPPED_ALREADY_REPLAYED);
@@ -215,6 +241,18 @@ class FailedEventSearchIntegrationTests {
         ));
         assertBadRequest(() -> failedEventMessageService.searchReplayAttempts(
                 new FailedEventReplayAttemptSearchCriteria(null, null, null, null, null, null, 0)
+        ));
+        assertBadRequest(() -> failedEventMessageService.searchFailedMessages(
+                new FailedEventMessageSearchCriteria(null, null, null, null, null, null, -1, 50, null, null)
+        ));
+        assertBadRequest(() -> failedEventMessageService.searchFailedMessages(
+                new FailedEventMessageSearchCriteria(null, null, null, null, null, null, 0, 201, null, null)
+        ));
+        assertBadRequest(() -> failedEventMessageService.searchFailedMessages(
+                new FailedEventMessageSearchCriteria(null, null, null, null, null, null, 0, 50, "messageId,desc", null)
+        ));
+        assertBadRequest(() -> failedEventMessageService.searchReplayAttempts(
+                new FailedEventReplayAttemptSearchCriteria(null, null, null, null, null, null, 0, 50, "operatorRole,sideways", null)
         ));
     }
 

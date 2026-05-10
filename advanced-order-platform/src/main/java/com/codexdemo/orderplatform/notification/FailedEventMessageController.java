@@ -1,5 +1,6 @@
 package com.codexdemo.orderplatform.notification;
 
+import com.codexdemo.orderplatform.common.PagedResponse;
 import java.time.Instant;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,13 +24,16 @@ public class FailedEventMessageController {
     }
 
     @GetMapping
-    public List<FailedEventMessageResponse> searchFailedMessages(
+    public PagedResponse<FailedEventMessageResponse> searchFailedMessages(
             @RequestParam(required = false) FailedEventMessageStatus status,
             @RequestParam(required = false) String eventType,
             @RequestParam(required = false) String aggregateType,
             @RequestParam(required = false) String aggregateId,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedTo,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sort,
             @RequestParam(required = false) Integer limit
     ) {
         return failedEventMessageService.searchFailedMessages(new FailedEventMessageSearchCriteria(
@@ -39,18 +43,24 @@ public class FailedEventMessageController {
                 aggregateId,
                 failedFrom,
                 failedTo,
+                page,
+                size,
+                sort,
                 limit
         ));
     }
 
     @GetMapping("/replay-attempts")
-    public List<FailedEventReplayAttemptResponse> searchReplayAttempts(
+    public PagedResponse<FailedEventReplayAttemptResponse> searchReplayAttempts(
             @RequestParam(required = false) Long failedEventMessageId,
             @RequestParam(required = false) FailedEventReplayAttemptStatus status,
             @RequestParam(required = false) String operatorId,
             @RequestParam(required = false) String operatorRole,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant attemptedFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant attemptedTo,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sort,
             @RequestParam(required = false) Integer limit
     ) {
         return failedEventMessageService.searchReplayAttempts(new FailedEventReplayAttemptSearchCriteria(
@@ -60,6 +70,9 @@ public class FailedEventMessageController {
                 operatorRole,
                 attemptedFrom,
                 attemptedTo,
+                page,
+                size,
+                sort,
                 limit
         ));
     }

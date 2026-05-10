@@ -1,5 +1,6 @@
 package com.codexdemo.orderplatform.notification;
 
+import com.codexdemo.orderplatform.common.PagedResponse;
 import com.codexdemo.orderplatform.outbox.OutboxRabbitMqProperties;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -8,6 +9,7 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.Path;
@@ -16,6 +18,7 @@ import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -27,6 +30,23 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class FailedEventMessageService {
+
+    private static final Map<String, String> FAILED_MESSAGE_SORT_FIELDS = Map.of(
+            "id", "id",
+            "failedAt", "failedAt",
+            "status", "status",
+            "eventType", "eventType",
+            "aggregateId", "aggregateId",
+            "replayCount", "replayCount"
+    );
+
+    private static final Map<String, String> REPLAY_ATTEMPT_SORT_FIELDS = Map.of(
+            "id", "id",
+            "attemptedAt", "attemptedAt",
+            "status", "status",
+            "operatorId", "operatorId",
+            "operatorRole", "operatorRole"
+    );
 
     private final FailedEventMessageRepository failedEventMessageRepository;
 
@@ -70,25 +90,28 @@ public class FailedEventMessageService {
                 null,
                 null,
                 null
-        ));
+        )).content();
     }
 
     @Transactional(readOnly = true)
-    public List<FailedEventMessageResponse> searchFailedMessages(FailedEventMessageSearchCriteria criteria) {
+    public PagedResponse<FailedEventMessageResponse> searchFailedMessages(FailedEventMessageSearchCriteria criteria) {
         FailedEventMessageSearchCriteria normalizedCriteria = criteria == null
                 ? new FailedEventMessageSearchCriteria(null, null, null, null, null, null, null)
                 : criteria;
         validateTimeRange(normalizedCriteria.failedFrom(), normalizedCriteria.failedTo(), "failedFrom", "failedTo");
-        int limit = normalizeSearchLimit(normalizedCriteria.limit());
-        return failedEventMessageRepository
-                .findAll(
-                        failedMessagesMatching(normalizedCriteria),
-                        PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "failedAt", "id"))
-                )
-                .getContent()
-                .stream()
-                .map(FailedEventMessageResponse::from)
-                .toList();
+        NormalizedPageRequest pageRequest = normalizePageRequest(
+                normalizedCriteria.page(),
+                normalizedCriteria.size(),
+                normalizedCriteria.limit(),
+                normalizedCriteria.sort(),
+                FAILED_MESSAGE_SORT_FIELDS,
+                "failedAt,desc"
+        );
+        Page<FailedEventMessage> page = failedEventMessageRepository.findAll(
+                failedMessagesMatching(normalizedCriteria),
+                pageRequest.pageRequest()
+        );
+        return PagedResponse.from(page, FailedEventMessageResponse::from, pageRequest.sort());
     }
 
     @Transactional(readOnly = true)
@@ -104,7 +127,9 @@ public class FailedEventMessageService {
     }
 
     @Transactional(readOnly = true)
-    public List<FailedEventReplayAttemptResponse> searchReplayAttempts(FailedEventReplayAttemptSearchCriteria criteria) {
+    public PagedResponse<FailedEventReplayAttemptResponse> searchReplayAttempts(
+            FailedEventReplayAttemptSearchCriteria criteria
+    ) {
         FailedEventReplayAttemptSearchCriteria normalizedCriteria = criteria == null
                 ? new FailedEventReplayAttemptSearchCriteria(null, null, null, null, null, null, null)
                 : criteria;
@@ -114,16 +139,19 @@ public class FailedEventMessageService {
                 "attemptedFrom",
                 "attemptedTo"
         );
-        int limit = normalizeSearchLimit(normalizedCriteria.limit());
-        return failedEventReplayAttemptRepository
-                .findAll(
-                        replayAttemptsMatching(normalizedCriteria),
-                        PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "attemptedAt", "id"))
-                )
-                .getContent()
-                .stream()
-                .map(FailedEventReplayAttemptResponse::from)
-                .toList();
+        NormalizedPageRequest pageRequest = normalizePageRequest(
+                normalizedCriteria.page(),
+                normalizedCriteria.size(),
+                normalizedCriteria.limit(),
+                normalizedCriteria.sort(),
+                REPLAY_ATTEMPT_SORT_FIELDS,
+                "attemptedAt,desc"
+        );
+        Page<FailedEventReplayAttempt> page = failedEventReplayAttemptRepository.findAll(
+                replayAttemptsMatching(normalizedCriteria),
+                pageRequest.pageRequest()
+        );
+        return PagedResponse.from(page, FailedEventReplayAttemptResponse::from, pageRequest.sort());
     }
 
     @Transactional
@@ -370,20 +398,84 @@ public class FailedEventMessageService {
         return StringUtils.hasText(value) ? value.strip() : null;
     }
 
-    private int normalizeSearchLimit(Integer limit) {
-        if (limit == null) {
+    private NormalizedPageRequest normalizePageRequest(
+            Integer page,
+            Integer size,
+            Integer limit,
+            String sort,
+            Map<String, String> allowedSortFields,
+            String defaultSort
+    ) {
+        int normalizedPage = normalizeSearchPage(page);
+        int normalizedSize = normalizeSearchSize(size, limit);
+        SortInstruction sortInstruction = normalizeSort(sort, allowedSortFields, defaultSort);
+        return new NormalizedPageRequest(
+                PageRequest.of(normalizedPage, normalizedSize, sortInstruction.sort()),
+                sortInstruction.expression()
+        );
+    }
+
+    private int normalizeSearchPage(Integer page) {
+        if (page == null) {
+            return 0;
+        }
+        if (page < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "page must be greater than or equal to 0");
+        }
+        return page;
+    }
+
+    private int normalizeSearchSize(Integer size, Integer limit) {
+        Integer requestedSize = size == null ? limit : size;
+        if (requestedSize == null) {
             return 50;
         }
-        if (limit < 1 || limit > 200) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "limit must be between 1 and 200");
+        if (requestedSize < 1 || requestedSize > 200) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "size must be between 1 and 200");
         }
-        return limit;
+        return requestedSize;
+    }
+
+    private SortInstruction normalizeSort(
+            String sort,
+            Map<String, String> allowedSortFields,
+            String defaultSort
+    ) {
+        String expression = StringUtils.hasText(sort) ? sort.strip() : defaultSort;
+        String[] parts = expression.split(",");
+        if (parts.length < 1 || parts.length > 2) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sort must use field,direction format");
+        }
+        String requestedField = parts[0].strip();
+        String property = allowedSortFields.get(requestedField);
+        if (property == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sort field is not allowed: " + requestedField);
+        }
+        Sort.Direction direction = Sort.Direction.DESC;
+        if (parts.length == 2 && StringUtils.hasText(parts[1])) {
+            try {
+                direction = Sort.Direction.fromString(parts[1].strip());
+            } catch (IllegalArgumentException ex) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "sort direction must be asc or desc", ex);
+            }
+        }
+        Sort sortOrder = Sort.by(direction, property);
+        if (!"id".equals(property)) {
+            sortOrder = sortOrder.and(Sort.by(Sort.Direction.DESC, "id"));
+        }
+        return new SortInstruction(sortOrder, requestedField + "," + direction.name().toLowerCase());
     }
 
     private void validateTimeRange(Instant from, Instant to, String fromName, String toName) {
         if (from != null && to != null && from.isAfter(to)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fromName + " must be before or equal to " + toName);
         }
+    }
+
+    private record NormalizedPageRequest(PageRequest pageRequest, String sort) {
+    }
+
+    private record SortInstruction(Sort sort, String expression) {
     }
 
     private String resolveReplayEventId(FailedEventMessage failedMessage, ReplayFailedEventRequest request) {

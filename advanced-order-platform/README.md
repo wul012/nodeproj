@@ -26,6 +26,7 @@
 - 失败事件重放操作审计查询
 - 失败事件重放角色校验和原因记录
 - 失败事件与重放审计多条件筛选
+- 失败事件查询分页响应和排序白名单
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -252,13 +253,35 @@ Invoke-RestMethod http://localhost:8080/api/v1/failed-events
 按条件查询失败事件消息：
 
 ```powershell
-Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?status=RECORDED&eventType=OrderCreated&aggregateType=ORDER&aggregateId=404&limit=20"
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?status=RECORDED&eventType=OrderCreated&aggregateType=ORDER&aggregateId=404&page=0&size=20&sort=failedAt,desc"
 ```
 
 按时间窗口查询失败事件消息：
 
 ```powershell
 Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?failedFrom=2026-05-10T00:00:00Z&failedTo=2026-05-11T00:00:00Z"
+```
+
+失败事件查询返回分页对象：
+
+```json
+{
+  "content": [],
+  "page": 0,
+  "size": 20,
+  "totalElements": 0,
+  "totalPages": 0,
+  "first": true,
+  "last": true,
+  "empty": true,
+  "sort": "failedAt,desc"
+}
+```
+
+失败事件允许排序字段：
+
+```text
+id, failedAt, status, eventType, aggregateId, replayCount
 ```
 
 修复并重放失败事件消息：
@@ -289,7 +312,13 @@ Invoke-RestMethod http://localhost:8080/api/v1/failed-events/1/replay-attempts
 全局筛选重放审计记录：
 
 ```powershell
-Invoke-RestMethod "http://localhost:8080/api/v1/failed-events/replay-attempts?failedEventMessageId=1&status=SUCCEEDED&operatorRole=SRE&limit=20"
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events/replay-attempts?failedEventMessageId=1&status=SUCCEEDED&operatorRole=SRE&page=0&size=20&sort=attemptedAt,desc"
+```
+
+重放审计允许排序字段：
+
+```text
+id, attemptedAt, status, operatorId, operatorRole
 ```
 
 ## Database Migration
@@ -389,7 +418,7 @@ outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 notification
- -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件筛选查询、重放接口、角色校验和重放审计筛选查询
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件分页筛选查询、重放接口、角色校验和重放审计分页筛选查询
 
 common
  -> 业务异常和统一错误响应
@@ -398,7 +427,7 @@ common
 后续建议升级顺序：
 
 1. 给失败事件重放接口接入真实认证鉴权、重放审批和管理端页面。
-2. 给失败事件查询接口增加分页响应对象、排序字段白名单和前端管理页。
+2. 给失败事件查询接口增加导出、批量标记和前端管理页。
 3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 4. 接入 OpenTelemetry、Prometheus、Grafana。
 5. 增加并发库存压测和更多 Testcontainers 多中间件集成测试。
