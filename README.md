@@ -43,6 +43,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion archive attestation with a sealed handoff digest
 - Local promotion archive attestation verification for rechecking sealed handoff digests
 - Local promotion handoff package with attachment digests and a package digest
+- Local promotion handoff package verification for rechecking package and attachment digests
 
 ## Setup
 
@@ -105,6 +106,8 @@ GET    /api/v1/ops/promotion-archive/attestation/verification
 GET    /api/v1/ops/promotion-archive/attestation/verification?format=markdown
 GET    /api/v1/ops/promotion-archive/handoff-package
 GET    /api/v1/ops/promotion-archive/handoff-package?format=markdown
+GET    /api/v1/ops/promotion-archive/handoff-package/verification
+GET    /api/v1/ops/promotion-archive/handoff-package/verification?format=markdown
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity

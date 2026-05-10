@@ -254,6 +254,63 @@ export interface OpsPromotionHandoffPackage {
   nextActions: string[];
 }
 
+export interface OpsPromotionHandoffPackageVerificationAttachment {
+  name: OpsPromotionHandoffPackageAttachmentName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  digestMatches: boolean;
+  packageDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+}
+
+export interface OpsPromotionHandoffPackageVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  packageDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedPackageDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    packageDigestValid: boolean;
+    attachmentsValid: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    sealDigestMatches: boolean;
+    manifestDigestMatches: boolean;
+    verificationDigestMatches: boolean;
+    summaryMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    attachmentCount: number;
+    handoffReady: boolean;
+  };
+  attachments: OpsPromotionHandoffPackageVerificationAttachment[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -614,6 +671,97 @@ export function createOpsPromotionHandoffPackage(input: {
   };
 }
 
+export function createOpsPromotionHandoffPackageVerification(input: {
+  bundle: OpsPromotionArchiveBundle;
+  manifest: OpsPromotionArchiveManifest;
+  verification: OpsPromotionArchiveVerification;
+  attestation: OpsPromotionArchiveAttestation;
+  attestationVerification: OpsPromotionArchiveAttestationVerification;
+  handoffPackage: OpsPromotionHandoffPackage;
+}): OpsPromotionHandoffPackageVerification {
+  const expectedPackage = createOpsPromotionHandoffPackage({
+    bundle: input.bundle,
+    manifest: input.manifest,
+    verification: input.verification,
+    attestation: input.attestation,
+    attestationVerification: input.attestationVerification,
+  });
+  const recomputedPackageDigest = digestStable(archiveHandoffPackageDigestPayload({
+    packageName: input.handoffPackage.packageName,
+    archiveName: input.handoffPackage.archiveName,
+    valid: input.handoffPackage.valid,
+    state: input.handoffPackage.state,
+    handoffReady: input.handoffPackage.handoffReady,
+    sealDigest: input.handoffPackage.sealDigest.value,
+    manifestDigest: input.handoffPackage.manifestDigest.value,
+    verificationDigest: input.handoffPackage.verificationDigest.value,
+    summary: input.handoffPackage.summary,
+    attachments: input.handoffPackage.attachments,
+    nextActions: input.handoffPackage.nextActions,
+  }));
+  const attachmentChecks = input.handoffPackage.attachments.map((attachment) => {
+    const expected = expectedPackage.attachments.find((candidate) => candidate.name === attachment.name);
+    const validMatches = expected?.valid === attachment.valid;
+    const sourceMatches = expected?.source === attachment.source;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: attachment.name }) };
+    const digestMatches = attachment.digest.value === expectedDigest.value;
+
+    return {
+      name: attachment.name,
+      valid: expected !== undefined && validMatches && sourceMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      digestMatches,
+      packageDigest: { ...attachment.digest },
+      recomputedDigest: expectedDigest,
+      source: attachment.source,
+    };
+  });
+  const checks = {
+    packageDigestValid: input.handoffPackage.packageDigest.value === recomputedPackageDigest,
+    attachmentsValid: attachmentChecks.length === expectedPackage.attachments.length
+      && attachmentChecks.every((attachment) => attachment.valid),
+    packageNameMatches: input.handoffPackage.packageName === expectedPackage.packageName,
+    archiveNameMatches: input.handoffPackage.archiveName === expectedPackage.archiveName,
+    validMatches: input.handoffPackage.valid === expectedPackage.valid,
+    stateMatches: input.handoffPackage.state === expectedPackage.state,
+    handoffReadyMatches: input.handoffPackage.handoffReady === expectedPackage.handoffReady,
+    sealDigestMatches: input.handoffPackage.sealDigest.value === expectedPackage.sealDigest.value,
+    manifestDigestMatches: input.handoffPackage.manifestDigest.value === expectedPackage.manifestDigest.value,
+    verificationDigestMatches: input.handoffPackage.verificationDigest.value === expectedPackage.verificationDigest.value,
+    summaryMatches: stableJson(input.handoffPackage.summary) === stableJson(expectedPackage.summary),
+    nextActionsMatch: stableJson(input.handoffPackage.nextActions) === stableJson(expectedPackage.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    packageName: input.handoffPackage.packageName,
+    archiveName: input.handoffPackage.archiveName,
+    valid,
+    state: input.handoffPackage.state,
+    handoffReady: input.handoffPackage.handoffReady,
+    packageDigest: {
+      algorithm: "sha256",
+      value: input.handoffPackage.packageDigest.value,
+    },
+    recomputedPackageDigest: {
+      algorithm: "sha256",
+      value: recomputedPackageDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.handoffPackage.summary.totalDecisions,
+      latestDecisionId: input.handoffPackage.summary.latestDecisionId,
+      attachmentCount: attachmentChecks.length,
+      handoffReady: input.handoffPackage.handoffReady,
+    },
+    attachments: attachmentChecks,
+    nextActions: archiveHandoffPackageVerificationNextActions(checks, input.handoffPackage),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -641,6 +789,57 @@ export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBun
     "## Next Actions",
     "",
     ...bundle.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionHandoffPackageVerificationMarkdown(
+  verification: OpsPromotionHandoffPackageVerification,
+): string {
+  const lines = [
+    "# Promotion handoff package verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Package digest: ${verification.packageDigest.algorithm}:${verification.packageDigest.value}`,
+    `- Recomputed package digest: ${verification.recomputedPackageDigest.algorithm}:${verification.recomputedPackageDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Package digest valid: ${verification.checks.packageDigestValid}`,
+    `- Attachments valid: ${verification.checks.attachmentsValid}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Seal digest matches: ${verification.checks.sealDigestMatches}`,
+    `- Manifest digest matches: ${verification.checks.manifestDigestMatches}`,
+    `- Verification digest matches: ${verification.checks.verificationDigestMatches}`,
+    `- Summary matches: ${verification.checks.summaryMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Attachments",
+    "",
+    ...renderHandoffPackageVerificationAttachments(verification.attachments),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Attachment count: ${verification.summary.attachmentCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -1105,6 +1304,29 @@ function archiveHandoffPackageNextActions(
   return attestationVerification.nextActions;
 }
 
+function archiveHandoffPackageVerificationNextActions(
+  checks: OpsPromotionHandoffPackageVerification["checks"],
+  handoffPackage: OpsPromotionHandoffPackage,
+): string[] {
+  if (!checks.packageDigestValid) {
+    return ["Regenerate the handoff package before trusting this package digest."];
+  }
+
+  if (!checks.attachmentsValid) {
+    return ["Review handoff package attachments before sharing the promotion handoff package."];
+  }
+
+  if (!checks.summaryMatches || !checks.nextActionsMatch || !checks.validMatches) {
+    return ["Recreate the handoff package from the latest verified archive chain."];
+  }
+
+  if (handoffPackage.handoffReady) {
+    return ["Handoff package verification is complete; share the verified package digest with the promotion handoff record."];
+  }
+
+  return handoffPackage.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -1288,6 +1510,21 @@ function renderHandoffPackageAttachments(attachments: OpsPromotionHandoffPackage
     "",
     `- Valid: ${attachment.valid}`,
     `- Digest: ${attachment.digest.algorithm}:${attachment.digest.value}`,
+    `- Source: ${attachment.source}`,
+    "",
+  ]);
+}
+
+function renderHandoffPackageVerificationAttachments(attachments: OpsPromotionHandoffPackageVerificationAttachment[]): string[] {
+  return attachments.flatMap((attachment) => [
+    `### ${attachment.name}`,
+    "",
+    `- Valid: ${attachment.valid}`,
+    `- Valid matches: ${attachment.validMatches}`,
+    `- Source matches: ${attachment.sourceMatches}`,
+    `- Digest matches: ${attachment.digestMatches}`,
+    `- Package digest: ${attachment.packageDigest.algorithm}:${attachment.packageDigest.value}`,
+    `- Recomputed digest: ${attachment.recomputedDigest.algorithm}:${attachment.recomputedDigest.value}`,
     `- Source: ${attachment.source}`,
     "",
   ]);

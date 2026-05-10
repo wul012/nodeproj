@@ -114,6 +114,9 @@
 
 33-ops-promotion-handoff-package-v29.md
  -> 第二十九版本地 promotion handoff package：汇总归档链路附件、生成 package digest 和 Markdown 交接包
+
+34-ops-promotion-handoff-package-verification-v30.md
+ -> 第三十版本地 promotion handoff package verification：复核 package digest、附件 digest 和交接包一致性
 ```
 
 ## 项目整体理解
