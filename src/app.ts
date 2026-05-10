@@ -13,9 +13,11 @@ import { registerAuditRoutes } from "./routes/auditRoutes.js";
 import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
+import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { AuditLog } from "./services/auditLog.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
+import { OperationIntentStore } from "./services/operationIntent.js";
 
 export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const app = Fastify({
@@ -64,6 +66,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs);
   const snapshots = new OpsSnapshotService(orderPlatform, miniKv, config.upstreamProbesEnabled);
   const auditLog = new AuditLog();
+  const operationIntents = new OperationIntentStore(config);
   const requestStartTimes = new WeakMap<object, number>();
 
   app.addHook("onRequest", async (request) => {
@@ -84,6 +87,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerDashboardRoutes(app);
   await registerAuditRoutes(app, { auditLog });
   await registerActionPlanRoutes(app, { config });
+  await registerOperationIntentRoutes(app, { operationIntents });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
   await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });

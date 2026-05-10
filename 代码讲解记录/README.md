@@ -42,6 +42,9 @@
 
 09-action-planner-v5.md
  -> 第五版本地动作计划：action catalog、dry-run plan、Dashboard 预检和不触碰上游的测试
+
+10-operation-intents-v6.md
+ -> 第六版操作意图流：本地 RBAC、确认短语、intent 状态机和不执行上游的控制面流程
 ```
 
 ## 项目整体理解

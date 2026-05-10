@@ -19,6 +19,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
 - Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
 - Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
+- In-memory operation intent flow with role policy and explicit confirmation text
 
 ## Setup
 
@@ -67,6 +68,10 @@ GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/action-plans/catalog
 POST   /api/v1/action-plans
+GET    /api/v1/operation-intents
+GET    /api/v1/operation-intents/:intentId
+POST   /api/v1/operation-intents
+POST   /api/v1/operation-intents/:intentId/confirm
 GET    /api/v1/audit/events
 GET    /api/v1/audit/summary
 
@@ -97,7 +102,8 @@ It follows the same style as `mini-kv`: module role, core flow, real code excerp
 ## Next Ideas
 
 - Persist audit logs in PostgreSQL
-- Add login, RBAC, and per-route policies
+- Persist operation intents and audit logs in PostgreSQL
+- Add login and bind roles to real users
 - Add rate limits and request signing for gateway calls
 - Store load-test runs and render comparison charts
 - Pull Prometheus/OpenTelemetry data from the Java service

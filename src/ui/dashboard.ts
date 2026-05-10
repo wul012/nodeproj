@@ -189,6 +189,16 @@ export function dashboardHtml(): string {
       margin-bottom: 10px;
     }
 
+    .row input,
+    .row select {
+      flex: 1 1 220px;
+      min-width: 180px;
+    }
+
+    .row button {
+      flex: 0 0 auto;
+    }
+
     .stack {
       display: grid;
       gap: 10px;
@@ -437,6 +447,22 @@ export function dashboardHtml(): string {
         <button class="secondary" data-action="planAction">Plan Action</button>
         <button data-action="planCatalog">Catalog</button>
       </div>
+      <div class="row">
+        <input id="operatorId" placeholder="Operator ID" value="local-dev">
+        <select id="operatorRole" aria-label="Operator role">
+          <option value="admin">admin</option>
+          <option value="operator">operator</option>
+          <option value="viewer">viewer</option>
+        </select>
+        <input id="intentReason" placeholder="Reason" value="local V6 check">
+        <button class="primary" data-action="createIntent">Create Intent</button>
+        <button data-action="listIntents">List Intents</button>
+      </div>
+      <div class="row">
+        <input id="intentId" placeholder="Intent ID">
+        <input id="confirmText" placeholder="CONFIRM kv-set">
+        <button class="secondary" data-action="confirmIntent">Confirm Intent</button>
+      </div>
     </section>
 
     <section class="card" style="margin-top:16px">
@@ -586,6 +612,32 @@ export function dashboardHtml(): string {
         }
         if (action === "planCatalog") {
           write(await api("/api/v1/action-plans/catalog"));
+        }
+        if (action === "createIntent") {
+          const intent = await api("/api/v1/operation-intents", {
+            method: "POST",
+            body: JSON.stringify({
+              action: $("planAction").value,
+              operatorId: $("operatorId").value,
+              role: $("operatorRole").value,
+              reason: $("intentReason").value,
+            }),
+          });
+          $("intentId").value = intent.id;
+          $("confirmText").value = intent.confirmation.requiredText;
+          write(intent);
+        }
+        if (action === "listIntents") {
+          write(await api("/api/v1/operation-intents?limit=20"));
+        }
+        if (action === "confirmIntent") {
+          write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/confirm", {
+            method: "POST",
+            body: JSON.stringify({
+              operatorId: $("operatorId").value,
+              confirmText: $("confirmText").value,
+            }),
+          }));
         }
       } catch (error) {
         write(error);
