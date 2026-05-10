@@ -11,8 +11,10 @@ import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/op
 import {
   createOpsPromotionArchiveBundle,
   createOpsPromotionArchiveManifest,
+  createOpsPromotionArchiveVerification,
   renderOpsPromotionArchiveManifestMarkdown,
   renderOpsPromotionArchiveMarkdown,
+  renderOpsPromotionArchiveVerificationMarkdown,
 } from "../services/opsPromotionArchiveBundle.js";
 import { OpsPromotionDecisionLedger, renderOpsPromotionDecisionLedgerIntegrityMarkdown } from "../services/opsPromotionDecision.js";
 import { createOpsPromotionEvidenceReport, renderOpsPromotionEvidenceMarkdown } from "../services/opsPromotionEvidenceReport.js";
@@ -133,6 +135,30 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return manifest;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const bundle = createPromotionArchiveBundle(deps);
+    const verification = createOpsPromotionArchiveVerification({
+      bundle,
+      manifest: createOpsPromotionArchiveManifest(bundle),
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionArchiveVerificationMarkdown(verification);
+    }
+
+    return verification;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);

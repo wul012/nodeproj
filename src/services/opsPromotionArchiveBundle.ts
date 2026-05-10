@@ -54,6 +54,56 @@ export interface OpsPromotionArchiveManifest {
   nextActions: string[];
 }
 
+export interface OpsPromotionArchiveVerificationArtifact {
+  name: string;
+  type: OpsPromotionArchiveArtifactType;
+  valid: boolean;
+  presentMatches: boolean;
+  sourceMatches: boolean;
+  digestMatches: boolean;
+  manifestDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+}
+
+export interface OpsPromotionArchiveVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveState;
+  manifestDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedManifestDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    manifestDigestValid: boolean;
+    artifactsValid: boolean;
+    archiveNameMatches: boolean;
+    stateMatches: boolean;
+    summaryMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    integrityRootDigest: string;
+    artifactCount: number;
+  };
+  artifacts: OpsPromotionArchiveVerificationArtifact[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -85,19 +135,13 @@ export function createOpsPromotionArchiveBundle(input: {
 
 export function createOpsPromotionArchiveManifest(bundle: OpsPromotionArchiveBundle): OpsPromotionArchiveManifest {
   const artifacts = archiveArtifacts(bundle);
-  const manifestPayload = {
+  const manifestPayload = manifestDigestPayload({
     archiveName: bundle.archiveName,
     state: bundle.state,
     summary: bundle.summary,
-    artifacts: artifacts.map((artifact) => ({
-      name: artifact.name,
-      type: artifact.type,
-      present: artifact.present,
-      digest: artifact.digest.value,
-      source: artifact.source,
-    })),
+    artifacts,
     nextActions: bundle.nextActions,
-  };
+  });
 
   return {
     service: "orderops-node",
@@ -112,6 +156,71 @@ export function createOpsPromotionArchiveManifest(bundle: OpsPromotionArchiveBun
     summary: bundle.summary,
     artifacts,
     nextActions: bundle.nextActions,
+  };
+}
+
+export function createOpsPromotionArchiveVerification(input: {
+  bundle: OpsPromotionArchiveBundle;
+  manifest: OpsPromotionArchiveManifest;
+}): OpsPromotionArchiveVerification {
+  const expectedArtifacts = archiveArtifacts(input.bundle);
+  const artifactChecks = input.manifest.artifacts.map((artifact) => {
+    const expected = expectedArtifacts.find((candidate) => candidate.name === artifact.name);
+    const presentMatches = expected?.present === artifact.present;
+    const sourceMatches = expected?.source === artifact.source;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: artifact.name }) };
+    const digestMatches = artifact.digest.value === expectedDigest.value;
+
+    return {
+      name: artifact.name,
+      type: artifact.type,
+      valid: expected !== undefined && presentMatches && sourceMatches && digestMatches,
+      presentMatches,
+      sourceMatches,
+      digestMatches,
+      manifestDigest: { ...artifact.digest },
+      recomputedDigest: expectedDigest,
+      source: artifact.source,
+    };
+  });
+  const recomputedManifestDigest = digestStable(manifestDigestPayload(input.manifest));
+  const archiveNameMatches = input.manifest.archiveName === input.bundle.archiveName;
+  const stateMatches = input.manifest.state === input.bundle.state;
+  const summaryMatches = stableJson(input.manifest.summary) === stableJson(input.bundle.summary);
+  const nextActionsMatch = stableJson(input.manifest.nextActions) === stableJson(input.bundle.nextActions);
+  const manifestDigestValid = input.manifest.manifestDigest.value === recomputedManifestDigest;
+  const artifactsValid = artifactChecks.length === expectedArtifacts.length && artifactChecks.every((artifact) => artifact.valid);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    archiveName: input.manifest.archiveName,
+    valid: manifestDigestValid && artifactsValid && archiveNameMatches && stateMatches && summaryMatches && nextActionsMatch,
+    state: input.manifest.state,
+    manifestDigest: {
+      algorithm: "sha256",
+      value: input.manifest.manifestDigest.value,
+    },
+    recomputedManifestDigest: {
+      algorithm: "sha256",
+      value: recomputedManifestDigest,
+    },
+    checks: {
+      manifestDigestValid,
+      artifactsValid,
+      archiveNameMatches,
+      stateMatches,
+      summaryMatches,
+      nextActionsMatch,
+    },
+    summary: {
+      totalDecisions: input.manifest.summary.totalDecisions,
+      latestDecisionId: input.manifest.summary.latestDecisionId,
+      integrityRootDigest: input.manifest.summary.integrityRootDigest,
+      artifactCount: artifactChecks.length,
+    },
+    artifacts: artifactChecks,
+    nextActions: archiveVerificationNextActions(manifestDigestValid, artifactsValid, input.manifest),
   };
 }
 
@@ -142,6 +251,40 @@ export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBun
     "## Next Actions",
     "",
     ...bundle.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionArchiveVerificationMarkdown(verification: OpsPromotionArchiveVerification): string {
+  const lines = [
+    "# Promotion archive verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Valid: ${verification.valid}`,
+    `- Manifest digest: ${verification.manifestDigest.algorithm}:${verification.manifestDigest.value}`,
+    `- Recomputed manifest digest: ${verification.recomputedManifestDigest.algorithm}:${verification.recomputedManifestDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Manifest digest valid: ${verification.checks.manifestDigestValid}`,
+    `- Artifacts valid: ${verification.checks.artifactsValid}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Summary matches: ${verification.checks.summaryMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Artifacts",
+    "",
+    ...renderVerificationArtifacts(verification.artifacts),
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -181,6 +324,48 @@ export function renderOpsPromotionArchiveManifestMarkdown(manifest: OpsPromotion
   ];
 
   return lines.join("\n");
+}
+
+function manifestDigestPayload(input: {
+  archiveName: string;
+  state: OpsPromotionArchiveState;
+  summary: OpsPromotionArchiveBundle["summary"];
+  artifacts: OpsPromotionArchiveManifestArtifact[];
+  nextActions: string[];
+}) {
+  return {
+    archiveName: input.archiveName,
+    state: input.state,
+    summary: input.summary,
+    artifacts: input.artifacts.map((artifact) => ({
+      name: artifact.name,
+      type: artifact.type,
+      present: artifact.present,
+      digest: artifact.digest.value,
+      source: artifact.source,
+    })),
+    nextActions: input.nextActions,
+  };
+}
+
+function archiveVerificationNextActions(
+  manifestDigestValid: boolean,
+  artifactsValid: boolean,
+  manifest: OpsPromotionArchiveManifest,
+): string[] {
+  if (!manifestDigestValid) {
+    return ["Regenerate the archive manifest before trusting this archive fingerprint."];
+  }
+
+  if (!artifactsValid) {
+    return ["Review archive manifest artifacts before attaching this archive to a handoff record."];
+  }
+
+  if (manifest.state === "ready") {
+    return ["Archive manifest is verified; keep the manifest digest with the promotion handoff record."];
+  }
+
+  return manifest.nextActions;
 }
 
 function archiveState(
@@ -297,6 +482,22 @@ function renderManifestArtifacts(artifacts: OpsPromotionArchiveManifestArtifact[
     `- Type: ${artifact.type}`,
     `- Present: ${artifact.present}`,
     `- Digest: ${artifact.digest.algorithm}:${artifact.digest.value}`,
+    `- Source: ${artifact.source}`,
+    "",
+  ]);
+}
+
+function renderVerificationArtifacts(artifacts: OpsPromotionArchiveVerificationArtifact[]): string[] {
+  return artifacts.flatMap((artifact) => [
+    `### ${artifact.name}`,
+    "",
+    `- Type: ${artifact.type}`,
+    `- Valid: ${artifact.valid}`,
+    `- Present matches: ${artifact.presentMatches}`,
+    `- Source matches: ${artifact.sourceMatches}`,
+    `- Digest matches: ${artifact.digestMatches}`,
+    `- Manifest digest: ${artifact.manifestDigest.algorithm}:${artifact.manifestDigest.value}`,
+    `- Recomputed digest: ${artifact.recomputedDigest.algorithm}:${artifact.recomputedDigest.value}`,
     `- Source: ${artifact.source}`,
     "",
   ]);

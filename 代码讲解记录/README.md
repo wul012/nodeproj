@@ -102,6 +102,9 @@
 
 29-ops-promotion-archive-manifest-v25.md
  -> 第二十五版本地 promotion archive manifest：为归档包生成 artifact digest 和 manifest digest
+
+30-ops-promotion-archive-verification-v26.md
+ -> 第二十六版本地 promotion archive verification：复核 manifest digest、artifact digest 和归档一致性
 ```
 
 ## 项目整体理解

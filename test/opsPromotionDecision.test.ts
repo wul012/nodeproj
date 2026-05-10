@@ -464,6 +464,101 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies a promotion archive manifest as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "verification-reviewer",
+          note: "verify archive manifest",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "empty",
+        checks: {
+          manifestDigestValid: true,
+          artifactsValid: true,
+          archiveNameMatches: true,
+          stateMatches: true,
+          summaryMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          artifactCount: 3,
+        },
+      });
+      expect(emptyVerification.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyVerification.json().manifestDigest.value).toBe(emptyVerification.json().recomputedManifestDigest.value);
+      expect(emptyVerification.json().artifacts.every((artifact: { valid: boolean }) => artifact.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "attention-required",
+        checks: {
+          manifestDigestValid: true,
+          artifactsValid: true,
+          archiveNameMatches: true,
+          stateMatches: true,
+          summaryMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          artifactCount: 3,
+        },
+      });
+      expect(verification.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(verification.json().manifestDigest.value).toBe(verification.json().recomputedManifestDigest.value);
+      expect(verification.json().summary.integrityRootDigest).toMatch(/^[a-f0-9]{64}$/);
+      expect(verification.json().artifacts.map((artifact: { name: string }) => artifact.name)).toEqual([
+        "archive-summary",
+        "latest-evidence",
+        "ledger-integrity",
+      ]);
+      expect(verification.json().artifacts.every((artifact: { valid: boolean }) => artifact.valid)).toBe(true);
+      expect(verification.json().artifacts.every((artifact: { digestMatches: boolean }) => artifact.digestMatches)).toBe(true);
+      expect(verification.json().artifacts[1]).toMatchObject({
+        name: "latest-evidence",
+        valid: true,
+        source: `/api/v1/ops/promotion-decisions/${decision.json().id}/evidence`,
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion archive verification");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Manifest digest: sha256:${verification.json().manifestDigest.value}`);
+      expect(markdown.body).toContain("## Checks");
+      expect(markdown.body).toContain("### archive-summary");
+      expect(markdown.body).toContain("### latest-evidence");
+      expect(markdown.body).toContain("### ledger-integrity");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
