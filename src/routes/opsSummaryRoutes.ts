@@ -9,6 +9,7 @@ import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import { OpsPromotionDecisionLedger } from "../services/opsPromotionDecision.js";
+import { createOpsPromotionEvidenceReport, renderOpsPromotionEvidenceMarkdown } from "../services/opsPromotionEvidenceReport.js";
 import { createOpsPromotionReview } from "../services/opsPromotionReview.js";
 import { createOpsReadiness } from "../services/opsReadiness.js";
 import { createOpsRunbook, renderOpsRunbookMarkdown } from "../services/opsRunbook.js";
@@ -64,6 +65,10 @@ interface ListPromotionDecisionQuery {
   limit?: number;
 }
 
+interface PromotionDecisionEvidenceQuery {
+  format?: "json" | "markdown";
+}
+
 interface PromotionDecisionParams {
   decisionId: string;
 }
@@ -93,6 +98,33 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
   }));
   app.get<{ Params: PromotionDecisionParams }>("/api/v1/ops/promotion-decisions/:decisionId/verification", async (request) =>
     deps.opsPromotionDecisions.verify(request.params.decisionId));
+  app.get<{ Params: PromotionDecisionParams; Querystring: PromotionDecisionEvidenceQuery }>(
+    "/api/v1/ops/promotion-decisions/:decisionId/evidence",
+    {
+      schema: {
+        querystring: {
+          type: "object",
+          properties: {
+            format: { type: "string", enum: ["json", "markdown"] },
+          },
+          additionalProperties: false,
+        },
+      },
+    },
+    async (request, reply) => {
+      const report = createOpsPromotionEvidenceReport({
+        decision: deps.opsPromotionDecisions.get(request.params.decisionId),
+        verification: deps.opsPromotionDecisions.verify(request.params.decisionId),
+      });
+
+      if (request.query.format === "markdown") {
+        reply.type("text/markdown; charset=utf-8");
+        return renderOpsPromotionEvidenceMarkdown(report);
+      }
+
+      return report;
+    },
+  );
   app.get<{ Params: PromotionDecisionParams }>("/api/v1/ops/promotion-decisions/:decisionId", async (request) =>
     deps.opsPromotionDecisions.get(request.params.decisionId));
   app.post<{ Body: CreatePromotionDecisionBody }>("/api/v1/ops/promotion-decisions", {

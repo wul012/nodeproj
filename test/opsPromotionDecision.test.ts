@@ -105,6 +105,78 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("renders a promotion decision evidence report as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "evidence-reviewer",
+          note: "build evidence report",
+        },
+      });
+      const jsonReport = await app.inject({
+        method: "GET",
+        url: `/api/v1/ops/promotion-decisions/${decision.json().id}/evidence`,
+      });
+      const markdownReport = await app.inject({
+        method: "GET",
+        url: `/api/v1/ops/promotion-decisions/${decision.json().id}/evidence?format=markdown`,
+      });
+      const missing = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/missing-decision/evidence",
+      });
+
+      expect(decision.statusCode).toBe(201);
+      expect(jsonReport.statusCode).toBe(200);
+      expect(jsonReport.json()).toMatchObject({
+        service: "orderops-node",
+        decisionId: decision.json().id,
+        sequence: 1,
+        title: "Promotion decision #1 evidence",
+        verdict: "verified-blocked",
+        summary: {
+          reviewer: "evidence-reviewer",
+          note: "build evidence report",
+          outcome: "blocked",
+          readyForPromotion: false,
+          digestValid: true,
+          digestAlgorithm: "sha256",
+          digest: decision.json().digest.value,
+          readinessState: "blocked",
+          runbookState: "blocked",
+          baselineState: "unset",
+        },
+        verification: {
+          valid: true,
+          storedDigest: decision.json().digest,
+          recomputedDigest: decision.json().digest,
+        },
+        decision: {
+          id: decision.json().id,
+        },
+      });
+      expect(jsonReport.json().summary.blockerReasons).toBeGreaterThan(0);
+      expect(jsonReport.json().summary.reviewReasons).toBeGreaterThan(0);
+      expect(jsonReport.json().nextActions.length).toBeGreaterThan(0);
+      expect(markdownReport.statusCode).toBe(200);
+      expect(markdownReport.headers["content-type"]).toContain("text/markdown");
+      expect(markdownReport.body).toContain("# Promotion decision #1 evidence");
+      expect(markdownReport.body).toContain("- Verdict: verified-blocked");
+      expect(markdownReport.body).toContain("- Digest valid: true");
+      expect(markdownReport.body).toContain("## Verification");
+      expect(missing.statusCode).toBe(404);
+      expect(missing.json()).toMatchObject({
+        error: "OPS_PROMOTION_DECISION_NOT_FOUND",
+      });
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

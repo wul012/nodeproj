@@ -34,6 +34,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local ops promotion review for combining readiness, runbook, checkpoint, and baseline drift into a promotion decision
 - In-memory ops promotion decision ledger for recording promotion reviews with reviewer notes and SHA-256 digests
 - Local promotion decision digest verification for rechecking recorded evidence before handoff or promotion
+- Local promotion decision evidence report in JSON or Markdown for operator review and archival
 
 ## Setup
 
@@ -87,6 +88,7 @@ GET    /api/v1/ops/readiness
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/:decisionId/verification
+GET    /api/v1/ops/promotion-decisions/:decisionId/evidence
 GET    /api/v1/ops/promotion-decisions/:decisionId
 POST   /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/runbook

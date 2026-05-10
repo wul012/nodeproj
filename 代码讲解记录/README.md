@@ -87,6 +87,9 @@
 
 24-ops-promotion-decision-verification-v20.md
  -> 第二十版本地 promotion decision verification：重新计算 decision digest，确认记录是否仍然可复核
+
+25-ops-promotion-evidence-report-v21.md
+ -> 第二十一版本地 promotion evidence report：把 decision 和 verification 汇总成 JSON/Markdown 证据包
 ```
 
 ## 项目整体理解
