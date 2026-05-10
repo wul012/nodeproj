@@ -22,6 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.utility.DockerImageName;
@@ -49,7 +50,8 @@ class RabbitMqOutboxPublisherIntegrationTests {
             DockerImageName.parse("rabbitmq:3.13-management-alpine"))
             .withExposedPorts(5672)
             .withEnv("RABBITMQ_DEFAULT_USER", RABBITMQ_USER)
-            .withEnv("RABBITMQ_DEFAULT_PASS", RABBITMQ_PASSWORD);
+            .withEnv("RABBITMQ_DEFAULT_PASS", RABBITMQ_PASSWORD)
+            .waitingFor(Wait.forLogMessage(".*Server startup complete.*\\n", 1));
 
     @DynamicPropertySource
     static void registerRabbitMqProperties(DynamicPropertyRegistry registry) {

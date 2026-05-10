@@ -79,7 +79,8 @@ class PostgresMigrationIntegrationTests {
                               'order_status_history',
                               'payment_transactions',
                               'outbox_events',
-                              'inventory_movements'
+                              'inventory_movements',
+                              'notification_messages'
                           )
                         """,
                 Integer.class
@@ -95,8 +96,8 @@ class PostgresMigrationIntegrationTests {
         var refunded = orderApplicationService.refund(created.order().id());
         List<InventoryMovementResponse> movements = inventoryService.listProductMovements(product.getId());
 
-        assertThat(appliedMigrations).isEqualTo(1);
-        assertThat(tableCount).isEqualTo(8);
+        assertThat(appliedMigrations).isEqualTo(2);
+        assertThat(tableCount).isEqualTo(9);
         assertThat(refunded.status()).isEqualTo(OrderStatus.REFUNDED);
         assertThat(movements.stream().map(InventoryMovementResponse::type).toList())
                 .containsExactly(

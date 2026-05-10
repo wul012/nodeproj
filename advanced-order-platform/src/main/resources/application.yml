@@ -50,3 +50,7 @@ outbox:
     exchange: order-platform.outbox
     queue: order-platform.outbox.events
     routing-key-prefix: orders
+
+notification:
+  rabbitmq:
+    enabled: false

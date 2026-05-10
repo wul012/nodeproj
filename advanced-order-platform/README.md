@@ -18,6 +18,8 @@
 - Outbox 事件表
 - Outbox 后台发布标记
 - RabbitMQ Outbox 真实消息发布
+- RabbitMQ 通知消费者
+- 通知消息幂等落库与查询
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -129,6 +131,10 @@ outbox:
     exchange: order-platform.outbox
     queue: order-platform.outbox.events
     routing-key-prefix: orders
+
+notification:
+  rabbitmq:
+    enabled: true
 ```
 
 ## API Quick Start
@@ -211,6 +217,18 @@ Invoke-RestMethod http://localhost:8080/api/v1/orders/1/history
 Invoke-RestMethod http://localhost:8080/api/v1/outbox/events
 ```
 
+查询通知消息：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/notifications
+```
+
+查询某个订单的通知消息：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/notifications/orders/1
+```
+
 ## Database Migration
 
 第十版开始，项目使用 Flyway 管理数据库结构，Hibernate 只做结构校验：
@@ -228,12 +246,14 @@ spring:
 
 ```text
 src/main/resources/db/migration/h2/V1__initial_schema.sql
+src/main/resources/db/migration/h2/V2__notification_messages.sql
 ```
 
 PostgreSQL profile 执行：
 
 ```text
 src/main/resources/db/migration/postgresql/V1__initial_schema.sql
+src/main/resources/db/migration/postgresql/V2__notification_messages.sql
 ```
 
 如果 Docker 未启动，Testcontainers 的 PostgreSQL / RabbitMQ 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实中间件验证。
@@ -295,13 +315,16 @@ payment
 outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
+notification
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、通知查询接口
+
 common
  -> 业务异常和统一错误响应
 ```
 
 后续建议升级顺序：
 
-1. 增加 RabbitMQ 消费者样例，演示通知、积分或搜索索引异步更新。
+1. 给 RabbitMQ 消费者增加重试、死信队列和失败事件表。
 2. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 3. 增加登录、鉴权和管理端接口。
 4. 接入 OpenTelemetry、Prometheus、Grafana。

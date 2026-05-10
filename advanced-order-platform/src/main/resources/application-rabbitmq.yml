@@ -11,3 +11,7 @@ outbox:
     exchange: ${OUTBOX_RABBITMQ_EXCHANGE:order-platform.outbox}
     queue: ${OUTBOX_RABBITMQ_QUEUE:order-platform.outbox.events}
     routing-key-prefix: ${OUTBOX_RABBITMQ_ROUTING_PREFIX:orders}
+
+notification:
+  rabbitmq:
+    enabled: ${NOTIFICATION_RABBITMQ_ENABLED:true}
