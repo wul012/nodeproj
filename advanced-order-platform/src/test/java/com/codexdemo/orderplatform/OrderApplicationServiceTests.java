@@ -14,6 +14,8 @@ import com.codexdemo.orderplatform.order.CreateOrderResult;
 import com.codexdemo.orderplatform.order.OrderApplicationService;
 import com.codexdemo.orderplatform.order.OrderResponse;
 import com.codexdemo.orderplatform.order.OrderStatus;
+import com.codexdemo.orderplatform.outbox.OutboxPublisher;
+import com.codexdemo.orderplatform.outbox.OutboxRepository;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +23,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+@SpringBootTest(properties = {
+        "order.expiration.enabled=false",
+        "outbox.publisher.enabled=false"
+})
 class OrderApplicationServiceTests {
 
     @Autowired
@@ -32,6 +37,12 @@ class OrderApplicationServiceTests {
 
     @Autowired
     private InventoryRepository inventoryRepository;
+
+    @Autowired
+    private OutboxPublisher outboxPublisher;
+
+    @Autowired
+    private OutboxRepository outboxRepository;
 
     @Test
     void createOrderReservesStockAndReplaysIdempotentRequest() {
@@ -182,5 +193,27 @@ class OrderApplicationServiceTests {
 
         assertThat(freshOrder.status()).isEqualTo(OrderStatus.CREATED);
         assertThat(freshOrder.canceledAt()).isNull();
+    }
+
+    @Test
+    void outboxPublisherPublishesPendingEventsAndIsIdempotent() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("99999999-9999-9999-9999-999999999999"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        orderApplicationService.createOrder("test-idempotency-key-009", request);
+        long pendingBefore = outboxRepository.countByPublishedAtIsNull();
+        int published = outboxPublisher.publishPendingEvents();
+        long pendingAfter = outboxRepository.countByPublishedAtIsNull();
+        int republished = outboxPublisher.publishPendingEvents();
+
+        assertThat(pendingBefore).isGreaterThanOrEqualTo(1);
+        assertThat(published).isEqualTo(Math.toIntExact(pendingBefore));
+        assertThat(pendingAfter).isZero();
+        assertThat(republished).isZero();
+        assertThat(outboxRepository.findTop50ByOrderByCreatedAtDesc())
+                .allMatch(event -> event.getPublishedAt() != null);
     }
 }

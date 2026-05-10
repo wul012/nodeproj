@@ -39,3 +39,8 @@ order:
     enabled: true
     unpaid-timeout: PT15M
     scan-delay-ms: 60000
+
+outbox:
+  publisher:
+    enabled: true
+    scan-delay-ms: 60000

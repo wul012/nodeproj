@@ -72,7 +72,7 @@ createdAt
  -> 事件创建时间
 
 publishedAt
- -> 事件发布时间，当前预留
+ -> 事件发布时间，第四版发布器会写入这个字段
 ```
 
 这里的聚合可以简单理解为：
@@ -148,7 +148,7 @@ private static String orderPayload(SalesOrder order) {
 
 也就是把订单关键字段保存成 JSON 字符串。
 
-一句话总结：`OutboxEvent` 把“订单发生了什么事”记录到数据库，为以后发消息做准备；第三版已经能记录创建、支付、手动取消、自动过期四类订单事件。
+一句话总结：`OutboxEvent` 把“订单发生了什么事”记录到数据库，为以后发消息做准备；第三版已经能记录创建、支付、手动取消、自动过期四类订单事件，第四版会用 `publishedAt` 标记事件发布完成。
 
 ---
 
@@ -232,6 +232,30 @@ findTop100ByPublishedAtIsNullOrderByCreatedAtAsc
 让后台任务扫描未发布事件。
 
 一句话总结：`OutboxRepository` 是事件表的数据库访问入口。
+
+第四版后，它还承担发布器查询能力：
+
+```java
+long countByPublishedAtIsNull();
+```
+
+这个方法统计未发布事件数量。
+
+发布器真正取事件用：
+
+```java
+@Lock(LockModeType.PESSIMISTIC_WRITE)
+List<OutboxEvent> findTop50ByPublishedAtIsNullOrderByCreatedAtAsc();
+```
+
+这表示：
+
+```text
+取最早的 50 条未发布事件
+并对查询结果加写锁
+```
+
+一句话总结：第四版以后，`OutboxRepository` 不只负责查询最近事件，也负责给后台发布器提供待发布事件批次。
 
 ---
 

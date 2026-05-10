@@ -9,6 +9,7 @@
 - 订单取消与预占库存释放
 - 超时未支付订单自动过期取消
 - Outbox 事件表
+- Outbox 后台发布标记
 - Actuator 健康检查
 - H2 本地快速启动，PostgreSQL 配置预留
 
@@ -103,6 +104,24 @@ mvn spring-boot:run `
   -Dspring-boot.run.arguments="--order.expiration.unpaid-timeout=PT5S --order.expiration.scan-delay-ms=1000"
 ```
 
+## Outbox Publisher
+
+默认配置会每 60 秒扫描一次未发布的 Outbox 事件，并把 `publishedAt` 标记为当前时间：
+
+```yaml
+outbox:
+  publisher:
+    enabled: true
+    scan-delay-ms: 60000
+```
+
+本地调试时可以临时缩短：
+
+```powershell
+mvn spring-boot:run `
+  -Dspring-boot.run.arguments="--outbox.publisher.scan-delay-ms=1000"
+```
+
 ## Architecture Direction
 
 当前代码按业务边界分包：
@@ -110,13 +129,13 @@ mvn spring-boot:run `
 - `catalog`: 商品目录
 - `inventory`: 库存与并发控制
 - `order`: 订单编排、幂等、防重复提交、支付、取消和超时过期状态流转
-- `outbox`: 事件表，为后续 Kafka/RabbitMQ 做准备
+- `outbox`: 事件表和后台发布标记，为后续 Kafka/RabbitMQ 做准备
 - `common`: 异常与统一错误响应
 
 后续建议按这个顺序升级：
 
 1. 接入 Redis：缓存商品、热点库存、限流。
-2. 接入 Kafka/RabbitMQ：把 Outbox 发布为真实异步事件。
+2. 接入 Kafka/RabbitMQ：把 Outbox 发布器从“标记已发布”升级为真实消息发送。
 3. 增加支付、防欺诈、优惠券模块。
 4. 引入 Testcontainers 做数据库/消息队列集成测试。
 5. 接入 OpenTelemetry、Prometheus、Grafana。

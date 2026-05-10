@@ -64,6 +64,14 @@ public class OutboxEvent {
         return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderExpired", orderPayload(order));
     }
 
+    public boolean markPublished(Instant publishedAt) {
+        if (this.publishedAt != null) {
+            return false;
+        }
+        this.publishedAt = publishedAt;
+        return true;
+    }
+
     private static String orderPayload(SalesOrder order) {
         return """
                 {"orderId":%d,"customerId":"%s","status":"%s","totalAmount":%s}
