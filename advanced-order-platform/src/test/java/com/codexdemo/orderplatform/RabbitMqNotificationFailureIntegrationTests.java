@@ -1,0 +1,130 @@
+package com.codexdemo.orderplatform;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+import com.codexdemo.orderplatform.notification.FailedEventMessage;
+import com.codexdemo.orderplatform.notification.FailedEventMessageRepository;
+import com.codexdemo.orderplatform.notification.NotificationMessageRepository;
+import java.util.List;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
+import org.testcontainers.containers.GenericContainer;
+import org.testcontainers.containers.wait.strategy.Wait;
+import org.testcontainers.junit.jupiter.Container;
+import org.testcontainers.junit.jupiter.Testcontainers;
+import org.testcontainers.utility.DockerImageName;
+
+@Testcontainers(disabledWithoutDocker = true)
+@SpringBootTest(properties = {
+        "spring.datasource.url=jdbc:h2:mem:order-platform-failure-it;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1",
+        "order.expiration.enabled=false",
+        "outbox.publisher.enabled=false",
+        "outbox.rabbitmq.enabled=true",
+        "outbox.rabbitmq.exchange=order-platform.failure.test",
+        "outbox.rabbitmq.queue=order-platform.failure.test",
+        "outbox.rabbitmq.routing-key-prefix=orders",
+        "outbox.rabbitmq.dead-letter-exchange=order-platform.failure.dlx",
+        "outbox.rabbitmq.dead-letter-queue=order-platform.failure.dlq",
+        "outbox.rabbitmq.dead-letter-routing-key=orders.failure",
+        "notification.rabbitmq.enabled=true",
+        "notification.rabbitmq.retry.max-attempts=3",
+        "notification.rabbitmq.retry.initial-interval-ms=50",
+        "notification.rabbitmq.retry.multiplier=1.1",
+        "notification.rabbitmq.retry.max-interval-ms=50"
+})
+class RabbitMqNotificationFailureIntegrationTests {
+
+    private static final String RABBITMQ_USER = "order_app";
+
+    private static final String RABBITMQ_PASSWORD = "order_app";
+
+    private static final String OUTBOX_EXCHANGE = "order-platform.failure.test";
+
+    private static final String OUTBOX_QUEUE = "order-platform.failure.test";
+
+    private static final String DEAD_LETTER_QUEUE = "order-platform.failure.dlq";
+
+    private static final String BAD_MESSAGE_ID = "v13-bad-order-created-message";
+
+    @Container
+    static final GenericContainer<?> RABBITMQ = new GenericContainer<>(
+            DockerImageName.parse("rabbitmq:3.13-management-alpine"))
+            .withExposedPorts(5672)
+            .withEnv("RABBITMQ_DEFAULT_USER", RABBITMQ_USER)
+            .withEnv("RABBITMQ_DEFAULT_PASS", RABBITMQ_PASSWORD)
+            .waitingFor(Wait.forLogMessage(".*Server startup complete.*\\n", 1));
+
+    @DynamicPropertySource
+    static void registerRabbitMqProperties(DynamicPropertyRegistry registry) {
+        registry.add("spring.rabbitmq.host", RABBITMQ::getHost);
+        registry.add("spring.rabbitmq.port", () -> RABBITMQ.getMappedPort(5672));
+        registry.add("spring.rabbitmq.username", () -> RABBITMQ_USER);
+        registry.add("spring.rabbitmq.password", () -> RABBITMQ_PASSWORD);
+    }
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
+
+    @Autowired
+    private FailedEventMessageRepository failedEventMessageRepository;
+
+    @Autowired
+    private NotificationMessageRepository notificationMessageRepository;
+
+    @Autowired
+    private RabbitListenerEndpointRegistry rabbitListenerEndpointRegistry;
+
+    @AfterEach
+    void stopRabbitListeners() {
+        rabbitListenerEndpointRegistry.stop();
+    }
+
+    @Test
+    void retriesMalformedOrderCreatedMessagesAndRecordsDeadLetters() throws InterruptedException {
+        rabbitTemplate.convertAndSend(
+                OUTBOX_EXCHANGE,
+                "orders.OrderCreated",
+                "{\"orderId\":404,\"status\":\"CREATED\"}",
+                message -> {
+                    message.getMessageProperties().setContentType("application/json");
+                    message.getMessageProperties().setMessageId(BAD_MESSAGE_ID);
+                    message.getMessageProperties().setHeader("aggregateType", "ORDER");
+                    message.getMessageProperties().setHeader("aggregateId", "404");
+                    message.getMessageProperties().setHeader("eventType", "OrderCreated");
+                    return message;
+                }
+        );
+
+        FailedEventMessage failedMessage = waitForFailedMessageCount(1).getFirst();
+
+        assertThat(notificationMessageRepository.findAll()).isEmpty();
+        assertThat(failedMessage.getMessageId()).isEqualTo(BAD_MESSAGE_ID);
+        assertThat(failedMessage.getEventId()).isNull();
+        assertThat(failedMessage.getEventType()).isEqualTo("OrderCreated");
+        assertThat(failedMessage.getAggregateType()).isEqualTo("ORDER");
+        assertThat(failedMessage.getAggregateId()).isEqualTo("404");
+        assertThat(failedMessage.getSourceQueue()).isEqualTo(OUTBOX_QUEUE);
+        assertThat(failedMessage.getDeadLetterQueue()).isEqualTo(DEAD_LETTER_QUEUE);
+        assertThat(failedMessage.getFailureReason()).isNotBlank();
+        assertThat(failedMessage.getPayload()).contains("\"orderId\":404");
+    }
+
+    private List<FailedEventMessage> waitForFailedMessageCount(int expectedCount) throws InterruptedException {
+        long deadline = System.currentTimeMillis() + 8000;
+        List<FailedEventMessage> failedMessages;
+        do {
+            failedMessages = failedEventMessageRepository.findAll();
+            if (failedMessages.size() == expectedCount) {
+                return failedMessages;
+            }
+            Thread.sleep(100);
+        } while (System.currentTimeMillis() < deadline);
+        return failedMessages;
+    }
+}

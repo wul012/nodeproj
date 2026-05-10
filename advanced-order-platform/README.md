@@ -20,6 +20,8 @@
 - RabbitMQ Outbox 真实消息发布
 - RabbitMQ 通知消费者
 - 通知消息幂等落库与查询
+- RabbitMQ 消费失败重试和死信队列
+- 失败事件消息落库与查询
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -131,10 +133,18 @@ outbox:
     exchange: order-platform.outbox
     queue: order-platform.outbox.events
     routing-key-prefix: orders
+    dead-letter-exchange: order-platform.outbox.dlx
+    dead-letter-queue: order-platform.outbox.events.dlq
+    dead-letter-routing-key: orders.dead-letter
 
 notification:
   rabbitmq:
     enabled: true
+    retry:
+      max-attempts: 3
+      initial-interval-ms: 200
+      multiplier: 2.0
+      max-interval-ms: 1000
 ```
 
 ## API Quick Start
@@ -229,6 +239,12 @@ Invoke-RestMethod http://localhost:8080/api/v1/notifications
 Invoke-RestMethod http://localhost:8080/api/v1/notifications/orders/1
 ```
 
+查询失败事件消息：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/failed-events
+```
+
 ## Database Migration
 
 第十版开始，项目使用 Flyway 管理数据库结构，Hibernate 只做结构校验：
@@ -247,6 +263,7 @@ spring:
 ```text
 src/main/resources/db/migration/h2/V1__initial_schema.sql
 src/main/resources/db/migration/h2/V2__notification_messages.sql
+src/main/resources/db/migration/h2/V3__failed_event_messages.sql
 ```
 
 PostgreSQL profile 执行：
@@ -254,6 +271,7 @@ PostgreSQL profile 执行：
 ```text
 src/main/resources/db/migration/postgresql/V1__initial_schema.sql
 src/main/resources/db/migration/postgresql/V2__notification_messages.sql
+src/main/resources/db/migration/postgresql/V3__failed_event_messages.sql
 ```
 
 如果 Docker 未启动，Testcontainers 的 PostgreSQL / RabbitMQ 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实中间件验证。
@@ -316,7 +334,7 @@ outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 notification
- -> RabbitMQ 订单事件消费者、通知消息、幂等落库、通知查询接口
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、通知和失败事件查询接口
 
 common
  -> 业务异常和统一错误响应
@@ -324,7 +342,7 @@ common
 
 后续建议升级顺序：
 
-1. 给 RabbitMQ 消费者增加重试、死信队列和失败事件表。
+1. 增加失败事件重放接口，把可恢复的 failed_event_messages 重新投递回业务 exchange。
 2. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 3. 增加登录、鉴权和管理端接口。
 4. 接入 OpenTelemetry、Prometheus、Grafana。

@@ -50,7 +50,15 @@ outbox:
     exchange: order-platform.outbox
     queue: order-platform.outbox.events
     routing-key-prefix: orders
+    dead-letter-exchange: order-platform.outbox.dlx
+    dead-letter-queue: order-platform.outbox.events.dlq
+    dead-letter-routing-key: orders.dead-letter
 
 notification:
   rabbitmq:
     enabled: false
+    retry:
+      max-attempts: 3
+      initial-interval-ms: 200
+      multiplier: 2.0
+      max-interval-ms: 1000

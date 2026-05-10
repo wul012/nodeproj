@@ -15,6 +15,12 @@ public class OutboxRabbitMqProperties {
 
     private String routingKeyPrefix = "orders";
 
+    private String deadLetterExchange = "order-platform.outbox.dlx";
+
+    private String deadLetterQueue = "order-platform.outbox.events.dlq";
+
+    private String deadLetterRoutingKey = "orders.dead-letter";
+
     public String routingKeyFor(OutboxEvent event) {
         return routingKeyPrefix + "." + event.getEventType();
     }
@@ -49,5 +55,29 @@ public class OutboxRabbitMqProperties {
 
     public void setRoutingKeyPrefix(String routingKeyPrefix) {
         this.routingKeyPrefix = routingKeyPrefix;
+    }
+
+    public String getDeadLetterExchange() {
+        return deadLetterExchange;
+    }
+
+    public void setDeadLetterExchange(String deadLetterExchange) {
+        this.deadLetterExchange = deadLetterExchange;
+    }
+
+    public String getDeadLetterQueue() {
+        return deadLetterQueue;
+    }
+
+    public void setDeadLetterQueue(String deadLetterQueue) {
+        this.deadLetterQueue = deadLetterQueue;
+    }
+
+    public String getDeadLetterRoutingKey() {
+        return deadLetterRoutingKey;
+    }
+
+    public void setDeadLetterRoutingKey(String deadLetterRoutingKey) {
+        this.deadLetterRoutingKey = deadLetterRoutingKey;
     }
 }

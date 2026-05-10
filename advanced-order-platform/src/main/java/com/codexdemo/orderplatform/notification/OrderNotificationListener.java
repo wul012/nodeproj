@@ -21,7 +21,10 @@ public class OrderNotificationListener {
         this.notificationService = notificationService;
     }
 
-    @RabbitListener(queues = "${outbox.rabbitmq.queue}")
+    @RabbitListener(
+            queues = "${outbox.rabbitmq.queue}",
+            containerFactory = "notificationRabbitListenerContainerFactory"
+    )
     public void handle(Message message) {
         String eventType = headerAsString(message, "eventType");
         if (!"OrderCreated".equals(eventType)) {

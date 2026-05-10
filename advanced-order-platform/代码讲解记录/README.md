@@ -61,6 +61,9 @@
 
 16-version-12-rabbitmq-notification-consumer.md
  -> 第十二版 RabbitMQ 通知消费者、通知消息幂等落库、通知查询接口、Flyway V2 和消费者集成测试
+
+17-version-13-rabbitmq-retry-dlq-failed-events.md
+ -> 第十三版 RabbitMQ 消费失败重试、死信队列、失败事件消息表、失败查询接口和 Testcontainers 失败链路验证
 ```
 
 ## 项目整体理解
@@ -159,8 +162,11 @@ README.md
 
 16-version-12-rabbitmq-notification-consumer.md
  -> 理解 RabbitMQ 消息如何被消费者处理成通知消息，并通过 eventId 唯一键实现幂等消费
+
+17-version-13-rabbitmq-retry-dlq-failed-events.md
+ -> 理解 RabbitMQ 消费失败如何重试、进入 DLQ，并沉淀为可查询的失败事件消息
 ```
 
 ## 一句话总览
 
-这个项目的核心不是“能创建订单”这么简单，而是用 Spring Boot 把下单幂等、库存一致性、库存流水、支付/退款流水、取消/过期/发货/完成状态流转、状态历史、Outbox 发布标记、RabbitMQ 真实消息投递、RabbitMQ 消费者、通知消息幂等落库、Flyway 数据库迁移和 Testcontainers 真实中间件验证串成一个可继续升级的后端系统。
+这个项目的核心不是“能创建订单”这么简单，而是用 Spring Boot 把下单幂等、库存一致性、库存流水、支付/退款流水、取消/过期/发货/完成状态流转、状态历史、Outbox 发布标记、RabbitMQ 真实消息投递、RabbitMQ 消费者、通知消息幂等落库、消费失败重试、死信队列、失败事件表、Flyway 数据库迁移和 Testcontainers 真实中间件验证串成一个可继续升级的后端系统。

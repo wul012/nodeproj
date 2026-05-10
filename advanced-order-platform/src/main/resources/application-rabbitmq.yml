@@ -11,7 +11,15 @@ outbox:
     exchange: ${OUTBOX_RABBITMQ_EXCHANGE:order-platform.outbox}
     queue: ${OUTBOX_RABBITMQ_QUEUE:order-platform.outbox.events}
     routing-key-prefix: ${OUTBOX_RABBITMQ_ROUTING_PREFIX:orders}
+    dead-letter-exchange: ${OUTBOX_RABBITMQ_DLX:order-platform.outbox.dlx}
+    dead-letter-queue: ${OUTBOX_RABBITMQ_DLQ:order-platform.outbox.events.dlq}
+    dead-letter-routing-key: ${OUTBOX_RABBITMQ_DLQ_ROUTING_KEY:orders.dead-letter}
 
 notification:
   rabbitmq:
     enabled: ${NOTIFICATION_RABBITMQ_ENABLED:true}
+    retry:
+      max-attempts: ${NOTIFICATION_RABBITMQ_RETRY_MAX_ATTEMPTS:3}
+      initial-interval-ms: ${NOTIFICATION_RABBITMQ_RETRY_INITIAL_INTERVAL_MS:200}
+      multiplier: ${NOTIFICATION_RABBITMQ_RETRY_MULTIPLIER:2.0}
+      max-interval-ms: ${NOTIFICATION_RABBITMQ_RETRY_MAX_INTERVAL_MS:1000}
