@@ -63,7 +63,7 @@ aggregateId
  -> 聚合 ID，比如订单 ID
 
 eventType
- -> 事件类型，比如 OrderCreated、OrderPaid、OrderCancelled
+ -> 事件类型，比如 OrderCreated、OrderPaid、OrderCancelled、OrderExpired
 
 payload
  -> 事件内容，JSON 字符串
@@ -88,12 +88,13 @@ aggregateType = ORDER
 aggregateId = 订单 ID
 ```
 
-当前有三个事件工厂方法：
+当前有四个事件工厂方法：
 
 ```java
 public static OutboxEvent orderCreated(SalesOrder order)
 public static OutboxEvent orderPaid(SalesOrder order)
 public static OutboxEvent orderCancelled(SalesOrder order)
+public static OutboxEvent orderExpired(SalesOrder order)
 ```
 
 它们分别在：
@@ -102,6 +103,7 @@ public static OutboxEvent orderCancelled(SalesOrder order)
 订单创建成功后
 订单支付成功后
 订单取消成功后
+订单超时过期后
 ```
 
 被调用。
@@ -119,6 +121,10 @@ public static OutboxEvent orderPaid(SalesOrder order) {
 
 public static OutboxEvent orderCancelled(SalesOrder order) {
     return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCancelled", orderPayload(order));
+}
+
+public static OutboxEvent orderExpired(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderExpired", orderPayload(order));
 }
 ```
 
@@ -142,7 +148,7 @@ private static String orderPayload(SalesOrder order) {
 
 也就是把订单关键字段保存成 JSON 字符串。
 
-一句话总结：`OutboxEvent` 把“订单发生了什么事”记录到数据库，为以后发消息做准备；第二版已经能记录创建、支付、取消三类订单事件。
+一句话总结：`OutboxEvent` 把“订单发生了什么事”记录到数据库，为以后发消息做准备；第三版已经能记录创建、支付、手动取消、自动过期四类订单事件。
 
 ---
 
@@ -272,6 +278,12 @@ OrderPaid
 
 ```text
 OrderCancelled
+```
+
+订单超时自动过期后应该看到：
+
+```text
+OrderExpired
 ```
 
 一句话总结：`OutboxController` 让你能直接观察订单流程产生了哪些领域事件。
@@ -752,4 +764,4 @@ Redis
 
 # 本次讲解总结
 
-第五次讲解的是工程配套能力：Outbox 让订单创建、支付、取消事件可以走向异步消息，统一异常让 API 更稳定，测试证明核心业务行为，README 和运行命令让项目可以被别人快速接手。
+第五次讲解的是工程配套能力：Outbox 让订单创建、支付、取消、过期事件可以走向异步消息，统一异常让 API 更稳定，测试证明核心业务行为，README 和运行命令让项目可以被别人快速接手。

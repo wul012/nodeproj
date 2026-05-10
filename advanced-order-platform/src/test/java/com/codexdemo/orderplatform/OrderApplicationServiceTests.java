@@ -14,6 +14,7 @@ import com.codexdemo.orderplatform.order.CreateOrderResult;
 import com.codexdemo.orderplatform.order.OrderApplicationService;
 import com.codexdemo.orderplatform.order.OrderResponse;
 import com.codexdemo.orderplatform.order.OrderStatus;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -141,5 +142,45 @@ class OrderApplicationServiceTests {
         assertThatThrownBy(() -> orderApplicationService.pay(created.order().id()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("Only CREATED orders can be paid");
+    }
+
+    @Test
+    void expireCreatedOrdersBeforeReleasesReservedInventory() {
+        Product product = productRepository.findAll().getFirst();
+        InventoryItem before = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("77777777-7777-7777-7777-777777777777"),
+                List.of(new CreateOrderLineRequest(product.getId(), 2))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-007", request);
+        InventoryItem afterCreate = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        int expired = orderApplicationService.expireCreatedOrdersBefore(Instant.now().plusSeconds(1));
+        OrderResponse expiredOrder = orderApplicationService.getOrder(created.order().id());
+        InventoryItem afterExpire = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+
+        assertThat(afterCreate.getAvailable()).isEqualTo(before.getAvailable() - 2);
+        assertThat(afterCreate.getReserved()).isEqualTo(before.getReserved() + 2);
+        assertThat(expired).isGreaterThanOrEqualTo(1);
+        assertThat(expiredOrder.status()).isEqualTo(OrderStatus.CANCELLED);
+        assertThat(expiredOrder.canceledAt()).isNotNull();
+        assertThat(afterExpire.getAvailable()).isGreaterThanOrEqualTo(afterCreate.getAvailable() + 2);
+        assertThat(afterExpire.getReserved()).isLessThanOrEqualTo(afterCreate.getReserved() - 2);
+    }
+
+    @Test
+    void expireCreatedOrdersBeforeDoesNotCancelFreshOrder() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("88888888-8888-8888-8888-888888888888"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-008", request);
+        orderApplicationService.expireCreatedOrdersBefore(created.order().createdAt().minusMillis(1));
+        OrderResponse freshOrder = orderApplicationService.getOrder(created.order().id());
+
+        assertThat(freshOrder.status()).isEqualTo(OrderStatus.CREATED);
+        assertThat(freshOrder.canceledAt()).isNull();
     }
 }

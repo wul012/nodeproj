@@ -717,13 +717,14 @@ outboxRepository.save(OutboxEvent.orderCancelled(order));
 订单乐观锁字段
 订单取消释放库存
 取消接口幂等
+超时未支付订单自动过期取消
 ```
 
 但它还没有做完整的：
 
 ```text
 并发相同 Idempotency-Key 冲突重试
-超时未支付订单自动取消
+分布式部署下的过期扫描抢占控制
 真实支付网关回调
 Outbox 后台发布器
 Redis 分布式限流

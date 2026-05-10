@@ -6,6 +6,7 @@ import com.codexdemo.orderplatform.common.BusinessException;
 import com.codexdemo.orderplatform.inventory.InventoryService;
 import com.codexdemo.orderplatform.outbox.OutboxEvent;
 import com.codexdemo.orderplatform.outbox.OutboxRepository;
+import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,25 @@ public class OrderApplicationService {
             outboxRepository.save(OutboxEvent.orderCancelled(order));
         }
         return OrderResponse.from(order);
+    }
+
+    @Transactional
+    public int expireCreatedOrdersBefore(Instant createdBefore) {
+        List<SalesOrder> orders = orderRepository.findTop50ByStatusAndCreatedAtBeforeOrderByCreatedAtAsc(
+                OrderStatus.CREATED,
+                createdBefore
+        );
+
+        int expired = 0;
+        Instant expiredAt = Instant.now();
+        for (SalesOrder order : orders) {
+            if (order.expire(expiredAt)) {
+                inventoryService.releaseReserved(order.quantitiesByProductId());
+                outboxRepository.save(OutboxEvent.orderExpired(order));
+                expired++;
+            }
+        }
+        return expired;
     }
 
     private CreateOrderResult placeNewOrder(String idempotencyKey, CreateOrderRequest request) {

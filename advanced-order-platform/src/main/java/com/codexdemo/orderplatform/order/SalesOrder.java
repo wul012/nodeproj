@@ -106,6 +106,15 @@ public class SalesOrder {
         return true;
     }
 
+    public boolean expire(Instant expiredAt) {
+        if (status != OrderStatus.CREATED) {
+            return false;
+        }
+        status = OrderStatus.CANCELLED;
+        canceledAt = expiredAt;
+        return true;
+    }
+
     public Map<Long, Integer> quantitiesByProductId() {
         return lines.stream()
                 .collect(Collectors.toMap(OrderLine::getProductId, OrderLine::getQuantity, Integer::sum));
