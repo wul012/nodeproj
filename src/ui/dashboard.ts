@@ -479,6 +479,7 @@ export function dashboardHtml(): string {
         <button data-action="opsRunbook">Runbook</button>
         <button data-action="opsCreateCheckpoint">Create Checkpoint</button>
         <button data-action="opsListCheckpoints">Checkpoints</button>
+        <button data-action="opsDiffCheckpoints">Diff Latest</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -707,6 +708,16 @@ export function dashboardHtml(): string {
         }
         if (action === "opsListCheckpoints") {
           write(await api("/api/v1/ops/checkpoints?limit=10"));
+        }
+        if (action === "opsDiffCheckpoints") {
+          const listed = await api("/api/v1/ops/checkpoints?limit=2");
+          if (listed.checkpoints.length < 2) {
+            write({ error: "NEED_TWO_CHECKPOINTS", message: "Create at least two checkpoints before diffing." });
+          } else {
+            const target = listed.checkpoints[0];
+            const base = listed.checkpoints[1];
+            write(await api("/api/v1/ops/checkpoints/diff?baseId=" + encodeURIComponent(base.id) + "&targetId=" + encodeURIComponent(target.id)));
+          }
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));

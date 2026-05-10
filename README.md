@@ -29,6 +29,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local ops handoff report in JSON or Markdown for debugging, review, and version archives
 - Local ops runbook checklist for turning readiness signals into operator-facing preflight steps
 - In-memory ops checkpoint ledger with SHA-256 digests for capturing local readiness evidence
+- Local ops checkpoint diff for comparing readiness, runbook totals, signals, and step status changes
 
 ## Setup
 
@@ -81,6 +82,7 @@ GET    /api/v1/ops/summary
 GET    /api/v1/ops/readiness
 GET    /api/v1/ops/runbook
 GET    /api/v1/ops/checkpoints
+GET    /api/v1/ops/checkpoints/diff
 GET    /api/v1/ops/checkpoints/:checkpointId
 POST   /api/v1/ops/checkpoints
 GET    /api/v1/ops/handoff-report

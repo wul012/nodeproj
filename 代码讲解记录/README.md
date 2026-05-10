@@ -72,6 +72,9 @@
 
 19-ops-checkpoints-v15.md
  -> 第十五版本地 checkpoint ledger：捕获 summary/readiness/runbook 快照并生成 SHA-256 摘要
+
+20-ops-checkpoint-diff-v16.md
+ -> 第十六版本地 checkpoint diff：比较两个 checkpoint 的决策、signals、runbook totals 和步骤状态变化
 ```
 
 ## 项目整体理解

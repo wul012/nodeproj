@@ -5,6 +5,7 @@ import { AuditLog } from "../services/auditLog.js";
 import { OperationDispatchLedger } from "../services/operationDispatch.js";
 import { OperationIntentStore } from "../services/operationIntent.js";
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
+import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import { createOpsReadiness } from "../services/opsReadiness.js";
 import { createOpsRunbook, renderOpsRunbookMarkdown } from "../services/opsRunbook.js";
@@ -36,6 +37,11 @@ interface CreateOpsCheckpointBody {
 
 interface ListOpsCheckpointQuery {
   limit?: number;
+}
+
+interface DiffOpsCheckpointQuery {
+  baseId: string;
+  targetId: string;
 }
 
 interface OpsCheckpointParams {
@@ -79,6 +85,22 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
   }, async (request) => ({
     checkpoints: deps.opsCheckpoints.list(request.query.limit ?? 20),
   }));
+  app.get<{ Querystring: DiffOpsCheckpointQuery }>("/api/v1/ops/checkpoints/diff", {
+    schema: {
+      querystring: {
+        type: "object",
+        required: ["baseId", "targetId"],
+        properties: {
+          baseId: { type: "string", minLength: 1 },
+          targetId: { type: "string", minLength: 1 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => createOpsCheckpointDiff(
+    deps.opsCheckpoints.get(request.query.baseId),
+    deps.opsCheckpoints.get(request.query.targetId),
+  ));
   app.get<{ Params: OpsCheckpointParams }>("/api/v1/ops/checkpoints/:checkpointId", async (request) =>
     deps.opsCheckpoints.get(request.params.checkpointId));
   app.post<{ Body: CreateOpsCheckpointBody }>("/api/v1/ops/checkpoints", {
