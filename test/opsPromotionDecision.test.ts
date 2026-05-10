@@ -1443,6 +1443,132 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds a promotion handoff closure as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyClosure = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-closure",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "closure-reviewer",
+          note: "build handoff closure",
+        },
+      });
+      const closure = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-closure",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-closure?format=markdown",
+      });
+
+      expect(emptyClosure.statusCode).toBe(200);
+      expect(emptyClosure.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          receiptVerified: true,
+          receiptDigestValid: true,
+          milestoneReferencesValid: true,
+          certificateReferenceValid: true,
+          packageReferenceValid: true,
+          sealReferenceValid: true,
+          milestoneCount: 5,
+          closureItemCount: 7,
+        },
+      });
+      expect(emptyClosure.json().closureName).toMatch(/^promotion-closure-[a-f0-9]{12}$/);
+      expect(emptyClosure.json().closureDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyClosure.json().closureDigest.coveredFields).toEqual([
+        "closureName",
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "receiptDigest",
+        "verifiedReceiptDigest",
+        "certificateDigest",
+        "verifiedCertificateDigest",
+        "packageDigest",
+        "verifiedPackageDigest",
+        "sealDigest",
+        "decision",
+        "verification",
+        "closureItems",
+        "nextActions",
+      ]);
+      expect(emptyClosure.json().receiptDigest.value).toBe(emptyClosure.json().verifiedReceiptDigest.value);
+      expect(emptyClosure.json().certificateDigest.value).toBe(emptyClosure.json().verifiedCertificateDigest.value);
+      expect(emptyClosure.json().packageDigest.value).toBe(emptyClosure.json().verifiedPackageDigest.value);
+      expect(emptyClosure.json().closureItems.map((item: { name: string }) => item.name)).toEqual([
+        "handoff-receipt",
+        "verified-handoff-receipt",
+        "handoff-certificate",
+        "verified-handoff-certificate",
+        "handoff-package",
+        "verified-handoff-package",
+        "archive-seal",
+      ]);
+      expect(emptyClosure.json().closureItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(closure.statusCode).toBe(200);
+      expect(closure.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          receiptVerified: true,
+          receiptDigestValid: true,
+          milestoneReferencesValid: true,
+          certificateReferenceValid: true,
+          packageReferenceValid: true,
+          sealReferenceValid: true,
+          milestoneCount: 5,
+          closureItemCount: 7,
+        },
+      });
+      expect(closure.json().closureName).toMatch(/^promotion-closure-[a-f0-9]{12}$/);
+      expect(closure.json().closureDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(closure.json().receiptDigest.value).toBe(closure.json().verifiedReceiptDigest.value);
+      expect(closure.json().certificateDigest.value).toBe(closure.json().verifiedCertificateDigest.value);
+      expect(closure.json().packageDigest.value).toBe(closure.json().verifiedPackageDigest.value);
+      expect(closure.json().sealDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(closure.json().closureItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(closure.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion handoff closure");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Closure digest: sha256:${closure.json().closureDigest.value}`);
+      expect(markdown.body).toContain("## Closure Items");
+      expect(markdown.body).toContain("### verified-handoff-receipt");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -1565,6 +1691,14 @@ describe("ops promotion decision routes", () => {
       const handoffReceiptVerificationReport = await app.inject({
         method: "GET",
         url: "/api/v1/ops/promotion-archive/handoff-receipt/verification?format=markdown",
+      });
+      const handoffClosure = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-closure",
+      });
+      const handoffClosureReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/handoff-closure?format=markdown",
       });
 
       expect(decision.statusCode).toBe(201);
@@ -1837,6 +1971,39 @@ describe("ops promotion decision routes", () => {
       expect(handoffReceiptVerificationReport.body).toContain("# Promotion handoff receipt verification");
       expect(handoffReceiptVerificationReport.body).toContain("- Handoff ready: true");
       expect(handoffReceiptVerificationReport.body).toContain("- Receipt digest valid: true");
+      expect(handoffClosure.statusCode).toBe(200);
+      expect(handoffClosure.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "approved",
+        },
+        verification: {
+          receiptVerified: true,
+          receiptDigestValid: true,
+          milestoneReferencesValid: true,
+          certificateReferenceValid: true,
+          packageReferenceValid: true,
+          sealReferenceValid: true,
+          milestoneCount: 5,
+          closureItemCount: 7,
+        },
+      });
+      expect(handoffClosure.json().closureDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(handoffClosure.json().receiptDigest.value).toBe(handoffClosure.json().verifiedReceiptDigest.value);
+      expect(handoffClosure.json().certificateDigest.value).toBe(handoffClosure.json().verifiedCertificateDigest.value);
+      expect(handoffClosure.json().packageDigest.value).toBe(handoffClosure.json().verifiedPackageDigest.value);
+      expect(handoffClosure.json().closureItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(handoffClosure.json().nextActions).toEqual([
+        "Promotion handoff closure is ready; record the closure digest and mark the handoff closed.",
+      ]);
+      expect(handoffClosureReport.statusCode).toBe(200);
+      expect(handoffClosureReport.headers["content-type"]).toContain("text/markdown");
+      expect(handoffClosureReport.body).toContain("# Promotion handoff closure");
+      expect(handoffClosureReport.body).toContain("- Handoff ready: true");
+      expect(handoffClosureReport.body).toContain(`- Closure digest: sha256:${handoffClosure.json().closureDigest.value}`);
     } finally {
       await app.close();
     }
