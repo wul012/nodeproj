@@ -33,8 +33,9 @@ public class FailedEventMessageController {
     public FailedEventMessageResponse replayFailedMessage(
             @PathVariable Long id,
             @RequestHeader(value = "X-Operator-Id", required = false) String operatorId,
+            @RequestHeader(value = "X-Operator-Role", required = false) String operatorRole,
             @RequestBody(required = false) ReplayFailedEventRequest request
     ) {
-        return failedEventMessageService.replay(id, request, operatorId);
+        return failedEventMessageService.replay(id, request, operatorId, operatorRole);
     }
 }

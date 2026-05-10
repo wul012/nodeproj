@@ -24,6 +24,8 @@ public class FailedEventMessageService {
 
     private final FailedEventReplayAttemptRepository failedEventReplayAttemptRepository;
 
+    private final FailedEventReplayProperties failedEventReplayProperties;
+
     private final RabbitTemplate rabbitTemplate;
 
     private final OutboxRabbitMqProperties outboxRabbitMqProperties;
@@ -31,11 +33,13 @@ public class FailedEventMessageService {
     public FailedEventMessageService(
             FailedEventMessageRepository failedEventMessageRepository,
             FailedEventReplayAttemptRepository failedEventReplayAttemptRepository,
+            FailedEventReplayProperties failedEventReplayProperties,
             RabbitTemplate rabbitTemplate,
             OutboxRabbitMqProperties outboxRabbitMqProperties
     ) {
         this.failedEventMessageRepository = failedEventMessageRepository;
         this.failedEventReplayAttemptRepository = failedEventReplayAttemptRepository;
+        this.failedEventReplayProperties = failedEventReplayProperties;
         this.rabbitTemplate = rabbitTemplate;
         this.outboxRabbitMqProperties = outboxRabbitMqProperties;
     }
@@ -69,14 +73,26 @@ public class FailedEventMessageService {
 
     @Transactional
     public FailedEventMessageResponse replay(Long id, ReplayFailedEventRequest request) {
-        return replay(id, request, "system");
+        return replay(id, request, "system", failedEventReplayProperties.getSystemRole());
     }
 
     @Transactional
     public FailedEventMessageResponse replay(Long id, ReplayFailedEventRequest request, String operatorId) {
+        return replay(id, request, operatorId, failedEventReplayProperties.getSystemRole());
+    }
+
+    @Transactional
+    public FailedEventMessageResponse replay(
+            Long id,
+            ReplayFailedEventRequest request,
+            String operatorId,
+            String operatorRole
+    ) {
         FailedEventMessage failedMessage = failedEventMessageRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "failed event message not found"));
         String normalizedOperatorId = normalizeOperatorId(operatorId);
+        String normalizedOperatorRole = requireAllowedOperatorRole(operatorRole);
+        String reason = resolveReplayReason(request);
         if (!outboxRabbitMqProperties.isEnabled()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "RabbitMQ outbox is disabled");
         }
@@ -98,6 +114,8 @@ public class FailedEventMessageService {
                     failedMessage,
                     request,
                     normalizedOperatorId,
+                    normalizedOperatorRole,
+                    reason,
                     eventId,
                     eventType,
                     aggregateType,
@@ -117,6 +135,8 @@ public class FailedEventMessageService {
                     failedMessage,
                     request,
                     normalizedOperatorId,
+                    normalizedOperatorRole,
+                    reason,
                     eventId,
                     eventType,
                     aggregateType,
@@ -133,6 +153,8 @@ public class FailedEventMessageService {
                     failedMessage,
                     request,
                     normalizedOperatorId,
+                    normalizedOperatorRole,
+                    reason,
                     eventId,
                     eventType,
                     aggregateType,
@@ -199,6 +221,8 @@ public class FailedEventMessageService {
             FailedEventMessage failedMessage,
             ReplayFailedEventRequest request,
             String operatorId,
+            String operatorRole,
+            String reason,
             String eventId,
             String eventType,
             String aggregateType,
@@ -211,6 +235,8 @@ public class FailedEventMessageService {
         failedEventReplayAttemptRepository.save(FailedEventReplayAttempt.record(
                 failedMessage,
                 operatorId,
+                operatorRole,
+                reason,
                 request,
                 eventId,
                 eventType,
@@ -241,8 +267,30 @@ public class FailedEventMessageService {
     }
 
     private String normalizeOperatorId(String operatorId) {
-        String normalized = firstNonBlank(operatorId, "anonymous");
+        if (operatorId == null || operatorId.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "X-Operator-Id header is required");
+        }
+        String normalized = operatorId.strip();
         return truncate(normalized.strip(), 80);
+    }
+
+    private String requireAllowedOperatorRole(String operatorRole) {
+        if (operatorRole == null || operatorRole.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "X-Operator-Role header is required");
+        }
+        String normalizedRole = failedEventReplayProperties.normalize(operatorRole);
+        if (!failedEventReplayProperties.isAllowedRole(normalizedRole)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "operator role is not allowed to replay failed events");
+        }
+        return truncate(normalizedRole, 80);
+    }
+
+    private String resolveReplayReason(ReplayFailedEventRequest request) {
+        String reason = request == null ? null : request.reason();
+        if (reason == null || reason.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "reason is required for replay");
+        }
+        return truncate(reason.strip(), 500);
     }
 
     private String resolveMessageId(Message message, String payload) {

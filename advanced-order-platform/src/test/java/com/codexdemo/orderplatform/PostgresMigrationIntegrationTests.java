@@ -98,7 +98,7 @@ class PostgresMigrationIntegrationTests {
         var refunded = orderApplicationService.refund(created.order().id());
         List<InventoryMovementResponse> movements = inventoryService.listProductMovements(product.getId());
 
-        assertThat(appliedMigrations).isEqualTo(5);
+        assertThat(appliedMigrations).isEqualTo(6);
         assertThat(tableCount).isEqualTo(11);
         assertThat(refunded.status()).isEqualTo(OrderStatus.REFUNDED);
         assertThat(movements.stream().map(InventoryMovementResponse::type).toList())

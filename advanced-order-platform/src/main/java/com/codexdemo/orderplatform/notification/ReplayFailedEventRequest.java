@@ -5,6 +5,7 @@ public record ReplayFailedEventRequest(
         String eventType,
         String aggregateType,
         String aggregateId,
-        String payload
+        String payload,
+        String reason
 ) {
 }

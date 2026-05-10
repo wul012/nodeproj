@@ -1,6 +1,7 @@
 package com.codexdemo.orderplatform;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.codexdemo.orderplatform.notification.FailedEventMessage;
 import com.codexdemo.orderplatform.notification.FailedEventMessageRepository;
@@ -21,8 +22,10 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.RabbitListenerEndpointRegistry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
+import org.springframework.web.server.ResponseStatusException;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.containers.wait.strategy.Wait;
 import org.testcontainers.junit.jupiter.Container;
@@ -45,7 +48,8 @@ import org.testcontainers.utility.DockerImageName;
         "notification.rabbitmq.retry.max-attempts=3",
         "notification.rabbitmq.retry.initial-interval-ms=50",
         "notification.rabbitmq.retry.multiplier=1.1",
-        "notification.rabbitmq.retry.max-interval-ms=50"
+        "notification.rabbitmq.retry.max-interval-ms=50",
+        "failed-event.replay.allowed-roles=ORDER_SUPPORT,SRE,SYSTEM"
 })
 class RabbitMqNotificationFailureIntegrationTests {
 
@@ -135,10 +139,32 @@ class RabbitMqNotificationFailureIntegrationTests {
         assertThat(failedMessage.getReplayCount()).isZero();
         assertThat(failedMessage.getLastReplayedAt()).isNull();
 
+        ReplayFailedEventRequest replayRequest = new ReplayFailedEventRequest(
+                REPLAY_EVENT_ID,
+                null,
+                null,
+                null,
+                null,
+                "repair missing event id after DLQ verification"
+        );
+        assertThatThrownBy(() -> failedEventMessageService.replay(
+                failedMessage.getId(),
+                replayRequest,
+                "qa-operator",
+                "VIEWER"
+        ))
+                .isInstanceOfSatisfying(ResponseStatusException.class, ex ->
+                        assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN)
+                );
+        assertThat(failedEventReplayAttemptRepository
+                .findByFailedEventMessageIdOrderByAttemptedAtDescIdDesc(failedMessage.getId()))
+                .isEmpty();
+
         FailedEventMessageResponse replayed = failedEventMessageService.replay(
                 failedMessage.getId(),
-                new ReplayFailedEventRequest(REPLAY_EVENT_ID, null, null, null, null),
-                "qa-operator"
+                replayRequest,
+                "qa-operator",
+                "ORDER_SUPPORT"
         );
         NotificationMessage notification = waitForNotificationMessageCount(1).getFirst();
         FailedEventReplayAttempt replayAttempt = failedEventReplayAttemptRepository
@@ -155,6 +181,8 @@ class RabbitMqNotificationFailureIntegrationTests {
         assertThat(notification.getOrderId()).isEqualTo(404L);
         assertThat(replayAttempt.getFailedEventMessage().getId()).isEqualTo(failedMessage.getId());
         assertThat(replayAttempt.getOperatorId()).isEqualTo("qa-operator");
+        assertThat(replayAttempt.getOperatorRole()).isEqualTo("ORDER_SUPPORT");
+        assertThat(replayAttempt.getReason()).isEqualTo("repair missing event id after DLQ verification");
         assertThat(replayAttempt.getRequestedEventId()).isEqualTo(REPLAY_EVENT_ID);
         assertThat(replayAttempt.getRequestedEventType()).isNull();
         assertThat(replayAttempt.getEffectiveEventId()).isEqualTo(REPLAY_EVENT_ID);

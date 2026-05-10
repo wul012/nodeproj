@@ -35,6 +35,12 @@ public class FailedEventReplayAttempt {
     @Column(name = "operator_id", nullable = false, length = 80)
     private String operatorId;
 
+    @Column(name = "operator_role", nullable = false, length = 80)
+    private String operatorRole;
+
+    @Column(nullable = false, length = 500)
+    private String reason;
+
     @Column(name = "requested_event_id", length = 80)
     private String requestedEventId;
 
@@ -81,6 +87,8 @@ public class FailedEventReplayAttempt {
     private FailedEventReplayAttempt(
             FailedEventMessage failedEventMessage,
             String operatorId,
+            String operatorRole,
+            String reason,
             ReplayFailedEventRequest request,
             String effectiveEventId,
             String effectiveEventType,
@@ -97,6 +105,12 @@ public class FailedEventReplayAttempt {
         if (operatorId == null || operatorId.isBlank()) {
             throw new IllegalArgumentException("operatorId is required");
         }
+        if (operatorRole == null || operatorRole.isBlank()) {
+            throw new IllegalArgumentException("operatorRole is required");
+        }
+        if (reason == null || reason.isBlank()) {
+            throw new IllegalArgumentException("reason is required");
+        }
         if (status == null) {
             throw new IllegalArgumentException("status is required");
         }
@@ -105,6 +119,8 @@ public class FailedEventReplayAttempt {
         }
         this.failedEventMessage = failedEventMessage;
         this.operatorId = operatorId;
+        this.operatorRole = operatorRole;
+        this.reason = reason;
         this.requestedEventId = request == null ? null : request.eventId();
         this.requestedEventType = request == null ? null : request.eventType();
         this.requestedAggregateType = request == null ? null : request.aggregateType();
@@ -123,6 +139,8 @@ public class FailedEventReplayAttempt {
     public static FailedEventReplayAttempt record(
             FailedEventMessage failedEventMessage,
             String operatorId,
+            String operatorRole,
+            String reason,
             ReplayFailedEventRequest request,
             String effectiveEventId,
             String effectiveEventType,
@@ -136,6 +154,8 @@ public class FailedEventReplayAttempt {
         return new FailedEventReplayAttempt(
                 failedEventMessage,
                 operatorId,
+                operatorRole,
+                reason,
                 request,
                 effectiveEventId,
                 effectiveEventType,
@@ -158,6 +178,14 @@ public class FailedEventReplayAttempt {
 
     public String getOperatorId() {
         return operatorId;
+    }
+
+    public String getOperatorRole() {
+        return operatorRole;
+    }
+
+    public String getReason() {
+        return reason;
     }
 
     public String getRequestedEventId() {

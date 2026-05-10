@@ -62,3 +62,11 @@ notification:
       initial-interval-ms: 200
       multiplier: 2.0
       max-interval-ms: 1000
+
+failed-event:
+  replay:
+    allowed-roles:
+      - ORDER_SUPPORT
+      - SRE
+      - SYSTEM
+    system-role: SYSTEM

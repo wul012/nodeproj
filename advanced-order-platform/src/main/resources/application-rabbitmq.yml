@@ -23,3 +23,8 @@ notification:
       initial-interval-ms: ${NOTIFICATION_RABBITMQ_RETRY_INITIAL_INTERVAL_MS:200}
       multiplier: ${NOTIFICATION_RABBITMQ_RETRY_MULTIPLIER:2.0}
       max-interval-ms: ${NOTIFICATION_RABBITMQ_RETRY_MAX_INTERVAL_MS:1000}
+
+failed-event:
+  replay:
+    allowed-roles: ${FAILED_EVENT_REPLAY_ALLOWED_ROLES:ORDER_SUPPORT,SRE,SYSTEM}
+    system-role: ${FAILED_EVENT_REPLAY_SYSTEM_ROLE:SYSTEM}
