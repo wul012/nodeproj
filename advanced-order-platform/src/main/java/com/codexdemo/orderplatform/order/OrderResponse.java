@@ -12,6 +12,8 @@ public record OrderResponse(
         BigDecimal totalAmount,
         Instant createdAt,
         Instant paidAt,
+        Instant shippedAt,
+        Instant completedAt,
         Instant canceledAt,
         List<OrderLineResponse> lines
 ) {
@@ -24,6 +26,8 @@ public record OrderResponse(
                 order.getTotalAmount(),
                 order.getCreatedAt(),
                 order.getPaidAt(),
+                order.getShippedAt(),
+                order.getCompletedAt(),
                 order.getCanceledAt(),
                 order.getLines().stream().map(OrderLineResponse::from).toList()
         );

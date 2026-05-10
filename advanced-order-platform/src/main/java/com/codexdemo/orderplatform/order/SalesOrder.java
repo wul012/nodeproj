@@ -47,6 +47,10 @@ public class SalesOrder {
 
     private Instant paidAt;
 
+    private Instant shippedAt;
+
+    private Instant completedAt;
+
     private Instant canceledAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -106,6 +110,32 @@ public class SalesOrder {
         return true;
     }
 
+    public boolean ship() {
+        if (status == OrderStatus.SHIPPED) {
+            return false;
+        }
+        if (status != OrderStatus.PAID) {
+            throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                    "Only PAID orders can be shipped");
+        }
+        status = OrderStatus.SHIPPED;
+        shippedAt = Instant.now();
+        return true;
+    }
+
+    public boolean complete() {
+        if (status == OrderStatus.COMPLETED) {
+            return false;
+        }
+        if (status != OrderStatus.SHIPPED) {
+            throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                    "Only SHIPPED orders can be completed");
+        }
+        status = OrderStatus.COMPLETED;
+        completedAt = Instant.now();
+        return true;
+    }
+
     public boolean expire(Instant expiredAt) {
         if (status != OrderStatus.CREATED) {
             return false;
@@ -146,6 +176,14 @@ public class SalesOrder {
 
     public Instant getPaidAt() {
         return paidAt;
+    }
+
+    public Instant getShippedAt() {
+        return shippedAt;
+    }
+
+    public Instant getCompletedAt() {
+        return completedAt;
     }
 
     public Instant getCanceledAt() {

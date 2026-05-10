@@ -51,4 +51,14 @@ public class OrderController {
     public ResponseEntity<OrderResponse> cancel(@PathVariable Long orderId) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.cancel(orderId));
     }
+
+    @PostMapping("/{orderId}/ship")
+    public ResponseEntity<OrderResponse> ship(@PathVariable Long orderId) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.ship(orderId));
+    }
+
+    @PostMapping("/{orderId}/complete")
+    public ResponseEntity<OrderResponse> complete(@PathVariable Long orderId) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.complete(orderId));
+    }
 }

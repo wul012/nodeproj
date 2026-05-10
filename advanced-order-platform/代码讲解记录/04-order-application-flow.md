@@ -31,6 +31,8 @@ outbox
 创建订单
 查询订单
 支付订单
+发货订单
+完成订单
 ```
 
 其中最重要的是创建订单：
@@ -516,8 +518,8 @@ public OrderResponse pay(Long orderId) {
 
     order.markPaid();
     inventoryService.commitReserved(order.quantitiesByProductId());
-    outboxRepository.save(OutboxEvent.orderPaid(order));
-    return OrderResponse.from(order);
+outboxRepository.save(OutboxEvent.orderPaid(order));
+return OrderResponse.from(order);
 }
 ```
 
@@ -573,7 +575,99 @@ productId -> quantity
 
 ---
 
-# 12. `cancel`：取消订单并释放库存
+# 12. `ship`：订单发货
+
+第五版新增发货方法：
+
+```java
+@Transactional
+public OrderResponse ship(Long orderId) {
+    SalesOrder order = findOrder(orderId);
+    if (order.ship()) {
+        outboxRepository.save(OutboxEvent.orderShipped(order));
+    }
+    return OrderResponse.from(order);
+}
+```
+
+流程是：
+
+```text
+查询订单
+调用 SalesOrder.ship()
+如果本次真的从 PAID 变成 SHIPPED
+ -> 写入 OrderShipped 事件
+返回订单响应
+```
+
+对应的领域规则是：
+
+```java
+public boolean ship() {
+    if (status == OrderStatus.SHIPPED) {
+        return false;
+    }
+    if (status != OrderStatus.PAID) {
+        throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                "Only PAID orders can be shipped");
+    }
+    status = OrderStatus.SHIPPED;
+    shippedAt = Instant.now();
+    return true;
+}
+```
+
+一句话总结：`ship` 只允许已支付订单进入发货状态，并用返回值避免重复写发货事件。
+
+---
+
+# 13. `complete`：订单完成
+
+第五版新增完成方法：
+
+```java
+@Transactional
+public OrderResponse complete(Long orderId) {
+    SalesOrder order = findOrder(orderId);
+    if (order.complete()) {
+        outboxRepository.save(OutboxEvent.orderCompleted(order));
+    }
+    return OrderResponse.from(order);
+}
+```
+
+它对应的领域规则是：
+
+```java
+public boolean complete() {
+    if (status == OrderStatus.COMPLETED) {
+        return false;
+    }
+    if (status != OrderStatus.SHIPPED) {
+        throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                "Only SHIPPED orders can be completed");
+    }
+    status = OrderStatus.COMPLETED;
+    completedAt = Instant.now();
+    return true;
+}
+```
+
+流程可以理解成：
+
+```text
+PAID
+ -> ship
+ -> SHIPPED
+ -> complete
+ -> COMPLETED
+```
+
+一句话总结：`complete` 把履约中的订单收口到最终完成状态，并记录完成事件。
+
+---
+
+# 14. `cancel`：取消订单并释放库存
 
 第二版新增取消方法：
 
@@ -705,7 +799,7 @@ outboxRepository.save(OutboxEvent.orderCancelled(order));
 
 ---
 
-# 13. 当前实现的一个重要边界
+# 15. 当前实现的一个重要边界
 
 当前代码已经有：
 
@@ -718,6 +812,7 @@ outboxRepository.save(OutboxEvent.orderCancelled(order));
 订单取消释放库存
 取消接口幂等
 超时未支付订单自动过期取消
+发货和完成履约状态流转
 ```
 
 但它还没有做完整的：
@@ -738,4 +833,4 @@ Redis 分布式限流
 
 # 本次讲解总结
 
-第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、取消释放和 Outbox 事件串成完整业务流程。
+第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、取消释放、发货完成和 Outbox 事件串成完整业务流程。

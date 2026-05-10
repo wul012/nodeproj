@@ -14,6 +14,7 @@ import com.codexdemo.orderplatform.order.CreateOrderResult;
 import com.codexdemo.orderplatform.order.OrderApplicationService;
 import com.codexdemo.orderplatform.order.OrderResponse;
 import com.codexdemo.orderplatform.order.OrderStatus;
+import com.codexdemo.orderplatform.outbox.OutboxEvent;
 import com.codexdemo.orderplatform.outbox.OutboxPublisher;
 import com.codexdemo.orderplatform.outbox.OutboxRepository;
 import java.time.Instant;
@@ -137,6 +138,69 @@ class OrderApplicationServiceTests {
         assertThatThrownBy(() -> orderApplicationService.cancel(created.order().id()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("Only CREATED orders can be cancelled");
+    }
+
+    @Test
+    void paidOrderCanBeShippedAndCompletedIdempotently() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("5a5a5a5a-5a5a-5a5a-5a5a-5a5a5a5a5a5a"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-005-fulfillment", request);
+        orderApplicationService.pay(created.order().id());
+
+        long eventsBeforeShip = outboxRepository.count();
+        OrderResponse shipped = orderApplicationService.ship(created.order().id());
+        OrderResponse replayedShip = orderApplicationService.ship(created.order().id());
+        long eventsAfterShip = outboxRepository.count();
+
+        OrderResponse completed = orderApplicationService.complete(created.order().id());
+        OrderResponse replayedComplete = orderApplicationService.complete(created.order().id());
+        long eventsAfterComplete = outboxRepository.count();
+
+        assertThat(shipped.status()).isEqualTo(OrderStatus.SHIPPED);
+        assertThat(shipped.shippedAt()).isNotNull();
+        assertThat(replayedShip.status()).isEqualTo(OrderStatus.SHIPPED);
+        assertThat(eventsAfterShip).isEqualTo(eventsBeforeShip + 1);
+        assertThat(completed.status()).isEqualTo(OrderStatus.COMPLETED);
+        assertThat(completed.completedAt()).isNotNull();
+        assertThat(replayedComplete.status()).isEqualTo(OrderStatus.COMPLETED);
+        assertThat(eventsAfterComplete).isEqualTo(eventsAfterShip + 1);
+        assertThat(outboxRepository.findTop50ByOrderByCreatedAtDesc().stream().map(OutboxEvent::getEventType))
+                .contains("OrderShipped", "OrderCompleted");
+    }
+
+    @Test
+    void createdOrderCannotBeShipped() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("5b5b5b5b-5b5b-5b5b-5b5b-5b5b5b5b5b5b"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-005-created-ship", request);
+
+        assertThatThrownBy(() -> orderApplicationService.ship(created.order().id()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("Only PAID orders can be shipped");
+    }
+
+    @Test
+    void paidOrderCannotBeCompletedBeforeShipping() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("5c5c5c5c-5c5c-5c5c-5c5c-5c5c5c5c5c5c"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-005-paid-complete", request);
+        orderApplicationService.pay(created.order().id());
+
+        assertThatThrownBy(() -> orderApplicationService.complete(created.order().id()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("Only SHIPPED orders can be completed");
     }
 
     @Test

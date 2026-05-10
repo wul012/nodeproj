@@ -75,6 +75,24 @@ public class OrderApplicationService {
     }
 
     @Transactional
+    public OrderResponse ship(Long orderId) {
+        SalesOrder order = findOrder(orderId);
+        if (order.ship()) {
+            outboxRepository.save(OutboxEvent.orderShipped(order));
+        }
+        return OrderResponse.from(order);
+    }
+
+    @Transactional
+    public OrderResponse complete(Long orderId) {
+        SalesOrder order = findOrder(orderId);
+        if (order.complete()) {
+            outboxRepository.save(OutboxEvent.orderCompleted(order));
+        }
+        return OrderResponse.from(order);
+    }
+
+    @Transactional
     public int expireCreatedOrdersBefore(Instant createdBefore) {
         List<SalesOrder> orders = orderRepository.findTop50ByStatusAndCreatedAtBeforeOrderByCreatedAtAsc(
                 OrderStatus.CREATED,

@@ -63,7 +63,7 @@ aggregateId
  -> 聚合 ID，比如订单 ID
 
 eventType
- -> 事件类型，比如 OrderCreated、OrderPaid、OrderCancelled、OrderExpired
+ -> 事件类型，比如 OrderCreated、OrderPaid、OrderCancelled、OrderExpired、OrderShipped、OrderCompleted
 
 payload
  -> 事件内容，JSON 字符串
@@ -88,13 +88,15 @@ aggregateType = ORDER
 aggregateId = 订单 ID
 ```
 
-当前有四个事件工厂方法：
+当前有六个事件工厂方法：
 
 ```java
 public static OutboxEvent orderCreated(SalesOrder order)
 public static OutboxEvent orderPaid(SalesOrder order)
 public static OutboxEvent orderCancelled(SalesOrder order)
 public static OutboxEvent orderExpired(SalesOrder order)
+public static OutboxEvent orderShipped(SalesOrder order)
+public static OutboxEvent orderCompleted(SalesOrder order)
 ```
 
 它们分别在：
@@ -104,6 +106,8 @@ public static OutboxEvent orderExpired(SalesOrder order)
 订单支付成功后
 订单取消成功后
 订单超时过期后
+订单发货成功后
+订单完成成功后
 ```
 
 被调用。
@@ -125,6 +129,14 @@ public static OutboxEvent orderCancelled(SalesOrder order) {
 
 public static OutboxEvent orderExpired(SalesOrder order) {
     return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderExpired", orderPayload(order));
+}
+
+public static OutboxEvent orderShipped(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderShipped", orderPayload(order));
+}
+
+public static OutboxEvent orderCompleted(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCompleted", orderPayload(order));
 }
 ```
 
@@ -308,6 +320,18 @@ OrderCancelled
 
 ```text
 OrderExpired
+```
+
+订单发货后应该看到：
+
+```text
+OrderShipped
+```
+
+订单完成后应该看到：
+
+```text
+OrderCompleted
 ```
 
 一句话总结：`OutboxController` 让你能直接观察订单流程产生了哪些领域事件。

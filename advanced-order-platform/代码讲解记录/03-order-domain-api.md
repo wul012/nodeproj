@@ -65,6 +65,8 @@ OrderLine
 public enum OrderStatus {
     CREATED,
     PAID,
+    SHIPPED,
+    COMPLETED,
     CANCELLED
 }
 ```
@@ -78,11 +80,17 @@ CREATED
 PAID
  -> 订单已支付，预占库存已经确认扣减
 
+SHIPPED
+ -> 订单已发货，进入履约中状态
+
+COMPLETED
+ -> 订单已完成，履约闭环结束
+
 CANCELLED
  -> 订单已取消，预占库存已经释放回 available
 ```
 
-一句话总结：`OrderStatus` 是订单状态机的起点，当前已经支持 CREATED 到 PAID，以及 CREATED 到 CANCELLED 两条路径。
+一句话总结：`OrderStatus` 是订单状态机的起点，当前已经支持 CREATED 到 PAID，再到 SHIPPED、COMPLETED，也支持 CREATED 到 CANCELLED。
 
 ---
 
@@ -121,6 +129,12 @@ createdAt
 
 paidAt
  -> 支付时间
+
+shippedAt
+ -> 发货时间
+
+completedAt
+ -> 完成时间
 
 canceledAt
  -> 取消时间
@@ -619,10 +633,28 @@ public ResponseEntity<OrderResponse> cancel(@PathVariable Long orderId)
 409 ORDER_STATUS_INVALID
 ```
 
+发货接口：
+
+```java
+@PostMapping("/{orderId}/ship")
+public ResponseEntity<OrderResponse> ship(@PathVariable Long orderId)
+```
+
+只有 `PAID` 订单可以发货，成功后状态变成 `SHIPPED`。
+
+完成接口：
+
+```java
+@PostMapping("/{orderId}/complete")
+public ResponseEntity<OrderResponse> complete(@PathVariable Long orderId)
+```
+
+只有 `SHIPPED` 订单可以完成，成功后状态变成 `COMPLETED`。
+
 一句话总结：`OrderController` 只负责 HTTP 参数接收和响应状态码，真正业务编排交给 `OrderApplicationService`。
 
 ---
 
 # 本次讲解总结
 
-第三次讲解的是订单 API 和领域模型：Controller 负责入口，DTO 负责请求响应，Repository 负责数据库访问，`SalesOrder` 和 `OrderLine` 负责表达订单的真实业务结构；第二版补上了取消时间、取消状态流转和取消接口。
+第三次讲解的是订单 API 和领域模型：Controller 负责入口，DTO 负责请求响应，Repository 负责数据库访问，`SalesOrder` 和 `OrderLine` 负责表达订单的真实业务结构；后续版本补上了取消、发货、完成等状态流转接口。
