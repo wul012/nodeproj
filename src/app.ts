@@ -19,6 +19,7 @@ import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { AuditLog } from "./services/auditLog.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
+import { OpsBaselineStore } from "./services/opsBaseline.js";
 import { OpsCheckpointLedger } from "./services/opsCheckpoint.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
 import { OperationDispatchLedger } from "./services/operationDispatch.js";
@@ -76,6 +77,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     maxRequests: config.mutationRateLimitMax,
   });
   const opsCheckpoints = new OpsCheckpointLedger();
+  const opsBaseline = new OpsBaselineStore();
   const operationIntents = new OperationIntentStore(config);
   const operationDispatches = new OperationDispatchLedger(operationIntents);
   const requestStartTimes = new WeakMap<object, number>();
@@ -100,7 +102,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerActionPlanRoutes(app, { config });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });
-  await registerOpsSummaryRoutes(app, { config, auditLog, operationIntents, operationDispatches, opsCheckpoints, snapshots });
+  await registerOpsSummaryRoutes(app, { config, auditLog, operationIntents, operationDispatches, opsCheckpoints, opsBaseline, snapshots });
   await registerStatusRoutes(app, { config, snapshots });
   await registerOrderPlatformRoutes(app, { orderPlatform, upstreamActionsEnabled: config.upstreamActionsEnabled });
   await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });

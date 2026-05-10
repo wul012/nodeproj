@@ -4,6 +4,7 @@ import type { AppConfig } from "../config.js";
 import { AuditLog } from "../services/auditLog.js";
 import { OperationDispatchLedger } from "../services/operationDispatch.js";
 import { OperationIntentStore } from "../services/operationIntent.js";
+import { createOpsBaselineStatus, OpsBaselineStore } from "../services/opsBaseline.js";
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
@@ -18,6 +19,7 @@ interface OpsSummaryRouteDeps {
   operationIntents: OperationIntentStore;
   operationDispatches: OperationDispatchLedger;
   opsCheckpoints: OpsCheckpointLedger;
+  opsBaseline: OpsBaselineStore;
   snapshots: OpsSnapshotService;
 }
 
@@ -42,6 +44,12 @@ interface ListOpsCheckpointQuery {
 interface DiffOpsCheckpointQuery {
   baseId: string;
   targetId: string;
+}
+
+interface SetOpsBaselineBody {
+  checkpointId: string;
+  actor?: string;
+  note?: string;
 }
 
 interface OpsCheckpointParams {
@@ -101,6 +109,48 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     deps.opsCheckpoints.get(request.query.baseId),
     deps.opsCheckpoints.get(request.query.targetId),
   ));
+  app.get("/api/v1/ops/baseline", async () => {
+    const baseline = deps.opsBaseline.get();
+    const latest = deps.opsCheckpoints.list(1)[0];
+    return createOpsBaselineStatus({
+      baseline,
+      baselineCheckpoint: baseline === undefined ? undefined : deps.opsCheckpoints.get(baseline.checkpointId),
+      latest,
+    });
+  });
+  app.put<{ Body: SetOpsBaselineBody }>("/api/v1/ops/baseline", {
+    schema: {
+      body: {
+        type: "object",
+        required: ["checkpointId"],
+        properties: {
+          checkpointId: { type: "string", minLength: 1 },
+          actor: { type: "string", minLength: 1, maxLength: 80 },
+          note: { type: "string", minLength: 1, maxLength: 400 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => {
+    const baselineCheckpoint = deps.opsCheckpoints.get(request.body.checkpointId);
+    const baseline = deps.opsBaseline.set(baselineCheckpoint, request.body);
+    const latest = deps.opsCheckpoints.list(1)[0];
+
+    return createOpsBaselineStatus({
+      baseline,
+      baselineCheckpoint,
+      latest,
+    });
+  });
+  app.delete("/api/v1/ops/baseline", async () => {
+    const cleared = deps.opsBaseline.clear();
+    const latest = deps.opsCheckpoints.list(1)[0];
+
+    return {
+      cleared,
+      ...createOpsBaselineStatus({ latest }),
+    };
+  });
   app.get<{ Params: OpsCheckpointParams }>("/api/v1/ops/checkpoints/:checkpointId", async (request) =>
     deps.opsCheckpoints.get(request.params.checkpointId));
   app.post<{ Body: CreateOpsCheckpointBody }>("/api/v1/ops/checkpoints", {

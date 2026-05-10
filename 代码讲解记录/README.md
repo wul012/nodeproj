@@ -75,6 +75,9 @@
 
 20-ops-checkpoint-diff-v16.md
  -> 第十六版本地 checkpoint diff：比较两个 checkpoint 的决策、signals、runbook totals 和步骤状态变化
+
+21-ops-baseline-v17.md
+ -> 第十七版本地 baseline tracking：把 checkpoint 设为基线，并将最新 checkpoint 与基线做 drift 对比
 ```
 
 ## 项目整体理解

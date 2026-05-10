@@ -480,6 +480,8 @@ export function dashboardHtml(): string {
         <button data-action="opsCreateCheckpoint">Create Checkpoint</button>
         <button data-action="opsListCheckpoints">Checkpoints</button>
         <button data-action="opsDiffCheckpoints">Diff Latest</button>
+        <button data-action="opsSetBaseline">Set Baseline</button>
+        <button data-action="opsBaseline">Baseline</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -718,6 +720,24 @@ export function dashboardHtml(): string {
             const base = listed.checkpoints[1];
             write(await api("/api/v1/ops/checkpoints/diff?baseId=" + encodeURIComponent(base.id) + "&targetId=" + encodeURIComponent(target.id)));
           }
+        }
+        if (action === "opsSetBaseline") {
+          const listed = await api("/api/v1/ops/checkpoints?limit=1");
+          if (listed.checkpoints.length < 1) {
+            write({ error: "NEED_CHECKPOINT", message: "Create a checkpoint before setting the baseline." });
+          } else {
+            write(await api("/api/v1/ops/baseline", {
+              method: "PUT",
+              body: JSON.stringify({
+                checkpointId: listed.checkpoints[0].id,
+                actor: $("operatorId").value || "dashboard",
+                note: $("intentReason").value || "dashboard baseline",
+              }),
+            }));
+          }
+        }
+        if (action === "opsBaseline") {
+          write(await api("/api/v1/ops/baseline"));
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));
