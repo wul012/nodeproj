@@ -454,7 +454,8 @@ export function dashboardHtml(): string {
           <option value="operator">operator</option>
           <option value="viewer">viewer</option>
         </select>
-        <input id="intentReason" placeholder="Reason" value="local V6 check">
+        <input id="intentReason" placeholder="Reason" value="local V8 check">
+        <input id="intentKey" placeholder="Idempotency-Key" value="v8-local-intent-001">
         <button class="primary" data-action="createIntent">Create Intent</button>
         <button data-action="listIntents">List Intents</button>
       </div>
@@ -616,8 +617,13 @@ export function dashboardHtml(): string {
           write(await api("/api/v1/action-plans/catalog"));
         }
         if (action === "createIntent") {
+          const headers = {};
+          if ($("intentKey").value.trim()) {
+            headers["idempotency-key"] = $("intentKey").value.trim();
+          }
           const intent = await api("/api/v1/operation-intents", {
             method: "POST",
+            headers,
             body: JSON.stringify({
               action: $("planAction").value,
               operatorId: $("operatorId").value,

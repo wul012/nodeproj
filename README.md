@@ -21,6 +21,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
 - In-memory operation intent flow with role policy and explicit confirmation text
 - In-memory operation intent event feed and per-intent timeline
+- Idempotency-Key support for operation intent creation and duplicate-submit replay
 
 ## Setup
 
@@ -91,6 +92,8 @@ PUT    /api/v1/mini-kv/:key
 DELETE /api/v1/mini-kv/:key
 POST   /api/v1/mini-kv/commands
 ```
+
+`POST /api/v1/operation-intents` accepts an optional `Idempotency-Key` header. Repeating the same request with the same key returns the original intent with HTTP 200 and `idempotency.reused=true`.
 
 ## Code Walkthrough
 

@@ -1,5 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
+import { AppHttpError } from "../errors.js";
 import { actionKeys } from "../services/actionPlanner.js";
 import { OperationIntentStore, operatorRoles } from "../services/operationIntent.js";
 import type { ActionKey, ActionTarget } from "../services/actionPlanner.js";
@@ -15,6 +16,11 @@ interface CreateIntentBody {
   operatorId: string;
   role: OperatorRole;
   reason?: string;
+  idempotencyKey?: string;
+}
+
+interface CreateIntentHeaders {
+  "idempotency-key"?: string;
 }
 
 interface IntentParams {
@@ -36,6 +42,7 @@ const intentEventTypes = [
   "intent.created",
   "intent.blocked",
   "intent.awaiting_confirmation",
+  "intent.idempotency_replayed",
   "intent.confirmation.accepted",
   "intent.confirmation.rejected",
   "intent.expired",
@@ -87,8 +94,15 @@ export async function registerOperationIntentRoutes(app: FastifyInstance, deps: 
     },
   }, async (request) => deps.operationIntents.getTimeline(request.params.intentId, request.query.limit ?? 50));
 
-  app.post<{ Body: CreateIntentBody }>("/api/v1/operation-intents", {
+  app.post<{ Body: CreateIntentBody; Headers: CreateIntentHeaders }>("/api/v1/operation-intents", {
     schema: {
+      headers: {
+        type: "object",
+        properties: {
+          "idempotency-key": { type: "string", minLength: 1, maxLength: 120 },
+        },
+        additionalProperties: true,
+      },
       body: {
         type: "object",
         required: ["action", "operatorId", "role"],
@@ -98,13 +112,22 @@ export async function registerOperationIntentRoutes(app: FastifyInstance, deps: 
           operatorId: { type: "string", minLength: 1, maxLength: 80 },
           role: { type: "string", enum: operatorRoles },
           reason: { type: "string", maxLength: 400 },
+          idempotencyKey: { type: "string", minLength: 1, maxLength: 120 },
         },
         additionalProperties: false,
       },
     },
   }, async (request, reply) => {
-    const intent = deps.operationIntents.create(request.body);
-    reply.code(201);
+    const headerKey = request.headers["idempotency-key"];
+    if (headerKey !== undefined && request.body.idempotencyKey !== undefined && headerKey !== request.body.idempotencyKey) {
+      throw new AppHttpError(400, "IDEMPOTENCY_KEY_MISMATCH", "Header and body idempotency keys must match");
+    }
+
+    const intent = deps.operationIntents.create({
+      ...request.body,
+      idempotencyKey: headerKey ?? request.body.idempotencyKey,
+    });
+    reply.code(intent.idempotency?.reused ? 200 : 201);
     return intent;
   });
 

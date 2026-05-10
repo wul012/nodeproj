@@ -48,6 +48,9 @@
 
 11-operation-timeline-v7.md
  -> 第七版操作时间线：intent event feed、单个 intent timeline、确认失败追踪和 Dashboard 查询入口
+
+12-operation-idempotency-v8.md
+ -> 第八版操作意图幂等键：Idempotency-Key、重复提交 replay、冲突保护和 timeline 事件
 ```
 
 ## 项目整体理解

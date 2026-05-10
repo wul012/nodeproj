@@ -14,6 +14,7 @@ export type OperationIntentEventType =
   | "intent.created"
   | "intent.blocked"
   | "intent.awaiting_confirmation"
+  | "intent.idempotency_replayed"
   | "intent.confirmation.accepted"
   | "intent.confirmation.rejected"
   | "intent.expired";
@@ -24,6 +25,7 @@ export interface OperationIntentInput {
   operatorId: string;
   role: OperatorRole;
   reason?: string;
+  idempotencyKey?: string;
 }
 
 export interface ConfirmOperationIntentInput {
@@ -57,6 +59,10 @@ export interface OperationIntent {
     confirmedAt?: string;
     confirmedBy?: string;
   };
+  idempotency?: {
+    keyHash: string;
+    reused: boolean;
+  };
 }
 
 export interface OperationIntentEvent {
@@ -87,6 +93,11 @@ interface OperationIntentStoreOptions {
   maxEvents?: number;
 }
 
+interface IdempotencyRecord {
+  intentId: string;
+  fingerprint: string;
+}
+
 const roleRank: Record<OperatorRole, number> = {
   viewer: 0,
   operator: 1,
@@ -102,6 +113,7 @@ const requiredRoleByRisk: Record<ActionRisk, OperatorRole> = {
 export class OperationIntentStore {
   private readonly intents = new Map<string, OperationIntent>();
   private readonly events: OperationIntentEvent[] = [];
+  private readonly idempotencyIndex = new Map<string, IdempotencyRecord>();
   private readonly ttlMs: number;
   private readonly maxItems: number;
   private readonly maxEvents: number;
@@ -121,6 +133,40 @@ export class OperationIntentStore {
       throw new AppHttpError(400, "INVALID_OPERATOR_ID", "operatorId must be 1-80 characters");
     }
 
+    const reason = normalizeReason(input.reason);
+    const idempotency = normalizeIdempotencyKey(input.idempotencyKey);
+    const idempotencyScope = idempotency === undefined ? undefined : createIdempotencyScope(operatorId, idempotency);
+    const fingerprint = idempotency === undefined
+      ? undefined
+      : createIntentFingerprint({
+        action: input.action,
+        target: input.target,
+        operatorId,
+        role: input.role,
+        reason,
+      });
+
+    if (idempotency !== undefined && idempotencyScope !== undefined && fingerprint !== undefined) {
+      const existing = this.idempotencyIndex.get(idempotencyScope);
+      if (existing !== undefined) {
+        if (existing.fingerprint !== fingerprint) {
+          throw new AppHttpError(409, "IDEMPOTENCY_KEY_CONFLICT", "Idempotency-Key was already used with different intent input", {
+            keyHash: hashIdempotencyKey(idempotency),
+          });
+        }
+
+        const existingIntent = this.intents.get(existing.intentId);
+        if (existingIntent !== undefined) {
+          this.recordEvent(existingIntent, "intent.idempotency_replayed", "Operation intent was returned from an idempotency replay", {
+            keyHash: hashIdempotencyKey(idempotency),
+          });
+          return cloneIntent(existingIntent, true);
+        }
+
+        this.idempotencyIndex.delete(idempotencyScope);
+      }
+    }
+
     const plan = createActionPlan(this.config, input);
     const now = new Date();
     const policy = evaluatePolicy(plan, input.role);
@@ -135,17 +181,30 @@ export class OperationIntentStore {
         id: operatorId,
         role: input.role,
       },
-      reason: normalizeReason(input.reason),
+      reason,
       plan,
       policy,
       confirmation: {
         requiredText: `CONFIRM ${plan.action}`,
       },
+      ...(idempotency === undefined ? {} : {
+        idempotency: {
+          keyHash: hashIdempotencyKey(idempotency),
+          reused: false,
+        },
+      }),
     };
 
     this.intents.set(intent.id, intent);
+    if (idempotencyScope !== undefined && fingerprint !== undefined) {
+      this.idempotencyIndex.set(idempotencyScope, {
+        intentId: intent.id,
+        fingerprint,
+      });
+    }
     this.recordEvent(intent, "intent.created", "Operation intent was created", {
       reason: intent.reason,
+      ...(intent.idempotency === undefined ? {} : { idempotencyKeyHash: intent.idempotency.keyHash }),
     });
     this.recordEvent(
       intent,
@@ -154,7 +213,7 @@ export class OperationIntentStore {
       policy.blockedBy ? { blockedBy: policy.blockedBy, requiredRole: policy.requiredRole } : { requiredRole: policy.requiredRole },
     );
     this.trim();
-    return cloneIntent(intent);
+    return cloneIntent(intent, false);
   }
 
   confirm(intentId: string, input: ConfirmOperationIntentInput): OperationIntent {
@@ -199,7 +258,7 @@ export class OperationIntentStore {
     this.recordEvent(current, "intent.confirmation.accepted", "Operation intent was confirmed", {
       confirmedBy: current.operator.id,
     });
-    return cloneIntent(current);
+    return cloneIntent(current, current.idempotency?.reused ?? false);
   }
 
   list(limit = 20): OperationIntent[] {
@@ -208,12 +267,12 @@ export class OperationIntentStore {
     return [...this.intents.values()]
       .sort((left, right) => right.createdAt.localeCompare(left.createdAt))
       .slice(0, safeLimit)
-      .map(cloneIntent);
+      .map((intent) => cloneIntent(intent, false));
   }
 
   get(intentId: string): OperationIntent {
     const intent = this.requireIntent(intentId);
-    return cloneIntent(this.expireIfNeeded(intent, new Date()));
+    return cloneIntent(this.expireIfNeeded(intent, new Date()), false);
   }
 
   listEvents(query: OperationIntentEventQuery = {}): OperationIntentEvent[] {
@@ -333,8 +392,50 @@ function normalizeReason(reason: string | undefined): string {
   return normalized.length > 0 ? normalized.slice(0, 400) : "local-dev";
 }
 
-function cloneIntent(intent: OperationIntent): OperationIntent {
-  return structuredClone(intent);
+function normalizeIdempotencyKey(key: string | undefined): string | undefined {
+  const normalized = key?.trim();
+  if (!normalized) {
+    return undefined;
+  }
+
+  if (normalized.length > 120 || /[\r\n]/.test(normalized)) {
+    throw new AppHttpError(400, "INVALID_IDEMPOTENCY_KEY", "Idempotency-Key must be 1-120 characters without newlines");
+  }
+
+  return normalized;
+}
+
+function createIdempotencyScope(operatorId: string, key: string): string {
+  return `${operatorId}:${hashIdempotencyKey(key)}`;
+}
+
+function createIntentFingerprint(input: {
+  action: ActionKey;
+  target?: ActionTarget;
+  operatorId: string;
+  role: OperatorRole;
+  reason: string;
+}): string {
+  return JSON.stringify({
+    action: input.action,
+    target: input.target ?? null,
+    operatorId: input.operatorId,
+    role: input.role,
+    reason: input.reason,
+  });
+}
+
+function hashIdempotencyKey(key: string): string {
+  return crypto.createHash("sha256").update(key).digest("hex").slice(0, 16);
+}
+
+function cloneIntent(intent: OperationIntent, reused: boolean): OperationIntent {
+  const clone = structuredClone(intent);
+  if (clone.idempotency !== undefined) {
+    clone.idempotency.reused = reused;
+  }
+
+  return clone;
 }
 
 function cloneEvent(event: OperationIntentEvent): OperationIntentEvent {

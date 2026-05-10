@@ -97,6 +97,53 @@ describe("operation intent policy", () => {
     })).toThrow(AppHttpError);
     expect(store.listEvents({ type: "intent.confirmation.rejected" })).toHaveLength(1);
   });
+
+  it("replays the same intent when the idempotency key is reused with the same input", () => {
+    const store = new OperationIntentStore(loadConfig({ UPSTREAM_ACTIONS_ENABLED: "false" }));
+    const input = {
+      action: "kv-set" as const,
+      operatorId: "dev-admin",
+      role: "admin" as const,
+      reason: "same submit",
+      idempotencyKey: "intent-key-001",
+    };
+
+    const first = store.create(input);
+    const second = store.create(input);
+
+    expect(second.id).toBe(first.id);
+    expect(first.idempotency).toMatchObject({
+      reused: false,
+    });
+    expect(second.idempotency).toMatchObject({
+      reused: true,
+    });
+    expect(store.getTimeline(first.id).events.map((event) => event.type)).toEqual([
+      "intent.created",
+      "intent.blocked",
+      "intent.idempotency_replayed",
+    ]);
+  });
+
+  it("rejects idempotency key reuse with different intent input", () => {
+    const store = new OperationIntentStore(loadConfig({ UPSTREAM_ACTIONS_ENABLED: "false" }));
+
+    store.create({
+      action: "kv-set",
+      operatorId: "dev-admin",
+      role: "admin",
+      reason: "same submit",
+      idempotencyKey: "intent-key-002",
+    });
+
+    expect(() => store.create({
+      action: "kv-delete",
+      operatorId: "dev-admin",
+      role: "admin",
+      reason: "same submit",
+      idempotencyKey: "intent-key-002",
+    })).toThrow(AppHttpError);
+  });
 });
 
 describe("operation intent routes", () => {
@@ -151,6 +198,55 @@ describe("operation intent routes", () => {
       expect(timeline.json().events.map((event: { type: string }) => event.type)).toEqual([
         "intent.created",
         "intent.blocked",
+      ]);
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("replays POST /operation-intents with the same Idempotency-Key", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const payload = {
+        action: "kv-set",
+        operatorId: "local-dev",
+        role: "admin",
+        reason: "route idempotency",
+      };
+      const first = await app.inject({
+        method: "POST",
+        url: "/api/v1/operation-intents",
+        headers: {
+          "idempotency-key": "route-key-001",
+        },
+        payload,
+      });
+      const second = await app.inject({
+        method: "POST",
+        url: "/api/v1/operation-intents",
+        headers: {
+          "idempotency-key": "route-key-001",
+        },
+        payload,
+      });
+
+      expect(first.statusCode).toBe(201);
+      expect(second.statusCode).toBe(200);
+      expect(second.json().id).toBe(first.json().id);
+      expect(second.json().idempotency).toMatchObject({
+        reused: true,
+      });
+
+      const timeline = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-intents/${first.json().id}/timeline`,
+      });
+
+      expect(timeline.json().events.map((event: { type: string }) => event.type)).toEqual([
+        "intent.created",
+        "intent.blocked",
+        "intent.idempotency_replayed",
       ]);
     } finally {
       await app.close();
