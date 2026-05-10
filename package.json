@@ -1,0 +1,26 @@
+{
+  "name": "orderops-node",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Node.js control plane for the Java order platform and C++ mini-kv service.",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "start": "node dist/server.js",
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "fastify": "^5.8.5"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.2",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.5"
+  }
+}
