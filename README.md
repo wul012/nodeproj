@@ -32,6 +32,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local ops checkpoint diff for comparing readiness, runbook totals, signals, and step status changes
 - Local ops baseline tracking for comparing the latest checkpoint against a selected checkpoint baseline
 - Local ops promotion review for combining readiness, runbook, checkpoint, and baseline drift into a promotion decision
+- In-memory ops promotion decision ledger for recording promotion reviews with reviewer notes and SHA-256 digests
 
 ## Setup
 
@@ -83,6 +84,9 @@ GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
 GET    /api/v1/ops/readiness
 GET    /api/v1/ops/promotion-review
+GET    /api/v1/ops/promotion-decisions
+GET    /api/v1/ops/promotion-decisions/:decisionId
+POST   /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/runbook
 GET    /api/v1/ops/checkpoints
 GET    /api/v1/ops/checkpoints/diff

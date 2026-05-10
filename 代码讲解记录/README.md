@@ -81,6 +81,9 @@
 
 22-ops-promotion-review-v18.md
  -> 第十八版本地 promotion review：综合 readiness、runbook、checkpoint 和 baseline drift 输出推进决策
+
+23-ops-promotion-decision-v19.md
+ -> 第十九版本地 promotion decision ledger：固化 promotion review、reviewer/note 和 SHA-256 摘要
 ```
 
 ## 项目整体理解

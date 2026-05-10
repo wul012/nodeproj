@@ -483,6 +483,8 @@ export function dashboardHtml(): string {
         <button data-action="opsSetBaseline">Set Baseline</button>
         <button data-action="opsBaseline">Baseline</button>
         <button data-action="opsPromotionReview">Promotion Review</button>
+        <button data-action="opsRecordPromotionDecision">Record Decision</button>
+        <button data-action="opsPromotionDecisions">Decisions</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -742,6 +744,18 @@ export function dashboardHtml(): string {
         }
         if (action === "opsPromotionReview") {
           write(await api("/api/v1/ops/promotion-review"));
+        }
+        if (action === "opsRecordPromotionDecision") {
+          write(await api("/api/v1/ops/promotion-decisions", {
+            method: "POST",
+            body: JSON.stringify({
+              reviewer: $("operatorId").value || "dashboard",
+              note: $("intentReason").value || "dashboard promotion decision",
+            }),
+          }));
+        }
+        if (action === "opsPromotionDecisions") {
+          write(await api("/api/v1/ops/promotion-decisions?limit=10"));
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));

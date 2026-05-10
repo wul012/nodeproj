@@ -8,6 +8,7 @@ import { createOpsBaselineStatus, OpsBaselineStore } from "../services/opsBaseli
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
+import { OpsPromotionDecisionLedger } from "../services/opsPromotionDecision.js";
 import { createOpsPromotionReview } from "../services/opsPromotionReview.js";
 import { createOpsReadiness } from "../services/opsReadiness.js";
 import { createOpsRunbook, renderOpsRunbookMarkdown } from "../services/opsRunbook.js";
@@ -21,6 +22,7 @@ interface OpsSummaryRouteDeps {
   operationDispatches: OperationDispatchLedger;
   opsCheckpoints: OpsCheckpointLedger;
   opsBaseline: OpsBaselineStore;
+  opsPromotionDecisions: OpsPromotionDecisionLedger;
   snapshots: OpsSnapshotService;
 }
 
@@ -53,6 +55,19 @@ interface SetOpsBaselineBody {
   note?: string;
 }
 
+interface CreatePromotionDecisionBody {
+  reviewer?: string;
+  note?: string;
+}
+
+interface ListPromotionDecisionQuery {
+  limit?: number;
+}
+
+interface PromotionDecisionParams {
+  decisionId: string;
+}
+
 interface OpsCheckpointParams {
   checkpointId: string;
 }
@@ -61,14 +76,43 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
   app.get("/api/v1/ops/summary", async () => createOpsSummary(deps));
   app.get("/api/v1/ops/readiness", async () => createOpsReadiness(createOpsSummary(deps)));
   app.get("/api/v1/ops/promotion-review", async () => {
-    const summary = createOpsSummary(deps);
-    const readiness = createOpsReadiness(summary);
-    return createOpsPromotionReview({
-      summary,
-      readiness,
-      runbook: createOpsRunbook(summary, readiness),
-      baseline: createBaselineStatus(deps),
+    return createPromotionReview(deps);
+  });
+  app.get<{ Querystring: ListPromotionDecisionQuery }>("/api/v1/ops/promotion-decisions", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          limit: { type: "integer", minimum: 1, maximum: 100 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => ({
+    decisions: deps.opsPromotionDecisions.list(request.query.limit ?? 20),
+  }));
+  app.get<{ Params: PromotionDecisionParams }>("/api/v1/ops/promotion-decisions/:decisionId", async (request) =>
+    deps.opsPromotionDecisions.get(request.params.decisionId));
+  app.post<{ Body: CreatePromotionDecisionBody }>("/api/v1/ops/promotion-decisions", {
+    schema: {
+      body: {
+        type: "object",
+        properties: {
+          reviewer: { type: "string", minLength: 1, maxLength: 80 },
+          note: { type: "string", minLength: 1, maxLength: 400 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const decision = deps.opsPromotionDecisions.create({
+      reviewer: request.body?.reviewer,
+      note: request.body?.note,
+      review: createPromotionReview(deps),
     });
+
+    reply.code(201);
+    return decision;
   });
   app.get<{ Querystring: OpsRunbookQuery }>("/api/v1/ops/runbook", {
     schema: {
@@ -225,5 +269,16 @@ function createBaselineStatus(deps: OpsSummaryRouteDeps) {
     baseline,
     baselineCheckpoint: baseline === undefined ? undefined : deps.opsCheckpoints.get(baseline.checkpointId),
     latest,
+  });
+}
+
+function createPromotionReview(deps: OpsSummaryRouteDeps) {
+  const summary = createOpsSummary(deps);
+  const readiness = createOpsReadiness(summary);
+  return createOpsPromotionReview({
+    summary,
+    readiness,
+    runbook: createOpsRunbook(summary, readiness),
+    baseline: createBaselineStatus(deps),
   });
 }
