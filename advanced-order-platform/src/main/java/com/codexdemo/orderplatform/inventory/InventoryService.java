@@ -26,6 +26,12 @@ public class InventoryService {
                 .forEach(entry -> findLocked(entry.getKey()).commitReserved(entry.getValue()));
     }
 
+    public void returnCommitted(Map<Long, Integer> productQuantities) {
+        productQuantities.entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> findLocked(entry.getKey()).returnCommitted(entry.getValue()));
+    }
+
     public void releaseReserved(Map<Long, Integer> productQuantities) {
         productQuantities.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())

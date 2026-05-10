@@ -63,7 +63,7 @@ aggregateId
  -> 聚合 ID，比如订单 ID
 
 eventType
- -> 事件类型，比如 OrderCreated、OrderPaid、OrderCancelled、OrderExpired、OrderShipped、OrderCompleted
+ -> 事件类型，比如 OrderCreated、OrderPaid、OrderRefunded、OrderCancelled、OrderExpired、OrderShipped、OrderCompleted
 
 payload
  -> 事件内容，JSON 字符串
@@ -88,7 +88,7 @@ aggregateType = ORDER
 aggregateId = 订单 ID
 ```
 
-当前有六个事件工厂方法：
+当前有七个事件工厂方法：
 
 ```java
 public static OutboxEvent orderCreated(SalesOrder order)
@@ -97,6 +97,7 @@ public static OutboxEvent orderCancelled(SalesOrder order)
 public static OutboxEvent orderExpired(SalesOrder order)
 public static OutboxEvent orderShipped(SalesOrder order)
 public static OutboxEvent orderCompleted(SalesOrder order)
+public static OutboxEvent orderRefunded(SalesOrder order)
 ```
 
 它们分别在：
@@ -104,6 +105,7 @@ public static OutboxEvent orderCompleted(SalesOrder order)
 ```text
 订单创建成功后
 订单支付成功后
+订单退款成功后
 订单取消成功后
 订单超时过期后
 订单发货成功后
@@ -112,7 +114,7 @@ public static OutboxEvent orderCompleted(SalesOrder order)
 
 被调用。
 
-三个方法的代码结构是一样的：
+这些方法的代码结构是一样的：
 
 ```java
 public static OutboxEvent orderCreated(SalesOrder order) {
@@ -137,6 +139,10 @@ public static OutboxEvent orderShipped(SalesOrder order) {
 
 public static OutboxEvent orderCompleted(SalesOrder order) {
     return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCompleted", orderPayload(order));
+}
+
+public static OutboxEvent orderRefunded(SalesOrder order) {
+    return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderRefunded", orderPayload(order));
 }
 ```
 

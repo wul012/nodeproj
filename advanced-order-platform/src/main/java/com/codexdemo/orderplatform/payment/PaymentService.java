@@ -23,6 +23,16 @@ public class PaymentService {
                 ));
     }
 
+    public PaymentTransaction recordRefundedPayment(SalesOrder order) {
+        return paymentTransactionRepository.findFirstByOrderIdAndStatusOrderByCreatedAtAscIdAsc(
+                        order.getId(),
+                        PaymentStatus.REFUNDED
+                )
+                .orElseGet(() -> paymentTransactionRepository.save(
+                        PaymentTransaction.refunded(order.getId(), order.getTotalAmount())
+                ));
+    }
+
     public List<PaymentTransaction> listOrderPayments(Long orderId) {
         return paymentTransactionRepository.findByOrderIdOrderByCreatedAtAscIdAsc(orderId);
     }

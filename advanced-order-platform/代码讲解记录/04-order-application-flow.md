@@ -32,6 +32,7 @@ outbox
 创建订单
 查询订单
 支付订单
+退款订单
 发货订单
 完成订单
 查询支付流水
@@ -620,7 +621,60 @@ action = ORDER_PAID
 
 ---
 
-# 12. `ship`：订单发货
+# 12. `refund`：支付后退款
+
+第八版新增退款方法：
+
+```java
+@Transactional
+public OrderResponse refund(Long orderId) {
+    SalesOrder order = findOrder(orderId);
+    OrderStatus fromStatus = order.getStatus();
+    if (order.refund()) {
+        inventoryService.returnCommitted(order.quantitiesByProductId());
+        paymentService.recordRefundedPayment(order);
+        outboxRepository.save(OutboxEvent.orderRefunded(order));
+        recordHistory(order, fromStatus, "ORDER_REFUNDED");
+    }
+    return OrderResponse.from(order);
+}
+```
+
+退款流程是：
+
+```text
+查询订单
+调用 SalesOrder.refund()
+如果本次真的从 PAID 变成 REFUNDED
+ -> 回补已经确认扣减的库存
+ -> 写 REFUNDED 支付交易流水
+ -> 写 OrderRefunded Outbox 事件
+ -> 写 ORDER_REFUNDED 状态历史
+返回订单响应
+```
+
+领域规则是：
+
+```java
+public boolean refund() {
+    if (status == OrderStatus.REFUNDED) {
+        return false;
+    }
+    if (status != OrderStatus.PAID) {
+        throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                "Only PAID orders can be refunded");
+    }
+    status = OrderStatus.REFUNDED;
+    refundedAt = Instant.now();
+    return true;
+}
+```
+
+一句话总结：`refund` 只允许已支付未发货订单退款，并且用返回值保证重复退款不会重复回补库存或重复写流水。
+
+---
+
+# 13. `ship`：订单发货
 
 第五版新增发货方法：
 
@@ -668,7 +722,7 @@ public boolean ship() {
 
 ---
 
-# 13. `complete`：订单完成
+# 14. `complete`：订单完成
 
 第五版新增完成方法：
 
@@ -716,7 +770,7 @@ PAID
 
 ---
 
-# 14. `cancel`：取消订单并释放库存
+# 15. `cancel`：取消订单并释放库存
 
 第二版新增取消方法：
 
@@ -850,7 +904,7 @@ outboxRepository.save(OutboxEvent.orderCancelled(order));
 
 ---
 
-# 15. `getOrderHistory` 和 `recordHistory`：订单状态时间线
+# 16. `getOrderHistory` 和 `recordHistory`：订单状态时间线
 
 第六版新增历史查询用例：
 
@@ -896,13 +950,14 @@ ORDER_CANCELLED
 ORDER_EXPIRED
 ORDER_SHIPPED
 ORDER_COMPLETED
+ORDER_REFUNDED
 ```
 
 一句话总结：`recordHistory` 让订单状态机不仅“改变当前状态”，还留下可审计、可查询的状态变化轨迹。
 
 ---
 
-# 16. `getOrderPayments`：查询支付交易流水
+# 17. `getOrderPayments`：查询支付交易流水
 
 第七版新增支付流水查询：
 
@@ -939,7 +994,7 @@ paymentService.listOrderPayments(orderId)
 
 ---
 
-# 17. 当前实现的一个重要边界
+# 18. 当前实现的一个重要边界
 
 当前代码已经有：
 
@@ -955,6 +1010,7 @@ paymentService.listOrderPayments(orderId)
 发货和完成履约状态流转
 订单状态历史查询
 支付交易流水查询
+支付后退款和库存回补
 ```
 
 但它还没有做完整的：

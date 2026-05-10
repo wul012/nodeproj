@@ -121,6 +121,45 @@ class OrderApplicationServiceTests {
     }
 
     @Test
+    void paidOrderCanBeRefundedAndRestocksInventoryIdempotently() {
+        Product product = productRepository.findAll().getFirst();
+        InventoryItem before = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("28282828-2828-2828-2828-282828282828"),
+                List.of(new CreateOrderLineRequest(product.getId(), 2))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-002-refund", request);
+        orderApplicationService.pay(created.order().id());
+        InventoryItem afterPay = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        OrderResponse refunded = orderApplicationService.refund(created.order().id());
+        InventoryItem afterRefund = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        OrderResponse replayedRefund = orderApplicationService.refund(created.order().id());
+        List<PaymentTransactionResponse> payments = orderApplicationService.getOrderPayments(created.order().id());
+        List<OrderStatusHistoryResponse> history = orderApplicationService.getOrderHistory(created.order().id());
+
+        assertThat(afterPay.getAvailable()).isEqualTo(before.getAvailable() - 2);
+        assertThat(afterPay.getReserved()).isEqualTo(before.getReserved());
+        assertThat(refunded.status()).isEqualTo(OrderStatus.REFUNDED);
+        assertThat(refunded.refundedAt()).isNotNull();
+        assertThat(afterRefund.getAvailable()).isEqualTo(before.getAvailable());
+        assertThat(afterRefund.getReserved()).isEqualTo(before.getReserved());
+        assertThat(replayedRefund.status()).isEqualTo(OrderStatus.REFUNDED);
+        assertThat(payments.stream().map(PaymentTransactionResponse::status).toList())
+                .containsExactly(PaymentStatus.SUCCEEDED, PaymentStatus.REFUNDED);
+        assertThat(payments.get(1).amount()).isEqualByComparingTo(refunded.totalAmount());
+        assertThat(payments.get(1).providerTransactionId()).startsWith("REF-");
+        assertThat(paymentTransactionRepository.countByOrderIdAndStatus(
+                created.order().id(),
+                PaymentStatus.REFUNDED
+        )).isEqualTo(1);
+        assertThat(history.stream().map(OrderStatusHistoryResponse::action).toList())
+                .containsExactly("ORDER_CREATED", "ORDER_PAID", "ORDER_REFUNDED");
+        assertThat(outboxRepository.findTop50ByOrderByCreatedAtDesc().stream().map(OutboxEvent::getEventType))
+                .contains("OrderRefunded");
+    }
+
+    @Test
     void createOrderFailsWhenStockIsInsufficient() {
         Product product = productRepository.findAll().getFirst();
         CreateOrderRequest request = new CreateOrderRequest(
@@ -206,6 +245,27 @@ class OrderApplicationServiceTests {
         assertThat(eventsAfterComplete).isEqualTo(eventsAfterShip + 1);
         assertThat(outboxRepository.findTop50ByOrderByCreatedAtDesc().stream().map(OutboxEvent::getEventType))
                 .contains("OrderShipped", "OrderCompleted");
+    }
+
+    @Test
+    void shippedOrderCannotBeRefunded() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("5d5d5d5d-5d5d-5d5d-5d5d-5d5d5d5d5d5d"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-005-shipped-refund", request);
+        orderApplicationService.pay(created.order().id());
+        orderApplicationService.ship(created.order().id());
+
+        assertThatThrownBy(() -> orderApplicationService.refund(created.order().id()))
+                .isInstanceOf(BusinessException.class)
+                .hasMessageContaining("Only PAID orders can be refunded");
+        assertThat(paymentTransactionRepository.countByOrderIdAndStatus(
+                created.order().id(),
+                PaymentStatus.REFUNDED
+        )).isZero();
     }
 
     @Test

@@ -51,6 +51,8 @@ public class SalesOrder {
 
     private Instant completedAt;
 
+    private Instant refundedAt;
+
     private Instant canceledAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -136,6 +138,19 @@ public class SalesOrder {
         return true;
     }
 
+    public boolean refund() {
+        if (status == OrderStatus.REFUNDED) {
+            return false;
+        }
+        if (status != OrderStatus.PAID) {
+            throw new BusinessException(HttpStatus.CONFLICT, "ORDER_STATUS_INVALID",
+                    "Only PAID orders can be refunded");
+        }
+        status = OrderStatus.REFUNDED;
+        refundedAt = Instant.now();
+        return true;
+    }
+
     public boolean expire(Instant expiredAt) {
         if (status != OrderStatus.CREATED) {
             return false;
@@ -184,6 +199,10 @@ public class SalesOrder {
 
     public Instant getCompletedAt() {
         return completedAt;
+    }
+
+    public Instant getRefundedAt() {
+        return refundedAt;
     }
 
     public Instant getCanceledAt() {

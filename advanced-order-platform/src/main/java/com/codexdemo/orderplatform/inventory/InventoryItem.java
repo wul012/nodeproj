@@ -63,6 +63,13 @@ public class InventoryItem {
         reserved -= quantity;
     }
 
+    public void returnCommitted(int quantity) {
+        if (quantity <= 0) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_QUANTITY", "Quantity must be greater than zero");
+        }
+        available += quantity;
+    }
+
     public void releaseReserved(int quantity) {
         if (quantity <= 0) {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_QUANTITY", "Quantity must be greater than zero");

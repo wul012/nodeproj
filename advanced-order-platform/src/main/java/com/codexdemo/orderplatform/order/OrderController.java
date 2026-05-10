@@ -59,6 +59,11 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.pay(orderId));
     }
 
+    @PostMapping("/{orderId}/refund")
+    public ResponseEntity<OrderResponse> refund(@PathVariable Long orderId) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.refund(orderId));
+    }
+
     @PostMapping("/{orderId}/cancel")
     public ResponseEntity<OrderResponse> cancel(@PathVariable Long orderId) {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(orderApplicationService.cancel(orderId));

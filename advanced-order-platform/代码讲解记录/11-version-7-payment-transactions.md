@@ -69,15 +69,16 @@ status = SUCCEEDED
 
 # 2. `PaymentStatus.java`：支付状态
 
-当前状态枚举很简单：
+第七版时状态枚举先服务支付成功；第八版后又补上了退款状态：
 
 ```java
 public enum PaymentStatus {
-    SUCCEEDED
+    SUCCEEDED,
+    REFUNDED
 }
 ```
 
-为什么现在只有 `SUCCEEDED`？
+为什么先有 `SUCCEEDED`？
 
 因为当前项目的支付接口仍然是：
 
@@ -87,15 +88,20 @@ POST /api/v1/orders/{orderId}/pay
 
 它表示模拟支付成功。
 
-后续可以扩展：
+第八版已经扩展：
+
+```text
+REFUNDED
+```
+
+后续还可以继续扩展：
 
 ```text
 PENDING
 FAILED
-REFUNDED
 ```
 
-一句话总结：`PaymentStatus` 现在先服务成功支付流水，后面可以继续扩展真实支付网关状态。
+一句话总结：`PaymentStatus` 先服务成功支付流水，第八版开始也服务退款流水，后面可以继续扩展真实支付网关状态。
 
 ---
 
@@ -185,7 +191,11 @@ completedAt
 
 ```java
 public static PaymentTransaction succeeded(Long orderId, BigDecimal amount) {
-    return new PaymentTransaction(orderId, amount, "SIMULATED");
+    return new PaymentTransaction(orderId, amount, PaymentStatus.SUCCEEDED, "SIMULATED", "SIM-");
+}
+
+public static PaymentTransaction refunded(Long orderId, BigDecimal amount) {
+    return new PaymentTransaction(orderId, amount, PaymentStatus.REFUNDED, "SIMULATED", "REF-");
 }
 ```
 

@@ -72,6 +72,10 @@ public class OutboxEvent {
         return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderCompleted", orderPayload(order));
     }
 
+    public static OutboxEvent orderRefunded(SalesOrder order) {
+        return new OutboxEvent("ORDER", String.valueOf(order.getId()), "OrderRefunded", orderPayload(order));
+    }
+
     public boolean markPublished(Instant publishedAt) {
         if (this.publishedAt != null) {
             return false;

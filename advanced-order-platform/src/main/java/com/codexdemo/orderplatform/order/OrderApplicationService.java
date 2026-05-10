@@ -92,6 +92,19 @@ public class OrderApplicationService {
     }
 
     @Transactional
+    public OrderResponse refund(Long orderId) {
+        SalesOrder order = findOrder(orderId);
+        OrderStatus fromStatus = order.getStatus();
+        if (order.refund()) {
+            inventoryService.returnCommitted(order.quantitiesByProductId());
+            paymentService.recordRefundedPayment(order);
+            outboxRepository.save(OutboxEvent.orderRefunded(order));
+            recordHistory(order, fromStatus, "ORDER_REFUNDED");
+        }
+        return OrderResponse.from(order);
+    }
+
+    @Transactional
     public OrderResponse cancel(Long orderId) {
         SalesOrder order = findOrder(orderId);
         OrderStatus fromStatus = order.getStatus();

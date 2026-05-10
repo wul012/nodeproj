@@ -48,12 +48,21 @@ public class PaymentTransaction {
     protected PaymentTransaction() {
     }
 
-    private PaymentTransaction(Long orderId, BigDecimal amount, String provider) {
+    private PaymentTransaction(
+            Long orderId,
+            BigDecimal amount,
+            PaymentStatus status,
+            String provider,
+            String transactionPrefix
+    ) {
         if (orderId == null) {
             throw new IllegalArgumentException("orderId is required");
         }
         if (amount == null || amount.signum() <= 0) {
             throw new IllegalArgumentException("amount must be positive");
+        }
+        if (status == null) {
+            throw new IllegalArgumentException("status is required");
         }
         if (provider == null || provider.isBlank()) {
             throw new IllegalArgumentException("provider is required");
@@ -61,14 +70,18 @@ public class PaymentTransaction {
         this.orderId = orderId;
         this.amount = amount;
         this.provider = provider;
-        this.status = PaymentStatus.SUCCEEDED;
-        this.providerTransactionId = "SIM-" + UUID.randomUUID();
+        this.status = status;
+        this.providerTransactionId = transactionPrefix + UUID.randomUUID();
         this.createdAt = Instant.now();
         this.completedAt = this.createdAt;
     }
 
     public static PaymentTransaction succeeded(Long orderId, BigDecimal amount) {
-        return new PaymentTransaction(orderId, amount, "SIMULATED");
+        return new PaymentTransaction(orderId, amount, PaymentStatus.SUCCEEDED, "SIMULATED", "SIM-");
+    }
+
+    public static PaymentTransaction refunded(Long orderId, BigDecimal amount) {
+        return new PaymentTransaction(orderId, amount, PaymentStatus.REFUNDED, "SIMULATED", "REF-");
     }
 
     public Long getId() {

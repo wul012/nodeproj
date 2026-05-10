@@ -70,11 +70,12 @@ public enum OrderStatus {
     PAID,
     SHIPPED,
     COMPLETED,
+    REFUNDED,
     CANCELLED
 }
 ```
 
-当前三个状态都已经参与业务流转：
+当前状态都已经参与业务流转：
 
 ```text
 CREATED
@@ -89,11 +90,14 @@ SHIPPED
 COMPLETED
  -> 订单已完成，履约闭环结束
 
+REFUNDED
+ -> 订单已退款，支付流水和库存都已处理
+
 CANCELLED
  -> 订单已取消，预占库存已经释放回 available
 ```
 
-一句话总结：`OrderStatus` 是订单状态机的起点，当前已经支持 CREATED 到 PAID，再到 SHIPPED、COMPLETED，也支持 CREATED 到 CANCELLED。
+一句话总结：`OrderStatus` 是订单状态机的起点，当前已经支持 CREATED 到 PAID，再到 SHIPPED、COMPLETED，也支持 PAID 到 REFUNDED，以及 CREATED 到 CANCELLED。
 
 ---
 
@@ -138,6 +142,9 @@ shippedAt
 
 completedAt
  -> 完成时间
+
+refundedAt
+ -> 退款时间
 
 canceledAt
  -> 取消时间
@@ -628,6 +635,15 @@ public List<PaymentTransactionResponse> getOrderPayments(@PathVariable Long orde
 @PostMapping("/{orderId}/pay")
 public ResponseEntity<OrderResponse> pay(@PathVariable Long orderId)
 ```
+
+退款接口：
+
+```java
+@PostMapping("/{orderId}/refund")
+public ResponseEntity<OrderResponse> refund(@PathVariable Long orderId)
+```
+
+第八版新增这条接口，只允许 `PAID` 且未发货订单退款，成功后订单状态变成 `REFUNDED`。
 
 支付成功或已支付时返回：
 

@@ -14,6 +14,7 @@ public record OrderResponse(
         Instant paidAt,
         Instant shippedAt,
         Instant completedAt,
+        Instant refundedAt,
         Instant canceledAt,
         List<OrderLineResponse> lines
 ) {
@@ -28,6 +29,7 @@ public record OrderResponse(
                 order.getPaidAt(),
                 order.getShippedAt(),
                 order.getCompletedAt(),
+                order.getRefundedAt(),
                 order.getCanceledAt(),
                 order.getLines().stream().map(OrderLineResponse::from).toList()
         );
