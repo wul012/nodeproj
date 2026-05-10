@@ -1,8 +1,11 @@
+import { createHash } from "node:crypto";
+
 import type { OpsPromotionDecisionLedgerIntegrity } from "./opsPromotionDecision.js";
 import type { OpsPromotionEvidenceReport } from "./opsPromotionEvidenceReport.js";
 import type { OpsPromotionDecision } from "./opsPromotionReview.js";
 
 export type OpsPromotionArchiveState = "empty" | "ready" | "attention-required";
+export type OpsPromotionArchiveArtifactType = "archive-summary" | "latest-evidence" | "ledger-integrity";
 
 export interface OpsPromotionArchiveBundle {
   service: "orderops-node";
@@ -22,6 +25,32 @@ export interface OpsPromotionArchiveBundle {
   };
   latestEvidence?: OpsPromotionEvidenceReport;
   integrity: OpsPromotionDecisionLedgerIntegrity;
+  nextActions: string[];
+}
+
+export interface OpsPromotionArchiveManifestArtifact {
+  name: string;
+  type: OpsPromotionArchiveArtifactType;
+  present: boolean;
+  digest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+}
+
+export interface OpsPromotionArchiveManifest {
+  service: "orderops-node";
+  generatedAt: string;
+  archiveName: string;
+  state: OpsPromotionArchiveState;
+  manifestDigest: {
+    algorithm: "sha256";
+    value: string;
+    coveredFields: string[];
+  };
+  summary: OpsPromotionArchiveBundle["summary"];
+  artifacts: OpsPromotionArchiveManifestArtifact[];
   nextActions: string[];
 }
 
@@ -54,6 +83,38 @@ export function createOpsPromotionArchiveBundle(input: {
   };
 }
 
+export function createOpsPromotionArchiveManifest(bundle: OpsPromotionArchiveBundle): OpsPromotionArchiveManifest {
+  const artifacts = archiveArtifacts(bundle);
+  const manifestPayload = {
+    archiveName: bundle.archiveName,
+    state: bundle.state,
+    summary: bundle.summary,
+    artifacts: artifacts.map((artifact) => ({
+      name: artifact.name,
+      type: artifact.type,
+      present: artifact.present,
+      digest: artifact.digest.value,
+      source: artifact.source,
+    })),
+    nextActions: bundle.nextActions,
+  };
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    archiveName: bundle.archiveName,
+    state: bundle.state,
+    manifestDigest: {
+      algorithm: "sha256",
+      value: digestStable(manifestPayload),
+      coveredFields: ["archiveName", "state", "summary", "artifacts", "nextActions"],
+    },
+    summary: bundle.summary,
+    artifacts,
+    nextActions: bundle.nextActions,
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -81,6 +142,41 @@ export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBun
     "## Next Actions",
     "",
     ...bundle.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionArchiveManifestMarkdown(manifest: OpsPromotionArchiveManifest): string {
+  const lines = [
+    "# Promotion archive manifest",
+    "",
+    `- Service: ${manifest.service}`,
+    `- Generated at: ${manifest.generatedAt}`,
+    `- Archive name: ${manifest.archiveName}`,
+    `- State: ${manifest.state}`,
+    `- Manifest digest: ${manifest.manifestDigest.algorithm}:${manifest.manifestDigest.value}`,
+    `- Covered fields: ${manifest.manifestDigest.coveredFields.join(", ")}`,
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${manifest.summary.totalDecisions}`,
+    `- Latest decision id: ${manifest.summary.latestDecisionId ?? "none"}`,
+    `- Latest sequence: ${manifest.summary.latestSequence ?? "none"}`,
+    `- Latest outcome: ${manifest.summary.latestOutcome ?? "none"}`,
+    `- Latest digest valid: ${manifest.summary.latestDigestValid ?? "none"}`,
+    `- Integrity valid: ${manifest.summary.integrityValid}`,
+    `- Integrity root digest: sha256:${manifest.summary.integrityRootDigest}`,
+    `- Sequence order: ${manifest.summary.sequenceOrder}`,
+    "",
+    "## Artifacts",
+    "",
+    ...renderManifestArtifacts(manifest.artifacts),
+    "",
+    "## Next Actions",
+    "",
+    ...manifest.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -142,4 +238,90 @@ function renderLatestEvidence(evidence: OpsPromotionEvidenceReport | undefined):
     `- Runbook: ${evidence.summary.runbookState}`,
     `- Baseline: ${evidence.summary.baselineState}`,
   ];
+}
+
+function archiveArtifacts(bundle: OpsPromotionArchiveBundle): OpsPromotionArchiveManifestArtifact[] {
+  return [
+    {
+      name: "archive-summary",
+      type: "archive-summary",
+      present: true,
+      digest: {
+        algorithm: "sha256",
+        value: digestStable({
+          archiveName: bundle.archiveName,
+          state: bundle.state,
+          summary: bundle.summary,
+          nextActions: bundle.nextActions,
+        }),
+      },
+      source: "/api/v1/ops/promotion-archive",
+    },
+    {
+      name: "latest-evidence",
+      type: "latest-evidence",
+      present: bundle.latestEvidence !== undefined,
+      digest: {
+        algorithm: "sha256",
+        value: digestStable(bundle.latestEvidence === undefined
+          ? { present: false }
+          : {
+            decisionId: bundle.latestEvidence.decisionId,
+            sequence: bundle.latestEvidence.sequence,
+            verdict: bundle.latestEvidence.verdict,
+            summary: bundle.latestEvidence.summary,
+            nextActions: bundle.latestEvidence.nextActions,
+          }),
+      },
+      source: bundle.latestEvidence === undefined
+        ? "/api/v1/ops/promotion-decisions/:decisionId/evidence"
+        : `/api/v1/ops/promotion-decisions/${bundle.latestEvidence.decisionId}/evidence`,
+    },
+    {
+      name: "ledger-integrity",
+      type: "ledger-integrity",
+      present: true,
+      digest: {
+        algorithm: "sha256",
+        value: bundle.integrity.rootDigest.value,
+      },
+      source: "/api/v1/ops/promotion-decisions/integrity",
+    },
+  ];
+}
+
+function renderManifestArtifacts(artifacts: OpsPromotionArchiveManifestArtifact[]): string[] {
+  return artifacts.flatMap((artifact) => [
+    `### ${artifact.name}`,
+    "",
+    `- Type: ${artifact.type}`,
+    `- Present: ${artifact.present}`,
+    `- Digest: ${artifact.digest.algorithm}:${artifact.digest.value}`,
+    `- Source: ${artifact.source}`,
+    "",
+  ]);
+}
+
+function digestStable(value: unknown): string {
+  return createHash("sha256").update(stableJson(value)).digest("hex");
+}
+
+function stableJson(value: unknown): string {
+  if (value === undefined) {
+    return "null";
+  }
+
+  if (Array.isArray(value)) {
+    return `[${value.map(stableJson).join(",")}]`;
+  }
+
+  if (value !== null && typeof value === "object") {
+    const record = value as Record<string, unknown>;
+    return `{${Object.keys(record)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(record[key])}`)
+      .join(",")}}`;
+  }
+
+  return JSON.stringify(value);
 }

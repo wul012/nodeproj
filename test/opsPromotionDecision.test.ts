@@ -357,6 +357,113 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds a promotion archive manifest as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyManifest = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/manifest",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "manifest-reviewer",
+          note: "build archive manifest",
+        },
+      });
+      const manifest = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/manifest",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/manifest?format=markdown",
+      });
+
+      expect(emptyManifest.statusCode).toBe(200);
+      expect(emptyManifest.json()).toMatchObject({
+        service: "orderops-node",
+        state: "empty",
+        summary: {
+          totalDecisions: 0,
+          integrityValid: true,
+          sequenceOrder: "empty",
+        },
+      });
+      expect(emptyManifest.json().manifestDigest).toMatchObject({
+        algorithm: "sha256",
+        coveredFields: ["archiveName", "state", "summary", "artifacts", "nextActions"],
+      });
+      expect(emptyManifest.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyManifest.json().artifacts.map((artifact: { name: string }) => artifact.name)).toEqual([
+        "archive-summary",
+        "latest-evidence",
+        "ledger-integrity",
+      ]);
+      expect(emptyManifest.json().artifacts[1]).toMatchObject({
+        name: "latest-evidence",
+        present: false,
+      });
+      expect(decision.statusCode).toBe(201);
+      expect(manifest.statusCode).toBe(200);
+      expect(manifest.json()).toMatchObject({
+        service: "orderops-node",
+        state: "attention-required",
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          latestSequence: 1,
+          latestOutcome: "blocked",
+          latestReadyForPromotion: false,
+          latestDigestValid: true,
+          integrityValid: true,
+          sequenceOrder: "contiguous",
+        },
+      });
+      expect(manifest.json().archiveName).toMatch(/^promotion-archive-[a-f0-9]{12}$/);
+      expect(manifest.json().manifestDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      const artifacts = manifest.json().artifacts as Array<{
+        name: string;
+        present: boolean;
+        source: string;
+        digest: { algorithm: string; value: string };
+      }>;
+      expect(artifacts).toHaveLength(3);
+      expect(artifacts[0]).toMatchObject({
+        name: "archive-summary",
+        present: true,
+        source: "/api/v1/ops/promotion-archive",
+      });
+      expect(artifacts[1]).toMatchObject({
+        name: "latest-evidence",
+        present: true,
+        source: `/api/v1/ops/promotion-decisions/${decision.json().id}/evidence`,
+      });
+      expect(artifacts[2]).toMatchObject({
+        name: "ledger-integrity",
+        present: true,
+        source: "/api/v1/ops/promotion-decisions/integrity",
+      });
+      expect(artifacts[2].digest.value).toBe(manifest.json().summary.integrityRootDigest);
+      expect(artifacts.every((artifact) => artifact.digest.algorithm === "sha256")).toBe(true);
+      expect(artifacts.every((artifact) => /^[a-f0-9]{64}$/.test(artifact.digest.value))).toBe(true);
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion archive manifest");
+      expect(markdown.body).toContain(`- Archive name: ${manifest.json().archiveName}`);
+      expect(markdown.body).toContain(`- Manifest digest: sha256:${manifest.json().manifestDigest.value}`);
+      expect(markdown.body).toContain("## Artifacts");
+      expect(markdown.body).toContain("### archive-summary");
+      expect(markdown.body).toContain("### latest-evidence");
+      expect(markdown.body).toContain("### ledger-integrity");
+      expect(markdown.body).toContain("## Next Actions");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

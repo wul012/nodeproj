@@ -8,7 +8,12 @@ import { createOpsBaselineStatus, OpsBaselineStore } from "../services/opsBaseli
 import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
-import { createOpsPromotionArchiveBundle, renderOpsPromotionArchiveMarkdown } from "../services/opsPromotionArchiveBundle.js";
+import {
+  createOpsPromotionArchiveBundle,
+  createOpsPromotionArchiveManifest,
+  renderOpsPromotionArchiveManifestMarkdown,
+  renderOpsPromotionArchiveMarkdown,
+} from "../services/opsPromotionArchiveBundle.js";
 import { OpsPromotionDecisionLedger, renderOpsPromotionDecisionLedgerIntegrityMarkdown } from "../services/opsPromotionDecision.js";
 import { createOpsPromotionEvidenceReport, renderOpsPromotionEvidenceMarkdown } from "../services/opsPromotionEvidenceReport.js";
 import { createOpsPromotionReview } from "../services/opsPromotionReview.js";
@@ -108,6 +113,26 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return bundle;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/manifest", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const manifest = createOpsPromotionArchiveManifest(createPromotionArchiveBundle(deps));
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionArchiveManifestMarkdown(manifest);
+    }
+
+    return manifest;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);

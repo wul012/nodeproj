@@ -99,6 +99,9 @@
 
 28-ops-promotion-archive-bundle-v24.md
  -> 第二十四版本地 promotion archive bundle：把最新 evidence 和 ledger integrity 汇总成 JSON/Markdown 归档包
+
+29-ops-promotion-archive-manifest-v25.md
+ -> 第二十五版本地 promotion archive manifest：为归档包生成 artifact digest 和 manifest digest
 ```
 
 ## 项目整体理解
