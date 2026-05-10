@@ -44,6 +44,67 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies a recorded promotion decision digest", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "decision-auditor",
+          note: "verify digest",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: `/api/v1/ops/promotion-decisions/${decision.json().id}/verification`,
+      });
+      const missing = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/missing-decision/verification",
+      });
+
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        decisionId: decision.json().id,
+        sequence: 1,
+        valid: true,
+        storedDigest: decision.json().digest,
+        recomputedDigest: decision.json().digest,
+        record: {
+          reviewer: "decision-auditor",
+          note: "verify digest",
+          outcome: "blocked",
+          readyForPromotion: false,
+          reviewDecision: "blocked",
+          reviewReadyForPromotion: false,
+          readinessState: "blocked",
+          runbookState: "blocked",
+          baselineState: "unset",
+        },
+      });
+      expect(verification.json().coveredFields).toEqual([
+        "sequence",
+        "createdAt",
+        "reviewer",
+        "note",
+        "outcome",
+        "readyForPromotion",
+        "review",
+      ]);
+      expect(verification.json().verifiedAt).toEqual(expect.any(String));
+      expect(missing.statusCode).toBe(404);
+      expect(missing.json()).toMatchObject({
+        error: "OPS_PROMOTION_DECISION_NOT_FOUND",
+      });
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

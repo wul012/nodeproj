@@ -25,6 +25,29 @@ export interface OpsPromotionDecisionRecord {
   review: OpsPromotionReview;
 }
 
+export interface OpsPromotionDecisionVerification {
+  service: "orderops-node";
+  decisionId: string;
+  sequence: number;
+  verifiedAt: string;
+  valid: boolean;
+  storedDigest: OpsPromotionDecisionRecord["digest"];
+  recomputedDigest: OpsPromotionDecisionRecord["digest"];
+  coveredFields: string[];
+  record: {
+    createdAt: string;
+    reviewer: string;
+    note: string;
+    outcome: OpsPromotionDecision;
+    readyForPromotion: boolean;
+    reviewDecision: OpsPromotionDecision;
+    reviewReadyForPromotion: boolean;
+    readinessState: OpsPromotionReview["summary"]["readinessState"];
+    runbookState: OpsPromotionReview["summary"]["runbookState"];
+    baselineState: OpsPromotionReview["summary"]["baselineState"];
+  };
+}
+
 export class OpsPromotionDecisionLedger {
   private readonly records = new Map<string, OpsPromotionDecisionRecord>();
   private nextSequence = 1;
@@ -68,12 +91,38 @@ export class OpsPromotionDecisionLedger {
   }
 
   get(id: string): OpsPromotionDecisionRecord {
-    const record = this.records.get(id);
-    if (record === undefined) {
-      throw new AppHttpError(404, "OPS_PROMOTION_DECISION_NOT_FOUND", "Ops promotion decision was not found", { id });
-    }
+    return cloneRecord(this.find(id));
+  }
 
-    return cloneRecord(record);
+  verify(id: string): OpsPromotionDecisionVerification {
+    const record = this.find(id);
+    const recomputedValue = digestRecord(record);
+
+    return {
+      service: "orderops-node",
+      decisionId: record.id,
+      sequence: record.sequence,
+      verifiedAt: new Date().toISOString(),
+      valid: record.digest.value === recomputedValue,
+      storedDigest: { ...record.digest },
+      recomputedDigest: {
+        algorithm: "sha256",
+        value: recomputedValue,
+      },
+      coveredFields: [...DIGEST_COVERED_FIELDS],
+      record: {
+        createdAt: record.createdAt,
+        reviewer: record.reviewer,
+        note: record.note,
+        outcome: record.outcome,
+        readyForPromotion: record.readyForPromotion,
+        reviewDecision: record.review.decision,
+        reviewReadyForPromotion: record.review.readyForPromotion,
+        readinessState: record.review.summary.readinessState,
+        runbookState: record.review.summary.runbookState,
+        baselineState: record.review.summary.baselineState,
+      },
+    };
   }
 
   private trim(): void {
@@ -86,7 +135,26 @@ export class OpsPromotionDecisionLedger {
       this.records.delete(record.id);
     }
   }
+
+  private find(id: string): OpsPromotionDecisionRecord {
+    const record = this.records.get(id);
+    if (record === undefined) {
+      throw new AppHttpError(404, "OPS_PROMOTION_DECISION_NOT_FOUND", "Ops promotion decision was not found", { id });
+    }
+
+    return record;
+  }
 }
+
+const DIGEST_COVERED_FIELDS = Object.freeze([
+  "sequence",
+  "createdAt",
+  "reviewer",
+  "note",
+  "outcome",
+  "readyForPromotion",
+  "review",
+]);
 
 function digestRecord(record: OpsPromotionDecisionRecord): string {
   return createHash("sha256")

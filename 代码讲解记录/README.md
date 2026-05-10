@@ -84,6 +84,9 @@
 
 23-ops-promotion-decision-v19.md
  -> 第十九版本地 promotion decision ledger：固化 promotion review、reviewer/note 和 SHA-256 摘要
+
+24-ops-promotion-decision-verification-v20.md
+ -> 第二十版本地 promotion decision verification：重新计算 decision digest，确认记录是否仍然可复核
 ```
 
 ## 项目整体理解

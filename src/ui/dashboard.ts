@@ -485,6 +485,7 @@ export function dashboardHtml(): string {
         <button data-action="opsPromotionReview">Promotion Review</button>
         <button data-action="opsRecordPromotionDecision">Record Decision</button>
         <button data-action="opsPromotionDecisions">Decisions</button>
+        <button data-action="opsVerifyPromotionDecision">Verify Latest Decision</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -756,6 +757,14 @@ export function dashboardHtml(): string {
         }
         if (action === "opsPromotionDecisions") {
           write(await api("/api/v1/ops/promotion-decisions?limit=10"));
+        }
+        if (action === "opsVerifyPromotionDecision") {
+          const listed = await api("/api/v1/ops/promotion-decisions?limit=1");
+          if (listed.decisions.length < 1) {
+            write({ error: "NEED_PROMOTION_DECISION", message: "Record a promotion decision before verification." });
+          } else {
+            write(await api("/api/v1/ops/promotion-decisions/" + encodeURIComponent(listed.decisions[0].id) + "/verification"));
+          }
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));

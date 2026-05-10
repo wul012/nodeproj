@@ -91,6 +91,8 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
   }, async (request) => ({
     decisions: deps.opsPromotionDecisions.list(request.query.limit ?? 20),
   }));
+  app.get<{ Params: PromotionDecisionParams }>("/api/v1/ops/promotion-decisions/:decisionId/verification", async (request) =>
+    deps.opsPromotionDecisions.verify(request.params.decisionId));
   app.get<{ Params: PromotionDecisionParams }>("/api/v1/ops/promotion-decisions/:decisionId", async (request) =>
     deps.opsPromotionDecisions.get(request.params.decisionId));
   app.post<{ Body: CreatePromotionDecisionBody }>("/api/v1/ops/promotion-decisions", {
