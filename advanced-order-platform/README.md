@@ -1,22 +1,27 @@
 # Advanced Order Platform
 
-一个面向高级 Java 练手的订单交易平台雏形。当前版本先采用模块化单体架构，把核心业务闭环跑通：
+一个面向高级 Java 练手的订单交易平台雏形。当前采用模块化单体架构，重点训练 Spring Boot 业务建模、事务编排、库存一致性、审计流水、Outbox 和数据库工程化。
+
+## 当前能力
 
 - 商品目录查询
-- 库存锁定与扣减
-- 库存变更流水查询
 - 幂等下单
+- 库存预占、扣减、释放、退款回补
+- 库存变更流水查询
 - 订单支付模拟
 - 支付交易流水查询
-- 支付后退款与库存回补
-- 订单取消与预占库存释放
-- 订单发货与完成履约流转
-- 订单状态历史与操作流水查询
-- 超时未支付订单自动过期取消
+- 支付后退款
+- 订单取消
+- 未支付订单自动过期取消
+- 订单发货与完成
+- 订单状态历史查询
 - Outbox 事件表
 - Outbox 后台发布标记
 - Actuator 健康检查
-- H2 本地快速启动，PostgreSQL 配置预留
+- Flyway 数据库迁移
+- H2 本地快速启动
+- PostgreSQL profile
+- Testcontainers PostgreSQL 集成测试入口
 
 ## Tech Stack
 
@@ -25,10 +30,14 @@
 - Spring MVC
 - Spring Data JPA
 - Bean Validation
+- Flyway
 - H2 / PostgreSQL
+- Testcontainers
 - Maven
 
 ## Run
+
+默认使用 H2 内存数据库：
 
 ```powershell
 mvn spring-boot:run
@@ -44,6 +53,34 @@ http://localhost:8080
 
 ```powershell
 Invoke-RestMethod http://localhost:8080/actuator/health
+```
+
+## PostgreSQL Run
+
+本地启动 PostgreSQL：
+
+```powershell
+docker compose up -d postgres
+```
+
+使用 PostgreSQL profile 启动应用：
+
+```powershell
+mvn spring-boot:run -Dspring-boot.run.profiles=postgres
+```
+
+打包后启动：
+
+```powershell
+java -jar target\advanced-order-platform-0.1.0-SNAPSHOT.jar --spring.profiles.active=postgres
+```
+
+默认连接信息在 [application-postgres.yml](<D:/javaproj/advanced-order-platform/src/main/resources/application-postgres.yml:1>) 中，可通过环境变量覆盖：
+
+```text
+DB_URL
+DB_USERNAME
+DB_PASSWORD
 ```
 
 ## API Quick Start
@@ -126,9 +163,36 @@ Invoke-RestMethod http://localhost:8080/api/v1/orders/1/history
 Invoke-RestMethod http://localhost:8080/api/v1/outbox/events
 ```
 
+## Database Migration
+
+第十版开始，项目使用 Flyway 管理数据库结构，Hibernate 只做结构校验：
+
+```yaml
+spring:
+  flyway:
+    locations: "classpath:db/migration/{vendor}"
+  jpa:
+    hibernate:
+      ddl-auto: validate
+```
+
+默认 H2 执行：
+
+```text
+src/main/resources/db/migration/h2/V1__initial_schema.sql
+```
+
+PostgreSQL profile 执行：
+
+```text
+src/main/resources/db/migration/postgresql/V1__initial_schema.sql
+```
+
+如果 Docker 未启动，Testcontainers 的 PostgreSQL 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实 PostgreSQL 验证。
+
 ## Order Expiration
 
-默认配置会每 60 秒扫描一次超过 15 分钟仍未支付的 `CREATED` 订单，并自动取消：
+默认每 60 秒扫描一次超过 15 分钟仍未支付的 `CREATED` 订单，并自动取消：
 
 ```yaml
 order:
@@ -147,7 +211,7 @@ mvn spring-boot:run `
 
 ## Outbox Publisher
 
-默认配置会每 60 秒扫描一次未发布的 Outbox 事件，并把 `publishedAt` 标记为当前时间：
+默认每 60 秒扫描一次未发布的 Outbox 事件，并把 `publishedAt` 标记为当前时间：
 
 ```yaml
 outbox:
@@ -167,18 +231,31 @@ mvn spring-boot:run `
 
 当前代码按业务边界分包：
 
-- `catalog`: 商品目录
-- `inventory`: 库存与并发控制，记录预占、确认扣减、释放预占、退款回补流水
-- `order`: 订单编排、幂等、防重复提交、支付、退款、取消、发货、完成、状态历史和超时过期状态流转
-- `payment`: 支付交易流水，记录模拟支付成功和退款后的金额、状态、渠道和交易号
-- `outbox`: 事件表和后台发布标记，为后续 Kafka/RabbitMQ 做准备
-- `common`: 异常与统一错误响应
+```text
+catalog
+ -> 商品目录
 
-后续建议按这个顺序升级：
+inventory
+ -> 库存、并发控制、库存预占/扣减/释放/回补、库存变更流水
 
-1. 接入 Redis：缓存商品、热点库存、限流。
-2. 接入 Kafka/RabbitMQ：把 Outbox 发布器从“标记已发布”升级为真实消息发送。
-3. 增加支付、防欺诈、优惠券模块。
-4. 引入 Testcontainers 做数据库/消息队列集成测试。
+order
+ -> 订单模型、幂等下单、支付、退款、取消、发货、完成、状态历史、超时过期
+
+payment
+ -> 支付成功和退款交易流水
+
+outbox
+ -> 事件表、事件查询、后台发布标记
+
+common
+ -> 业务异常和统一错误响应
+```
+
+后续建议升级顺序：
+
+1. 启动 Docker 后跑通 PostgreSQL Testcontainers 测试。
+2. 接入 Kafka/RabbitMQ，把 Outbox 发布器从“标记已发布”升级为真实消息发送。
+3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
+4. 增加登录、鉴权和管理端接口。
 5. 接入 OpenTelemetry、Prometheus、Grafana。
-6. 从模块化单体拆分为订单、库存、支付服务。
+6. 增加并发库存压测和 Testcontainers 多中间件集成测试。

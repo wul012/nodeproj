@@ -2,16 +2,17 @@ spring:
   application:
     name: advanced-order-platform
   datasource:
-    url: jdbc:h2:mem:order-platform;MODE=PostgreSQL;DATABASE_TO_UPPER=false;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:mem:order-platform;MODE=PostgreSQL;DATABASE_TO_LOWER=TRUE;DB_CLOSE_DELAY=-1
     username: sa
     password:
-    driver-class-name: org.h2.Driver
+  flyway:
+    locations: "classpath:db/migration/{vendor}"
   h2:
     console:
       enabled: true
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:

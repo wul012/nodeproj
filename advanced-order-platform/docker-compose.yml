@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: advanced-order-platform-postgres
+    environment:
+      POSTGRES_DB: order_platform
+      POSTGRES_USER: order_app
+      POSTGRES_PASSWORD: order_app
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U order_app -d order_platform"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+
+volumes:
+  postgres-data:
