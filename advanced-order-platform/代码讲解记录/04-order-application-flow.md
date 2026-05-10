@@ -16,6 +16,7 @@ src/main/java/com/codexdemo/orderplatform/order/OrderApplicationService.java
 order
 catalog
 inventory
+payment
 outbox
 ```
 
@@ -33,6 +34,7 @@ outbox
 支付订单
 发货订单
 完成订单
+查询支付流水
 ```
 
 其中最重要的是创建订单：
@@ -57,6 +59,7 @@ private final ProductRepository productRepository;
 private final InventoryService inventoryService;
 private final OutboxRepository outboxRepository;
 private final OrderStatusHistoryRepository orderStatusHistoryRepository;
+private final PaymentService paymentService;
 ```
 
 它们分别负责：
@@ -76,6 +79,9 @@ OutboxRepository
 
 OrderStatusHistoryRepository
  -> 保存订单状态历史，方便查询订单时间线
+
+PaymentService
+ -> 记录模拟支付成功交易，并查询订单支付流水
 ```
 
 这里体现了一个常见分层：
@@ -524,9 +530,10 @@ public OrderResponse pay(Long orderId) {
 
     order.markPaid();
     inventoryService.commitReserved(order.quantitiesByProductId());
-outboxRepository.save(OutboxEvent.orderPaid(order));
-recordHistory(order, fromStatus, "ORDER_PAID");
-return OrderResponse.from(order);
+    paymentService.recordSucceededPayment(order);
+    outboxRepository.save(OutboxEvent.orderPaid(order));
+    recordHistory(order, fromStatus, "ORDER_PAID");
+    return OrderResponse.from(order);
 }
 ```
 
@@ -538,6 +545,7 @@ return OrderResponse.from(order);
 订单标记为 PAID
 汇总订单行商品数量
 确认扣减 reserved 库存
+记录支付交易流水
 写入 OrderPaid 事件
 返回订单响应
 ```
@@ -579,6 +587,22 @@ productId -> quantity
 然后传给库存服务。
 
 一句话总结：`pay` 把订单从 CREATED 推进到 PAID，同时把 reserved 库存确认掉，并记录支付事件。
+
+第七版在支付成功后会先记录支付交易流水：
+
+```java
+paymentService.recordSucceededPayment(order);
+```
+
+它记录的是：
+
+```text
+orderId
+amount
+status = SUCCEEDED
+provider = SIMULATED
+providerTransactionId = SIM-...
+```
 
 第六版还会在支付成功后记录状态历史：
 
@@ -878,7 +902,44 @@ ORDER_COMPLETED
 
 ---
 
-# 16. 当前实现的一个重要边界
+# 16. `getOrderPayments`：查询支付交易流水
+
+第七版新增支付流水查询：
+
+```java
+@Transactional(readOnly = true)
+public List<PaymentTransactionResponse> getOrderPayments(Long orderId) {
+    findOrder(orderId);
+    return paymentService.listOrderPayments(orderId).stream()
+            .map(PaymentTransactionResponse::from)
+            .toList();
+}
+```
+
+这里同样先调用：
+
+```java
+findOrder(orderId);
+```
+
+原因是保持统一错误语义：
+
+```text
+订单不存在
+ -> 404 ORDER_NOT_FOUND
+```
+
+然后交给 `PaymentService` 查询：
+
+```java
+paymentService.listOrderPayments(orderId)
+```
+
+一句话总结：支付流水查询让订单支付不再只是一个 `PAID` 状态，而是能看到真实落库的支付交易记录。
+
+---
+
+# 17. 当前实现的一个重要边界
 
 当前代码已经有：
 
@@ -893,6 +954,7 @@ ORDER_COMPLETED
 超时未支付订单自动过期取消
 发货和完成履约状态流转
 订单状态历史查询
+支付交易流水查询
 ```
 
 但它还没有做完整的：
@@ -900,7 +962,7 @@ ORDER_COMPLETED
 ```text
 并发相同 Idempotency-Key 冲突重试
 分布式部署下的过期扫描抢占控制
-真实支付网关回调
+真实支付网关回调和签名验签
 Outbox 后台发布器
 Redis 分布式限流
 ```
@@ -913,4 +975,4 @@ Redis 分布式限流
 
 # 本次讲解总结
 
-第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、取消释放、发货完成、状态历史和 Outbox 事件串成完整业务流程。
+第四次讲解的是 `OrderApplicationService`：它是项目最值得重点阅读的类，负责把幂等、商品校验、库存预占、订单创建、支付确认、支付流水、取消释放、发货完成、状态历史和 Outbox 事件串成完整业务流程。

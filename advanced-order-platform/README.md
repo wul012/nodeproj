@@ -6,6 +6,7 @@
 - 库存锁定与扣减
 - 幂等下单
 - 订单支付模拟
+- 支付交易流水查询
 - 订单取消与预占库存释放
 - 订单发货与完成履约流转
 - 订单状态历史与操作流水查询
@@ -73,6 +74,12 @@ Invoke-RestMethod `
 
 ```powershell
 Invoke-RestMethod -Method Post http://localhost:8080/api/v1/orders/1/pay
+```
+
+查询订单支付流水：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/orders/1/payments
 ```
 
 取消订单：
@@ -149,6 +156,7 @@ mvn spring-boot:run `
 - `catalog`: 商品目录
 - `inventory`: 库存与并发控制
 - `order`: 订单编排、幂等、防重复提交、支付、取消、发货、完成、状态历史和超时过期状态流转
+- `payment`: 支付交易流水，记录模拟支付成功后的金额、状态、渠道和交易号
 - `outbox`: 事件表和后台发布标记，为后续 Kafka/RabbitMQ 做准备
 - `common`: 异常与统一错误响应
 

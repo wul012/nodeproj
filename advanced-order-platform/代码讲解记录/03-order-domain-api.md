@@ -613,6 +613,15 @@ public List<OrderStatusHistoryResponse> getOrderHistory(@PathVariable Long order
 
 第六版新增这条接口，用来查看订单从创建到支付、发货、完成、取消或过期的状态时间线。
 
+查询订单支付流水接口：
+
+```java
+@GetMapping("/{orderId}/payments")
+public List<PaymentTransactionResponse> getOrderPayments(@PathVariable Long orderId)
+```
+
+第七版新增这条接口，用来查看订单支付成功后生成的支付交易记录。
+
 支付接口：
 
 ```java

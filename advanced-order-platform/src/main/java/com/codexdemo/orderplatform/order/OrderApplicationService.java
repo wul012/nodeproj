@@ -6,6 +6,8 @@ import com.codexdemo.orderplatform.common.BusinessException;
 import com.codexdemo.orderplatform.inventory.InventoryService;
 import com.codexdemo.orderplatform.outbox.OutboxEvent;
 import com.codexdemo.orderplatform.outbox.OutboxRepository;
+import com.codexdemo.orderplatform.payment.PaymentService;
+import com.codexdemo.orderplatform.payment.PaymentTransactionResponse;
 import java.time.Instant;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -25,19 +27,22 @@ public class OrderApplicationService {
     private final InventoryService inventoryService;
     private final OutboxRepository outboxRepository;
     private final OrderStatusHistoryRepository orderStatusHistoryRepository;
+    private final PaymentService paymentService;
 
     public OrderApplicationService(
             OrderRepository orderRepository,
             ProductRepository productRepository,
             InventoryService inventoryService,
             OutboxRepository outboxRepository,
-            OrderStatusHistoryRepository orderStatusHistoryRepository
+            OrderStatusHistoryRepository orderStatusHistoryRepository,
+            PaymentService paymentService
     ) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
         this.inventoryService = inventoryService;
         this.outboxRepository = outboxRepository;
         this.orderStatusHistoryRepository = orderStatusHistoryRepository;
+        this.paymentService = paymentService;
     }
 
     @Transactional
@@ -62,6 +67,14 @@ public class OrderApplicationService {
                 .toList();
     }
 
+    @Transactional(readOnly = true)
+    public List<PaymentTransactionResponse> getOrderPayments(Long orderId) {
+        findOrder(orderId);
+        return paymentService.listOrderPayments(orderId).stream()
+                .map(PaymentTransactionResponse::from)
+                .toList();
+    }
+
     @Transactional
     public OrderResponse pay(Long orderId) {
         SalesOrder order = findOrder(orderId);
@@ -72,6 +85,7 @@ public class OrderApplicationService {
 
         order.markPaid();
         inventoryService.commitReserved(order.quantitiesByProductId());
+        paymentService.recordSucceededPayment(order);
         outboxRepository.save(OutboxEvent.orderPaid(order));
         recordHistory(order, fromStatus, "ORDER_PAID");
         return OrderResponse.from(order);

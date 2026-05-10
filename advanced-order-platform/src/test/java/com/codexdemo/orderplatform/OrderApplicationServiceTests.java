@@ -18,6 +18,9 @@ import com.codexdemo.orderplatform.order.OrderStatusHistoryResponse;
 import com.codexdemo.orderplatform.outbox.OutboxEvent;
 import com.codexdemo.orderplatform.outbox.OutboxPublisher;
 import com.codexdemo.orderplatform.outbox.OutboxRepository;
+import com.codexdemo.orderplatform.payment.PaymentStatus;
+import com.codexdemo.orderplatform.payment.PaymentTransactionRepository;
+import com.codexdemo.orderplatform.payment.PaymentTransactionResponse;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
@@ -45,6 +48,9 @@ class OrderApplicationServiceTests {
 
     @Autowired
     private OutboxRepository outboxRepository;
+
+    @Autowired
+    private PaymentTransactionRepository paymentTransactionRepository;
 
     @Test
     void createOrderReservesStockAndReplaysIdempotentRequest() {
@@ -83,6 +89,35 @@ class OrderApplicationServiceTests {
         assertThat(paid.status()).isEqualTo(OrderStatus.PAID);
         assertThat(paid.paidAt()).isNotNull();
         assertThat(inventory.getReserved()).isGreaterThanOrEqualTo(0);
+    }
+
+    @Test
+    void payOrderCreatesSingleSucceededPaymentTransaction() {
+        Product product = productRepository.findAll().getFirst();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("20202020-2020-2020-2020-202020202020"),
+                List.of(new CreateOrderLineRequest(product.getId(), 1))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-002-payment", request);
+        OrderResponse paid = orderApplicationService.pay(created.order().id());
+        OrderResponse replayedPay = orderApplicationService.pay(created.order().id());
+        List<PaymentTransactionResponse> payments = orderApplicationService.getOrderPayments(created.order().id());
+
+        assertThat(replayedPay.status()).isEqualTo(OrderStatus.PAID);
+        assertThat(payments).hasSize(1);
+        PaymentTransactionResponse payment = payments.getFirst();
+        assertThat(payment.orderId()).isEqualTo(created.order().id());
+        assertThat(payment.amount()).isEqualByComparingTo(paid.totalAmount());
+        assertThat(payment.status()).isEqualTo(PaymentStatus.SUCCEEDED);
+        assertThat(payment.provider()).isEqualTo("SIMULATED");
+        assertThat(payment.providerTransactionId()).startsWith("SIM-");
+        assertThat(payment.createdAt()).isNotNull();
+        assertThat(payment.completedAt()).isNotNull();
+        assertThat(paymentTransactionRepository.countByOrderIdAndStatus(
+                created.order().id(),
+                PaymentStatus.SUCCEEDED
+        )).isEqualTo(1);
     }
 
     @Test
@@ -279,6 +314,7 @@ class OrderApplicationServiceTests {
         assertThatThrownBy(() -> orderApplicationService.pay(created.order().id()))
                 .isInstanceOf(BusinessException.class)
                 .hasMessageContaining("Only CREATED orders can be paid");
+        assertThat(orderApplicationService.getOrderPayments(created.order().id())).isEmpty();
     }
 
     @Test

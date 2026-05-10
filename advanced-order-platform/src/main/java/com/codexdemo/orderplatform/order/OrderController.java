@@ -1,6 +1,7 @@
 package com.codexdemo.orderplatform.order;
 
 import jakarta.validation.Valid;
+import com.codexdemo.orderplatform.payment.PaymentTransactionResponse;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -46,6 +47,11 @@ public class OrderController {
     @GetMapping("/{orderId}/history")
     public List<OrderStatusHistoryResponse> getOrderHistory(@PathVariable Long orderId) {
         return orderApplicationService.getOrderHistory(orderId);
+    }
+
+    @GetMapping("/{orderId}/payments")
+    public List<PaymentTransactionResponse> getOrderPayments(@PathVariable Long orderId) {
+        return orderApplicationService.getOrderPayments(orderId);
     }
 
     @PostMapping("/{orderId}/pay")
