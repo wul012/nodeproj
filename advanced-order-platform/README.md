@@ -29,6 +29,7 @@
 - 失败事件查询分页响应和排序白名单
 - 失败事件管理状态和批量标记
 - 失败事件管理状态变更流水查询
+- 失败事件和管理状态流水 CSV 导出
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -336,6 +337,29 @@ Invoke-RestMethod "http://localhost:8080/api/v1/failed-events/management-history
 id, changedAt, previousStatus, newStatus, operatorId, operatorRole
 ```
 
+导出失败事件 CSV：
+
+```powershell
+Invoke-WebRequest `
+  -Uri "http://localhost:8080/api/v1/failed-events/export?managementStatus=RESOLVED&sort=managedAt,desc&limit=1000" `
+  -OutFile failed-events.csv
+```
+
+导出管理状态变更流水 CSV：
+
+```powershell
+Invoke-WebRequest `
+  -Uri "http://localhost:8080/api/v1/failed-events/management-history/export?newStatus=RESOLVED&operatorRole=ORDER_SUPPORT&sort=changedAt,desc&limit=1000" `
+  -OutFile failed-event-management-history.csv
+```
+
+CSV 导出限制：
+
+```text
+limit
+ -> 默认 1000，最大 5000
+```
+
 修复并重放失败事件消息：
 
 ```powershell
@@ -474,7 +498,7 @@ outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 notification
- -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件分页筛选查询、管理状态批量标记、管理状态变更流水查询、重放接口、角色校验和重放审计分页筛选查询
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件分页筛选查询、管理状态批量标记、管理状态变更流水查询、CSV 导出、重放接口、角色校验和重放审计分页筛选查询
 
 common
  -> 业务异常和统一错误响应
@@ -483,7 +507,7 @@ common
 后续建议升级顺序：
 
 1. 给失败事件重放接口接入真实认证鉴权、重放审批和管理端页面。
-2. 给失败事件管理接口增加前端管理页、批量筛选操作和导出能力。
+2. 给失败事件管理接口增加前端管理页、批量筛选操作和导出下载按钮。
 3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 4. 接入 OpenTelemetry、Prometheus、Grafana。
 5. 增加并发库存压测和更多 Testcontainers 多中间件集成测试。

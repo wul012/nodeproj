@@ -425,6 +425,83 @@ class FailedEventSearchIntegrationTests {
     }
 
     @Test
+    void exportsFailedMessagesAndManagementHistoryAsCsv() {
+        FailedEventMessage first = failedEventMessageRepository.save(failedEventMessage(
+                "v21-message-001",
+                "21212121-2121-2121-2121-212121212101",
+                "OrderCreated",
+                "ORDER",
+                "1101"
+        ));
+        failedEventMessageRepository.save(failedEventMessage(
+                "v21-message-002",
+                "21212121-2121-2121-2121-212121212102",
+                "PaymentCaptured",
+                "PAYMENT",
+                "pay-1102"
+        ));
+        failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(first.getId()),
+                        FailedEventManagementStatus.INVESTIGATING,
+                        "triage, started"
+                ),
+                "ops-user",
+                "SRE"
+        );
+        failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(first.getId()),
+                        FailedEventManagementStatus.RESOLVED,
+                        "resolved \"after\" check"
+                ),
+                "support-user",
+                "ORDER_SUPPORT"
+        );
+
+        String failedMessagesCsv = failedEventMessageService.exportFailedMessagesCsv(new FailedEventMessageSearchCriteria(
+                null,
+                null,
+                null,
+                null,
+                FailedEventManagementStatus.RESOLVED,
+                null,
+                null,
+                null,
+                null,
+                "managedAt,desc",
+                10
+        ));
+        String managementHistoryCsv = failedEventMessageService.exportManagementHistoryCsv(
+                new FailedEventManagementHistorySearchCriteria(
+                        first.getId(),
+                        FailedEventManagementStatus.INVESTIGATING,
+                        FailedEventManagementStatus.RESOLVED,
+                        "support-user",
+                        "order_support",
+                        null,
+                        null,
+                        null,
+                        null,
+                        "changedAt,desc",
+                        10
+                )
+        );
+
+        assertThat(failedMessagesCsv.lines().toList()).hasSize(2);
+        assertThat(failedMessagesCsv).startsWith("id,messageId,eventId,eventType,aggregateType,aggregateId");
+        assertThat(failedMessagesCsv).contains("v21-message-001");
+        assertThat(failedMessagesCsv).doesNotContain("v21-message-002");
+        assertThat(failedMessagesCsv).contains("RESOLVED");
+        assertThat(failedMessagesCsv).contains("\"resolved \"\"after\"\" check\"");
+        assertThat(managementHistoryCsv.lines().toList()).hasSize(2);
+        assertThat(managementHistoryCsv).startsWith("id,failedEventMessageId,previousStatus,newStatus");
+        assertThat(managementHistoryCsv).contains("INVESTIGATING,RESOLVED");
+        assertThat(managementHistoryCsv).contains("support-user,ORDER_SUPPORT");
+        assertThat(managementHistoryCsv).contains("\"resolved \"\"after\"\" check\"");
+    }
+
+    @Test
     void rejectsInvalidSearchRangesAndLimits() {
         Instant now = Instant.now();
 
@@ -457,6 +534,12 @@ class FailedEventSearchIntegrationTests {
         ));
         assertBadRequest(() -> failedEventMessageService.searchManagementHistory(
                 new FailedEventManagementHistorySearchCriteria(null, null, null, null, null, null, null, 0, 50, "messageId,desc", null)
+        ));
+        assertBadRequest(() -> failedEventMessageService.exportFailedMessagesCsv(
+                new FailedEventMessageSearchCriteria(null, null, null, null, null, null, null, null, null, null, 5001)
+        ));
+        assertBadRequest(() -> failedEventMessageService.exportManagementHistoryCsv(
+                new FailedEventManagementHistorySearchCriteria(null, null, null, null, null, null, null, null, null, "messageId,desc", 10)
         ));
         assertBadRequest(() -> failedEventMessageService.markManagementStatus(
                 new MarkFailedEventManagementRequest(

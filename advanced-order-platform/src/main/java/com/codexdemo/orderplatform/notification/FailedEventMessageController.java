@@ -4,6 +4,9 @@ import com.codexdemo.orderplatform.common.PagedResponse;
 import java.time.Instant;
 import java.util.List;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/failed-events")
 public class FailedEventMessageController {
+
+    private static final MediaType TEXT_CSV = MediaType.parseMediaType("text/csv; charset=UTF-8");
 
     private final FailedEventMessageService failedEventMessageService;
 
@@ -50,6 +55,34 @@ public class FailedEventMessageController {
                 sort,
                 limit
         ));
+    }
+
+    @GetMapping(value = "/export", produces = "text/csv")
+    public ResponseEntity<String> exportFailedMessages(
+            @RequestParam(required = false) FailedEventMessageStatus status,
+            @RequestParam(required = false) String eventType,
+            @RequestParam(required = false) String aggregateType,
+            @RequestParam(required = false) String aggregateId,
+            @RequestParam(required = false) FailedEventManagementStatus managementStatus,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedTo,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) Integer limit
+    ) {
+        String csv = failedEventMessageService.exportFailedMessagesCsv(new FailedEventMessageSearchCriteria(
+                status,
+                eventType,
+                aggregateType,
+                aggregateId,
+                managementStatus,
+                failedFrom,
+                failedTo,
+                null,
+                null,
+                sort,
+                limit
+        ));
+        return csvResponse("failed-events.csv", csv);
     }
 
     @GetMapping("/replay-attempts")
@@ -108,6 +141,34 @@ public class FailedEventMessageController {
         ));
     }
 
+    @GetMapping(value = "/management-history/export", produces = "text/csv")
+    public ResponseEntity<String> exportManagementHistory(
+            @RequestParam(required = false) Long failedEventMessageId,
+            @RequestParam(required = false) FailedEventManagementStatus previousStatus,
+            @RequestParam(required = false) FailedEventManagementStatus newStatus,
+            @RequestParam(required = false) String operatorId,
+            @RequestParam(required = false) String operatorRole,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant changedFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant changedTo,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) Integer limit
+    ) {
+        String csv = failedEventMessageService.exportManagementHistoryCsv(new FailedEventManagementHistorySearchCriteria(
+                failedEventMessageId,
+                previousStatus,
+                newStatus,
+                operatorId,
+                operatorRole,
+                changedFrom,
+                changedTo,
+                null,
+                null,
+                sort,
+                limit
+        ));
+        return csvResponse("failed-event-management-history.csv", csv);
+    }
+
     @GetMapping("/{id}/replay-attempts")
     public List<FailedEventReplayAttemptResponse> listReplayAttempts(@PathVariable Long id) {
         return failedEventMessageService.listReplayAttempts(id);
@@ -135,5 +196,12 @@ public class FailedEventMessageController {
             @RequestBody(required = false) ReplayFailedEventRequest request
     ) {
         return failedEventMessageService.replay(id, request, operatorId, operatorRole);
+    }
+
+    private ResponseEntity<String> csvResponse(String filename, String csv) {
+        return ResponseEntity.ok()
+                .contentType(TEXT_CSV)
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + filename + "\"")
+                .body(csv);
     }
 }

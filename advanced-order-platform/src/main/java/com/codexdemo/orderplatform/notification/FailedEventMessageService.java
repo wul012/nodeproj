@@ -31,6 +31,10 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class FailedEventMessageService {
 
+    private static final int DEFAULT_EXPORT_LIMIT = 1000;
+
+    private static final int MAX_EXPORT_LIMIT = 5000;
+
     private static final Map<String, String> FAILED_MESSAGE_SORT_FIELDS = Map.of(
             "id", "id",
             "failedAt", "failedAt",
@@ -129,6 +133,28 @@ public class FailedEventMessageService {
         return PagedResponse.from(page, FailedEventMessageResponse::from, pageRequest.sort());
     }
 
+    @Transactional(readOnly = true)
+    public String exportFailedMessagesCsv(FailedEventMessageSearchCriteria criteria) {
+        FailedEventMessageSearchCriteria normalizedCriteria = criteria == null
+                ? new FailedEventMessageSearchCriteria(null, null, null, null, null, null, null)
+                : criteria;
+        validateTimeRange(normalizedCriteria.failedFrom(), normalizedCriteria.failedTo(), "failedFrom", "failedTo");
+        PageRequest pageRequest = normalizeExportPageRequest(
+                normalizedCriteria.limit(),
+                normalizedCriteria.sort(),
+                FAILED_MESSAGE_SORT_FIELDS,
+                "failedAt,desc"
+        );
+        List<FailedEventMessageResponse> messages = failedEventMessageRepository.findAll(
+                        failedMessagesMatching(normalizedCriteria),
+                        pageRequest
+                )
+                .stream()
+                .map(FailedEventMessageResponse::from)
+                .toList();
+        return FailedEventCsvExporter.failedMessages(messages);
+    }
+
     @Transactional
     public FailedEventManagementBatchResponse markManagementStatus(
             MarkFailedEventManagementRequest request,
@@ -210,6 +236,34 @@ public class FailedEventMessageService {
                 pageRequest.pageRequest()
         );
         return PagedResponse.from(page, FailedEventManagementHistoryResponse::from, pageRequest.sort());
+    }
+
+    @Transactional(readOnly = true)
+    public String exportManagementHistoryCsv(FailedEventManagementHistorySearchCriteria criteria) {
+        FailedEventManagementHistorySearchCriteria normalizedCriteria = criteria == null
+                ? new FailedEventManagementHistorySearchCriteria(null, null, null, null, null, null, null, null)
+                : criteria;
+        validateSearchId(normalizedCriteria.failedEventMessageId(), "failedEventMessageId");
+        validateTimeRange(
+                normalizedCriteria.changedFrom(),
+                normalizedCriteria.changedTo(),
+                "changedFrom",
+                "changedTo"
+        );
+        PageRequest pageRequest = normalizeExportPageRequest(
+                normalizedCriteria.limit(),
+                normalizedCriteria.sort(),
+                MANAGEMENT_HISTORY_SORT_FIELDS,
+                "changedAt,desc"
+        );
+        List<FailedEventManagementHistoryResponse> history = failedEventManagementHistoryRepository.findAll(
+                        managementHistoryMatching(normalizedCriteria),
+                        pageRequest
+                )
+                .stream()
+                .map(FailedEventManagementHistoryResponse::from)
+                .toList();
+        return FailedEventCsvExporter.managementHistory(history);
     }
 
     @Transactional(readOnly = true)
@@ -584,6 +638,26 @@ public class FailedEventMessageService {
                 PageRequest.of(normalizedPage, normalizedSize, sortInstruction.sort()),
                 sortInstruction.expression()
         );
+    }
+
+    private PageRequest normalizeExportPageRequest(
+            Integer limit,
+            String sort,
+            Map<String, String> allowedSortFields,
+            String defaultSort
+    ) {
+        SortInstruction sortInstruction = normalizeSort(sort, allowedSortFields, defaultSort);
+        return PageRequest.of(0, normalizeExportLimit(limit), sortInstruction.sort());
+    }
+
+    private int normalizeExportLimit(Integer limit) {
+        if (limit == null) {
+            return DEFAULT_EXPORT_LIMIT;
+        }
+        if (limit < 1 || limit > MAX_EXPORT_LIMIT) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "export limit must be between 1 and 5000");
+        }
+        return limit;
     }
 
     private int normalizeSearchPage(Integer page) {
