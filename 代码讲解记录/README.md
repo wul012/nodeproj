@@ -90,6 +90,9 @@
 
 25-ops-promotion-evidence-report-v21.md
  -> 第二十一版本地 promotion evidence report：把 decision 和 verification 汇总成 JSON/Markdown 证据包
+
+26-ops-promotion-ledger-integrity-v22.md
+ -> 第二十二版本地 promotion ledger integrity：复算所有 decision digest，并生成滚动 ledger root digest
 ```
 
 ## 项目整体理解

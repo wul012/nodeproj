@@ -177,6 +177,90 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("checks promotion decision ledger integrity across records", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const empty = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/integrity",
+      });
+      const first = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "integrity-reviewer",
+          note: "first integrity record",
+        },
+      });
+      const second = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "integrity-reviewer",
+          note: "second integrity record",
+        },
+      });
+      const integrity = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/integrity",
+      });
+
+      expect(empty.statusCode).toBe(200);
+      expect(empty.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        totalRecords: 0,
+        checks: {
+          digestsValid: true,
+          sequencesContiguous: true,
+          sequenceOrder: "empty",
+        },
+      });
+      expect(empty.json().rootDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(first.statusCode).toBe(201);
+      expect(second.statusCode).toBe(201);
+      expect(integrity.statusCode).toBe(200);
+      expect(integrity.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        totalRecords: 2,
+        oldestSequence: 1,
+        newestSequence: 2,
+        checks: {
+          digestsValid: true,
+          sequencesContiguous: true,
+          sequenceOrder: "contiguous",
+        },
+      });
+      expect(integrity.json().rootDigest).toMatchObject({
+        algorithm: "sha256",
+      });
+      expect(integrity.json().rootDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(integrity.json().records.map((record: { sequence: number }) => record.sequence)).toEqual([1, 2]);
+      expect(integrity.json().records[0]).toMatchObject({
+        id: first.json().id,
+        sequence: 1,
+        digestValid: true,
+        storedDigest: first.json().digest,
+        recomputedDigest: first.json().digest,
+      });
+      expect(integrity.json().records[0].previousChainDigest).toBeUndefined();
+      expect(integrity.json().records[0].chainDigest).toMatch(/^[a-f0-9]{64}$/);
+      expect(integrity.json().records[1]).toMatchObject({
+        id: second.json().id,
+        sequence: 2,
+        digestValid: true,
+        storedDigest: second.json().digest,
+        recomputedDigest: second.json().digest,
+        previousChainDigest: integrity.json().records[0].chainDigest,
+      });
+      expect(integrity.json().records[1].chainDigest).toBe(integrity.json().rootDigest.value);
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

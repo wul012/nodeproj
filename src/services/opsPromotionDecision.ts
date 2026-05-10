@@ -48,6 +48,37 @@ export interface OpsPromotionDecisionVerification {
   };
 }
 
+export interface OpsPromotionDecisionLedgerIntegrity {
+  service: "orderops-node";
+  generatedAt: string;
+  valid: boolean;
+  totalRecords: number;
+  oldestSequence?: number;
+  newestSequence?: number;
+  rootDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    digestsValid: boolean;
+    sequencesContiguous: boolean;
+    sequenceOrder: "empty" | "contiguous" | "gapped";
+  };
+  records: OpsPromotionDecisionLedgerIntegrityRecord[];
+}
+
+export interface OpsPromotionDecisionLedgerIntegrityRecord {
+  id: string;
+  sequence: number;
+  outcome: OpsPromotionDecision;
+  readyForPromotion: boolean;
+  digestValid: boolean;
+  storedDigest: OpsPromotionDecisionRecord["digest"];
+  recomputedDigest: OpsPromotionDecisionRecord["digest"];
+  previousChainDigest?: string;
+  chainDigest: string;
+}
+
 export class OpsPromotionDecisionLedger {
   private readonly records = new Map<string, OpsPromotionDecisionRecord>();
   private nextSequence = 1;
@@ -125,6 +156,53 @@ export class OpsPromotionDecisionLedger {
     };
   }
 
+  integrity(): OpsPromotionDecisionLedgerIntegrity {
+    const ordered = [...this.records.values()].sort((left, right) => left.sequence - right.sequence);
+    let previousChainDigest: string | undefined;
+    const records = ordered.map((record) => {
+      const recomputedValue = digestRecord(record);
+      const chainDigest = digestChainStep(previousChainDigest, record, recomputedValue);
+      const integrityRecord: OpsPromotionDecisionLedgerIntegrityRecord = {
+        id: record.id,
+        sequence: record.sequence,
+        outcome: record.outcome,
+        readyForPromotion: record.readyForPromotion,
+        digestValid: record.digest.value === recomputedValue,
+        storedDigest: { ...record.digest },
+        recomputedDigest: {
+          algorithm: "sha256",
+          value: recomputedValue,
+        },
+        previousChainDigest,
+        chainDigest,
+      };
+
+      previousChainDigest = chainDigest;
+      return integrityRecord;
+    });
+    const digestsValid = records.every((record) => record.digestValid);
+    const sequencesContiguous = hasContiguousSequences(ordered);
+
+    return {
+      service: "orderops-node",
+      generatedAt: new Date().toISOString(),
+      valid: digestsValid && sequencesContiguous,
+      totalRecords: records.length,
+      oldestSequence: ordered[0]?.sequence,
+      newestSequence: ordered.at(-1)?.sequence,
+      rootDigest: {
+        algorithm: "sha256",
+        value: previousChainDigest ?? digestEmptyLedger(),
+      },
+      checks: {
+        digestsValid,
+        sequencesContiguous,
+        sequenceOrder: records.length === 0 ? "empty" : sequencesContiguous ? "contiguous" : "gapped",
+      },
+      records,
+    };
+  }
+
   private trim(): void {
     if (this.records.size <= this.capacity) {
       return;
@@ -168,6 +246,34 @@ function digestRecord(record: OpsPromotionDecisionRecord): string {
       review: record.review,
     }))
     .digest("hex");
+}
+
+function digestChainStep(
+  previousChainDigest: string | undefined,
+  record: OpsPromotionDecisionRecord,
+  recomputedDigest: string,
+): string {
+  return createHash("sha256")
+    .update(stableJson({
+      previousChainDigest: previousChainDigest ?? "genesis",
+      id: record.id,
+      sequence: record.sequence,
+      storedDigest: record.digest.value,
+      recomputedDigest,
+    }))
+    .digest("hex");
+}
+
+function digestEmptyLedger(): string {
+  return createHash("sha256").update("orderops-node:promotion-decisions:empty").digest("hex");
+}
+
+function hasContiguousSequences(records: OpsPromotionDecisionRecord[]): boolean {
+  if (records.length === 0) {
+    return true;
+  }
+
+  return records.every((record, index) => record.sequence === records[0].sequence + index);
 }
 
 function stableJson(value: unknown): string {

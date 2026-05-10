@@ -487,6 +487,7 @@ export function dashboardHtml(): string {
         <button data-action="opsPromotionDecisions">Decisions</button>
         <button data-action="opsVerifyPromotionDecision">Verify Latest Decision</button>
         <button data-action="opsPromotionEvidence">Evidence Report</button>
+        <button data-action="opsPromotionIntegrity">Ledger Integrity</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -778,6 +779,9 @@ export function dashboardHtml(): string {
             }
             output.textContent = await response.text();
           }
+        }
+        if (action === "opsPromotionIntegrity") {
+          write(await api("/api/v1/ops/promotion-decisions/integrity"));
         }
         if (action === "opsHandoffReport") {
           write(await api("/api/v1/ops/handoff-report?limit=10"));
