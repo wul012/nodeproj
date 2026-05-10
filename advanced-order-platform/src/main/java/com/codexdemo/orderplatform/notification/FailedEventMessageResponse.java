@@ -13,7 +13,12 @@ public record FailedEventMessageResponse(
         String deadLetterQueue,
         String failureReason,
         String payload,
-        Instant failedAt
+        Instant failedAt,
+        FailedEventMessageStatus status,
+        int replayCount,
+        Instant lastReplayedAt,
+        String lastReplayEventId,
+        String lastReplayError
 ) {
 
     static FailedEventMessageResponse from(FailedEventMessage failedMessage) {
@@ -28,7 +33,12 @@ public record FailedEventMessageResponse(
                 failedMessage.getDeadLetterQueue(),
                 failedMessage.getFailureReason(),
                 failedMessage.getPayload(),
-                failedMessage.getFailedAt()
+                failedMessage.getFailedAt(),
+                failedMessage.getStatus(),
+                failedMessage.getReplayCount(),
+                failedMessage.getLastReplayedAt(),
+                failedMessage.getLastReplayEventId(),
+                failedMessage.getLastReplayError()
         );
     }
 }

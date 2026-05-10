@@ -2,6 +2,8 @@ package com.codexdemo.orderplatform.notification;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -12,7 +14,10 @@ import java.time.Instant;
 @Entity
 @Table(
         name = "failed_event_messages",
-        indexes = @Index(name = "idx_failed_event_messages_failed_at", columnList = "failed_at")
+        indexes = {
+                @Index(name = "idx_failed_event_messages_failed_at", columnList = "failed_at"),
+                @Index(name = "idx_failed_event_messages_status", columnList = "status")
+        }
 )
 public class FailedEventMessage {
 
@@ -50,6 +55,22 @@ public class FailedEventMessage {
     @Column(name = "failed_at", nullable = false)
     private Instant failedAt;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 32)
+    private FailedEventMessageStatus status;
+
+    @Column(name = "replay_count", nullable = false)
+    private int replayCount;
+
+    @Column(name = "last_replayed_at")
+    private Instant lastReplayedAt;
+
+    @Column(name = "last_replay_event_id", length = 80)
+    private String lastReplayEventId;
+
+    @Column(name = "last_replay_error", length = 500)
+    private String lastReplayError;
+
     protected FailedEventMessage() {
     }
 
@@ -86,6 +107,8 @@ public class FailedEventMessage {
         this.failureReason = failureReason;
         this.payload = payload;
         this.failedAt = Instant.now();
+        this.status = FailedEventMessageStatus.RECORDED;
+        this.replayCount = 0;
     }
 
     public static FailedEventMessage record(
@@ -154,5 +177,41 @@ public class FailedEventMessage {
 
     public Instant getFailedAt() {
         return failedAt;
+    }
+
+    public FailedEventMessageStatus getStatus() {
+        return status;
+    }
+
+    public int getReplayCount() {
+        return replayCount;
+    }
+
+    public Instant getLastReplayedAt() {
+        return lastReplayedAt;
+    }
+
+    public String getLastReplayEventId() {
+        return lastReplayEventId;
+    }
+
+    public String getLastReplayError() {
+        return lastReplayError;
+    }
+
+    public void markReplayed(String replayEventId, Instant replayedAt) {
+        this.status = FailedEventMessageStatus.REPLAYED;
+        this.replayCount++;
+        this.lastReplayEventId = replayEventId;
+        this.lastReplayedAt = replayedAt;
+        this.lastReplayError = null;
+    }
+
+    public void markReplayFailed(String replayEventId, String replayError, Instant replayedAt) {
+        this.status = FailedEventMessageStatus.REPLAY_FAILED;
+        this.replayCount++;
+        this.lastReplayEventId = replayEventId;
+        this.lastReplayedAt = replayedAt;
+        this.lastReplayError = replayError;
     }
 }

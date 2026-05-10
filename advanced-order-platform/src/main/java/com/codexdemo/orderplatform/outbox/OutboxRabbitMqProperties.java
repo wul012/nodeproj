@@ -22,7 +22,11 @@ public class OutboxRabbitMqProperties {
     private String deadLetterRoutingKey = "orders.dead-letter";
 
     public String routingKeyFor(OutboxEvent event) {
-        return routingKeyPrefix + "." + event.getEventType();
+        return routingKeyForEventType(event.getEventType());
+    }
+
+    public String routingKeyForEventType(String eventType) {
+        return routingKeyPrefix + "." + eventType;
     }
 
     public boolean isEnabled() {

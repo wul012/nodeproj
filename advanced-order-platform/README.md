@@ -22,6 +22,7 @@
 - 通知消息幂等落库与查询
 - RabbitMQ 消费失败重试和死信队列
 - 失败事件消息落库与查询
+- 失败事件消息修复重放
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -245,6 +246,20 @@ Invoke-RestMethod http://localhost:8080/api/v1/notifications/orders/1
 Invoke-RestMethod http://localhost:8080/api/v1/failed-events
 ```
 
+修复并重放失败事件消息：
+
+```powershell
+$body = @{
+  eventId = "14141414-1414-1414-1414-141414141414"
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri http://localhost:8080/api/v1/failed-events/1/replay `
+  -ContentType "application/json" `
+  -Body $body
+```
+
 ## Database Migration
 
 第十版开始，项目使用 Flyway 管理数据库结构，Hibernate 只做结构校验：
@@ -264,6 +279,7 @@ spring:
 src/main/resources/db/migration/h2/V1__initial_schema.sql
 src/main/resources/db/migration/h2/V2__notification_messages.sql
 src/main/resources/db/migration/h2/V3__failed_event_messages.sql
+src/main/resources/db/migration/h2/V4__failed_event_replay_state.sql
 ```
 
 PostgreSQL profile 执行：
@@ -272,6 +288,7 @@ PostgreSQL profile 执行：
 src/main/resources/db/migration/postgresql/V1__initial_schema.sql
 src/main/resources/db/migration/postgresql/V2__notification_messages.sql
 src/main/resources/db/migration/postgresql/V3__failed_event_messages.sql
+src/main/resources/db/migration/postgresql/V4__failed_event_replay_state.sql
 ```
 
 如果 Docker 未启动，Testcontainers 的 PostgreSQL / RabbitMQ 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实中间件验证。
@@ -334,7 +351,7 @@ outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 notification
- -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、通知和失败事件查询接口
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件查询和重放接口
 
 common
  -> 业务异常和统一错误响应
@@ -342,7 +359,7 @@ common
 
 后续建议升级顺序：
 
-1. 增加失败事件重放接口，把可恢复的 failed_event_messages 重新投递回业务 exchange。
+1. 给失败事件重放接口补权限控制、操作审计和管理端页面。
 2. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 3. 增加登录、鉴权和管理端接口。
 4. 接入 OpenTelemetry、Prometheus、Grafana。

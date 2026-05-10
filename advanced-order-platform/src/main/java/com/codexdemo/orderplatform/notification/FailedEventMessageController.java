@@ -2,6 +2,9 @@ package com.codexdemo.orderplatform.notification;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,5 +21,13 @@ public class FailedEventMessageController {
     @GetMapping
     public List<FailedEventMessageResponse> listRecentFailedMessages() {
         return failedEventMessageService.listRecentFailedMessages();
+    }
+
+    @PostMapping("/{id}/replay")
+    public FailedEventMessageResponse replayFailedMessage(
+            @PathVariable Long id,
+            @RequestBody(required = false) ReplayFailedEventRequest request
+    ) {
+        return failedEventMessageService.replay(id, request);
     }
 }

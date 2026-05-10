@@ -4,8 +4,14 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import com.codexdemo.orderplatform.notification.FailedEventMessage;
 import com.codexdemo.orderplatform.notification.FailedEventMessageRepository;
+import com.codexdemo.orderplatform.notification.FailedEventMessageResponse;
+import com.codexdemo.orderplatform.notification.FailedEventMessageService;
+import com.codexdemo.orderplatform.notification.FailedEventMessageStatus;
+import com.codexdemo.orderplatform.notification.NotificationMessage;
 import com.codexdemo.orderplatform.notification.NotificationMessageRepository;
+import com.codexdemo.orderplatform.notification.ReplayFailedEventRequest;
 import java.util.List;
+import java.util.UUID;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -52,6 +58,8 @@ class RabbitMqNotificationFailureIntegrationTests {
 
     private static final String BAD_MESSAGE_ID = "v13-bad-order-created-message";
 
+    private static final String REPLAY_EVENT_ID = "14141414-1414-1414-1414-141414141414";
+
     @Container
     static final GenericContainer<?> RABBITMQ = new GenericContainer<>(
             DockerImageName.parse("rabbitmq:3.13-management-alpine"))
@@ -75,6 +83,9 @@ class RabbitMqNotificationFailureIntegrationTests {
     private FailedEventMessageRepository failedEventMessageRepository;
 
     @Autowired
+    private FailedEventMessageService failedEventMessageService;
+
+    @Autowired
     private NotificationMessageRepository notificationMessageRepository;
 
     @Autowired
@@ -86,7 +97,8 @@ class RabbitMqNotificationFailureIntegrationTests {
     }
 
     @Test
-    void retriesMalformedOrderCreatedMessagesAndRecordsDeadLetters() throws InterruptedException {
+    void retriesMalformedOrderCreatedMessagesRecordsDeadLettersAndReplaysWithRepairedHeaders()
+            throws InterruptedException {
         rabbitTemplate.convertAndSend(
                 OUTBOX_EXCHANGE,
                 "orders.OrderCreated",
@@ -113,6 +125,24 @@ class RabbitMqNotificationFailureIntegrationTests {
         assertThat(failedMessage.getDeadLetterQueue()).isEqualTo(DEAD_LETTER_QUEUE);
         assertThat(failedMessage.getFailureReason()).isNotBlank();
         assertThat(failedMessage.getPayload()).contains("\"orderId\":404");
+        assertThat(failedMessage.getStatus()).isEqualTo(FailedEventMessageStatus.RECORDED);
+        assertThat(failedMessage.getReplayCount()).isZero();
+        assertThat(failedMessage.getLastReplayedAt()).isNull();
+
+        FailedEventMessageResponse replayed = failedEventMessageService.replay(
+                failedMessage.getId(),
+                new ReplayFailedEventRequest(REPLAY_EVENT_ID, null, null, null, null)
+        );
+        NotificationMessage notification = waitForNotificationMessageCount(1).getFirst();
+
+        assertThat(replayed.status()).isEqualTo(FailedEventMessageStatus.REPLAYED);
+        assertThat(replayed.replayCount()).isEqualTo(1);
+        assertThat(replayed.lastReplayEventId()).isEqualTo(REPLAY_EVENT_ID);
+        assertThat(replayed.lastReplayedAt()).isNotNull();
+        assertThat(replayed.lastReplayError()).isNull();
+        assertThat(notification.getEventId()).isEqualTo(UUID.fromString(REPLAY_EVENT_ID));
+        assertThat(notification.getEventType()).isEqualTo("OrderCreated");
+        assertThat(notification.getOrderId()).isEqualTo(404L);
     }
 
     private List<FailedEventMessage> waitForFailedMessageCount(int expectedCount) throws InterruptedException {
@@ -126,5 +156,18 @@ class RabbitMqNotificationFailureIntegrationTests {
             Thread.sleep(100);
         } while (System.currentTimeMillis() < deadline);
         return failedMessages;
+    }
+
+    private List<NotificationMessage> waitForNotificationMessageCount(int expectedCount) throws InterruptedException {
+        long deadline = System.currentTimeMillis() + 8000;
+        List<NotificationMessage> notifications;
+        do {
+            notifications = notificationMessageRepository.findAll();
+            if (notifications.size() == expectedCount) {
+                return notifications;
+            }
+            Thread.sleep(100);
+        } while (System.currentTimeMillis() < deadline);
+        return notifications;
     }
 }
