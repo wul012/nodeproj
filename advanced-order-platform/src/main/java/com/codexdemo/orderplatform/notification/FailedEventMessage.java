@@ -19,7 +19,11 @@ import java.time.Instant;
                 @Index(name = "idx_failed_event_messages_status", columnList = "status"),
                 @Index(name = "idx_failed_event_messages_status_failed_at", columnList = "status, failed_at"),
                 @Index(name = "idx_failed_event_messages_event_type_failed_at", columnList = "event_type, failed_at"),
-                @Index(name = "idx_failed_event_messages_aggregate", columnList = "aggregate_type, aggregate_id")
+                @Index(name = "idx_failed_event_messages_aggregate", columnList = "aggregate_type, aggregate_id"),
+                @Index(
+                        name = "idx_failed_event_messages_management",
+                        columnList = "management_status, managed_at"
+                )
         }
 )
 public class FailedEventMessage {
@@ -74,6 +78,19 @@ public class FailedEventMessage {
     @Column(name = "last_replay_error", length = 500)
     private String lastReplayError;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "management_status", nullable = false, length = 32)
+    private FailedEventManagementStatus managementStatus;
+
+    @Column(name = "management_note", length = 500)
+    private String managementNote;
+
+    @Column(name = "managed_by", length = 80)
+    private String managedBy;
+
+    @Column(name = "managed_at")
+    private Instant managedAt;
+
     protected FailedEventMessage() {
     }
 
@@ -112,6 +129,7 @@ public class FailedEventMessage {
         this.failedAt = Instant.now();
         this.status = FailedEventMessageStatus.RECORDED;
         this.replayCount = 0;
+        this.managementStatus = FailedEventManagementStatus.OPEN;
     }
 
     public static FailedEventMessage record(
@@ -202,6 +220,22 @@ public class FailedEventMessage {
         return lastReplayError;
     }
 
+    public FailedEventManagementStatus getManagementStatus() {
+        return managementStatus;
+    }
+
+    public String getManagementNote() {
+        return managementNote;
+    }
+
+    public String getManagedBy() {
+        return managedBy;
+    }
+
+    public Instant getManagedAt() {
+        return managedAt;
+    }
+
     public void markReplayed(String replayEventId, Instant replayedAt) {
         this.status = FailedEventMessageStatus.REPLAYED;
         this.replayCount++;
@@ -216,5 +250,26 @@ public class FailedEventMessage {
         this.lastReplayEventId = replayEventId;
         this.lastReplayedAt = replayedAt;
         this.lastReplayError = replayError;
+    }
+
+    public void markManagementStatus(
+            FailedEventManagementStatus managementStatus,
+            String managementNote,
+            String managedBy,
+            Instant managedAt
+    ) {
+        if (managementStatus == null) {
+            throw new IllegalArgumentException("managementStatus is required");
+        }
+        if (managedBy == null || managedBy.isBlank()) {
+            throw new IllegalArgumentException("managedBy is required");
+        }
+        if (managedAt == null) {
+            throw new IllegalArgumentException("managedAt is required");
+        }
+        this.managementStatus = managementStatus;
+        this.managementNote = managementNote;
+        this.managedBy = managedBy;
+        this.managedAt = managedAt;
     }
 }

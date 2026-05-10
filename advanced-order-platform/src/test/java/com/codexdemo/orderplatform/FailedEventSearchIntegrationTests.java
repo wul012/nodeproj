@@ -4,6 +4,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.codexdemo.orderplatform.common.PagedResponse;
+import com.codexdemo.orderplatform.notification.FailedEventManagementBatchResponse;
+import com.codexdemo.orderplatform.notification.FailedEventManagementHistoryRepository;
+import com.codexdemo.orderplatform.notification.FailedEventManagementHistoryResponse;
+import com.codexdemo.orderplatform.notification.FailedEventManagementHistorySearchCriteria;
+import com.codexdemo.orderplatform.notification.FailedEventManagementStatus;
 import com.codexdemo.orderplatform.notification.FailedEventMessage;
 import com.codexdemo.orderplatform.notification.FailedEventMessageRepository;
 import com.codexdemo.orderplatform.notification.FailedEventMessageResponse;
@@ -15,7 +20,9 @@ import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptReposito
 import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptResponse;
 import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptSearchCriteria;
 import com.codexdemo.orderplatform.notification.FailedEventReplayAttemptStatus;
+import com.codexdemo.orderplatform.notification.MarkFailedEventManagementRequest;
 import com.codexdemo.orderplatform.notification.ReplayFailedEventRequest;
+import java.util.List;
 import java.time.Instant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,8 +46,12 @@ class FailedEventSearchIntegrationTests {
     @Autowired
     private FailedEventReplayAttemptRepository failedEventReplayAttemptRepository;
 
+    @Autowired
+    private FailedEventManagementHistoryRepository failedEventManagementHistoryRepository;
+
     @BeforeEach
     void cleanFailedEventData() {
+        failedEventManagementHistoryRepository.deleteAll();
         failedEventReplayAttemptRepository.deleteAll();
         failedEventMessageRepository.deleteAll();
     }
@@ -227,6 +238,193 @@ class FailedEventSearchIntegrationTests {
     }
 
     @Test
+    void marksFailedMessagesManagementStatusInBatchAndSearchesByManagementStatus() {
+        FailedEventMessage first = failedEventMessageRepository.save(failedEventMessage(
+                "v19-message-001",
+                "19191919-1919-1919-1919-191919191901",
+                "OrderCreated",
+                "ORDER",
+                "901"
+        ));
+        FailedEventMessage second = failedEventMessageRepository.save(failedEventMessage(
+                "v19-message-002",
+                "19191919-1919-1919-1919-191919191902",
+                "PaymentCaptured",
+                "PAYMENT",
+                "pay-902"
+        ));
+        FailedEventMessage untouched = failedEventMessageRepository.save(failedEventMessage(
+                "v19-message-003",
+                "19191919-1919-1919-1919-191919191903",
+                "OrderCreated",
+                "ORDER",
+                "903"
+        ));
+
+        FailedEventManagementBatchResponse batchResponse = failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(first.getId(), second.getId()),
+                        FailedEventManagementStatus.INVESTIGATING,
+                        "triage started by support"
+                ),
+                "ops-user",
+                "sre"
+        );
+        PagedResponse<FailedEventMessageResponse> investigatingMessages = failedEventMessageService.searchFailedMessages(
+                new FailedEventMessageSearchCriteria(
+                        null,
+                        null,
+                        null,
+                        null,
+                        FailedEventManagementStatus.INVESTIGATING,
+                        null,
+                        null,
+                        0,
+                        10,
+                        "managementStatus,asc",
+                        null
+                )
+        );
+        PagedResponse<FailedEventMessageResponse> openMessages = failedEventMessageService.searchFailedMessages(
+                new FailedEventMessageSearchCriteria(
+                        null,
+                        null,
+                        null,
+                        null,
+                        FailedEventManagementStatus.OPEN,
+                        null,
+                        null,
+                        0,
+                        10,
+                        "managedAt,desc",
+                        null
+                )
+        );
+
+        assertThat(batchResponse.status()).isEqualTo(FailedEventManagementStatus.INVESTIGATING);
+        assertThat(batchResponse.updatedCount()).isEqualTo(2);
+        assertThat(batchResponse.items()).extracting(FailedEventMessageResponse::id)
+                .containsExactlyInAnyOrder(first.getId(), second.getId());
+        assertThat(investigatingMessages.totalElements()).isEqualTo(2);
+        assertThat(investigatingMessages.content()).extracting(FailedEventMessageResponse::managementStatus)
+                .containsOnly(FailedEventManagementStatus.INVESTIGATING);
+        assertThat(investigatingMessages.content()).extracting(FailedEventMessageResponse::managementNote)
+                .containsOnly("triage started by support");
+        assertThat(investigatingMessages.content()).extracting(FailedEventMessageResponse::managedBy)
+                .containsOnly("ops-user");
+        assertThat(investigatingMessages.content())
+                .allSatisfy(response -> assertThat(response.managedAt()).isNotNull());
+        assertThat(openMessages.content()).singleElement().satisfies(response -> {
+            assertThat(response.id()).isEqualTo(untouched.getId());
+            assertThat(response.managementStatus()).isEqualTo(FailedEventManagementStatus.OPEN);
+            assertThat(response.managedBy()).isNull();
+            assertThat(response.managedAt()).isNull();
+        });
+    }
+
+    @Test
+    void recordsManagementHistoryForEachManagementStatusChangeAndSearchesIt() {
+        FailedEventMessage first = failedEventMessageRepository.save(failedEventMessage(
+                "v20-message-001",
+                "20202020-2020-2020-2020-202020202001",
+                "OrderCreated",
+                "ORDER",
+                "1001"
+        ));
+        FailedEventMessage second = failedEventMessageRepository.save(failedEventMessage(
+                "v20-message-002",
+                "20202020-2020-2020-2020-202020202002",
+                "PaymentCaptured",
+                "PAYMENT",
+                "pay-1002"
+        ));
+        Instant beforeChanges = Instant.now().minusSeconds(5);
+
+        failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(first.getId(), second.getId()),
+                        FailedEventManagementStatus.INVESTIGATING,
+                        "triage started"
+                ),
+                "ops-user",
+                "sre"
+        );
+        failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(first.getId()),
+                        FailedEventManagementStatus.RESOLVED,
+                        "customer impact cleared"
+                ),
+                "support-user",
+                "order_support"
+        );
+        Instant afterChanges = Instant.now().plusSeconds(5);
+
+        List<FailedEventManagementHistoryResponse> firstHistory = failedEventMessageService.listManagementHistory(first.getId());
+        PagedResponse<FailedEventManagementHistoryResponse> investigatingHistory =
+                failedEventMessageService.searchManagementHistory(new FailedEventManagementHistorySearchCriteria(
+                        null,
+                        FailedEventManagementStatus.OPEN,
+                        FailedEventManagementStatus.INVESTIGATING,
+                        null,
+                        "SRE",
+                        beforeChanges,
+                        afterChanges,
+                        0,
+                        10,
+                        "changedAt,desc",
+                        null
+                ));
+        PagedResponse<FailedEventManagementHistoryResponse> resolvedHistory =
+                failedEventMessageService.searchManagementHistory(new FailedEventManagementHistorySearchCriteria(
+                        first.getId(),
+                        FailedEventManagementStatus.INVESTIGATING,
+                        FailedEventManagementStatus.RESOLVED,
+                        "support-user",
+                        "order_support",
+                        beforeChanges,
+                        afterChanges,
+                        0,
+                        10,
+                        "operatorRole,asc",
+                        null
+                ));
+
+        assertThat(firstHistory).hasSize(2);
+        assertThat(firstHistory.getFirst()).satisfies(history -> {
+            assertThat(history.failedEventMessageId()).isEqualTo(first.getId());
+            assertThat(history.previousStatus()).isEqualTo(FailedEventManagementStatus.INVESTIGATING);
+            assertThat(history.newStatus()).isEqualTo(FailedEventManagementStatus.RESOLVED);
+            assertThat(history.operatorId()).isEqualTo("support-user");
+            assertThat(history.operatorRole()).isEqualTo("ORDER_SUPPORT");
+            assertThat(history.note()).isEqualTo("customer impact cleared");
+            assertThat(history.changedAt()).isNotNull();
+        });
+        assertThat(firstHistory.get(1)).satisfies(history -> {
+            assertThat(history.previousStatus()).isEqualTo(FailedEventManagementStatus.OPEN);
+            assertThat(history.newStatus()).isEqualTo(FailedEventManagementStatus.INVESTIGATING);
+            assertThat(history.operatorId()).isEqualTo("ops-user");
+            assertThat(history.operatorRole()).isEqualTo("SRE");
+            assertThat(history.note()).isEqualTo("triage started");
+        });
+        assertThat(investigatingHistory.totalElements()).isEqualTo(2);
+        assertThat(investigatingHistory.content()).extracting(FailedEventManagementHistoryResponse::failedEventMessageId)
+                .containsExactlyInAnyOrder(first.getId(), second.getId());
+        assertThat(investigatingHistory.content()).extracting(FailedEventManagementHistoryResponse::previousStatus)
+                .containsOnly(FailedEventManagementStatus.OPEN);
+        assertThat(investigatingHistory.content()).extracting(FailedEventManagementHistoryResponse::newStatus)
+                .containsOnly(FailedEventManagementStatus.INVESTIGATING);
+        assertThat(investigatingHistory.sort()).isEqualTo("changedAt,desc");
+        assertThat(resolvedHistory.content()).singleElement().satisfies(history -> {
+            assertThat(history.failedEventMessageId()).isEqualTo(first.getId());
+            assertThat(history.previousStatus()).isEqualTo(FailedEventManagementStatus.INVESTIGATING);
+            assertThat(history.newStatus()).isEqualTo(FailedEventManagementStatus.RESOLVED);
+            assertThat(history.operatorRole()).isEqualTo("ORDER_SUPPORT");
+        });
+        assertThat(resolvedHistory.sort()).isEqualTo("operatorRole,asc");
+    }
+
+    @Test
     void rejectsInvalidSearchRangesAndLimits() {
         Instant now = Instant.now();
 
@@ -254,6 +452,42 @@ class FailedEventSearchIntegrationTests {
         assertBadRequest(() -> failedEventMessageService.searchReplayAttempts(
                 new FailedEventReplayAttemptSearchCriteria(null, null, null, null, null, null, 0, 50, "operatorRole,sideways", null)
         ));
+        assertBadRequest(() -> failedEventMessageService.searchManagementHistory(
+                new FailedEventManagementHistorySearchCriteria(null, null, null, null, null, now, now.minusSeconds(1), 10)
+        ));
+        assertBadRequest(() -> failedEventMessageService.searchManagementHistory(
+                new FailedEventManagementHistorySearchCriteria(null, null, null, null, null, null, null, 0, 50, "messageId,desc", null)
+        ));
+        assertBadRequest(() -> failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(1L),
+                        FailedEventManagementStatus.RESOLVED,
+                        " "
+                ),
+                "ops-user",
+                "SRE"
+        ));
+        assertBadRequest(() -> failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(),
+                        FailedEventManagementStatus.RESOLVED,
+                        "resolved manually"
+                ),
+                "ops-user",
+                "SRE"
+        ));
+        assertThatThrownBy(() -> failedEventMessageService.markManagementStatus(
+                new MarkFailedEventManagementRequest(
+                        List.of(1L),
+                        FailedEventManagementStatus.RESOLVED,
+                        "resolved manually"
+                ),
+                "ops-user",
+                "VIEWER"
+        ))
+                .isInstanceOfSatisfying(ResponseStatusException.class, ex ->
+                        assertThat(ex.getStatusCode()).isEqualTo(HttpStatus.FORBIDDEN)
+                );
     }
 
     private void assertBadRequest(Runnable action) {

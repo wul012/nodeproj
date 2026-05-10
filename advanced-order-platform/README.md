@@ -27,6 +27,8 @@
 - 失败事件重放角色校验和原因记录
 - 失败事件与重放审计多条件筛选
 - 失败事件查询分页响应和排序白名单
+- 失败事件管理状态和批量标记
+- 失败事件管理状态变更流水查询
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -281,7 +283,57 @@ Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?failedFrom=2026-05
 失败事件允许排序字段：
 
 ```text
-id, failedAt, status, eventType, aggregateId, replayCount
+id, failedAt, status, eventType, aggregateId, replayCount, managementStatus, managedAt
+```
+
+按管理状态查询失败事件：
+
+```powershell
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?managementStatus=INVESTIGATING&page=0&size=20&sort=managedAt,desc"
+```
+
+批量标记失败事件管理状态：
+
+```powershell
+$body = @{
+  ids = @(1, 2)
+  status = "INVESTIGATING"
+  note = "support is checking customer impact"
+} | ConvertTo-Json
+
+Invoke-RestMethod `
+  -Method Post `
+  -Uri http://localhost:8080/api/v1/failed-events/management-status `
+  -ContentType "application/json" `
+  -Headers @{
+    "X-Operator-Id" = "local-admin"
+    "X-Operator-Role" = "SRE"
+  } `
+  -Body $body
+```
+
+管理状态：
+
+```text
+OPEN, INVESTIGATING, IGNORED, RESOLVED
+```
+
+查询单个失败事件的管理状态变更流水：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/failed-events/1/management-history
+```
+
+全局筛选管理状态变更流水：
+
+```powershell
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events/management-history?failedEventMessageId=1&previousStatus=OPEN&newStatus=INVESTIGATING&operatorRole=SRE&page=0&size=20&sort=changedAt,desc"
+```
+
+管理状态变更流水允许排序字段：
+
+```text
+id, changedAt, previousStatus, newStatus, operatorId, operatorRole
 ```
 
 修复并重放失败事件消息：
@@ -344,6 +396,8 @@ src/main/resources/db/migration/h2/V4__failed_event_replay_state.sql
 src/main/resources/db/migration/h2/V5__failed_event_replay_attempts.sql
 src/main/resources/db/migration/h2/V6__failed_event_replay_authorization.sql
 src/main/resources/db/migration/h2/V7__failed_event_search_indexes.sql
+src/main/resources/db/migration/h2/V8__failed_event_management_status.sql
+src/main/resources/db/migration/h2/V9__failed_event_management_history.sql
 ```
 
 PostgreSQL profile 执行：
@@ -356,6 +410,8 @@ src/main/resources/db/migration/postgresql/V4__failed_event_replay_state.sql
 src/main/resources/db/migration/postgresql/V5__failed_event_replay_attempts.sql
 src/main/resources/db/migration/postgresql/V6__failed_event_replay_authorization.sql
 src/main/resources/db/migration/postgresql/V7__failed_event_search_indexes.sql
+src/main/resources/db/migration/postgresql/V8__failed_event_management_status.sql
+src/main/resources/db/migration/postgresql/V9__failed_event_management_history.sql
 ```
 
 如果 Docker 未启动，Testcontainers 的 PostgreSQL / RabbitMQ 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实中间件验证。
@@ -418,7 +474,7 @@ outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 notification
- -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件分页筛选查询、重放接口、角色校验和重放审计分页筛选查询
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件分页筛选查询、管理状态批量标记、管理状态变更流水查询、重放接口、角色校验和重放审计分页筛选查询
 
 common
  -> 业务异常和统一错误响应
@@ -427,7 +483,7 @@ common
 后续建议升级顺序：
 
 1. 给失败事件重放接口接入真实认证鉴权、重放审批和管理端页面。
-2. 给失败事件查询接口增加导出、批量标记和前端管理页。
+2. 给失败事件管理接口增加前端管理页、批量筛选操作和导出能力。
 3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 4. 接入 OpenTelemetry、Prometheus、Grafana。
 5. 增加并发库存压测和更多 Testcontainers 多中间件集成测试。

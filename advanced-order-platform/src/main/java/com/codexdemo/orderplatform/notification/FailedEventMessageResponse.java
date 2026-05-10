@@ -18,7 +18,11 @@ public record FailedEventMessageResponse(
         int replayCount,
         Instant lastReplayedAt,
         String lastReplayEventId,
-        String lastReplayError
+        String lastReplayError,
+        FailedEventManagementStatus managementStatus,
+        String managementNote,
+        String managedBy,
+        Instant managedAt
 ) {
 
     static FailedEventMessageResponse from(FailedEventMessage failedMessage) {
@@ -38,7 +42,11 @@ public record FailedEventMessageResponse(
                 failedMessage.getReplayCount(),
                 failedMessage.getLastReplayedAt(),
                 failedMessage.getLastReplayEventId(),
-                failedMessage.getLastReplayError()
+                failedMessage.getLastReplayError(),
+                failedMessage.getManagementStatus(),
+                failedMessage.getManagementNote(),
+                failedMessage.getManagedBy(),
+                failedMessage.getManagedAt()
         );
     }
 }

@@ -79,6 +79,12 @@
 
 22-version-18-failed-event-pagination.md
  -> 第十八版失败事件查询分页响应、page/size/sort 参数、排序字段白名单和分页元数据验证
+
+23-version-19-failed-event-management-status.md
+ -> 第十九版失败事件管理状态、批量标记接口、管理状态筛选、V8 迁移和权限校验
+
+24-version-20-failed-event-management-history.md
+ -> 第二十版失败事件管理状态变更流水、历史查询接口、V9 迁移和审计查询验证
 ```
 
 ## 项目整体理解
@@ -195,8 +201,14 @@ README.md
 
 22-version-18-failed-event-pagination.md
  -> 理解失败事件查询如何从“筛选列表”升级为“可支撑管理端表格的分页响应”
+
+23-version-19-failed-event-management-status.md
+ -> 理解失败事件如何从“可查可重放”继续升级为“可分派、可忽略、可关闭”的运维处理闭环
+
+24-version-20-failed-event-management-history.md
+ -> 理解失败事件管理状态每次变更如何沉淀成可分页、可筛选、可追溯的操作流水
 ```
 
 ## 一句话总览
 
-这个项目的核心不是“能创建订单”这么简单，而是用 Spring Boot 把下单幂等、库存一致性、库存流水、支付/退款流水、取消/过期/发货/完成状态流转、状态历史、Outbox 发布标记、RabbitMQ 真实消息投递、RabbitMQ 消费者、通知消息幂等落库、消费失败重试、死信队列、失败事件表、失败事件重放、重放权限校验、重放审计、失败事件分页筛选查询、Flyway 数据库迁移和 Testcontainers 真实中间件验证串成一个可继续升级的后端系统。
+这个项目的核心不是“能创建订单”这么简单，而是用 Spring Boot 把下单幂等、库存一致性、库存流水、支付/退款流水、取消/过期/发货/完成状态流转、状态历史、Outbox 发布标记、RabbitMQ 真实消息投递、RabbitMQ 消费者、通知消息幂等落库、消费失败重试、死信队列、失败事件表、失败事件重放、重放权限校验、重放审计、失败事件分页筛选查询、失败事件管理状态、管理状态变更流水、Flyway 数据库迁移和 Testcontainers 真实中间件验证串成一个可继续升级的后端系统。

@@ -37,7 +37,9 @@ public class FailedEventMessageService {
             "status", "status",
             "eventType", "eventType",
             "aggregateId", "aggregateId",
-            "replayCount", "replayCount"
+            "replayCount", "replayCount",
+            "managementStatus", "managementStatus",
+            "managedAt", "managedAt"
     );
 
     private static final Map<String, String> REPLAY_ATTEMPT_SORT_FIELDS = Map.of(
@@ -48,9 +50,20 @@ public class FailedEventMessageService {
             "operatorRole", "operatorRole"
     );
 
+    private static final Map<String, String> MANAGEMENT_HISTORY_SORT_FIELDS = Map.of(
+            "id", "id",
+            "changedAt", "changedAt",
+            "previousStatus", "previousStatus",
+            "newStatus", "newStatus",
+            "operatorId", "operatorId",
+            "operatorRole", "operatorRole"
+    );
+
     private final FailedEventMessageRepository failedEventMessageRepository;
 
     private final FailedEventReplayAttemptRepository failedEventReplayAttemptRepository;
+
+    private final FailedEventManagementHistoryRepository failedEventManagementHistoryRepository;
 
     private final FailedEventReplayProperties failedEventReplayProperties;
 
@@ -61,12 +74,14 @@ public class FailedEventMessageService {
     public FailedEventMessageService(
             FailedEventMessageRepository failedEventMessageRepository,
             FailedEventReplayAttemptRepository failedEventReplayAttemptRepository,
+            FailedEventManagementHistoryRepository failedEventManagementHistoryRepository,
             FailedEventReplayProperties failedEventReplayProperties,
             RabbitTemplate rabbitTemplate,
             OutboxRabbitMqProperties outboxRabbitMqProperties
     ) {
         this.failedEventMessageRepository = failedEventMessageRepository;
         this.failedEventReplayAttemptRepository = failedEventReplayAttemptRepository;
+        this.failedEventManagementHistoryRepository = failedEventManagementHistoryRepository;
         this.failedEventReplayProperties = failedEventReplayProperties;
         this.rabbitTemplate = rabbitTemplate;
         this.outboxRabbitMqProperties = outboxRabbitMqProperties;
@@ -112,6 +127,89 @@ public class FailedEventMessageService {
                 pageRequest.pageRequest()
         );
         return PagedResponse.from(page, FailedEventMessageResponse::from, pageRequest.sort());
+    }
+
+    @Transactional
+    public FailedEventManagementBatchResponse markManagementStatus(
+            MarkFailedEventManagementRequest request,
+            String operatorId,
+            String operatorRole
+    ) {
+        if (request == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "request body is required");
+        }
+        List<Long> ids = normalizeManagementIds(request.ids());
+        FailedEventManagementStatus managementStatus = requireManagementStatus(request.status());
+        String normalizedOperatorId = normalizeOperatorId(operatorId);
+        String normalizedOperatorRole = requireAllowedOperatorRole(operatorRole);
+        String note = resolveManagementNote(request.note());
+        Instant managedAt = Instant.now();
+        List<FailedEventMessage> failedMessages = failedEventMessageRepository.findAllById(ids);
+        if (failedMessages.size() != ids.size()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "one or more failed event messages were not found");
+        }
+        failedMessages.forEach(failedMessage -> {
+            FailedEventManagementStatus previousStatus = failedMessage.getManagementStatus();
+            failedMessage.markManagementStatus(managementStatus, note, normalizedOperatorId, managedAt);
+            failedEventManagementHistoryRepository.save(FailedEventManagementHistory.record(
+                    failedMessage,
+                    previousStatus,
+                    managementStatus,
+                    normalizedOperatorId,
+                    normalizedOperatorRole,
+                    note,
+                    managedAt
+            ));
+        });
+        return new FailedEventManagementBatchResponse(
+                managementStatus,
+                failedMessages.size(),
+                failedMessages.stream()
+                        .map(FailedEventMessageResponse::from)
+                        .toList()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public List<FailedEventManagementHistoryResponse> listManagementHistory(Long failedEventMessageId) {
+        validateSearchId(failedEventMessageId, "failedEventMessageId");
+        if (!failedEventMessageRepository.existsById(failedEventMessageId)) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "failed event message not found");
+        }
+        return failedEventManagementHistoryRepository
+                .findByFailedEventMessageIdOrderByChangedAtDescIdDesc(failedEventMessageId)
+                .stream()
+                .map(FailedEventManagementHistoryResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public PagedResponse<FailedEventManagementHistoryResponse> searchManagementHistory(
+            FailedEventManagementHistorySearchCriteria criteria
+    ) {
+        FailedEventManagementHistorySearchCriteria normalizedCriteria = criteria == null
+                ? new FailedEventManagementHistorySearchCriteria(null, null, null, null, null, null, null, null)
+                : criteria;
+        validateSearchId(normalizedCriteria.failedEventMessageId(), "failedEventMessageId");
+        validateTimeRange(
+                normalizedCriteria.changedFrom(),
+                normalizedCriteria.changedTo(),
+                "changedFrom",
+                "changedTo"
+        );
+        NormalizedPageRequest pageRequest = normalizePageRequest(
+                normalizedCriteria.page(),
+                normalizedCriteria.size(),
+                normalizedCriteria.limit(),
+                normalizedCriteria.sort(),
+                MANAGEMENT_HISTORY_SORT_FIELDS,
+                "changedAt,desc"
+        );
+        Page<FailedEventManagementHistory> page = failedEventManagementHistoryRepository.findAll(
+                managementHistoryMatching(normalizedCriteria),
+                pageRequest.pageRequest()
+        );
+        return PagedResponse.from(page, FailedEventManagementHistoryResponse::from, pageRequest.sort());
     }
 
     @Transactional(readOnly = true)
@@ -338,6 +436,9 @@ public class FailedEventMessageService {
             if (criteria.status() != null) {
                 predicates.add(criteriaBuilder.equal(root.get("status"), criteria.status()));
             }
+            if (criteria.managementStatus() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("managementStatus"), criteria.managementStatus()));
+            }
             addTextEquals(predicates, criteriaBuilder, root.get("eventType"), criteria.eventType());
             addTextEquals(predicates, criteriaBuilder, root.get("aggregateType"), criteria.aggregateType());
             addTextEquals(predicates, criteriaBuilder, root.get("aggregateId"), criteria.aggregateId());
@@ -382,6 +483,40 @@ public class FailedEventMessageService {
         };
     }
 
+    private Specification<FailedEventManagementHistory> managementHistoryMatching(
+            FailedEventManagementHistorySearchCriteria criteria
+    ) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (criteria.failedEventMessageId() != null) {
+                predicates.add(criteriaBuilder.equal(
+                        root.get("failedEventMessage").get("id"),
+                        criteria.failedEventMessageId()
+                ));
+            }
+            if (criteria.previousStatus() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("previousStatus"), criteria.previousStatus()));
+            }
+            if (criteria.newStatus() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("newStatus"), criteria.newStatus()));
+            }
+            addTextEquals(predicates, criteriaBuilder, root.get("operatorId"), criteria.operatorId());
+            addTextEquals(
+                    predicates,
+                    criteriaBuilder,
+                    root.get("operatorRole"),
+                    failedEventReplayProperties.normalize(criteria.operatorRole())
+            );
+            if (criteria.changedFrom() != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("changedAt"), criteria.changedFrom()));
+            }
+            if (criteria.changedTo() != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("changedAt"), criteria.changedTo()));
+            }
+            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
+        };
+    }
+
     private void addTextEquals(
             List<Predicate> predicates,
             CriteriaBuilder criteriaBuilder,
@@ -396,6 +531,42 @@ public class FailedEventMessageService {
 
     private String normalizeSearchText(String value) {
         return StringUtils.hasText(value) ? value.strip() : null;
+    }
+
+    private void validateSearchId(Long id, String fieldName) {
+        if (id != null && id < 1) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fieldName + " must be positive");
+        }
+    }
+
+    private List<Long> normalizeManagementIds(List<Long> ids) {
+        if (ids == null || ids.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ids are required");
+        }
+        List<Long> normalizedIds = ids.stream()
+                .distinct()
+                .toList();
+        if (normalizedIds.size() > 100) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ids size must be between 1 and 100");
+        }
+        if (normalizedIds.stream().anyMatch(id -> id == null || id < 1)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ids must contain positive ids");
+        }
+        return normalizedIds;
+    }
+
+    private FailedEventManagementStatus requireManagementStatus(FailedEventManagementStatus managementStatus) {
+        if (managementStatus == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "management status is required");
+        }
+        return managementStatus;
+    }
+
+    private String resolveManagementNote(String note) {
+        if (note == null || note.isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "management note is required");
+        }
+        return truncate(note.strip(), 500);
     }
 
     private NormalizedPageRequest normalizePageRequest(

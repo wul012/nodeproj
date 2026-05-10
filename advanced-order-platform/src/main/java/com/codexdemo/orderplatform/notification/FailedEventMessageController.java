@@ -29,6 +29,7 @@ public class FailedEventMessageController {
             @RequestParam(required = false) String eventType,
             @RequestParam(required = false) String aggregateType,
             @RequestParam(required = false) String aggregateId,
+            @RequestParam(required = false) FailedEventManagementStatus managementStatus,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedFrom,
             @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedTo,
             @RequestParam(required = false) Integer page,
@@ -41,6 +42,7 @@ public class FailedEventMessageController {
                 eventType,
                 aggregateType,
                 aggregateId,
+                managementStatus,
                 failedFrom,
                 failedTo,
                 page,
@@ -77,9 +79,52 @@ public class FailedEventMessageController {
         ));
     }
 
+    @GetMapping("/management-history")
+    public PagedResponse<FailedEventManagementHistoryResponse> searchManagementHistory(
+            @RequestParam(required = false) Long failedEventMessageId,
+            @RequestParam(required = false) FailedEventManagementStatus previousStatus,
+            @RequestParam(required = false) FailedEventManagementStatus newStatus,
+            @RequestParam(required = false) String operatorId,
+            @RequestParam(required = false) String operatorRole,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant changedFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant changedTo,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sort,
+            @RequestParam(required = false) Integer limit
+    ) {
+        return failedEventMessageService.searchManagementHistory(new FailedEventManagementHistorySearchCriteria(
+                failedEventMessageId,
+                previousStatus,
+                newStatus,
+                operatorId,
+                operatorRole,
+                changedFrom,
+                changedTo,
+                page,
+                size,
+                sort,
+                limit
+        ));
+    }
+
     @GetMapping("/{id}/replay-attempts")
     public List<FailedEventReplayAttemptResponse> listReplayAttempts(@PathVariable Long id) {
         return failedEventMessageService.listReplayAttempts(id);
+    }
+
+    @GetMapping("/{id}/management-history")
+    public List<FailedEventManagementHistoryResponse> listManagementHistory(@PathVariable Long id) {
+        return failedEventMessageService.listManagementHistory(id);
+    }
+
+    @PostMapping("/management-status")
+    public FailedEventManagementBatchResponse markManagementStatus(
+            @RequestHeader(value = "X-Operator-Id", required = false) String operatorId,
+            @RequestHeader(value = "X-Operator-Role", required = false) String operatorRole,
+            @RequestBody MarkFailedEventManagementRequest request
+    ) {
+        return failedEventMessageService.markManagementStatus(request, operatorId, operatorRole);
     }
 
     @PostMapping("/{id}/replay")

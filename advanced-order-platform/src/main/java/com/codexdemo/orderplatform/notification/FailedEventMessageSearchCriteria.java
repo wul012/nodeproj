@@ -7,6 +7,7 @@ public record FailedEventMessageSearchCriteria(
         String eventType,
         String aggregateType,
         String aggregateId,
+        FailedEventManagementStatus managementStatus,
         Instant failedFrom,
         Instant failedTo,
         Integer page,
@@ -24,6 +25,21 @@ public record FailedEventMessageSearchCriteria(
             Instant failedTo,
             Integer limit
     ) {
-        this(status, eventType, aggregateType, aggregateId, failedFrom, failedTo, null, null, null, limit);
+        this(status, eventType, aggregateType, aggregateId, null, failedFrom, failedTo, null, null, null, limit);
+    }
+
+    public FailedEventMessageSearchCriteria(
+            FailedEventMessageStatus status,
+            String eventType,
+            String aggregateType,
+            String aggregateId,
+            Instant failedFrom,
+            Instant failedTo,
+            Integer page,
+            Integer size,
+            String sort,
+            Integer limit
+    ) {
+        this(status, eventType, aggregateType, aggregateId, null, failedFrom, failedTo, page, size, sort, limit);
     }
 }
