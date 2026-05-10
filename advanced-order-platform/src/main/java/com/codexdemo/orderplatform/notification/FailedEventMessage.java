@@ -16,7 +16,10 @@ import java.time.Instant;
         name = "failed_event_messages",
         indexes = {
                 @Index(name = "idx_failed_event_messages_failed_at", columnList = "failed_at"),
-                @Index(name = "idx_failed_event_messages_status", columnList = "status")
+                @Index(name = "idx_failed_event_messages_status", columnList = "status"),
+                @Index(name = "idx_failed_event_messages_status_failed_at", columnList = "status, failed_at"),
+                @Index(name = "idx_failed_event_messages_event_type_failed_at", columnList = "event_type, failed_at"),
+                @Index(name = "idx_failed_event_messages_aggregate", columnList = "aggregate_type, aggregate_id")
         }
 )
 public class FailedEventMessage {

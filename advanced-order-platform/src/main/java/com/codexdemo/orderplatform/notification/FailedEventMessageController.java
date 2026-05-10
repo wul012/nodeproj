@@ -1,11 +1,14 @@
 package com.codexdemo.orderplatform.notification;
 
+import java.time.Instant;
 import java.util.List;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,8 +23,45 @@ public class FailedEventMessageController {
     }
 
     @GetMapping
-    public List<FailedEventMessageResponse> listRecentFailedMessages() {
-        return failedEventMessageService.listRecentFailedMessages();
+    public List<FailedEventMessageResponse> searchFailedMessages(
+            @RequestParam(required = false) FailedEventMessageStatus status,
+            @RequestParam(required = false) String eventType,
+            @RequestParam(required = false) String aggregateType,
+            @RequestParam(required = false) String aggregateId,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant failedTo,
+            @RequestParam(required = false) Integer limit
+    ) {
+        return failedEventMessageService.searchFailedMessages(new FailedEventMessageSearchCriteria(
+                status,
+                eventType,
+                aggregateType,
+                aggregateId,
+                failedFrom,
+                failedTo,
+                limit
+        ));
+    }
+
+    @GetMapping("/replay-attempts")
+    public List<FailedEventReplayAttemptResponse> searchReplayAttempts(
+            @RequestParam(required = false) Long failedEventMessageId,
+            @RequestParam(required = false) FailedEventReplayAttemptStatus status,
+            @RequestParam(required = false) String operatorId,
+            @RequestParam(required = false) String operatorRole,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant attemptedFrom,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) Instant attemptedTo,
+            @RequestParam(required = false) Integer limit
+    ) {
+        return failedEventMessageService.searchReplayAttempts(new FailedEventReplayAttemptSearchCriteria(
+                failedEventMessageId,
+                status,
+                operatorId,
+                operatorRole,
+                attemptedFrom,
+                attemptedTo,
+                limit
+        ));
     }
 
     @GetMapping("/{id}/replay-attempts")

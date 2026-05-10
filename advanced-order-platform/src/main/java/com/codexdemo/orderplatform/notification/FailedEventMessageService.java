@@ -5,16 +5,24 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HexFormat;
 import java.util.List;
 import java.util.UUID;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.Path;
+import jakarta.persistence.criteria.Predicate;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
@@ -54,7 +62,31 @@ public class FailedEventMessageService {
 
     @Transactional(readOnly = true)
     public List<FailedEventMessageResponse> listRecentFailedMessages() {
-        return failedEventMessageRepository.findTop50ByOrderByFailedAtDesc().stream()
+        return searchFailedMessages(new FailedEventMessageSearchCriteria(
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null
+        ));
+    }
+
+    @Transactional(readOnly = true)
+    public List<FailedEventMessageResponse> searchFailedMessages(FailedEventMessageSearchCriteria criteria) {
+        FailedEventMessageSearchCriteria normalizedCriteria = criteria == null
+                ? new FailedEventMessageSearchCriteria(null, null, null, null, null, null, null)
+                : criteria;
+        validateTimeRange(normalizedCriteria.failedFrom(), normalizedCriteria.failedTo(), "failedFrom", "failedTo");
+        int limit = normalizeSearchLimit(normalizedCriteria.limit());
+        return failedEventMessageRepository
+                .findAll(
+                        failedMessagesMatching(normalizedCriteria),
+                        PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "failedAt", "id"))
+                )
+                .getContent()
+                .stream()
                 .map(FailedEventMessageResponse::from)
                 .toList();
     }
@@ -66,6 +98,29 @@ public class FailedEventMessageService {
         }
         return failedEventReplayAttemptRepository
                 .findByFailedEventMessageIdOrderByAttemptedAtDescIdDesc(failedEventMessageId)
+                .stream()
+                .map(FailedEventReplayAttemptResponse::from)
+                .toList();
+    }
+
+    @Transactional(readOnly = true)
+    public List<FailedEventReplayAttemptResponse> searchReplayAttempts(FailedEventReplayAttemptSearchCriteria criteria) {
+        FailedEventReplayAttemptSearchCriteria normalizedCriteria = criteria == null
+                ? new FailedEventReplayAttemptSearchCriteria(null, null, null, null, null, null, null)
+                : criteria;
+        validateTimeRange(
+                normalizedCriteria.attemptedFrom(),
+                normalizedCriteria.attemptedTo(),
+                "attemptedFrom",
+                "attemptedTo"
+        );
+        int limit = normalizeSearchLimit(normalizedCriteria.limit());
+        return failedEventReplayAttemptRepository
+                .findAll(
+                        replayAttemptsMatching(normalizedCriteria),
+                        PageRequest.of(0, limit, Sort.by(Sort.Direction.DESC, "attemptedAt", "id"))
+                )
+                .getContent()
                 .stream()
                 .map(FailedEventReplayAttemptResponse::from)
                 .toList();
@@ -247,6 +302,88 @@ public class FailedEventMessageService {
                 errorMessage,
                 attemptedAt
         ));
+    }
+
+    private Specification<FailedEventMessage> failedMessagesMatching(FailedEventMessageSearchCriteria criteria) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (criteria.status() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("status"), criteria.status()));
+            }
+            addTextEquals(predicates, criteriaBuilder, root.get("eventType"), criteria.eventType());
+            addTextEquals(predicates, criteriaBuilder, root.get("aggregateType"), criteria.aggregateType());
+            addTextEquals(predicates, criteriaBuilder, root.get("aggregateId"), criteria.aggregateId());
+            if (criteria.failedFrom() != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("failedAt"), criteria.failedFrom()));
+            }
+            if (criteria.failedTo() != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("failedAt"), criteria.failedTo()));
+            }
+            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
+        };
+    }
+
+    private Specification<FailedEventReplayAttempt> replayAttemptsMatching(
+            FailedEventReplayAttemptSearchCriteria criteria
+    ) {
+        return (root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (criteria.failedEventMessageId() != null) {
+                predicates.add(criteriaBuilder.equal(
+                        root.get("failedEventMessage").get("id"),
+                        criteria.failedEventMessageId()
+                ));
+            }
+            if (criteria.status() != null) {
+                predicates.add(criteriaBuilder.equal(root.get("status"), criteria.status()));
+            }
+            addTextEquals(predicates, criteriaBuilder, root.get("operatorId"), criteria.operatorId());
+            addTextEquals(
+                    predicates,
+                    criteriaBuilder,
+                    root.get("operatorRole"),
+                    failedEventReplayProperties.normalize(criteria.operatorRole())
+            );
+            if (criteria.attemptedFrom() != null) {
+                predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("attemptedAt"), criteria.attemptedFrom()));
+            }
+            if (criteria.attemptedTo() != null) {
+                predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("attemptedAt"), criteria.attemptedTo()));
+            }
+            return criteriaBuilder.and(predicates.toArray(Predicate[]::new));
+        };
+    }
+
+    private void addTextEquals(
+            List<Predicate> predicates,
+            CriteriaBuilder criteriaBuilder,
+            Path<String> path,
+            String value
+    ) {
+        String normalized = normalizeSearchText(value);
+        if (normalized != null) {
+            predicates.add(criteriaBuilder.equal(path, normalized));
+        }
+    }
+
+    private String normalizeSearchText(String value) {
+        return StringUtils.hasText(value) ? value.strip() : null;
+    }
+
+    private int normalizeSearchLimit(Integer limit) {
+        if (limit == null) {
+            return 50;
+        }
+        if (limit < 1 || limit > 200) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "limit must be between 1 and 200");
+        }
+        return limit;
+    }
+
+    private void validateTimeRange(Instant from, Instant to, String fromName, String toName) {
+        if (from != null && to != null && from.isAfter(to)) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, fromName + " must be before or equal to " + toName);
+        }
     }
 
     private String resolveReplayEventId(FailedEventMessage failedMessage, ReplayFailedEventRequest request) {

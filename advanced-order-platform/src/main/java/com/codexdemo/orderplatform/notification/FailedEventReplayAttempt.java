@@ -17,10 +17,24 @@ import java.time.Instant;
 @Entity
 @Table(
         name = "failed_event_replay_attempts",
-        indexes = @Index(
-                name = "idx_failed_event_replay_attempts_message",
-                columnList = "failed_event_message_id, attempted_at"
-        )
+        indexes = {
+                @Index(
+                        name = "idx_failed_event_replay_attempts_message",
+                        columnList = "failed_event_message_id, attempted_at"
+                ),
+                @Index(
+                        name = "idx_failed_event_replay_attempts_status",
+                        columnList = "status, attempted_at"
+                ),
+                @Index(
+                        name = "idx_failed_event_replay_attempts_operator_role",
+                        columnList = "operator_role, attempted_at"
+                ),
+                @Index(
+                        name = "idx_failed_event_replay_attempts_operator_id",
+                        columnList = "operator_id, attempted_at"
+                )
+        }
 )
 public class FailedEventReplayAttempt {
 

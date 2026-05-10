@@ -25,6 +25,7 @@
 - 失败事件消息修复重放
 - 失败事件重放操作审计查询
 - 失败事件重放角色校验和原因记录
+- 失败事件与重放审计多条件筛选
 - Actuator 健康检查
 - Flyway 数据库迁移
 - H2 本地快速启动
@@ -248,6 +249,18 @@ Invoke-RestMethod http://localhost:8080/api/v1/notifications/orders/1
 Invoke-RestMethod http://localhost:8080/api/v1/failed-events
 ```
 
+按条件查询失败事件消息：
+
+```powershell
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?status=RECORDED&eventType=OrderCreated&aggregateType=ORDER&aggregateId=404&limit=20"
+```
+
+按时间窗口查询失败事件消息：
+
+```powershell
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events?failedFrom=2026-05-10T00:00:00Z&failedTo=2026-05-11T00:00:00Z"
+```
+
 修复并重放失败事件消息：
 
 ```powershell
@@ -273,6 +286,12 @@ Invoke-RestMethod `
 Invoke-RestMethod http://localhost:8080/api/v1/failed-events/1/replay-attempts
 ```
 
+全局筛选重放审计记录：
+
+```powershell
+Invoke-RestMethod "http://localhost:8080/api/v1/failed-events/replay-attempts?failedEventMessageId=1&status=SUCCEEDED&operatorRole=SRE&limit=20"
+```
+
 ## Database Migration
 
 第十版开始，项目使用 Flyway 管理数据库结构，Hibernate 只做结构校验：
@@ -295,6 +314,7 @@ src/main/resources/db/migration/h2/V3__failed_event_messages.sql
 src/main/resources/db/migration/h2/V4__failed_event_replay_state.sql
 src/main/resources/db/migration/h2/V5__failed_event_replay_attempts.sql
 src/main/resources/db/migration/h2/V6__failed_event_replay_authorization.sql
+src/main/resources/db/migration/h2/V7__failed_event_search_indexes.sql
 ```
 
 PostgreSQL profile 执行：
@@ -306,6 +326,7 @@ src/main/resources/db/migration/postgresql/V3__failed_event_messages.sql
 src/main/resources/db/migration/postgresql/V4__failed_event_replay_state.sql
 src/main/resources/db/migration/postgresql/V5__failed_event_replay_attempts.sql
 src/main/resources/db/migration/postgresql/V6__failed_event_replay_authorization.sql
+src/main/resources/db/migration/postgresql/V7__failed_event_search_indexes.sql
 ```
 
 如果 Docker 未启动，Testcontainers 的 PostgreSQL / RabbitMQ 集成测试会自动跳过；启动 Docker 后重新执行 `mvn test` 即可跑真实中间件验证。
@@ -368,7 +389,7 @@ outbox
  -> 事件表、事件查询、后台发布标记、RabbitMQ 真实消息发布
 
 notification
- -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件查询、重放接口、角色校验和重放审计
+ -> RabbitMQ 订单事件消费者、通知消息、幂等落库、消费失败重试、死信记录、失败事件筛选查询、重放接口、角色校验和重放审计筛选查询
 
 common
  -> 业务异常和统一错误响应
@@ -377,7 +398,7 @@ common
 后续建议升级顺序：
 
 1. 给失败事件重放接口接入真实认证鉴权、重放审批和管理端页面。
-2. 接入 Redis，训练热点商品缓存、限流、幂等 token。
-3. 增加登录、鉴权和管理端接口。
+2. 给失败事件查询接口增加分页响应对象、排序字段白名单和前端管理页。
+3. 接入 Redis，训练热点商品缓存、限流、幂等 token。
 4. 接入 OpenTelemetry、Prometheus、Grafana。
 5. 增加并发库存压测和更多 Testcontainers 多中间件集成测试。
