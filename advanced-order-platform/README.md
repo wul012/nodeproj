@@ -4,6 +4,7 @@
 
 - 商品目录查询
 - 库存锁定与扣减
+- 库存变更流水查询
 - 幂等下单
 - 订单支付模拟
 - 支付交易流水查询
@@ -51,6 +52,12 @@ Invoke-RestMethod http://localhost:8080/actuator/health
 
 ```powershell
 Invoke-RestMethod http://localhost:8080/api/v1/products
+```
+
+查询商品库存流水：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/inventory/products/1/movements
 ```
 
 创建订单：
@@ -161,7 +168,7 @@ mvn spring-boot:run `
 当前代码按业务边界分包：
 
 - `catalog`: 商品目录
-- `inventory`: 库存与并发控制
+- `inventory`: 库存与并发控制，记录预占、确认扣减、释放预占、退款回补流水
 - `order`: 订单编排、幂等、防重复提交、支付、退款、取消、发货、完成、状态历史和超时过期状态流转
 - `payment`: 支付交易流水，记录模拟支付成功和退款后的金额、状态、渠道和交易号
 - `outbox`: 事件表和后台发布标记，为后续 Kafka/RabbitMQ 做准备

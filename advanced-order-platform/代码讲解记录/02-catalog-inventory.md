@@ -12,6 +12,10 @@ src/main/java/com/codexdemo/orderplatform/catalog/CatalogController.java
 src/main/java/com/codexdemo/orderplatform/inventory/InventoryItem.java
 src/main/java/com/codexdemo/orderplatform/inventory/InventoryRepository.java
 src/main/java/com/codexdemo/orderplatform/inventory/InventoryService.java
+src/main/java/com/codexdemo/orderplatform/inventory/InventoryMovement.java
+src/main/java/com/codexdemo/orderplatform/inventory/InventoryMovementRepository.java
+src/main/java/com/codexdemo/orderplatform/inventory/InventoryMovementResponse.java
+src/main/java/com/codexdemo/orderplatform/inventory/InventoryController.java
 ```
 
 它们负责两个边界：
@@ -21,7 +25,7 @@ catalog
  -> 商品是什么、多少钱、是否上架
 
 inventory
- -> 商品还有多少可卖库存、已经预占多少库存
+ -> 商品还有多少可卖库存、已经预占多少库存，以及这些数字如何变化
 ```
 
 这两个模块合起来支撑一个基本问题：
@@ -50,6 +54,7 @@ OrderApplicationService
  -> InventoryItem.reserve
  -> available 减少
  -> reserved 增加
+ -> InventoryMovement 记录 RESERVE 流水
 ```
 
 ---
@@ -436,6 +441,24 @@ reserved -= quantity
 available += quantity
 ```
 
+第八版新增的 `returnCommitted` 方法：
+
+```java
+public void returnCommitted(int quantity) {
+    if (quantity <= 0) {
+        throw new BusinessException(HttpStatus.BAD_REQUEST, "INVALID_QUANTITY", "Quantity must be greater than zero");
+    }
+    available += quantity;
+}
+```
+
+它表示退款时回补已经确认扣减的库存：
+
+```text
+available += quantity
+reserved 不变
+```
+
 一句话总结：`InventoryItem` 把库存拆成 available 和 reserved，从而支持“先占库存，再支付确认或取消释放”的订单流程。
 
 ---
@@ -507,7 +530,12 @@ select ... for update
 public void reserve(Map<Long, Integer> productQuantities) {
     productQuantities.entrySet().stream()
             .sorted(Map.Entry.comparingByKey())
-            .forEach(entry -> findLocked(entry.getKey()).reserve(entry.getValue()));
+            .forEach(entry -> applyAndRecord(
+                    entry.getKey(),
+                    entry.getValue(),
+                    InventoryMovementType.RESERVE,
+                    item -> item.reserve(entry.getValue())
+            ));
 }
 ```
 
@@ -548,7 +576,12 @@ productId 从小到大
 public void commitReserved(Map<Long, Integer> productQuantities) {
     productQuantities.entrySet().stream()
             .sorted(Map.Entry.comparingByKey())
-            .forEach(entry -> findLocked(entry.getKey()).commitReserved(entry.getValue()));
+            .forEach(entry -> applyAndRecord(
+                    entry.getKey(),
+                    entry.getValue(),
+                    InventoryMovementType.COMMIT_RESERVED,
+                    item -> item.commitReserved(entry.getValue())
+            ));
 }
 ```
 
@@ -560,7 +593,12 @@ public void commitReserved(Map<Long, Integer> productQuantities) {
 public void releaseReserved(Map<Long, Integer> productQuantities) {
     productQuantities.entrySet().stream()
             .sorted(Map.Entry.comparingByKey())
-            .forEach(entry -> findLocked(entry.getKey()).releaseReserved(entry.getValue()));
+            .forEach(entry -> applyAndRecord(
+                    entry.getKey(),
+                    entry.getValue(),
+                    InventoryMovementType.RELEASE_RESERVED,
+                    item -> item.releaseReserved(entry.getValue())
+            ));
 }
 ```
 
@@ -568,10 +606,116 @@ public void releaseReserved(Map<Long, Integer> productQuantities) {
 
 因为取消和支付可能同时发生，必须让数据库保证同一条库存记录在同一时间只被一个事务修改。
 
-一句话总结：`InventoryService` 是库存并发控制的门面，所有预占、确认扣减和取消释放都从这里走。
+第九版新增统一流水记录方法：
+
+```java
+private void applyAndRecord(
+        Long productId,
+        int quantity,
+        InventoryMovementType type,
+        Consumer<InventoryItem> operation
+) {
+    InventoryItem item = findLocked(productId);
+    int availableBefore = item.getAvailable();
+    int reservedBefore = item.getReserved();
+    operation.accept(item);
+    inventoryMovementRepository.save(InventoryMovement.record(
+            item,
+            type,
+            quantity,
+            availableBefore,
+            reservedBefore
+    ));
+}
+```
+
+它的关键是：
+
+```text
+先拿库存行写锁
+记录 available/reserved 的 before
+执行库存变更
+记录 available/reserved 的 after
+写 inventory_movements
+```
+
+第九版还新增查询方法：
+
+```java
+public List<InventoryMovementResponse> listProductMovements(Long productId) {
+    findExisting(productId);
+    return inventoryMovementRepository.findByProductIdOrderByCreatedAtAscIdAsc(productId).stream()
+            .map(InventoryMovementResponse::from)
+            .toList();
+}
+```
+
+一句话总结：`InventoryService` 是库存并发控制的门面，所有预占、确认扣减、取消释放和退款回补都从这里走，并且都会留下库存流水。
+
+---
+
+# 9. `InventoryMovement.java`：库存变更流水
+
+第九版新增库存流水表：
+
+```java
+@Entity
+@Table(
+        name = "inventory_movements",
+        indexes = @Index(name = "idx_inventory_movements_product_created", columnList = "product_id, created_at")
+)
+public class InventoryMovement {
+```
+
+核心字段是：
+
+```text
+productId
+type
+quantity
+availableBefore
+reservedBefore
+availableAfter
+reservedAfter
+createdAt
+```
+
+流水类型是：
+
+```java
+public enum InventoryMovementType {
+    RESERVE,
+    COMMIT_RESERVED,
+    RELEASE_RESERVED,
+    RETURN_COMMITTED
+}
+```
+
+一句话总结：`InventoryMovement` 负责解释库存数字为什么会变化、变化前后是多少。
+
+---
+
+# 10. `InventoryController.java`：库存流水查询接口
+
+新增 HTTP 接口：
+
+```java
+@GetMapping("/products/{productId}/movements")
+public List<InventoryMovementResponse> listProductMovements(@PathVariable Long productId) {
+    return inventoryService.listProductMovements(productId);
+}
+```
+
+调用方式：
+
+```powershell
+Invoke-RestMethod http://localhost:8080/api/v1/inventory/products/1/movements
+```
+
+一句话总结：`InventoryController` 让你能从接口上直接观察某个商品库存的完整变化轨迹。
 
 ---
 
 # 本次讲解总结
 
-第二次讲解的是商品和库存：`catalog` 负责展示商品，`inventory` 负责库存状态和并发锁，`available / reserved` 是订单系统里非常重要的库存设计；第二版又补上了取消订单时把 `reserved` 释放回 `available` 的反向链路。
+第二次讲解的是商品和库存：`catalog` 负责展示商品，`inventory` 负责库存状态、并发锁和库存流水，`available / reserved` 是订单系统里非常重要的库存设计；后续版本又补上了取消释放、退款回补和库存变更审计。

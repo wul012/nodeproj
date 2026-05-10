@@ -7,7 +7,10 @@ import com.codexdemo.orderplatform.catalog.Product;
 import com.codexdemo.orderplatform.catalog.ProductRepository;
 import com.codexdemo.orderplatform.common.BusinessException;
 import com.codexdemo.orderplatform.inventory.InventoryItem;
+import com.codexdemo.orderplatform.inventory.InventoryMovementResponse;
+import com.codexdemo.orderplatform.inventory.InventoryMovementType;
 import com.codexdemo.orderplatform.inventory.InventoryRepository;
+import com.codexdemo.orderplatform.inventory.InventoryService;
 import com.codexdemo.orderplatform.order.CreateOrderLineRequest;
 import com.codexdemo.orderplatform.order.CreateOrderRequest;
 import com.codexdemo.orderplatform.order.CreateOrderResult;
@@ -44,6 +47,9 @@ class OrderApplicationServiceTests {
     private InventoryRepository inventoryRepository;
 
     @Autowired
+    private InventoryService inventoryService;
+
+    @Autowired
     private OutboxPublisher outboxPublisher;
 
     @Autowired
@@ -72,6 +78,41 @@ class OrderApplicationServiceTests {
         assertThat(replayed.order().id()).isEqualTo(created.order().id());
         assertThat(afterFirstCreate.getAvailable()).isEqualTo(before.getAvailable() - 2);
         assertThat(afterReplay.getAvailable()).isEqualTo(afterFirstCreate.getAvailable());
+    }
+
+    @Test
+    void inventoryMovementsTrackReserveCommitAndReturn() {
+        Product product = productRepository.findAll().getFirst();
+        int movementCountBefore = inventoryService.listProductMovements(product.getId()).size();
+        CreateOrderRequest request = new CreateOrderRequest(
+                UUID.fromString("19191919-1919-1919-1919-191919191919"),
+                List.of(new CreateOrderLineRequest(product.getId(), 2))
+        );
+
+        CreateOrderResult created = orderApplicationService.createOrder("test-idempotency-key-001-movements", request);
+        orderApplicationService.pay(created.order().id());
+        orderApplicationService.refund(created.order().id());
+
+        List<InventoryMovementResponse> newMovements = inventoryService.listProductMovements(product.getId())
+                .stream()
+                .skip(movementCountBefore)
+                .toList();
+
+        assertThat(newMovements.stream().map(InventoryMovementResponse::type).toList())
+                .containsExactly(
+                        InventoryMovementType.RESERVE,
+                        InventoryMovementType.COMMIT_RESERVED,
+                        InventoryMovementType.RETURN_COMMITTED
+                );
+        InventoryMovementResponse reserve = newMovements.get(0);
+        InventoryMovementResponse commit = newMovements.get(1);
+        InventoryMovementResponse returned = newMovements.get(2);
+        assertThat(reserve.availableAfter()).isEqualTo(reserve.availableBefore() - 2);
+        assertThat(reserve.reservedAfter()).isEqualTo(reserve.reservedBefore() + 2);
+        assertThat(commit.availableAfter()).isEqualTo(commit.availableBefore());
+        assertThat(commit.reservedAfter()).isEqualTo(commit.reservedBefore() - 2);
+        assertThat(returned.availableAfter()).isEqualTo(returned.availableBefore() + 2);
+        assertThat(returned.reservedAfter()).isEqualTo(returned.reservedBefore());
     }
 
     @Test
@@ -176,6 +217,7 @@ class OrderApplicationServiceTests {
     void cancelOrderReleasesReservedInventoryAndIsIdempotent() {
         Product product = productRepository.findAll().getFirst();
         InventoryItem before = inventoryRepository.findByProductId(product.getId()).orElseThrow();
+        int movementCountBefore = inventoryService.listProductMovements(product.getId()).size();
         CreateOrderRequest request = new CreateOrderRequest(
                 UUID.fromString("44444444-4444-4444-4444-444444444444"),
                 List.of(new CreateOrderLineRequest(product.getId(), 3))
@@ -197,6 +239,11 @@ class OrderApplicationServiceTests {
         assertThat(replayedCancel.status()).isEqualTo(OrderStatus.CANCELLED);
         assertThat(afterReplay.getAvailable()).isEqualTo(afterCancel.getAvailable());
         assertThat(afterReplay.getReserved()).isEqualTo(afterCancel.getReserved());
+        assertThat(inventoryService.listProductMovements(product.getId()).stream()
+                .skip(movementCountBefore)
+                .map(InventoryMovementResponse::type)
+                .toList())
+                .containsExactly(InventoryMovementType.RESERVE, InventoryMovementType.RELEASE_RESERVED);
     }
 
     @Test

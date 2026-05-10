@@ -1011,6 +1011,7 @@ paymentService.listOrderPayments(orderId)
 订单状态历史查询
 支付交易流水查询
 支付后退款和库存回补
+库存变更流水查询
 ```
 
 但它还没有做完整的：
