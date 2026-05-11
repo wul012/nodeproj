@@ -21,4 +21,7 @@ v52-cross-project-roadmap.md
 
 v54-post-infojson-roadmap.md
  -> 由 Node v54 mini-kv INFOJSON 接入衍生出的后续计划；收敛为 Java v37、mini-kv v46、Node v55、Node v56，并新增运行调试截图归档规则
+
+v56-post-dashboard-control-roadmap.md
+ -> 由 Node v56 Dashboard 上游观察详情面板衍生出的受控操作预演计划；收敛为 Java v38、mini-kv v47、Node v57、Node v58、Node v59，并说明哪些版本可以一起推进
 ```
