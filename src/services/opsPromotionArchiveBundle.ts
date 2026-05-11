@@ -895,6 +895,79 @@ export interface OpsPromotionReleaseEvidence {
   nextActions: string[];
 }
 
+export interface OpsPromotionReleaseEvidenceVerificationItem {
+  name: OpsPromotionReleaseEvidenceItemName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  detailMatches: boolean;
+  digestMatches: boolean;
+  evidenceDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+  detail: string;
+}
+
+export interface OpsPromotionReleaseEvidenceVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  evidenceDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedEvidenceDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    evidenceDigestValid: boolean;
+    coveredFieldsMatch: boolean;
+    evidenceItemsValid: boolean;
+    evidenceNameMatches: boolean;
+    completionNameMatches: boolean;
+    closureNameMatches: boolean;
+    receiptNameMatches: boolean;
+    certificateNameMatches: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    completionDigestMatches: boolean;
+    verifiedCompletionDigestMatches: boolean;
+    closureDigestMatches: boolean;
+    verifiedClosureDigestMatches: boolean;
+    decisionMatches: boolean;
+    verificationMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    evidenceItemCount: number;
+    handoffReady: boolean;
+    closeoutReady: boolean;
+  };
+  evidenceItems: OpsPromotionReleaseEvidenceVerificationItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -2249,6 +2322,116 @@ export function createOpsPromotionReleaseEvidence(input: {
   };
 }
 
+export function createOpsPromotionReleaseEvidenceVerification(input: {
+  completion: OpsPromotionHandoffCompletion;
+  completionVerification: OpsPromotionHandoffCompletionVerification;
+  evidence: OpsPromotionReleaseEvidence;
+}): OpsPromotionReleaseEvidenceVerification {
+  const expectedEvidence = createOpsPromotionReleaseEvidence({
+    completion: input.completion,
+    completionVerification: input.completionVerification,
+  });
+  const recomputedEvidenceDigest = digestStable(archiveReleaseEvidenceDigestPayload({
+    evidenceName: input.evidence.evidenceName,
+    completionName: input.evidence.completionName,
+    closureName: input.evidence.closureName,
+    receiptName: input.evidence.receiptName,
+    certificateName: input.evidence.certificateName,
+    packageName: input.evidence.packageName,
+    archiveName: input.evidence.archiveName,
+    valid: input.evidence.valid,
+    state: input.evidence.state,
+    handoffReady: input.evidence.handoffReady,
+    completionDigest: input.evidence.completionDigest.value,
+    verifiedCompletionDigest: input.evidence.verifiedCompletionDigest.value,
+    closureDigest: input.evidence.closureDigest.value,
+    verifiedClosureDigest: input.evidence.verifiedClosureDigest.value,
+    decision: input.evidence.decision,
+    verification: input.evidence.verification,
+    evidenceItems: input.evidence.evidenceItems,
+    nextActions: input.evidence.nextActions,
+  }));
+  const evidenceItemChecks = input.evidence.evidenceItems.map((item) => {
+    const expected = expectedEvidence.evidenceItems.find((candidate) => candidate.name === item.name);
+    const validMatches = expected?.valid === item.valid;
+    const sourceMatches = expected?.source === item.source;
+    const detailMatches = expected?.detail === item.detail;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: item.name }) };
+    const digestMatches = item.digest.value === expectedDigest.value;
+
+    return {
+      name: item.name,
+      valid: expected !== undefined && validMatches && sourceMatches && detailMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      detailMatches,
+      digestMatches,
+      evidenceDigest: { ...item.digest },
+      recomputedDigest: expectedDigest,
+      source: item.source,
+      detail: item.detail,
+    };
+  });
+  const checks = {
+    evidenceDigestValid: input.evidence.evidenceDigest.value === recomputedEvidenceDigest,
+    coveredFieldsMatch: stableJson(input.evidence.evidenceDigest.coveredFields)
+      === stableJson(expectedEvidence.evidenceDigest.coveredFields),
+    evidenceItemsValid: evidenceItemChecks.length === expectedEvidence.evidenceItems.length
+      && evidenceItemChecks.every((item) => item.valid),
+    evidenceNameMatches: input.evidence.evidenceName === expectedEvidence.evidenceName,
+    completionNameMatches: input.evidence.completionName === expectedEvidence.completionName,
+    closureNameMatches: input.evidence.closureName === expectedEvidence.closureName,
+    receiptNameMatches: input.evidence.receiptName === expectedEvidence.receiptName,
+    certificateNameMatches: input.evidence.certificateName === expectedEvidence.certificateName,
+    packageNameMatches: input.evidence.packageName === expectedEvidence.packageName,
+    archiveNameMatches: input.evidence.archiveName === expectedEvidence.archiveName,
+    validMatches: input.evidence.valid === expectedEvidence.valid,
+    stateMatches: input.evidence.state === expectedEvidence.state,
+    handoffReadyMatches: input.evidence.handoffReady === expectedEvidence.handoffReady,
+    completionDigestMatches: input.evidence.completionDigest.value === expectedEvidence.completionDigest.value,
+    verifiedCompletionDigestMatches: input.evidence.verifiedCompletionDigest.value === expectedEvidence.verifiedCompletionDigest.value,
+    closureDigestMatches: input.evidence.closureDigest.value === expectedEvidence.closureDigest.value,
+    verifiedClosureDigestMatches: input.evidence.verifiedClosureDigest.value === expectedEvidence.verifiedClosureDigest.value,
+    decisionMatches: stableJson(input.evidence.decision) === stableJson(expectedEvidence.decision),
+    verificationMatches: stableJson(input.evidence.verification) === stableJson(expectedEvidence.verification),
+    nextActionsMatch: stableJson(input.evidence.nextActions) === stableJson(expectedEvidence.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    evidenceName: input.evidence.evidenceName,
+    completionName: input.evidence.completionName,
+    closureName: input.evidence.closureName,
+    receiptName: input.evidence.receiptName,
+    certificateName: input.evidence.certificateName,
+    packageName: input.evidence.packageName,
+    archiveName: input.evidence.archiveName,
+    valid,
+    state: input.evidence.state,
+    handoffReady: input.evidence.handoffReady,
+    evidenceDigest: {
+      algorithm: "sha256",
+      value: input.evidence.evidenceDigest.value,
+    },
+    recomputedEvidenceDigest: {
+      algorithm: "sha256",
+      value: recomputedEvidenceDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.evidence.decision.totalDecisions,
+      latestDecisionId: input.evidence.decision.latestDecisionId,
+      evidenceItemCount: evidenceItemChecks.length,
+      handoffReady: input.evidence.handoffReady,
+      closeoutReady: input.evidence.verification.closeoutReady,
+    },
+    evidenceItems: evidenceItemChecks,
+    nextActions: archiveReleaseEvidenceVerificationNextActions(checks, input.evidence),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -2763,6 +2946,71 @@ export function renderOpsPromotionReleaseEvidenceMarkdown(evidence: OpsPromotion
     "## Next Actions",
     "",
     ...evidence.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionReleaseEvidenceVerificationMarkdown(
+  verification: OpsPromotionReleaseEvidenceVerification,
+): string {
+  const lines = [
+    "# Promotion release evidence verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Evidence name: ${verification.evidenceName}`,
+    `- Completion name: ${verification.completionName}`,
+    `- Closure name: ${verification.closureName}`,
+    `- Receipt name: ${verification.receiptName}`,
+    `- Certificate name: ${verification.certificateName}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Evidence digest: ${verification.evidenceDigest.algorithm}:${verification.evidenceDigest.value}`,
+    `- Recomputed evidence digest: ${verification.recomputedEvidenceDigest.algorithm}:${verification.recomputedEvidenceDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Evidence digest valid: ${verification.checks.evidenceDigestValid}`,
+    `- Covered fields match: ${verification.checks.coveredFieldsMatch}`,
+    `- Evidence items valid: ${verification.checks.evidenceItemsValid}`,
+    `- Evidence name matches: ${verification.checks.evidenceNameMatches}`,
+    `- Completion name matches: ${verification.checks.completionNameMatches}`,
+    `- Closure name matches: ${verification.checks.closureNameMatches}`,
+    `- Receipt name matches: ${verification.checks.receiptNameMatches}`,
+    `- Certificate name matches: ${verification.checks.certificateNameMatches}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Completion digest matches: ${verification.checks.completionDigestMatches}`,
+    `- Verified completion digest matches: ${verification.checks.verifiedCompletionDigestMatches}`,
+    `- Closure digest matches: ${verification.checks.closureDigestMatches}`,
+    `- Verified closure digest matches: ${verification.checks.verifiedClosureDigestMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Verification matches: ${verification.checks.verificationMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Evidence Items",
+    "",
+    ...renderReleaseEvidenceVerificationItems(verification.evidenceItems),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Evidence item count: ${verification.summary.evidenceItemCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    `- Closeout ready: ${verification.summary.closeoutReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -4027,6 +4275,38 @@ function archiveReleaseEvidenceNextActions(
   return completionVerification.nextActions;
 }
 
+function archiveReleaseEvidenceVerificationNextActions(
+  checks: OpsPromotionReleaseEvidenceVerification["checks"],
+  evidence: OpsPromotionReleaseEvidence,
+): string[] {
+  if (!checks.evidenceDigestValid) {
+    return ["Regenerate release evidence before trusting this evidence digest."];
+  }
+
+  if (!checks.evidenceItemsValid) {
+    return ["Review release evidence items before storing the final release archive."];
+  }
+
+  if (
+    !checks.completionDigestMatches
+    || !checks.verifiedCompletionDigestMatches
+    || !checks.closureDigestMatches
+    || !checks.verifiedClosureDigestMatches
+  ) {
+    return ["Recreate release evidence from the latest verified completion chain."];
+  }
+
+  if (!checks.decisionMatches || !checks.verificationMatches || !checks.nextActionsMatch || !checks.validMatches) {
+    return ["Reissue release evidence from the latest evidence inputs."];
+  }
+
+  if (evidence.handoffReady) {
+    return ["Release evidence verification is complete; store the verified evidence digest with the final release archive."];
+  }
+
+  return evidence.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -4345,6 +4625,23 @@ function renderReleaseEvidenceItems(items: OpsPromotionReleaseEvidenceItem[]): s
     "",
     `- Valid: ${item.valid}`,
     `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
+    `- Source: ${item.source}`,
+    `- Detail: ${item.detail}`,
+    "",
+  ]);
+}
+
+function renderReleaseEvidenceVerificationItems(items: OpsPromotionReleaseEvidenceVerificationItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Valid matches: ${item.validMatches}`,
+    `- Source matches: ${item.sourceMatches}`,
+    `- Detail matches: ${item.detailMatches}`,
+    `- Digest matches: ${item.digestMatches}`,
+    `- Evidence digest: ${item.evidenceDigest.algorithm}:${item.evidenceDigest.value}`,
+    `- Recomputed digest: ${item.recomputedDigest.algorithm}:${item.recomputedDigest.value}`,
     `- Source: ${item.source}`,
     `- Detail: ${item.detail}`,
     "",

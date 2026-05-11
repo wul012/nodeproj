@@ -2083,6 +2083,139 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies promotion release evidence as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "release-evidence-verifier",
+          note: "verify release evidence",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        checks: {
+          evidenceDigestValid: true,
+          coveredFieldsMatch: true,
+          evidenceItemsValid: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          completionDigestMatches: true,
+          verifiedCompletionDigestMatches: true,
+          closureDigestMatches: true,
+          verifiedClosureDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          evidenceItemCount: 5,
+          handoffReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(emptyVerification.json().evidenceDigest.value).toBe(emptyVerification.json().recomputedEvidenceDigest.value);
+      expect(emptyVerification.json().evidenceItems.map((item: { name: string }) => item.name)).toEqual([
+        "handoff-completion",
+        "verified-handoff-completion",
+        "handoff-closure",
+        "verified-handoff-closure",
+        "final-closeout-state",
+      ]);
+      expect(emptyVerification.json().evidenceItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(emptyVerification.json().evidenceItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        checks: {
+          evidenceDigestValid: true,
+          coveredFieldsMatch: true,
+          evidenceItemsValid: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          completionDigestMatches: true,
+          verifiedCompletionDigestMatches: true,
+          closureDigestMatches: true,
+          verifiedClosureDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          evidenceItemCount: 5,
+          handoffReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(verification.json().evidenceName).toMatch(/^promotion-release-evidence-[a-f0-9]{12}$/);
+      expect(verification.json().evidenceDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(verification.json().evidenceDigest.value).toBe(verification.json().recomputedEvidenceDigest.value);
+      expect(verification.json().evidenceItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(verification.json().evidenceItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(verification.json().evidenceItems[1]).toMatchObject({
+        name: "verified-handoff-completion",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/handoff-completion/verification",
+      });
+      expect(verification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion release evidence verification");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Evidence digest: sha256:${verification.json().evidenceDigest.value}`);
+      expect(markdown.body).toContain("- Evidence digest valid: true");
+      expect(markdown.body).toContain("## Evidence Items");
+      expect(markdown.body).toContain("### verified-handoff-completion");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
@@ -2245,6 +2378,14 @@ describe("ops promotion decision routes", () => {
       const releaseEvidenceReport = await app.inject({
         method: "GET",
         url: "/api/v1/ops/promotion-archive/release-evidence?format=markdown",
+      });
+      const releaseEvidenceVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence/verification",
+      });
+      const releaseEvidenceVerificationReport = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence/verification?format=markdown",
       });
 
       expect(decision.statusCode).toBe(201);
@@ -2717,6 +2858,57 @@ describe("ops promotion decision routes", () => {
       expect(releaseEvidenceReport.body).toContain("- Handoff ready: true");
       expect(releaseEvidenceReport.body).toContain("- Closeout ready: true");
       expect(releaseEvidenceReport.body).toContain(`- Evidence digest: sha256:${releaseEvidence.json().evidenceDigest.value}`);
+      expect(releaseEvidenceVerification.statusCode).toBe(200);
+      expect(releaseEvidenceVerification.json()).toMatchObject({
+        valid: true,
+        state: "ready",
+        handoffReady: true,
+        checks: {
+          evidenceDigestValid: true,
+          coveredFieldsMatch: true,
+          evidenceItemsValid: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          completionDigestMatches: true,
+          verifiedCompletionDigestMatches: true,
+          closureDigestMatches: true,
+          verifiedClosureDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          latestDecisionId: decision.json().id,
+          evidenceItemCount: 5,
+          handoffReady: true,
+          closeoutReady: true,
+        },
+      });
+      expect(releaseEvidenceVerification.json().evidenceDigest.value).toBe(
+        releaseEvidenceVerification.json().recomputedEvidenceDigest.value,
+      );
+      expect(releaseEvidenceVerification.json().evidenceItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(releaseEvidenceVerification.json().evidenceItems[4]).toMatchObject({
+        name: "final-closeout-state",
+        valid: true,
+        digestMatches: true,
+      });
+      expect(releaseEvidenceVerification.json().nextActions).toEqual([
+        "Release evidence verification is complete; store the verified evidence digest with the final release archive.",
+      ]);
+      expect(releaseEvidenceVerificationReport.statusCode).toBe(200);
+      expect(releaseEvidenceVerificationReport.headers["content-type"]).toContain("text/markdown");
+      expect(releaseEvidenceVerificationReport.body).toContain("# Promotion release evidence verification");
+      expect(releaseEvidenceVerificationReport.body).toContain("- Handoff ready: true");
+      expect(releaseEvidenceVerificationReport.body).toContain("- Evidence digest valid: true");
     } finally {
       await app.close();
     }

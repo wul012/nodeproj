@@ -53,6 +53,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion handoff completion record for packaging verified closure evidence into final archive closeout
 - Local promotion handoff completion verification for rechecking completion digests and final closeout steps
 - Local promotion release evidence record for packaging verified completion evidence into a final release archive digest
+- Local promotion release evidence verification for rechecking final evidence digests and release archive items
 
 ## Setup
 
@@ -135,6 +136,8 @@ GET    /api/v1/ops/promotion-archive/handoff-completion/verification
 GET    /api/v1/ops/promotion-archive/handoff-completion/verification?format=markdown
 GET    /api/v1/ops/promotion-archive/release-evidence
 GET    /api/v1/ops/promotion-archive/release-evidence?format=markdown
+GET    /api/v1/ops/promotion-archive/release-evidence/verification
+GET    /api/v1/ops/promotion-archive/release-evidence/verification?format=markdown
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity
