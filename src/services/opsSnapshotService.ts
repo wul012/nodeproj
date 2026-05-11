@@ -2,6 +2,17 @@ import { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import { MiniKvClient } from "../clients/miniKvClient.js";
 import type { OpsSnapshot, ProbeResult } from "../types.js";
 
+type OrderPlatformOpsOverviewProbe =
+  | {
+    status: "available";
+    latencyMs: number;
+    data: unknown;
+  }
+  | {
+    status: "unavailable";
+    message: string;
+  };
+
 export class OpsSnapshotService {
   constructor(
     private readonly orderPlatformClient: OrderPlatformClient,
@@ -34,19 +45,46 @@ export class OpsSnapshotService {
     try {
       const response = await this.orderPlatformClient.health();
       const status = readStatus(response.data);
+      const opsOverview = await this.probeOrderPlatformOpsOverview();
+      const overviewData = opsOverview.status === "available" ? opsOverview.data : undefined;
+      const state = status === "UP" && opsOverview.status === "available"
+        ? "online"
+        : status === "UP"
+          ? "degraded"
+          : "degraded";
+
       return {
         name: "advanced-order-platform",
-        state: status === "UP" ? "online" : "degraded",
+        state,
         sampledAt,
-        latencyMs: response.latencyMs,
-        message: status ?? "health endpoint responded",
-        details: response.data,
+        latencyMs: Math.max(response.latencyMs, opsOverview.status === "available" ? opsOverview.latencyMs : 0),
+        message: formatOrderPlatformMessage(status, opsOverview, overviewData),
+        details: {
+          health: response,
+          opsOverview,
+        },
       };
     } catch (error) {
       return {
         name: "advanced-order-platform",
         state: "offline",
         sampledAt,
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async probeOrderPlatformOpsOverview(): Promise<OrderPlatformOpsOverviewProbe> {
+    try {
+      const response = await this.orderPlatformClient.opsOverview();
+      return {
+        status: "available",
+        latencyMs: response.latencyMs,
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
         message: error instanceof Error ? error.message : String(error),
       };
     }
@@ -109,6 +147,27 @@ function readStatus(data: unknown): string | undefined {
 
   const status = (data as { status?: unknown }).status;
   return typeof status === "string" ? status : undefined;
+}
+
+function formatOrderPlatformMessage(status: string | undefined, opsOverview: OrderPlatformOpsOverviewProbe, overviewData: unknown): string {
+  if (opsOverview.status !== "available") {
+    return `health=${status ?? "unknown"} ops_overview=${opsOverview.status}`;
+  }
+
+  const data = typeof overviewData === "object" && overviewData !== null ? overviewData as Record<string, unknown> : {};
+  const orders = readNestedNumber(data, "orders", "total");
+  const outboxPending = readNestedNumber(data, "outbox", "pending");
+  const failedEvents = readNestedNumber(data, "failedEvents", "total");
+  return `health=${status ?? "unknown"} orders=${formatProbeValue(orders)} outbox_pending=${formatProbeValue(outboxPending)} failed_events=${formatProbeValue(failedEvents)}`;
+}
+
+function readNestedNumber(data: Record<string, unknown>, objectField: string, numberField: string): number | undefined {
+  const container = data[objectField];
+  if (typeof container !== "object" || container === null || Array.isArray(container)) {
+    return undefined;
+  }
+
+  return readNumberField(container as Record<string, unknown>, numberField);
 }
 
 function readNumberField(data: Record<string, unknown>, field: string): number | undefined {

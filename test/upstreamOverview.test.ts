@@ -43,6 +43,19 @@ describe("createUpstreamOverview", () => {
       signals: {
         healthStatus: "UP",
         componentNames: ["db", "diskSpace"],
+        businessOverviewAvailable: true,
+        application: {
+          name: "advanced-order-platform",
+        },
+        orders: {
+          total: 7,
+        },
+        outbox: {
+          pending: 2,
+        },
+        failedEvents: {
+          pendingReplayApprovals: 1,
+        },
       },
     });
     expect(overview.upstreams.miniKv).toMatchObject({
@@ -107,10 +120,36 @@ function onlineSnapshot(): OpsSnapshot {
       latencyMs: 12,
       message: "UP",
       details: {
-        status: "UP",
-        components: {
-          db: { status: "UP" },
-          diskSpace: { status: "UP" },
+        health: {
+          statusCode: 200,
+          latencyMs: 3,
+          data: {
+            status: "UP",
+            components: {
+              db: { status: "UP" },
+              diskSpace: { status: "UP" },
+            },
+          },
+        },
+        opsOverview: {
+          status: "available",
+          latencyMs: 9,
+          data: {
+            sampledAt,
+            application: {
+              name: "advanced-order-platform",
+              profiles: ["default"],
+              uptimeSeconds: 30,
+            },
+            orders: { total: 7 },
+            inventory: { items: 3 },
+            outbox: { pending: 2 },
+            failedEvents: {
+              total: 4,
+              pendingReplayApprovals: 1,
+              latestFailedAt: "2026-05-11T00:00:00.000Z",
+            },
+          },
         },
       },
     },

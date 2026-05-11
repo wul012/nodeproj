@@ -120,6 +120,9 @@
 
 56-upstream-overview-v52.md
  -> 第五十二版统一上游观察台：把 Java health 和 mini-kv HEALTH/STATSJSON 汇总成只读 overview
+
+57-java-ops-overview-v53.md
+ -> 第五十三版 Java ops overview 接入：读取 Java v36 业务概览，并在接口不可用时保持 fallback
 ```
 
 ## 项目整体理解

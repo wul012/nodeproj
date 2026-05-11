@@ -3,6 +3,30 @@ import { performance } from "node:perf_hooks";
 import { AppHttpError } from "../errors.js";
 import type { UpstreamJsonResponse } from "../types.js";
 
+export interface OrderPlatformOpsOverview {
+  sampledAt?: string;
+  application?: {
+    name?: string;
+    profiles?: string[];
+    startedAt?: string;
+    uptimeSeconds?: number;
+  };
+  orders?: {
+    total?: number;
+  };
+  inventory?: {
+    items?: number;
+  };
+  outbox?: {
+    pending?: number;
+  };
+  failedEvents?: {
+    total?: number;
+    pendingReplayApprovals?: number;
+    latestFailedAt?: string | null;
+  };
+}
+
 interface JsonRequestOptions {
   method?: string;
   headers?: Record<string, string>;
@@ -17,6 +41,10 @@ export class OrderPlatformClient {
 
   health(): Promise<UpstreamJsonResponse> {
     return this.request("/actuator/health");
+  }
+
+  opsOverview(): Promise<UpstreamJsonResponse<OrderPlatformOpsOverview>> {
+    return this.request("/api/v1/ops/overview");
   }
 
   listProducts(): Promise<UpstreamJsonResponse> {
