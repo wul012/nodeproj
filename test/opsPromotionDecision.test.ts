@@ -2342,6 +2342,142 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies promotion release archive as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "release-archive-verifier",
+          note: "verify release archive",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        checks: {
+          releaseArchiveDigestValid: true,
+          coveredFieldsMatch: true,
+          archiveItemsValid: true,
+          releaseArchiveNameMatches: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          evidenceDigestMatches: true,
+          verifiedEvidenceDigestMatches: true,
+          completionDigestMatches: true,
+          closureDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          archiveItemCount: 4,
+          handoffReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(emptyVerification.json().releaseArchiveDigest.value).toBe(
+        emptyVerification.json().recomputedReleaseArchiveDigest.value,
+      );
+      expect(emptyVerification.json().archiveItems.map((item: { name: string }) => item.name)).toEqual([
+        "release-evidence",
+        "verified-release-evidence",
+        "handoff-completion",
+        "final-archive-state",
+      ]);
+      expect(emptyVerification.json().archiveItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(emptyVerification.json().archiveItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        checks: {
+          releaseArchiveDigestValid: true,
+          coveredFieldsMatch: true,
+          archiveItemsValid: true,
+          releaseArchiveNameMatches: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          evidenceDigestMatches: true,
+          verifiedEvidenceDigestMatches: true,
+          completionDigestMatches: true,
+          closureDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          archiveItemCount: 4,
+          handoffReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(verification.json().releaseArchiveName).toMatch(/^promotion-release-archive-[a-f0-9]{12}$/);
+      expect(verification.json().releaseArchiveDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(verification.json().releaseArchiveDigest.value).toBe(verification.json().recomputedReleaseArchiveDigest.value);
+      expect(verification.json().archiveItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(verification.json().archiveItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(verification.json().archiveItems[1]).toMatchObject({
+        name: "verified-release-evidence",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/release-evidence/verification",
+      });
+      expect(verification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion release archive verification");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Release archive digest: sha256:${verification.json().releaseArchiveDigest.value}`);
+      expect(markdown.body).toContain("- Release archive digest valid: true");
+      expect(markdown.body).toContain("## Archive Items");
+      expect(markdown.body).toContain("### verified-release-evidence");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

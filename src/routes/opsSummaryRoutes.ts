@@ -25,6 +25,7 @@ import {
   createOpsPromotionHandoffReceipt,
   createOpsPromotionHandoffReceiptVerification,
   createOpsPromotionReleaseArchive,
+  createOpsPromotionReleaseArchiveVerification,
   createOpsPromotionReleaseEvidence,
   createOpsPromotionReleaseEvidenceVerification,
   renderOpsPromotionArchiveAttestationMarkdown,
@@ -43,6 +44,7 @@ import {
   renderOpsPromotionHandoffReceiptMarkdown,
   renderOpsPromotionHandoffReceiptVerificationMarkdown,
   renderOpsPromotionReleaseArchiveMarkdown,
+  renderOpsPromotionReleaseArchiveVerificationMarkdown,
   renderOpsPromotionReleaseEvidenceMarkdown,
   renderOpsPromotionReleaseEvidenceVerificationMarkdown,
 } from "../services/opsPromotionArchiveBundle.js";
@@ -897,6 +899,35 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return releaseArchive;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/release-archive/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const { releaseEvidence, releaseEvidenceVerification } = createPromotionReleaseEvidenceArtifacts(deps);
+    const releaseArchive = createOpsPromotionReleaseArchive({
+      evidence: releaseEvidence,
+      evidenceVerification: releaseEvidenceVerification,
+    });
+    const releaseArchiveVerification = createOpsPromotionReleaseArchiveVerification({
+      evidence: releaseEvidence,
+      evidenceVerification: releaseEvidenceVerification,
+      releaseArchive,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionReleaseArchiveVerificationMarkdown(releaseArchiveVerification);
+    }
+
+    return releaseArchiveVerification;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);

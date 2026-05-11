@@ -1034,6 +1034,81 @@ export interface OpsPromotionReleaseArchive {
   nextActions: string[];
 }
 
+export interface OpsPromotionReleaseArchiveVerificationItem {
+  name: OpsPromotionReleaseArchiveItemName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  detailMatches: boolean;
+  digestMatches: boolean;
+  releaseArchiveDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+  detail: string;
+}
+
+export interface OpsPromotionReleaseArchiveVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  releaseArchiveName: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  releaseArchiveDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedReleaseArchiveDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    releaseArchiveDigestValid: boolean;
+    coveredFieldsMatch: boolean;
+    archiveItemsValid: boolean;
+    releaseArchiveNameMatches: boolean;
+    evidenceNameMatches: boolean;
+    completionNameMatches: boolean;
+    closureNameMatches: boolean;
+    receiptNameMatches: boolean;
+    certificateNameMatches: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    evidenceDigestMatches: boolean;
+    verifiedEvidenceDigestMatches: boolean;
+    completionDigestMatches: boolean;
+    closureDigestMatches: boolean;
+    decisionMatches: boolean;
+    verificationMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    archiveItemCount: number;
+    handoffReady: boolean;
+    closeoutReady: boolean;
+  };
+  archiveItems: OpsPromotionReleaseArchiveVerificationItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -2604,6 +2679,119 @@ export function createOpsPromotionReleaseArchive(input: {
   };
 }
 
+export function createOpsPromotionReleaseArchiveVerification(input: {
+  evidence: OpsPromotionReleaseEvidence;
+  evidenceVerification: OpsPromotionReleaseEvidenceVerification;
+  releaseArchive: OpsPromotionReleaseArchive;
+}): OpsPromotionReleaseArchiveVerification {
+  const expectedReleaseArchive = createOpsPromotionReleaseArchive({
+    evidence: input.evidence,
+    evidenceVerification: input.evidenceVerification,
+  });
+  const recomputedReleaseArchiveDigest = digestStable(archiveReleaseArchiveDigestPayload({
+    releaseArchiveName: input.releaseArchive.releaseArchiveName,
+    evidenceName: input.releaseArchive.evidenceName,
+    completionName: input.releaseArchive.completionName,
+    closureName: input.releaseArchive.closureName,
+    receiptName: input.releaseArchive.receiptName,
+    certificateName: input.releaseArchive.certificateName,
+    packageName: input.releaseArchive.packageName,
+    archiveName: input.releaseArchive.archiveName,
+    valid: input.releaseArchive.valid,
+    state: input.releaseArchive.state,
+    handoffReady: input.releaseArchive.handoffReady,
+    evidenceDigest: input.releaseArchive.evidenceDigest.value,
+    verifiedEvidenceDigest: input.releaseArchive.verifiedEvidenceDigest.value,
+    completionDigest: input.releaseArchive.completionDigest.value,
+    closureDigest: input.releaseArchive.closureDigest.value,
+    decision: input.releaseArchive.decision,
+    verification: input.releaseArchive.verification,
+    archiveItems: input.releaseArchive.archiveItems,
+    nextActions: input.releaseArchive.nextActions,
+  }));
+  const archiveItemChecks = input.releaseArchive.archiveItems.map((item) => {
+    const expected = expectedReleaseArchive.archiveItems.find((candidate) => candidate.name === item.name);
+    const validMatches = expected?.valid === item.valid;
+    const sourceMatches = expected?.source === item.source;
+    const detailMatches = expected?.detail === item.detail;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: item.name }) };
+    const digestMatches = item.digest.value === expectedDigest.value;
+
+    return {
+      name: item.name,
+      valid: expected !== undefined && validMatches && sourceMatches && detailMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      detailMatches,
+      digestMatches,
+      releaseArchiveDigest: { ...item.digest },
+      recomputedDigest: expectedDigest,
+      source: item.source,
+      detail: item.detail,
+    };
+  });
+  const checks = {
+    releaseArchiveDigestValid: input.releaseArchive.releaseArchiveDigest.value === recomputedReleaseArchiveDigest,
+    coveredFieldsMatch: stableJson(input.releaseArchive.releaseArchiveDigest.coveredFields)
+      === stableJson(expectedReleaseArchive.releaseArchiveDigest.coveredFields),
+    archiveItemsValid: archiveItemChecks.length === expectedReleaseArchive.archiveItems.length
+      && archiveItemChecks.every((item) => item.valid),
+    releaseArchiveNameMatches: input.releaseArchive.releaseArchiveName === expectedReleaseArchive.releaseArchiveName,
+    evidenceNameMatches: input.releaseArchive.evidenceName === expectedReleaseArchive.evidenceName,
+    completionNameMatches: input.releaseArchive.completionName === expectedReleaseArchive.completionName,
+    closureNameMatches: input.releaseArchive.closureName === expectedReleaseArchive.closureName,
+    receiptNameMatches: input.releaseArchive.receiptName === expectedReleaseArchive.receiptName,
+    certificateNameMatches: input.releaseArchive.certificateName === expectedReleaseArchive.certificateName,
+    packageNameMatches: input.releaseArchive.packageName === expectedReleaseArchive.packageName,
+    archiveNameMatches: input.releaseArchive.archiveName === expectedReleaseArchive.archiveName,
+    validMatches: input.releaseArchive.valid === expectedReleaseArchive.valid,
+    stateMatches: input.releaseArchive.state === expectedReleaseArchive.state,
+    handoffReadyMatches: input.releaseArchive.handoffReady === expectedReleaseArchive.handoffReady,
+    evidenceDigestMatches: input.releaseArchive.evidenceDigest.value === expectedReleaseArchive.evidenceDigest.value,
+    verifiedEvidenceDigestMatches: input.releaseArchive.verifiedEvidenceDigest.value === expectedReleaseArchive.verifiedEvidenceDigest.value,
+    completionDigestMatches: input.releaseArchive.completionDigest.value === expectedReleaseArchive.completionDigest.value,
+    closureDigestMatches: input.releaseArchive.closureDigest.value === expectedReleaseArchive.closureDigest.value,
+    decisionMatches: stableJson(input.releaseArchive.decision) === stableJson(expectedReleaseArchive.decision),
+    verificationMatches: stableJson(input.releaseArchive.verification) === stableJson(expectedReleaseArchive.verification),
+    nextActionsMatch: stableJson(input.releaseArchive.nextActions) === stableJson(expectedReleaseArchive.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    releaseArchiveName: input.releaseArchive.releaseArchiveName,
+    evidenceName: input.releaseArchive.evidenceName,
+    completionName: input.releaseArchive.completionName,
+    closureName: input.releaseArchive.closureName,
+    receiptName: input.releaseArchive.receiptName,
+    certificateName: input.releaseArchive.certificateName,
+    packageName: input.releaseArchive.packageName,
+    archiveName: input.releaseArchive.archiveName,
+    valid,
+    state: input.releaseArchive.state,
+    handoffReady: input.releaseArchive.handoffReady,
+    releaseArchiveDigest: {
+      algorithm: "sha256",
+      value: input.releaseArchive.releaseArchiveDigest.value,
+    },
+    recomputedReleaseArchiveDigest: {
+      algorithm: "sha256",
+      value: recomputedReleaseArchiveDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.releaseArchive.decision.totalDecisions,
+      latestDecisionId: input.releaseArchive.decision.latestDecisionId,
+      archiveItemCount: archiveItemChecks.length,
+      handoffReady: input.releaseArchive.handoffReady,
+      closeoutReady: input.releaseArchive.verification.closeoutReady,
+    },
+    archiveItems: archiveItemChecks,
+    nextActions: archiveReleaseArchiveVerificationNextActions(checks, input.releaseArchive),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -3236,6 +3424,73 @@ export function renderOpsPromotionReleaseArchiveMarkdown(releaseArchive: OpsProm
     "## Next Actions",
     "",
     ...releaseArchive.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionReleaseArchiveVerificationMarkdown(
+  verification: OpsPromotionReleaseArchiveVerification,
+): string {
+  const lines = [
+    "# Promotion release archive verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Release archive name: ${verification.releaseArchiveName}`,
+    `- Evidence name: ${verification.evidenceName}`,
+    `- Completion name: ${verification.completionName}`,
+    `- Closure name: ${verification.closureName}`,
+    `- Receipt name: ${verification.receiptName}`,
+    `- Certificate name: ${verification.certificateName}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Release archive digest: ${verification.releaseArchiveDigest.algorithm}:${verification.releaseArchiveDigest.value}`,
+    `- Recomputed release archive digest: ${verification.recomputedReleaseArchiveDigest.algorithm}:${verification.recomputedReleaseArchiveDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Release archive digest valid: ${verification.checks.releaseArchiveDigestValid}`,
+    `- Covered fields match: ${verification.checks.coveredFieldsMatch}`,
+    `- Archive items valid: ${verification.checks.archiveItemsValid}`,
+    `- Release archive name matches: ${verification.checks.releaseArchiveNameMatches}`,
+    `- Evidence name matches: ${verification.checks.evidenceNameMatches}`,
+    `- Completion name matches: ${verification.checks.completionNameMatches}`,
+    `- Closure name matches: ${verification.checks.closureNameMatches}`,
+    `- Receipt name matches: ${verification.checks.receiptNameMatches}`,
+    `- Certificate name matches: ${verification.checks.certificateNameMatches}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Evidence digest matches: ${verification.checks.evidenceDigestMatches}`,
+    `- Verified evidence digest matches: ${verification.checks.verifiedEvidenceDigestMatches}`,
+    `- Completion digest matches: ${verification.checks.completionDigestMatches}`,
+    `- Closure digest matches: ${verification.checks.closureDigestMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Verification matches: ${verification.checks.verificationMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Archive Items",
+    "",
+    ...renderReleaseArchiveVerificationItems(verification.archiveItems),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Archive item count: ${verification.summary.archiveItemCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    `- Closeout ready: ${verification.summary.closeoutReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -4662,6 +4917,38 @@ function archiveReleaseArchiveNextActions(
   return evidenceVerification.nextActions;
 }
 
+function archiveReleaseArchiveVerificationNextActions(
+  checks: OpsPromotionReleaseArchiveVerification["checks"],
+  releaseArchive: OpsPromotionReleaseArchive,
+): string[] {
+  if (!checks.releaseArchiveDigestValid) {
+    return ["Regenerate the final release archive before trusting this archive digest."];
+  }
+
+  if (!checks.archiveItemsValid) {
+    return ["Review final release archive items before attaching deployment approval records."];
+  }
+
+  if (
+    !checks.evidenceDigestMatches
+    || !checks.verifiedEvidenceDigestMatches
+    || !checks.completionDigestMatches
+    || !checks.closureDigestMatches
+  ) {
+    return ["Recreate the final release archive from the latest verified release evidence chain."];
+  }
+
+  if (!checks.decisionMatches || !checks.verificationMatches || !checks.nextActionsMatch || !checks.validMatches) {
+    return ["Reissue the final release archive from the latest archive inputs."];
+  }
+
+  if (releaseArchive.handoffReady) {
+    return ["Final release archive verification is complete; attach the verified archive digest to deployment approval records."];
+  }
+
+  return releaseArchive.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -5009,6 +5296,23 @@ function renderReleaseArchiveItems(items: OpsPromotionReleaseArchiveItem[]): str
     "",
     `- Valid: ${item.valid}`,
     `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
+    `- Source: ${item.source}`,
+    `- Detail: ${item.detail}`,
+    "",
+  ]);
+}
+
+function renderReleaseArchiveVerificationItems(items: OpsPromotionReleaseArchiveVerificationItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Valid matches: ${item.validMatches}`,
+    `- Source matches: ${item.sourceMatches}`,
+    `- Detail matches: ${item.detailMatches}`,
+    `- Digest matches: ${item.digestMatches}`,
+    `- Release archive digest: ${item.releaseArchiveDigest.algorithm}:${item.releaseArchiveDigest.value}`,
+    `- Recomputed digest: ${item.recomputedDigest.algorithm}:${item.recomputedDigest.value}`,
     `- Source: ${item.source}`,
     `- Detail: ${item.detail}`,
     "",
