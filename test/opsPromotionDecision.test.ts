@@ -2216,6 +2216,132 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds promotion release archive as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyArchive = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "release-archive-reviewer",
+          note: "build release archive",
+        },
+      });
+      const evidence = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-evidence",
+      });
+      const releaseArchive = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive?format=markdown",
+      });
+
+      expect(emptyArchive.statusCode).toBe(200);
+      expect(emptyArchive.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          evidenceVerified: true,
+          evidenceDigestValid: true,
+          evidenceItemsValid: true,
+          evidenceReferenceValid: true,
+          closeoutReady: false,
+          evidenceItemCount: 5,
+          archiveItemCount: 4,
+        },
+      });
+      expect(emptyArchive.json().releaseArchiveName).toMatch(/^promotion-release-archive-[a-f0-9]{12}$/);
+      expect(emptyArchive.json().releaseArchiveDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyArchive.json().archiveItems.map((item: { name: string }) => item.name)).toEqual([
+        "release-evidence",
+        "verified-release-evidence",
+        "handoff-completion",
+        "final-archive-state",
+      ]);
+      expect(emptyArchive.json().archiveItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(evidence.statusCode).toBe(200);
+      expect(releaseArchive.statusCode).toBe(200);
+      expect(releaseArchive.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          evidenceVerified: true,
+          evidenceDigestValid: true,
+          evidenceItemsValid: true,
+          evidenceReferenceValid: true,
+          closeoutReady: false,
+          evidenceItemCount: 5,
+          archiveItemCount: 4,
+        },
+      });
+      expect(releaseArchive.json().releaseArchiveName).toMatch(/^promotion-release-archive-[a-f0-9]{12}$/);
+      expect(releaseArchive.json().releaseArchiveDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(releaseArchive.json().releaseArchiveDigest.coveredFields).toEqual([
+        "releaseArchiveName",
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "evidenceDigest",
+        "verifiedEvidenceDigest",
+        "completionDigest",
+        "closureDigest",
+        "decision",
+        "verification",
+        "archiveItems",
+        "nextActions",
+      ]);
+      expect(releaseArchive.json().evidenceDigest.value).toBe(evidence.json().evidenceDigest.value);
+      expect(releaseArchive.json().evidenceDigest.value).toBe(releaseArchive.json().verifiedEvidenceDigest.value);
+      expect(releaseArchive.json().archiveItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(releaseArchive.json().archiveItems[1]).toMatchObject({
+        name: "verified-release-evidence",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/release-evidence/verification",
+      });
+      expect(releaseArchive.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion release archive");
+      expect(markdown.body).toContain("- Handoff ready: false");
+      expect(markdown.body).toContain(`- Release archive digest: sha256:${releaseArchive.json().releaseArchiveDigest.value}`);
+      expect(markdown.body).toContain("- Evidence reference valid: true");
+      expect(markdown.body).toContain("## Archive Items");
+      expect(markdown.body).toContain("### verified-release-evidence");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
