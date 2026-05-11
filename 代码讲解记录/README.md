@@ -129,6 +129,9 @@
 
 59-upstream-risk-summary-v55.md
  -> 第五十五版上游风险摘要：读取 Java failed-event summary 和 mini-kv COMMANDSJSON 命令分级
+
+60-dashboard-upstream-overview-v56.md
+ -> 第五十六版 Dashboard 上游观察详情面板：把 v53-v55 只读信号整理成可扫描页面
 ```
 
 ## 项目整体理解

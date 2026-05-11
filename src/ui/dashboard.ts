@@ -95,6 +95,11 @@ export function dashboardHtml(): string {
       margin-bottom: 16px;
     }
 
+    .overview-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-bottom: 16px;
+    }
+
     .card {
       background: var(--panel);
       border: 1px solid var(--line);
@@ -178,6 +183,37 @@ export function dashboardHtml(): string {
     .muted {
       color: var(--muted);
       font-size: 13px;
+      overflow-wrap: anywhere;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .signal-row {
+      display: grid;
+      grid-template-columns: minmax(120px, 0.7fr) minmax(0, 1fr);
+      gap: 10px;
+      align-items: baseline;
+      min-height: 24px;
+      border-bottom: 1px solid #eef2f6;
+      padding-bottom: 7px;
+    }
+
+    .signal-row:last-child {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .signal-label {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .signal-value {
+      font-size: 13px;
+      font-weight: 700;
       overflow-wrap: anywhere;
     }
 
@@ -291,6 +327,7 @@ export function dashboardHtml(): string {
       .status-grid,
       .work-grid,
       .audit-grid,
+      .overview-grid,
       .split {
         grid-template-columns: 1fr;
       }
@@ -382,6 +419,89 @@ export function dashboardHtml(): string {
       <article class="card">
         <div class="metric-name">mini-kv upstream</div>
         <div class="muted" id="kvUpstream">-</div>
+      </article>
+    </section>
+
+    <section class="grid overview-grid">
+      <article class="card">
+        <div class="metric-head">
+          <h2>Upstream Overview</h2>
+          <div class="badge disabled" id="overviewOverallState">pending</div>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Safety</div>
+            <div class="signal-value" id="overviewSafety">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Java</div>
+            <div class="signal-value" id="overviewJavaState">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">mini-kv</div>
+            <div class="signal-value" id="overviewKvState">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Next</div>
+            <div class="signal-value" id="overviewNextAction">-</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Java Signals</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Health</div>
+            <div class="signal-value" id="javaHealthSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Business</div>
+            <div class="signal-value" id="javaBusinessSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Orders</div>
+            <div class="signal-value" id="javaOrdersSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Failed summary</div>
+            <div class="signal-value" id="javaFailedSummarySignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Replay backlog</div>
+            <div class="signal-value" id="javaBacklogSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Pending approvals</div>
+            <div class="signal-value" id="javaApprovalsSignal">-</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>mini-kv Signals</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Identity</div>
+            <div class="signal-value" id="kvIdentitySignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Store</div>
+            <div class="signal-value" id="kvStoreSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">WAL / metrics</div>
+            <div class="signal-value" id="kvWalSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Catalog</div>
+            <div class="signal-value" id="kvCommandSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Risk counts</div>
+            <div class="signal-value" id="kvRiskSignal">-</div>
+          </div>
+        </div>
       </article>
     </section>
 
@@ -612,6 +732,28 @@ export function dashboardHtml(): string {
       output.textContent = message + "\n" + output.textContent;
     }
 
+    function setText(id, value) {
+      $(id).textContent = value === undefined || value === null || value === "" ? "-" : String(value);
+    }
+
+    function formatBool(value) {
+      if (value === true) {
+        return "yes";
+      }
+      if (value === false) {
+        return "no";
+      }
+      return "-";
+    }
+
+    function formatNumber(value) {
+      return Number.isFinite(value) ? String(value) : "-";
+    }
+
+    function formatAvailable(value) {
+      return value === true ? "available" : "missing";
+    }
+
     async function api(path, options = {}) {
       const response = await fetch(path, {
         ...options,
@@ -626,6 +768,41 @@ export function dashboardHtml(): string {
         throw data;
       }
       return data;
+    }
+
+    function renderUpstreamOverview(overview) {
+      const java = overview.upstreams.javaOrderPlatform;
+      const kv = overview.upstreams.miniKv;
+      const javaSignals = java.signals || {};
+      const kvSignals = kv.signals || {};
+      const javaOrders = javaSignals.orders || {};
+      const javaOutbox = javaSignals.outbox || {};
+      const commandCounts = kvSignals.commandCatalogCounts || {};
+
+      setBadge("overviewOverallState", overview.overallState);
+      setText("overviewSafety", "probes " + (overview.safety.upstreamProbesEnabled ? "on" : "off") + " / actions " + (overview.safety.upstreamActionsEnabled ? "on" : "off"));
+      setText("overviewJavaState", java.state + (java.latencyMs === undefined ? "" : " / " + java.latencyMs + "ms"));
+      setText("overviewKvState", kv.state + (kv.latencyMs === undefined ? "" : " / " + kv.latencyMs + "ms"));
+      setText("overviewNextAction", overview.recommendedNextActions[0]);
+
+      setText("javaHealthSignal", javaSignals.healthStatus || java.state);
+      setText("javaBusinessSignal", formatAvailable(javaSignals.businessOverviewAvailable));
+      setText("javaOrdersSignal", "orders " + formatNumber(javaOrders.total) + " / outbox " + formatNumber(javaOutbox.pending));
+      setText("javaFailedSummarySignal", formatAvailable(javaSignals.failedEventSummaryAvailable));
+      setText("javaBacklogSignal", formatNumber(javaSignals.failedEventReplayBacklog));
+      setText("javaApprovalsSignal", formatNumber(javaSignals.failedEventPendingReplayApprovals));
+
+      setText("kvIdentitySignal", (kvSignals.version || "-") + " / " + ((kvSignals.protocol || []).join(",") || "-"));
+      setText("kvStoreSignal", "keys " + formatNumber(kvSignals.liveKeys));
+      setText("kvWalSignal", "wal " + formatBool(kvSignals.walEnabled) + " / metrics " + formatBool(kvSignals.metricsEnabled));
+      setText("kvCommandSignal", formatAvailable(kvSignals.commandCatalogAvailable) + " / total " + formatNumber(commandCounts.total));
+      setText("kvRiskSignal", "write " + formatNumber(kvSignals.writeCommandCount) + " / admin " + formatNumber(kvSignals.adminCommandCount) + " / mutating " + formatNumber(kvSignals.mutatingCommandCount));
+    }
+
+    async function refreshUpstreamOverview() {
+      const overview = await api("/api/v1/upstreams/overview");
+      renderUpstreamOverview(overview);
+      return overview;
     }
 
     function renderSnapshot(snapshot) {
@@ -755,7 +932,7 @@ export function dashboardHtml(): string {
           write(await refreshRuntimeConfig());
         }
         if (action === "upstreamOverview") {
-          write(await api("/api/v1/upstreams/overview"));
+          write(await refreshUpstreamOverview());
         }
         if (action === "opsSummary") {
           write(await refreshOpsSummary());
@@ -1211,6 +1388,7 @@ export function dashboardHtml(): string {
     void refreshStatus().catch(write);
     void refreshAudit().catch(() => {});
     void refreshRuntimeConfig().catch(() => {});
+    void refreshUpstreamOverview().catch(() => {});
     void refreshOpsSummary().catch(() => {});
     void refreshOpsReadiness().catch(() => {});
   </script>
