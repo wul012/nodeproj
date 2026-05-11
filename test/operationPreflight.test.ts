@@ -7,6 +7,11 @@ import { loadConfig } from "../src/config.js";
 import { OperationDispatchLedger } from "../src/services/operationDispatch.js";
 import { OperationIntentStore } from "../src/services/operationIntent.js";
 import { OperationPreflightService } from "../src/services/operationPreflight.js";
+import {
+  createOperationPreflightReport,
+  createOperationPreflightReportVerification,
+  renderOperationPreflightReportMarkdown,
+} from "../src/services/operationPreflightReport.js";
 
 function createService(input: {
   probes?: boolean;
@@ -212,6 +217,77 @@ describe("operation preflight service", () => {
     expect(bundle.hardBlockers).toEqual(["FAILED_EVENT_ID_REQUIRED"]);
     expect(bundle.recommendedNextActions[0]).toContain("FAILED_EVENT_ID_REQUIRED");
   });
+
+  it("renders a digest-backed preflight report and verifies it", async () => {
+    const { intents, service } = createService({});
+    const intent = intents.create({
+      action: "kv-set",
+      operatorId: "dev-admin",
+      role: "admin",
+      reason: "report blocked write",
+    });
+
+    const bundle = await service.create({ intentId: intent.id, keyPrefix: "orderops:" });
+    const report = createOperationPreflightReport(bundle);
+    const verification = createOperationPreflightReportVerification(report);
+    const markdown = renderOperationPreflightReportMarkdown(report);
+
+    expect(report).toMatchObject({
+      service: "orderops-node",
+      intentId: intent.id,
+      state: "blocked",
+      summary: {
+        action: "kv-set",
+        target: "mini-kv",
+        risk: "write",
+        hardBlockerCount: 2,
+        miniKvCommandCatalog: "skipped",
+        miniKvKeyInventory: "skipped",
+      },
+      preflight: {
+        intent: {
+          id: intent.id,
+        },
+      },
+    });
+    expect(report.preflightDigest).toMatchObject({
+      algorithm: "sha256",
+      coveredFields: [
+        "service",
+        "intent",
+        "actionPlan",
+        "policy",
+        "confirmation",
+        "rateLimit",
+        "safety",
+        "dispatches",
+        "evidence",
+        "hardBlockers",
+        "warnings",
+        "recommendedNextActions",
+        "readyForDryRunDispatch",
+      ],
+    });
+    expect(report.preflightDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(verification).toMatchObject({
+      service: "orderops-node",
+      valid: true,
+      intentId: intent.id,
+      storedDigest: report.preflightDigest,
+      recomputedDigest: report.preflightDigest,
+      checks: {
+        digestValid: true,
+        coveredFieldsMatch: true,
+        intentMatches: true,
+        summaryMatches: true,
+        nextActionsMatch: true,
+      },
+    });
+    expect(markdown).toContain("# Operation preflight report");
+    expect(markdown).toContain(`- Intent id: ${intent.id}`);
+    expect(markdown).toContain(`- Preflight digest: sha256:${report.preflightDigest.value}`);
+    expect(markdown).toContain("## Hard Blockers");
+  });
 });
 
 describe("operation preflight route", () => {
@@ -255,6 +331,98 @@ describe("operation preflight route", () => {
         },
         readyForDryRunDispatch: false,
       });
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("serves preflight reports as JSON, Markdown, and verification output", async () => {
+    const app = await buildApp(loadConfig({
+      LOG_LEVEL: "silent",
+      UPSTREAM_ACTIONS_ENABLED: "true",
+    }));
+
+    try {
+      const created = await app.inject({
+        method: "POST",
+        url: "/api/v1/operation-intents",
+        payload: {
+          action: "kv-status",
+          operatorId: "local-viewer",
+          role: "viewer",
+          reason: "route report",
+        },
+      });
+      const intent = created.json();
+      await app.inject({
+        method: "POST",
+        url: `/api/v1/operation-intents/${intent.id}/confirm`,
+        payload: {
+          operatorId: "local-viewer",
+          confirmText: intent.confirmation.requiredText,
+        },
+      });
+      await app.inject({
+        method: "POST",
+        url: "/api/v1/operation-dispatches",
+        payload: {
+          intentId: intent.id,
+          requestedBy: "local-viewer",
+        },
+      });
+
+      const jsonReport = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-intents/${intent.id}/preflight/report?keyPrefix=orderops:`,
+      });
+      const markdownReport = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-intents/${intent.id}/preflight/report?format=markdown&keyPrefix=orderops:`,
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-intents/${intent.id}/preflight/verification?keyPrefix=orderops:`,
+      });
+      const verificationMarkdown = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-intents/${intent.id}/preflight/verification?format=markdown&keyPrefix=orderops:`,
+      });
+
+      expect(jsonReport.statusCode).toBe(200);
+      expect(jsonReport.json()).toMatchObject({
+        service: "orderops-node",
+        intentId: intent.id,
+        state: "review-required",
+        summary: {
+          action: "kv-status",
+          intentStatus: "confirmed",
+          confirmationConfirmed: true,
+          dispatchTotal: 1,
+          dryRunDispatches: 1,
+          miniKvCommandCatalog: "skipped",
+          miniKvKeyInventory: "skipped",
+        },
+      });
+      expect(jsonReport.json().preflightDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(markdownReport.statusCode).toBe(200);
+      expect(markdownReport.headers["content-type"]).toContain("text/markdown");
+      expect(markdownReport.body).toContain("# Operation preflight report");
+      expect(markdownReport.body).toContain(`- Preflight digest: sha256:${jsonReport.json().preflightDigest.value}`);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        intentId: intent.id,
+        checks: {
+          digestValid: true,
+          summaryMatches: true,
+        },
+      });
+      expect(verification.json().storedDigest.value).toBe(verification.json().recomputedDigest.value);
+      expect(verificationMarkdown.statusCode).toBe(200);
+      expect(verificationMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(verificationMarkdown.body).toContain("# Operation preflight report verification");
+      expect(verificationMarkdown.body).toContain("- Valid: true");
     } finally {
       await app.close();
     }

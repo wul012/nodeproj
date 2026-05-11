@@ -739,6 +739,8 @@ export function dashboardHtml(): string {
         <button class="secondary" data-action="confirmIntent">Confirm Intent</button>
         <button class="primary" data-action="dispatchIntent">Dispatch Dry Run</button>
         <button data-action="intentPreflight">Preflight</button>
+        <button data-action="intentPreflightReport">Report</button>
+        <button data-action="intentPreflightVerification">Verify Report</button>
         <button data-action="intentTimeline">Timeline</button>
         <button data-action="intentEvents">Event Feed</button>
         <button data-action="listDispatches">Dispatches</button>
@@ -1457,6 +1459,36 @@ export function dashboardHtml(): string {
           }
           const suffix = query.toString() ? "?" + query.toString() : "";
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/preflight" + suffix));
+        }
+        if (action === "intentPreflightReport") {
+          const query = new URLSearchParams();
+          const failedEventId = $("failedEventId").value.trim();
+          const keyPrefix = $("kvPrefix").value.trim();
+          query.set("format", "markdown");
+          if (failedEventId) {
+            query.set("failedEventId", failedEventId);
+          }
+          if (keyPrefix) {
+            query.set("keyPrefix", keyPrefix);
+          }
+          const response = await fetch("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/preflight/report?" + query.toString());
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "intentPreflightVerification") {
+          const query = new URLSearchParams();
+          const failedEventId = $("failedEventId").value.trim();
+          const keyPrefix = $("kvPrefix").value.trim();
+          if (failedEventId) {
+            query.set("failedEventId", failedEventId);
+          }
+          if (keyPrefix) {
+            query.set("keyPrefix", keyPrefix);
+          }
+          const suffix = query.toString() ? "?" + query.toString() : "";
+          write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/preflight/verification" + suffix));
         }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));

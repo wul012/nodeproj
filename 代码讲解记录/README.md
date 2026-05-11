@@ -141,6 +141,9 @@
 
 63-operation-preflight-v59.md
  -> 第五十九版 Operation preflight evidence bundle：汇总 intent、policy、confirmation、dispatch history、Java readiness 和 mini-kv evidence
+
+64-operation-preflight-report-v60.md
+ -> 第六十版 Preflight Markdown report + digest：把 preflight bundle 渲染成可读报告、SHA-256 摘要和 verification
 ```
 
 ## 项目整体理解

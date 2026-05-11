@@ -1,0 +1,199 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Operation preflight report for kv-status",
+    "generatedAt":  "2026-05-11T14:28:33.407Z",
+    "intentId":  "e4dbbd57-31f6-45f2-9173-55800054bf68",
+    "state":  "review-required",
+    "preflightDigest":  {
+                            "algorithm":  "sha256",
+                            "value":  "6d19f4560e04d7161b45d642ccf1d598ea40eb7be7bbf2349ea57de7cd628853",
+                            "coveredFields":  [
+                                                  "service",
+                                                  "intent",
+                                                  "actionPlan",
+                                                  "policy",
+                                                  "confirmation",
+                                                  "rateLimit",
+                                                  "safety",
+                                                  "dispatches",
+                                                  "evidence",
+                                                  "hardBlockers",
+                                                  "warnings",
+                                                  "recommendedNextActions",
+                                                  "readyForDryRunDispatch"
+                                              ]
+                        },
+    "summary":  {
+                    "action":  "kv-status",
+                    "target":  "mini-kv",
+                    "risk":  "diagnostic",
+                    "intentStatus":  "confirmed",
+                    "operatorId":  "v60-smoke-viewer",
+                    "operatorRole":  "viewer",
+                    "policyAllowed":  true,
+                    "confirmationConfirmed":  true,
+                    "readyForDryRunDispatch":  true,
+                    "hardBlockerCount":  0,
+                    "warningCount":  1,
+                    "dispatchTotal":  1,
+                    "dryRunDispatches":  1,
+                    "rejectedDispatches":  0,
+                    "upstreamTouchedDispatches":  0,
+                    "javaReplayReadiness":  "not_applicable",
+                    "miniKvCommandCatalog":  "skipped",
+                    "miniKvKeyInventory":  "skipped"
+                },
+    "preflight":  {
+                      "service":  "orderops-node",
+                      "generatedAt":  "2026-05-11T14:28:33.407Z",
+                      "intent":  {
+                                     "id":  "e4dbbd57-31f6-45f2-9173-55800054bf68",
+                                     "status":  "confirmed",
+                                     "action":  "kv-status",
+                                     "target":  "mini-kv",
+                                     "operator":  {
+                                                      "id":  "v60-smoke-viewer",
+                                                      "role":  "viewer"
+                                                  },
+                                     "reason":  "v60 preflight report smoke",
+                                     "createdAt":  "2026-05-11T14:28:33.392Z",
+                                     "updatedAt":  "2026-05-11T14:28:33.401Z",
+                                     "expiresAt":  "2026-05-11T14:38:33.392Z"
+                                 },
+                      "actionPlan":  {
+                                         "dryRun":  true,
+                                         "generatedAt":  "2026-05-11T14:28:33.392Z",
+                                         "action":  "kv-status",
+                                         "target":  "mini-kv",
+                                         "label":  "Ping and size",
+                                         "risk":  "diagnostic",
+                                         "requires":  [
+
+                                                      ],
+                                         "allowed":  true,
+                                         "reason":  "The Node actions gate is open; the route would be allowed to call the upstream.",
+                                         "nextStep":  "Run the route only when the target project is ready for this traffic.",
+                                         "nodeRoute":  {
+                                                           "method":  "GET",
+                                                           "path":  "/api/v1/mini-kv/status"
+                                                       },
+                                         "wouldCall":  {
+                                                           "type":  "tcp",
+                                                           "endpoint":  "127.0.0.1:6379",
+                                                           "command":  "PING orderops; SIZE"
+                                                       },
+                                         "safety":  {
+                                                        "upstreamProbesEnabled":  false,
+                                                        "upstreamActionsEnabled":  true
+                                                    }
+                                     },
+                      "policy":  {
+                                     "allowed":  true,
+                                     "requiredRole":  "viewer",
+                                     "actualRole":  "viewer",
+                                     "message":  "Policy passed; the intent is waiting for explicit confirmation."
+                                 },
+                      "confirmation":  {
+                                           "requiredText":  "CONFIRM kv-status",
+                                           "confirmedAt":  "2026-05-11T14:28:33.401Z",
+                                           "confirmedBy":  "v60-smoke-viewer",
+                                           "confirmed":  true
+                                       },
+                      "rateLimit":  {
+                                        "mutationWindowMs":  60000,
+                                        "mutationMaxRequests":  30,
+                                        "note":  "Preflight is read-only and does not consume mutation rate-limit quota."
+                                    },
+                      "safety":  {
+                                     "upstreamProbesEnabled":  false,
+                                     "upstreamActionsEnabled":  true
+                                 },
+                      "dispatches":  {
+                                         "total":  1,
+                                         "dryRunCompleted":  1,
+                                         "rejected":  0,
+                                         "upstreamTouched":  0,
+                                         "latest":  {
+                                                        "id":  "635f309f-fce1-4cf8-8cf8-fc0ce8d6537e",
+                                                        "intentId":  "e4dbbd57-31f6-45f2-9173-55800054bf68",
+                                                        "action":  "kv-status",
+                                                        "target":  "mini-kv",
+                                                        "mode":  "dry-run",
+                                                        "requestedBy":  "v60-smoke-viewer",
+                                                        "createdAt":  "2026-05-11T14:28:33.405Z",
+                                                        "updatedAt":  "2026-05-11T14:28:33.405Z",
+                                                        "upstreamTouched":  false,
+                                                        "nodeRoute":  {
+                                                                          "method":  "GET",
+                                                                          "path":  "/api/v1/mini-kv/status"
+                                                                      },
+                                                        "wouldCall":  {
+                                                                          "type":  "tcp",
+                                                                          "endpoint":  "127.0.0.1:6379",
+                                                                          "command":  "PING orderops; SIZE"
+                                                                      },
+                                                        "safety":  {
+                                                                       "upstreamProbesEnabled":  false,
+                                                                       "upstreamActionsEnabled":  true
+                                                                   },
+                                                        "status":  "dry-run-completed"
+                                                    },
+                                         "recent":  [
+                                                        {
+                                                            "id":  "635f309f-fce1-4cf8-8cf8-fc0ce8d6537e",
+                                                            "intentId":  "e4dbbd57-31f6-45f2-9173-55800054bf68",
+                                                            "action":  "kv-status",
+                                                            "target":  "mini-kv",
+                                                            "mode":  "dry-run",
+                                                            "requestedBy":  "v60-smoke-viewer",
+                                                            "createdAt":  "2026-05-11T14:28:33.405Z",
+                                                            "updatedAt":  "2026-05-11T14:28:33.405Z",
+                                                            "upstreamTouched":  false,
+                                                            "nodeRoute":  {
+                                                                              "method":  "GET",
+                                                                              "path":  "/api/v1/mini-kv/status"
+                                                                          },
+                                                            "wouldCall":  {
+                                                                              "type":  "tcp",
+                                                                              "endpoint":  "127.0.0.1:6379",
+                                                                              "command":  "PING orderops; SIZE"
+                                                                          },
+                                                            "safety":  {
+                                                                           "upstreamProbesEnabled":  false,
+                                                                           "upstreamActionsEnabled":  true
+                                                                       },
+                                                            "status":  "dry-run-completed"
+                                                        }
+                                                    ]
+                                     },
+                      "evidence":  {
+                                       "javaReplayReadiness":  {
+                                                                   "status":  "not_applicable",
+                                                                   "message":  "Intent action does not target Java failed-event replay readiness."
+                                                               },
+                                       "miniKvCommandCatalog":  {
+                                                                    "status":  "skipped",
+                                                                    "message":  "UPSTREAM_PROBES_ENABLED=false; mini-kv command catalog was not requested."
+                                                                },
+                                       "miniKvKeyInventory":  {
+                                                                  "status":  "skipped",
+                                                                  "message":  "UPSTREAM_PROBES_ENABLED=false; mini-kv key inventory was not requested."
+                                                              }
+                                   },
+                      "hardBlockers":  [
+
+                                       ],
+                      "warnings":  [
+                                       "UPSTREAM_PROBES_SKIPPED"
+                                   ],
+                      "recommendedNextActions":  [
+                                                     "Review warnings before dispatch: UPSTREAM_PROBES_SKIPPED",
+                                                     "Create or inspect a dry-run dispatch, then archive the preflight evidence."
+                                                 ],
+                      "readyForDryRunDispatch":  true
+                  },
+    "nextActions":  [
+                        "Review warnings before dispatch: UPSTREAM_PROBES_SKIPPED",
+                        "Create or inspect a dry-run dispatch, then archive the preflight evidence."
+                    ]
+}

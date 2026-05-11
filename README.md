@@ -28,6 +28,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Idempotency-Key support for operation intent creation and duplicate-submit replay
 - In-memory dry-run dispatch ledger for confirmed intents without touching upstreams
 - Local operation preflight evidence bundle that combines intent policy, confirmation, dispatch history, Java replay readiness evidence, and mini-kv command/key inventory evidence before any real upstream execution
+- Local operation preflight Markdown report, SHA-256 digest, and verification endpoint for archiving operation evidence
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
@@ -199,6 +200,8 @@ POST   /api/v1/action-plans
 GET    /api/v1/operation-intents
 GET    /api/v1/operation-intents/:intentId
 GET    /api/v1/operation-intents/:intentId/preflight
+GET    /api/v1/operation-intents/:intentId/preflight/report
+GET    /api/v1/operation-intents/:intentId/preflight/verification
 GET    /api/v1/operation-intents/:intentId/timeline
 GET    /api/v1/operation-intents/:intentId/dispatches
 GET    /api/v1/operation-intent-events
