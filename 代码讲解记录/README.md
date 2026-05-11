@@ -126,6 +126,9 @@
 
 58-minikv-infojson-v54.md
  -> 第五十四版 mini-kv INFOJSON 接入：读取 mini-kv v45 元信息，并在旧可执行文件未支持时保持 degraded fallback
+
+59-upstream-risk-summary-v55.md
+ -> 第五十五版上游风险摘要：读取 Java failed-event summary 和 mini-kv COMMANDSJSON 命令分级
 ```
 
 ## 项目整体理解

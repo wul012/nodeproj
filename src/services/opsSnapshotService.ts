@@ -13,11 +13,33 @@ type OrderPlatformOpsOverviewProbe =
     message: string;
   };
 
+type OrderPlatformFailedEventSummaryProbe =
+  | {
+    status: "available";
+    latencyMs: number;
+    data: unknown;
+  }
+  | {
+    status: "unavailable";
+    message: string;
+  };
+
 type MiniKvInfoJsonProbe =
   | {
     status: "available";
     latencyMs: number;
     info: unknown;
+  }
+  | {
+    status: "unavailable";
+    message: string;
+  };
+
+type MiniKvCommandCatalogProbe =
+  | {
+    status: "available";
+    latencyMs: number;
+    catalog: unknown;
   }
   | {
     status: "unavailable";
@@ -56,9 +78,13 @@ export class OpsSnapshotService {
     try {
       const response = await this.orderPlatformClient.health();
       const status = readStatus(response.data);
-      const opsOverview = await this.probeOrderPlatformOpsOverview();
+      const [opsOverview, failedEventSummary] = await Promise.all([
+        this.probeOrderPlatformOpsOverview(),
+        this.probeOrderPlatformFailedEventSummary(),
+      ]);
       const overviewData = opsOverview.status === "available" ? opsOverview.data : undefined;
-      const state = status === "UP" && opsOverview.status === "available"
+      const failedEventSummaryData = failedEventSummary.status === "available" ? failedEventSummary.data : undefined;
+      const state = status === "UP" && opsOverview.status === "available" && failedEventSummary.status === "available"
         ? "online"
         : status === "UP"
           ? "degraded"
@@ -68,11 +94,16 @@ export class OpsSnapshotService {
         name: "advanced-order-platform",
         state,
         sampledAt,
-        latencyMs: Math.max(response.latencyMs, opsOverview.status === "available" ? opsOverview.latencyMs : 0),
-        message: formatOrderPlatformMessage(status, opsOverview, overviewData),
+        latencyMs: Math.max(
+          response.latencyMs,
+          opsOverview.status === "available" ? opsOverview.latencyMs : 0,
+          failedEventSummary.status === "available" ? failedEventSummary.latencyMs : 0,
+        ),
+        message: formatOrderPlatformMessage(status, opsOverview, overviewData, failedEventSummary, failedEventSummaryData),
         details: {
           health: response,
           opsOverview,
+          failedEventSummary,
         },
       };
     } catch (error) {
@@ -101,6 +132,22 @@ export class OpsSnapshotService {
     }
   }
 
+  private async probeOrderPlatformFailedEventSummary(): Promise<OrderPlatformFailedEventSummaryProbe> {
+    try {
+      const response = await this.orderPlatformClient.failedEventsSummary();
+      return {
+        status: "available",
+        latencyMs: response.latencyMs,
+        data: response.data,
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
   private async probeMiniKv(): Promise<ProbeResult> {
     const sampledAt = new Date().toISOString();
     if (!this.upstreamProbesEnabled) {
@@ -108,17 +155,20 @@ export class OpsSnapshotService {
     }
 
     try {
-      const [ping, health, statsJson, infoJson] = await Promise.all([
+      const [ping, health, statsJson, infoJson, commandCatalog] = await Promise.all([
         this.miniKvClient.ping(),
         this.miniKvClient.health(),
         this.miniKvClient.statsJson(),
         this.probeMiniKvInfoJson(),
+        this.probeMiniKvCommandCatalog(),
       ]);
       const isPingHealthy = ping.response === "orderops" || ping.response === "PONG";
       const isHealthHealthy = health.response.startsWith("OK");
       const liveKeys = readNumberField(statsJson.stats, "live_keys");
       const walEnabled = readBooleanField(statsJson.stats, "wal_enabled");
-      const state = isPingHealthy && isHealthHealthy && infoJson.status === "available" ? "online" : "degraded";
+      const state = isPingHealthy && isHealthHealthy && infoJson.status === "available" && commandCatalog.status === "available"
+        ? "online"
+        : "degraded";
 
       return {
         name: "mini-kv",
@@ -129,13 +179,15 @@ export class OpsSnapshotService {
           health.latencyMs,
           statsJson.latencyMs,
           infoJson.status === "available" ? infoJson.latencyMs : 0,
+          commandCatalog.status === "available" ? commandCatalog.latencyMs : 0,
         ),
-        message: formatMiniKvMessage(ping.response, health.response, liveKeys, walEnabled, infoJson),
+        message: formatMiniKvMessage(ping.response, health.response, liveKeys, walEnabled, infoJson, commandCatalog),
         details: {
           ping,
           health,
           statsJson,
           infoJson,
+          commandCatalog,
         },
       };
     } catch (error) {
@@ -155,6 +207,22 @@ export class OpsSnapshotService {
         status: "available",
         latencyMs: response.latencyMs,
         info: response.info,
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async probeMiniKvCommandCatalog(): Promise<MiniKvCommandCatalogProbe> {
+    try {
+      const response = await this.miniKvClient.commandsJson();
+      return {
+        status: "available",
+        latencyMs: response.latencyMs,
+        catalog: response.catalog,
       };
     } catch (error) {
       return {
@@ -183,16 +251,32 @@ function readStatus(data: unknown): string | undefined {
   return typeof status === "string" ? status : undefined;
 }
 
-function formatOrderPlatformMessage(status: string | undefined, opsOverview: OrderPlatformOpsOverviewProbe, overviewData: unknown): string {
-  if (opsOverview.status !== "available") {
-    return `health=${status ?? "unknown"} ops_overview=${opsOverview.status}`;
-  }
-
+function formatOrderPlatformMessage(
+  status: string | undefined,
+  opsOverview: OrderPlatformOpsOverviewProbe,
+  overviewData: unknown,
+  failedEventSummary: OrderPlatformFailedEventSummaryProbe,
+  failedEventSummaryData: unknown,
+): string {
   const data = typeof overviewData === "object" && overviewData !== null ? overviewData as Record<string, unknown> : {};
+  const summary = typeof failedEventSummaryData === "object" && failedEventSummaryData !== null
+    ? failedEventSummaryData as Record<string, unknown>
+    : {};
   const orders = readNestedNumber(data, "orders", "total");
   const outboxPending = readNestedNumber(data, "outbox", "pending");
   const failedEvents = readNestedNumber(data, "failedEvents", "total");
-  return `health=${status ?? "unknown"} orders=${formatProbeValue(orders)} outbox_pending=${formatProbeValue(outboxPending)} failed_events=${formatProbeValue(failedEvents)}`;
+  const replayBacklog = readNumberField(summary, "replayBacklog");
+  const pendingApprovals = readNumberField(summary, "pendingReplayApprovals");
+  return [
+    `health=${status ?? "unknown"}`,
+    `ops_overview=${opsOverview.status}`,
+    `orders=${formatProbeValue(orders)}`,
+    `outbox_pending=${formatProbeValue(outboxPending)}`,
+    `failed_events=${formatProbeValue(failedEvents)}`,
+    `failed_summary=${failedEventSummary.status}`,
+    `replay_backlog=${formatProbeValue(replayBacklog)}`,
+    `pending_approvals=${formatProbeValue(pendingApprovals)}`,
+  ].join(" ");
 }
 
 function readNestedNumber(data: Record<string, unknown>, objectField: string, numberField: string): number | undefined {
@@ -220,10 +304,12 @@ function formatMiniKvMessage(
   liveKeys: number | undefined,
   walEnabled: boolean | undefined,
   infoJson: MiniKvInfoJsonProbe,
+  commandCatalog: MiniKvCommandCatalogProbe,
 ): string {
   const base = `ping=${ping} health=${health} live_keys=${formatProbeValue(liveKeys)} wal_enabled=${formatProbeValue(walEnabled)}`;
+  const commandCatalogSuffix = formatMiniKvCommandCatalogMessage(commandCatalog);
   if (infoJson.status !== "available") {
-    return `${base} infojson=unavailable`;
+    return `${base} infojson=unavailable ${commandCatalogSuffix}`;
   }
 
   const info = typeof infoJson.info === "object" && infoJson.info !== null ? infoJson.info as Record<string, unknown> : {};
@@ -231,7 +317,23 @@ function formatMiniKvMessage(
   const version = readStringField(info, "version");
   const protocol = readStringArrayField(server, "protocol")?.join(",");
   const uptimeSeconds = readNumberField(server, "uptime_seconds");
-  return `${base} infojson=available version=${version ?? "unknown"} protocol=${protocol ?? "unknown"} uptime_seconds=${formatProbeValue(uptimeSeconds)}`;
+  return `${base} infojson=available version=${version ?? "unknown"} protocol=${protocol ?? "unknown"} uptime_seconds=${formatProbeValue(uptimeSeconds)} ${commandCatalogSuffix}`;
+}
+
+function formatMiniKvCommandCatalogMessage(commandCatalog: MiniKvCommandCatalogProbe): string {
+  if (commandCatalog.status !== "available") {
+    return "command_catalog=unavailable";
+  }
+
+  const catalog = typeof commandCatalog.catalog === "object" && commandCatalog.catalog !== null
+    ? commandCatalog.catalog as Record<string, unknown>
+    : {};
+  const commands = readRecordArrayField(catalog, "commands");
+  return [
+    "command_catalog=available",
+    `write_commands=${countCommandCategory(commands, "write")}`,
+    `admin_commands=${countCommandCategory(commands, "admin")}`,
+  ].join(" ");
 }
 
 function formatProbeValue(value: number | boolean | undefined): string {
@@ -251,4 +353,16 @@ function readStringField(data: Record<string, unknown> | undefined, field: strin
 function readStringArrayField(data: Record<string, unknown> | undefined, field: string): string[] | undefined {
   const value = data?.[field];
   return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : undefined;
+}
+
+function readRecordArrayField(data: Record<string, unknown>, field: string): Array<Record<string, unknown>> {
+  const value = data[field];
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.filter((item): item is Record<string, unknown> => typeof item === "object" && item !== null && !Array.isArray(item));
+}
+
+function countCommandCategory(commands: Array<Record<string, unknown>>, category: string): number {
+  return commands.filter((command) => command.category === category).length;
 }

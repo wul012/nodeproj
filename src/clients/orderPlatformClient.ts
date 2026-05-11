@@ -27,6 +27,17 @@ export interface OrderPlatformOpsOverview {
   };
 }
 
+export interface OrderPlatformFailedEventSummary {
+  sampledAt?: string;
+  totalFailedEvents?: number;
+  pendingReplayApprovals?: number;
+  approvedReplayApprovals?: number;
+  rejectedReplayApprovals?: number;
+  latestFailedAt?: string | null;
+  latestApprovalAt?: string | null;
+  replayBacklog?: number;
+}
+
 interface JsonRequestOptions {
   method?: string;
   headers?: Record<string, string>;
@@ -45,6 +56,10 @@ export class OrderPlatformClient {
 
   opsOverview(): Promise<UpstreamJsonResponse<OrderPlatformOpsOverview>> {
     return this.request("/api/v1/ops/overview");
+  }
+
+  failedEventsSummary(): Promise<UpstreamJsonResponse<OrderPlatformFailedEventSummary>> {
+    return this.request("/api/v1/failed-events/summary");
   }
 
   listProducts(): Promise<UpstreamJsonResponse> {

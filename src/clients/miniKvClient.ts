@@ -35,6 +35,23 @@ export interface MiniKvInfoJsonResult extends MiniKvCommandResult {
   info: MiniKvInfoJson;
 }
 
+export interface MiniKvCommandCatalogEntry {
+  name?: string;
+  category?: "read" | "write" | "admin" | "meta" | string;
+  mutates_store?: boolean;
+  touches_wal?: boolean;
+  stable?: boolean;
+  description?: string;
+}
+
+export interface MiniKvCommandsJson {
+  commands?: MiniKvCommandCatalogEntry[];
+}
+
+export interface MiniKvCommandsJsonResult extends MiniKvCommandResult {
+  catalog: MiniKvCommandsJson;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -75,6 +92,14 @@ export class MiniKvClient {
     return {
       ...result,
       info: parseMiniKvInfoJson(result.response),
+    };
+  }
+
+  async commandsJson(): Promise<MiniKvCommandsJsonResult> {
+    const result = await this.execute("COMMANDSJSON");
+    return {
+      ...result,
+      catalog: parseMiniKvCommandsJson(result.response),
     };
   }
 
@@ -181,7 +206,21 @@ export class MiniKvClient {
 export function validateRawGatewayCommand(command: string): void {
   validateCommandLine(command);
   const verb = command.trim().split(/\s+/, 1)[0]?.toUpperCase();
-  const allowed = new Set(["PING", "SIZE", "GET", "TTL", "SET", "DEL", "EXPIRE", "HEALTH", "STATSJSON", "INFOJSON", "KEYS"]);
+  const allowed = new Set([
+    "PING",
+    "SIZE",
+    "GET",
+    "TTL",
+    "SET",
+    "DEL",
+    "EXPIRE",
+    "HEALTH",
+    "STATSJSON",
+    "INFOJSON",
+    "COMMANDS",
+    "COMMANDSJSON",
+    "KEYS",
+  ]);
   if (!allowed.has(verb)) {
     throw new AppHttpError(400, "MINIKV_COMMAND_NOT_ALLOWED", "Command is not allowed through the gateway");
   }
@@ -215,6 +254,26 @@ export function parseMiniKvInfoJson(response: string): MiniKvInfoJson {
   }
 
   return parsed as MiniKvInfoJson;
+}
+
+export function parseMiniKvCommandsJson(response: string): MiniKvCommandsJson {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new AppHttpError(502, "MINIKV_COMMANDSJSON_INVALID", "mini-kv returned invalid COMMANDSJSON output");
+  }
+
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new AppHttpError(502, "MINIKV_COMMANDSJSON_INVALID", "mini-kv COMMANDSJSON output must be a JSON object");
+  }
+
+  const catalog = parsed as Record<string, unknown>;
+  if ("commands" in catalog && !Array.isArray(catalog.commands)) {
+    throw new AppHttpError(502, "MINIKV_COMMANDSJSON_INVALID", "mini-kv COMMANDSJSON commands field must be an array");
+  }
+
+  return parsed as MiniKvCommandsJson;
 }
 
 function validateKey(key: string): void {

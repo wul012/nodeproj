@@ -56,6 +56,11 @@ describe("createUpstreamOverview", () => {
         failedEvents: {
           pendingReplayApprovals: 1,
         },
+        failedEventSummaryAvailable: true,
+        failedEventReplayBacklog: 5,
+        failedEventPendingReplayApprovals: 2,
+        failedEventApprovedReplayApprovals: 3,
+        failedEventRejectedReplayApprovals: 1,
       },
     });
     expect(overview.upstreams.miniKv).toMatchObject({
@@ -79,9 +84,23 @@ describe("createUpstreamOverview", () => {
         wal: {
           compact_recommended: false,
         },
+        commandCatalogAvailable: true,
+        commandCatalogCounts: {
+          total: 5,
+          read: 1,
+          write: 2,
+          admin: 1,
+          meta: 1,
+          mutating: 2,
+          walTouching: 2,
+          unstable: 0,
+        },
+        writeCommandCount: 2,
+        adminCommandCount: 1,
       },
     });
     expect(overview.upstreams.miniKv.readSignals).toContain("INFOJSON");
+    expect(overview.upstreams.miniKv.readSignals).toContain("COMMANDSJSON");
     expect(overview.recommendedNextActions[0]).toContain("read-only");
   });
 });
@@ -159,6 +178,20 @@ function onlineSnapshot(): OpsSnapshot {
             },
           },
         },
+        failedEventSummary: {
+          status: "available",
+          latencyMs: 10,
+          data: {
+            sampledAt,
+            totalFailedEvents: 8,
+            pendingReplayApprovals: 2,
+            approvedReplayApprovals: 3,
+            rejectedReplayApprovals: 1,
+            latestFailedAt: "2026-05-11T00:00:00.000Z",
+            latestApprovalAt: "2026-05-11T00:10:00.000Z",
+            replayBacklog: 5,
+          },
+        },
       },
     },
     miniKv: {
@@ -202,6 +235,19 @@ function onlineSnapshot(): OpsSnapshot {
             metrics: {
               enabled: true,
             },
+          },
+        },
+        commandCatalog: {
+          status: "available",
+          latencyMs: 6,
+          catalog: {
+            commands: [
+              { name: "GET", category: "read", mutates_store: false, touches_wal: false, stable: true },
+              { name: "SET", category: "write", mutates_store: true, touches_wal: true, stable: true },
+              { name: "DEL", category: "write", mutates_store: true, touches_wal: true, stable: true },
+              { name: "COMPACT", category: "admin", mutates_store: false, touches_wal: false, stable: true },
+              { name: "INFOJSON", category: "meta", mutates_store: false, touches_wal: false, stable: true },
+            ],
           },
         },
       },

@@ -53,6 +53,7 @@ export function createUpstreamOverview(config: AppConfig, snapshot: OpsSnapshot)
 
 function javaObservation(config: AppConfig, probe: ProbeResult): UpstreamObservation {
   const businessOverview = readJavaBusinessOverview(probe.details);
+  const failedEventSummary = readJavaFailedEventSummary(probe.details);
   return {
     name: probe.name,
     role: "order transaction core",
@@ -66,10 +67,12 @@ function javaObservation(config: AppConfig, probe: ProbeResult): UpstreamObserva
       "outbox event visibility",
       "failed event management and approval flow",
       "ops business overview",
+      "failed event governance summary",
     ],
     readSignals: [
       "GET /actuator/health",
       "GET /api/v1/ops/overview",
+      "GET /api/v1/failed-events/summary",
       "GET /api/v1/orders/:orderId",
       "GET /api/v1/outbox/events",
       "GET /api/v1/failed-events",
@@ -86,6 +89,13 @@ function javaObservation(config: AppConfig, probe: ProbeResult): UpstreamObserva
       outbox: readRecord(businessOverview, "outbox"),
       failedEvents: readRecord(businessOverview, "failedEvents"),
       businessSampledAt: readString(businessOverview, "sampledAt"),
+      failedEventSummaryAvailable: failedEventSummary !== undefined,
+      failedEventSummaryLatencyMs: readJavaFailedEventSummaryLatency(probe.details),
+      failedEventSummary,
+      failedEventReplayBacklog: readNumber(failedEventSummary, "replayBacklog"),
+      failedEventPendingReplayApprovals: readNumber(failedEventSummary, "pendingReplayApprovals"),
+      failedEventApprovedReplayApprovals: readNumber(failedEventSummary, "approvedReplayApprovals"),
+      failedEventRejectedReplayApprovals: readNumber(failedEventSummary, "rejectedReplayApprovals"),
     },
     sampledAt: probe.sampledAt,
   };
@@ -98,6 +108,9 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
   const store = readRecord(info, "store");
   const walInfo = readRecord(info, "wal");
   const metricsInfo = readRecord(info, "metrics");
+  const commandCatalog = readMiniKvCommandCatalog(probe.details);
+  const commands = readRecordArray(commandCatalog, "commands");
+  const commandCatalogCounts = countMiniKvCommands(commands);
   return {
     name: probe.name,
     role: "redis-like infrastructure lab",
@@ -112,8 +125,9 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
       "WAL and snapshot maintenance",
       "HEALTH and STATSJSON operational signals",
       "INFOJSON identity metadata",
+      "COMMANDSJSON command risk catalog",
     ],
-    readSignals: ["PING", "HEALTH", "STATSJSON", "INFOJSON", "KEYS prefix"],
+    readSignals: ["PING", "HEALTH", "STATSJSON", "INFOJSON", "COMMANDSJSON", "KEYS prefix"],
     writePolicy: "mini-kv writes remain experimental and must not become the Java order authority.",
     signals: {
       infoJsonAvailable: info !== undefined,
@@ -128,6 +142,13 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
       commandTotals: readRecord(stats, "commands"),
       connectionStats: readRecord(stats, "connection_stats"),
       wal: readRecord(stats, "wal"),
+      commandCatalogAvailable: commandCatalog !== undefined,
+      commandCatalogLatencyMs: readMiniKvCommandCatalogLatency(probe.details),
+      commandCatalogCounts,
+      writeCommandCount: commandCatalogCounts.write,
+      adminCommandCount: commandCatalogCounts.admin,
+      mutatingCommandCount: commandCatalogCounts.mutating,
+      walTouchingCommandCount: commandCatalogCounts.walTouching,
     },
     sampledAt: probe.sampledAt,
   };
@@ -161,11 +182,17 @@ function buildNextActions(config: AppConfig, java: UpstreamObservation, miniKv: 
   if (java.state !== "disabled" && java.state !== "offline" && java.signals.businessOverviewAvailable !== true) {
     actions.push("Verify Java /api/v1/ops/overview before relying on business-level order platform signals.");
   }
+  if (java.state !== "disabled" && java.state !== "offline" && java.signals.failedEventSummaryAvailable !== true) {
+    actions.push("Verify Java /api/v1/failed-events/summary before relying on failed-event governance signals.");
+  }
   if (miniKv.state === "offline") {
     actions.push("Start or inspect mini-kv before expecting live KV health and metrics.");
   }
   if (miniKv.state !== "disabled" && miniKv.state !== "offline" && miniKv.signals.infoJsonAvailable !== true) {
     actions.push("Verify mini-kv INFOJSON before relying on version and protocol metadata.");
+  }
+  if (miniKv.state !== "disabled" && miniKv.state !== "offline" && miniKv.signals.commandCatalogAvailable !== true) {
+    actions.push("Verify mini-kv COMMANDSJSON before relying on command risk metadata.");
   }
   if (java.state === "degraded" || miniKv.state === "degraded") {
     actions.push("Inspect degraded upstream details before promoting this integration state.");
@@ -225,6 +252,21 @@ function readJavaBusinessOverviewLatency(details: unknown): number | undefined {
   return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
 }
 
+function readJavaFailedEventSummary(details: unknown): Record<string, unknown> | undefined {
+  if (!isRecord(details) || !isRecord(details.failedEventSummary) || details.failedEventSummary.status !== "available" || !isRecord(details.failedEventSummary.data)) {
+    return undefined;
+  }
+  return details.failedEventSummary.data;
+}
+
+function readJavaFailedEventSummaryLatency(details: unknown): number | undefined {
+  if (!isRecord(details) || !isRecord(details.failedEventSummary)) {
+    return undefined;
+  }
+  const latencyMs = details.failedEventSummary.latencyMs;
+  return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
+}
+
 function readMiniKvStats(details: unknown): Record<string, unknown> | undefined {
   if (!isRecord(details) || !isRecord(details.statsJson) || !isRecord(details.statsJson.stats)) {
     return undefined;
@@ -244,6 +286,21 @@ function readMiniKvInfoLatency(details: unknown): number | undefined {
     return undefined;
   }
   const latencyMs = details.infoJson.latencyMs;
+  return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
+}
+
+function readMiniKvCommandCatalog(details: unknown): Record<string, unknown> | undefined {
+  if (!isRecord(details) || !isRecord(details.commandCatalog) || details.commandCatalog.status !== "available" || !isRecord(details.commandCatalog.catalog)) {
+    return undefined;
+  }
+  return details.commandCatalog.catalog;
+}
+
+function readMiniKvCommandCatalogLatency(details: unknown): number | undefined {
+  if (!isRecord(details) || !isRecord(details.commandCatalog)) {
+    return undefined;
+  }
+  const latencyMs = details.commandCatalog.latencyMs;
   return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
 }
 
@@ -270,6 +327,35 @@ function readString(data: Record<string, unknown> | undefined, field: string): s
 function readStringArray(data: Record<string, unknown> | undefined, field: string): string[] | undefined {
   const value = data?.[field];
   return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : undefined;
+}
+
+function readRecordArray(data: Record<string, unknown> | undefined, field: string): Array<Record<string, unknown>> {
+  const value = data?.[field];
+  if (!Array.isArray(value)) {
+    return [];
+  }
+  return value.filter((item): item is Record<string, unknown> => isRecord(item));
+}
+
+function countMiniKvCommands(commands: Array<Record<string, unknown>>): Record<string, number> {
+  return {
+    total: commands.length,
+    read: countByStringField(commands, "category", "read"),
+    write: countByStringField(commands, "category", "write"),
+    admin: countByStringField(commands, "category", "admin"),
+    meta: countByStringField(commands, "category", "meta"),
+    mutating: countByBooleanField(commands, "mutates_store", true),
+    walTouching: countByBooleanField(commands, "touches_wal", true),
+    unstable: countByBooleanField(commands, "stable", false),
+  };
+}
+
+function countByStringField(records: Array<Record<string, unknown>>, field: string, expected: string): number {
+  return records.filter((record) => record[field] === expected).length;
+}
+
+function countByBooleanField(records: Array<Record<string, unknown>>, field: string, expected: boolean): number {
+  return records.filter((record) => record[field] === expected).length;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
