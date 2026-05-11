@@ -13,6 +13,7 @@ import {
   createOpsPromotionDeploymentChangeRecordVerification,
   createOpsPromotionDeploymentExecutionRecord,
   createOpsPromotionDeploymentExecutionRecordVerification,
+  createOpsPromotionDeploymentExecutionReceipt,
   createOpsPromotionDeploymentApproval,
   createOpsPromotionDeploymentApprovalVerification,
   createOpsPromotionArchiveAttestation,
@@ -38,6 +39,7 @@ import {
   renderOpsPromotionDeploymentChangeRecordVerificationMarkdown,
   renderOpsPromotionDeploymentExecutionRecordMarkdown,
   renderOpsPromotionDeploymentExecutionRecordVerificationMarkdown,
+  renderOpsPromotionDeploymentExecutionReceiptMarkdown,
   renderOpsPromotionDeploymentApprovalMarkdown,
   renderOpsPromotionDeploymentApprovalVerificationMarkdown,
   renderOpsPromotionArchiveAttestationMarkdown,
@@ -1071,6 +1073,26 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
 
     return deploymentExecutionRecordVerification;
   });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/deployment-execution-receipt", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const { deploymentExecutionReceipt } = createPromotionReleaseEvidenceArtifacts(deps);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionDeploymentExecutionReceiptMarkdown(deploymentExecutionReceipt);
+    }
+
+    return deploymentExecutionReceipt;
+  });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);
   });
@@ -1446,6 +1468,15 @@ function createPromotionReleaseEvidenceArtifacts(deps: OpsSummaryRouteDeps) {
     changeRecord: deploymentChangeRecord,
     changeRecordVerification: deploymentChangeRecordVerification,
   });
+  const deploymentExecutionRecordVerification = createOpsPromotionDeploymentExecutionRecordVerification({
+    changeRecord: deploymentChangeRecord,
+    changeRecordVerification: deploymentChangeRecordVerification,
+    executionRecord: deploymentExecutionRecord,
+  });
+  const deploymentExecutionReceipt = createOpsPromotionDeploymentExecutionReceipt({
+    executionRecord: deploymentExecutionRecord,
+    executionRecordVerification: deploymentExecutionRecordVerification,
+  });
 
   return {
     releaseEvidence,
@@ -1457,5 +1488,7 @@ function createPromotionReleaseEvidenceArtifacts(deps: OpsSummaryRouteDeps) {
     deploymentChangeRecord,
     deploymentChangeRecordVerification,
     deploymentExecutionRecord,
+    deploymentExecutionRecordVerification,
+    deploymentExecutionReceipt,
   };
 }

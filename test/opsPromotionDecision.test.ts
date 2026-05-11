@@ -3292,6 +3292,158 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds promotion deployment execution receipt as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyReceipt = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-receipt",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "deployment-receipt-reviewer",
+          note: "build deployment execution receipt",
+        },
+      });
+      const executionRecord = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-record",
+      });
+      const executionRecordVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-record/verification",
+      });
+      const executionReceipt = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-receipt",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-receipt?format=markdown",
+      });
+
+      expect(emptyReceipt.statusCode).toBe(200);
+      expect(emptyReceipt.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        executionReady: false,
+        receiptReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          executionRecordVerified: true,
+          executionDigestValid: true,
+          executionItemsValid: true,
+          executionReferenceValid: true,
+          closeoutReady: false,
+          executionItemCount: 4,
+          receiptItemCount: 4,
+        },
+      });
+      expect(emptyReceipt.json().receiptName).toMatch(/^promotion-deployment-receipt-[a-f0-9]{12}$/);
+      expect(emptyReceipt.json().receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyReceipt.json().receiptItems.map((item: { name: string }) => item.name)).toEqual([
+        "deployment-execution-record",
+        "verified-deployment-execution-record",
+        "deployment-change-record",
+        "deployment-receipt-state",
+      ]);
+      expect(emptyReceipt.json().receiptItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(executionRecord.statusCode).toBe(200);
+      expect(executionRecordVerification.statusCode).toBe(200);
+      expect(executionReceipt.statusCode).toBe(200);
+      expect(executionReceipt.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        executionReady: false,
+        receiptReady: false,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          executionRecordVerified: true,
+          executionDigestValid: true,
+          executionItemsValid: true,
+          executionReferenceValid: true,
+          closeoutReady: false,
+          executionItemCount: 4,
+          receiptItemCount: 4,
+        },
+      });
+      expect(executionReceipt.json().receiptName).toMatch(/^promotion-deployment-receipt-[a-f0-9]{12}$/);
+      expect(executionReceipt.json().receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(executionReceipt.json().receiptDigest.coveredFields).toEqual([
+        "receiptName",
+        "executionName",
+        "changeRecordName",
+        "approvalName",
+        "releaseArchiveName",
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptRecordName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "approvalReady",
+        "changeReady",
+        "executionReady",
+        "receiptReady",
+        "executionDigest",
+        "verifiedExecutionDigest",
+        "changeDigest",
+        "approvalDigest",
+        "releaseArchiveDigest",
+        "decision",
+        "verification",
+        "receiptItems",
+        "nextActions",
+      ]);
+      expect(executionReceipt.json().executionName).toBe(executionRecord.json().executionName);
+      expect(executionReceipt.json().executionDigest.value).toBe(executionRecord.json().executionDigest.value);
+      expect(executionReceipt.json().executionDigest.value).toBe(
+        executionRecordVerification.json().recomputedExecutionDigest.value,
+      );
+      expect(executionReceipt.json().receiptRecordName).toBe(executionRecord.json().receiptName);
+      expect(executionReceipt.json().receiptItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(executionReceipt.json().receiptItems[1]).toMatchObject({
+        name: "verified-deployment-execution-record",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/deployment-execution-record/verification",
+      });
+      expect(executionReceipt.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion deployment execution receipt");
+      expect(markdown.body).toContain("- Receipt ready: false");
+      expect(markdown.body).toContain(`- Receipt digest: sha256:${executionReceipt.json().receiptDigest.value}`);
+      expect(markdown.body).toContain("- Execution record verified: true");
+      expect(markdown.body).toContain("## Receipt Items");
+      expect(markdown.body).toContain("### verified-deployment-execution-record");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

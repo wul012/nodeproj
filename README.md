@@ -62,6 +62,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion deployment change record verification for rechecking change digests and change item references
 - Local promotion deployment execution record for assigning a verified execution digest before release execution
 - Local promotion deployment execution record verification for rechecking execution digests and execution item references
+- Local promotion deployment execution receipt for carrying verified execution digests into release audit trails
 
 ## Setup
 
@@ -162,6 +163,8 @@ GET    /api/v1/ops/promotion-archive/deployment-execution-record
 GET    /api/v1/ops/promotion-archive/deployment-execution-record?format=markdown
 GET    /api/v1/ops/promotion-archive/deployment-execution-record/verification
 GET    /api/v1/ops/promotion-archive/deployment-execution-record/verification?format=markdown
+GET    /api/v1/ops/promotion-archive/deployment-execution-receipt
+GET    /api/v1/ops/promotion-archive/deployment-execution-receipt?format=markdown
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity
