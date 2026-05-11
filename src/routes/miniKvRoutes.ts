@@ -1,10 +1,11 @@
 import type { FastifyInstance } from "fastify";
 
 import { MiniKvClient, validateRawGatewayCommand } from "../clients/miniKvClient.js";
-import { assertUpstreamActionsEnabled } from "../services/upstreamActionGuard.js";
+import { assertUpstreamActionsEnabled, assertUpstreamProbesEnabled } from "../services/upstreamActionGuard.js";
 
 interface MiniKvRouteDeps {
   miniKv: MiniKvClient;
+  upstreamProbesEnabled: boolean;
   upstreamActionsEnabled: boolean;
 }
 
@@ -21,7 +22,26 @@ interface RawCommandBody {
   command: string;
 }
 
+interface KeyInventoryQuery {
+  prefix?: string;
+}
+
 export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRouteDeps): Promise<void> {
+  app.get<{ Querystring: KeyInventoryQuery }>("/api/v1/mini-kv/keys", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          prefix: { type: "string", minLength: 1, maxLength: 160, pattern: "^[A-Za-z0-9:_-]+$" },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => {
+    assertUpstreamProbesEnabled(deps.upstreamProbesEnabled, "mini-kv");
+    return deps.miniKv.keysJson(request.query.prefix);
+  });
+
   app.get("/api/v1/mini-kv/status", async () => {
     assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "mini-kv");
     const [ping, size] = await Promise.all([deps.miniKv.ping(), deps.miniKv.size()]);

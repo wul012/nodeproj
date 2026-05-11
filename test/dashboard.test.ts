@@ -16,6 +16,9 @@ describe("dashboardHtml", () => {
     expect(html).toContain('id="failedEventId"');
     expect(html).toContain("Replay Readiness");
     expect(html).toContain("refreshFailedEventReadiness");
+    expect(html).toContain('id="kvPrefix"');
+    expect(html).toContain("Key Inventory");
+    expect(html).toContain("refreshMiniKvKeyInventory");
     expect(html).toContain("function renderUpstreamOverview");
     expect(html).toContain("refreshUpstreamOverview");
   });

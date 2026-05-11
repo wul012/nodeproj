@@ -111,6 +111,7 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
   const commandCatalog = readMiniKvCommandCatalog(probe.details);
   const commands = readRecordArray(commandCatalog, "commands");
   const commandCatalogCounts = countMiniKvCommands(commands);
+  const keyInventory = readMiniKvKeyInventory(probe.details);
   return {
     name: probe.name,
     role: "redis-like infrastructure lab",
@@ -126,8 +127,9 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
       "HEALTH and STATSJSON operational signals",
       "INFOJSON identity metadata",
       "COMMANDSJSON command risk catalog",
+      "KEYSJSON bounded key inventory",
     ],
-    readSignals: ["PING", "HEALTH", "STATSJSON", "INFOJSON", "COMMANDSJSON", "KEYS prefix"],
+    readSignals: ["PING", "HEALTH", "STATSJSON", "INFOJSON", "COMMANDSJSON", "KEYSJSON [prefix]"],
     writePolicy: "mini-kv writes remain experimental and must not become the Java order authority.",
     signals: {
       infoJsonAvailable: info !== undefined,
@@ -149,6 +151,13 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
       adminCommandCount: commandCatalogCounts.admin,
       mutatingCommandCount: commandCatalogCounts.mutating,
       walTouchingCommandCount: commandCatalogCounts.walTouching,
+      keyInventoryAvailable: keyInventory !== undefined,
+      keyInventoryLatencyMs: readMiniKvKeyInventoryLatency(probe.details),
+      keyInventoryPrefix: readNullableString(keyInventory, "prefix"),
+      keyInventoryKeyCount: readNumber(keyInventory, "key_count"),
+      keyInventoryTruncated: readBoolean(keyInventory, "truncated"),
+      keyInventoryLimit: readNumber(keyInventory, "limit"),
+      keyInventorySampleKeys: readStringArray(keyInventory, "keys")?.slice(0, 20) ?? [],
     },
     sampledAt: probe.sampledAt,
   };
@@ -193,6 +202,9 @@ function buildNextActions(config: AppConfig, java: UpstreamObservation, miniKv: 
   }
   if (miniKv.state !== "disabled" && miniKv.state !== "offline" && miniKv.signals.commandCatalogAvailable !== true) {
     actions.push("Verify mini-kv COMMANDSJSON before relying on command risk metadata.");
+  }
+  if (miniKv.state !== "disabled" && miniKv.state !== "offline" && miniKv.signals.keyInventoryAvailable !== true) {
+    actions.push("Verify mini-kv KEYSJSON before relying on key inventory signals.");
   }
   if (java.state === "degraded" || miniKv.state === "degraded") {
     actions.push("Inspect degraded upstream details before promoting this integration state.");
@@ -304,6 +316,21 @@ function readMiniKvCommandCatalogLatency(details: unknown): number | undefined {
   return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
 }
 
+function readMiniKvKeyInventory(details: unknown): Record<string, unknown> | undefined {
+  if (!isRecord(details) || !isRecord(details.keyInventory) || details.keyInventory.status !== "available" || !isRecord(details.keyInventory.inventory)) {
+    return undefined;
+  }
+  return details.keyInventory.inventory;
+}
+
+function readMiniKvKeyInventoryLatency(details: unknown): number | undefined {
+  if (!isRecord(details) || !isRecord(details.keyInventory)) {
+    return undefined;
+  }
+  const latencyMs = details.keyInventory.latencyMs;
+  return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
+}
+
 function readNumber(data: Record<string, unknown> | undefined, field: string): number | undefined {
   const value = data?.[field];
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
@@ -322,6 +349,11 @@ function readRecord(data: Record<string, unknown> | undefined, field: string): R
 function readString(data: Record<string, unknown> | undefined, field: string): string | undefined {
   const value = data?.[field];
   return typeof value === "string" ? value : undefined;
+}
+
+function readNullableString(data: Record<string, unknown> | undefined, field: string): string | null | undefined {
+  const value = data?.[field];
+  return value === null || typeof value === "string" ? value : undefined;
 }
 
 function readStringArray(data: Record<string, unknown> | undefined, field: string): string[] | undefined {

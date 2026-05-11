@@ -120,7 +120,11 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     upstreamProbesEnabled: config.upstreamProbesEnabled,
     upstreamActionsEnabled: config.upstreamActionsEnabled,
   });
-  await registerMiniKvRoutes(app, { miniKv, upstreamActionsEnabled: config.upstreamActionsEnabled });
+  await registerMiniKvRoutes(app, {
+    miniKv,
+    upstreamProbesEnabled: config.upstreamProbesEnabled,
+    upstreamActionsEnabled: config.upstreamActionsEnabled,
+  });
 
   return app;
 }

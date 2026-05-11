@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest";
 
-import { parseMiniKvCommandsJson, parseMiniKvInfoJson, parseMiniKvStatsJson, validateRawGatewayCommand } from "../src/clients/miniKvClient.js";
+import {
+  parseMiniKvCommandsJson,
+  parseMiniKvInfoJson,
+  parseMiniKvKeysJson,
+  parseMiniKvStatsJson,
+  validateRawGatewayCommand,
+} from "../src/clients/miniKvClient.js";
 
 describe("validateRawGatewayCommand", () => {
   it("allows safe mini-kv gateway commands", () => {
@@ -13,6 +19,7 @@ describe("validateRawGatewayCommand", () => {
     expect(() => validateRawGatewayCommand("COMMANDS")).not.toThrow();
     expect(() => validateRawGatewayCommand("COMMANDSJSON")).not.toThrow();
     expect(() => validateRawGatewayCommand("KEYS orderops:")).not.toThrow();
+    expect(() => validateRawGatewayCommand("KEYSJSON orderops:")).not.toThrow();
   });
 
   it("rejects filesystem-style commands and multiline input", () => {
@@ -59,5 +66,19 @@ describe("validateRawGatewayCommand", () => {
     expect(() => parseMiniKvCommandsJson("OK")).toThrow(/invalid COMMANDSJSON/);
     expect(() => parseMiniKvCommandsJson("[1,2,3]")).toThrow(/must be a JSON object/);
     expect(() => parseMiniKvCommandsJson('{"commands":"GET"}')).toThrow(/commands field must be an array/);
+  });
+
+  it("parses mini-kv KEYSJSON inventory and rejects invalid output", () => {
+    expect(parseMiniKvKeysJson('{"prefix":"orderops:","key_count":2,"keys":["orderops:1","orderops:2"],"truncated":false,"limit":1000}')).toMatchObject({
+      prefix: "orderops:",
+      key_count: 2,
+      keys: ["orderops:1", "orderops:2"],
+      truncated: false,
+      limit: 1000,
+    });
+    expect(() => parseMiniKvKeysJson("key_count=2 keys=a b")).toThrow(/invalid KEYSJSON/);
+    expect(() => parseMiniKvKeysJson("[1,2,3]")).toThrow(/must be a JSON object/);
+    expect(() => parseMiniKvKeysJson('{"keys":"orderops:1"}')).toThrow(/keys field must be a string array/);
+    expect(() => parseMiniKvKeysJson('{"key_count":"2"}')).toThrow(/key_count field must be a finite number/);
   });
 });

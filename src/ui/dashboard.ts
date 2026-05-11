@@ -603,6 +603,24 @@ export function dashboardHtml(): string {
           <input id="rawCommand" placeholder="Raw command" value="SIZE">
           <button data-action="rawCommand">Run</button>
         </div>
+        <div class="row">
+          <input id="kvPrefix" placeholder="Key prefix" value="orderops:">
+          <button data-action="kvInventory">Key Inventory</button>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Inventory</div>
+            <div class="signal-value" id="kvInventorySignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Truncated</div>
+            <div class="signal-value" id="kvInventoryTruncatedSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Keys</div>
+            <div class="signal-value" id="kvInventoryKeysSignal">-</div>
+          </div>
+        </div>
       </article>
     </section>
 
@@ -819,6 +837,9 @@ export function dashboardHtml(): string {
       setText("kvWalSignal", "wal " + formatBool(kvSignals.walEnabled) + " / metrics " + formatBool(kvSignals.metricsEnabled));
       setText("kvCommandSignal", formatAvailable(kvSignals.commandCatalogAvailable) + " / total " + formatNumber(commandCounts.total));
       setText("kvRiskSignal", "write " + formatNumber(kvSignals.writeCommandCount) + " / admin " + formatNumber(kvSignals.adminCommandCount) + " / mutating " + formatNumber(kvSignals.mutatingCommandCount));
+      setText("kvInventorySignal", formatAvailable(kvSignals.keyInventoryAvailable) + " / count " + formatNumber(kvSignals.keyInventoryKeyCount));
+      setText("kvInventoryTruncatedSignal", formatBool(kvSignals.keyInventoryTruncated) + " / limit " + formatNumber(kvSignals.keyInventoryLimit));
+      setText("kvInventoryKeysSignal", formatList(kvSignals.keyInventorySampleKeys));
     }
 
     function renderFailedEventReadiness(readiness) {
@@ -838,6 +859,21 @@ export function dashboardHtml(): string {
       const readiness = await api("/api/v1/order-platform/failed-events/" + encodeURIComponent(failedEventId) + "/replay-readiness");
       renderFailedEventReadiness(readiness);
       return readiness;
+    }
+
+    function renderMiniKvKeyInventory(result) {
+      const inventory = result.inventory || result;
+      setText("kvInventorySignal", "prefix " + (inventory.prefix || "-") + " / count " + formatNumber(inventory.key_count));
+      setText("kvInventoryTruncatedSignal", formatBool(inventory.truncated) + " / limit " + formatNumber(inventory.limit));
+      setText("kvInventoryKeysSignal", formatList(inventory.keys));
+    }
+
+    async function refreshMiniKvKeyInventory() {
+      const prefix = $("kvPrefix").value.trim();
+      const query = prefix.length > 0 ? "?prefix=" + encodeURIComponent(prefix) : "";
+      const inventory = await api("/api/v1/mini-kv/keys" + query);
+      renderMiniKvKeyInventory(inventory);
+      return inventory;
     }
 
     async function refreshUpstreamOverview() {
@@ -964,6 +1000,9 @@ export function dashboardHtml(): string {
             method: "POST",
             body: JSON.stringify({ command: $("rawCommand").value }),
           }));
+        }
+        if (action === "kvInventory") {
+          write(await refreshMiniKvKeyInventory());
         }
         if (action === "auditSummary") {
           write(await refreshAudit());

@@ -52,6 +52,18 @@ export interface MiniKvCommandsJsonResult extends MiniKvCommandResult {
   catalog: MiniKvCommandsJson;
 }
 
+export interface MiniKvKeysJson {
+  prefix?: string | null;
+  key_count?: number;
+  keys?: string[];
+  truncated?: boolean;
+  limit?: number;
+}
+
+export interface MiniKvKeysJsonResult extends MiniKvCommandResult {
+  inventory: MiniKvKeysJson;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -100,6 +112,15 @@ export class MiniKvClient {
     return {
       ...result,
       catalog: parseMiniKvCommandsJson(result.response),
+    };
+  }
+
+  async keysJson(prefix?: string): Promise<MiniKvKeysJsonResult> {
+    const normalizedPrefix = normalizeOptionalPrefix(prefix);
+    const result = await this.execute(normalizedPrefix === undefined ? "KEYSJSON" : `KEYSJSON ${normalizedPrefix}`);
+    return {
+      ...result,
+      inventory: parseMiniKvKeysJson(result.response),
     };
   }
 
@@ -220,6 +241,7 @@ export function validateRawGatewayCommand(command: string): void {
     "COMMANDS",
     "COMMANDSJSON",
     "KEYS",
+    "KEYSJSON",
   ]);
   if (!allowed.has(verb)) {
     throw new AppHttpError(400, "MINIKV_COMMAND_NOT_ALLOWED", "Command is not allowed through the gateway");
@@ -276,10 +298,48 @@ export function parseMiniKvCommandsJson(response: string): MiniKvCommandsJson {
   return parsed as MiniKvCommandsJson;
 }
 
+export function parseMiniKvKeysJson(response: string): MiniKvKeysJson {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new AppHttpError(502, "MINIKV_KEYSJSON_INVALID", "mini-kv returned invalid KEYSJSON output");
+  }
+
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new AppHttpError(502, "MINIKV_KEYSJSON_INVALID", "mini-kv KEYSJSON output must be a JSON object");
+  }
+
+  const inventory = parsed as Record<string, unknown>;
+  if ("keys" in inventory && (!Array.isArray(inventory.keys) || !inventory.keys.every((key) => typeof key === "string"))) {
+    throw new AppHttpError(502, "MINIKV_KEYSJSON_INVALID", "mini-kv KEYSJSON keys field must be a string array");
+  }
+  if ("key_count" in inventory && (typeof inventory.key_count !== "number" || !Number.isFinite(inventory.key_count))) {
+    throw new AppHttpError(502, "MINIKV_KEYSJSON_INVALID", "mini-kv KEYSJSON key_count field must be a finite number");
+  }
+  if ("truncated" in inventory && typeof inventory.truncated !== "boolean") {
+    throw new AppHttpError(502, "MINIKV_KEYSJSON_INVALID", "mini-kv KEYSJSON truncated field must be a boolean");
+  }
+  if ("limit" in inventory && (typeof inventory.limit !== "number" || !Number.isFinite(inventory.limit))) {
+    throw new AppHttpError(502, "MINIKV_KEYSJSON_INVALID", "mini-kv KEYSJSON limit field must be a finite number");
+  }
+
+  return parsed as MiniKvKeysJson;
+}
+
 function validateKey(key: string): void {
   if (!safeKeyPattern.test(key)) {
     throw new AppHttpError(400, "INVALID_MINIKV_KEY", "Key must use 1-160 letters, digits, colon, underscore, or dash characters");
   }
+}
+
+function normalizeOptionalPrefix(prefix: string | undefined): string | undefined {
+  const normalized = prefix?.trim();
+  if (normalized === undefined || normalized.length === 0) {
+    return undefined;
+  }
+  validateKey(normalized);
+  return normalized;
 }
 
 function validateValue(value: string): void {

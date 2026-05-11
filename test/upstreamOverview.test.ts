@@ -86,8 +86,8 @@ describe("createUpstreamOverview", () => {
         },
         commandCatalogAvailable: true,
         commandCatalogCounts: {
-          total: 5,
-          read: 1,
+          total: 6,
+          read: 2,
           write: 2,
           admin: 1,
           meta: 1,
@@ -97,10 +97,16 @@ describe("createUpstreamOverview", () => {
         },
         writeCommandCount: 2,
         adminCommandCount: 1,
+        keyInventoryAvailable: true,
+        keyInventoryKeyCount: 3,
+        keyInventoryTruncated: false,
+        keyInventoryLimit: 1000,
+        keyInventorySampleKeys: ["orderops:1", "orderops:2", "session:1"],
       },
     });
     expect(overview.upstreams.miniKv.readSignals).toContain("INFOJSON");
     expect(overview.upstreams.miniKv.readSignals).toContain("COMMANDSJSON");
+    expect(overview.upstreams.miniKv.readSignals).toContain("KEYSJSON [prefix]");
     expect(overview.recommendedNextActions[0]).toContain("read-only");
   });
 });
@@ -245,9 +251,21 @@ function onlineSnapshot(): OpsSnapshot {
               { name: "GET", category: "read", mutates_store: false, touches_wal: false, stable: true },
               { name: "SET", category: "write", mutates_store: true, touches_wal: true, stable: true },
               { name: "DEL", category: "write", mutates_store: true, touches_wal: true, stable: true },
+              { name: "KEYSJSON", category: "read", mutates_store: false, touches_wal: false, stable: true },
               { name: "COMPACT", category: "admin", mutates_store: false, touches_wal: false, stable: true },
               { name: "INFOJSON", category: "meta", mutates_store: false, touches_wal: false, stable: true },
             ],
+          },
+        },
+        keyInventory: {
+          status: "available",
+          latencyMs: 7,
+          inventory: {
+            prefix: null,
+            key_count: 3,
+            keys: ["orderops:1", "orderops:2", "session:1"],
+            truncated: false,
+            limit: 1000,
           },
         },
       },

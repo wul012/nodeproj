@@ -46,6 +46,17 @@ type MiniKvCommandCatalogProbe =
     message: string;
   };
 
+type MiniKvKeyInventoryProbe =
+  | {
+    status: "available";
+    latencyMs: number;
+    inventory: unknown;
+  }
+  | {
+    status: "unavailable";
+    message: string;
+  };
+
 export class OpsSnapshotService {
   constructor(
     private readonly orderPlatformClient: OrderPlatformClient,
@@ -155,18 +166,19 @@ export class OpsSnapshotService {
     }
 
     try {
-      const [ping, health, statsJson, infoJson, commandCatalog] = await Promise.all([
+      const [ping, health, statsJson, infoJson, commandCatalog, keyInventory] = await Promise.all([
         this.miniKvClient.ping(),
         this.miniKvClient.health(),
         this.miniKvClient.statsJson(),
         this.probeMiniKvInfoJson(),
         this.probeMiniKvCommandCatalog(),
+        this.probeMiniKvKeyInventory(),
       ]);
       const isPingHealthy = ping.response === "orderops" || ping.response === "PONG";
       const isHealthHealthy = health.response.startsWith("OK");
       const liveKeys = readNumberField(statsJson.stats, "live_keys");
       const walEnabled = readBooleanField(statsJson.stats, "wal_enabled");
-      const state = isPingHealthy && isHealthHealthy && infoJson.status === "available" && commandCatalog.status === "available"
+      const state = isPingHealthy && isHealthHealthy && infoJson.status === "available" && commandCatalog.status === "available" && keyInventory.status === "available"
         ? "online"
         : "degraded";
 
@@ -180,14 +192,16 @@ export class OpsSnapshotService {
           statsJson.latencyMs,
           infoJson.status === "available" ? infoJson.latencyMs : 0,
           commandCatalog.status === "available" ? commandCatalog.latencyMs : 0,
+          keyInventory.status === "available" ? keyInventory.latencyMs : 0,
         ),
-        message: formatMiniKvMessage(ping.response, health.response, liveKeys, walEnabled, infoJson, commandCatalog),
+        message: formatMiniKvMessage(ping.response, health.response, liveKeys, walEnabled, infoJson, commandCatalog, keyInventory),
         details: {
           ping,
           health,
           statsJson,
           infoJson,
           commandCatalog,
+          keyInventory,
         },
       };
     } catch (error) {
@@ -223,6 +237,22 @@ export class OpsSnapshotService {
         status: "available",
         latencyMs: response.latencyMs,
         catalog: response.catalog,
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async probeMiniKvKeyInventory(): Promise<MiniKvKeyInventoryProbe> {
+    try {
+      const response = await this.miniKvClient.keysJson();
+      return {
+        status: "available",
+        latencyMs: response.latencyMs,
+        inventory: response.inventory,
       };
     } catch (error) {
       return {
@@ -305,11 +335,13 @@ function formatMiniKvMessage(
   walEnabled: boolean | undefined,
   infoJson: MiniKvInfoJsonProbe,
   commandCatalog: MiniKvCommandCatalogProbe,
+  keyInventory: MiniKvKeyInventoryProbe,
 ): string {
   const base = `ping=${ping} health=${health} live_keys=${formatProbeValue(liveKeys)} wal_enabled=${formatProbeValue(walEnabled)}`;
   const commandCatalogSuffix = formatMiniKvCommandCatalogMessage(commandCatalog);
+  const keyInventorySuffix = formatMiniKvKeyInventoryMessage(keyInventory);
   if (infoJson.status !== "available") {
-    return `${base} infojson=unavailable ${commandCatalogSuffix}`;
+    return `${base} infojson=unavailable ${commandCatalogSuffix} ${keyInventorySuffix}`;
   }
 
   const info = typeof infoJson.info === "object" && infoJson.info !== null ? infoJson.info as Record<string, unknown> : {};
@@ -317,7 +349,7 @@ function formatMiniKvMessage(
   const version = readStringField(info, "version");
   const protocol = readStringArrayField(server, "protocol")?.join(",");
   const uptimeSeconds = readNumberField(server, "uptime_seconds");
-  return `${base} infojson=available version=${version ?? "unknown"} protocol=${protocol ?? "unknown"} uptime_seconds=${formatProbeValue(uptimeSeconds)} ${commandCatalogSuffix}`;
+  return `${base} infojson=available version=${version ?? "unknown"} protocol=${protocol ?? "unknown"} uptime_seconds=${formatProbeValue(uptimeSeconds)} ${commandCatalogSuffix} ${keyInventorySuffix}`;
 }
 
 function formatMiniKvCommandCatalogMessage(commandCatalog: MiniKvCommandCatalogProbe): string {
@@ -333,6 +365,21 @@ function formatMiniKvCommandCatalogMessage(commandCatalog: MiniKvCommandCatalogP
     "command_catalog=available",
     `write_commands=${countCommandCategory(commands, "write")}`,
     `admin_commands=${countCommandCategory(commands, "admin")}`,
+  ].join(" ");
+}
+
+function formatMiniKvKeyInventoryMessage(keyInventory: MiniKvKeyInventoryProbe): string {
+  if (keyInventory.status !== "available") {
+    return "key_inventory=unavailable";
+  }
+
+  const inventory = typeof keyInventory.inventory === "object" && keyInventory.inventory !== null
+    ? keyInventory.inventory as Record<string, unknown>
+    : {};
+  return [
+    "key_inventory=available",
+    `key_count=${formatProbeValue(readNumberField(inventory, "key_count"))}`,
+    `truncated=${formatProbeValue(readBooleanField(inventory, "truncated"))}`,
   ].join(" ");
 }
 
