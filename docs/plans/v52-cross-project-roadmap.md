@@ -32,135 +32,92 @@ Node v52 已完成统一只读观察台第一步：
 - 真实联调时可以临时启动 Java、mini-kv、Node，但结束后必须停止进程并清理构建产物
 - Java 和 mini-kv 的增强应优先提升自身可观测性和接入契约，而不是为了 Node 硬改业务核心
 
-## Java 后续版本建议
+## 近期执行任务单
 
-### Java v36：订单平台只读运行概览
+本轮只排 5 个具体版本，按顺序推进。做完这 5 个版本后，再重新评估下一轮，不提前把远期任务塞进当前节奏。
 
-目标：给 Node 提供稳定的 Java 业务健康入口。
+```text
+1. Java v36
+2. Node v53
+3. mini-kv v44
+4. mini-kv v45
+5. Node v54
+```
 
-建议新增：
+### 1. Java v36：订单平台只读运行概览
+
+目标：Java 先补一个稳定、只读、面向控制面的业务概览接口，给 Node v53 真实接入。
+
+新增接口：
 
 ```text
 GET /api/v1/ops/overview
 ```
 
-建议返回：
+建议返回字段：
 
-- application name
-- active profiles
-- uptime 或启动时间
-- order count
-- inventory item count
-- outbox pending count
-- failed event count
-- replay approval pending count
-- last failed event time
+- `application.name`
+- `application.profiles`
+- `application.startedAt` 或 `uptimeSeconds`
+- `orders.total`
+- `inventory.items`
+- `outbox.pending`
+- `failedEvents.total`
+- `failedEvents.pendingReplayApprovals`
+- `failedEvents.latestFailedAt`
 
-边界：
+本版不做：
 
-- 只读
-- 不触发重放
+- 不触发失败事件重放
 - 不修改订单、库存、Outbox 或失败事件状态
+- 不接入 mini-kv
+- 不引入真实登录系统
 
-Node 对应版本：
+验证建议：
 
-```text
-Node v53/v54 接入 Java ops overview
-```
+- Java 单测覆盖 overview 聚合
+- Spring Boot 测试或 MockMvc 覆盖 `/api/v1/ops/overview`
+- 本地 smoke 只访问该 GET 接口
 
-### Java v37：失败事件治理摘要
-
-目标：让 Node 不拉全量失败事件列表，也能判断失败事件风险。
-
-建议新增：
+完成标准：
 
 ```text
-GET /api/v1/failed-events/summary
+Java 能独立返回业务概览；Node 不参与也能验证通过。
 ```
 
-建议返回：
+### 2. Node v53：接入 Java v36 overview，保留 fallback
 
-- by status
-- by managementStatus
-- by replayApprovalStatus
-- pending approval count
-- replayable count
-- recently failed count
-- latest failure timestamp
-- latest replay request timestamp
+目标：Node 在 `upstream overview` 里读取 Java v36 的 `/api/v1/ops/overview`，但 Java 未运行或接口不可用时不能拖垮 Node。
 
-边界：
+建议修改：
 
-- 只读聚合
-- 不导出 CSV
-- 不执行 replay
+- `OrderPlatformClient` 新增 `opsOverview()`
+- `OpsSnapshotService` 或 `upstreamOverview` 增加 Java business overview 信号
+- `/api/v1/upstreams/overview` 展示 Java 业务摘要
+- Dashboard 的 `Upstream Overview` 能看到 Java 业务字段
+- `UPSTREAM_PROBES_ENABLED=false` 时仍然完全 disabled，不触碰 Java
 
-Node 对应版本：
+本版不做：
+
+- 不新增 Java 写操作
+- 不调用失败事件 replay/approval
+- 不修改 mini-kv
+
+验证建议：
+
+- Node typecheck/test/build
+- 安全 smoke：`UPSTREAM_PROBES_ENABLED=false`
+- 真实联调 smoke：启动 Java v36 + Node，确认 overview 能读到 Java 业务字段
+
+完成标准：
 
 ```text
-Node v56 聚合 Java failed-event summary
+Node 能读 Java v36 overview；Java 不在线时 Node 仍可用。
 ```
 
-### Java v38：操作员上下文契约整理
+### 3. mini-kv v44：CMake 版本注入 + INFO 命令
 
-目标：为 Node 未来的受控操作入口提供明确 operator 契约。
-
-建议整理：
-
-- 保留当前 `X-Operator-*` header 方案
-- 抽象 `OperatorContextResolver`
-- 统一 operator id、role、source、request id
-- 明确哪些接口需要 operator 上下文
-- 为未来登录态/RBAC 接入预留替换点
-
-边界：
-
-- 不强行接入真实登录系统
-- 不把 Node 的角色模型复制进 Java
-- Java 保持自己的最终权限判断
-
-Node 对应版本：
-
-```text
-Node v57 开始包装 Java 失败事件审批/重放的受控操作
-```
-
-### Java v39：幂等/缓存抽象预留
-
-目标：为未来 mini-kv 替身实验铺路。
-
-建议新增接口：
-
-```text
-IdempotencyStore
-CacheClient
-RateLimitStore
-```
-
-默认实现：
-
-- 数据库
-- 内存
-- 或当前已有实现
-
-边界：
-
-- 不直接依赖 mini-kv
-- 不让 mini-kv 承担订单主数据
-- 不改变订单强一致链路
-
-Node / mini-kv 对应方向：
-
-```text
-mini-kv 后续作为可选 Redis-like 实验实现
-Node 负责观察和开关，不直接决定 Java 使用哪个存储实现
-```
-
-## mini-kv 后续版本建议
-
-### mini-kv v44：INFO 命令
-
-目标：让 Node 识别 mini-kv 基础元信息。
+目标：mini-kv 第一版元信息接口要从一开始就带真实版本，不先手写再补。
 
 建议新增：
 
@@ -171,43 +128,54 @@ INFO
 建议输出 text 格式：
 
 ```text
-version=0.44.0 protocol=inline,resp uptime_seconds=12 live_keys=0 wal_enabled=no metrics_enabled=no
+version=0.44.0 protocol=inline,resp uptime_seconds=12 live_keys=0 wal_enabled=no metrics_enabled=no max_request_bytes=65536
 ```
 
-建议字段：
+建议实现点：
 
-- version
-- protocol
-- uptime_seconds
-- live_keys
-- wal_enabled
-- metrics_enabled
-- max_request_bytes
+- CMake 从 `project(mini_kv VERSION 0.44.0)` 注入版本宏
+- `INFO` 返回版本、协议、uptime、live_keys、wal_enabled、metrics_enabled、max_request_bytes
+- `HEALTH` 可以暂时不加版本，若工作量合适可顺手补 `version=...`
 
-Node 对应版本：
+本版不做：
+
+- 不做 `INFOJSON`
+- 不做命令权限系统
+- 不接 Java
+- 不改变现有 `STATSJSON` 语义
+
+验证建议：
+
+- CMake build
+- CTest
+- 本地 TCP smoke：`INFO`
+- README 和代码讲解记录更新
+
+完成标准：
 
 ```text
-Node v55 接入 mini-kv INFO/INFOJSON
+mini-kv 能通过 INFO 暴露真实版本和基础运行信息。
 ```
 
-### mini-kv v45：INFOJSON 命令
+### 4. mini-kv v45：INFOJSON 命令
 
-目标：给 Node 和脚本提供稳定结构化元信息。
+目标：给 Node 提供稳定结构化元信息，避免 Node 解析 text `INFO`。
 
-建议新增：
+新增接口：
 
 ```text
 INFOJSON
 ```
 
-建议返回：
+建议返回结构：
 
 ```json
 {
   "version": "0.45.0",
   "server": {
     "protocol": ["inline", "resp"],
-    "uptime_seconds": 12
+    "uptime_seconds": 12,
+    "max_request_bytes": 65536
   },
   "store": {
     "live_keys": 0
@@ -215,158 +183,69 @@ INFOJSON
   "wal": {
     "enabled": false
   },
-  "commands": {
-    "total_commands": 0
-  },
-  "connection_stats": {
-    "active_connections": 0
+  "metrics": {
+    "enabled": false
   }
 }
 ```
 
-边界：
+本版不做：
 
 - 不替代 `STATSJSON`
-- `INFOJSON` 偏元信息和能力描述
-- `STATSJSON` 偏运行指标和计数器
+- 不做 `COMMANDSJSON`
+- 不做 Node 接入
 
-### mini-kv v46：只读命令分级
+验证建议：
 
-目标：让 Node 自动判断哪些命令可以安全放开。
+- CTest 覆盖 `INFOJSON`
+- TCP smoke 验证返回合法 JSON object
+- 空库、无 WAL、未启用 metrics 时字段稳定存在
 
-建议新增：
+完成标准：
 
 ```text
-COMMANDS
-COMMANDSJSON
+mini-kv 能通过 INFOJSON 给外部控制面提供结构化元信息。
 ```
 
-建议分类：
+### 5. Node v54：接入 mini-kv v45 INFOJSON
+
+目标：Node 在 v52 已有 `HEALTH/STATSJSON` 基础上，增加 mini-kv 元信息识别能力。
+
+建议修改：
+
+- `MiniKvClient` 新增 `infoJson()`
+- `/api/v1/upstreams/overview` 展示 mini-kv version、protocol、uptime、wal mode、metrics mode
+- Dashboard 的 `Upstream Overview` 能看到 mini-kv 元信息
+- promotion evidence 或 release archive 可记录 mini-kv version 和 protocol 摘要
+
+本版不做：
+
+- 不开放 mini-kv 写操作
+- 不接 Java failed-event summary
+- 不做 Java 受控操作
+
+验证建议：
+
+- Node typecheck/test/build
+- 安全 smoke：`UPSTREAM_PROBES_ENABLED=false`
+- 真实联调 smoke：启动 mini-kv v45 + Node，确认 overview 能读到 `INFOJSON`
+
+完成标准：
 
 ```text
-read: PING, GET, TTL, SIZE, KEYS, HEALTH, STATS, STATSJSON, INFO, INFOJSON
-write: SET, DEL, EXPIRE
-maintenance: SAVE, LOAD, COMPACT, WALINFO, RESETSTATS
-dangerous: 后续如果出现破坏性命令，统一放这里
+Node 能识别 mini-kv 真实版本和元信息；真实写动作仍默认关闭。
 ```
 
-边界：
+## 本轮之后再评估
 
-- 分类先做文档化/命令输出
-- 不急着做服务端权限系统
-- Node 根据分类决定 Dashboard 是否显示或禁用命令
-
-### mini-kv v47：运行时 build/version 注入
-
-目标：让 release evidence 能记录 mini-kv 真实版本。
-
-建议：
-
-- CMake 把 `project(mini_kv VERSION x.y.z)` 注入编译宏
-- `HEALTH` 返回版本
-- `INFO` 返回版本
-- `INFOJSON` 返回版本
-
-Node 对应方向：
+以下方向先记录，不作为本轮立即执行任务：
 
 ```text
-Node promotion evidence 记录 mini-kv version / protocol / wal mode
-```
-
-### mini-kv v48：只读 smoke 友好化
-
-目标：让综合联调不依赖数据状态。
-
-建议增强：
-
-- 空库时 `HEALTH` 稳定返回 `OK`
-- 无 WAL 时 `INFOJSON.wal.enabled=false`
-- 未启用 metrics 文件时 metrics 字段明确为 disabled，而不是缺失
-- `KEYS prefix` 空结果稳定返回 `key_count=0 prefix=xxx keys=`
-
-边界：
-
-- 不引入复杂配置
-- 不改变已有命令语义
-- 优先保证 Node 联调和 CI smoke 稳定
-
-## Node 后续版本建议
-
-### Node v53：Java ops overview 草案适配
-
-目标：先在 Node 侧定义 Java ops overview 的客户端和 disabled/fallback 行为。
-
-范围：
-
-- 新增 `OrderPlatformClient.opsOverview()`
-- 新增 overview 中的 Java business signals 占位
-- Java 未实现时返回 unavailable 或 disabled，不阻断 Node
-- 不修改 Java 项目
-
-### Node v54：接入 Java v36 真实 overview
-
-目标：Java v36 完成后，Node 接入真实 `/api/v1/ops/overview`。
-
-范围：
-
-- 读取 order count、outbox pending、failed event count
-- Dashboard 展示 Java 业务摘要
-- readiness 增加 Java 业务风险信号
-
-### Node v55：接入 mini-kv INFOJSON
-
-目标：mini-kv v45 完成后，Node 接入结构化元信息。
-
-范围：
-
-- `MiniKvClient.infoJson()`
-- upstream overview 显示 mini-kv version、protocol、uptime、wal mode
-- promotion archive 记录 mini-kv 版本和能力摘要
-
-### Node v56：统一风险摘要
-
-目标：把 Java failed-event summary 和 mini-kv health/info 聚合到一个风险面板。
-
-范围：
-
-- Java failed-event summary
-- mini-kv INFOJSON + STATSJSON
-- Node readiness / promotion review 引入 upstream risk summary
-
-### Node v57：Java 失败事件受控操作入口
-
-目标：中期开始从只读观察进入受控操作。
-
-范围：
-
-- Java replay approval request
-- Java replay review
-- Java replay execute
-- 全部走 Node operation intent
-- 默认 dry-run
-- 真实执行必须显式确认、限流、审计
-
-边界：
-
-- 不直接绕过 Java 权限判断
-- 不默认开启 `UPSTREAM_ACTIONS_ENABLED`
-- 不做批量危险操作
-
-## 推荐交叉开发顺序
-
-```text
-Node v53：Java ops overview 草案适配，保持 fallback
-Java v36：实现 /api/v1/ops/overview
-Node v54：接入 Java v36 真实 overview
-mini-kv v44：实现 INFO
-mini-kv v45：实现 INFOJSON
-Node v55：接入 mini-kv INFOJSON
-Java v37：实现 failed-events summary
-Node v56：聚合 Java failed-event summary + mini-kv info/stats
-Java v38：整理 operator context 契约
-Node v57：包装 Java 失败事件受控操作
-mini-kv v46-v48：命令分级、版本注入、只读 smoke 友好化
-Java v39：预留 idempotency/cache/rate-limit 抽象
+Java v37：失败事件治理摘要 GET /api/v1/failed-events/summary
+mini-kv v46：COMMANDS / COMMANDSJSON 命令分级
+Node v55：统一 Java failed-event summary + mini-kv info/stats 风险摘要
+Node 失败事件受控操作入口：以后拆成申请、审核、执行 2-3 个小版本，不做单版大包
+Java 幂等/缓存抽象：等 Node 只读观察和 mini-kv 元信息稳定后再讨论
 ```
 
 ## 暂停条件
