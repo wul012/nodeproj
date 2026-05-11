@@ -9,6 +9,7 @@ import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import {
+  createOpsPromotionDeploymentChangeRecord,
   createOpsPromotionDeploymentApproval,
   createOpsPromotionDeploymentApprovalVerification,
   createOpsPromotionArchiveAttestation,
@@ -30,6 +31,7 @@ import {
   createOpsPromotionReleaseArchiveVerification,
   createOpsPromotionReleaseEvidence,
   createOpsPromotionReleaseEvidenceVerification,
+  renderOpsPromotionDeploymentChangeRecordMarkdown,
   renderOpsPromotionDeploymentApprovalMarkdown,
   renderOpsPromotionDeploymentApprovalVerificationMarkdown,
   renderOpsPromotionArchiveAttestationMarkdown,
@@ -973,6 +975,30 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
 
     return deploymentApprovalVerification;
   });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/deployment-change-record", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const { deploymentApproval, deploymentApprovalVerification } = createPromotionReleaseEvidenceArtifacts(deps);
+    const deploymentChangeRecord = createOpsPromotionDeploymentChangeRecord({
+      approval: deploymentApproval,
+      approvalVerification: deploymentApprovalVerification,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionDeploymentChangeRecordMarkdown(deploymentChangeRecord);
+    }
+
+    return deploymentChangeRecord;
+  });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);
   });
@@ -1326,11 +1352,22 @@ function createPromotionReleaseEvidenceArtifacts(deps: OpsSummaryRouteDeps) {
     evidenceVerification: releaseEvidenceVerification,
     releaseArchive,
   });
+  const deploymentApproval = createOpsPromotionDeploymentApproval({
+    releaseArchive,
+    releaseArchiveVerification,
+  });
+  const deploymentApprovalVerification = createOpsPromotionDeploymentApprovalVerification({
+    releaseArchive,
+    releaseArchiveVerification,
+    approval: deploymentApproval,
+  });
 
   return {
     releaseEvidence,
     releaseEvidenceVerification,
     releaseArchive,
     releaseArchiveVerification,
+    deploymentApproval,
+    deploymentApprovalVerification,
   };
 }

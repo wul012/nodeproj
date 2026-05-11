@@ -2749,6 +2749,139 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds promotion deployment change record as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyChangeRecord = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "deployment-change-reviewer",
+          note: "build deployment change record",
+        },
+      });
+      const approval = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval",
+      });
+      const changeRecord = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record?format=markdown",
+      });
+
+      expect(emptyChangeRecord.statusCode).toBe(200);
+      expect(emptyChangeRecord.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          approvalVerified: true,
+          approvalDigestValid: true,
+          approvalItemsValid: true,
+          approvalReferenceValid: true,
+          closeoutReady: false,
+          approvalItemCount: 4,
+          changeItemCount: 4,
+        },
+      });
+      expect(emptyChangeRecord.json().changeRecordName).toMatch(/^promotion-deployment-change-[a-f0-9]{12}$/);
+      expect(emptyChangeRecord.json().changeDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyChangeRecord.json().changeItems.map((item: { name: string }) => item.name)).toEqual([
+        "deployment-approval",
+        "verified-deployment-approval",
+        "verified-release-archive",
+        "deployment-change-state",
+      ]);
+      expect(emptyChangeRecord.json().changeItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(approval.statusCode).toBe(200);
+      expect(changeRecord.statusCode).toBe(200);
+      expect(changeRecord.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          approvalVerified: true,
+          approvalDigestValid: true,
+          approvalItemsValid: true,
+          approvalReferenceValid: true,
+          closeoutReady: false,
+          approvalItemCount: 4,
+          changeItemCount: 4,
+        },
+      });
+      expect(changeRecord.json().changeRecordName).toMatch(/^promotion-deployment-change-[a-f0-9]{12}$/);
+      expect(changeRecord.json().changeDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(changeRecord.json().changeDigest.coveredFields).toEqual([
+        "changeRecordName",
+        "approvalName",
+        "releaseArchiveName",
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "approvalReady",
+        "changeReady",
+        "approvalDigest",
+        "verifiedApprovalDigest",
+        "releaseArchiveDigest",
+        "decision",
+        "verification",
+        "changeItems",
+        "nextActions",
+      ]);
+      expect(changeRecord.json().approvalDigest.value).toBe(approval.json().approvalDigest.value);
+      expect(changeRecord.json().approvalDigest.value).toBe(changeRecord.json().verifiedApprovalDigest.value);
+      expect(changeRecord.json().changeItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(changeRecord.json().changeItems[1]).toMatchObject({
+        name: "verified-deployment-approval",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/deployment-approval/verification",
+      });
+      expect(changeRecord.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion deployment change record");
+      expect(markdown.body).toContain("- Change ready: false");
+      expect(markdown.body).toContain(`- Change digest: sha256:${changeRecord.json().changeDigest.value}`);
+      expect(markdown.body).toContain("- Approval reference valid: true");
+      expect(markdown.body).toContain("## Change Items");
+      expect(markdown.body).toContain("### verified-deployment-approval");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

@@ -531,6 +531,8 @@ export function dashboardHtml(): string {
         <button data-action="opsPromotionDeploymentApprovalReport">Deployment Approval Report</button>
         <button data-action="opsPromotionDeploymentApprovalVerification">Deployment Approval Verification</button>
         <button data-action="opsPromotionDeploymentApprovalVerificationReport">Deployment Approval Verification Report</button>
+        <button data-action="opsPromotionDeploymentChangeRecord">Deployment Change Record</button>
+        <button data-action="opsPromotionDeploymentChangeRecordReport">Deployment Change Record Report</button>
         <button data-action="opsHandoffReport">Handoff Report</button>
       </div>
       <div class="row">
@@ -1038,6 +1040,16 @@ export function dashboardHtml(): string {
         }
         if (action === "opsPromotionDeploymentApprovalVerificationReport") {
           const response = await fetch("/api/v1/ops/promotion-archive/deployment-approval/verification?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "opsPromotionDeploymentChangeRecord") {
+          write(await api("/api/v1/ops/promotion-archive/deployment-change-record"));
+        }
+        if (action === "opsPromotionDeploymentChangeRecordReport") {
+          const response = await fetch("/api/v1/ops/promotion-archive/deployment-change-record?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }
