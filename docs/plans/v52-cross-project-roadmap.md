@@ -44,6 +44,75 @@ Node v52 已完成统一只读观察台第一步：
 5. Node v54
 ```
 
+## 可一起推进的版本组合
+
+虽然推荐顺序是线性的，但这是三个项目，不必每次只盯一个仓库。可以按下面的批次推进：
+
+```text
+第一批：Java v36 + mini-kv v44
+第二批：Node v53 + mini-kv v45
+第三批：Node v54
+```
+
+### 第一批：Java v36 + mini-kv v44
+
+这两个版本可以一起推进，因为它们互不依赖：
+
+- Java v36 做 `/api/v1/ops/overview`
+- mini-kv v44 做 CMake 版本注入和 `INFO`
+
+这一批的共同目标是：两个上游先各自变得更容易被 Node 识别。
+
+验收顺序：
+
+```text
+先各自完成 Java v36、mini-kv v44
+再做一次 Node v52 级别的只读联调确认两个上游都健康
+```
+
+### 第二批：Node v53 + mini-kv v45
+
+这两个版本也可以在同一阶段推进，但依赖关系要分清：
+
+- Node v53 依赖 Java v36 的 `/api/v1/ops/overview`
+- mini-kv v45 依赖 mini-kv v44 的版本注入和 `INFO`
+
+这批可以一起做的原因是：Node v53 主要吃 Java 的新增接口，mini-kv v45 主要补自己的 `INFOJSON`，两边不会互相阻塞。
+
+验收顺序：
+
+```text
+先验 Node v53 + Java v36
+再验 mini-kv v45 自己的 INFOJSON
+```
+
+### 第三批：Node v54
+
+Node v54 不建议提前和 mini-kv v45 强行并行收口，因为它要消费 `INFOJSON` 的最终字段。
+
+可以这样处理：
+
+```text
+mini-kv v45 字段稳定后
+ -> Node v54 接入 INFOJSON
+ -> 做 Node + mini-kv 真实只读联调
+```
+
+如果 mini-kv v45 已经提前完成并打标签，Node v54 就可以单独快速推进。
+
+### 不建议一起推进的组合
+
+```text
+Java v36 + Node v54
+ -> Node v54 依赖 mini-kv v45，不依赖 Java v36，放一起会分散目标。
+
+mini-kv v44 + Node v54
+ -> Node v54 要的是 INFOJSON，mini-kv v44 只有 INFO。
+
+Java v36 + mini-kv v45 + Node v54 三个一起收口
+ -> 跨两个上游协议和一个 Node 集成版本，容易变成大杂烩。
+```
+
 ### 1. Java v36：订单平台只读运行概览
 
 目标：Java 先补一个稳定、只读、面向控制面的业务概览接口，给 Node v53 真实接入。
