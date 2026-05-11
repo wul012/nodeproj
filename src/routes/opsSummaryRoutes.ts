@@ -10,6 +10,7 @@ import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import {
   createOpsPromotionDeploymentApproval,
+  createOpsPromotionDeploymentApprovalVerification,
   createOpsPromotionArchiveAttestation,
   createOpsPromotionArchiveAttestationVerification,
   createOpsPromotionArchiveBundle,
@@ -30,6 +31,7 @@ import {
   createOpsPromotionReleaseEvidence,
   createOpsPromotionReleaseEvidenceVerification,
   renderOpsPromotionDeploymentApprovalMarkdown,
+  renderOpsPromotionDeploymentApprovalVerificationMarkdown,
   renderOpsPromotionArchiveAttestationMarkdown,
   renderOpsPromotionArchiveAttestationVerificationMarkdown,
   renderOpsPromotionArchiveManifestMarkdown,
@@ -941,6 +943,35 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return deploymentApproval;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/deployment-approval/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const { releaseArchive, releaseArchiveVerification } = createPromotionReleaseEvidenceArtifacts(deps);
+    const deploymentApproval = createOpsPromotionDeploymentApproval({
+      releaseArchive,
+      releaseArchiveVerification,
+    });
+    const deploymentApprovalVerification = createOpsPromotionDeploymentApprovalVerification({
+      releaseArchive,
+      releaseArchiveVerification,
+      approval: deploymentApproval,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionDeploymentApprovalVerificationMarkdown(deploymentApprovalVerification);
+    }
+
+    return deploymentApprovalVerification;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);

@@ -1173,6 +1173,85 @@ export interface OpsPromotionDeploymentApproval {
   nextActions: string[];
 }
 
+export interface OpsPromotionDeploymentApprovalVerificationItem {
+  name: OpsPromotionDeploymentApprovalItemName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  detailMatches: boolean;
+  digestMatches: boolean;
+  approvalDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+  detail: string;
+}
+
+export interface OpsPromotionDeploymentApprovalVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  approvalName: string;
+  releaseArchiveName: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  approvalReady: boolean;
+  approvalDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedApprovalDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    approvalDigestValid: boolean;
+    coveredFieldsMatch: boolean;
+    approvalItemsValid: boolean;
+    approvalNameMatches: boolean;
+    releaseArchiveNameMatches: boolean;
+    evidenceNameMatches: boolean;
+    completionNameMatches: boolean;
+    closureNameMatches: boolean;
+    receiptNameMatches: boolean;
+    certificateNameMatches: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    approvalReadyMatches: boolean;
+    releaseArchiveDigestMatches: boolean;
+    verifiedReleaseArchiveDigestMatches: boolean;
+    evidenceDigestMatches: boolean;
+    decisionMatches: boolean;
+    verificationMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    approvalItemCount: number;
+    handoffReady: boolean;
+    approvalReady: boolean;
+    closeoutReady: boolean;
+  };
+  approvalItems: OpsPromotionDeploymentApprovalVerificationItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -2964,6 +3043,124 @@ export function createOpsPromotionDeploymentApproval(input: {
   };
 }
 
+export function createOpsPromotionDeploymentApprovalVerification(input: {
+  releaseArchive: OpsPromotionReleaseArchive;
+  releaseArchiveVerification: OpsPromotionReleaseArchiveVerification;
+  approval: OpsPromotionDeploymentApproval;
+}): OpsPromotionDeploymentApprovalVerification {
+  const expectedApproval = createOpsPromotionDeploymentApproval({
+    releaseArchive: input.releaseArchive,
+    releaseArchiveVerification: input.releaseArchiveVerification,
+  });
+  const recomputedApprovalDigest = digestStable(archiveDeploymentApprovalDigestPayload({
+    approvalName: input.approval.approvalName,
+    releaseArchiveName: input.approval.releaseArchiveName,
+    evidenceName: input.approval.evidenceName,
+    completionName: input.approval.completionName,
+    closureName: input.approval.closureName,
+    receiptName: input.approval.receiptName,
+    certificateName: input.approval.certificateName,
+    packageName: input.approval.packageName,
+    archiveName: input.approval.archiveName,
+    valid: input.approval.valid,
+    state: input.approval.state,
+    handoffReady: input.approval.handoffReady,
+    approvalReady: input.approval.approvalReady,
+    releaseArchiveDigest: input.approval.releaseArchiveDigest.value,
+    verifiedReleaseArchiveDigest: input.approval.verifiedReleaseArchiveDigest.value,
+    evidenceDigest: input.approval.evidenceDigest.value,
+    decision: input.approval.decision,
+    verification: input.approval.verification,
+    approvalItems: input.approval.approvalItems,
+    nextActions: input.approval.nextActions,
+  }));
+  const approvalItemChecks = input.approval.approvalItems.map((item) => {
+    const expected = expectedApproval.approvalItems.find((candidate) => candidate.name === item.name);
+    const validMatches = expected?.valid === item.valid;
+    const sourceMatches = expected?.source === item.source;
+    const detailMatches = expected?.detail === item.detail;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: item.name }) };
+    const digestMatches = item.digest.value === expectedDigest.value;
+
+    return {
+      name: item.name,
+      valid: expected !== undefined && validMatches && sourceMatches && detailMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      detailMatches,
+      digestMatches,
+      approvalDigest: { ...item.digest },
+      recomputedDigest: expectedDigest,
+      source: item.source,
+      detail: item.detail,
+    };
+  });
+  const checks = {
+    approvalDigestValid: input.approval.approvalDigest.value === recomputedApprovalDigest,
+    coveredFieldsMatch: stableJson(input.approval.approvalDigest.coveredFields)
+      === stableJson(expectedApproval.approvalDigest.coveredFields),
+    approvalItemsValid: approvalItemChecks.length === expectedApproval.approvalItems.length
+      && approvalItemChecks.every((item) => item.valid),
+    approvalNameMatches: input.approval.approvalName === expectedApproval.approvalName,
+    releaseArchiveNameMatches: input.approval.releaseArchiveName === expectedApproval.releaseArchiveName,
+    evidenceNameMatches: input.approval.evidenceName === expectedApproval.evidenceName,
+    completionNameMatches: input.approval.completionName === expectedApproval.completionName,
+    closureNameMatches: input.approval.closureName === expectedApproval.closureName,
+    receiptNameMatches: input.approval.receiptName === expectedApproval.receiptName,
+    certificateNameMatches: input.approval.certificateName === expectedApproval.certificateName,
+    packageNameMatches: input.approval.packageName === expectedApproval.packageName,
+    archiveNameMatches: input.approval.archiveName === expectedApproval.archiveName,
+    validMatches: input.approval.valid === expectedApproval.valid,
+    stateMatches: input.approval.state === expectedApproval.state,
+    handoffReadyMatches: input.approval.handoffReady === expectedApproval.handoffReady,
+    approvalReadyMatches: input.approval.approvalReady === expectedApproval.approvalReady,
+    releaseArchiveDigestMatches: input.approval.releaseArchiveDigest.value === expectedApproval.releaseArchiveDigest.value,
+    verifiedReleaseArchiveDigestMatches: input.approval.verifiedReleaseArchiveDigest.value === expectedApproval.verifiedReleaseArchiveDigest.value,
+    evidenceDigestMatches: input.approval.evidenceDigest.value === expectedApproval.evidenceDigest.value,
+    decisionMatches: stableJson(input.approval.decision) === stableJson(expectedApproval.decision),
+    verificationMatches: stableJson(input.approval.verification) === stableJson(expectedApproval.verification),
+    nextActionsMatch: stableJson(input.approval.nextActions) === stableJson(expectedApproval.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    approvalName: input.approval.approvalName,
+    releaseArchiveName: input.approval.releaseArchiveName,
+    evidenceName: input.approval.evidenceName,
+    completionName: input.approval.completionName,
+    closureName: input.approval.closureName,
+    receiptName: input.approval.receiptName,
+    certificateName: input.approval.certificateName,
+    packageName: input.approval.packageName,
+    archiveName: input.approval.archiveName,
+    valid,
+    state: input.approval.state,
+    handoffReady: input.approval.handoffReady,
+    approvalReady: input.approval.approvalReady,
+    approvalDigest: {
+      algorithm: "sha256",
+      value: input.approval.approvalDigest.value,
+    },
+    recomputedApprovalDigest: {
+      algorithm: "sha256",
+      value: recomputedApprovalDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.approval.decision.totalDecisions,
+      latestDecisionId: input.approval.decision.latestDecisionId,
+      approvalItemCount: approvalItemChecks.length,
+      handoffReady: input.approval.handoffReady,
+      approvalReady: input.approval.approvalReady,
+      closeoutReady: input.approval.verification.closeoutReady,
+    },
+    approvalItems: approvalItemChecks,
+    nextActions: archiveDeploymentApprovalVerificationNextActions(checks, input.approval),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -3717,6 +3914,77 @@ export function renderOpsPromotionDeploymentApprovalMarkdown(approval: OpsPromot
     "## Next Actions",
     "",
     ...approval.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionDeploymentApprovalVerificationMarkdown(
+  verification: OpsPromotionDeploymentApprovalVerification,
+): string {
+  const lines = [
+    "# Promotion deployment approval verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Approval name: ${verification.approvalName}`,
+    `- Release archive name: ${verification.releaseArchiveName}`,
+    `- Evidence name: ${verification.evidenceName}`,
+    `- Completion name: ${verification.completionName}`,
+    `- Closure name: ${verification.closureName}`,
+    `- Receipt name: ${verification.receiptName}`,
+    `- Certificate name: ${verification.certificateName}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Approval ready: ${verification.approvalReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Approval digest: ${verification.approvalDigest.algorithm}:${verification.approvalDigest.value}`,
+    `- Recomputed approval digest: ${verification.recomputedApprovalDigest.algorithm}:${verification.recomputedApprovalDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Approval digest valid: ${verification.checks.approvalDigestValid}`,
+    `- Covered fields match: ${verification.checks.coveredFieldsMatch}`,
+    `- Approval items valid: ${verification.checks.approvalItemsValid}`,
+    `- Approval name matches: ${verification.checks.approvalNameMatches}`,
+    `- Release archive name matches: ${verification.checks.releaseArchiveNameMatches}`,
+    `- Evidence name matches: ${verification.checks.evidenceNameMatches}`,
+    `- Completion name matches: ${verification.checks.completionNameMatches}`,
+    `- Closure name matches: ${verification.checks.closureNameMatches}`,
+    `- Receipt name matches: ${verification.checks.receiptNameMatches}`,
+    `- Certificate name matches: ${verification.checks.certificateNameMatches}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Approval ready matches: ${verification.checks.approvalReadyMatches}`,
+    `- Release archive digest matches: ${verification.checks.releaseArchiveDigestMatches}`,
+    `- Verified release archive digest matches: ${verification.checks.verifiedReleaseArchiveDigestMatches}`,
+    `- Evidence digest matches: ${verification.checks.evidenceDigestMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Verification matches: ${verification.checks.verificationMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Approval Items",
+    "",
+    ...renderDeploymentApprovalVerificationItems(verification.approvalItems),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Approval item count: ${verification.summary.approvalItemCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    `- Approval ready: ${verification.summary.approvalReady}`,
+    `- Closeout ready: ${verification.summary.closeoutReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -5306,6 +5574,37 @@ function archiveDeploymentApprovalNextActions(
   return releaseArchiveVerification.nextActions;
 }
 
+function archiveDeploymentApprovalVerificationNextActions(
+  checks: OpsPromotionDeploymentApprovalVerification["checks"],
+  approval: OpsPromotionDeploymentApproval,
+): string[] {
+  if (!checks.approvalDigestValid) {
+    return ["Regenerate deployment approval before trusting this approval digest."];
+  }
+
+  if (!checks.approvalItemsValid) {
+    return ["Review deployment approval items before attaching the deployment change record."];
+  }
+
+  if (
+    !checks.releaseArchiveDigestMatches
+    || !checks.verifiedReleaseArchiveDigestMatches
+    || !checks.evidenceDigestMatches
+  ) {
+    return ["Recreate deployment approval from the latest verified release archive chain."];
+  }
+
+  if (!checks.decisionMatches || !checks.verificationMatches || !checks.nextActionsMatch || !checks.validMatches) {
+    return ["Reissue deployment approval from the latest approval inputs."];
+  }
+
+  if (approval.approvalReady) {
+    return ["Deployment approval verification is complete; attach the verified approval digest to the deployment change record."];
+  }
+
+  return approval.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -5682,6 +5981,23 @@ function renderDeploymentApprovalItems(items: OpsPromotionDeploymentApprovalItem
     "",
     `- Valid: ${item.valid}`,
     `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
+    `- Source: ${item.source}`,
+    `- Detail: ${item.detail}`,
+    "",
+  ]);
+}
+
+function renderDeploymentApprovalVerificationItems(items: OpsPromotionDeploymentApprovalVerificationItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Valid matches: ${item.validMatches}`,
+    `- Source matches: ${item.sourceMatches}`,
+    `- Detail matches: ${item.detailMatches}`,
+    `- Digest matches: ${item.digestMatches}`,
+    `- Approval digest: ${item.approvalDigest.algorithm}:${item.approvalDigest.value}`,
+    `- Recomputed digest: ${item.recomputedDigest.algorithm}:${item.recomputedDigest.value}`,
     `- Source: ${item.source}`,
     `- Detail: ${item.detail}`,
     "",

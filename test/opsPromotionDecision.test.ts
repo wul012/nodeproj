@@ -2607,6 +2607,148 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies promotion deployment approval as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "deployment-approval-verifier",
+          note: "verify deployment approval",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        approvalReady: false,
+        checks: {
+          approvalDigestValid: true,
+          coveredFieldsMatch: true,
+          approvalItemsValid: true,
+          approvalNameMatches: true,
+          releaseArchiveNameMatches: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          approvalReadyMatches: true,
+          releaseArchiveDigestMatches: true,
+          verifiedReleaseArchiveDigestMatches: true,
+          evidenceDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          approvalItemCount: 4,
+          handoffReady: false,
+          approvalReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(emptyVerification.json().approvalDigest.value).toBe(
+        emptyVerification.json().recomputedApprovalDigest.value,
+      );
+      expect(emptyVerification.json().approvalItems.map((item: { name: string }) => item.name)).toEqual([
+        "release-archive",
+        "verified-release-archive",
+        "verified-release-evidence",
+        "deployment-approval-state",
+      ]);
+      expect(emptyVerification.json().approvalItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(emptyVerification.json().approvalItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        approvalReady: false,
+        checks: {
+          approvalDigestValid: true,
+          coveredFieldsMatch: true,
+          approvalItemsValid: true,
+          approvalNameMatches: true,
+          releaseArchiveNameMatches: true,
+          evidenceNameMatches: true,
+          completionNameMatches: true,
+          closureNameMatches: true,
+          receiptNameMatches: true,
+          certificateNameMatches: true,
+          packageNameMatches: true,
+          archiveNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          approvalReadyMatches: true,
+          releaseArchiveDigestMatches: true,
+          verifiedReleaseArchiveDigestMatches: true,
+          evidenceDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          approvalItemCount: 4,
+          handoffReady: false,
+          approvalReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(verification.json().approvalName).toMatch(/^promotion-deployment-approval-[a-f0-9]{12}$/);
+      expect(verification.json().approvalDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(verification.json().approvalDigest.value).toBe(verification.json().recomputedApprovalDigest.value);
+      expect(verification.json().approvalItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(verification.json().approvalItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(verification.json().approvalItems[1]).toMatchObject({
+        name: "verified-release-archive",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/release-archive/verification",
+      });
+      expect(verification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion deployment approval verification");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Approval digest: sha256:${verification.json().approvalDigest.value}`);
+      expect(markdown.body).toContain("- Approval digest valid: true");
+      expect(markdown.body).toContain("## Approval Items");
+      expect(markdown.body).toContain("### verified-release-archive");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
