@@ -17,4 +17,7 @@
 ```text
 v52-cross-project-roadmap.md
  -> 由 Node v52 upstream overview 衍生出的三项目综合开发路线图；当前收敛为 Java v36、Node v53、mini-kv v44、mini-kv v45、Node v54 五个近期版本，并标明可一起推进的批次
+
+v54-post-infojson-roadmap.md
+ -> 由 Node v54 mini-kv INFOJSON 接入衍生出的后续计划；收敛为 Java v37、mini-kv v46、Node v55、Node v56，并新增运行调试截图归档规则
 ```
