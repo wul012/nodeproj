@@ -14,6 +14,7 @@ import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
+import { registerOperationApprovalDecisionRoutes } from "./routes/operationApprovalDecisionRoutes.js";
 import { registerOperationApprovalRequestRoutes } from "./routes/operationApprovalRequestRoutes.js";
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
@@ -25,6 +26,7 @@ import { OpsBaselineStore } from "./services/opsBaseline.js";
 import { OpsCheckpointLedger } from "./services/opsCheckpoint.js";
 import { OpsPromotionDecisionLedger } from "./services/opsPromotionDecision.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
+import { OperationApprovalDecisionLedger } from "./services/operationApprovalDecision.js";
 import { OperationApprovalRequestLedger } from "./services/operationApprovalRequest.js";
 import { OperationDispatchLedger } from "./services/operationDispatch.js";
 import { OperationIntentStore } from "./services/operationIntent.js";
@@ -86,6 +88,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const operationIntents = new OperationIntentStore(config);
   const operationDispatches = new OperationDispatchLedger(operationIntents);
   const operationApprovalRequests = new OperationApprovalRequestLedger();
+  const operationApprovalDecisions = new OperationApprovalDecisionLedger(operationApprovalRequests);
   const requestStartTimes = new WeakMap<object, number>();
 
   app.addHook("onRequest", async (request) => {
@@ -121,6 +124,10 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     mutationRateLimiter,
     orderPlatform,
     miniKv,
+  });
+  await registerOperationApprovalDecisionRoutes(app, {
+    operationApprovalDecisions,
+    mutationRateLimiter,
   });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });

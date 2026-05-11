@@ -1,0 +1,18 @@
+{
+  "approvalStatusCode": 201,
+  "approvalStatus": "rejected",
+  "decisionStatusCode": 409,
+  "decisionError": {
+    "error": "APPROVAL_REQUEST_NOT_DECIDABLE",
+    "message": "Only pending approval requests can receive a reviewer decision",
+    "details": {
+      "requestId": "d65bc9b2-82b0-4af6-9096-8f06602e8cd6",
+      "status": "rejected"
+    }
+  },
+  "hardBlockers": [
+    "UPSTREAM_ACTIONS_ENABLED=false",
+    "INTENT_STATUS_BLOCKED"
+  ],
+  "miniKvExplainStatus": "skipped"
+}

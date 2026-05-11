@@ -750,6 +750,13 @@ export function dashboardHtml(): string {
         <button data-action="intentEvents">Event Feed</button>
         <button data-action="listDispatches">Dispatches</button>
       </div>
+      <div class="row">
+        <input id="approvalRequestId" placeholder="Approval Request ID">
+        <input id="approvalDecisionReason" placeholder="Decision reason" value="reviewed local approval evidence">
+        <button class="secondary" data-action="approveApprovalRequest">Approve Request</button>
+        <button data-action="rejectApprovalRequest">Reject Request</button>
+        <button data-action="listApprovalDecisions">Approval Decisions</button>
+      </div>
     </section>
 
     <section class="card" style="margin-top:16px">
@@ -1551,10 +1558,25 @@ export function dashboardHtml(): string {
             method: "POST",
             body: JSON.stringify(body),
           });
+          $("approvalRequestId").value = approvalRequest.requestId;
           write(approvalRequest);
         }
         if (action === "listApprovalRequests") {
           write(await api("/api/v1/operation-approval-requests?limit=20"));
+        }
+        if (action === "approveApprovalRequest" || action === "rejectApprovalRequest") {
+          const approvalDecision = await api("/api/v1/operation-approval-requests/" + encodeURIComponent($("approvalRequestId").value) + "/decision", {
+            method: "POST",
+            body: JSON.stringify({
+              decision: action === "approveApprovalRequest" ? "approved" : "rejected",
+              reviewer: $("operatorId").value || "dashboard-reviewer",
+              reason: $("approvalDecisionReason").value || "dashboard approval decision",
+            }),
+          });
+          write(approvalDecision);
+        }
+        if (action === "listApprovalDecisions") {
+          write(await api("/api/v1/operation-approval-decisions?limit=20"));
         }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));

@@ -322,6 +322,13 @@ decisionDigest
 - 不做多人权限系统
 - 不接数据库
 
+Node v63 实施收口：
+
+```text
+已按本节实现本地 decision ledger、decision digest、request status 更新、Markdown 查询和 Dashboard approve/reject 入口。
+仍然保持 upstreamTouched=false，不连接真实执行。
+```
+
 ### Node v64：Approval evidence report + verification
 
 目标：

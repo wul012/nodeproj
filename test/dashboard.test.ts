@@ -26,12 +26,18 @@ describe("dashboardHtml", () => {
     expect(html).toContain('data-action="intentExecutionPreview"');
     expect(html).toContain('data-action="createApprovalRequest"');
     expect(html).toContain('data-action="listApprovalRequests"');
+    expect(html).toContain('id="approvalRequestId"');
+    expect(html).toContain('data-action="approveApprovalRequest"');
+    expect(html).toContain('data-action="rejectApprovalRequest"');
+    expect(html).toContain('data-action="listApprovalDecisions"');
     expect(html).toContain("failed-event-replay-simulation");
     expect(html).toContain("/preflight");
     expect(html).toContain("/preflight/report");
     expect(html).toContain("/preflight/verification");
     expect(html).toContain("/execution-preview");
     expect(html).toContain("/api/v1/operation-approval-requests");
+    expect(html).toContain("/api/v1/operation-approval-decisions");
+    expect(html).toContain("/decision");
     expect(html).toContain("function renderUpstreamOverview");
     expect(html).toContain("refreshUpstreamOverview");
   });

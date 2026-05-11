@@ -42,6 +42,13 @@ export interface CreateOperationApprovalRequestInput {
   decisionReason?: string;
 }
 
+export interface RecordOperationApprovalDecisionInput {
+  requestId: string;
+  decision: Extract<OperationApprovalRequestStatus, "approved" | "rejected">;
+  reviewer: string;
+  reason: string;
+}
+
 interface OperationApprovalRequestLedgerOptions {
   ttlMs?: number;
   maxItems?: number;
@@ -117,13 +124,25 @@ export class OperationApprovalRequestLedger {
 
   get(requestId: string): OperationApprovalRequest {
     this.expireStale(new Date());
-    const request = this.requests.get(requestId);
-    if (!request) {
-      throw new AppHttpError(404, "APPROVAL_REQUEST_NOT_FOUND", "Operation approval request was not found", {
-        requestId,
+    const request = this.requireRequest(requestId);
+    return cloneRequest(request);
+  }
+
+  recordDecision(input: RecordOperationApprovalDecisionInput): OperationApprovalRequest {
+    this.expireStale(new Date());
+    const request = this.requireRequest(input.requestId);
+    if (request.status !== "pending") {
+      throw new AppHttpError(409, "APPROVAL_REQUEST_NOT_DECIDABLE", "Only pending approval requests can receive a reviewer decision", {
+        requestId: input.requestId,
+        status: request.status,
       });
     }
 
+    const now = new Date().toISOString();
+    request.status = input.decision;
+    request.reviewer = normalizeHuman(input.reviewer, "reviewer");
+    request.decisionReason = normalizeDecisionReason(input.reason) ?? defaultDecisionReason(input.decision, request.preview);
+    request.updatedAt = now;
     return cloneRequest(request);
   }
 
@@ -131,6 +150,17 @@ export class OperationApprovalRequestLedger {
     for (const request of this.requests.values()) {
       this.expireIfNeeded(request, now);
     }
+  }
+
+  private requireRequest(requestId: string): OperationApprovalRequest {
+    const request = this.requests.get(requestId);
+    if (!request) {
+      throw new AppHttpError(404, "APPROVAL_REQUEST_NOT_FOUND", "Operation approval request was not found", {
+        requestId,
+      });
+    }
+
+    return request;
   }
 
   private expireIfNeeded(request: OperationApprovalRequest, now: Date): void {

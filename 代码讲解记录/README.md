@@ -150,6 +150,9 @@
 
 66-operation-approval-request-v62.md
  -> 第六十二版 Operation approval request ledger：把 preflight digest 和 execution preview digest 绑定成本地审批请求记录
+
+67-operation-approval-decision-v63.md
+ -> 第六十三版 Approval decision record：记录 reviewer approve/reject、decision digest 和 request 状态更新但不触发真实执行
 ```
 
 ## 项目整体理解
