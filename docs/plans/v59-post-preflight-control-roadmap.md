@@ -281,6 +281,103 @@ updatedAt
 - 不做持久化数据库
 - 不允许 approval 自动触发 dispatch
 
+## 第五批：由 Node v62 衍生的后续小版本
+
+Node v62 完成后，下一批继续沿着“审批证据链”推进。每版仍然只做一个小闭环，不把真实执行、登录系统、数据库持久化塞进同一版。
+
+### Node v63：Approval decision record
+
+目标：
+
+```text
+为 v62 的 approval request 增加本地 decision 记录，让 reviewer 能显式 approve / reject，但仍然不执行真实上游动作。
+```
+
+建议 endpoint：
+
+```text
+POST /api/v1/operation-approval-requests/:requestId/decision
+GET  /api/v1/operation-approval-decisions
+GET  /api/v1/operation-approval-decisions/:decisionId
+```
+
+建议字段：
+
+```text
+decisionId
+requestId
+intentId
+previewDigest
+decision=approved|rejected
+reviewer
+reason
+createdAt
+decisionDigest
+```
+
+本版不做：
+
+- 不执行 Java replay
+- 不执行 mini-kv 写命令
+- 不做多人权限系统
+- 不接数据库
+
+### Node v64：Approval evidence report + verification
+
+目标：
+
+```text
+把 approval request 和 decision 合并成可归档 Markdown/JSON 证据报告，并提供 digest verification。
+```
+
+建议 endpoint：
+
+```text
+GET /api/v1/operation-approval-requests/:requestId/evidence
+GET /api/v1/operation-approval-requests/:requestId/evidence?format=markdown
+GET /api/v1/operation-approval-requests/:requestId/verification
+```
+
+本版不做：
+
+- 不新增真实执行入口
+- 不合并 promotion archive 主线
+- 不修改 Java / mini-kv
+
+### Java v40：Replay approval read model
+
+目标：
+
+```text
+Java 侧只补只读 failed-event approval read model，让 Node 后续能确认 Java 自己看到的审批状态。
+```
+
+建议 endpoint：
+
+```text
+GET /api/v1/failed-events/{id}/approval-status
+```
+
+本版不做：
+
+- 不让 Java 调用 Node
+- 不执行 replay
+- 不引入 mini-kv
+
+### mini-kv v49：EXPLAINJSON coverage hardening
+
+目标：
+
+```text
+mini-kv 侧补齐 EXPLAINJSON 对 TTL / EXPIRE / admin/meta 命令的解释覆盖，让 Node approval evidence 更完整。
+```
+
+本版不做：
+
+- 不新增事务
+- 不新增 ACL
+- 不让 mini-kv 承担订单权威存储
+
 ## 推荐执行顺序
 
 ```text
@@ -288,6 +385,9 @@ updatedAt
 2. Java v39 + mini-kv v48：可以一起推进，也可以任选一个先做
 3. Node v61：根据 Java v39 / mini-kv v48 的完成情况接 execution preview
 4. Node v62：approval request ledger，仍不做真实执行
+5. Node v63：approval decision record，先把本地审批决定闭环补齐
+6. Java v40 或 mini-kv v49：任选一个只读/解释增强，给 Node 后续 evidence report 喂更稳的上游证据
+7. Node v64：approval evidence report + verification，把 request + decision 固化成可归档证据
 ```
 
 如果只想先做一个：

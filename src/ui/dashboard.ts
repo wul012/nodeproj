@@ -744,6 +744,8 @@ export function dashboardHtml(): string {
         <button data-action="intentPreflightReport">Report</button>
         <button data-action="intentPreflightVerification">Verify Report</button>
         <button data-action="intentExecutionPreview">Execution Preview</button>
+        <button class="secondary" data-action="createApprovalRequest">Request Approval</button>
+        <button data-action="listApprovalRequests">Approval Requests</button>
         <button data-action="intentTimeline">Timeline</button>
         <button data-action="intentEvents">Event Feed</button>
         <button data-action="listDispatches">Dispatches</button>
@@ -1517,6 +1519,42 @@ export function dashboardHtml(): string {
           }
           const suffix = query.toString() ? "?" + query.toString() : "";
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/execution-preview" + suffix));
+        }
+        if (action === "createApprovalRequest") {
+          const body = {
+            intentId: $("intentId").value,
+            requestedBy: $("operatorId").value || "dashboard",
+            reviewer: $("operatorId").value || "unassigned",
+            decisionReason: $("intentReason").value || "dashboard approval request",
+          };
+          const failedEventId = $("failedEventId").value.trim();
+          const keyPrefix = $("kvPrefix").value.trim();
+          const command = $("rawCommand").value.trim();
+          const key = $("kvKey").value.trim();
+          const value = $("kvValue").value.trim();
+          if (failedEventId) {
+            body.failedEventId = failedEventId;
+          }
+          if (keyPrefix) {
+            body.keyPrefix = keyPrefix;
+          }
+          if (command) {
+            body.command = command;
+          }
+          if (key) {
+            body.key = key;
+          }
+          if (value) {
+            body.value = value;
+          }
+          const approvalRequest = await api("/api/v1/operation-approval-requests", {
+            method: "POST",
+            body: JSON.stringify(body),
+          });
+          write(approvalRequest);
+        }
+        if (action === "listApprovalRequests") {
+          write(await api("/api/v1/operation-approval-requests?limit=20"));
         }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));

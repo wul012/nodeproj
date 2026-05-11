@@ -147,6 +147,9 @@
 
 65-operation-execution-preview-v61.md
  -> 第六十一版 Operation execution preview：接入 Java replay simulation 和 mini-kv EXPLAINJSON，生成执行前预演
+
+66-operation-approval-request-v62.md
+ -> 第六十二版 Operation approval request ledger：把 preflight digest 和 execution preview digest 绑定成本地审批请求记录
 ```
 
 ## 项目整体理解

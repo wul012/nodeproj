@@ -1,0 +1,282 @@
+{
+  "statusCode": 201,
+  "status": "rejected",
+  "previewState": "blocked",
+  "readyForApprovalRequest": false,
+  "hardBlockers": [
+    "UPSTREAM_ACTIONS_ENABLED=false",
+    "INTENT_STATUS_BLOCKED"
+  ],
+  "miniKvExplainStatus": "skipped",
+  "request": {
+    "service": "orderops-node",
+    "requestId": "720f92a4-c0f3-45c9-b645-dce24418cc00",
+    "intentId": "8283f21a-092a-4e3a-9c5c-c5878fdd9824",
+    "action": "kv-set",
+    "target": "mini-kv",
+    "requestedBy": "local-admin",
+    "reviewer": "ops-reviewer",
+    "status": "rejected",
+    "decisionReason": "Execution preview has blockers: UPSTREAM_ACTIONS_ENABLED=false, INTENT_STATUS_BLOCKED",
+    "createdAt": "2026-05-11T22:42:05.701Z",
+    "updatedAt": "2026-05-11T22:42:05.701Z",
+    "expiresAt": "2026-05-11T22:52:05.701Z",
+    "preflightDigest": {
+      "algorithm": "sha256",
+      "value": "73b11bed8e4d35ccabf60d8ce5dfe51f86f8202c3d7be029c3889eebe8460bef",
+      "coveredFields": [
+        "service",
+        "intent",
+        "actionPlan",
+        "policy",
+        "confirmation",
+        "rateLimit",
+        "safety",
+        "dispatches",
+        "evidence",
+        "hardBlockers",
+        "warnings",
+        "recommendedNextActions",
+        "readyForDryRunDispatch"
+      ]
+    },
+    "previewDigest": {
+      "algorithm": "sha256",
+      "value": "f30f09c9d2ed1d26930447628bd034e11d53a35a81b8c407a7a1c1552948fc23",
+      "coveredFields": [
+        "service",
+        "intentId",
+        "action",
+        "target",
+        "state",
+        "preflightDigest",
+        "preflightState",
+        "wouldCall",
+        "evidence",
+        "expectedSideEffects",
+        "hardBlockers",
+        "warnings",
+        "nextActions",
+        "readyForApprovalRequest"
+      ]
+    },
+    "preflightState": "blocked",
+    "previewState": "blocked",
+    "readyForApprovalRequest": false,
+    "hardBlockers": [
+      "UPSTREAM_ACTIONS_ENABLED=false",
+      "INTENT_STATUS_BLOCKED"
+    ],
+    "warnings": [
+      "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+      "UPSTREAM_PROBES_SKIPPED"
+    ],
+    "expectedSideEffects": [],
+    "preview": {
+      "service": "orderops-node",
+      "generatedAt": "2026-05-11T22:42:05.701Z",
+      "intentId": "8283f21a-092a-4e3a-9c5c-c5878fdd9824",
+      "action": "kv-set",
+      "target": "mini-kv",
+      "state": "blocked",
+      "preflightDigest": {
+        "algorithm": "sha256",
+        "value": "73b11bed8e4d35ccabf60d8ce5dfe51f86f8202c3d7be029c3889eebe8460bef",
+        "coveredFields": [
+          "service",
+          "intent",
+          "actionPlan",
+          "policy",
+          "confirmation",
+          "rateLimit",
+          "safety",
+          "dispatches",
+          "evidence",
+          "hardBlockers",
+          "warnings",
+          "recommendedNextActions",
+          "readyForDryRunDispatch"
+        ]
+      },
+      "preflightState": "blocked",
+      "wouldCall": {
+        "type": "tcp",
+        "endpoint": "127.0.0.1:6379",
+        "command": "SET <key> <value>; optional EXPIRE <key> <ttlSeconds>"
+      },
+      "evidence": {
+        "javaReplaySimulation": {
+          "status": "not_applicable",
+          "message": "Intent action does not target Java failed-event replay simulation."
+        },
+        "miniKvCommandExplain": {
+          "status": "skipped",
+          "message": "UPSTREAM_PROBES_ENABLED=false; mini-kv EXPLAINJSON was not requested."
+        }
+      },
+      "expectedSideEffects": [],
+      "hardBlockers": [
+        "UPSTREAM_ACTIONS_ENABLED=false",
+        "INTENT_STATUS_BLOCKED"
+      ],
+      "warnings": [
+        "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+        "UPSTREAM_PROBES_SKIPPED"
+      ],
+      "nextActions": [
+        "Resolve execution preview blockers before requesting approval: UPSTREAM_ACTIONS_ENABLED=false, INTENT_STATUS_BLOCKED"
+      ],
+      "readyForApprovalRequest": false,
+      "preflightReport": {
+        "service": "orderops-node",
+        "title": "Operation preflight report for kv-set",
+        "generatedAt": "2026-05-11T22:42:05.701Z",
+        "intentId": "8283f21a-092a-4e3a-9c5c-c5878fdd9824",
+        "state": "blocked",
+        "preflightDigest": {
+          "algorithm": "sha256",
+          "value": "73b11bed8e4d35ccabf60d8ce5dfe51f86f8202c3d7be029c3889eebe8460bef",
+          "coveredFields": [
+            "service",
+            "intent",
+            "actionPlan",
+            "policy",
+            "confirmation",
+            "rateLimit",
+            "safety",
+            "dispatches",
+            "evidence",
+            "hardBlockers",
+            "warnings",
+            "recommendedNextActions",
+            "readyForDryRunDispatch"
+          ]
+        },
+        "summary": {
+          "action": "kv-set",
+          "target": "mini-kv",
+          "risk": "write",
+          "intentStatus": "blocked",
+          "operatorId": "local-admin",
+          "operatorRole": "admin",
+          "policyAllowed": false,
+          "confirmationConfirmed": false,
+          "readyForDryRunDispatch": false,
+          "hardBlockerCount": 2,
+          "warningCount": 2,
+          "dispatchTotal": 0,
+          "dryRunDispatches": 0,
+          "rejectedDispatches": 0,
+          "upstreamTouchedDispatches": 0,
+          "javaReplayReadiness": "not_applicable",
+          "miniKvCommandCatalog": "skipped",
+          "miniKvKeyInventory": "skipped"
+        },
+        "preflight": {
+          "service": "orderops-node",
+          "generatedAt": "2026-05-11T22:42:05.700Z",
+          "intent": {
+            "id": "8283f21a-092a-4e3a-9c5c-c5878fdd9824",
+            "status": "blocked",
+            "action": "kv-set",
+            "target": "mini-kv",
+            "operator": {
+              "id": "local-admin",
+              "role": "admin"
+            },
+            "reason": "v62 default safety smoke",
+            "createdAt": "2026-05-11T22:42:05.696Z",
+            "updatedAt": "2026-05-11T22:42:05.696Z",
+            "expiresAt": "2026-05-11T22:52:05.696Z"
+          },
+          "actionPlan": {
+            "dryRun": true,
+            "generatedAt": "2026-05-11T22:42:05.696Z",
+            "action": "kv-set",
+            "target": "mini-kv",
+            "label": "Set key",
+            "risk": "write",
+            "requires": [
+              "key",
+              "value",
+              "ttlSeconds?"
+            ],
+            "allowed": false,
+            "blockedBy": "UPSTREAM_ACTIONS_ENABLED=false",
+            "reason": "The Node actions gate is closed; the route will stop inside orderops-node before any upstream call.",
+            "nextStep": "Set UPSTREAM_ACTIONS_ENABLED=true and restart orderops-node when you want this upstream call.",
+            "nodeRoute": {
+              "method": "PUT",
+              "path": "/api/v1/mini-kv/:key"
+            },
+            "wouldCall": {
+              "type": "tcp",
+              "endpoint": "127.0.0.1:6379",
+              "command": "SET <key> <value>; optional EXPIRE <key> <ttlSeconds>"
+            },
+            "safety": {
+              "upstreamProbesEnabled": false,
+              "upstreamActionsEnabled": false
+            }
+          },
+          "policy": {
+            "allowed": false,
+            "requiredRole": "admin",
+            "actualRole": "admin",
+            "blockedBy": "UPSTREAM_ACTIONS_ENABLED=false",
+            "message": "The upstream action gate is closed; this intent cannot become confirmable yet."
+          },
+          "confirmation": {
+            "requiredText": "CONFIRM kv-set",
+            "confirmed": false
+          },
+          "rateLimit": {
+            "mutationWindowMs": 60000,
+            "mutationMaxRequests": 30,
+            "note": "Preflight is read-only and does not consume mutation rate-limit quota."
+          },
+          "safety": {
+            "upstreamProbesEnabled": false,
+            "upstreamActionsEnabled": false
+          },
+          "dispatches": {
+            "total": 0,
+            "dryRunCompleted": 0,
+            "rejected": 0,
+            "upstreamTouched": 0,
+            "recent": []
+          },
+          "evidence": {
+            "javaReplayReadiness": {
+              "status": "not_applicable",
+              "message": "Intent action does not target Java failed-event replay readiness."
+            },
+            "miniKvCommandCatalog": {
+              "status": "skipped",
+              "message": "UPSTREAM_PROBES_ENABLED=false; mini-kv command catalog was not requested."
+            },
+            "miniKvKeyInventory": {
+              "status": "skipped",
+              "message": "UPSTREAM_PROBES_ENABLED=false; mini-kv key inventory was not requested."
+            }
+          },
+          "hardBlockers": [
+            "UPSTREAM_ACTIONS_ENABLED=false",
+            "INTENT_STATUS_BLOCKED"
+          ],
+          "warnings": [
+            "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+            "UPSTREAM_PROBES_SKIPPED"
+          ],
+          "recommendedNextActions": [
+            "Resolve hard blockers before dry-run dispatch: UPSTREAM_ACTIONS_ENABLED=false, INTENT_STATUS_BLOCKED"
+          ],
+          "readyForDryRunDispatch": false
+        },
+        "nextActions": [
+          "Resolve hard blockers before dry-run dispatch: UPSTREAM_ACTIONS_ENABLED=false, INTENT_STATUS_BLOCKED"
+        ]
+      }
+    }
+  }
+}

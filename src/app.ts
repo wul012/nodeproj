@@ -14,6 +14,7 @@ import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
+import { registerOperationApprovalRequestRoutes } from "./routes/operationApprovalRequestRoutes.js";
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
@@ -24,6 +25,7 @@ import { OpsBaselineStore } from "./services/opsBaseline.js";
 import { OpsCheckpointLedger } from "./services/opsCheckpoint.js";
 import { OpsPromotionDecisionLedger } from "./services/opsPromotionDecision.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
+import { OperationApprovalRequestLedger } from "./services/operationApprovalRequest.js";
 import { OperationDispatchLedger } from "./services/operationDispatch.js";
 import { OperationIntentStore } from "./services/operationIntent.js";
 
@@ -83,6 +85,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const opsPromotionDecisions = new OpsPromotionDecisionLedger();
   const operationIntents = new OperationIntentStore(config);
   const operationDispatches = new OperationDispatchLedger(operationIntents);
+  const operationApprovalRequests = new OperationApprovalRequestLedger();
   const requestStartTimes = new WeakMap<object, number>();
 
   app.addHook("onRequest", async (request) => {
@@ -107,6 +110,15 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     config,
     operationIntents,
     operationDispatches,
+    orderPlatform,
+    miniKv,
+  });
+  await registerOperationApprovalRequestRoutes(app, {
+    config,
+    operationIntents,
+    operationDispatches,
+    operationApprovalRequests,
+    mutationRateLimiter,
     orderPlatform,
     miniKv,
   });

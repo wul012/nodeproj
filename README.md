@@ -30,6 +30,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local operation preflight evidence bundle that combines intent policy, confirmation, dispatch history, Java replay readiness evidence, and mini-kv command/key inventory evidence before any real upstream execution
 - Local operation preflight Markdown report, SHA-256 digest, and verification endpoint for archiving operation evidence
 - Local operation execution preview that combines preflight digest, Java replay simulation, mini-kv EXPLAINJSON, would-call summary, and expected side effects
+- In-memory operation approval request ledger that binds preflight and execution-preview digests before any real upstream execution
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
@@ -207,9 +208,13 @@ GET    /api/v1/operation-intents/:intentId/execution-preview
 GET    /api/v1/operation-intents/:intentId/timeline
 GET    /api/v1/operation-intents/:intentId/dispatches
 GET    /api/v1/operation-intent-events
+GET    /api/v1/operation-approval-requests
+GET    /api/v1/operation-approval-requests/:requestId
+GET    /api/v1/operation-approval-requests/:requestId?format=markdown
 POST   /api/v1/operation-intents
 POST   /api/v1/operation-intents/:intentId/confirm
 POST   /api/v1/operation-intents/:intentId/dispatch
+POST   /api/v1/operation-approval-requests
 GET    /api/v1/operation-dispatches
 GET    /api/v1/operation-dispatches/:dispatchId
 POST   /api/v1/operation-dispatches
