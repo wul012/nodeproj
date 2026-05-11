@@ -10,6 +10,7 @@ import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import {
   createOpsPromotionDeploymentChangeRecord,
+  createOpsPromotionDeploymentChangeRecordVerification,
   createOpsPromotionDeploymentApproval,
   createOpsPromotionDeploymentApprovalVerification,
   createOpsPromotionArchiveAttestation,
@@ -32,6 +33,7 @@ import {
   createOpsPromotionReleaseEvidence,
   createOpsPromotionReleaseEvidenceVerification,
   renderOpsPromotionDeploymentChangeRecordMarkdown,
+  renderOpsPromotionDeploymentChangeRecordVerificationMarkdown,
   renderOpsPromotionDeploymentApprovalMarkdown,
   renderOpsPromotionDeploymentApprovalVerificationMarkdown,
   renderOpsPromotionArchiveAttestationMarkdown,
@@ -986,11 +988,7 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
       },
     },
   }, async (request, reply) => {
-    const { deploymentApproval, deploymentApprovalVerification } = createPromotionReleaseEvidenceArtifacts(deps);
-    const deploymentChangeRecord = createOpsPromotionDeploymentChangeRecord({
-      approval: deploymentApproval,
-      approvalVerification: deploymentApprovalVerification,
-    });
+    const { deploymentChangeRecord } = createPromotionReleaseEvidenceArtifacts(deps);
 
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
@@ -998,6 +996,31 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return deploymentChangeRecord;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/deployment-change-record/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const { deploymentApproval, deploymentApprovalVerification, deploymentChangeRecord } = createPromotionReleaseEvidenceArtifacts(deps);
+    const deploymentChangeRecordVerification = createOpsPromotionDeploymentChangeRecordVerification({
+      approval: deploymentApproval,
+      approvalVerification: deploymentApprovalVerification,
+      changeRecord: deploymentChangeRecord,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionDeploymentChangeRecordVerificationMarkdown(deploymentChangeRecordVerification);
+    }
+
+    return deploymentChangeRecordVerification;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);
@@ -1361,6 +1384,10 @@ function createPromotionReleaseEvidenceArtifacts(deps: OpsSummaryRouteDeps) {
     releaseArchiveVerification,
     approval: deploymentApproval,
   });
+  const deploymentChangeRecord = createOpsPromotionDeploymentChangeRecord({
+    approval: deploymentApproval,
+    approvalVerification: deploymentApprovalVerification,
+  });
 
   return {
     releaseEvidence,
@@ -1369,5 +1396,6 @@ function createPromotionReleaseEvidenceArtifacts(deps: OpsSummaryRouteDeps) {
     releaseArchiveVerification,
     deploymentApproval,
     deploymentApprovalVerification,
+    deploymentChangeRecord,
   };
 }

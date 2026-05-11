@@ -2882,6 +2882,135 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies promotion deployment change record as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "deployment-change-verifier",
+          note: "verify deployment change record",
+        },
+      });
+      const changeRecord = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record",
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-change-record/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        checks: {
+          changeDigestValid: true,
+          coveredFieldsMatch: true,
+          changeItemsValid: true,
+          changeRecordNameMatches: true,
+          approvalDigestMatches: true,
+          verifiedApprovalDigestMatches: true,
+          releaseArchiveDigestMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          changeItemCount: 4,
+          handoffReady: false,
+          approvalReady: false,
+          changeReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(emptyVerification.json().changeDigest.value).toBe(emptyVerification.json().recomputedChangeDigest.value);
+      expect(emptyVerification.json().changeItems.map((item: { name: string }) => item.name)).toEqual([
+        "deployment-approval",
+        "verified-deployment-approval",
+        "verified-release-archive",
+        "deployment-change-state",
+      ]);
+      expect(emptyVerification.json().changeItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(emptyVerification.json().changeItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(changeRecord.statusCode).toBe(200);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        checks: {
+          changeDigestValid: true,
+          coveredFieldsMatch: true,
+          changeItemsValid: true,
+          changeRecordNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          approvalReadyMatches: true,
+          changeReadyMatches: true,
+          approvalDigestMatches: true,
+          verifiedApprovalDigestMatches: true,
+          releaseArchiveDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          changeItemCount: 4,
+          handoffReady: false,
+          approvalReady: false,
+          changeReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(verification.json().changeRecordName).toBe(changeRecord.json().changeRecordName);
+      expect(verification.json().changeDigest.value).toBe(changeRecord.json().changeDigest.value);
+      expect(verification.json().changeDigest.value).toBe(verification.json().recomputedChangeDigest.value);
+      expect(verification.json().changeItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(verification.json().changeItems.every((item: { sourceMatches: boolean }) => item.sourceMatches)).toBe(true);
+      expect(verification.json().changeItems[1]).toMatchObject({
+        name: "verified-deployment-approval",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/deployment-approval/verification",
+      });
+      expect(verification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion deployment change record verification");
+      expect(markdown.body).toContain("- Change digest valid: true");
+      expect(markdown.body).toContain(`- Recomputed change digest: sha256:${verification.json().recomputedChangeDigest.value}`);
+      expect(markdown.body).toContain("## Change Items");
+      expect(markdown.body).toContain("### verified-deployment-approval");
+      expect(markdown.body).toContain("## Summary");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

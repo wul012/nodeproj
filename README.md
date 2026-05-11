@@ -59,6 +59,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion deployment approval record for attaching verified release archive digests to deployment change records
 - Local promotion deployment approval verification for rechecking approval digests and approval item references
 - Local promotion deployment change record for carrying verified approval digests into release execution logs
+- Local promotion deployment change record verification for rechecking change digests and change item references
 
 ## Setup
 
@@ -153,6 +154,8 @@ GET    /api/v1/ops/promotion-archive/deployment-approval/verification
 GET    /api/v1/ops/promotion-archive/deployment-approval/verification?format=markdown
 GET    /api/v1/ops/promotion-archive/deployment-change-record
 GET    /api/v1/ops/promotion-archive/deployment-change-record?format=markdown
+GET    /api/v1/ops/promotion-archive/deployment-change-record/verification
+GET    /api/v1/ops/promotion-archive/deployment-change-record/verification?format=markdown
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity
