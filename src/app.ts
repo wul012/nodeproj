@@ -16,6 +16,7 @@ import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
+import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { AuditLog } from "./services/auditLog.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
@@ -102,6 +103,13 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerDashboardRoutes(app);
   await registerAuditRoutes(app, { auditLog });
   await registerActionPlanRoutes(app, { config });
+  await registerOperationPreflightRoutes(app, {
+    config,
+    operationIntents,
+    operationDispatches,
+    orderPlatform,
+    miniKv,
+  });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });
   await registerOpsSummaryRoutes(app, {

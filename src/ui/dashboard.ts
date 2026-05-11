@@ -738,6 +738,7 @@ export function dashboardHtml(): string {
         <input id="confirmText" placeholder="CONFIRM kv-set">
         <button class="secondary" data-action="confirmIntent">Confirm Intent</button>
         <button class="primary" data-action="dispatchIntent">Dispatch Dry Run</button>
+        <button data-action="intentPreflight">Preflight</button>
         <button data-action="intentTimeline">Timeline</button>
         <button data-action="intentEvents">Event Feed</button>
         <button data-action="listDispatches">Dispatches</button>
@@ -1443,6 +1444,19 @@ export function dashboardHtml(): string {
               mode: "dry-run",
             }),
           }));
+        }
+        if (action === "intentPreflight") {
+          const query = new URLSearchParams();
+          const failedEventId = $("failedEventId").value.trim();
+          const keyPrefix = $("kvPrefix").value.trim();
+          if (failedEventId) {
+            query.set("failedEventId", failedEventId);
+          }
+          if (keyPrefix) {
+            query.set("keyPrefix", keyPrefix);
+          }
+          const suffix = query.toString() ? "?" + query.toString() : "";
+          write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/preflight" + suffix));
         }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));

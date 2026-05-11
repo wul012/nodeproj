@@ -138,6 +138,9 @@
 
 62-minikv-key-inventory-v58.md
  -> 第五十八版 mini-kv KEYSJSON 接入：Node 只读代理 key inventory，并在 Dashboard 展示 prefix / count / truncated / keys
+
+63-operation-preflight-v59.md
+ -> 第五十九版 Operation preflight evidence bundle：汇总 intent、policy、confirmation、dispatch history、Java readiness 和 mini-kv evidence
 ```
 
 ## 项目整体理解

@@ -19,6 +19,9 @@ describe("dashboardHtml", () => {
     expect(html).toContain('id="kvPrefix"');
     expect(html).toContain("Key Inventory");
     expect(html).toContain("refreshMiniKvKeyInventory");
+    expect(html).toContain("Preflight");
+    expect(html).toContain('data-action="intentPreflight"');
+    expect(html).toContain("/preflight");
     expect(html).toContain("function renderUpstreamOverview");
     expect(html).toContain("refreshUpstreamOverview");
   });
