@@ -64,6 +64,22 @@ export interface MiniKvKeysJsonResult extends MiniKvCommandResult {
   inventory: MiniKvKeysJson;
 }
 
+export interface MiniKvExplainJson {
+  command?: string;
+  category?: "read" | "write" | "admin" | "meta" | string;
+  mutates_store?: boolean;
+  touches_wal?: boolean;
+  key?: string | null;
+  requires_value?: boolean;
+  ttl_sensitive?: boolean;
+  allowed_by_parser?: boolean;
+  warnings?: string[];
+}
+
+export interface MiniKvExplainJsonResult extends MiniKvCommandResult {
+  explanation: MiniKvExplainJson;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -121,6 +137,15 @@ export class MiniKvClient {
     return {
       ...result,
       inventory: parseMiniKvKeysJson(result.response),
+    };
+  }
+
+  async explainJson(command: string): Promise<MiniKvExplainJsonResult> {
+    const normalizedCommand = normalizeExplainCommand(command);
+    const result = await this.execute(`EXPLAINJSON ${normalizedCommand}`);
+    return {
+      ...result,
+      explanation: parseMiniKvExplainJson(result.response),
     };
   }
 
@@ -242,6 +267,7 @@ export function validateRawGatewayCommand(command: string): void {
     "COMMANDSJSON",
     "KEYS",
     "KEYSJSON",
+    "EXPLAINJSON",
   ]);
   if (!allowed.has(verb)) {
     throw new AppHttpError(400, "MINIKV_COMMAND_NOT_ALLOWED", "Command is not allowed through the gateway");
@@ -327,6 +353,31 @@ export function parseMiniKvKeysJson(response: string): MiniKvKeysJson {
   return parsed as MiniKvKeysJson;
 }
 
+export function parseMiniKvExplainJson(response: string): MiniKvExplainJson {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv returned invalid EXPLAINJSON output");
+  }
+
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON output must be a JSON object");
+  }
+
+  const explanation = parsed as Record<string, unknown>;
+  for (const field of ["mutates_store", "touches_wal", "requires_value", "ttl_sensitive", "allowed_by_parser"]) {
+    if (field in explanation && typeof explanation[field] !== "boolean") {
+      throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", `mini-kv EXPLAINJSON ${field} field must be a boolean`);
+    }
+  }
+  if ("warnings" in explanation && (!Array.isArray(explanation.warnings) || !explanation.warnings.every((warning) => typeof warning === "string"))) {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON warnings field must be a string array");
+  }
+
+  return parsed as MiniKvExplainJson;
+}
+
 function validateKey(key: string): void {
   if (!safeKeyPattern.test(key)) {
     throw new AppHttpError(400, "INVALID_MINIKV_KEY", "Key must use 1-160 letters, digits, colon, underscore, or dash characters");
@@ -339,6 +390,16 @@ function normalizeOptionalPrefix(prefix: string | undefined): string | undefined
     return undefined;
   }
   validateKey(normalized);
+  return normalized;
+}
+
+function normalizeExplainCommand(command: string): string {
+  validateRawGatewayCommand(command);
+  const normalized = command.trim();
+  if (normalized.toUpperCase().startsWith("EXPLAINJSON")) {
+    throw new AppHttpError(400, "INVALID_MINIKV_EXPLAIN_COMMAND", "EXPLAINJSON expects the command to explain, not a nested EXPLAINJSON command");
+  }
+
   return normalized;
 }
 

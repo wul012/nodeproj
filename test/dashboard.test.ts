@@ -23,9 +23,12 @@ describe("dashboardHtml", () => {
     expect(html).toContain('data-action="intentPreflight"');
     expect(html).toContain('data-action="intentPreflightReport"');
     expect(html).toContain('data-action="intentPreflightVerification"');
+    expect(html).toContain('data-action="intentExecutionPreview"');
+    expect(html).toContain("failed-event-replay-simulation");
     expect(html).toContain("/preflight");
     expect(html).toContain("/preflight/report");
     expect(html).toContain("/preflight/verification");
+    expect(html).toContain("/execution-preview");
     expect(html).toContain("function renderUpstreamOverview");
     expect(html).toContain("refreshUpstreamOverview");
   });

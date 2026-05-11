@@ -91,3 +91,76 @@ describe("Java failed-event replay readiness route", () => {
     }
   });
 });
+
+describe("Java failed-event replay simulation route", () => {
+  it("is blocked by default so read-only simulation cannot touch Java accidentally", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/v1/order-platform/failed-events/42/replay-simulation",
+      });
+
+      expect(response.statusCode).toBe(403);
+      expect(response.json()).toMatchObject({
+        error: "UPSTREAM_PROBES_DISABLED",
+      });
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("proxies Java v39 replay simulation when probe mode is enabled", async () => {
+    const server = createServer((request, response) => {
+      expect(request.method).toBe("GET");
+      expect(request.url).toBe("/api/v1/failed-events/42/replay-simulation");
+      response.writeHead(200, { "content-type": "application/json" });
+      response.end(JSON.stringify({
+        sampledAt: "2026-05-12T00:00:00Z",
+        failedEventId: 42,
+        exists: true,
+        eligibleForReplay: true,
+        wouldReplay: true,
+        wouldPublishOutbox: true,
+        wouldChangeManagementStatus: true,
+        requiredApprovalStatus: "APPROVED",
+        idempotencyKeyHint: "failed-event-42",
+        expectedAggregateId: "order-42",
+        expectedSideEffects: ["order-event-replayed", "outbox-message-created"],
+        blockedBy: [],
+        warnings: ["dry-run-only"],
+        nextAllowedActions: ["REQUEST_REPLAY_APPROVAL"],
+      }));
+    });
+    openServers.push(server);
+
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const address = server.address() as AddressInfo;
+    const app = await buildApp(loadConfig({
+      LOG_LEVEL: "silent",
+      ORDER_PLATFORM_URL: `http://127.0.0.1:${address.port}`,
+      UPSTREAM_PROBES_ENABLED: "true",
+      UPSTREAM_ACTIONS_ENABLED: "false",
+    }));
+
+    try {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/v1/order-platform/failed-events/42/replay-simulation",
+      });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.json()).toMatchObject({
+        failedEventId: 42,
+        eligibleForReplay: true,
+        wouldReplay: true,
+        wouldPublishOutbox: true,
+        expectedSideEffects: ["order-event-replayed", "outbox-message-created"],
+        warnings: ["dry-run-only"],
+      });
+    } finally {
+      await app.close();
+    }
+  });
+});

@@ -4,6 +4,7 @@ import type { MiniKvClient } from "../clients/miniKvClient.js";
 import type { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import type { AppConfig } from "../config.js";
 import { OperationDispatchLedger } from "../services/operationDispatch.js";
+import { OperationExecutionPreviewService } from "../services/operationExecutionPreview.js";
 import { OperationIntentStore } from "../services/operationIntent.js";
 import { OperationPreflightService } from "../services/operationPreflight.js";
 import {
@@ -34,6 +35,12 @@ interface PreflightReportQuery extends PreflightQuery {
   format?: "json" | "markdown";
 }
 
+interface ExecutionPreviewQuery extends PreflightQuery {
+  command?: string;
+  key?: string;
+  value?: string;
+}
+
 export async function registerOperationPreflightRoutes(app: FastifyInstance, deps: OperationPreflightRouteDeps): Promise<void> {
   const preflight = new OperationPreflightService(
     deps.config,
@@ -42,6 +49,35 @@ export async function registerOperationPreflightRoutes(app: FastifyInstance, dep
     deps.orderPlatform,
     deps.miniKv,
   );
+  const executionPreview = new OperationExecutionPreviewService(deps.config, deps.orderPlatform, deps.miniKv);
+
+  app.get<{ Params: IntentParams; Querystring: ExecutionPreviewQuery }>("/api/v1/operation-intents/:intentId/execution-preview", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          failedEventId: { type: "string", pattern: "^[0-9]+$" },
+          keyPrefix: { type: "string", minLength: 1, maxLength: 160, pattern: "^[A-Za-z0-9:_-]+$" },
+          command: { type: "string", minLength: 1, maxLength: 512, pattern: "^[^\\r\\n]+$" },
+          key: { type: "string", minLength: 1, maxLength: 160, pattern: "^[A-Za-z0-9:_-]+$" },
+          value: { type: "string", minLength: 1, maxLength: 256, pattern: "^[^\\r\\n\\s]+$" },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => {
+    const report = createOperationPreflightReport(await preflight.create({
+      intentId: request.params.intentId,
+      failedEventId: request.query.failedEventId,
+      keyPrefix: request.query.keyPrefix,
+    }));
+    return executionPreview.create(report, {
+      failedEventId: request.query.failedEventId,
+      command: request.query.command,
+      key: request.query.key,
+      value: request.query.value,
+    });
+  });
 
   app.get<{ Params: IntentParams; Querystring: PreflightReportQuery }>("/api/v1/operation-intents/:intentId/preflight/report", {
     schema: {

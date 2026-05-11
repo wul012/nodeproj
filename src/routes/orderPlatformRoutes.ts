@@ -36,6 +36,23 @@ export async function registerOrderPlatformRoutes(app: FastifyInstance, deps: Or
     return response.data;
   });
 
+  app.get<{ Params: FailedEventParams }>("/api/v1/order-platform/failed-events/:failedEventId/replay-simulation", {
+    schema: {
+      params: {
+        type: "object",
+        required: ["failedEventId"],
+        properties: {
+          failedEventId: { type: "string", pattern: "^[0-9]+$" },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => {
+    assertUpstreamProbesEnabled(deps.upstreamProbesEnabled, "advanced-order-platform");
+    const response = await deps.orderPlatform.failedEventReplaySimulation(request.params.failedEventId);
+    return response.data;
+  });
+
   app.get("/api/v1/order-platform/products", async () => {
     assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.listProducts();

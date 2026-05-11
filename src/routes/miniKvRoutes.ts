@@ -26,6 +26,10 @@ interface KeyInventoryQuery {
   prefix?: string;
 }
 
+interface ExplainCommandQuery {
+  command: string;
+}
+
 export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRouteDeps): Promise<void> {
   app.get<{ Querystring: KeyInventoryQuery }>("/api/v1/mini-kv/keys", {
     schema: {
@@ -40,6 +44,22 @@ export async function registerMiniKvRoutes(app: FastifyInstance, deps: MiniKvRou
   }, async (request) => {
     assertUpstreamProbesEnabled(deps.upstreamProbesEnabled, "mini-kv");
     return deps.miniKv.keysJson(request.query.prefix);
+  });
+
+  app.get<{ Querystring: ExplainCommandQuery }>("/api/v1/mini-kv/explain", {
+    schema: {
+      querystring: {
+        type: "object",
+        required: ["command"],
+        properties: {
+          command: { type: "string", minLength: 1, maxLength: 512, pattern: "^[^\\r\\n]+$" },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => {
+    assertUpstreamProbesEnabled(deps.upstreamProbesEnabled, "mini-kv");
+    return deps.miniKv.explainJson(request.query.command);
   });
 
   app.get("/api/v1/mini-kv/status", async () => {

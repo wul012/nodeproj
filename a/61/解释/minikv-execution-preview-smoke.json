@@ -1,0 +1,317 @@
+﻿{
+    "service":  "orderops-node",
+    "generatedAt":  "2026-05-11T22:25:37.080Z",
+    "intentId":  "fdfc7fd9-9990-4435-b2ce-8a6becbc3524",
+    "action":  "kv-set",
+    "target":  "mini-kv",
+    "state":  "review-required",
+    "preflightDigest":  {
+                            "algorithm":  "sha256",
+                            "value":  "56e308f8a015637733a86af2b7165827e4697bc673d39c8cbf29e198a92e6198",
+                            "coveredFields":  [
+                                                  "service",
+                                                  "intent",
+                                                  "actionPlan",
+                                                  "policy",
+                                                  "confirmation",
+                                                  "rateLimit",
+                                                  "safety",
+                                                  "dispatches",
+                                                  "evidence",
+                                                  "hardBlockers",
+                                                  "warnings",
+                                                  "recommendedNextActions",
+                                                  "readyForDryRunDispatch"
+                                              ]
+                        },
+    "preflightState":  "review-required",
+    "wouldCall":  {
+                      "type":  "tcp",
+                      "endpoint":  "127.0.0.1:16411",
+                      "command":  "SET \u003ckey\u003e \u003cvalue\u003e; optional EXPIRE \u003ckey\u003e \u003cttlSeconds\u003e"
+                  },
+    "evidence":  {
+                     "javaReplaySimulation":  {
+                                                  "status":  "not_applicable",
+                                                  "message":  "Intent action does not target Java failed-event replay simulation."
+                                              },
+                     "miniKvCommandExplain":  {
+                                                  "status":  "available",
+                                                  "message":  "mini-kv EXPLAINJSON evidence collected.",
+                                                  "details":  {
+                                                                  "latencyMs":  1,
+                                                                  "command":  "SET orderops:preview preview-value",
+                                                                  "explanation":  {
+                                                                                      "command":  "SET",
+                                                                                      "category":  "write",
+                                                                                      "mutates_store":  true,
+                                                                                      "touches_wal":  true,
+                                                                                      "key":  "orderops:preview",
+                                                                                      "requires_value":  true,
+                                                                                      "ttl_sensitive":  false,
+                                                                                      "allowed_by_parser":  true,
+                                                                                      "warnings":  [
+
+                                                                                                   ]
+                                                                                  }
+                                                              }
+                                              }
+                 },
+    "expectedSideEffects":  [
+                                "mini-kv.store-would-mutate",
+                                "mini-kv.wal-would-be-touched"
+                            ],
+    "hardBlockers":  [
+
+                     ],
+    "warnings":  [
+                     "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+                     "MINIKV_MUTATING_COMMAND",
+                     "MINIKV_EXPLAIN_MUTATING_COMMAND",
+                     "MINIKV_EXPLAIN_TOUCHES_WAL"
+                 ],
+    "nextActions":  [
+                        "Review execution preview warnings before approval: WRITE_RISK_REQUIRES_EXPLICIT_REVIEW, MINIKV_MUTATING_COMMAND, MINIKV_EXPLAIN_MUTATING_COMMAND, MINIKV_EXPLAIN_TOUCHES_WAL",
+                        "Attach this execution preview to the operation approval request."
+                    ],
+    "readyForApprovalRequest":  true,
+    "preflightReport":  {
+                            "service":  "orderops-node",
+                            "title":  "Operation preflight report for kv-set",
+                            "generatedAt":  "2026-05-11T22:25:37.078Z",
+                            "intentId":  "fdfc7fd9-9990-4435-b2ce-8a6becbc3524",
+                            "state":  "review-required",
+                            "preflightDigest":  {
+                                                    "algorithm":  "sha256",
+                                                    "value":  "56e308f8a015637733a86af2b7165827e4697bc673d39c8cbf29e198a92e6198",
+                                                    "coveredFields":  [
+                                                                          "service",
+                                                                          "intent",
+                                                                          "actionPlan",
+                                                                          "policy",
+                                                                          "confirmation",
+                                                                          "rateLimit",
+                                                                          "safety",
+                                                                          "dispatches",
+                                                                          "evidence",
+                                                                          "hardBlockers",
+                                                                          "warnings",
+                                                                          "recommendedNextActions",
+                                                                          "readyForDryRunDispatch"
+                                                                      ]
+                                                },
+                            "summary":  {
+                                            "action":  "kv-set",
+                                            "target":  "mini-kv",
+                                            "risk":  "write",
+                                            "intentStatus":  "confirmed",
+                                            "operatorId":  "v61-admin",
+                                            "operatorRole":  "admin",
+                                            "policyAllowed":  true,
+                                            "confirmationConfirmed":  true,
+                                            "readyForDryRunDispatch":  true,
+                                            "hardBlockerCount":  0,
+                                            "warningCount":  2,
+                                            "dispatchTotal":  1,
+                                            "dryRunDispatches":  1,
+                                            "rejectedDispatches":  0,
+                                            "upstreamTouchedDispatches":  0,
+                                            "javaReplayReadiness":  "not_applicable",
+                                            "miniKvCommandCatalog":  "available",
+                                            "miniKvKeyInventory":  "available"
+                                        },
+                            "preflight":  {
+                                              "service":  "orderops-node",
+                                              "generatedAt":  "2026-05-11T22:25:37.078Z",
+                                              "intent":  {
+                                                             "id":  "fdfc7fd9-9990-4435-b2ce-8a6becbc3524",
+                                                             "status":  "confirmed",
+                                                             "action":  "kv-set",
+                                                             "target":  "mini-kv",
+                                                             "operator":  {
+                                                                              "id":  "v61-admin",
+                                                                              "role":  "admin"
+                                                                          },
+                                                             "reason":  "v61 mini-kv explain preview smoke",
+                                                             "createdAt":  "2026-05-11T22:25:37.066Z",
+                                                             "updatedAt":  "2026-05-11T22:25:37.068Z",
+                                                             "expiresAt":  "2026-05-11T22:35:37.066Z"
+                                                         },
+                                              "actionPlan":  {
+                                                                 "dryRun":  true,
+                                                                 "generatedAt":  "2026-05-11T22:25:37.066Z",
+                                                                 "action":  "kv-set",
+                                                                 "target":  "mini-kv",
+                                                                 "label":  "Set key",
+                                                                 "risk":  "write",
+                                                                 "requires":  [
+                                                                                  "key",
+                                                                                  "value",
+                                                                                  "ttlSeconds?"
+                                                                              ],
+                                                                 "allowed":  true,
+                                                                 "reason":  "The Node actions gate is open; the route would be allowed to call the upstream.",
+                                                                 "nextStep":  "Run the route only when the target project is ready for this traffic.",
+                                                                 "nodeRoute":  {
+                                                                                   "method":  "PUT",
+                                                                                   "path":  "/api/v1/mini-kv/:key"
+                                                                               },
+                                                                 "wouldCall":  {
+                                                                                   "type":  "tcp",
+                                                                                   "endpoint":  "127.0.0.1:16411",
+                                                                                   "command":  "SET \u003ckey\u003e \u003cvalue\u003e; optional EXPIRE \u003ckey\u003e \u003cttlSeconds\u003e"
+                                                                               },
+                                                                 "safety":  {
+                                                                                "upstreamProbesEnabled":  true,
+                                                                                "upstreamActionsEnabled":  true
+                                                                            }
+                                                             },
+                                              "policy":  {
+                                                             "allowed":  true,
+                                                             "requiredRole":  "admin",
+                                                             "actualRole":  "admin",
+                                                             "message":  "Policy passed; the intent is waiting for explicit confirmation."
+                                                         },
+                                              "confirmation":  {
+                                                                   "requiredText":  "CONFIRM kv-set",
+                                                                   "confirmedAt":  "2026-05-11T22:25:37.068Z",
+                                                                   "confirmedBy":  "v61-admin",
+                                                                   "confirmed":  true
+                                                               },
+                                              "rateLimit":  {
+                                                                "mutationWindowMs":  60000,
+                                                                "mutationMaxRequests":  30,
+                                                                "note":  "Preflight is read-only and does not consume mutation rate-limit quota."
+                                                            },
+                                              "safety":  {
+                                                             "upstreamProbesEnabled":  true,
+                                                             "upstreamActionsEnabled":  true
+                                                         },
+                                              "dispatches":  {
+                                                                 "total":  1,
+                                                                 "dryRunCompleted":  1,
+                                                                 "rejected":  0,
+                                                                 "upstreamTouched":  0,
+                                                                 "latest":  {
+                                                                                "id":  "218a5076-5f24-435e-8497-b83c8413a055",
+                                                                                "intentId":  "fdfc7fd9-9990-4435-b2ce-8a6becbc3524",
+                                                                                "action":  "kv-set",
+                                                                                "target":  "mini-kv",
+                                                                                "mode":  "dry-run",
+                                                                                "requestedBy":  "v61-admin",
+                                                                                "createdAt":  "2026-05-11T22:25:37.069Z",
+                                                                                "updatedAt":  "2026-05-11T22:25:37.069Z",
+                                                                                "upstreamTouched":  false,
+                                                                                "nodeRoute":  {
+                                                                                                  "method":  "PUT",
+                                                                                                  "path":  "/api/v1/mini-kv/:key"
+                                                                                              },
+                                                                                "wouldCall":  {
+                                                                                                  "type":  "tcp",
+                                                                                                  "endpoint":  "127.0.0.1:16411",
+                                                                                                  "command":  "SET \u003ckey\u003e \u003cvalue\u003e; optional EXPIRE \u003ckey\u003e \u003cttlSeconds\u003e"
+                                                                                              },
+                                                                                "safety":  {
+                                                                                               "upstreamProbesEnabled":  true,
+                                                                                               "upstreamActionsEnabled":  true
+                                                                                           },
+                                                                                "status":  "dry-run-completed"
+                                                                            },
+                                                                 "recent":  [
+                                                                                {
+                                                                                    "id":  "218a5076-5f24-435e-8497-b83c8413a055",
+                                                                                    "intentId":  "fdfc7fd9-9990-4435-b2ce-8a6becbc3524",
+                                                                                    "action":  "kv-set",
+                                                                                    "target":  "mini-kv",
+                                                                                    "mode":  "dry-run",
+                                                                                    "requestedBy":  "v61-admin",
+                                                                                    "createdAt":  "2026-05-11T22:25:37.069Z",
+                                                                                    "updatedAt":  "2026-05-11T22:25:37.069Z",
+                                                                                    "upstreamTouched":  false,
+                                                                                    "nodeRoute":  {
+                                                                                                      "method":  "PUT",
+                                                                                                      "path":  "/api/v1/mini-kv/:key"
+                                                                                                  },
+                                                                                    "wouldCall":  {
+                                                                                                      "type":  "tcp",
+                                                                                                      "endpoint":  "127.0.0.1:16411",
+                                                                                                      "command":  "SET \u003ckey\u003e \u003cvalue\u003e; optional EXPIRE \u003ckey\u003e \u003cttlSeconds\u003e"
+                                                                                                  },
+                                                                                    "safety":  {
+                                                                                                   "upstreamProbesEnabled":  true,
+                                                                                                   "upstreamActionsEnabled":  true
+                                                                                               },
+                                                                                    "status":  "dry-run-completed"
+                                                                                }
+                                                                            ]
+                                                             },
+                                              "evidence":  {
+                                                               "javaReplayReadiness":  {
+                                                                                           "status":  "not_applicable",
+                                                                                           "message":  "Intent action does not target Java failed-event replay readiness."
+                                                                                       },
+                                                               "miniKvCommandCatalog":  {
+                                                                                            "status":  "available",
+                                                                                            "message":  "mini-kv command catalog evidence collected.",
+                                                                                            "details":  {
+                                                                                                            "latencyMs":  3,
+                                                                                                            "actionCommands":  [
+                                                                                                                                   "SET",
+                                                                                                                                   "EXPIRE"
+                                                                                                                               ],
+                                                                                                            "matchedCommands":  [
+                                                                                                                                    {
+                                                                                                                                        "name":  "SET",
+                                                                                                                                        "category":  "write",
+                                                                                                                                        "mutates_store":  true,
+                                                                                                                                        "touches_wal":  true,
+                                                                                                                                        "stable":  true
+                                                                                                                                    },
+                                                                                                                                    {
+                                                                                                                                        "name":  "EXPIRE",
+                                                                                                                                        "category":  "write",
+                                                                                                                                        "mutates_store":  true,
+                                                                                                                                        "touches_wal":  true,
+                                                                                                                                        "stable":  true
+                                                                                                                                    }
+                                                                                                                                ],
+                                                                                                            "commandCount":  5
+                                                                                                        }
+                                                                                        },
+                                                               "miniKvKeyInventory":  {
+                                                                                          "status":  "available",
+                                                                                          "message":  "mini-kv key inventory evidence collected.",
+                                                                                          "details":  {
+                                                                                                          "latencyMs":  3,
+                                                                                                          "inventory":  {
+                                                                                                                            "prefix":  "orderops:",
+                                                                                                                            "key_count":  2,
+                                                                                                                            "keys":  [
+                                                                                                                                         "orderops:preview",
+                                                                                                                                         "orderops:lock"
+                                                                                                                                     ],
+                                                                                                                            "truncated":  false,
+                                                                                                                            "limit":  1000
+                                                                                                                        }
+                                                                                                      }
+                                                                                      }
+                                                           },
+                                              "hardBlockers":  [
+
+                                                               ],
+                                              "warnings":  [
+                                                               "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+                                                               "MINIKV_MUTATING_COMMAND"
+                                                           ],
+                                              "recommendedNextActions":  [
+                                                                             "Review warnings before dispatch: WRITE_RISK_REQUIRES_EXPLICIT_REVIEW, MINIKV_MUTATING_COMMAND",
+                                                                             "Create or inspect a dry-run dispatch, then archive the preflight evidence."
+                                                                         ],
+                                              "readyForDryRunDispatch":  true
+                                          },
+                            "nextActions":  [
+                                                "Review warnings before dispatch: WRITE_RISK_REQUIRES_EXPLICIT_REVIEW, MINIKV_MUTATING_COMMAND",
+                                                "Create or inspect a dry-run dispatch, then archive the preflight evidence."
+                                            ]
+                        }
+}

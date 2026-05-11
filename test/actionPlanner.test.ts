@@ -63,7 +63,7 @@ describe("action planner", () => {
     expect(plan.blockedBy).toBeUndefined();
   });
 
-  it("uses the probe gate for Java failed-event replay readiness", () => {
+  it("uses the probe gate for Java failed-event replay readiness and simulation", () => {
     const config = loadConfig({
       ORDER_PLATFORM_URL: "http://order-platform.test:8080/",
       UPSTREAM_PROBES_ENABLED: "true",
@@ -94,6 +94,25 @@ describe("action planner", () => {
       },
     });
     expect(plan.blockedBy).toBeUndefined();
+
+    const simulationPlan = createActionPlan(config, { action: "failed-event-replay-simulation" });
+    expect(simulationPlan).toMatchObject({
+      action: "failed-event-replay-simulation",
+      target: "order-platform",
+      risk: "read",
+      allowed: true,
+      requires: ["failedEventId"],
+      nodeRoute: {
+        method: "GET",
+        path: "/api/v1/order-platform/failed-events/:failedEventId/replay-simulation",
+      },
+      wouldCall: {
+        type: "http",
+        endpoint: "http://order-platform.test:8080",
+        method: "GET",
+        path: "/api/v1/failed-events/:failedEventId/replay-simulation",
+      },
+    });
   });
 
   it("keeps the catalog grouped by target", () => {
@@ -102,6 +121,7 @@ describe("action planner", () => {
 
     expect(actions).toContain("order-create");
     expect(actions).toContain("failed-event-replay-readiness");
+    expect(actions).toContain("failed-event-replay-simulation");
     expect(actions).toContain("kv-command");
     expect(catalog.every((action) => !("upstream" in action))).toBe(true);
   });

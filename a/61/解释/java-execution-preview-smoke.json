@@ -1,0 +1,239 @@
+﻿{
+    "service":  "orderops-node",
+    "generatedAt":  "2026-05-11T22:25:37.013Z",
+    "intentId":  "6aebb85b-b698-49a8-b9f3-f2540709379f",
+    "action":  "failed-event-replay-simulation",
+    "target":  "order-platform",
+    "state":  "review-required",
+    "preflightDigest":  {
+                            "algorithm":  "sha256",
+                            "value":  "9d363682679bd722d1662aed3241884baaf503579dbc6382fe450f1032c7403c",
+                            "coveredFields":  [
+                                                  "service",
+                                                  "intent",
+                                                  "actionPlan",
+                                                  "policy",
+                                                  "confirmation",
+                                                  "rateLimit",
+                                                  "safety",
+                                                  "dispatches",
+                                                  "evidence",
+                                                  "hardBlockers",
+                                                  "warnings",
+                                                  "recommendedNextActions",
+                                                  "readyForDryRunDispatch"
+                                              ]
+                        },
+    "preflightState":  "ready",
+    "wouldCall":  {
+                      "type":  "http",
+                      "endpoint":  "http://127.0.0.1:18091",
+                      "method":  "GET",
+                      "path":  "/api/v1/failed-events/:failedEventId/replay-simulation"
+                  },
+    "evidence":  {
+                     "javaReplaySimulation":  {
+                                                  "status":  "available",
+                                                  "message":  "Java replay simulation evidence collected.",
+                                                  "details":  {
+                                                                  "latencyMs":  22,
+                                                                  "simulation":  {
+                                                                                     "sampledAt":  "2026-05-12T00:00:00Z",
+                                                                                     "failedEventId":  42,
+                                                                                     "exists":  true,
+                                                                                     "eligibleForReplay":  true,
+                                                                                     "wouldReplay":  true,
+                                                                                     "wouldPublishOutbox":  true,
+                                                                                     "wouldChangeManagementStatus":  true,
+                                                                                     "requiredApprovalStatus":  "APPROVED",
+                                                                                     "idempotencyKeyHint":  "failed-event-42",
+                                                                                     "expectedAggregateId":  "order-42",
+                                                                                     "expectedSideEffects":  [
+                                                                                                                 "order-event-replayed",
+                                                                                                                 "outbox-message-created"
+                                                                                                             ],
+                                                                                     "blockedBy":  [
+
+                                                                                                   ],
+                                                                                     "warnings":  [
+                                                                                                      "approval-required-before-real-replay"
+                                                                                                  ],
+                                                                                     "nextAllowedActions":  [
+                                                                                                                "REQUEST_REPLAY_APPROVAL"
+                                                                                                            ]
+                                                                                 }
+                                                              }
+                                              },
+                     "miniKvCommandExplain":  {
+                                                  "status":  "not_applicable",
+                                                  "message":  "Intent target is not mini-kv."
+                                              }
+                 },
+    "expectedSideEffects":  [
+                                "order-event-replayed",
+                                "outbox-message-created",
+                                "java.failed-event.would-replay",
+                                "java.outbox.would-publish",
+                                "java.failed-event.status-would-change"
+                            ],
+    "hardBlockers":  [
+
+                     ],
+    "warnings":  [
+                     "JAVA_REPLAY_SIMULATION_WARNINGS"
+                 ],
+    "nextActions":  [
+                        "Review execution preview warnings before approval: JAVA_REPLAY_SIMULATION_WARNINGS",
+                        "Attach this execution preview to the operation approval request."
+                    ],
+    "readyForApprovalRequest":  true,
+    "preflightReport":  {
+                            "service":  "orderops-node",
+                            "title":  "Operation preflight report for failed-event-replay-simulation",
+                            "generatedAt":  "2026-05-11T22:25:36.991Z",
+                            "intentId":  "6aebb85b-b698-49a8-b9f3-f2540709379f",
+                            "state":  "ready",
+                            "preflightDigest":  {
+                                                    "algorithm":  "sha256",
+                                                    "value":  "9d363682679bd722d1662aed3241884baaf503579dbc6382fe450f1032c7403c",
+                                                    "coveredFields":  [
+                                                                          "service",
+                                                                          "intent",
+                                                                          "actionPlan",
+                                                                          "policy",
+                                                                          "confirmation",
+                                                                          "rateLimit",
+                                                                          "safety",
+                                                                          "dispatches",
+                                                                          "evidence",
+                                                                          "hardBlockers",
+                                                                          "warnings",
+                                                                          "recommendedNextActions",
+                                                                          "readyForDryRunDispatch"
+                                                                      ]
+                                                },
+                            "summary":  {
+                                            "action":  "failed-event-replay-simulation",
+                                            "target":  "order-platform",
+                                            "risk":  "read",
+                                            "intentStatus":  "confirmed",
+                                            "operatorId":  "v61-ops",
+                                            "operatorRole":  "operator",
+                                            "policyAllowed":  true,
+                                            "confirmationConfirmed":  true,
+                                            "readyForDryRunDispatch":  true,
+                                            "hardBlockerCount":  0,
+                                            "warningCount":  0,
+                                            "dispatchTotal":  0,
+                                            "dryRunDispatches":  0,
+                                            "rejectedDispatches":  0,
+                                            "upstreamTouchedDispatches":  0,
+                                            "javaReplayReadiness":  "not_applicable",
+                                            "miniKvCommandCatalog":  "not_applicable",
+                                            "miniKvKeyInventory":  "not_applicable"
+                                        },
+                            "preflight":  {
+                                              "service":  "orderops-node",
+                                              "generatedAt":  "2026-05-11T22:25:36.991Z",
+                                              "intent":  {
+                                                             "id":  "6aebb85b-b698-49a8-b9f3-f2540709379f",
+                                                             "status":  "confirmed",
+                                                             "action":  "failed-event-replay-simulation",
+                                                             "target":  "order-platform",
+                                                             "operator":  {
+                                                                              "id":  "v61-ops",
+                                                                              "role":  "operator"
+                                                                          },
+                                                             "reason":  "v61 Java simulation preview smoke",
+                                                             "createdAt":  "2026-05-11T22:25:36.984Z",
+                                                             "updatedAt":  "2026-05-11T22:25:36.988Z",
+                                                             "expiresAt":  "2026-05-11T22:35:36.984Z"
+                                                         },
+                                              "actionPlan":  {
+                                                                 "dryRun":  true,
+                                                                 "generatedAt":  "2026-05-11T22:25:36.984Z",
+                                                                 "action":  "failed-event-replay-simulation",
+                                                                 "target":  "order-platform",
+                                                                 "label":  "Simulate failed-event replay",
+                                                                 "risk":  "read",
+                                                                 "requires":  [
+                                                                                  "failedEventId"
+                                                                              ],
+                                                                 "allowed":  true,
+                                                                 "reason":  "The Node probes gate is open; the route would be allowed to call the upstream.",
+                                                                 "nextStep":  "Run the route only when the target project is ready for this traffic.",
+                                                                 "nodeRoute":  {
+                                                                                   "method":  "GET",
+                                                                                   "path":  "/api/v1/order-platform/failed-events/:failedEventId/replay-simulation"
+                                                                               },
+                                                                 "wouldCall":  {
+                                                                                   "type":  "http",
+                                                                                   "endpoint":  "http://127.0.0.1:18091",
+                                                                                   "method":  "GET",
+                                                                                   "path":  "/api/v1/failed-events/:failedEventId/replay-simulation"
+                                                                               },
+                                                                 "safety":  {
+                                                                                "upstreamProbesEnabled":  true,
+                                                                                "upstreamActionsEnabled":  true
+                                                                            }
+                                                             },
+                                              "policy":  {
+                                                             "allowed":  true,
+                                                             "requiredRole":  "operator",
+                                                             "actualRole":  "operator",
+                                                             "message":  "Policy passed; the intent is waiting for explicit confirmation."
+                                                         },
+                                              "confirmation":  {
+                                                                   "requiredText":  "CONFIRM failed-event-replay-simulation",
+                                                                   "confirmedAt":  "2026-05-11T22:25:36.988Z",
+                                                                   "confirmedBy":  "v61-ops",
+                                                                   "confirmed":  true
+                                                               },
+                                              "rateLimit":  {
+                                                                "mutationWindowMs":  60000,
+                                                                "mutationMaxRequests":  30,
+                                                                "note":  "Preflight is read-only and does not consume mutation rate-limit quota."
+                                                            },
+                                              "safety":  {
+                                                             "upstreamProbesEnabled":  true,
+                                                             "upstreamActionsEnabled":  true
+                                                         },
+                                              "dispatches":  {
+                                                                 "total":  0,
+                                                                 "dryRunCompleted":  0,
+                                                                 "rejected":  0,
+                                                                 "upstreamTouched":  0,
+                                                                 "recent":  [
+
+                                                                            ]
+                                                             },
+                                              "evidence":  {
+                                                               "javaReplayReadiness":  {
+                                                                                           "status":  "not_applicable",
+                                                                                           "message":  "Intent action does not target Java failed-event replay readiness."
+                                                                                       },
+                                                               "miniKvCommandCatalog":  {
+                                                                                            "status":  "not_applicable",
+                                                                                            "message":  "Intent target is not mini-kv."
+                                                                                        },
+                                                               "miniKvKeyInventory":  {
+                                                                                          "status":  "not_applicable",
+                                                                                          "message":  "Intent target is not mini-kv."
+                                                                                      }
+                                                           },
+                                              "hardBlockers":  [
+
+                                                               ],
+                                              "warnings":  [
+
+                                                           ],
+                                              "recommendedNextActions":  [
+                                                                             "Create or inspect a dry-run dispatch before any real upstream execution."
+                                                                         ],
+                                              "readyForDryRunDispatch":  true
+                                          },
+                            "nextActions":  [
+                                                "Create or inspect a dry-run dispatch before any real upstream execution."
+                                            ]
+                        }
+}

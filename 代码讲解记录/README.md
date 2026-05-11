@@ -144,6 +144,9 @@
 
 64-operation-preflight-report-v60.md
  -> 第六十版 Preflight Markdown report + digest：把 preflight bundle 渲染成可读报告、SHA-256 摘要和 verification
+
+65-operation-execution-preview-v61.md
+ -> 第六十一版 Operation execution preview：接入 Java replay simulation 和 mini-kv EXPLAINJSON，生成执行前预演
 ```
 
 ## 项目整体理解

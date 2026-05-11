@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   parseMiniKvCommandsJson,
+  parseMiniKvExplainJson,
   parseMiniKvInfoJson,
   parseMiniKvKeysJson,
   parseMiniKvStatsJson,
@@ -20,6 +21,7 @@ describe("validateRawGatewayCommand", () => {
     expect(() => validateRawGatewayCommand("COMMANDSJSON")).not.toThrow();
     expect(() => validateRawGatewayCommand("KEYS orderops:")).not.toThrow();
     expect(() => validateRawGatewayCommand("KEYSJSON orderops:")).not.toThrow();
+    expect(() => validateRawGatewayCommand("EXPLAINJSON SET orderops:demo value")).not.toThrow();
   });
 
   it("rejects filesystem-style commands and multiline input", () => {
@@ -80,5 +82,20 @@ describe("validateRawGatewayCommand", () => {
     expect(() => parseMiniKvKeysJson("[1,2,3]")).toThrow(/must be a JSON object/);
     expect(() => parseMiniKvKeysJson('{"keys":"orderops:1"}')).toThrow(/keys field must be a string array/);
     expect(() => parseMiniKvKeysJson('{"key_count":"2"}')).toThrow(/key_count field must be a finite number/);
+  });
+
+  it("parses mini-kv EXPLAINJSON output and rejects invalid output", () => {
+    expect(parseMiniKvExplainJson('{"command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:1","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[]}')).toMatchObject({
+      command: "SET",
+      category: "write",
+      mutates_store: true,
+      touches_wal: true,
+      allowed_by_parser: true,
+      warnings: [],
+    });
+    expect(() => parseMiniKvExplainJson("OK")).toThrow(/invalid EXPLAINJSON/);
+    expect(() => parseMiniKvExplainJson("[1,2,3]")).toThrow(/must be a JSON object/);
+    expect(() => parseMiniKvExplainJson('{"mutates_store":"yes"}')).toThrow(/mutates_store field must be a boolean/);
+    expect(() => parseMiniKvExplainJson('{"warnings":"careful"}')).toThrow(/warnings field must be a string array/);
   });
 });

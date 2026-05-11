@@ -13,7 +13,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Browser dashboard at `/`
 - Health endpoint at `/health`
 - Java order platform proxy endpoints
-- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, `EXPIRE`, `HEALTH`, `STATSJSON`, `INFOJSON`, `COMMANDSJSON`, `KEYS`, and `KEYSJSON`
+- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, `EXPIRE`, `HEALTH`, `STATSJSON`, `INFOJSON`, `COMMANDSJSON`, `KEYS`, `KEYSJSON`, and `EXPLAINJSON`
 - Live SSE status stream at `/api/v1/events/ops`
 - In-memory audit log and request summary endpoints
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
@@ -29,6 +29,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - In-memory dry-run dispatch ledger for confirmed intents without touching upstreams
 - Local operation preflight evidence bundle that combines intent policy, confirmation, dispatch history, Java replay readiness evidence, and mini-kv command/key inventory evidence before any real upstream execution
 - Local operation preflight Markdown report, SHA-256 digest, and verification endpoint for archiving operation evidence
+- Local operation execution preview that combines preflight digest, Java replay simulation, mini-kv EXPLAINJSON, would-call summary, and expected side effects
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
@@ -202,6 +203,7 @@ GET    /api/v1/operation-intents/:intentId
 GET    /api/v1/operation-intents/:intentId/preflight
 GET    /api/v1/operation-intents/:intentId/preflight/report
 GET    /api/v1/operation-intents/:intentId/preflight/verification
+GET    /api/v1/operation-intents/:intentId/execution-preview
 GET    /api/v1/operation-intents/:intentId/timeline
 GET    /api/v1/operation-intents/:intentId/dispatches
 GET    /api/v1/operation-intent-events
@@ -215,6 +217,7 @@ GET    /api/v1/audit/events
 GET    /api/v1/audit/summary
 
 GET    /api/v1/order-platform/products
+GET    /api/v1/order-platform/failed-events/:failedEventId/replay-simulation
 GET    /api/v1/order-platform/outbox/events
 GET    /api/v1/order-platform/orders/:orderId
 POST   /api/v1/order-platform/orders
@@ -222,6 +225,7 @@ POST   /api/v1/order-platform/orders/:orderId/pay
 POST   /api/v1/order-platform/orders/:orderId/cancel
 
 GET    /api/v1/mini-kv/status
+GET    /api/v1/mini-kv/explain
 GET    /api/v1/mini-kv/:key
 PUT    /api/v1/mini-kv/:key
 DELETE /api/v1/mini-kv/:key

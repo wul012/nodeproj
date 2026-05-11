@@ -78,3 +78,68 @@ describe("mini-kv key inventory route", () => {
     }
   });
 });
+
+describe("mini-kv EXPLAINJSON route", () => {
+  it("is blocked by default so command explanation cannot touch mini-kv accidentally", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/v1/mini-kv/explain?command=SET%20orderops:1%20value",
+      });
+
+      expect(response.statusCode).toBe(403);
+      expect(response.json()).toMatchObject({
+        error: "UPSTREAM_PROBES_DISABLED",
+      });
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("reads mini-kv v48 EXPLAINJSON through a probe-gated route", async () => {
+    const seenCommands: string[] = [];
+    const server = net.createServer((socket) => {
+      socket.setEncoding("utf8");
+      socket.on("data", (chunk) => {
+        const command = chunk.trim();
+        seenCommands.push(command);
+        socket.end('{"command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:1","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[]}\n');
+      });
+    });
+    openServers.push(server);
+
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const address = server.address() as AddressInfo;
+    const app = await buildApp(loadConfig({
+      LOG_LEVEL: "silent",
+      MINIKV_HOST: "127.0.0.1",
+      MINIKV_PORT: String(address.port),
+      UPSTREAM_PROBES_ENABLED: "true",
+      UPSTREAM_ACTIONS_ENABLED: "false",
+    }));
+
+    try {
+      const response = await app.inject({
+        method: "GET",
+        url: "/api/v1/mini-kv/explain?command=SET%20orderops:1%20value",
+      });
+
+      expect(response.statusCode).toBe(200);
+      expect(response.json()).toMatchObject({
+        command: "EXPLAINJSON SET orderops:1 value",
+        explanation: {
+          command: "SET",
+          category: "write",
+          mutates_store: true,
+          touches_wal: true,
+          key: "orderops:1",
+        },
+      });
+      expect(seenCommands).toEqual(["EXPLAINJSON SET orderops:1 value"]);
+    } finally {
+      await app.close();
+    }
+  });
+});

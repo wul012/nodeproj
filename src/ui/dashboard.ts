@@ -709,6 +709,8 @@ export function dashboardHtml(): string {
           <option value="order-products">Order: list products</option>
           <option value="order-outbox">Order: list outbox events</option>
           <option value="order-load">Order: load order</option>
+          <option value="failed-event-replay-readiness">Order: replay readiness</option>
+          <option value="failed-event-replay-simulation">Order: replay simulation</option>
           <option value="order-create">Order: create order</option>
           <option value="order-pay">Order: pay order</option>
           <option value="order-cancel">Order: cancel order</option>
@@ -741,6 +743,7 @@ export function dashboardHtml(): string {
         <button data-action="intentPreflight">Preflight</button>
         <button data-action="intentPreflightReport">Report</button>
         <button data-action="intentPreflightVerification">Verify Report</button>
+        <button data-action="intentExecutionPreview">Execution Preview</button>
         <button data-action="intentTimeline">Timeline</button>
         <button data-action="intentEvents">Event Feed</button>
         <button data-action="listDispatches">Dispatches</button>
@@ -1489,6 +1492,31 @@ export function dashboardHtml(): string {
           }
           const suffix = query.toString() ? "?" + query.toString() : "";
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/preflight/verification" + suffix));
+        }
+        if (action === "intentExecutionPreview") {
+          const query = new URLSearchParams();
+          const failedEventId = $("failedEventId").value.trim();
+          const keyPrefix = $("kvPrefix").value.trim();
+          const command = $("rawCommand").value.trim();
+          const key = $("kvKey").value.trim();
+          const value = $("kvValue").value.trim();
+          if (failedEventId) {
+            query.set("failedEventId", failedEventId);
+          }
+          if (keyPrefix) {
+            query.set("keyPrefix", keyPrefix);
+          }
+          if (command) {
+            query.set("command", command);
+          }
+          if (key) {
+            query.set("key", key);
+          }
+          if (value) {
+            query.set("value", value);
+          }
+          const suffix = query.toString() ? "?" + query.toString() : "";
+          write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/execution-preview" + suffix));
         }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));
