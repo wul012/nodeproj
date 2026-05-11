@@ -123,6 +123,9 @@
 
 57-java-ops-overview-v53.md
  -> 第五十三版 Java ops overview 接入：读取 Java v36 业务概览，并在接口不可用时保持 fallback
+
+58-minikv-infojson-v54.md
+ -> 第五十四版 mini-kv INFOJSON 接入：读取 mini-kv v45 元信息，并在旧可执行文件未支持时保持 degraded fallback
 ```
 
 ## 项目整体理解

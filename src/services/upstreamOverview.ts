@@ -93,6 +93,11 @@ function javaObservation(config: AppConfig, probe: ProbeResult): UpstreamObserva
 
 function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObservation {
   const stats = readMiniKvStats(probe.details);
+  const info = readMiniKvInfo(probe.details);
+  const server = readRecord(info, "server");
+  const store = readRecord(info, "store");
+  const walInfo = readRecord(info, "wal");
+  const metricsInfo = readRecord(info, "metrics");
   return {
     name: probe.name,
     role: "redis-like infrastructure lab",
@@ -106,12 +111,20 @@ function miniKvObservation(config: AppConfig, probe: ProbeResult): UpstreamObser
       "TTL keys",
       "WAL and snapshot maintenance",
       "HEALTH and STATSJSON operational signals",
+      "INFOJSON identity metadata",
     ],
-    readSignals: ["PING", "HEALTH", "STATSJSON", "KEYS prefix"],
+    readSignals: ["PING", "HEALTH", "STATSJSON", "INFOJSON", "KEYS prefix"],
     writePolicy: "mini-kv writes remain experimental and must not become the Java order authority.",
     signals: {
-      liveKeys: readNumber(stats, "live_keys"),
-      walEnabled: readBoolean(stats, "wal_enabled"),
+      infoJsonAvailable: info !== undefined,
+      infoJsonLatencyMs: readMiniKvInfoLatency(probe.details),
+      version: readString(info, "version"),
+      protocol: readStringArray(server, "protocol"),
+      uptimeSeconds: readNumber(server, "uptime_seconds"),
+      maxRequestBytes: readNumber(server, "max_request_bytes"),
+      liveKeys: readNumber(stats, "live_keys") ?? readNumber(store, "live_keys"),
+      walEnabled: readBoolean(stats, "wal_enabled") ?? readBoolean(walInfo, "enabled"),
+      metricsEnabled: readBoolean(metricsInfo, "enabled"),
       commandTotals: readRecord(stats, "commands"),
       connectionStats: readRecord(stats, "connection_stats"),
       wal: readRecord(stats, "wal"),
@@ -150,6 +163,9 @@ function buildNextActions(config: AppConfig, java: UpstreamObservation, miniKv: 
   }
   if (miniKv.state === "offline") {
     actions.push("Start or inspect mini-kv before expecting live KV health and metrics.");
+  }
+  if (miniKv.state !== "disabled" && miniKv.state !== "offline" && miniKv.signals.infoJsonAvailable !== true) {
+    actions.push("Verify mini-kv INFOJSON before relying on version and protocol metadata.");
   }
   if (java.state === "degraded" || miniKv.state === "degraded") {
     actions.push("Inspect degraded upstream details before promoting this integration state.");
@@ -216,6 +232,21 @@ function readMiniKvStats(details: unknown): Record<string, unknown> | undefined 
   return details.statsJson.stats;
 }
 
+function readMiniKvInfo(details: unknown): Record<string, unknown> | undefined {
+  if (!isRecord(details) || !isRecord(details.infoJson) || details.infoJson.status !== "available" || !isRecord(details.infoJson.info)) {
+    return undefined;
+  }
+  return details.infoJson.info;
+}
+
+function readMiniKvInfoLatency(details: unknown): number | undefined {
+  if (!isRecord(details) || !isRecord(details.infoJson)) {
+    return undefined;
+  }
+  const latencyMs = details.infoJson.latencyMs;
+  return typeof latencyMs === "number" && Number.isFinite(latencyMs) ? latencyMs : undefined;
+}
+
 function readNumber(data: Record<string, unknown> | undefined, field: string): number | undefined {
   const value = data?.[field];
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
@@ -234,6 +265,11 @@ function readRecord(data: Record<string, unknown> | undefined, field: string): R
 function readString(data: Record<string, unknown> | undefined, field: string): string | undefined {
   const value = data?.[field];
   return typeof value === "string" ? value : undefined;
+}
+
+function readStringArray(data: Record<string, unknown> | undefined, field: string): string[] | undefined {
+  const value = data?.[field];
+  return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : undefined;
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

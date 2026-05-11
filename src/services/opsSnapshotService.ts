@@ -13,6 +13,17 @@ type OrderPlatformOpsOverviewProbe =
     message: string;
   };
 
+type MiniKvInfoJsonProbe =
+  | {
+    status: "available";
+    latencyMs: number;
+    info: unknown;
+  }
+  | {
+    status: "unavailable";
+    message: string;
+  };
+
 export class OpsSnapshotService {
   constructor(
     private readonly orderPlatformClient: OrderPlatformClient,
@@ -97,27 +108,34 @@ export class OpsSnapshotService {
     }
 
     try {
-      const [ping, health, statsJson] = await Promise.all([
+      const [ping, health, statsJson, infoJson] = await Promise.all([
         this.miniKvClient.ping(),
         this.miniKvClient.health(),
         this.miniKvClient.statsJson(),
+        this.probeMiniKvInfoJson(),
       ]);
       const isPingHealthy = ping.response === "orderops" || ping.response === "PONG";
       const isHealthHealthy = health.response.startsWith("OK");
       const liveKeys = readNumberField(statsJson.stats, "live_keys");
       const walEnabled = readBooleanField(statsJson.stats, "wal_enabled");
-      const state = isPingHealthy && isHealthHealthy ? "online" : "degraded";
+      const state = isPingHealthy && isHealthHealthy && infoJson.status === "available" ? "online" : "degraded";
 
       return {
         name: "mini-kv",
         state,
         sampledAt,
-        latencyMs: Math.max(ping.latencyMs, health.latencyMs, statsJson.latencyMs),
-        message: `ping=${ping.response} health=${health.response} live_keys=${formatProbeValue(liveKeys)} wal_enabled=${formatProbeValue(walEnabled)}`,
+        latencyMs: Math.max(
+          ping.latencyMs,
+          health.latencyMs,
+          statsJson.latencyMs,
+          infoJson.status === "available" ? infoJson.latencyMs : 0,
+        ),
+        message: formatMiniKvMessage(ping.response, health.response, liveKeys, walEnabled, infoJson),
         details: {
           ping,
           health,
           statsJson,
+          infoJson,
         },
       };
     } catch (error) {
@@ -125,6 +143,22 @@ export class OpsSnapshotService {
         name: "mini-kv",
         state: "offline",
         sampledAt,
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async probeMiniKvInfoJson(): Promise<MiniKvInfoJsonProbe> {
+    try {
+      const response = await this.miniKvClient.infoJson();
+      return {
+        status: "available",
+        latencyMs: response.latencyMs,
+        info: response.info,
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
         message: error instanceof Error ? error.message : String(error),
       };
     }
@@ -170,8 +204,8 @@ function readNestedNumber(data: Record<string, unknown>, objectField: string, nu
   return readNumberField(container as Record<string, unknown>, numberField);
 }
 
-function readNumberField(data: Record<string, unknown>, field: string): number | undefined {
-  const value = data[field];
+function readNumberField(data: Record<string, unknown> | undefined, field: string): number | undefined {
+  const value = data?.[field];
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
 }
 
@@ -180,6 +214,41 @@ function readBooleanField(data: Record<string, unknown>, field: string): boolean
   return typeof value === "boolean" ? value : undefined;
 }
 
+function formatMiniKvMessage(
+  ping: string,
+  health: string,
+  liveKeys: number | undefined,
+  walEnabled: boolean | undefined,
+  infoJson: MiniKvInfoJsonProbe,
+): string {
+  const base = `ping=${ping} health=${health} live_keys=${formatProbeValue(liveKeys)} wal_enabled=${formatProbeValue(walEnabled)}`;
+  if (infoJson.status !== "available") {
+    return `${base} infojson=unavailable`;
+  }
+
+  const info = typeof infoJson.info === "object" && infoJson.info !== null ? infoJson.info as Record<string, unknown> : {};
+  const server = readRecordField(info, "server");
+  const version = readStringField(info, "version");
+  const protocol = readStringArrayField(server, "protocol")?.join(",");
+  const uptimeSeconds = readNumberField(server, "uptime_seconds");
+  return `${base} infojson=available version=${version ?? "unknown"} protocol=${protocol ?? "unknown"} uptime_seconds=${formatProbeValue(uptimeSeconds)}`;
+}
+
 function formatProbeValue(value: number | boolean | undefined): string {
   return value === undefined ? "unknown" : String(value);
+}
+
+function readRecordField(data: Record<string, unknown>, field: string): Record<string, unknown> | undefined {
+  const value = data[field];
+  return typeof value === "object" && value !== null && !Array.isArray(value) ? value as Record<string, unknown> : undefined;
+}
+
+function readStringField(data: Record<string, unknown> | undefined, field: string): string | undefined {
+  const value = data?.[field];
+  return typeof value === "string" ? value : undefined;
+}
+
+function readStringArrayField(data: Record<string, unknown> | undefined, field: string): string[] | undefined {
+  const value = data?.[field];
+  return Array.isArray(value) && value.every((item) => typeof item === "string") ? value : undefined;
 }

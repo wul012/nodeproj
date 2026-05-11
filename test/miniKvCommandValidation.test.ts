@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { parseMiniKvStatsJson, validateRawGatewayCommand } from "../src/clients/miniKvClient.js";
+import { parseMiniKvInfoJson, parseMiniKvStatsJson, validateRawGatewayCommand } from "../src/clients/miniKvClient.js";
 
 describe("validateRawGatewayCommand", () => {
   it("allows safe mini-kv gateway commands", () => {
@@ -9,6 +9,7 @@ describe("validateRawGatewayCommand", () => {
     expect(() => validateRawGatewayCommand("EXPIRE orderops:demo 30")).not.toThrow();
     expect(() => validateRawGatewayCommand("HEALTH")).not.toThrow();
     expect(() => validateRawGatewayCommand("STATSJSON")).not.toThrow();
+    expect(() => validateRawGatewayCommand("INFOJSON")).not.toThrow();
     expect(() => validateRawGatewayCommand("KEYS orderops:")).not.toThrow();
   });
 
@@ -24,5 +25,19 @@ describe("validateRawGatewayCommand", () => {
     });
     expect(() => parseMiniKvStatsJson("OK")).toThrow(/invalid STATSJSON/);
     expect(() => parseMiniKvStatsJson("[1,2,3]")).toThrow(/must be a JSON object/);
+  });
+
+  it("parses mini-kv INFOJSON objects and rejects invalid output", () => {
+    expect(parseMiniKvInfoJson('{"version":"0.45.0","server":{"protocol":["inline","resp"],"uptime_seconds":3,"max_request_bytes":4096},"store":{"live_keys":1},"wal":{"enabled":false},"metrics":{"enabled":true}}')).toMatchObject({
+      version: "0.45.0",
+      server: {
+        protocol: ["inline", "resp"],
+      },
+      metrics: {
+        enabled: true,
+      },
+    });
+    expect(() => parseMiniKvInfoJson("OK")).toThrow(/invalid INFOJSON/);
+    expect(() => parseMiniKvInfoJson("[1,2,3]")).toThrow(/must be a JSON object/);
   });
 });

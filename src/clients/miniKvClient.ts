@@ -13,6 +13,28 @@ export interface MiniKvStatsJsonResult extends MiniKvCommandResult {
   stats: Record<string, unknown>;
 }
 
+export interface MiniKvInfoJson {
+  version?: string;
+  server?: {
+    protocol?: string[];
+    uptime_seconds?: number;
+    max_request_bytes?: number;
+  };
+  store?: {
+    live_keys?: number;
+  };
+  wal?: {
+    enabled?: boolean;
+  };
+  metrics?: {
+    enabled?: boolean;
+  };
+}
+
+export interface MiniKvInfoJsonResult extends MiniKvCommandResult {
+  info: MiniKvInfoJson;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -45,6 +67,14 @@ export class MiniKvClient {
     return {
       ...result,
       stats: parseMiniKvStatsJson(result.response),
+    };
+  }
+
+  async infoJson(): Promise<MiniKvInfoJsonResult> {
+    const result = await this.execute("INFOJSON");
+    return {
+      ...result,
+      info: parseMiniKvInfoJson(result.response),
     };
   }
 
@@ -151,7 +181,7 @@ export class MiniKvClient {
 export function validateRawGatewayCommand(command: string): void {
   validateCommandLine(command);
   const verb = command.trim().split(/\s+/, 1)[0]?.toUpperCase();
-  const allowed = new Set(["PING", "SIZE", "GET", "TTL", "SET", "DEL", "EXPIRE", "HEALTH", "STATSJSON", "KEYS"]);
+  const allowed = new Set(["PING", "SIZE", "GET", "TTL", "SET", "DEL", "EXPIRE", "HEALTH", "STATSJSON", "INFOJSON", "KEYS"]);
   if (!allowed.has(verb)) {
     throw new AppHttpError(400, "MINIKV_COMMAND_NOT_ALLOWED", "Command is not allowed through the gateway");
   }
@@ -170,6 +200,21 @@ export function parseMiniKvStatsJson(response: string): Record<string, unknown> 
   }
 
   return parsed as Record<string, unknown>;
+}
+
+export function parseMiniKvInfoJson(response: string): MiniKvInfoJson {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new AppHttpError(502, "MINIKV_INFOJSON_INVALID", "mini-kv returned invalid INFOJSON output");
+  }
+
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new AppHttpError(502, "MINIKV_INFOJSON_INVALID", "mini-kv INFOJSON output must be a JSON object");
+  }
+
+  return parsed as MiniKvInfoJson;
 }
 
 function validateKey(key: string): void {

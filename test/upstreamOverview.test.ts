@@ -61,8 +61,15 @@ describe("createUpstreamOverview", () => {
     expect(overview.upstreams.miniKv).toMatchObject({
       endpoint: "127.0.0.1:6379",
       signals: {
+        infoJsonAvailable: true,
+        infoJsonLatencyMs: 5,
+        version: "0.45.0",
+        protocol: ["inline", "resp"],
+        uptimeSeconds: 42,
+        maxRequestBytes: 4096,
         liveKeys: 3,
         walEnabled: true,
+        metricsEnabled: true,
         commandTotals: {
           total_commands: 12,
         },
@@ -74,6 +81,7 @@ describe("createUpstreamOverview", () => {
         },
       },
     });
+    expect(overview.upstreams.miniKv.readSignals).toContain("INFOJSON");
     expect(overview.recommendedNextActions[0]).toContain("read-only");
   });
 });
@@ -172,6 +180,27 @@ function onlineSnapshot(): OpsSnapshot {
             },
             wal: {
               compact_recommended: false,
+            },
+          },
+        },
+        infoJson: {
+          status: "available",
+          latencyMs: 5,
+          info: {
+            version: "0.45.0",
+            server: {
+              protocol: ["inline", "resp"],
+              uptime_seconds: 42,
+              max_request_bytes: 4096,
+            },
+            store: {
+              live_keys: 3,
+            },
+            wal: {
+              enabled: true,
+            },
+            metrics: {
+              enabled: true,
             },
           },
         },

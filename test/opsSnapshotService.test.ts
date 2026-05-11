@@ -19,7 +19,7 @@ describe("OpsSnapshotService", () => {
     expect(snapshot.miniKv.message).toContain("UPSTREAM_PROBES_ENABLED=false");
   });
 
-  it("uses mini-kv HEALTH and STATSJSON when probes are enabled", async () => {
+  it("uses mini-kv HEALTH, STATSJSON, and INFOJSON when probes are enabled", async () => {
     const orderPlatform = {
       health: async () => ({
         statusCode: 200,
@@ -48,6 +48,18 @@ describe("OpsSnapshotService", () => {
         latencyMs: 7,
         stats: { live_keys: 2, wal_enabled: true },
       }),
+      infoJson: async () => ({
+        command: "INFOJSON",
+        response: '{"version":"0.45.0","server":{"protocol":["inline","resp"],"uptime_seconds":9,"max_request_bytes":4096},"store":{"live_keys":2},"wal":{"enabled":true},"metrics":{"enabled":true}}',
+        latencyMs: 9,
+        info: {
+          version: "0.45.0",
+          server: { protocol: ["inline", "resp"], uptime_seconds: 9, max_request_bytes: 4096 },
+          store: { live_keys: 2 },
+          wal: { enabled: true },
+          metrics: { enabled: true },
+        },
+      }),
     } as unknown as MiniKvClient;
     const service = new OpsSnapshotService(orderPlatform, miniKv, true);
 
@@ -66,14 +78,22 @@ describe("OpsSnapshotService", () => {
       },
     });
     expect(snapshot.miniKv.state).toBe("online");
-    expect(snapshot.miniKv.latencyMs).toBe(7);
+    expect(snapshot.miniKv.latencyMs).toBe(9);
     expect(snapshot.miniKv.message).toContain("health=OK live_keys=2");
     expect(snapshot.miniKv.message).toContain("wal_enabled=true");
+    expect(snapshot.miniKv.message).toContain("infojson=available");
+    expect(snapshot.miniKv.message).toContain("version=0.45.0");
     expect(snapshot.miniKv.details).toMatchObject({
       statsJson: {
         stats: {
           live_keys: 2,
           wal_enabled: true,
+        },
+      },
+      infoJson: {
+        status: "available",
+        info: {
+          version: "0.45.0",
         },
       },
     });
@@ -99,6 +119,18 @@ describe("OpsSnapshotService", () => {
         latencyMs: 7,
         stats: { live_keys: 0, wal_enabled: false },
       }),
+      infoJson: async () => ({
+        command: "INFOJSON",
+        response: '{"version":"0.45.0","server":{"protocol":["inline"],"uptime_seconds":1,"max_request_bytes":0},"store":{"live_keys":0},"wal":{"enabled":false},"metrics":{"enabled":false}}',
+        latencyMs: 8,
+        info: {
+          version: "0.45.0",
+          server: { protocol: ["inline"], uptime_seconds: 1, max_request_bytes: 0 },
+          store: { live_keys: 0 },
+          wal: { enabled: false },
+          metrics: { enabled: false },
+        },
+      }),
     } as unknown as MiniKvClient;
     const service = new OpsSnapshotService(orderPlatform, miniKv, true);
 
@@ -110,6 +142,51 @@ describe("OpsSnapshotService", () => {
       opsOverview: {
         status: "unavailable",
         message: "not found",
+      },
+    });
+  });
+
+  it("keeps mini-kv probe usable when INFOJSON is unavailable", async () => {
+    const orderPlatform = {
+      health: async () => ({
+        statusCode: 200,
+        latencyMs: 4,
+        data: { status: "UP" },
+      }),
+      opsOverview: async () => ({
+        statusCode: 200,
+        latencyMs: 6,
+        data: {
+          sampledAt: "2026-05-11T00:00:00.000Z",
+          orders: { total: 0 },
+          outbox: { pending: 0 },
+          failedEvents: { total: 0 },
+        },
+      }),
+    } as unknown as OrderPlatformClient;
+    const miniKv = {
+      ping: async () => ({ command: "PING orderops", response: "orderops", latencyMs: 3 }),
+      health: async () => ({ command: "HEALTH", response: "OK live_keys=1 wal_enabled=no", latencyMs: 5 }),
+      statsJson: async () => ({
+        command: "STATSJSON",
+        response: '{"live_keys":1,"wal_enabled":false}',
+        latencyMs: 7,
+        stats: { live_keys: 1, wal_enabled: false },
+      }),
+      infoJson: async () => {
+        throw new Error("ERR unknown command");
+      },
+    } as unknown as MiniKvClient;
+    const service = new OpsSnapshotService(orderPlatform, miniKv, true);
+
+    const snapshot = await service.sample();
+
+    expect(snapshot.miniKv.state).toBe("degraded");
+    expect(snapshot.miniKv.message).toContain("infojson=unavailable");
+    expect(snapshot.miniKv.details).toMatchObject({
+      infoJson: {
+        status: "unavailable",
+        message: "ERR unknown command",
       },
     });
   });
