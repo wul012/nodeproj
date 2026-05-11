@@ -9,6 +9,7 @@ import { OpsCheckpointLedger } from "../services/opsCheckpoint.js";
 import { createOpsCheckpointDiff } from "../services/opsCheckpointDiff.js";
 import { createOpsHandoffReport, renderOpsHandoffMarkdown } from "../services/opsHandoffReport.js";
 import {
+  createOpsPromotionDeploymentApproval,
   createOpsPromotionArchiveAttestation,
   createOpsPromotionArchiveAttestationVerification,
   createOpsPromotionArchiveBundle,
@@ -28,6 +29,7 @@ import {
   createOpsPromotionReleaseArchiveVerification,
   createOpsPromotionReleaseEvidence,
   createOpsPromotionReleaseEvidenceVerification,
+  renderOpsPromotionDeploymentApprovalMarkdown,
   renderOpsPromotionArchiveAttestationMarkdown,
   renderOpsPromotionArchiveAttestationVerificationMarkdown,
   renderOpsPromotionArchiveManifestMarkdown,
@@ -887,11 +889,7 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
       },
     },
   }, async (request, reply) => {
-    const { releaseEvidence, releaseEvidenceVerification } = createPromotionReleaseEvidenceArtifacts(deps);
-    const releaseArchive = createOpsPromotionReleaseArchive({
-      evidence: releaseEvidence,
-      evidenceVerification: releaseEvidenceVerification,
-    });
+    const { releaseArchive } = createPromotionReleaseEvidenceArtifacts(deps);
 
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
@@ -911,16 +909,7 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
       },
     },
   }, async (request, reply) => {
-    const { releaseEvidence, releaseEvidenceVerification } = createPromotionReleaseEvidenceArtifacts(deps);
-    const releaseArchive = createOpsPromotionReleaseArchive({
-      evidence: releaseEvidence,
-      evidenceVerification: releaseEvidenceVerification,
-    });
-    const releaseArchiveVerification = createOpsPromotionReleaseArchiveVerification({
-      evidence: releaseEvidence,
-      evidenceVerification: releaseEvidenceVerification,
-      releaseArchive,
-    });
+    const { releaseArchiveVerification } = createPromotionReleaseEvidenceArtifacts(deps);
 
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
@@ -928,6 +917,30 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     }
 
     return releaseArchiveVerification;
+  });
+  app.get<{ Querystring: OpsPromotionArchiveQuery }>("/api/v1/ops/promotion-archive/deployment-approval", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const { releaseArchive, releaseArchiveVerification } = createPromotionReleaseEvidenceArtifacts(deps);
+    const deploymentApproval = createOpsPromotionDeploymentApproval({
+      releaseArchive,
+      releaseArchiveVerification,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOpsPromotionDeploymentApprovalMarkdown(deploymentApproval);
+    }
+
+    return deploymentApproval;
   });
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);
@@ -1273,9 +1286,20 @@ function createPromotionReleaseEvidenceArtifacts(deps: OpsSummaryRouteDeps) {
     completionVerification,
     evidence: releaseEvidence,
   });
+  const releaseArchive = createOpsPromotionReleaseArchive({
+    evidence: releaseEvidence,
+    evidenceVerification: releaseEvidenceVerification,
+  });
+  const releaseArchiveVerification = createOpsPromotionReleaseArchiveVerification({
+    evidence: releaseEvidence,
+    evidenceVerification: releaseEvidenceVerification,
+    releaseArchive,
+  });
 
   return {
     releaseEvidence,
     releaseEvidenceVerification,
+    releaseArchive,
+    releaseArchiveVerification,
   };
 }

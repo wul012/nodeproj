@@ -2478,6 +2478,135 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("builds promotion deployment approval as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyApproval = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "deployment-approval-reviewer",
+          note: "build deployment approval",
+        },
+      });
+      const releaseArchive = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/release-archive",
+      });
+      const approval = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-approval?format=markdown",
+      });
+
+      expect(emptyApproval.statusCode).toBe(200);
+      expect(emptyApproval.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        approvalReady: false,
+        decision: {
+          totalDecisions: 0,
+        },
+        verification: {
+          releaseArchiveVerified: true,
+          releaseArchiveDigestValid: true,
+          archiveItemsValid: true,
+          releaseArchiveReferenceValid: true,
+          closeoutReady: false,
+          archiveItemCount: 4,
+          approvalItemCount: 4,
+        },
+      });
+      expect(emptyApproval.json().approvalName).toMatch(/^promotion-deployment-approval-[a-f0-9]{12}$/);
+      expect(emptyApproval.json().approvalDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(emptyApproval.json().approvalItems.map((item: { name: string }) => item.name)).toEqual([
+        "release-archive",
+        "verified-release-archive",
+        "verified-release-evidence",
+        "deployment-approval-state",
+      ]);
+      expect(emptyApproval.json().approvalItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(releaseArchive.statusCode).toBe(200);
+      expect(approval.statusCode).toBe(200);
+      expect(approval.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        approvalReady: false,
+        decision: {
+          latestDecisionId: decision.json().id,
+          latestOutcome: "blocked",
+        },
+        verification: {
+          releaseArchiveVerified: true,
+          releaseArchiveDigestValid: true,
+          archiveItemsValid: true,
+          releaseArchiveReferenceValid: true,
+          closeoutReady: false,
+          archiveItemCount: 4,
+          approvalItemCount: 4,
+        },
+      });
+      expect(approval.json().approvalName).toMatch(/^promotion-deployment-approval-[a-f0-9]{12}$/);
+      expect(approval.json().approvalDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(approval.json().approvalDigest.coveredFields).toEqual([
+        "approvalName",
+        "releaseArchiveName",
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "approvalReady",
+        "releaseArchiveDigest",
+        "verifiedReleaseArchiveDigest",
+        "evidenceDigest",
+        "decision",
+        "verification",
+        "approvalItems",
+        "nextActions",
+      ]);
+      expect(approval.json().releaseArchiveDigest.value).toBe(releaseArchive.json().releaseArchiveDigest.value);
+      expect(approval.json().releaseArchiveDigest.value).toBe(approval.json().verifiedReleaseArchiveDigest.value);
+      expect(approval.json().approvalItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(approval.json().approvalItems[1]).toMatchObject({
+        name: "verified-release-archive",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/release-archive/verification",
+      });
+      expect(approval.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion deployment approval");
+      expect(markdown.body).toContain("- Approval ready: false");
+      expect(markdown.body).toContain(`- Approval digest: sha256:${approval.json().approvalDigest.value}`);
+      expect(markdown.body).toContain("- Release archive reference valid: true");
+      expect(markdown.body).toContain("## Approval Items");
+      expect(markdown.body).toContain("### verified-release-archive");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",

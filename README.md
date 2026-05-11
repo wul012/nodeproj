@@ -56,6 +56,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion release evidence verification for rechecking final evidence digests and release archive items
 - Local promotion release archive manifest for sealing verified release evidence into the final deployment approval record
 - Local promotion release archive verification for rechecking final archive digests and deployment approval references
+- Local promotion deployment approval record for attaching verified release archive digests to deployment change records
 
 ## Setup
 
@@ -144,6 +145,8 @@ GET    /api/v1/ops/promotion-archive/release-archive
 GET    /api/v1/ops/promotion-archive/release-archive?format=markdown
 GET    /api/v1/ops/promotion-archive/release-archive/verification
 GET    /api/v1/ops/promotion-archive/release-archive/verification?format=markdown
+GET    /api/v1/ops/promotion-archive/deployment-approval
+GET    /api/v1/ops/promotion-archive/deployment-approval?format=markdown
 GET    /api/v1/ops/promotion-review
 GET    /api/v1/ops/promotion-decisions
 GET    /api/v1/ops/promotion-decisions/integrity
