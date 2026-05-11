@@ -1474,6 +1474,96 @@ export interface OpsPromotionDeploymentExecutionRecord {
   nextActions: string[];
 }
 
+export interface OpsPromotionDeploymentExecutionRecordVerificationItem {
+  name: OpsPromotionDeploymentExecutionRecordItemName;
+  valid: boolean;
+  validMatches: boolean;
+  sourceMatches: boolean;
+  detailMatches: boolean;
+  digestMatches: boolean;
+  executionItemDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  source: string;
+  detail: string;
+}
+
+export interface OpsPromotionDeploymentExecutionRecordVerification {
+  service: "orderops-node";
+  generatedAt: string;
+  executionName: string;
+  changeRecordName: string;
+  approvalName: string;
+  releaseArchiveName: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  approvalReady: boolean;
+  changeReady: boolean;
+  executionReady: boolean;
+  executionDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  recomputedExecutionDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  checks: {
+    executionDigestValid: boolean;
+    coveredFieldsMatch: boolean;
+    executionItemsValid: boolean;
+    executionNameMatches: boolean;
+    changeRecordNameMatches: boolean;
+    approvalNameMatches: boolean;
+    releaseArchiveNameMatches: boolean;
+    evidenceNameMatches: boolean;
+    completionNameMatches: boolean;
+    closureNameMatches: boolean;
+    receiptNameMatches: boolean;
+    certificateNameMatches: boolean;
+    packageNameMatches: boolean;
+    archiveNameMatches: boolean;
+    validMatches: boolean;
+    stateMatches: boolean;
+    handoffReadyMatches: boolean;
+    approvalReadyMatches: boolean;
+    changeReadyMatches: boolean;
+    executionReadyMatches: boolean;
+    changeDigestMatches: boolean;
+    verifiedChangeDigestMatches: boolean;
+    approvalDigestMatches: boolean;
+    releaseArchiveDigestMatches: boolean;
+    decisionMatches: boolean;
+    verificationMatches: boolean;
+    nextActionsMatch: boolean;
+  };
+  summary: {
+    totalDecisions: number;
+    latestDecisionId?: string;
+    executionItemCount: number;
+    handoffReady: boolean;
+    approvalReady: boolean;
+    changeReady: boolean;
+    executionReady: boolean;
+    closeoutReady: boolean;
+  };
+  executionItems: OpsPromotionDeploymentExecutionRecordVerificationItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -3750,6 +3840,142 @@ export function createOpsPromotionDeploymentExecutionRecord(input: {
   };
 }
 
+export function createOpsPromotionDeploymentExecutionRecordVerification(input: {
+  changeRecord: OpsPromotionDeploymentChangeRecord;
+  changeRecordVerification: OpsPromotionDeploymentChangeRecordVerification;
+  executionRecord: OpsPromotionDeploymentExecutionRecord;
+}): OpsPromotionDeploymentExecutionRecordVerification {
+  const expectedExecutionRecord = createOpsPromotionDeploymentExecutionRecord({
+    changeRecord: input.changeRecord,
+    changeRecordVerification: input.changeRecordVerification,
+  });
+  const recomputedExecutionDigest = digestStable(archiveDeploymentExecutionRecordDigestPayload({
+    executionName: input.executionRecord.executionName,
+    changeRecordName: input.executionRecord.changeRecordName,
+    approvalName: input.executionRecord.approvalName,
+    releaseArchiveName: input.executionRecord.releaseArchiveName,
+    evidenceName: input.executionRecord.evidenceName,
+    completionName: input.executionRecord.completionName,
+    closureName: input.executionRecord.closureName,
+    receiptName: input.executionRecord.receiptName,
+    certificateName: input.executionRecord.certificateName,
+    packageName: input.executionRecord.packageName,
+    archiveName: input.executionRecord.archiveName,
+    valid: input.executionRecord.valid,
+    state: input.executionRecord.state,
+    handoffReady: input.executionRecord.handoffReady,
+    approvalReady: input.executionRecord.approvalReady,
+    changeReady: input.executionRecord.changeReady,
+    executionReady: input.executionRecord.executionReady,
+    changeDigest: input.executionRecord.changeDigest.value,
+    verifiedChangeDigest: input.executionRecord.verifiedChangeDigest.value,
+    approvalDigest: input.executionRecord.approvalDigest.value,
+    releaseArchiveDigest: input.executionRecord.releaseArchiveDigest.value,
+    decision: input.executionRecord.decision,
+    verification: input.executionRecord.verification,
+    executionItems: input.executionRecord.executionItems,
+    nextActions: input.executionRecord.nextActions,
+  }));
+  const executionItemChecks = input.executionRecord.executionItems.map((item) => {
+    const expected = expectedExecutionRecord.executionItems.find((candidate) => candidate.name === item.name);
+    const validMatches = expected?.valid === item.valid;
+    const sourceMatches = expected?.source === item.source;
+    const detailMatches = expected?.detail === item.detail;
+    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: item.name }) };
+    const digestMatches = item.digest.value === expectedDigest.value;
+
+    return {
+      name: item.name,
+      valid: expected !== undefined && validMatches && sourceMatches && detailMatches && digestMatches,
+      validMatches,
+      sourceMatches,
+      detailMatches,
+      digestMatches,
+      executionItemDigest: { ...item.digest },
+      recomputedDigest: expectedDigest,
+      source: item.source,
+      detail: item.detail,
+    };
+  });
+  const checks = {
+    executionDigestValid: input.executionRecord.executionDigest.value === recomputedExecutionDigest,
+    coveredFieldsMatch: stableJson(input.executionRecord.executionDigest.coveredFields)
+      === stableJson(expectedExecutionRecord.executionDigest.coveredFields),
+    executionItemsValid: executionItemChecks.length === expectedExecutionRecord.executionItems.length
+      && executionItemChecks.every((item) => item.valid),
+    executionNameMatches: input.executionRecord.executionName === expectedExecutionRecord.executionName,
+    changeRecordNameMatches: input.executionRecord.changeRecordName === expectedExecutionRecord.changeRecordName,
+    approvalNameMatches: input.executionRecord.approvalName === expectedExecutionRecord.approvalName,
+    releaseArchiveNameMatches: input.executionRecord.releaseArchiveName === expectedExecutionRecord.releaseArchiveName,
+    evidenceNameMatches: input.executionRecord.evidenceName === expectedExecutionRecord.evidenceName,
+    completionNameMatches: input.executionRecord.completionName === expectedExecutionRecord.completionName,
+    closureNameMatches: input.executionRecord.closureName === expectedExecutionRecord.closureName,
+    receiptNameMatches: input.executionRecord.receiptName === expectedExecutionRecord.receiptName,
+    certificateNameMatches: input.executionRecord.certificateName === expectedExecutionRecord.certificateName,
+    packageNameMatches: input.executionRecord.packageName === expectedExecutionRecord.packageName,
+    archiveNameMatches: input.executionRecord.archiveName === expectedExecutionRecord.archiveName,
+    validMatches: input.executionRecord.valid === expectedExecutionRecord.valid,
+    stateMatches: input.executionRecord.state === expectedExecutionRecord.state,
+    handoffReadyMatches: input.executionRecord.handoffReady === expectedExecutionRecord.handoffReady,
+    approvalReadyMatches: input.executionRecord.approvalReady === expectedExecutionRecord.approvalReady,
+    changeReadyMatches: input.executionRecord.changeReady === expectedExecutionRecord.changeReady,
+    executionReadyMatches: input.executionRecord.executionReady === expectedExecutionRecord.executionReady,
+    changeDigestMatches: input.executionRecord.changeDigest.value === expectedExecutionRecord.changeDigest.value,
+    verifiedChangeDigestMatches: input.executionRecord.verifiedChangeDigest.value
+      === expectedExecutionRecord.verifiedChangeDigest.value,
+    approvalDigestMatches: input.executionRecord.approvalDigest.value === expectedExecutionRecord.approvalDigest.value,
+    releaseArchiveDigestMatches: input.executionRecord.releaseArchiveDigest.value
+      === expectedExecutionRecord.releaseArchiveDigest.value,
+    decisionMatches: stableJson(input.executionRecord.decision) === stableJson(expectedExecutionRecord.decision),
+    verificationMatches: stableJson(input.executionRecord.verification) === stableJson(expectedExecutionRecord.verification),
+    nextActionsMatch: stableJson(input.executionRecord.nextActions) === stableJson(expectedExecutionRecord.nextActions),
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    executionName: input.executionRecord.executionName,
+    changeRecordName: input.executionRecord.changeRecordName,
+    approvalName: input.executionRecord.approvalName,
+    releaseArchiveName: input.executionRecord.releaseArchiveName,
+    evidenceName: input.executionRecord.evidenceName,
+    completionName: input.executionRecord.completionName,
+    closureName: input.executionRecord.closureName,
+    receiptName: input.executionRecord.receiptName,
+    certificateName: input.executionRecord.certificateName,
+    packageName: input.executionRecord.packageName,
+    archiveName: input.executionRecord.archiveName,
+    valid,
+    state: input.executionRecord.state,
+    handoffReady: input.executionRecord.handoffReady,
+    approvalReady: input.executionRecord.approvalReady,
+    changeReady: input.executionRecord.changeReady,
+    executionReady: input.executionRecord.executionReady,
+    executionDigest: {
+      algorithm: "sha256",
+      value: input.executionRecord.executionDigest.value,
+    },
+    recomputedExecutionDigest: {
+      algorithm: "sha256",
+      value: recomputedExecutionDigest,
+    },
+    checks,
+    summary: {
+      totalDecisions: input.executionRecord.decision.totalDecisions,
+      latestDecisionId: input.executionRecord.decision.latestDecisionId,
+      executionItemCount: executionItemChecks.length,
+      handoffReady: input.executionRecord.handoffReady,
+      approvalReady: input.executionRecord.approvalReady,
+      changeReady: input.executionRecord.changeReady,
+      executionReady: input.executionRecord.executionReady,
+      closeoutReady: input.executionRecord.verification.closeoutReady,
+    },
+    executionItems: executionItemChecks,
+    nextActions: archiveDeploymentExecutionRecordVerificationNextActions(checks, input.executionRecord),
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -4765,6 +4991,88 @@ export function renderOpsPromotionDeploymentExecutionRecordMarkdown(record: OpsP
     "## Next Actions",
     "",
     ...record.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
+export function renderOpsPromotionDeploymentExecutionRecordVerificationMarkdown(
+  verification: OpsPromotionDeploymentExecutionRecordVerification,
+): string {
+  const lines = [
+    "# Promotion deployment execution record verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Generated at: ${verification.generatedAt}`,
+    `- Execution name: ${verification.executionName}`,
+    `- Change record name: ${verification.changeRecordName}`,
+    `- Approval name: ${verification.approvalName}`,
+    `- Release archive name: ${verification.releaseArchiveName}`,
+    `- Evidence name: ${verification.evidenceName}`,
+    `- Completion name: ${verification.completionName}`,
+    `- Closure name: ${verification.closureName}`,
+    `- Receipt name: ${verification.receiptName}`,
+    `- Certificate name: ${verification.certificateName}`,
+    `- Package name: ${verification.packageName}`,
+    `- Archive name: ${verification.archiveName}`,
+    `- State: ${verification.state}`,
+    `- Handoff ready: ${verification.handoffReady}`,
+    `- Approval ready: ${verification.approvalReady}`,
+    `- Change ready: ${verification.changeReady}`,
+    `- Execution ready: ${verification.executionReady}`,
+    `- Valid: ${verification.valid}`,
+    `- Execution digest: ${verification.executionDigest.algorithm}:${verification.executionDigest.value}`,
+    `- Recomputed execution digest: ${verification.recomputedExecutionDigest.algorithm}:${verification.recomputedExecutionDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Execution digest valid: ${verification.checks.executionDigestValid}`,
+    `- Covered fields match: ${verification.checks.coveredFieldsMatch}`,
+    `- Execution items valid: ${verification.checks.executionItemsValid}`,
+    `- Execution name matches: ${verification.checks.executionNameMatches}`,
+    `- Change record name matches: ${verification.checks.changeRecordNameMatches}`,
+    `- Approval name matches: ${verification.checks.approvalNameMatches}`,
+    `- Release archive name matches: ${verification.checks.releaseArchiveNameMatches}`,
+    `- Evidence name matches: ${verification.checks.evidenceNameMatches}`,
+    `- Completion name matches: ${verification.checks.completionNameMatches}`,
+    `- Closure name matches: ${verification.checks.closureNameMatches}`,
+    `- Receipt name matches: ${verification.checks.receiptNameMatches}`,
+    `- Certificate name matches: ${verification.checks.certificateNameMatches}`,
+    `- Package name matches: ${verification.checks.packageNameMatches}`,
+    `- Archive name matches: ${verification.checks.archiveNameMatches}`,
+    `- Valid matches: ${verification.checks.validMatches}`,
+    `- State matches: ${verification.checks.stateMatches}`,
+    `- Handoff ready matches: ${verification.checks.handoffReadyMatches}`,
+    `- Approval ready matches: ${verification.checks.approvalReadyMatches}`,
+    `- Change ready matches: ${verification.checks.changeReadyMatches}`,
+    `- Execution ready matches: ${verification.checks.executionReadyMatches}`,
+    `- Change digest matches: ${verification.checks.changeDigestMatches}`,
+    `- Verified change digest matches: ${verification.checks.verifiedChangeDigestMatches}`,
+    `- Approval digest matches: ${verification.checks.approvalDigestMatches}`,
+    `- Release archive digest matches: ${verification.checks.releaseArchiveDigestMatches}`,
+    `- Decision matches: ${verification.checks.decisionMatches}`,
+    `- Verification matches: ${verification.checks.verificationMatches}`,
+    `- Next actions match: ${verification.checks.nextActionsMatch}`,
+    "",
+    "## Execution Items",
+    "",
+    ...renderDeploymentExecutionRecordVerificationItems(verification.executionItems),
+    "",
+    "## Summary",
+    "",
+    `- Total decisions: ${verification.summary.totalDecisions}`,
+    `- Latest decision id: ${verification.summary.latestDecisionId ?? "none"}`,
+    `- Execution item count: ${verification.summary.executionItemCount}`,
+    `- Handoff ready: ${verification.summary.handoffReady}`,
+    `- Approval ready: ${verification.summary.approvalReady}`,
+    `- Change ready: ${verification.summary.changeReady}`,
+    `- Execution ready: ${verification.summary.executionReady}`,
+    `- Closeout ready: ${verification.summary.closeoutReady}`,
+    "",
+    "## Next Actions",
+    "",
+    ...verification.nextActions.map((action) => `- ${action}`),
     "",
   ];
 
@@ -6685,6 +6993,29 @@ function archiveDeploymentExecutionRecordNextActions(
   return changeRecordVerification.nextActions;
 }
 
+function archiveDeploymentExecutionRecordVerificationNextActions(
+  checks: OpsPromotionDeploymentExecutionRecordVerification["checks"],
+  executionRecord: OpsPromotionDeploymentExecutionRecord,
+): string[] {
+  if (!checks.executionDigestValid) {
+    return ["Regenerate the deployment execution record before using it as a release execution correlation id."];
+  }
+
+  if (!checks.executionItemsValid) {
+    return ["Review deployment execution record items before trusting the execution digest."];
+  }
+
+  if (!checks.coveredFieldsMatch || !checks.verificationMatches || !checks.nextActionsMatch) {
+    return ["Regenerate the deployment execution record from the verified change record chain."];
+  }
+
+  if (executionRecord.executionReady) {
+    return ["Deployment execution record is verified; use the execution digest as the release execution correlation id."];
+  }
+
+  return executionRecord.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -7119,6 +7450,23 @@ function renderDeploymentExecutionRecordItems(items: OpsPromotionDeploymentExecu
     "",
     `- Valid: ${item.valid}`,
     `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
+    `- Source: ${item.source}`,
+    `- Detail: ${item.detail}`,
+    "",
+  ]);
+}
+
+function renderDeploymentExecutionRecordVerificationItems(items: OpsPromotionDeploymentExecutionRecordVerificationItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Valid matches: ${item.validMatches}`,
+    `- Source matches: ${item.sourceMatches}`,
+    `- Detail matches: ${item.detailMatches}`,
+    `- Digest matches: ${item.digestMatches}`,
+    `- Execution item digest: ${item.executionItemDigest.algorithm}:${item.executionItemDigest.value}`,
+    `- Recomputed digest: ${item.recomputedDigest.algorithm}:${item.recomputedDigest.value}`,
     `- Source: ${item.source}`,
     `- Detail: ${item.detail}`,
     "",

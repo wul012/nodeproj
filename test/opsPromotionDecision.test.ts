@@ -3155,6 +3155,143 @@ describe("ops promotion decision routes", () => {
     }
   });
 
+  it("verifies promotion deployment execution record as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const emptyVerification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-record/verification",
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "deployment-execution-verifier",
+          note: "verify deployment execution record",
+        },
+      });
+      const executionRecord = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-record",
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-record/verification",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/deployment-execution-record/verification?format=markdown",
+      });
+
+      expect(emptyVerification.statusCode).toBe(200);
+      expect(emptyVerification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "not-started",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        executionReady: false,
+        checks: {
+          executionDigestValid: true,
+          coveredFieldsMatch: true,
+          executionItemsValid: true,
+          executionNameMatches: true,
+          changeRecordNameMatches: true,
+          changeDigestMatches: true,
+          verifiedChangeDigestMatches: true,
+          approvalDigestMatches: true,
+          releaseArchiveDigestMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 0,
+          executionItemCount: 4,
+          handoffReady: false,
+          approvalReady: false,
+          changeReady: false,
+          executionReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(emptyVerification.json().executionDigest.value).toBe(emptyVerification.json().recomputedExecutionDigest.value);
+      expect(emptyVerification.json().executionItems.map((item: { name: string }) => item.name)).toEqual([
+        "deployment-change-record",
+        "verified-deployment-change-record",
+        "deployment-approval",
+        "deployment-execution-state",
+      ]);
+      expect(emptyVerification.json().executionItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(emptyVerification.json().executionItems.every((item: { digestMatches: boolean }) => item.digestMatches)).toBe(true);
+      expect(decision.statusCode).toBe(201);
+      expect(executionRecord.statusCode).toBe(200);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        state: "blocked",
+        handoffReady: false,
+        approvalReady: false,
+        changeReady: false,
+        executionReady: false,
+        checks: {
+          executionDigestValid: true,
+          coveredFieldsMatch: true,
+          executionItemsValid: true,
+          executionNameMatches: true,
+          validMatches: true,
+          stateMatches: true,
+          handoffReadyMatches: true,
+          approvalReadyMatches: true,
+          changeReadyMatches: true,
+          executionReadyMatches: true,
+          changeDigestMatches: true,
+          verifiedChangeDigestMatches: true,
+          approvalDigestMatches: true,
+          releaseArchiveDigestMatches: true,
+          decisionMatches: true,
+          verificationMatches: true,
+          nextActionsMatch: true,
+        },
+        summary: {
+          totalDecisions: 1,
+          latestDecisionId: decision.json().id,
+          executionItemCount: 4,
+          handoffReady: false,
+          approvalReady: false,
+          changeReady: false,
+          executionReady: false,
+          closeoutReady: false,
+        },
+      });
+      expect(verification.json().executionName).toBe(executionRecord.json().executionName);
+      expect(verification.json().executionDigest.value).toBe(executionRecord.json().executionDigest.value);
+      expect(verification.json().executionDigest.value).toBe(verification.json().recomputedExecutionDigest.value);
+      expect(verification.json().executionItems.every((item: { valid: boolean }) => item.valid)).toBe(true);
+      expect(verification.json().executionItems.every((item: { sourceMatches: boolean }) => item.sourceMatches)).toBe(true);
+      expect(verification.json().executionItems[1]).toMatchObject({
+        name: "verified-deployment-change-record",
+        valid: true,
+        source: "/api/v1/ops/promotion-archive/deployment-change-record/verification",
+      });
+      expect(verification.json().nextActions).toContain(
+        "Complete readiness, runbook, and baseline requirements before recording an approved promotion decision.",
+      );
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion deployment execution record verification");
+      expect(markdown.body).toContain("- Execution digest valid: true");
+      expect(markdown.body).toContain(`- Recomputed execution digest: sha256:${verification.json().recomputedExecutionDigest.value}`);
+      expect(markdown.body).toContain("## Execution Items");
+      expect(markdown.body).toContain("### verified-deployment-change-record");
+      expect(markdown.body).toContain("## Summary");
+    } finally {
+      await app.close();
+    }
+  });
+
   it("records an approved promotion review after local evidence is complete", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
