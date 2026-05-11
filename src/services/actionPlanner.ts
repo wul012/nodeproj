@@ -3,11 +3,13 @@ import { AppHttpError } from "../errors.js";
 
 export type ActionTarget = "order-platform" | "mini-kv";
 export type ActionRisk = "diagnostic" | "read" | "write";
+export type ActionGate = "probes" | "actions";
 
 export const actionKeys = [
   "order-products",
   "order-outbox",
   "order-load",
+  "failed-event-replay-readiness",
   "order-create",
   "order-pay",
   "order-cancel",
@@ -30,6 +32,7 @@ interface ActionDefinition {
   target: ActionTarget;
   label: string;
   risk: ActionRisk;
+  gate?: ActionGate;
   requires: string[];
   nodeRoute: {
     method: string;
@@ -105,6 +108,21 @@ const definitions: Record<ActionKey, ActionDefinition> = {
       endpoint: config.orderPlatformUrl,
       method: "GET",
       path: "/api/v1/orders/:orderId",
+    }),
+  },
+  "failed-event-replay-readiness": {
+    action: "failed-event-replay-readiness",
+    target: "order-platform",
+    label: "Check failed-event replay readiness",
+    risk: "read",
+    gate: "probes",
+    requires: ["failedEventId"],
+    nodeRoute: { method: "GET", path: "/api/v1/order-platform/failed-events/:failedEventId/replay-readiness" },
+    upstream: (config) => ({
+      type: "http",
+      endpoint: config.orderPlatformUrl,
+      method: "GET",
+      path: "/api/v1/failed-events/:failedEventId/replay-readiness",
     }),
   },
   "order-create": {
@@ -247,7 +265,9 @@ export function createActionPlan(config: AppConfig, input: ActionPlanInput): Act
     });
   }
 
-  const allowed = config.upstreamActionsEnabled;
+  const gate = definition.gate ?? "actions";
+  const allowed = gate === "probes" ? config.upstreamProbesEnabled : config.upstreamActionsEnabled;
+  const blockedBy = gate === "probes" ? "UPSTREAM_PROBES_ENABLED=false" : "UPSTREAM_ACTIONS_ENABLED=false";
   return {
     dryRun: true,
     generatedAt: new Date().toISOString(),
@@ -257,13 +277,13 @@ export function createActionPlan(config: AppConfig, input: ActionPlanInput): Act
     risk: definition.risk,
     requires: [...definition.requires],
     allowed,
-    ...(allowed ? {} : { blockedBy: "UPSTREAM_ACTIONS_ENABLED=false" }),
+    ...(allowed ? {} : { blockedBy }),
     reason: allowed
-      ? "The Node action gate is open; the real route would be allowed to call the upstream."
-      : "The Node action gate is closed; the real route will stop inside orderops-node before any upstream call.",
+      ? `The Node ${gate} gate is open; the route would be allowed to call the upstream.`
+      : `The Node ${gate} gate is closed; the route will stop inside orderops-node before any upstream call.`,
     nextStep: allowed
-      ? "Run the real route only when the target project is ready for traffic."
-      : "Set UPSTREAM_ACTIONS_ENABLED=true and restart orderops-node when you want real upstream calls.",
+      ? "Run the route only when the target project is ready for this traffic."
+      : `Set ${gate === "probes" ? "UPSTREAM_PROBES_ENABLED" : "UPSTREAM_ACTIONS_ENABLED"}=true and restart orderops-node when you want this upstream call.`,
     nodeRoute: { ...definition.nodeRoute },
     wouldCall: definition.upstream(config),
     safety: {

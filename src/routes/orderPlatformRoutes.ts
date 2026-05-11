@@ -2,10 +2,11 @@ import type { FastifyInstance } from "fastify";
 
 import { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import { AppHttpError } from "../errors.js";
-import { assertUpstreamActionsEnabled } from "../services/upstreamActionGuard.js";
+import { assertUpstreamActionsEnabled, assertUpstreamProbesEnabled } from "../services/upstreamActionGuard.js";
 
 interface OrderRouteDeps {
   orderPlatform: OrderPlatformClient;
+  upstreamProbesEnabled: boolean;
   upstreamActionsEnabled: boolean;
 }
 
@@ -13,7 +14,28 @@ interface OrderParams {
   orderId: string;
 }
 
+interface FailedEventParams {
+  failedEventId: string;
+}
+
 export async function registerOrderPlatformRoutes(app: FastifyInstance, deps: OrderRouteDeps): Promise<void> {
+  app.get<{ Params: FailedEventParams }>("/api/v1/order-platform/failed-events/:failedEventId/replay-readiness", {
+    schema: {
+      params: {
+        type: "object",
+        required: ["failedEventId"],
+        properties: {
+          failedEventId: { type: "string", pattern: "^[0-9]+$" },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request) => {
+    assertUpstreamProbesEnabled(deps.upstreamProbesEnabled, "advanced-order-platform");
+    const response = await deps.orderPlatform.failedEventReplayReadiness(request.params.failedEventId);
+    return response.data;
+  });
+
   app.get("/api/v1/order-platform/products", async () => {
     assertUpstreamActionsEnabled(deps.upstreamActionsEnabled, "advanced-order-platform");
     const response = await deps.orderPlatform.listProducts();

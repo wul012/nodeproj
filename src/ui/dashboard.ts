@@ -561,6 +561,24 @@ export function dashboardHtml(): string {
           <input id="orderId" placeholder="Order ID" inputmode="numeric">
           <button data-action="order">Load Order</button>
         </div>
+        <div class="row">
+          <input id="failedEventId" placeholder="Failed event ID" inputmode="numeric">
+          <button data-action="failedEventReadiness">Replay Readiness</button>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Replay readiness</div>
+            <div class="signal-value" id="failedEventReadinessSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Blockers</div>
+            <div class="signal-value" id="failedEventBlockersSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Next actions</div>
+            <div class="signal-value" id="failedEventNextActionsSignal">-</div>
+          </div>
+        </div>
         <textarea id="orderBody">{"customerId":"11111111-1111-1111-1111-111111111111","items":[{"productId":1,"quantity":1}]}</textarea>
         <div class="row">
           <input id="idempotencyKey" placeholder="Idempotency-Key" value="orderops-demo-001">
@@ -754,6 +772,10 @@ export function dashboardHtml(): string {
       return value === true ? "available" : "missing";
     }
 
+    function formatList(value) {
+      return Array.isArray(value) && value.length > 0 ? value.join(", ") : "-";
+    }
+
     async function api(path, options = {}) {
       const response = await fetch(path, {
         ...options,
@@ -797,6 +819,25 @@ export function dashboardHtml(): string {
       setText("kvWalSignal", "wal " + formatBool(kvSignals.walEnabled) + " / metrics " + formatBool(kvSignals.metricsEnabled));
       setText("kvCommandSignal", formatAvailable(kvSignals.commandCatalogAvailable) + " / total " + formatNumber(commandCounts.total));
       setText("kvRiskSignal", "write " + formatNumber(kvSignals.writeCommandCount) + " / admin " + formatNumber(kvSignals.adminCommandCount) + " / mutating " + formatNumber(kvSignals.mutatingCommandCount));
+    }
+
+    function renderFailedEventReadiness(readiness) {
+      const state = readiness.exists === false
+        ? "not found"
+        : (readiness.eligibleForReplay ? "eligible" : "blocked");
+      setText("failedEventReadinessSignal", state + " / approval " + (readiness.requiresApproval ? "required" : "not required"));
+      setText("failedEventBlockersSignal", formatList(readiness.blockedBy));
+      setText("failedEventNextActionsSignal", formatList(readiness.nextAllowedActions));
+    }
+
+    async function refreshFailedEventReadiness() {
+      const failedEventId = $("failedEventId").value.trim();
+      if (!/^\\d+$/.test(failedEventId)) {
+        throw { error: "FAILED_EVENT_ID_REQUIRED", message: "Enter a numeric failed event ID." };
+      }
+      const readiness = await api("/api/v1/order-platform/failed-events/" + encodeURIComponent(failedEventId) + "/replay-readiness");
+      renderFailedEventReadiness(readiness);
+      return readiness;
     }
 
     async function refreshUpstreamOverview() {
@@ -887,6 +928,9 @@ export function dashboardHtml(): string {
         }
         if (action === "order") {
           write(await api("/api/v1/order-platform/orders/" + encodeURIComponent($("orderId").value)));
+        }
+        if (action === "failedEventReadiness") {
+          write(await refreshFailedEventReadiness());
         }
         if (action === "createOrder") {
           write(await api("/api/v1/order-platform/orders", {

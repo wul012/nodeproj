@@ -20,6 +20,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
 - Read-only upstream overview at `/api/v1/upstreams/overview` for Java health, Java ops overview, Java failed-event summary, and mini-kv operational, identity, and command risk signals
 - Dashboard upstream overview detail panel for Java governance and mini-kv command risk signals
+- Read-only Java failed-event replay readiness proxy and Dashboard lookup guarded by `UPSTREAM_PROBES_ENABLED`
 - Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
 - In-memory operation intent flow with role policy and explicit confirmation text
 - In-memory operation intent event feed and per-intent timeline

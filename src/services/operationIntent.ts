@@ -9,7 +9,7 @@ export const operatorRoles = ["viewer", "operator", "admin"] as const;
 
 export type OperatorRole = (typeof operatorRoles)[number];
 export type OperationIntentStatus = "blocked" | "pending-confirmation" | "confirmed" | "expired";
-export type PolicyBlockReason = "UPSTREAM_ACTIONS_ENABLED=false" | "ROLE_NOT_ALLOWED";
+export type PolicyBlockReason = "UPSTREAM_ACTIONS_ENABLED=false" | "UPSTREAM_PROBES_ENABLED=false" | "ROLE_NOT_ALLOWED";
 export type OperationIntentEventType =
   | "intent.created"
   | "intent.blocked"
@@ -372,12 +372,17 @@ export class OperationIntentStore {
 export function evaluatePolicy(plan: ActionPlan, role: OperatorRole): PolicyDecision {
   const requiredRole = requiredRoleByRisk[plan.risk];
   if (!plan.allowed) {
+    const upstreamBlocker = plan.blockedBy === "UPSTREAM_PROBES_ENABLED=false"
+      ? "UPSTREAM_PROBES_ENABLED=false"
+      : "UPSTREAM_ACTIONS_ENABLED=false";
     return {
       allowed: false,
       requiredRole,
       actualRole: role,
-      blockedBy: "UPSTREAM_ACTIONS_ENABLED=false",
-      message: "The upstream action gate is closed; this intent cannot become confirmable yet.",
+      blockedBy: upstreamBlocker,
+      message: upstreamBlocker === "UPSTREAM_PROBES_ENABLED=false"
+        ? "The upstream probe gate is closed; this read-only intent cannot become confirmable yet."
+        : "The upstream action gate is closed; this intent cannot become confirmable yet.",
     };
   }
 

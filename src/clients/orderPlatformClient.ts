@@ -38,6 +38,26 @@ export interface OrderPlatformFailedEventSummary {
   replayBacklog?: number;
 }
 
+export interface OrderPlatformFailedEventReplayReadiness {
+  sampledAt?: string;
+  failedEventId?: number;
+  exists?: boolean;
+  eventType?: string | null;
+  aggregateType?: string | null;
+  aggregateId?: string | null;
+  failedAt?: string | null;
+  managementStatus?: string | null;
+  replayApprovalStatus?: string | null;
+  replayBacklogPosition?: number | null;
+  eligibleForReplay?: boolean;
+  requiresApproval?: boolean;
+  blockedBy?: string[];
+  warnings?: string[];
+  nextAllowedActions?: string[];
+  latestReplayAttempt?: unknown;
+  latestApproval?: unknown;
+}
+
 interface JsonRequestOptions {
   method?: string;
   headers?: Record<string, string>;
@@ -60,6 +80,10 @@ export class OrderPlatformClient {
 
   failedEventsSummary(): Promise<UpstreamJsonResponse<OrderPlatformFailedEventSummary>> {
     return this.request("/api/v1/failed-events/summary");
+  }
+
+  failedEventReplayReadiness(failedEventId: string): Promise<UpstreamJsonResponse<OrderPlatformFailedEventReplayReadiness>> {
+    return this.request(`/api/v1/failed-events/${encodeURIComponent(failedEventId)}/replay-readiness`);
   }
 
   listProducts(): Promise<UpstreamJsonResponse> {

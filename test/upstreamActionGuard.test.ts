@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { AppHttpError } from "../src/errors.js";
-import { assertUpstreamActionsEnabled } from "../src/services/upstreamActionGuard.js";
+import { assertUpstreamActionsEnabled, assertUpstreamProbesEnabled } from "../src/services/upstreamActionGuard.js";
 
 describe("assertUpstreamActionsEnabled", () => {
   it("allows calls when the action gate is enabled", () => {
@@ -19,6 +19,20 @@ describe("assertUpstreamActionsEnabled", () => {
       expect(error).toBeInstanceOf(AppHttpError);
       expect((error as AppHttpError).statusCode).toBe(403);
       expect((error as AppHttpError).code).toBe("UPSTREAM_ACTIONS_DISABLED");
+    }
+  });
+});
+
+describe("assertUpstreamProbesEnabled", () => {
+  it("returns a stable 403 error when the probe gate is disabled", () => {
+    expect(() => assertUpstreamProbesEnabled(false, "advanced-order-platform")).toThrow(AppHttpError);
+
+    try {
+      assertUpstreamProbesEnabled(false, "advanced-order-platform");
+    } catch (error) {
+      expect(error).toBeInstanceOf(AppHttpError);
+      expect((error as AppHttpError).statusCode).toBe(403);
+      expect((error as AppHttpError).code).toBe("UPSTREAM_PROBES_DISABLED");
     }
   });
 });

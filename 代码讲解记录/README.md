@@ -132,6 +132,9 @@
 
 60-dashboard-upstream-overview-v56.md
  -> 第五十六版 Dashboard 上游观察详情面板：把 v53-v55 只读信号整理成可扫描页面
+
+61-java-replay-readiness-v57.md
+ -> 第五十七版 Java 失败事件 replay readiness 接入：Node 只读代理 Java v38 readiness，并在 Dashboard 提供查询入口
 ```
 
 ## 项目整体理解

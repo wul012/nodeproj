@@ -13,6 +13,9 @@ describe("dashboardHtml", () => {
     expect(html).toContain('id="kvIdentitySignal"');
     expect(html).toContain('id="kvCommandSignal"');
     expect(html).toContain('id="kvRiskSignal"');
+    expect(html).toContain('id="failedEventId"');
+    expect(html).toContain("Replay Readiness");
+    expect(html).toContain("refreshFailedEventReadiness");
     expect(html).toContain("function renderUpstreamOverview");
     expect(html).toContain("refreshUpstreamOverview");
   });
