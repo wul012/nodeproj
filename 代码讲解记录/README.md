@@ -117,6 +117,9 @@
 
 34-ops-promotion-handoff-package-verification-v30.md
  -> 第三十版本地 promotion handoff package verification：复核 package digest、附件 digest 和交接包一致性
+
+56-upstream-overview-v52.md
+ -> 第五十二版统一上游观察台：把 Java health 和 mini-kv HEALTH/STATSJSON 汇总成只读 overview
 ```
 
 ## 项目整体理解

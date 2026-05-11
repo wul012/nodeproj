@@ -13,11 +13,12 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Browser dashboard at `/`
 - Health endpoint at `/health`
 - Java order platform proxy endpoints
-- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, and `EXPIRE`
+- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, `EXPIRE`, `HEALTH`, `STATSJSON`, and `KEYS`
 - Live SSE status stream at `/api/v1/events/ops`
 - In-memory audit log and request summary endpoints
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
 - Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
+- Read-only upstream overview at `/api/v1/upstreams/overview` for Java health and mini-kv operational signals
 - Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
 - In-memory operation intent flow with role policy and explicit confirmation text
 - In-memory operation intent event feed and per-intent timeline
@@ -111,6 +112,7 @@ cd D:\C\mini-kv
 ```text
 GET    /health
 GET    /api/v1/sources/status
+GET    /api/v1/upstreams/overview
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary

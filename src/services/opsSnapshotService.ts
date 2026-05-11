@@ -59,18 +59,27 @@ export class OpsSnapshotService {
     }
 
     try {
-      const [ping, size] = await Promise.all([this.miniKvClient.ping(), this.miniKvClient.size()]);
-      const isHealthy = ping.response === "orderops" || ping.response === "PONG";
+      const [ping, health, statsJson] = await Promise.all([
+        this.miniKvClient.ping(),
+        this.miniKvClient.health(),
+        this.miniKvClient.statsJson(),
+      ]);
+      const isPingHealthy = ping.response === "orderops" || ping.response === "PONG";
+      const isHealthHealthy = health.response.startsWith("OK");
+      const liveKeys = readNumberField(statsJson.stats, "live_keys");
+      const walEnabled = readBooleanField(statsJson.stats, "wal_enabled");
+      const state = isPingHealthy && isHealthHealthy ? "online" : "degraded";
 
       return {
         name: "mini-kv",
-        state: isHealthy ? "online" : "degraded",
+        state,
         sampledAt,
-        latencyMs: Math.max(ping.latencyMs, size.latencyMs),
-        message: `ping=${ping.response} size=${size.response}`,
+        latencyMs: Math.max(ping.latencyMs, health.latencyMs, statsJson.latencyMs),
+        message: `ping=${ping.response} health=${health.response} live_keys=${formatProbeValue(liveKeys)} wal_enabled=${formatProbeValue(walEnabled)}`,
         details: {
           ping,
-          size,
+          health,
+          statsJson,
         },
       };
     } catch (error) {
@@ -100,4 +109,18 @@ function readStatus(data: unknown): string | undefined {
 
   const status = (data as { status?: unknown }).status;
   return typeof status === "string" ? status : undefined;
+}
+
+function readNumberField(data: Record<string, unknown>, field: string): number | undefined {
+  const value = data[field];
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function readBooleanField(data: Record<string, unknown>, field: string): boolean | undefined {
+  const value = data[field];
+  return typeof value === "boolean" ? value : undefined;
+}
+
+function formatProbeValue(value: number | boolean | undefined): string {
+  return value === undefined ? "unknown" : String(value);
 }

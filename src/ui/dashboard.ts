@@ -474,6 +474,7 @@ export function dashboardHtml(): string {
         <button class="primary" data-action="auditSummary">Summary</button>
         <button data-action="auditEvents">Recent Events</button>
         <button data-action="runtimeConfig">Runtime Config</button>
+        <button data-action="upstreamOverview">Upstream Overview</button>
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
         <button data-action="opsRunbook">Runbook</button>
@@ -752,6 +753,9 @@ export function dashboardHtml(): string {
         }
         if (action === "runtimeConfig") {
           write(await refreshRuntimeConfig());
+        }
+        if (action === "upstreamOverview") {
+          write(await api("/api/v1/upstreams/overview"));
         }
         if (action === "opsSummary") {
           write(await refreshOpsSummary());

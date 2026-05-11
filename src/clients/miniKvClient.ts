@@ -9,6 +9,10 @@ export interface MiniKvCommandResult {
   latencyMs: number;
 }
 
+export interface MiniKvStatsJsonResult extends MiniKvCommandResult {
+  stats: Record<string, unknown>;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -30,6 +34,18 @@ export class MiniKvClient {
 
   size(): Promise<MiniKvCommandResult> {
     return this.execute("SIZE");
+  }
+
+  health(): Promise<MiniKvCommandResult> {
+    return this.execute("HEALTH");
+  }
+
+  async statsJson(): Promise<MiniKvStatsJsonResult> {
+    const result = await this.execute("STATSJSON");
+    return {
+      ...result,
+      stats: parseMiniKvStatsJson(result.response),
+    };
   }
 
   async getKey(key: string): Promise<MiniKvKeyResult> {
@@ -135,10 +151,25 @@ export class MiniKvClient {
 export function validateRawGatewayCommand(command: string): void {
   validateCommandLine(command);
   const verb = command.trim().split(/\s+/, 1)[0]?.toUpperCase();
-  const allowed = new Set(["PING", "SIZE", "GET", "TTL", "SET", "DEL", "EXPIRE"]);
+  const allowed = new Set(["PING", "SIZE", "GET", "TTL", "SET", "DEL", "EXPIRE", "HEALTH", "STATSJSON", "KEYS"]);
   if (!allowed.has(verb)) {
     throw new AppHttpError(400, "MINIKV_COMMAND_NOT_ALLOWED", "Command is not allowed through the gateway");
   }
+}
+
+export function parseMiniKvStatsJson(response: string): Record<string, unknown> {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new AppHttpError(502, "MINIKV_STATSJSON_INVALID", "mini-kv returned invalid STATSJSON output");
+  }
+
+  if (typeof parsed !== "object" || parsed === null || Array.isArray(parsed)) {
+    throw new AppHttpError(502, "MINIKV_STATSJSON_INVALID", "mini-kv STATSJSON output must be a JSON object");
+  }
+
+  return parsed as Record<string, unknown>;
 }
 
 function validateKey(key: string): void {

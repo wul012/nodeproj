@@ -2,6 +2,7 @@ import type { FastifyInstance } from "fastify";
 
 import type { AppConfig } from "../config.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
+import { createUpstreamOverview } from "../services/upstreamOverview.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -18,6 +19,11 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
   }));
 
   app.get("/api/v1/sources/status", async () => deps.snapshots.sample());
+
+  app.get("/api/v1/upstreams/overview", async () => {
+    const snapshot = await deps.snapshots.sample();
+    return createUpstreamOverview(deps.config, snapshot);
+  });
 
   app.get("/api/v1/runtime/config", async () => ({
     service: "orderops-node",
