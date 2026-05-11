@@ -152,6 +152,16 @@ export class OperationApprovalDecisionLedger {
     return cloneDecision(decision);
   }
 
+  getByRequest(requestId: string): OperationApprovalDecision | undefined {
+    const decisionId = this.requestDecisionIndex.get(requestId);
+    if (decisionId === undefined) {
+      return undefined;
+    }
+
+    const decision = this.decisions.get(decisionId);
+    return decision === undefined ? undefined : cloneDecision(decision);
+  }
+
   private trim(): void {
     if (this.decisions.size <= this.maxItems) {
       return;

@@ -1,0 +1,39 @@
+{
+  "approvalStatusCode": 201,
+  "approvalStatus": "rejected",
+  "evidenceStatusCode": 200,
+  "evidenceState": "missing-decision",
+  "evidenceDigest": {
+    "algorithm": "sha256",
+    "value": "6a913fb5dca9117edb13c06682b20ebd16505169926860b95a8d7f03da6ae9fd",
+    "coveredFields": [
+      "service",
+      "requestId",
+      "decisionId",
+      "intentId",
+      "state",
+      "summary",
+      "request",
+      "decision",
+      "nextActions"
+    ]
+  },
+  "verificationStatusCode": 200,
+  "verificationValid": false,
+  "verificationChecks": {
+    "digestValid": true,
+    "requestMatches": true,
+    "decisionPresent": false,
+    "decisionMatchesRequest": false,
+    "requestPreviewDigestValid": true,
+    "decisionDigestValid": false,
+    "summaryMatches": true,
+    "nextActionsMatch": true,
+    "upstreamUntouched": false
+  },
+  "hardBlockers": [
+    "UPSTREAM_ACTIONS_ENABLED=false",
+    "INTENT_STATUS_BLOCKED"
+  ],
+  "miniKvExplainStatus": "skipped"
+}

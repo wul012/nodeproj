@@ -153,6 +153,9 @@
 
 67-operation-approval-decision-v63.md
  -> 第六十三版 Approval decision record：记录 reviewer approve/reject、decision digest 和 request 状态更新但不触发真实执行
+
+68-operation-approval-evidence-v64.md
+ -> 第六十四版 Approval evidence report + verification：把 request 与 decision 固化成可归档证据报告并复核 digest 链路
 ```
 
 ## 项目整体理解

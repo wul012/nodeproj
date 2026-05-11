@@ -15,6 +15,7 @@ import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
 import { registerOperationApprovalDecisionRoutes } from "./routes/operationApprovalDecisionRoutes.js";
+import { registerOperationApprovalEvidenceRoutes } from "./routes/operationApprovalEvidenceRoutes.js";
 import { registerOperationApprovalRequestRoutes } from "./routes/operationApprovalRequestRoutes.js";
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
@@ -128,6 +129,10 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerOperationApprovalDecisionRoutes(app, {
     operationApprovalDecisions,
     mutationRateLimiter,
+  });
+  await registerOperationApprovalEvidenceRoutes(app, {
+    operationApprovalRequests,
+    operationApprovalDecisions,
   });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });

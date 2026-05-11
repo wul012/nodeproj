@@ -359,6 +359,13 @@ GET /api/v1/operation-approval-requests/:requestId/verification
 - 不合并 promotion archive 主线
 - 不修改 Java / mini-kv
 
+Node v64 实施收口：
+
+```text
+已按本节实现 approval evidence report、Markdown 输出、digest verification 和 Dashboard evidence/verify 入口。
+本版只使用 Node v62/v63 本地证据，不等待 Java v40 与 mini-kv v49，不新增真实执行入口。
+```
+
 ### Java v40：Replay approval read model
 
 目标：

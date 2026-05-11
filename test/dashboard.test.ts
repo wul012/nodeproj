@@ -30,6 +30,8 @@ describe("dashboardHtml", () => {
     expect(html).toContain('data-action="approveApprovalRequest"');
     expect(html).toContain('data-action="rejectApprovalRequest"');
     expect(html).toContain('data-action="listApprovalDecisions"');
+    expect(html).toContain('data-action="approvalEvidenceReport"');
+    expect(html).toContain('data-action="approvalEvidenceVerification"');
     expect(html).toContain("failed-event-replay-simulation");
     expect(html).toContain("/preflight");
     expect(html).toContain("/preflight/report");
@@ -38,6 +40,8 @@ describe("dashboardHtml", () => {
     expect(html).toContain("/api/v1/operation-approval-requests");
     expect(html).toContain("/api/v1/operation-approval-decisions");
     expect(html).toContain("/decision");
+    expect(html).toContain("/evidence?format=markdown");
+    expect(html).toContain("/verification");
     expect(html).toContain("function renderUpstreamOverview");
     expect(html).toContain("refreshUpstreamOverview");
   });

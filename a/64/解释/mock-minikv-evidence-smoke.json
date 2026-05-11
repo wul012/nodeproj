@@ -1,0 +1,706 @@
+{
+  "baseUrl": "http://127.0.0.1:63408",
+  "miniKvPort": 63407,
+  "markdownUrl": "http://127.0.0.1:63408/api/v1/operation-approval-requests/a24d9a8b-b9d7-4b5f-8df8-0a5acf760567/evidence?format=markdown",
+  "seenCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ],
+  "approvalStatus": "pending",
+  "decision": "approved",
+  "evidenceState": "approved",
+  "evidenceDigest": {
+    "algorithm": "sha256",
+    "value": "58a4670a33f1420965d00103bcc9b719cf9225cec92814ab0185d244e29abea1",
+    "coveredFields": [
+      "service",
+      "requestId",
+      "decisionId",
+      "intentId",
+      "state",
+      "summary",
+      "request",
+      "decision",
+      "nextActions"
+    ]
+  },
+  "verificationValid": true,
+  "verificationChecks": {
+    "digestValid": true,
+    "requestMatches": true,
+    "decisionPresent": true,
+    "decisionMatchesRequest": true,
+    "requestPreviewDigestValid": true,
+    "decisionDigestValid": true,
+    "summaryMatches": true,
+    "nextActionsMatch": true,
+    "upstreamUntouched": true
+  },
+  "report": {
+    "service": "orderops-node",
+    "title": "Operation approval evidence for kv-set",
+    "generatedAt": "2026-05-11T23:29:21.091Z",
+    "requestId": "a24d9a8b-b9d7-4b5f-8df8-0a5acf760567",
+    "decisionId": "ad7856f3-72e1-427e-ae1c-1fd2c279dbdb",
+    "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+    "state": "approved",
+    "summary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "reviewer": "ops-reviewer",
+      "upstreamTouched": false,
+      "readyForApprovalRequest": true,
+      "preflightDigest": {
+        "algorithm": "sha256",
+        "value": "063e0108dee6770bb05626101532688ef1769a361c986a77b3f155d177740037",
+        "coveredFields": [
+          "service",
+          "intent",
+          "actionPlan",
+          "policy",
+          "confirmation",
+          "rateLimit",
+          "safety",
+          "dispatches",
+          "evidence",
+          "hardBlockers",
+          "warnings",
+          "recommendedNextActions",
+          "readyForDryRunDispatch"
+        ]
+      },
+      "previewDigest": {
+        "algorithm": "sha256",
+        "value": "a154961c4a8b5dd29f101ec8d5f545ab0483814e88d057ac755b0a691d33b82b",
+        "coveredFields": [
+          "service",
+          "intentId",
+          "action",
+          "target",
+          "state",
+          "preflightDigest",
+          "preflightState",
+          "wouldCall",
+          "evidence",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings",
+          "nextActions",
+          "readyForApprovalRequest"
+        ]
+      },
+      "decisionDigest": {
+        "algorithm": "sha256",
+        "value": "8103715d5eef13d5c842e4aa9c7a8d36d8716e8a4bd7211c7de5185e96a1ea3d",
+        "coveredFields": [
+          "service",
+          "decisionId",
+          "requestId",
+          "intentId",
+          "action",
+          "target",
+          "previewDigest",
+          "decision",
+          "reviewer",
+          "reason",
+          "createdAt",
+          "requestStatusBeforeDecision",
+          "requestStatusAfterDecision",
+          "upstreamTouched",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings"
+        ]
+      },
+      "expectedSideEffectCount": 2,
+      "hardBlockerCount": 0,
+      "warningCount": 4
+    },
+    "request": {
+      "service": "orderops-node",
+      "requestId": "a24d9a8b-b9d7-4b5f-8df8-0a5acf760567",
+      "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestedBy": "local-admin",
+      "reviewer": "ops-reviewer",
+      "status": "approved",
+      "decisionReason": "v64 smoke approval decision",
+      "createdAt": "2026-05-11T23:29:21.082Z",
+      "updatedAt": "2026-05-11T23:29:21.088Z",
+      "expiresAt": "2026-05-11T23:39:21.082Z",
+      "preflightDigest": {
+        "algorithm": "sha256",
+        "value": "063e0108dee6770bb05626101532688ef1769a361c986a77b3f155d177740037",
+        "coveredFields": [
+          "service",
+          "intent",
+          "actionPlan",
+          "policy",
+          "confirmation",
+          "rateLimit",
+          "safety",
+          "dispatches",
+          "evidence",
+          "hardBlockers",
+          "warnings",
+          "recommendedNextActions",
+          "readyForDryRunDispatch"
+        ]
+      },
+      "previewDigest": {
+        "algorithm": "sha256",
+        "value": "a154961c4a8b5dd29f101ec8d5f545ab0483814e88d057ac755b0a691d33b82b",
+        "coveredFields": [
+          "service",
+          "intentId",
+          "action",
+          "target",
+          "state",
+          "preflightDigest",
+          "preflightState",
+          "wouldCall",
+          "evidence",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings",
+          "nextActions",
+          "readyForApprovalRequest"
+        ]
+      },
+      "preflightState": "review-required",
+      "previewState": "review-required",
+      "readyForApprovalRequest": true,
+      "hardBlockers": [],
+      "warnings": [
+        "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+        "MINIKV_MUTATING_COMMAND",
+        "MINIKV_EXPLAIN_MUTATING_COMMAND",
+        "MINIKV_EXPLAIN_TOUCHES_WAL"
+      ],
+      "expectedSideEffects": [
+        "mini-kv.store-would-mutate",
+        "mini-kv.wal-would-be-touched"
+      ],
+      "preview": {
+        "service": "orderops-node",
+        "generatedAt": "2026-05-11T23:29:21.082Z",
+        "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+        "action": "kv-set",
+        "target": "mini-kv",
+        "state": "review-required",
+        "preflightDigest": {
+          "algorithm": "sha256",
+          "value": "063e0108dee6770bb05626101532688ef1769a361c986a77b3f155d177740037",
+          "coveredFields": [
+            "service",
+            "intent",
+            "actionPlan",
+            "policy",
+            "confirmation",
+            "rateLimit",
+            "safety",
+            "dispatches",
+            "evidence",
+            "hardBlockers",
+            "warnings",
+            "recommendedNextActions",
+            "readyForDryRunDispatch"
+          ]
+        },
+        "preflightState": "review-required",
+        "wouldCall": {
+          "type": "tcp",
+          "endpoint": "127.0.0.1:63407",
+          "command": "SET <key> <value>; optional EXPIRE <key> <ttlSeconds>"
+        },
+        "evidence": {
+          "javaReplaySimulation": {
+            "status": "not_applicable",
+            "message": "Intent action does not target Java failed-event replay simulation."
+          },
+          "miniKvCommandExplain": {
+            "status": "available",
+            "message": "mini-kv EXPLAINJSON evidence collected.",
+            "details": {
+              "latencyMs": 2,
+              "command": "SET orderops:preview preview-value",
+              "explanation": {
+                "command": "SET",
+                "category": "write",
+                "mutates_store": true,
+                "touches_wal": true,
+                "key": "orderops:preview",
+                "requires_value": true,
+                "ttl_sensitive": false,
+                "allowed_by_parser": true,
+                "warnings": []
+              }
+            }
+          }
+        },
+        "expectedSideEffects": [
+          "mini-kv.store-would-mutate",
+          "mini-kv.wal-would-be-touched"
+        ],
+        "hardBlockers": [],
+        "warnings": [
+          "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+          "MINIKV_MUTATING_COMMAND",
+          "MINIKV_EXPLAIN_MUTATING_COMMAND",
+          "MINIKV_EXPLAIN_TOUCHES_WAL"
+        ],
+        "nextActions": [
+          "Review execution preview warnings before approval: WRITE_RISK_REQUIRES_EXPLICIT_REVIEW, MINIKV_MUTATING_COMMAND, MINIKV_EXPLAIN_MUTATING_COMMAND, MINIKV_EXPLAIN_TOUCHES_WAL",
+          "Attach this execution preview to the operation approval request."
+        ],
+        "readyForApprovalRequest": true,
+        "preflightReport": {
+          "service": "orderops-node",
+          "title": "Operation preflight report for kv-set",
+          "generatedAt": "2026-05-11T23:29:21.079Z",
+          "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+          "state": "review-required",
+          "preflightDigest": {
+            "algorithm": "sha256",
+            "value": "063e0108dee6770bb05626101532688ef1769a361c986a77b3f155d177740037",
+            "coveredFields": [
+              "service",
+              "intent",
+              "actionPlan",
+              "policy",
+              "confirmation",
+              "rateLimit",
+              "safety",
+              "dispatches",
+              "evidence",
+              "hardBlockers",
+              "warnings",
+              "recommendedNextActions",
+              "readyForDryRunDispatch"
+            ]
+          },
+          "summary": {
+            "action": "kv-set",
+            "target": "mini-kv",
+            "risk": "write",
+            "intentStatus": "confirmed",
+            "operatorId": "local-admin",
+            "operatorRole": "admin",
+            "policyAllowed": true,
+            "confirmationConfirmed": true,
+            "readyForDryRunDispatch": true,
+            "hardBlockerCount": 0,
+            "warningCount": 2,
+            "dispatchTotal": 1,
+            "dryRunDispatches": 1,
+            "rejectedDispatches": 0,
+            "upstreamTouchedDispatches": 0,
+            "javaReplayReadiness": "not_applicable",
+            "miniKvCommandCatalog": "available",
+            "miniKvKeyInventory": "available"
+          },
+          "preflight": {
+            "service": "orderops-node",
+            "generatedAt": "2026-05-11T23:29:21.079Z",
+            "intent": {
+              "id": "83c7b142-d672-42b1-807d-33894646bb4d",
+              "status": "confirmed",
+              "action": "kv-set",
+              "target": "mini-kv",
+              "operator": {
+                "id": "local-admin",
+                "role": "admin"
+              },
+              "reason": "v64 mock mini-kv evidence smoke",
+              "createdAt": "2026-05-11T23:29:21.053Z",
+              "updatedAt": "2026-05-11T23:29:21.065Z",
+              "expiresAt": "2026-05-11T23:39:21.053Z"
+            },
+            "actionPlan": {
+              "dryRun": true,
+              "generatedAt": "2026-05-11T23:29:21.053Z",
+              "action": "kv-set",
+              "target": "mini-kv",
+              "label": "Set key",
+              "risk": "write",
+              "requires": [
+                "key",
+                "value",
+                "ttlSeconds?"
+              ],
+              "allowed": true,
+              "reason": "The Node actions gate is open; the route would be allowed to call the upstream.",
+              "nextStep": "Run the route only when the target project is ready for this traffic.",
+              "nodeRoute": {
+                "method": "PUT",
+                "path": "/api/v1/mini-kv/:key"
+              },
+              "wouldCall": {
+                "type": "tcp",
+                "endpoint": "127.0.0.1:63407",
+                "command": "SET <key> <value>; optional EXPIRE <key> <ttlSeconds>"
+              },
+              "safety": {
+                "upstreamProbesEnabled": true,
+                "upstreamActionsEnabled": true
+              }
+            },
+            "policy": {
+              "allowed": true,
+              "requiredRole": "admin",
+              "actualRole": "admin",
+              "message": "Policy passed; the intent is waiting for explicit confirmation."
+            },
+            "confirmation": {
+              "requiredText": "CONFIRM kv-set",
+              "confirmedAt": "2026-05-11T23:29:21.065Z",
+              "confirmedBy": "local-admin",
+              "confirmed": true
+            },
+            "rateLimit": {
+              "mutationWindowMs": 60000,
+              "mutationMaxRequests": 30,
+              "note": "Preflight is read-only and does not consume mutation rate-limit quota."
+            },
+            "safety": {
+              "upstreamProbesEnabled": true,
+              "upstreamActionsEnabled": true
+            },
+            "dispatches": {
+              "total": 1,
+              "dryRunCompleted": 1,
+              "rejected": 0,
+              "upstreamTouched": 0,
+              "latest": {
+                "id": "3f327127-dc74-4566-9114-48dbe0668d09",
+                "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+                "action": "kv-set",
+                "target": "mini-kv",
+                "mode": "dry-run",
+                "requestedBy": "local-admin",
+                "createdAt": "2026-05-11T23:29:21.069Z",
+                "updatedAt": "2026-05-11T23:29:21.069Z",
+                "upstreamTouched": false,
+                "nodeRoute": {
+                  "method": "PUT",
+                  "path": "/api/v1/mini-kv/:key"
+                },
+                "wouldCall": {
+                  "type": "tcp",
+                  "endpoint": "127.0.0.1:63407",
+                  "command": "SET <key> <value>; optional EXPIRE <key> <ttlSeconds>"
+                },
+                "safety": {
+                  "upstreamProbesEnabled": true,
+                  "upstreamActionsEnabled": true
+                },
+                "status": "dry-run-completed"
+              },
+              "recent": [
+                {
+                  "id": "3f327127-dc74-4566-9114-48dbe0668d09",
+                  "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+                  "action": "kv-set",
+                  "target": "mini-kv",
+                  "mode": "dry-run",
+                  "requestedBy": "local-admin",
+                  "createdAt": "2026-05-11T23:29:21.069Z",
+                  "updatedAt": "2026-05-11T23:29:21.069Z",
+                  "upstreamTouched": false,
+                  "nodeRoute": {
+                    "method": "PUT",
+                    "path": "/api/v1/mini-kv/:key"
+                  },
+                  "wouldCall": {
+                    "type": "tcp",
+                    "endpoint": "127.0.0.1:63407",
+                    "command": "SET <key> <value>; optional EXPIRE <key> <ttlSeconds>"
+                  },
+                  "safety": {
+                    "upstreamProbesEnabled": true,
+                    "upstreamActionsEnabled": true
+                  },
+                  "status": "dry-run-completed"
+                }
+              ]
+            },
+            "evidence": {
+              "javaReplayReadiness": {
+                "status": "not_applicable",
+                "message": "Intent action does not target Java failed-event replay readiness."
+              },
+              "miniKvCommandCatalog": {
+                "status": "available",
+                "message": "mini-kv command catalog evidence collected.",
+                "details": {
+                  "latencyMs": 3,
+                  "actionCommands": [
+                    "SET",
+                    "EXPIRE"
+                  ],
+                  "matchedCommands": [
+                    {
+                      "name": "SET",
+                      "category": "write",
+                      "mutates_store": true,
+                      "touches_wal": true
+                    }
+                  ],
+                  "commandCount": 2
+                }
+              },
+              "miniKvKeyInventory": {
+                "status": "available",
+                "message": "mini-kv key inventory evidence collected.",
+                "details": {
+                  "latencyMs": 2,
+                  "inventory": {
+                    "prefix": "orderops:",
+                    "key_count": 1,
+                    "keys": [
+                      "orderops:preview"
+                    ],
+                    "truncated": false,
+                    "limit": 1000
+                  }
+                }
+              }
+            },
+            "hardBlockers": [],
+            "warnings": [
+              "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+              "MINIKV_MUTATING_COMMAND"
+            ],
+            "recommendedNextActions": [
+              "Review warnings before dispatch: WRITE_RISK_REQUIRES_EXPLICIT_REVIEW, MINIKV_MUTATING_COMMAND",
+              "Create or inspect a dry-run dispatch, then archive the preflight evidence."
+            ],
+            "readyForDryRunDispatch": true
+          },
+          "nextActions": [
+            "Review warnings before dispatch: WRITE_RISK_REQUIRES_EXPLICIT_REVIEW, MINIKV_MUTATING_COMMAND",
+            "Create or inspect a dry-run dispatch, then archive the preflight evidence."
+          ]
+        }
+      }
+    },
+    "decision": {
+      "service": "orderops-node",
+      "decisionId": "ad7856f3-72e1-427e-ae1c-1fd2c279dbdb",
+      "requestId": "a24d9a8b-b9d7-4b5f-8df8-0a5acf760567",
+      "intentId": "83c7b142-d672-42b1-807d-33894646bb4d",
+      "action": "kv-set",
+      "target": "mini-kv",
+      "previewDigest": {
+        "algorithm": "sha256",
+        "value": "a154961c4a8b5dd29f101ec8d5f545ab0483814e88d057ac755b0a691d33b82b",
+        "coveredFields": [
+          "service",
+          "intentId",
+          "action",
+          "target",
+          "state",
+          "preflightDigest",
+          "preflightState",
+          "wouldCall",
+          "evidence",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings",
+          "nextActions",
+          "readyForApprovalRequest"
+        ]
+      },
+      "decision": "approved",
+      "reviewer": "ops-reviewer",
+      "reason": "v64 smoke approval decision",
+      "createdAt": "2026-05-11T23:29:21.088Z",
+      "requestStatusBeforeDecision": "pending",
+      "requestStatusAfterDecision": "approved",
+      "upstreamTouched": false,
+      "expectedSideEffects": [
+        "mini-kv.store-would-mutate",
+        "mini-kv.wal-would-be-touched"
+      ],
+      "hardBlockers": [],
+      "warnings": [
+        "WRITE_RISK_REQUIRES_EXPLICIT_REVIEW",
+        "MINIKV_MUTATING_COMMAND",
+        "MINIKV_EXPLAIN_MUTATING_COMMAND",
+        "MINIKV_EXPLAIN_TOUCHES_WAL"
+      ],
+      "decisionDigest": {
+        "algorithm": "sha256",
+        "value": "8103715d5eef13d5c842e4aa9c7a8d36d8716e8a4bd7211c7de5185e96a1ea3d",
+        "coveredFields": [
+          "service",
+          "decisionId",
+          "requestId",
+          "intentId",
+          "action",
+          "target",
+          "previewDigest",
+          "decision",
+          "reviewer",
+          "reason",
+          "createdAt",
+          "requestStatusBeforeDecision",
+          "requestStatusAfterDecision",
+          "upstreamTouched",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings"
+        ]
+      }
+    },
+    "nextActions": [
+      "Approval evidence is complete for archival review.",
+      "Keep this report as proof that Node did not touch upstream execution."
+    ],
+    "evidenceDigest": {
+      "algorithm": "sha256",
+      "value": "58a4670a33f1420965d00103bcc9b719cf9225cec92814ab0185d244e29abea1",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "summary",
+        "request",
+        "decision",
+        "nextActions"
+      ]
+    }
+  },
+  "verification": {
+    "service": "orderops-node",
+    "verifiedAt": "2026-05-11T23:29:21.096Z",
+    "valid": true,
+    "requestId": "a24d9a8b-b9d7-4b5f-8df8-0a5acf760567",
+    "decisionId": "ad7856f3-72e1-427e-ae1c-1fd2c279dbdb",
+    "state": "approved",
+    "storedDigest": {
+      "algorithm": "sha256",
+      "value": "58a4670a33f1420965d00103bcc9b719cf9225cec92814ab0185d244e29abea1",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "summary",
+        "request",
+        "decision",
+        "nextActions"
+      ]
+    },
+    "recomputedDigest": {
+      "algorithm": "sha256",
+      "value": "58a4670a33f1420965d00103bcc9b719cf9225cec92814ab0185d244e29abea1",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "summary",
+        "request",
+        "decision",
+        "nextActions"
+      ]
+    },
+    "checks": {
+      "digestValid": true,
+      "requestMatches": true,
+      "decisionPresent": true,
+      "decisionMatchesRequest": true,
+      "requestPreviewDigestValid": true,
+      "decisionDigestValid": true,
+      "summaryMatches": true,
+      "nextActionsMatch": true,
+      "upstreamUntouched": true
+    },
+    "summary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "reviewer": "ops-reviewer",
+      "upstreamTouched": false,
+      "readyForApprovalRequest": true,
+      "preflightDigest": {
+        "algorithm": "sha256",
+        "value": "063e0108dee6770bb05626101532688ef1769a361c986a77b3f155d177740037",
+        "coveredFields": [
+          "service",
+          "intent",
+          "actionPlan",
+          "policy",
+          "confirmation",
+          "rateLimit",
+          "safety",
+          "dispatches",
+          "evidence",
+          "hardBlockers",
+          "warnings",
+          "recommendedNextActions",
+          "readyForDryRunDispatch"
+        ]
+      },
+      "previewDigest": {
+        "algorithm": "sha256",
+        "value": "a154961c4a8b5dd29f101ec8d5f545ab0483814e88d057ac755b0a691d33b82b",
+        "coveredFields": [
+          "service",
+          "intentId",
+          "action",
+          "target",
+          "state",
+          "preflightDigest",
+          "preflightState",
+          "wouldCall",
+          "evidence",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings",
+          "nextActions",
+          "readyForApprovalRequest"
+        ]
+      },
+      "decisionDigest": {
+        "algorithm": "sha256",
+        "value": "8103715d5eef13d5c842e4aa9c7a8d36d8716e8a4bd7211c7de5185e96a1ea3d",
+        "coveredFields": [
+          "service",
+          "decisionId",
+          "requestId",
+          "intentId",
+          "action",
+          "target",
+          "previewDigest",
+          "decision",
+          "reviewer",
+          "reason",
+          "createdAt",
+          "requestStatusBeforeDecision",
+          "requestStatusAfterDecision",
+          "upstreamTouched",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings"
+        ]
+      },
+      "expectedSideEffectCount": 2,
+      "hardBlockerCount": 0,
+      "warningCount": 4
+    },
+    "nextActions": [
+      "Approval evidence verification is complete; archive this report with the release evidence."
+    ]
+  }
+}

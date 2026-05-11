@@ -756,6 +756,8 @@ export function dashboardHtml(): string {
         <button class="secondary" data-action="approveApprovalRequest">Approve Request</button>
         <button data-action="rejectApprovalRequest">Reject Request</button>
         <button data-action="listApprovalDecisions">Approval Decisions</button>
+        <button class="secondary" data-action="approvalEvidenceReport">Evidence Report</button>
+        <button data-action="approvalEvidenceVerification">Verify Evidence</button>
       </div>
     </section>
 
@@ -1577,6 +1579,16 @@ export function dashboardHtml(): string {
         }
         if (action === "listApprovalDecisions") {
           write(await api("/api/v1/operation-approval-decisions?limit=20"));
+        }
+        if (action === "approvalEvidenceReport") {
+          const response = await fetch("/api/v1/operation-approval-requests/" + encodeURIComponent($("approvalRequestId").value) + "/evidence?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "approvalEvidenceVerification") {
+          write(await api("/api/v1/operation-approval-requests/" + encodeURIComponent($("approvalRequestId").value) + "/verification"));
         }
         if (action === "intentTimeline") {
           write(await api("/api/v1/operation-intents/" + encodeURIComponent($("intentId").value) + "/timeline?limit=30"));
