@@ -1738,6 +1738,90 @@ export interface OpsPromotionDeploymentExecutionReceiptVerification {
   nextActions: string[];
 }
 
+export type OpsPromotionReleaseAuditTrailRecordItemName =
+  | "deployment-execution-receipt"
+  | "verified-deployment-execution-receipt"
+  | "deployment-execution-record"
+  | "release-audit-state";
+
+export interface OpsPromotionReleaseAuditTrailRecordItem {
+  name: OpsPromotionReleaseAuditTrailRecordItemName;
+  valid: boolean;
+  source: string;
+  digest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  detail: string;
+}
+
+export interface OpsPromotionReleaseAuditTrailRecord {
+  service: "orderops-node";
+  generatedAt: string;
+  auditTrailName: string;
+  receiptName: string;
+  executionName: string;
+  changeRecordName: string;
+  approvalName: string;
+  releaseArchiveName: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptRecordName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  approvalReady: boolean;
+  changeReady: boolean;
+  executionReady: boolean;
+  receiptReady: boolean;
+  auditReady: boolean;
+  auditDigest: {
+    algorithm: "sha256";
+    value: string;
+    coveredFields: string[];
+  };
+  receiptDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  verifiedReceiptDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  executionDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  changeDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  approvalDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  releaseArchiveDigest: {
+    algorithm: "sha256";
+    value: string;
+  };
+  decision: OpsPromotionDeploymentExecutionReceipt["decision"];
+  verification: {
+    receiptVerified: boolean;
+    receiptDigestValid: boolean;
+    receiptItemsValid: boolean;
+    receiptReferenceValid: boolean;
+    closeoutReady: boolean;
+    receiptItemCount: number;
+    auditItemCount: number;
+  };
+  auditItems: OpsPromotionReleaseAuditTrailRecordItem[];
+  nextActions: string[];
+}
+
 export function createOpsPromotionArchiveBundle(input: {
   integrity: OpsPromotionDecisionLedgerIntegrity;
   latestEvidence?: OpsPromotionEvidenceReport;
@@ -4436,6 +4520,159 @@ export function createOpsPromotionDeploymentExecutionReceiptVerification(input: 
   };
 }
 
+export function createOpsPromotionReleaseAuditTrailRecord(input: {
+  receipt: OpsPromotionDeploymentExecutionReceipt;
+  receiptVerification: OpsPromotionDeploymentExecutionReceiptVerification;
+}): OpsPromotionReleaseAuditTrailRecord {
+  const auditTrailName = `promotion-release-audit-${input.receiptVerification.recomputedReceiptDigest.value.slice(0, 12)}`;
+  const auditItems = archiveReleaseAuditTrailItems(input.receipt, input.receiptVerification);
+  const receiptReferenceValid = input.receipt.receiptDigest.value === input.receiptVerification.recomputedReceiptDigest.value;
+  const verification = {
+    receiptVerified: input.receiptVerification.valid,
+    receiptDigestValid: input.receiptVerification.checks.receiptDigestValid,
+    receiptItemsValid: input.receiptVerification.checks.receiptItemsValid,
+    receiptReferenceValid,
+    closeoutReady: input.receiptVerification.summary.closeoutReady,
+    receiptItemCount: input.receiptVerification.summary.receiptItemCount,
+    auditItemCount: auditItems.length,
+  };
+  const valid = input.receipt.valid
+    && input.receiptVerification.valid
+    && receiptReferenceValid
+    && auditItems.every((item) => item.valid);
+  const handoffReady = valid && input.receipt.handoffReady && input.receiptVerification.handoffReady;
+  const approvalReady = handoffReady && input.receipt.approvalReady && input.receiptVerification.approvalReady;
+  const changeReady = approvalReady && input.receipt.changeReady && input.receiptVerification.changeReady;
+  const executionReady = changeReady && input.receipt.executionReady && input.receiptVerification.executionReady;
+  const receiptReady = executionReady && input.receipt.receiptReady && input.receiptVerification.receiptReady;
+  const auditReady = receiptReady && input.receiptVerification.summary.closeoutReady;
+  const nextActions = archiveReleaseAuditTrailNextActions(input.receiptVerification, valid, auditReady);
+  const digestPayload = archiveReleaseAuditTrailDigestPayload({
+    auditTrailName,
+    receiptName: input.receipt.receiptName,
+    executionName: input.receipt.executionName,
+    changeRecordName: input.receipt.changeRecordName,
+    approvalName: input.receipt.approvalName,
+    releaseArchiveName: input.receipt.releaseArchiveName,
+    evidenceName: input.receipt.evidenceName,
+    completionName: input.receipt.completionName,
+    closureName: input.receipt.closureName,
+    receiptRecordName: input.receipt.receiptRecordName,
+    certificateName: input.receipt.certificateName,
+    packageName: input.receipt.packageName,
+    archiveName: input.receipt.archiveName,
+    valid,
+    state: input.receipt.state,
+    handoffReady,
+    approvalReady,
+    changeReady,
+    executionReady,
+    receiptReady,
+    auditReady,
+    receiptDigest: input.receipt.receiptDigest.value,
+    verifiedReceiptDigest: input.receiptVerification.recomputedReceiptDigest.value,
+    executionDigest: input.receipt.executionDigest.value,
+    changeDigest: input.receipt.changeDigest.value,
+    approvalDigest: input.receipt.approvalDigest.value,
+    releaseArchiveDigest: input.receipt.releaseArchiveDigest.value,
+    decision: input.receipt.decision,
+    verification,
+    auditItems,
+    nextActions,
+  });
+
+  return {
+    service: "orderops-node",
+    generatedAt: new Date().toISOString(),
+    auditTrailName,
+    receiptName: input.receipt.receiptName,
+    executionName: input.receipt.executionName,
+    changeRecordName: input.receipt.changeRecordName,
+    approvalName: input.receipt.approvalName,
+    releaseArchiveName: input.receipt.releaseArchiveName,
+    evidenceName: input.receipt.evidenceName,
+    completionName: input.receipt.completionName,
+    closureName: input.receipt.closureName,
+    receiptRecordName: input.receipt.receiptRecordName,
+    certificateName: input.receipt.certificateName,
+    packageName: input.receipt.packageName,
+    archiveName: input.receipt.archiveName,
+    valid,
+    state: input.receipt.state,
+    handoffReady,
+    approvalReady,
+    changeReady,
+    executionReady,
+    receiptReady,
+    auditReady,
+    auditDigest: {
+      algorithm: "sha256",
+      value: digestStable(digestPayload),
+      coveredFields: [
+        "auditTrailName",
+        "receiptName",
+        "executionName",
+        "changeRecordName",
+        "approvalName",
+        "releaseArchiveName",
+        "evidenceName",
+        "completionName",
+        "closureName",
+        "receiptRecordName",
+        "certificateName",
+        "packageName",
+        "archiveName",
+        "valid",
+        "state",
+        "handoffReady",
+        "approvalReady",
+        "changeReady",
+        "executionReady",
+        "receiptReady",
+        "auditReady",
+        "receiptDigest",
+        "verifiedReceiptDigest",
+        "executionDigest",
+        "changeDigest",
+        "approvalDigest",
+        "releaseArchiveDigest",
+        "decision",
+        "verification",
+        "auditItems",
+        "nextActions",
+      ],
+    },
+    receiptDigest: {
+      algorithm: "sha256",
+      value: input.receipt.receiptDigest.value,
+    },
+    verifiedReceiptDigest: {
+      algorithm: "sha256",
+      value: input.receiptVerification.recomputedReceiptDigest.value,
+    },
+    executionDigest: {
+      algorithm: "sha256",
+      value: input.receipt.executionDigest.value,
+    },
+    changeDigest: {
+      algorithm: "sha256",
+      value: input.receipt.changeDigest.value,
+    },
+    approvalDigest: {
+      algorithm: "sha256",
+      value: input.receipt.approvalDigest.value,
+    },
+    releaseArchiveDigest: {
+      algorithm: "sha256",
+      value: input.receipt.releaseArchiveDigest.value,
+    },
+    decision: input.receipt.decision,
+    verification,
+    auditItems,
+    nextActions,
+  };
+}
+
 export function renderOpsPromotionArchiveMarkdown(bundle: OpsPromotionArchiveBundle): string {
   const lines = [
     "# Promotion archive bundle",
@@ -5689,6 +5926,71 @@ export function renderOpsPromotionDeploymentExecutionReceiptVerificationMarkdown
   return lines.join("\n");
 }
 
+export function renderOpsPromotionReleaseAuditTrailRecordMarkdown(record: OpsPromotionReleaseAuditTrailRecord): string {
+  const lines = [
+    "# Promotion release audit trail record",
+    "",
+    `- Service: ${record.service}`,
+    `- Generated at: ${record.generatedAt}`,
+    `- Audit trail name: ${record.auditTrailName}`,
+    `- Receipt name: ${record.receiptName}`,
+    `- Execution name: ${record.executionName}`,
+    `- Change record name: ${record.changeRecordName}`,
+    `- Approval name: ${record.approvalName}`,
+    `- Release archive name: ${record.releaseArchiveName}`,
+    `- Evidence name: ${record.evidenceName}`,
+    `- Completion name: ${record.completionName}`,
+    `- Closure name: ${record.closureName}`,
+    `- Receipt record name: ${record.receiptRecordName}`,
+    `- Certificate name: ${record.certificateName}`,
+    `- Package name: ${record.packageName}`,
+    `- Archive name: ${record.archiveName}`,
+    `- State: ${record.state}`,
+    `- Valid: ${record.valid}`,
+    `- Handoff ready: ${record.handoffReady}`,
+    `- Approval ready: ${record.approvalReady}`,
+    `- Change ready: ${record.changeReady}`,
+    `- Execution ready: ${record.executionReady}`,
+    `- Receipt ready: ${record.receiptReady}`,
+    `- Audit ready: ${record.auditReady}`,
+    `- Audit digest: ${record.auditDigest.algorithm}:${record.auditDigest.value}`,
+    `- Receipt digest: ${record.receiptDigest.algorithm}:${record.receiptDigest.value}`,
+    `- Verified receipt digest: ${record.verifiedReceiptDigest.algorithm}:${record.verifiedReceiptDigest.value}`,
+    `- Execution digest: ${record.executionDigest.algorithm}:${record.executionDigest.value}`,
+    `- Change digest: ${record.changeDigest.algorithm}:${record.changeDigest.value}`,
+    `- Approval digest: ${record.approvalDigest.algorithm}:${record.approvalDigest.value}`,
+    `- Release archive digest: ${record.releaseArchiveDigest.algorithm}:${record.releaseArchiveDigest.value}`,
+    `- Covered fields: ${record.auditDigest.coveredFields.join(", ")}`,
+    "",
+    "## Decision",
+    "",
+    `- Total decisions: ${record.decision.totalDecisions}`,
+    `- Latest decision id: ${record.decision.latestDecisionId ?? "none"}`,
+    `- Latest outcome: ${record.decision.latestOutcome ?? "none"}`,
+    "",
+    "## Verification",
+    "",
+    `- Receipt verified: ${record.verification.receiptVerified}`,
+    `- Receipt digest valid: ${record.verification.receiptDigestValid}`,
+    `- Receipt items valid: ${record.verification.receiptItemsValid}`,
+    `- Receipt reference valid: ${record.verification.receiptReferenceValid}`,
+    `- Closeout ready: ${record.verification.closeoutReady}`,
+    `- Receipt item count: ${record.verification.receiptItemCount}`,
+    `- Audit item count: ${record.verification.auditItemCount}`,
+    "",
+    "## Audit Items",
+    "",
+    ...renderReleaseAuditTrailItems(record.auditItems),
+    "",
+    "## Next Actions",
+    "",
+    ...record.nextActions.map((action) => `- ${action}`),
+    "",
+  ];
+
+  return lines.join("\n");
+}
+
 export function renderOpsPromotionHandoffPackageVerificationMarkdown(
   verification: OpsPromotionHandoffPackageVerification,
 ): string {
@@ -6562,6 +6864,80 @@ function archiveDeploymentExecutionReceiptDigestPayload(input: {
   };
 }
 
+function archiveReleaseAuditTrailDigestPayload(input: {
+  auditTrailName: string;
+  receiptName: string;
+  executionName: string;
+  changeRecordName: string;
+  approvalName: string;
+  releaseArchiveName: string;
+  evidenceName: string;
+  completionName: string;
+  closureName: string;
+  receiptRecordName: string;
+  certificateName: string;
+  packageName: string;
+  archiveName: string;
+  valid: boolean;
+  state: OpsPromotionArchiveAttestationState;
+  handoffReady: boolean;
+  approvalReady: boolean;
+  changeReady: boolean;
+  executionReady: boolean;
+  receiptReady: boolean;
+  auditReady: boolean;
+  receiptDigest: string;
+  verifiedReceiptDigest: string;
+  executionDigest: string;
+  changeDigest: string;
+  approvalDigest: string;
+  releaseArchiveDigest: string;
+  decision: OpsPromotionReleaseAuditTrailRecord["decision"];
+  verification: OpsPromotionReleaseAuditTrailRecord["verification"];
+  auditItems: OpsPromotionReleaseAuditTrailRecordItem[];
+  nextActions: string[];
+}) {
+  return {
+    auditTrailName: input.auditTrailName,
+    receiptName: input.receiptName,
+    executionName: input.executionName,
+    changeRecordName: input.changeRecordName,
+    approvalName: input.approvalName,
+    releaseArchiveName: input.releaseArchiveName,
+    evidenceName: input.evidenceName,
+    completionName: input.completionName,
+    closureName: input.closureName,
+    receiptRecordName: input.receiptRecordName,
+    certificateName: input.certificateName,
+    packageName: input.packageName,
+    archiveName: input.archiveName,
+    valid: input.valid,
+    state: input.state,
+    handoffReady: input.handoffReady,
+    approvalReady: input.approvalReady,
+    changeReady: input.changeReady,
+    executionReady: input.executionReady,
+    receiptReady: input.receiptReady,
+    auditReady: input.auditReady,
+    receiptDigest: input.receiptDigest,
+    verifiedReceiptDigest: input.verifiedReceiptDigest,
+    executionDigest: input.executionDigest,
+    changeDigest: input.changeDigest,
+    approvalDigest: input.approvalDigest,
+    releaseArchiveDigest: input.releaseArchiveDigest,
+    decision: input.decision,
+    verification: input.verification,
+    auditItems: input.auditItems.map((item) => ({
+      name: item.name,
+      valid: item.valid,
+      source: item.source,
+      digest: item.digest.value,
+      detail: item.detail,
+    })),
+    nextActions: input.nextActions,
+  };
+}
+
 function archiveHandoffPackageDigestPayload(input: {
   packageName: string;
   archiveName: string;
@@ -7231,6 +7607,68 @@ function archiveDeploymentExecutionReceiptItems(
   ];
 }
 
+function archiveReleaseAuditTrailItems(
+  receipt: OpsPromotionDeploymentExecutionReceipt,
+  receiptVerification: OpsPromotionDeploymentExecutionReceiptVerification,
+): OpsPromotionReleaseAuditTrailRecordItem[] {
+  return [
+    {
+      name: "deployment-execution-receipt",
+      valid: receipt.valid && receiptVerification.checks.receiptDigestValid,
+      source: "/api/v1/ops/promotion-archive/deployment-execution-receipt",
+      digest: {
+        algorithm: "sha256",
+        value: receipt.receiptDigest.value,
+      },
+      detail: "Deployment execution receipt exists and its digest is covered by verification.",
+    },
+    {
+      name: "verified-deployment-execution-receipt",
+      valid: receiptVerification.valid,
+      source: "/api/v1/ops/promotion-archive/deployment-execution-receipt/verification",
+      digest: {
+        algorithm: "sha256",
+        value: receiptVerification.recomputedReceiptDigest.value,
+      },
+      detail: "Deployment execution receipt has been recomputed from the verified execution record chain.",
+    },
+    {
+      name: "deployment-execution-record",
+      valid: receiptVerification.checks.executionDigestMatches
+        && receiptVerification.checks.verifiedExecutionDigestMatches,
+      source: "/api/v1/ops/promotion-archive/deployment-execution-record/verification",
+      digest: {
+        algorithm: "sha256",
+        value: receipt.verifiedExecutionDigest.value,
+      },
+      detail: "Release audit trail still references the verified deployment execution digest.",
+    },
+    {
+      name: "release-audit-state",
+      valid: receiptVerification.valid
+        && receiptVerification.checks.receiptReadyMatches
+        && receipt.verification.closeoutReady === receiptVerification.summary.closeoutReady,
+      source: "/api/v1/ops/promotion-archive/deployment-execution-receipt/verification",
+      digest: {
+        algorithm: "sha256",
+        value: digestStable({
+          state: receipt.state,
+          handoffReady: receipt.handoffReady,
+          approvalReady: receipt.approvalReady,
+          changeReady: receipt.changeReady,
+          executionReady: receipt.executionReady,
+          receiptReady: receipt.receiptReady,
+          closeoutReady: receipt.verification.closeoutReady,
+          verifiedCloseoutReady: receiptVerification.summary.closeoutReady,
+          latestDecisionId: receipt.decision.latestDecisionId ?? null,
+          nextActions: receipt.nextActions,
+        }),
+      },
+      detail: "Release audit trail records the verified receipt readiness and remaining actions.",
+    },
+  ];
+}
+
 function archiveVerificationNextActions(
   manifestDigestValid: boolean,
   artifactsValid: boolean,
@@ -7798,6 +8236,26 @@ function archiveDeploymentExecutionReceiptVerificationNextActions(
   return receipt.nextActions;
 }
 
+function archiveReleaseAuditTrailNextActions(
+  receiptVerification: OpsPromotionDeploymentExecutionReceiptVerification,
+  valid: boolean,
+  auditReady: boolean,
+): string[] {
+  if (!receiptVerification.valid) {
+    return ["Resolve deployment execution receipt verification failures before writing the release audit trail record."];
+  }
+
+  if (!valid) {
+    return ["Regenerate the release audit trail record after receipt and verification agree."];
+  }
+
+  if (auditReady) {
+    return ["Release audit trail record is ready; attach the audit digest to final release reporting."];
+  }
+
+  return receiptVerification.nextActions;
+}
+
 function archiveAttestationNextActions(
   state: OpsPromotionArchiveAttestationState,
   checks: OpsPromotionArchiveAttestation["checks"],
@@ -8278,6 +8736,18 @@ function renderDeploymentExecutionReceiptVerificationItems(items: OpsPromotionDe
     `- Digest matches: ${item.digestMatches}`,
     `- Receipt item digest: ${item.receiptItemDigest.algorithm}:${item.receiptItemDigest.value}`,
     `- Recomputed digest: ${item.recomputedDigest.algorithm}:${item.recomputedDigest.value}`,
+    `- Source: ${item.source}`,
+    `- Detail: ${item.detail}`,
+    "",
+  ]);
+}
+
+function renderReleaseAuditTrailItems(items: OpsPromotionReleaseAuditTrailRecordItem[]): string[] {
+  return items.flatMap((item) => [
+    `### ${item.name}`,
+    "",
+    `- Valid: ${item.valid}`,
+    `- Digest: ${item.digest.algorithm}:${item.digest.value}`,
     `- Source: ${item.source}`,
     `- Detail: ${item.detail}`,
     "",
