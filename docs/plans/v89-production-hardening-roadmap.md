@@ -35,6 +35,19 @@ Node v87-v89 已完成 release evidence readiness gate、CI evidence command pro
 - 不写 secret，不调用 Java / mini-kv。
 - 补文档、归档、代码讲解。
 
+实施收口：
+
+```text
+Node v90 已完成。
+- 已新增 .github/workflows/node-evidence.yml。
+- workflow 已包含 npm ci、typecheck、test、build。
+- 已加入 safe smoke，环境变量固定 UPSTREAM_PROBES_ENABLED=false、UPSTREAM_ACTIONS_ENABLED=false。
+- 已检查 health 和 release evidence readiness gate，要求 executionAllowed=false。
+- 已补 workflow 安全边界测试。
+- 已归档 smoke 证据与 workflow 截图到 a/90/。
+- 未写 secret，未真实部署，未调用 Java / mini-kv。
+```
+
 本版不做：
 
 - 不配置真实部署。

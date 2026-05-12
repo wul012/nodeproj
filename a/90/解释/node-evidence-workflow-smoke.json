@@ -1,0 +1,47 @@
+{
+  "version": "v90",
+  "scope": "GitHub Actions evidence workflow draft",
+  "safeEnvironment": {
+    "PORT": 4190,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "nodeEvidenceWorkflowTest": "passed",
+    "fullTest": "passed, 40 files / 164 tests",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "workflowExists": true,
+    "workflowHasNpmCi": true,
+    "workflowHasTypecheck": true,
+    "workflowHasTest": true,
+    "workflowHasBuild": true,
+    "workflowDisablesProbes": true,
+    "workflowDisablesActions": true,
+    "workflowHasReadinessSmoke": true,
+    "workflowHasNoSecrets": true,
+    "readyForReleaseEvidenceArchive": true,
+    "executionAllowed": false,
+    "blockerCount": 0
+  },
+  "artifacts": {
+    "workflow": ".github/workflows/node-evidence.yml",
+    "screenshot": "a/90/图片/34-node-evidence-workflow.png",
+    "codeExplanation": "代码讲解记录/94-node-evidence-workflow-v90.md"
+  },
+  "boundaries": {
+    "javaModified": false,
+    "miniKvModified": false,
+    "javaStarted": false,
+    "miniKvStarted": false,
+    "secretWritten": false,
+    "realDeploymentPerformed": false,
+    "upstreamActionsEnabled": false
+  }
+}

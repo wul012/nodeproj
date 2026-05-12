@@ -1,0 +1,86 @@
+name: Node Evidence
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/node-evidence.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "src/**"
+      - "test/**"
+  push:
+    branches:
+      - master
+    paths:
+      - ".github/workflows/node-evidence.yml"
+      - "package.json"
+      - "package-lock.json"
+      - "tsconfig.json"
+      - "src/**"
+      - "test/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  node-evidence:
+    name: Typecheck, test, build, and safe smoke
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      HOST: 127.0.0.1
+      PORT: "4190"
+      LOG_LEVEL: silent
+      UPSTREAM_PROBES_ENABLED: "false"
+      UPSTREAM_ACTIONS_ENABLED: "false"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test
+        run: npm test
+
+      - name: Build
+        run: npm run build
+
+      - name: Start safe smoke server
+        run: |
+          node dist/server.js > node-evidence-smoke.log 2>&1 &
+          echo "$!" > node-evidence-smoke.pid
+          for attempt in {1..20}; do
+            if curl --fail --silent "http://${HOST}:${PORT}/health" > /tmp/node-evidence-health.json; then
+              exit 0
+            fi
+            sleep 1
+          done
+          cat node-evidence-smoke.log
+          exit 1
+
+      - name: Safe health smoke
+        run: curl --fail --silent "http://${HOST}:${PORT}/health"
+
+      - name: Release evidence readiness smoke
+        run: |
+          curl --fail --silent "http://${HOST}:${PORT}/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate" \
+            | node -e "let data=''; process.stdin.on('data', c => data += c); process.stdin.on('end', () => { const json = JSON.parse(data); if (json.readyForReleaseEvidenceArchive !== true || json.executionAllowed !== false) { console.error(JSON.stringify(json, null, 2)); process.exit(1); } });"
+
+      - name: Stop smoke server
+        if: always()
+        run: |
+          if [ -f node-evidence-smoke.pid ]; then
+            kill "$(cat node-evidence-smoke.pid)" || true
+          fi
