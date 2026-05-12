@@ -77,6 +77,14 @@ Node v69 实施收口：
 - 不修改 Java / mini-kv
 - 不把 verification mismatch 自动修复为通过
 
+Node v70 实施收口：
+
+```text
+已按本节新增 execution gate archive verification：
+复核 archiveDigest、gateDigest、bundleDigest、requestId、decisionId、intentId 与当前 request/decision ledger 的一致性。
+本版仍不新增真实 execution endpoint，不修改 Java / mini-kv，不把 mismatch 自动修复为通过。
+```
+
 ### Java v42 + mini-kv v51：可并行独立推进
 
 Java v42 目标：
@@ -97,7 +105,7 @@ mini-kv v51 目标：
 
 ```text
 1. Node v69：execution gate preview archive record，已完成
-2. Node v70：execution gate archive verification
+2. Node v70：execution gate archive verification，已完成
 3. Java v42 + mini-kv v51：可以一起推进，只做只读 execution-contract / CHECKJSON 增强
 4. Node v71：根据 Java v42 + mini-kv v51 的完成情况接入 execution-contract 证据
 ```

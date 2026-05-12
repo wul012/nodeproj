@@ -171,6 +171,9 @@
 
 73-operation-approval-execution-gate-archive-v69.md
  -> 第六十九版 Execution gate archive record：把 gate preview 固化成本地归档记录，记录 gateDigest、bundleDigest 和 reviewer note
+
+74-operation-approval-execution-gate-archive-verification-v70.md
+ -> 第七十版 Execution gate archive verification：复核 archive digest、gate digest、bundle digest 和 request/decision ledger 对齐
 ```
 
 ## 项目整体理解

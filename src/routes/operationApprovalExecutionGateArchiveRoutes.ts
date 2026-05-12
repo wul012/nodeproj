@@ -16,8 +16,10 @@ import {
   type OperationApprovalExecutionGatePreview,
 } from "../services/operationApprovalExecutionGatePreview.js";
 import {
+  createOperationApprovalExecutionGateArchiveVerification,
   OperationApprovalExecutionGateArchiveLedger,
   renderOperationApprovalExecutionGateArchiveMarkdown,
+  renderOperationApprovalExecutionGateArchiveVerificationMarkdown,
 } from "../services/operationApprovalExecutionGateArchive.js";
 import {
   createOperationApprovalHandoffBundle,
@@ -76,6 +78,32 @@ export async function registerOperationApprovalExecutionGateArchiveRoutes(
   }, async (request) => ({
     archives: deps.operationApprovalExecutionGateArchives.list(request.query.limit ?? 20),
   }));
+
+  app.get<{ Params: ArchiveParams; Querystring: GetArchiveQuery }>("/api/v1/operation-approval-execution-gate-archives/:archiveId/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const record = deps.operationApprovalExecutionGateArchives.get(request.params.archiveId);
+    const verification = createOperationApprovalExecutionGateArchiveVerification(
+      record,
+      deps.operationApprovalRequests.get(record.requestId),
+      deps.operationApprovalDecisions.getByRequest(record.requestId),
+    );
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOperationApprovalExecutionGateArchiveVerificationMarkdown(verification);
+    }
+
+    return verification;
+  });
 
   app.get<{ Params: ArchiveParams; Querystring: GetArchiveQuery }>("/api/v1/operation-approval-execution-gate-archives/:archiveId", {
     schema: {

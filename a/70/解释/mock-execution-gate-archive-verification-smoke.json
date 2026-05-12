@@ -1,0 +1,168 @@
+{
+  "service": "orderops-node",
+  "version": "v70",
+  "generatedAt": "2026-05-12T01:52:30.038Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:54494",
+    "verificationMarkdownUrl": "http://127.0.0.1:54494/api/v1/operation-approval-execution-gate-archives/14271096-3b12-4dea-ae89-368837d91e01/verification?format=markdown"
+  },
+  "intentId": "4bb977a5-fcc2-43b0-8037-6a00f5ec3209",
+  "requestId": "e474bbf3-ad68-4dde-aa3e-33bcf167d64f",
+  "decisionId": "c8455cf6-ef14-49a3-ba5d-4450cfa78001",
+  "archiveId": "14271096-3b12-4dea-ae89-368837d91e01",
+  "verification": {
+    "valid": true,
+    "storedArchiveDigest": {
+      "algorithm": "sha256",
+      "value": "4b0e929dea19df40af15cf3844422a4d002cea19cf01fdf40ac2779ffcd6c7df",
+      "coveredFields": [
+        "sequence",
+        "createdAt",
+        "reviewer",
+        "reviewerNote",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "previewOnly",
+        "executionAllowed",
+        "gateDigest",
+        "bundleDigest",
+        "summary",
+        "gateChecks",
+        "hardBlockers",
+        "warnings",
+        "nextActions",
+        "preview"
+      ]
+    },
+    "recomputedArchiveDigest": {
+      "algorithm": "sha256",
+      "value": "4b0e929dea19df40af15cf3844422a4d002cea19cf01fdf40ac2779ffcd6c7df",
+      "coveredFields": [
+        "sequence",
+        "createdAt",
+        "reviewer",
+        "reviewerNote",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "previewOnly",
+        "executionAllowed",
+        "gateDigest",
+        "bundleDigest",
+        "summary",
+        "gateChecks",
+        "hardBlockers",
+        "warnings",
+        "nextActions",
+        "preview"
+      ]
+    },
+    "storedGateDigest": {
+      "algorithm": "sha256",
+      "value": "c1dee44cb0780c74019d772da0c6598873c507b198b52c8869e225dfc9fe892d",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "previewOnly",
+        "executionAllowed",
+        "bundleDigest",
+        "wouldCall",
+        "summary",
+        "gateChecks",
+        "hardBlockers",
+        "warnings",
+        "nextActions"
+      ]
+    },
+    "archivedPreviewGateDigest": {
+      "algorithm": "sha256",
+      "value": "c1dee44cb0780c74019d772da0c6598873c507b198b52c8869e225dfc9fe892d",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "previewOnly",
+        "executionAllowed",
+        "bundleDigest",
+        "wouldCall",
+        "summary",
+        "gateChecks",
+        "hardBlockers",
+        "warnings",
+        "nextActions"
+      ]
+    },
+    "storedBundleDigest": {
+      "algorithm": "sha256",
+      "value": "a3111d9af424cecb3b503664fe327799ab0071a45464c46a8faf81a84a50e8cc",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    },
+    "archivedPreviewBundleDigest": {
+      "algorithm": "sha256",
+      "value": "a3111d9af424cecb3b503664fe327799ab0071a45464c46a8faf81a84a50e8cc",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    },
+    "checks": {
+      "archiveDigestValid": true,
+      "gateDigestMatchesPreview": true,
+      "bundleDigestMatchesPreview": true,
+      "requestIdMatchesPreview": true,
+      "decisionIdMatchesPreview": true,
+      "intentIdMatchesPreview": true,
+      "requestLedgerMatches": true,
+      "decisionLedgerMatches": true,
+      "executionAllowedStillFalse": true,
+      "previewOnlyStillTrue": true
+    },
+    "summary": {
+      "requestId": "e474bbf3-ad68-4dde-aa3e-33bcf167d64f",
+      "decisionId": "c8455cf6-ef14-49a3-ba5d-4450cfa78001",
+      "intentId": "4bb977a5-fcc2-43b0-8037-6a00f5ec3209",
+      "state": "review-required",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "reviewer": "ops-reviewer",
+      "reviewerNote": "v70 smoke archive verification",
+      "hardBlockerCount": 0,
+      "warningCount": 4
+    }
+  },
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ]
+}

@@ -1,7 +1,9 @@
 import { createHash, randomUUID } from "node:crypto";
 
 import { AppHttpError } from "../errors.js";
+import type { OperationApprovalDecision } from "./operationApprovalDecision.js";
 import type { OperationApprovalExecutionGatePreview } from "./operationApprovalExecutionGatePreview.js";
+import type { OperationApprovalRequest } from "./operationApprovalRequest.js";
 
 export interface OperationApprovalExecutionGateArchiveDigest {
   algorithm: "sha256";
@@ -37,6 +39,45 @@ export interface OperationApprovalExecutionGateArchiveRecord {
   nextActions: string[];
   archiveDigest: OperationApprovalExecutionGateArchiveDigest;
   preview: OperationApprovalExecutionGatePreview;
+}
+
+export interface OperationApprovalExecutionGateArchiveVerification {
+  service: "orderops-node";
+  archiveId: string;
+  sequence: number;
+  verifiedAt: string;
+  valid: boolean;
+  storedArchiveDigest: OperationApprovalExecutionGateArchiveDigest;
+  recomputedArchiveDigest: OperationApprovalExecutionGateArchiveDigest;
+  storedGateDigest: OperationApprovalExecutionGateArchiveRecord["gateDigest"];
+  archivedPreviewGateDigest: OperationApprovalExecutionGateArchiveRecord["gateDigest"];
+  storedBundleDigest: OperationApprovalExecutionGateArchiveRecord["bundleDigest"];
+  archivedPreviewBundleDigest: OperationApprovalExecutionGateArchiveRecord["bundleDigest"];
+  checks: {
+    archiveDigestValid: boolean;
+    gateDigestMatchesPreview: boolean;
+    bundleDigestMatchesPreview: boolean;
+    requestIdMatchesPreview: boolean;
+    decisionIdMatchesPreview: boolean;
+    intentIdMatchesPreview: boolean;
+    requestLedgerMatches: boolean;
+    decisionLedgerMatches: boolean;
+    executionAllowedStillFalse: boolean;
+    previewOnlyStillTrue: boolean;
+  };
+  summary: {
+    requestId: string;
+    decisionId?: string;
+    intentId: string;
+    state: OperationApprovalExecutionGateArchiveRecord["state"];
+    requestStatus: OperationApprovalExecutionGateArchiveRecord["summary"]["requestStatus"];
+    decision: OperationApprovalExecutionGateArchiveRecord["summary"]["decision"];
+    reviewer: string;
+    reviewerNote: string;
+    hardBlockerCount: number;
+    warningCount: number;
+  };
+  nextActions: string[];
 }
 
 const ARCHIVE_DIGEST_COVERED_FIELDS = Object.freeze([
@@ -202,6 +243,115 @@ export function renderOperationApprovalExecutionGateArchiveMarkdown(
   ].join("\n");
 }
 
+export function createOperationApprovalExecutionGateArchiveVerification(
+  record: OperationApprovalExecutionGateArchiveRecord,
+  request: OperationApprovalRequest,
+  decision: OperationApprovalDecision | undefined,
+): OperationApprovalExecutionGateArchiveVerification {
+  const recomputedArchiveDigest = digestOperationApprovalExecutionGateArchive(stripArchiveDigest(record));
+  const checks = {
+    archiveDigestValid: record.archiveDigest.value === recomputedArchiveDigest.value,
+    gateDigestMatchesPreview: record.gateDigest.value === record.preview.gateDigest.value,
+    bundleDigestMatchesPreview: record.bundleDigest.value === record.preview.bundleDigest.value,
+    requestIdMatchesPreview: record.requestId === record.preview.requestId,
+    decisionIdMatchesPreview: (record.decisionId ?? "missing") === (record.preview.decisionId ?? "missing"),
+    intentIdMatchesPreview: record.intentId === record.preview.intentId,
+    requestLedgerMatches: request.requestId === record.requestId
+      && request.intentId === record.intentId
+      && request.status === record.summary.requestStatus,
+    decisionLedgerMatches: decision === undefined
+      ? record.decisionId === undefined && record.summary.decision === "missing"
+      : decision.decisionId === record.decisionId
+        && decision.requestId === record.requestId
+        && decision.intentId === record.intentId
+        && decision.decision === record.summary.decision,
+    executionAllowedStillFalse: record.executionAllowed === false && record.preview.executionAllowed === false,
+    previewOnlyStillTrue: record.previewOnly === true && record.preview.previewOnly === true,
+  };
+  const valid = Object.values(checks).every(Boolean);
+
+  return {
+    service: "orderops-node",
+    archiveId: record.archiveId,
+    sequence: record.sequence,
+    verifiedAt: new Date().toISOString(),
+    valid,
+    storedArchiveDigest: structuredClone(record.archiveDigest),
+    recomputedArchiveDigest,
+    storedGateDigest: structuredClone(record.gateDigest),
+    archivedPreviewGateDigest: structuredClone(record.preview.gateDigest),
+    storedBundleDigest: structuredClone(record.bundleDigest),
+    archivedPreviewBundleDigest: structuredClone(record.preview.bundleDigest),
+    checks,
+    summary: {
+      requestId: record.requestId,
+      ...(record.decisionId === undefined ? {} : { decisionId: record.decisionId }),
+      intentId: record.intentId,
+      state: record.state,
+      requestStatus: record.summary.requestStatus,
+      decision: record.summary.decision,
+      reviewer: record.reviewer,
+      reviewerNote: record.reviewerNote,
+      hardBlockerCount: record.summary.hardBlockerCount,
+      warningCount: record.summary.warningCount,
+    },
+    nextActions: valid
+      ? ["Execution gate archive verification is complete; keep this verification with the archive record."]
+      : ["Execution gate archive verification failed; create a new gate preview and archive record before moving toward execution."],
+  };
+}
+
+export function renderOperationApprovalExecutionGateArchiveVerificationMarkdown(
+  verification: OperationApprovalExecutionGateArchiveVerification,
+): string {
+  return [
+    "# Operation approval execution gate archive verification",
+    "",
+    `- Service: ${verification.service}`,
+    `- Archive id: ${verification.archiveId}`,
+    `- Sequence: ${verification.sequence}`,
+    `- Verified at: ${verification.verifiedAt}`,
+    `- Valid: ${verification.valid}`,
+    `- Request id: ${verification.summary.requestId}`,
+    `- Decision id: ${verification.summary.decisionId ?? "missing"}`,
+    `- Intent id: ${verification.summary.intentId}`,
+    `- State: ${verification.summary.state}`,
+    `- Stored archive digest: ${verification.storedArchiveDigest.algorithm}:${verification.storedArchiveDigest.value}`,
+    `- Recomputed archive digest: ${verification.recomputedArchiveDigest.algorithm}:${verification.recomputedArchiveDigest.value}`,
+    `- Stored gate digest: ${verification.storedGateDigest.algorithm}:${verification.storedGateDigest.value}`,
+    `- Archived preview gate digest: ${verification.archivedPreviewGateDigest.algorithm}:${verification.archivedPreviewGateDigest.value}`,
+    `- Stored bundle digest: ${verification.storedBundleDigest.algorithm}:${verification.storedBundleDigest.value}`,
+    `- Archived preview bundle digest: ${verification.archivedPreviewBundleDigest.algorithm}:${verification.archivedPreviewBundleDigest.value}`,
+    "",
+    "## Checks",
+    "",
+    `- Archive digest valid: ${verification.checks.archiveDigestValid}`,
+    `- Gate digest matches preview: ${verification.checks.gateDigestMatchesPreview}`,
+    `- Bundle digest matches preview: ${verification.checks.bundleDigestMatchesPreview}`,
+    `- Request id matches preview: ${verification.checks.requestIdMatchesPreview}`,
+    `- Decision id matches preview: ${verification.checks.decisionIdMatchesPreview}`,
+    `- Intent id matches preview: ${verification.checks.intentIdMatchesPreview}`,
+    `- Request ledger matches: ${verification.checks.requestLedgerMatches}`,
+    `- Decision ledger matches: ${verification.checks.decisionLedgerMatches}`,
+    `- Execution allowed still false: ${verification.checks.executionAllowedStillFalse}`,
+    `- Preview only still true: ${verification.checks.previewOnlyStillTrue}`,
+    "",
+    "## Summary",
+    "",
+    `- Request status: ${verification.summary.requestStatus}`,
+    `- Decision: ${verification.summary.decision}`,
+    `- Reviewer: ${verification.summary.reviewer}`,
+    `- Reviewer note: ${verification.summary.reviewerNote}`,
+    `- Hard blocker count: ${verification.summary.hardBlockerCount}`,
+    `- Warning count: ${verification.summary.warningCount}`,
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(verification.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
 export function digestOperationApprovalExecutionGateArchive(
   record: Omit<OperationApprovalExecutionGateArchiveRecord, "archiveDigest">,
 ): OperationApprovalExecutionGateArchiveDigest {
@@ -236,6 +386,13 @@ export function digestOperationApprovalExecutionGateArchive(
 function normalizeReviewer(reviewer: string | undefined): string {
   const normalized = reviewer?.trim() ?? "";
   return normalized.length > 0 ? normalized.slice(0, 80) : "local-reviewer";
+}
+
+function stripArchiveDigest(
+  record: OperationApprovalExecutionGateArchiveRecord,
+): Omit<OperationApprovalExecutionGateArchiveRecord, "archiveDigest"> {
+  const { archiveDigest: _archiveDigest, ...withoutDigest } = record;
+  return withoutDigest;
 }
 
 function normalizeNote(note: string | undefined): string {

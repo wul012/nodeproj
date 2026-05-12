@@ -117,6 +117,14 @@ describe("operation approval execution gate archive routes", () => {
         method: "GET",
         url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}?format=markdown`,
       });
+      const verification = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/verification`,
+      });
+      const verificationMarkdown = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/verification?format=markdown`,
+      });
 
       expect(gatePreview.statusCode).toBe(200);
       expect(gatePreview.json()).toMatchObject({
@@ -140,13 +148,14 @@ describe("operation approval execution gate archive routes", () => {
         state: "review-required",
         previewOnly: true,
         executionAllowed: false,
-        gateDigest: gatePreview.json().gateDigest,
         summary: {
           miniKvCommandDigest: "fnv1a64:1234567890abcdef",
           miniKvSideEffectCount: 2,
         },
       });
       expect(archive.json().archiveId).toHaveLength(36);
+      expect(archive.json().gateDigest.value).toHaveLength(64);
+      expect(archive.json().bundleDigest.value).toHaveLength(64);
       expect(archive.json().archiveDigest.value).toHaveLength(64);
       expect(listed.statusCode).toBe(200);
       expect(listed.json().archives).toHaveLength(1);
@@ -154,6 +163,35 @@ describe("operation approval execution gate archive routes", () => {
       expect(markdown.body).toContain("# Operation approval execution gate archive record");
       expect(markdown.body).toContain("- Execution allowed: false");
       expect(markdown.body).toContain("- Reviewer note: archive v69 execution gate preview");
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        archiveId: archive.json().archiveId,
+        sequence: 1,
+        valid: true,
+        storedArchiveDigest: archive.json().archiveDigest,
+        recomputedArchiveDigest: archive.json().archiveDigest,
+        storedGateDigest: archive.json().gateDigest,
+        archivedPreviewGateDigest: archive.json().preview.gateDigest,
+        storedBundleDigest: archive.json().bundleDigest,
+        archivedPreviewBundleDigest: archive.json().preview.bundleDigest,
+        checks: {
+          archiveDigestValid: true,
+          gateDigestMatchesPreview: true,
+          bundleDigestMatchesPreview: true,
+          requestIdMatchesPreview: true,
+          decisionIdMatchesPreview: true,
+          intentIdMatchesPreview: true,
+          requestLedgerMatches: true,
+          decisionLedgerMatches: true,
+          executionAllowedStillFalse: true,
+          previewOnlyStillTrue: true,
+        },
+      });
+      expect(verificationMarkdown.statusCode).toBe(200);
+      expect(verificationMarkdown.body).toContain("# Operation approval execution gate archive verification");
+      expect(verificationMarkdown.body).toContain("- Valid: true");
+      expect(verificationMarkdown.body).toContain("- Archive digest valid: true");
       expect(seenCommands.every((command) => !/^(SET|DEL|EXPIRE)\s/.test(command))).toBe(true);
     } finally {
       await app.close();
