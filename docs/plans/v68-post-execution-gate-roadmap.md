@@ -107,7 +107,15 @@ mini-kv v51 目标：
 1. Node v69：execution gate preview archive record，已完成
 2. Node v70：execution gate archive verification，已完成
 3. Java v42 + mini-kv v51：可以一起推进，只做只读 execution-contract / CHECKJSON 增强
-4. Node v71：根据 Java v42 + mini-kv v51 的完成情况接入 execution-contract 证据
+4. Node v71：根据 Java v42 + mini-kv v51 的完成情况接入 execution-contract 证据，已完成
+```
+
+Node v71 实施收口：
+
+```text
+已确认 Java v42 与 mini-kv v51 完成，并按本节在 Node 接入 Java replay-execution-contract 与 mini-kv CHECKJSON 只读执行契约证据。
+evidence、verification、handoff bundle、execution gate preview 均展示并校验 execution-contract 字段。
+本版仍不新增真实 execution endpoint，不调用 Java replay POST，不执行 mini-kv 写命令。
 ```
 
 ## 暂停条件

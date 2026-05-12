@@ -13,7 +13,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Browser dashboard at `/`
 - Health endpoint at `/health`
 - Java order platform proxy endpoints
-- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, `EXPIRE`, `HEALTH`, `STATSJSON`, `INFOJSON`, `COMMANDSJSON`, `KEYS`, `KEYSJSON`, and `EXPLAINJSON`
+- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, `EXPIRE`, `HEALTH`, `STATSJSON`, `INFOJSON`, `COMMANDSJSON`, `KEYS`, `KEYSJSON`, `EXPLAINJSON`, and `CHECKJSON`
 - Live SSE status stream at `/api/v1/events/ops`
 - In-memory audit log and request summary endpoints
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
@@ -32,7 +32,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local operation execution preview that combines preflight digest, Java replay simulation, mini-kv EXPLAINJSON, would-call summary, and expected side effects
 - In-memory operation approval request ledger that binds preflight and execution-preview digests before any real upstream execution
 - In-memory operation approval decision ledger for recording reviewer approve/reject decisions with SHA-256 digests and no upstream execution
-- Local operation approval evidence report, verification, handoff bundle, execution gate preview, archive record, and archive verification for archiving request, decision, digest chain, Java approval-status digest evidence, mini-kv `command_digest` / `side_effect_count`, and upstream untouched proof before any real execution
+- Local operation approval evidence report, verification, handoff bundle, execution gate preview, archive record, and archive verification for archiving request, decision, digest chain, Java approval-status and execution-contract evidence, mini-kv `command_digest` / `side_effect_count` / `CHECKJSON` contract evidence, and upstream untouched proof before any real execution
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution

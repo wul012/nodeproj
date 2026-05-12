@@ -34,6 +34,10 @@ describe("operation approval execution gate archive routes", () => {
           socket.end('{"schema_version":1,"command_digest":"fnv1a64:1234567890abcdef","command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:preview","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[],"side_effects":["store_write","wal_append_when_enabled"],"side_effect_count":2}\n');
           return;
         }
+        if (command.startsWith("CHECKJSON")) {
+          socket.end('{"schema_version":1,"read_only":true,"execution_allowed":false,"command_digest":"fnv1a64:1234567890abcdef","command":"SET","write_command":true,"allowed_by_parser":true,"side_effects":["store_write","wal_append_when_enabled"],"side_effect_count":2,"checks":{"parser_allowed":true,"write_command":true,"wal_append_when_enabled":true,"wal_enabled":true},"wal":{"enabled":true,"touches_wal":true,"append_when_enabled":true,"durability":"wal_backed"},"warnings":[]}\n');
+          return;
+        }
         socket.end("OK\n");
       });
     });
@@ -134,6 +138,10 @@ describe("operation approval execution gate archive routes", () => {
           requiredUpstreamEvidenceAvailable: true,
           miniKvCommandDigest: "fnv1a64:1234567890abcdef",
           miniKvSideEffectCount: 2,
+          miniKvExecutionContractStatus: "available",
+          miniKvCheckReadOnly: true,
+          miniKvCheckExecutionAllowed: false,
+          miniKvCheckDurability: "wal_backed",
         },
       });
       expect(archive.statusCode).toBe(201);

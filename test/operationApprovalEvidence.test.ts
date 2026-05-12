@@ -114,6 +114,10 @@ describe("operation approval evidence route", () => {
           socket.end('{"schema_version":1,"command_digest":"fnv1a64:1234567890abcdef","command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:preview","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[],"side_effects":["store_write","wal_append_when_enabled"],"side_effect_count":2}\n');
           return;
         }
+        if (command.startsWith("CHECKJSON")) {
+          socket.end('{"schema_version":1,"read_only":true,"execution_allowed":false,"command_digest":"fnv1a64:1234567890abcdef","command":"SET","write_command":true,"allowed_by_parser":true,"side_effects":["store_write","wal_append_when_enabled"],"side_effect_count":2,"checks":{"parser_allowed":true,"write_command":true,"wal_append_when_enabled":true,"wal_enabled":true},"wal":{"enabled":true,"touches_wal":true,"append_when_enabled":true,"durability":"wal_backed"},"warnings":[]}\n');
+          return;
+        }
         socket.end("OK\n");
       });
     });
@@ -225,6 +229,10 @@ describe("operation approval evidence route", () => {
           miniKvSchemaVersion: 1,
           miniKvCommandDigest: "fnv1a64:1234567890abcdef",
           miniKvSideEffectCount: 2,
+          miniKvExecutionContractStatus: "available",
+          miniKvCheckReadOnly: true,
+          miniKvCheckExecutionAllowed: false,
+          miniKvCheckDurability: "wal_backed",
         },
         upstreamEvidence: {
           miniKvExplainCoverage: {
@@ -250,8 +258,10 @@ describe("operation approval evidence route", () => {
           summaryMatches: true,
           upstreamEvidenceMatchesSummary: true,
           javaApprovalDigestEvidenceValid: true,
+          javaExecutionContractEvidenceValid: true,
           miniKvCommandDigestEvidenceValid: true,
           miniKvSideEffectCountMatches: true,
+          miniKvExecutionContractEvidenceValid: true,
           nextActionsMatch: true,
           upstreamUntouched: true,
         },
@@ -282,6 +292,10 @@ describe("operation approval evidence route", () => {
           miniKvSchemaVersion: 1,
           miniKvCommandDigest: "fnv1a64:1234567890abcdef",
           miniKvSideEffectCount: 2,
+          miniKvExecutionContractStatus: "available",
+          miniKvCheckReadOnly: true,
+          miniKvCheckExecutionAllowed: false,
+          miniKvCheckDurability: "wal_backed",
           artifactCount: 5,
           missingArtifactCount: 0,
           invalidArtifactCount: 0,
@@ -335,8 +349,13 @@ describe("operation approval evidence route", () => {
           requiredUpstreamEvidenceAvailable: true,
           javaApprovedForReplayOk: true,
           javaApprovalDigestEvidenceValid: true,
+          javaExecutionContractEvidenceValid: true,
+          javaReplayPreconditionsSatisfiedOk: true,
           miniKvCommandDigestEvidenceValid: true,
           miniKvSideEffectCountMatches: true,
+          miniKvExecutionContractEvidenceValid: true,
+          miniKvCheckReadOnlyOk: true,
+          miniKvCheckExecutionAllowedOk: true,
         },
         hardBlockers: [],
       });
@@ -345,9 +364,11 @@ describe("operation approval evidence route", () => {
       expect(executionGatePreviewMarkdown.body).toContain("# Operation approval execution gate preview");
       expect(executionGatePreviewMarkdown.body).toContain("- Execution allowed: false");
       expect(executionGatePreviewMarkdown.body).toContain("- mini-kv command digest: fnv1a64:1234567890abcdef");
+      expect(executionGatePreviewMarkdown.body).toContain("- mini-kv CHECKJSON execution_allowed: false");
       expect(seenCommands[0]).toBe("COMMANDSJSON");
       expect(seenCommands[1]).toBe("KEYSJSON orderops:");
       expect(seenCommands.filter((command) => command === "EXPLAINJSON SET orderops:preview preview-value")).toHaveLength(8);
+      expect(seenCommands.filter((command) => command === "CHECKJSON SET orderops:preview preview-value")).toHaveLength(7);
     } finally {
       await app.close();
     }
@@ -410,6 +431,58 @@ describe("operation approval evidence route", () => {
             changedAt: "2026-05-11T03:40:30.000Z",
           },
           approvalBlockedBy: [],
+          nextAllowedActions: ["REPLAY_FAILED_EVENT"],
+        }));
+        return;
+      }
+
+      if (path === "/api/v1/failed-events/42/replay-execution-contract") {
+        response.end(JSON.stringify({
+          sampledAt: "2026-05-11T03:42:00.000Z",
+          failedEventId: 42,
+          exists: true,
+          contractVersion: "failed-event-replay-execution-contract.v1",
+          contractDigest: "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          approvalEvidenceVersion: "failed-event-approval-status.v1",
+          approvalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          replayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          failedEventStatus: "FAILED",
+          managementStatus: "WAITING_REPLAY",
+          approvalStatus: "APPROVED",
+          requiredApprovalStatus: "APPROVED",
+          replayPreconditionsSatisfied: true,
+          realReplayEndpointEnforcesApprovalDigest: false,
+          realReplayEndpointEnforcesReplayEligibilityDigest: false,
+          digestVerificationMode: "CLIENT_PRECHECK_ONLY",
+          realExecutionMethod: "POST",
+          realExecutionPath: "/api/v1/failed-events/{id}/replay",
+          requiredOperatorAction: "REPLAY_FAILED_EVENT",
+          idempotencyKeyHint: "failed-event-replay:42",
+          expectedAggregateId: "order-42",
+          executionChecks: [
+            {
+              checkId: "REPLAY_APPROVAL_APPROVED",
+              source: "FailedEventMessageService.replay",
+              category: "APPROVAL",
+              required: true,
+              status: "PASSED",
+              requiredValue: "approvalStatus=APPROVED",
+              currentValue: "approvalStatus=APPROVED",
+              evidenceDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              blockedBy: [],
+            },
+          ],
+          requestRequirements: [
+            {
+              field: "Idempotency-Key",
+              requiredForPost: true,
+              rule: "non-empty",
+              fallback: "none",
+            },
+          ],
+          blockedBy: [],
+          warnings: ["client-precheck-only"],
+          expectedSideEffects: ["order-event-replayed", "outbox-message-created"],
           nextAllowedActions: ["REPLAY_FAILED_EVENT"],
         }));
         return;
@@ -492,6 +565,11 @@ describe("operation approval evidence route", () => {
           javaEvidenceVersion: "failed-event-approval-status.v1",
           javaApprovalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           javaReplayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          javaExecutionContractStatus: "available",
+          javaContractVersion: "failed-event-replay-execution-contract.v1",
+          javaContractDigest: "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          javaReplayPreconditionsSatisfied: true,
+          javaDigestVerificationMode: "CLIENT_PRECHECK_ONLY",
           miniKvExplainCoverage: "not_applicable",
         },
         upstreamEvidence: {
@@ -517,8 +595,10 @@ describe("operation approval evidence route", () => {
         checks: {
           upstreamEvidenceMatchesSummary: true,
           javaApprovalDigestEvidenceValid: true,
+          javaExecutionContractEvidenceValid: true,
           miniKvCommandDigestEvidenceValid: true,
           miniKvSideEffectCountMatches: true,
+          miniKvExecutionContractEvidenceValid: true,
           upstreamUntouched: true,
         },
       });
@@ -540,6 +620,10 @@ describe("operation approval evidence route", () => {
           javaApprovedForReplay: true,
           javaApprovalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
           javaReplayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          javaExecutionContractStatus: "available",
+          javaContractDigest: "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          javaReplayPreconditionsSatisfied: true,
+          javaDigestVerificationMode: "CLIENT_PRECHECK_ONLY",
           hardBlockerCount: 0,
         },
         gateChecks: {
@@ -552,13 +636,18 @@ describe("operation approval evidence route", () => {
           requiredUpstreamEvidenceAvailable: true,
           javaApprovedForReplayOk: true,
           javaApprovalDigestEvidenceValid: true,
+          javaExecutionContractEvidenceValid: true,
+          javaReplayPreconditionsSatisfiedOk: true,
         },
       });
       expect(seenRequests).toEqual([
         "GET /api/v1/failed-events/42/replay-simulation",
         "GET /api/v1/failed-events/42/approval-status",
+        "GET /api/v1/failed-events/42/replay-execution-contract",
         "GET /api/v1/failed-events/42/approval-status",
+        "GET /api/v1/failed-events/42/replay-execution-contract",
         "GET /api/v1/failed-events/42/approval-status",
+        "GET /api/v1/failed-events/42/replay-execution-contract",
       ]);
     } finally {
       await app.close();

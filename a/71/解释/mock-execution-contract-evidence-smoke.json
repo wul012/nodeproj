@@ -1,0 +1,111 @@
+{
+  "service": "orderops-node",
+  "version": "v71",
+  "generatedAt": "2026-05-12T02:39:59.857Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:60069",
+    "javaGateMarkdownUrl": "http://127.0.0.1:60069/api/v1/operation-approval-requests/cd767e61-000a-4425-a5b7-b4b320b43a3a/execution-gate-preview?format=markdown",
+    "miniKvGateMarkdownUrl": "http://127.0.0.1:60069/api/v1/operation-approval-requests/6964ea8f-405d-49ff-9253-43d2f9edac4e/execution-gate-preview?format=markdown"
+  },
+  "java": {
+    "requestId": "cd767e61-000a-4425-a5b7-b4b320b43a3a",
+    "decisionId": "ba8a607b-8962-4951-ab5c-4a6574efee1c",
+    "summary": {
+      "action": "failed-event-replay-simulation",
+      "target": "order-platform",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "handoffReady": true,
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovalStatus": "available",
+      "javaApprovedForReplay": true,
+      "javaApprovalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "javaReplayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "javaExecutionContractStatus": "available",
+      "javaContractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "javaReplayPreconditionsSatisfied": true,
+      "javaDigestVerificationMode": "CLIENT_PRECHECK_ONLY",
+      "miniKvExplainCoverage": "not_applicable",
+      "miniKvExecutionContractStatus": "not_applicable",
+      "hardBlockerCount": 0,
+      "warningCount": 1
+    },
+    "gateChecks": {
+      "requestApproved": true,
+      "decisionApproved": true,
+      "handoffReady": true,
+      "evidenceVerificationValid": true,
+      "upstreamUntouched": true,
+      "noRequestHardBlockers": true,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovedForReplayOk": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "javaExecutionContractEvidenceValid": true,
+      "javaReplayPreconditionsSatisfiedOk": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true,
+      "miniKvExecutionContractEvidenceValid": true,
+      "miniKvCheckReadOnlyOk": true,
+      "miniKvCheckExecutionAllowedOk": true
+    },
+    "hardBlockers": []
+  },
+  "miniKv": {
+    "requestId": "6964ea8f-405d-49ff-9253-43d2f9edac4e",
+    "decisionId": "dea03352-efae-4e40-bbd4-f7eae64eb925",
+    "summary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "handoffReady": true,
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovalStatus": "not_applicable",
+      "javaExecutionContractStatus": "not_applicable",
+      "miniKvExplainCoverage": "available",
+      "miniKvCommandDigest": "fnv1a64:1234567890abcdef",
+      "miniKvSideEffectCount": 2,
+      "miniKvExecutionContractStatus": "available",
+      "miniKvCheckReadOnly": true,
+      "miniKvCheckExecutionAllowed": false,
+      "miniKvCheckDurability": "wal_backed",
+      "hardBlockerCount": 0,
+      "warningCount": 4
+    },
+    "gateChecks": {
+      "requestApproved": true,
+      "decisionApproved": true,
+      "handoffReady": true,
+      "evidenceVerificationValid": true,
+      "upstreamUntouched": true,
+      "noRequestHardBlockers": true,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovedForReplayOk": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "javaExecutionContractEvidenceValid": true,
+      "javaReplayPreconditionsSatisfiedOk": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true,
+      "miniKvExecutionContractEvidenceValid": true,
+      "miniKvCheckReadOnlyOk": true,
+      "miniKvCheckExecutionAllowedOk": true
+    },
+    "hardBlockers": []
+  },
+  "seenJavaRequests": [
+    "GET /api/v1/failed-events/42/replay-simulation",
+    "GET /api/v1/failed-events/42/approval-status",
+    "GET /api/v1/failed-events/42/replay-execution-contract"
+  ],
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "CHECKJSON SET orderops:preview preview-value"
+  ]
+}

@@ -174,6 +174,9 @@
 
 74-operation-approval-execution-gate-archive-verification-v70.md
  -> 第七十版 Execution gate archive verification：复核 archive digest、gate digest、bundle digest 和 request/decision ledger 对齐
+
+75-execution-contract-evidence-v71.md
+ -> 第七十一版 Execution contract evidence：接入 Java replay-execution-contract 与 mini-kv CHECKJSON，只读校验执行契约证据
 ```
 
 ## 项目整体理解

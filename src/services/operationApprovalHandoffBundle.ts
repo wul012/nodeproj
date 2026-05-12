@@ -54,11 +54,20 @@ export interface OperationApprovalHandoffBundle {
     javaEvidenceVersion?: string;
     javaApprovalDigest?: string;
     javaReplayEligibilityDigest?: string;
+    javaExecutionContractStatus: OperationApprovalEvidenceReport["summary"]["javaExecutionContractStatus"];
+    javaContractVersion?: string;
+    javaContractDigest?: string;
+    javaReplayPreconditionsSatisfied?: boolean;
+    javaDigestVerificationMode?: string;
     miniKvExplainCoverage: OperationApprovalEvidenceReport["summary"]["miniKvExplainCoverage"];
     miniKvSideEffects: string[];
     miniKvSchemaVersion?: number;
     miniKvCommandDigest?: string;
     miniKvSideEffectCount?: number;
+    miniKvExecutionContractStatus: OperationApprovalEvidenceReport["summary"]["miniKvExecutionContractStatus"];
+    miniKvCheckReadOnly?: boolean;
+    miniKvCheckExecutionAllowed?: boolean;
+    miniKvCheckDurability?: string;
     artifactCount: number;
     missingArtifactCount: number;
     invalidArtifactCount: number;
@@ -142,10 +151,19 @@ export function renderOperationApprovalHandoffBundleMarkdown(bundle: OperationAp
     `- Java evidence version: ${bundle.summary.javaEvidenceVersion ?? "unknown"}`,
     `- Java approval digest: ${bundle.summary.javaApprovalDigest ?? "unknown"}`,
     `- Java replay eligibility digest: ${bundle.summary.javaReplayEligibilityDigest ?? "unknown"}`,
+    `- Java execution contract: ${bundle.summary.javaExecutionContractStatus}`,
+    `- Java contract version: ${bundle.summary.javaContractVersion ?? "unknown"}`,
+    `- Java contract digest: ${bundle.summary.javaContractDigest ?? "unknown"}`,
+    `- Java replay preconditions satisfied: ${bundle.summary.javaReplayPreconditionsSatisfied === undefined ? "unknown" : bundle.summary.javaReplayPreconditionsSatisfied}`,
+    `- Java digest verification mode: ${bundle.summary.javaDigestVerificationMode ?? "unknown"}`,
     `- mini-kv EXPLAINJSON coverage: ${bundle.summary.miniKvExplainCoverage}`,
     `- mini-kv schema version: ${bundle.summary.miniKvSchemaVersion ?? "unknown"}`,
     `- mini-kv command digest: ${bundle.summary.miniKvCommandDigest ?? "unknown"}`,
     `- mini-kv side_effect_count: ${bundle.summary.miniKvSideEffectCount ?? "unknown"}`,
+    `- mini-kv CHECKJSON contract: ${bundle.summary.miniKvExecutionContractStatus}`,
+    `- mini-kv CHECKJSON read_only: ${bundle.summary.miniKvCheckReadOnly === undefined ? "unknown" : bundle.summary.miniKvCheckReadOnly}`,
+    `- mini-kv CHECKJSON execution_allowed: ${bundle.summary.miniKvCheckExecutionAllowed === undefined ? "unknown" : bundle.summary.miniKvCheckExecutionAllowed}`,
+    `- mini-kv CHECKJSON durability: ${bundle.summary.miniKvCheckDurability ?? "unknown"}`,
     `- Artifact count: ${bundle.summary.artifactCount}`,
     `- Missing artifact count: ${bundle.summary.missingArtifactCount}`,
     `- Invalid artifact count: ${bundle.summary.invalidArtifactCount}`,
@@ -169,8 +187,10 @@ export function renderOperationApprovalHandoffBundleMarkdown(bundle: OperationAp
     `- Summary matches: ${bundle.verification.checks.summaryMatches}`,
     `- Upstream evidence matches summary: ${bundle.verification.checks.upstreamEvidenceMatchesSummary}`,
     `- Java approval digest evidence valid: ${bundle.verification.checks.javaApprovalDigestEvidenceValid}`,
+    `- Java execution contract evidence valid: ${bundle.verification.checks.javaExecutionContractEvidenceValid}`,
     `- mini-kv command digest evidence valid: ${bundle.verification.checks.miniKvCommandDigestEvidenceValid}`,
     `- mini-kv side_effect_count matches: ${bundle.verification.checks.miniKvSideEffectCountMatches}`,
+    `- mini-kv execution contract evidence valid: ${bundle.verification.checks.miniKvExecutionContractEvidenceValid}`,
     `- Next actions match: ${bundle.verification.checks.nextActionsMatch}`,
     `- Upstream untouched: ${bundle.verification.checks.upstreamUntouched}`,
     "",
@@ -275,11 +295,20 @@ function summarizeHandoff(
     ...(report.summary.javaEvidenceVersion === undefined ? {} : { javaEvidenceVersion: report.summary.javaEvidenceVersion }),
     ...(report.summary.javaApprovalDigest === undefined ? {} : { javaApprovalDigest: report.summary.javaApprovalDigest }),
     ...(report.summary.javaReplayEligibilityDigest === undefined ? {} : { javaReplayEligibilityDigest: report.summary.javaReplayEligibilityDigest }),
+    javaExecutionContractStatus: report.summary.javaExecutionContractStatus,
+    ...(report.summary.javaContractVersion === undefined ? {} : { javaContractVersion: report.summary.javaContractVersion }),
+    ...(report.summary.javaContractDigest === undefined ? {} : { javaContractDigest: report.summary.javaContractDigest }),
+    ...(report.summary.javaReplayPreconditionsSatisfied === undefined ? {} : { javaReplayPreconditionsSatisfied: report.summary.javaReplayPreconditionsSatisfied }),
+    ...(report.summary.javaDigestVerificationMode === undefined ? {} : { javaDigestVerificationMode: report.summary.javaDigestVerificationMode }),
     miniKvExplainCoverage: report.summary.miniKvExplainCoverage,
     miniKvSideEffects: [...report.summary.miniKvSideEffects],
     ...(report.summary.miniKvSchemaVersion === undefined ? {} : { miniKvSchemaVersion: report.summary.miniKvSchemaVersion }),
     ...(report.summary.miniKvCommandDigest === undefined ? {} : { miniKvCommandDigest: report.summary.miniKvCommandDigest }),
     ...(report.summary.miniKvSideEffectCount === undefined ? {} : { miniKvSideEffectCount: report.summary.miniKvSideEffectCount }),
+    miniKvExecutionContractStatus: report.summary.miniKvExecutionContractStatus,
+    ...(report.summary.miniKvCheckReadOnly === undefined ? {} : { miniKvCheckReadOnly: report.summary.miniKvCheckReadOnly }),
+    ...(report.summary.miniKvCheckExecutionAllowed === undefined ? {} : { miniKvCheckExecutionAllowed: report.summary.miniKvCheckExecutionAllowed }),
+    ...(report.summary.miniKvCheckDurability === undefined ? {} : { miniKvCheckDurability: report.summary.miniKvCheckDurability }),
     artifactCount: artifacts.length,
     missingArtifactCount,
     invalidArtifactCount,

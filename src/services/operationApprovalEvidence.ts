@@ -26,6 +26,8 @@ export interface OperationApprovalEvidenceDigest {
 export interface OperationApprovalUpstreamEvidence {
   javaApprovalStatus: EvidenceRecord;
   miniKvExplainCoverage: EvidenceRecord;
+  javaExecutionContract: EvidenceRecord;
+  miniKvExecutionContract: EvidenceRecord;
 }
 
 export interface OperationApprovalEvidenceReport {
@@ -56,11 +58,20 @@ export interface OperationApprovalEvidenceReport {
     javaEvidenceVersion?: string;
     javaApprovalDigest?: string;
     javaReplayEligibilityDigest?: string;
+    javaExecutionContractStatus: EvidenceRecord["status"];
+    javaContractVersion?: string;
+    javaContractDigest?: string;
+    javaReplayPreconditionsSatisfied?: boolean;
+    javaDigestVerificationMode?: string;
     miniKvExplainCoverage: EvidenceRecord["status"];
     miniKvSideEffects: string[];
     miniKvSchemaVersion?: number;
     miniKvCommandDigest?: string;
     miniKvSideEffectCount?: number;
+    miniKvExecutionContractStatus: EvidenceRecord["status"];
+    miniKvCheckReadOnly?: boolean;
+    miniKvCheckExecutionAllowed?: boolean;
+    miniKvCheckDurability?: string;
   };
   request: OperationApprovalRequest;
   decision?: OperationApprovalDecision;
@@ -87,8 +98,10 @@ export interface OperationApprovalEvidenceVerification {
     summaryMatches: boolean;
     upstreamEvidenceMatchesSummary: boolean;
     javaApprovalDigestEvidenceValid: boolean;
+    javaExecutionContractEvidenceValid: boolean;
     miniKvCommandDigestEvidenceValid: boolean;
     miniKvSideEffectCountMatches: boolean;
+    miniKvExecutionContractEvidenceValid: boolean;
     nextActionsMatch: boolean;
     upstreamUntouched: boolean;
   };
@@ -123,6 +136,8 @@ export class OperationApprovalEvidenceService {
     const upstreamEvidence = {
       javaApprovalStatus: await this.collectJavaApprovalStatus(request),
       miniKvExplainCoverage: await this.collectMiniKvExplainCoverage(request),
+      javaExecutionContract: await this.collectJavaExecutionContract(request),
+      miniKvExecutionContract: await this.collectMiniKvExecutionContract(request),
     };
     return createOperationApprovalEvidenceReport(request, decision, upstreamEvidence);
   }
@@ -210,6 +225,88 @@ export class OperationApprovalEvidenceService {
       };
     }
   }
+
+  private async collectJavaExecutionContract(request: OperationApprovalRequest): Promise<EvidenceRecord> {
+    if (request.target !== "order-platform" || request.action !== "failed-event-replay-simulation") {
+      return {
+        status: "not_applicable",
+        message: "Approval request does not target Java failed-event execution contract.",
+      };
+    }
+    if (!this.config.upstreamProbesEnabled) {
+      return {
+        status: "skipped",
+        message: "UPSTREAM_PROBES_ENABLED=false; Java replay execution contract was not requested.",
+      };
+    }
+
+    const failedEventId = inferFailedEventId(request);
+    if (failedEventId === undefined) {
+      return {
+        status: "missing_context",
+        message: "No failedEventId was found in the stored execution preview evidence.",
+      };
+    }
+
+    try {
+      const response = await this.orderPlatform.failedEventReplayExecutionContract(failedEventId);
+      return {
+        status: "available",
+        message: "Java failed-event replay execution contract evidence collected.",
+        details: {
+          latencyMs: response.latencyMs,
+          failedEventId,
+          executionContract: response.data,
+        },
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
+
+  private async collectMiniKvExecutionContract(request: OperationApprovalRequest): Promise<EvidenceRecord> {
+    if (request.target !== "mini-kv") {
+      return {
+        status: "not_applicable",
+        message: "Approval request does not target mini-kv CHECKJSON execution contract.",
+      };
+    }
+    if (!this.config.upstreamProbesEnabled) {
+      return {
+        status: "skipped",
+        message: "UPSTREAM_PROBES_ENABLED=false; mini-kv CHECKJSON execution contract was not requested.",
+      };
+    }
+
+    const command = inferMiniKvExplainCommand(request);
+    if (command === undefined) {
+      return {
+        status: "missing_context",
+        message: "No mini-kv command was found in the stored execution preview evidence.",
+      };
+    }
+
+    try {
+      const response = await this.miniKv.checkJson(command);
+      return {
+        status: "available",
+        message: "mini-kv CHECKJSON execution contract evidence collected.",
+        details: {
+          latencyMs: response.latencyMs,
+          command,
+          contract: response.contract,
+        },
+      };
+    } catch (error) {
+      return {
+        status: "unavailable",
+        message: error instanceof Error ? error.message : String(error),
+      };
+    }
+  }
 }
 
 export function createOperationApprovalEvidenceReport(
@@ -267,8 +364,10 @@ export function createOperationApprovalEvidenceVerification(
     summaryMatches: stableJson(report.summary) === stableJson(recomputed.summary),
     upstreamEvidenceMatchesSummary: summaryMatchesUpstreamEvidence(report.summary, report.upstreamEvidence),
     javaApprovalDigestEvidenceValid: javaApprovalDigestEvidenceValid(report.upstreamEvidence.javaApprovalStatus),
+    javaExecutionContractEvidenceValid: javaExecutionContractEvidenceValid(report.upstreamEvidence.javaExecutionContract),
     miniKvCommandDigestEvidenceValid: miniKvCommandDigestEvidenceValid(report.upstreamEvidence.miniKvExplainCoverage),
     miniKvSideEffectCountMatches: miniKvSideEffectCountMatches(report.upstreamEvidence.miniKvExplainCoverage),
+    miniKvExecutionContractEvidenceValid: miniKvExecutionContractEvidenceValid(report.upstreamEvidence.miniKvExecutionContract),
     nextActionsMatch: stableJson(report.nextActions) === stableJson(recomputed.nextActions),
     upstreamUntouched: report.decision?.upstreamTouched === false,
   };
@@ -329,10 +428,19 @@ export function renderOperationApprovalEvidenceMarkdown(report: OperationApprova
     `- Java evidence version: ${report.summary.javaEvidenceVersion ?? "unknown"}`,
     `- Java approval digest: ${report.summary.javaApprovalDigest ?? "unknown"}`,
     `- Java replay eligibility digest: ${report.summary.javaReplayEligibilityDigest ?? "unknown"}`,
+    `- Java execution contract: ${report.summary.javaExecutionContractStatus} - ${report.upstreamEvidence.javaExecutionContract.message}`,
+    `- Java contract version: ${report.summary.javaContractVersion ?? "unknown"}`,
+    `- Java contract digest: ${report.summary.javaContractDigest ?? "unknown"}`,
+    `- Java replay preconditions satisfied: ${report.summary.javaReplayPreconditionsSatisfied === undefined ? "unknown" : report.summary.javaReplayPreconditionsSatisfied}`,
+    `- Java digest verification mode: ${report.summary.javaDigestVerificationMode ?? "unknown"}`,
     `- mini-kv EXPLAINJSON coverage: ${report.summary.miniKvExplainCoverage} - ${report.upstreamEvidence.miniKvExplainCoverage.message}`,
     `- mini-kv schema version: ${report.summary.miniKvSchemaVersion ?? "unknown"}`,
     `- mini-kv command digest: ${report.summary.miniKvCommandDigest ?? "unknown"}`,
     `- mini-kv side_effect_count: ${report.summary.miniKvSideEffectCount ?? "unknown"}`,
+    `- mini-kv CHECKJSON contract: ${report.summary.miniKvExecutionContractStatus} - ${report.upstreamEvidence.miniKvExecutionContract.message}`,
+    `- mini-kv CHECKJSON read_only: ${report.summary.miniKvCheckReadOnly === undefined ? "unknown" : report.summary.miniKvCheckReadOnly}`,
+    `- mini-kv CHECKJSON execution_allowed: ${report.summary.miniKvCheckExecutionAllowed === undefined ? "unknown" : report.summary.miniKvCheckExecutionAllowed}`,
+    `- mini-kv CHECKJSON durability: ${report.summary.miniKvCheckDurability ?? "unknown"}`,
     "",
     "### mini-kv side_effects",
     "",
@@ -381,8 +489,10 @@ export function renderOperationApprovalEvidenceVerificationMarkdown(verification
     `- Summary matches: ${verification.checks.summaryMatches}`,
     `- Upstream evidence matches summary: ${verification.checks.upstreamEvidenceMatchesSummary}`,
     `- Java approval digest evidence valid: ${verification.checks.javaApprovalDigestEvidenceValid}`,
+    `- Java execution contract evidence valid: ${verification.checks.javaExecutionContractEvidenceValid}`,
     `- mini-kv command digest evidence valid: ${verification.checks.miniKvCommandDigestEvidenceValid}`,
     `- mini-kv side_effect_count matches: ${verification.checks.miniKvSideEffectCountMatches}`,
+    `- mini-kv execution contract evidence valid: ${verification.checks.miniKvExecutionContractEvidenceValid}`,
     `- Next actions match: ${verification.checks.nextActionsMatch}`,
     `- Upstream untouched: ${verification.checks.upstreamUntouched}`,
     "",
@@ -425,9 +535,16 @@ function summarizeEvidence(
   const javaEvidenceVersion = readJavaEvidenceVersion(upstreamEvidence.javaApprovalStatus.details);
   const javaApprovalDigest = readJavaApprovalDigest(upstreamEvidence.javaApprovalStatus.details);
   const javaReplayEligibilityDigest = readJavaReplayEligibilityDigest(upstreamEvidence.javaApprovalStatus.details);
+  const javaContractVersion = readJavaContractVersion(upstreamEvidence.javaExecutionContract.details);
+  const javaContractDigest = readJavaContractDigest(upstreamEvidence.javaExecutionContract.details);
+  const javaReplayPreconditionsSatisfied = readJavaReplayPreconditionsSatisfied(upstreamEvidence.javaExecutionContract.details);
+  const javaDigestVerificationMode = readJavaDigestVerificationMode(upstreamEvidence.javaExecutionContract.details);
   const miniKvSchemaVersion = readMiniKvSchemaVersion(upstreamEvidence.miniKvExplainCoverage.details);
   const miniKvCommandDigest = readMiniKvCommandDigest(upstreamEvidence.miniKvExplainCoverage.details);
   const miniKvSideEffectCount = readMiniKvSideEffectCount(upstreamEvidence.miniKvExplainCoverage.details);
+  const miniKvCheckReadOnly = readMiniKvCheckReadOnly(upstreamEvidence.miniKvExecutionContract.details);
+  const miniKvCheckExecutionAllowed = readMiniKvCheckExecutionAllowed(upstreamEvidence.miniKvExecutionContract.details);
+  const miniKvCheckDurability = readMiniKvCheckDurability(upstreamEvidence.miniKvExecutionContract.details);
   return {
     action: request.action,
     target: request.target,
@@ -447,11 +564,20 @@ function summarizeEvidence(
     ...(javaEvidenceVersion === undefined ? {} : { javaEvidenceVersion }),
     ...(javaApprovalDigest === undefined ? {} : { javaApprovalDigest }),
     ...(javaReplayEligibilityDigest === undefined ? {} : { javaReplayEligibilityDigest }),
+    javaExecutionContractStatus: upstreamEvidence.javaExecutionContract.status,
+    ...(javaContractVersion === undefined ? {} : { javaContractVersion }),
+    ...(javaContractDigest === undefined ? {} : { javaContractDigest }),
+    ...(javaReplayPreconditionsSatisfied === undefined ? {} : { javaReplayPreconditionsSatisfied }),
+    ...(javaDigestVerificationMode === undefined ? {} : { javaDigestVerificationMode }),
     miniKvExplainCoverage: upstreamEvidence.miniKvExplainCoverage.status,
     miniKvSideEffects: readMiniKvSideEffects(upstreamEvidence.miniKvExplainCoverage.details),
     ...(miniKvSchemaVersion === undefined ? {} : { miniKvSchemaVersion }),
     ...(miniKvCommandDigest === undefined ? {} : { miniKvCommandDigest }),
     ...(miniKvSideEffectCount === undefined ? {} : { miniKvSideEffectCount }),
+    miniKvExecutionContractStatus: upstreamEvidence.miniKvExecutionContract.status,
+    ...(miniKvCheckReadOnly === undefined ? {} : { miniKvCheckReadOnly }),
+    ...(miniKvCheckExecutionAllowed === undefined ? {} : { miniKvCheckExecutionAllowed }),
+    ...(miniKvCheckDurability === undefined ? {} : { miniKvCheckDurability }),
   };
 }
 
@@ -464,6 +590,14 @@ function defaultUpstreamEvidence(): OperationApprovalUpstreamEvidence {
     miniKvExplainCoverage: {
       status: "not_applicable",
       message: "No mini-kv EXPLAINJSON coverage evidence was attached.",
+    },
+    javaExecutionContract: {
+      status: "not_applicable",
+      message: "No Java execution contract evidence was attached.",
+    },
+    miniKvExecutionContract: {
+      status: "not_applicable",
+      message: "No mini-kv CHECKJSON execution contract evidence was attached.",
     },
   };
 }
@@ -559,6 +693,26 @@ function readJavaReplayEligibilityDigest(details: unknown): string | undefined {
   return readStringFieldFromNestedRecord(details, "approvalStatus", "replayEligibilityDigest");
 }
 
+function readJavaContractVersion(details: unknown): string | undefined {
+  return readStringFieldFromNestedRecord(details, "executionContract", "contractVersion");
+}
+
+function readJavaContractDigest(details: unknown): string | undefined {
+  return readStringFieldFromNestedRecord(details, "executionContract", "contractDigest");
+}
+
+function readJavaReplayPreconditionsSatisfied(details: unknown): boolean | undefined {
+  if (!isRecord(details) || !isRecord(details.executionContract)) {
+    return undefined;
+  }
+  const value = details.executionContract.replayPreconditionsSatisfied;
+  return typeof value === "boolean" ? value : undefined;
+}
+
+function readJavaDigestVerificationMode(details: unknown): string | undefined {
+  return readStringFieldFromNestedRecord(details, "executionContract", "digestVerificationMode");
+}
+
 function readMiniKvSideEffects(details: unknown): string[] {
   if (!isRecord(details)) {
     return [];
@@ -591,6 +745,22 @@ function readMiniKvSideEffectCount(details: unknown): number | undefined {
   return readNumberFieldFromMiniKvExplain(details, "side_effect_count");
 }
 
+function readMiniKvCheckReadOnly(details: unknown): boolean | undefined {
+  return readBooleanFieldFromMiniKvContract(details, "read_only");
+}
+
+function readMiniKvCheckExecutionAllowed(details: unknown): boolean | undefined {
+  return readBooleanFieldFromMiniKvContract(details, "execution_allowed");
+}
+
+function readMiniKvCheckDurability(details: unknown): string | undefined {
+  if (!isRecord(details) || !isRecord(details.contract) || !isRecord(details.contract.wal)) {
+    return undefined;
+  }
+  const value = details.contract.wal.durability;
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
 function summaryMatchesUpstreamEvidence(
   summary: OperationApprovalEvidenceReport["summary"],
   upstreamEvidence: OperationApprovalUpstreamEvidence,
@@ -599,9 +769,16 @@ function summaryMatchesUpstreamEvidence(
   const javaEvidenceVersion = readJavaEvidenceVersion(upstreamEvidence.javaApprovalStatus.details);
   const javaApprovalDigest = readJavaApprovalDigest(upstreamEvidence.javaApprovalStatus.details);
   const javaReplayEligibilityDigest = readJavaReplayEligibilityDigest(upstreamEvidence.javaApprovalStatus.details);
+  const javaContractVersion = readJavaContractVersion(upstreamEvidence.javaExecutionContract.details);
+  const javaContractDigest = readJavaContractDigest(upstreamEvidence.javaExecutionContract.details);
+  const javaReplayPreconditionsSatisfied = readJavaReplayPreconditionsSatisfied(upstreamEvidence.javaExecutionContract.details);
+  const javaDigestVerificationMode = readJavaDigestVerificationMode(upstreamEvidence.javaExecutionContract.details);
   const miniKvSchemaVersion = readMiniKvSchemaVersion(upstreamEvidence.miniKvExplainCoverage.details);
   const miniKvCommandDigest = readMiniKvCommandDigest(upstreamEvidence.miniKvExplainCoverage.details);
   const miniKvSideEffectCount = readMiniKvSideEffectCount(upstreamEvidence.miniKvExplainCoverage.details);
+  const miniKvCheckReadOnly = readMiniKvCheckReadOnly(upstreamEvidence.miniKvExecutionContract.details);
+  const miniKvCheckExecutionAllowed = readMiniKvCheckExecutionAllowed(upstreamEvidence.miniKvExecutionContract.details);
+  const miniKvCheckDurability = readMiniKvCheckDurability(upstreamEvidence.miniKvExecutionContract.details);
   return summary.javaApprovalStatus === upstreamEvidence.javaApprovalStatus.status
     && (javaApprovedForReplay === undefined
       ? summary.javaApprovedForReplay === undefined
@@ -615,6 +792,19 @@ function summaryMatchesUpstreamEvidence(
     && (javaReplayEligibilityDigest === undefined
       ? summary.javaReplayEligibilityDigest === undefined
       : summary.javaReplayEligibilityDigest === javaReplayEligibilityDigest)
+    && summary.javaExecutionContractStatus === upstreamEvidence.javaExecutionContract.status
+    && (javaContractVersion === undefined
+      ? summary.javaContractVersion === undefined
+      : summary.javaContractVersion === javaContractVersion)
+    && (javaContractDigest === undefined
+      ? summary.javaContractDigest === undefined
+      : summary.javaContractDigest === javaContractDigest)
+    && (javaReplayPreconditionsSatisfied === undefined
+      ? summary.javaReplayPreconditionsSatisfied === undefined
+      : summary.javaReplayPreconditionsSatisfied === javaReplayPreconditionsSatisfied)
+    && (javaDigestVerificationMode === undefined
+      ? summary.javaDigestVerificationMode === undefined
+      : summary.javaDigestVerificationMode === javaDigestVerificationMode)
     && summary.miniKvExplainCoverage === upstreamEvidence.miniKvExplainCoverage.status
     && stableJson(summary.miniKvSideEffects) === stableJson(readMiniKvSideEffects(upstreamEvidence.miniKvExplainCoverage.details))
     && (miniKvSchemaVersion === undefined
@@ -625,7 +815,17 @@ function summaryMatchesUpstreamEvidence(
       : summary.miniKvCommandDigest === miniKvCommandDigest)
     && (miniKvSideEffectCount === undefined
       ? summary.miniKvSideEffectCount === undefined
-      : summary.miniKvSideEffectCount === miniKvSideEffectCount);
+      : summary.miniKvSideEffectCount === miniKvSideEffectCount)
+    && summary.miniKvExecutionContractStatus === upstreamEvidence.miniKvExecutionContract.status
+    && (miniKvCheckReadOnly === undefined
+      ? summary.miniKvCheckReadOnly === undefined
+      : summary.miniKvCheckReadOnly === miniKvCheckReadOnly)
+    && (miniKvCheckExecutionAllowed === undefined
+      ? summary.miniKvCheckExecutionAllowed === undefined
+      : summary.miniKvCheckExecutionAllowed === miniKvCheckExecutionAllowed)
+    && (miniKvCheckDurability === undefined
+      ? summary.miniKvCheckDurability === undefined
+      : summary.miniKvCheckDurability === miniKvCheckDurability);
 }
 
 function javaApprovalDigestEvidenceValid(evidence: EvidenceRecord): boolean {
@@ -639,6 +839,19 @@ function javaApprovalDigestEvidenceValid(evidence: EvidenceRecord): boolean {
   return evidenceVersion === "failed-event-approval-status.v1"
     && isSha256Digest(approvalDigest)
     && isSha256Digest(replayEligibilityDigest);
+}
+
+function javaExecutionContractEvidenceValid(evidence: EvidenceRecord): boolean {
+  if (evidence.status !== "available") {
+    return true;
+  }
+
+  const contractVersion = readJavaContractVersion(evidence.details);
+  const contractDigest = readJavaContractDigest(evidence.details);
+  const digestVerificationMode = readJavaDigestVerificationMode(evidence.details);
+  return contractVersion === "failed-event-replay-execution-contract.v1"
+    && isSha256Digest(contractDigest)
+    && digestVerificationMode === "CLIENT_PRECHECK_ONLY";
 }
 
 function miniKvCommandDigestEvidenceValid(evidence: EvidenceRecord): boolean {
@@ -663,6 +876,27 @@ function miniKvSideEffectCountMatches(evidence: EvidenceRecord): boolean {
   return Number.isInteger(count) && count === readMiniKvSideEffects(evidence.details).length;
 }
 
+function miniKvExecutionContractEvidenceValid(evidence: EvidenceRecord): boolean {
+  if (evidence.status !== "available") {
+    return true;
+  }
+
+  const schemaVersion = readNumberFieldFromMiniKvContract(evidence.details, "schema_version");
+  const commandDigest = readStringFieldFromMiniKvContract(evidence.details, "command_digest");
+  const readOnly = readMiniKvCheckReadOnly(evidence.details);
+  const executionAllowed = readMiniKvCheckExecutionAllowed(evidence.details);
+  const sideEffectCount = readNumberFieldFromMiniKvContract(evidence.details, "side_effect_count");
+  const sideEffects = readStringArrayFromMiniKvContract(evidence.details, "side_effects");
+  return Number.isInteger(schemaVersion)
+    && schemaVersion !== undefined
+    && schemaVersion > 0
+    && isFnv1a64Digest(commandDigest)
+    && readOnly === true
+    && executionAllowed === false
+    && Number.isInteger(sideEffectCount)
+    && sideEffectCount === sideEffects.length;
+}
+
 function readStringFieldFromNestedRecord(details: unknown, nestedField: string, field: string): string | undefined {
   if (!isRecord(details) || !isRecord(details[nestedField])) {
     return undefined;
@@ -685,6 +919,37 @@ function readNumberFieldFromMiniKvExplain(details: unknown, field: string): numb
   }
   const value = details.explanation[field];
   return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function readStringFieldFromMiniKvContract(details: unknown, field: string): string | undefined {
+  if (!isRecord(details) || !isRecord(details.contract)) {
+    return undefined;
+  }
+  const value = details.contract[field];
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function readNumberFieldFromMiniKvContract(details: unknown, field: string): number | undefined {
+  if (!isRecord(details) || !isRecord(details.contract)) {
+    return undefined;
+  }
+  const value = details.contract[field];
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function readBooleanFieldFromMiniKvContract(details: unknown, field: string): boolean | undefined {
+  if (!isRecord(details) || !isRecord(details.contract)) {
+    return undefined;
+  }
+  const value = details.contract[field];
+  return typeof value === "boolean" ? value : undefined;
+}
+
+function readStringArrayFromMiniKvContract(details: unknown, field: string): string[] {
+  if (!isRecord(details) || !isRecord(details.contract)) {
+    return [];
+  }
+  return readStringArray(details.contract[field]);
 }
 
 function isSha256Digest(value: string | undefined): boolean {

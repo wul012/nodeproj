@@ -109,6 +109,36 @@ export interface OrderPlatformFailedEventApprovalStatus {
   nextAllowedActions?: string[];
 }
 
+export interface OrderPlatformFailedEventReplayExecutionContract {
+  sampledAt?: string;
+  failedEventId?: number;
+  exists?: boolean;
+  contractVersion?: string;
+  contractDigest?: string;
+  approvalEvidenceVersion?: string;
+  approvalDigest?: string;
+  replayEligibilityDigest?: string;
+  failedEventStatus?: string | null;
+  managementStatus?: string | null;
+  approvalStatus?: string | null;
+  requiredApprovalStatus?: string | null;
+  replayPreconditionsSatisfied?: boolean;
+  realReplayEndpointEnforcesApprovalDigest?: boolean;
+  realReplayEndpointEnforcesReplayEligibilityDigest?: boolean;
+  digestVerificationMode?: string | null;
+  realExecutionMethod?: string | null;
+  realExecutionPath?: string | null;
+  requiredOperatorAction?: string | null;
+  idempotencyKeyHint?: string | null;
+  expectedAggregateId?: string | null;
+  executionChecks?: unknown[];
+  requestRequirements?: unknown[];
+  blockedBy?: string[];
+  warnings?: string[];
+  expectedSideEffects?: string[];
+  nextAllowedActions?: string[];
+}
+
 interface JsonRequestOptions {
   method?: string;
   headers?: Record<string, string>;
@@ -143,6 +173,10 @@ export class OrderPlatformClient {
 
   failedEventApprovalStatus(failedEventId: string): Promise<UpstreamJsonResponse<OrderPlatformFailedEventApprovalStatus>> {
     return this.request(`/api/v1/failed-events/${encodeURIComponent(failedEventId)}/approval-status`);
+  }
+
+  failedEventReplayExecutionContract(failedEventId: string): Promise<UpstreamJsonResponse<OrderPlatformFailedEventReplayExecutionContract>> {
+    return this.request(`/api/v1/failed-events/${encodeURIComponent(failedEventId)}/replay-execution-contract`);
   }
 
   listProducts(): Promise<UpstreamJsonResponse> {

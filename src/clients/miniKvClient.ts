@@ -84,6 +84,28 @@ export interface MiniKvExplainJsonResult extends MiniKvCommandResult {
   explanation: MiniKvExplainJson;
 }
 
+export interface MiniKvCheckJson extends MiniKvExplainJson {
+  read_only?: boolean;
+  execution_allowed?: boolean;
+  write_command?: boolean;
+  checks?: {
+    parser_allowed?: boolean;
+    write_command?: boolean;
+    wal_append_when_enabled?: boolean;
+    wal_enabled?: boolean;
+  };
+  wal?: {
+    enabled?: boolean;
+    touches_wal?: boolean;
+    append_when_enabled?: boolean;
+    durability?: "wal_backed" | "memory_only" | "not_wal_backed" | "not_applicable" | string;
+  };
+}
+
+export interface MiniKvCheckJsonResult extends MiniKvCommandResult {
+  contract: MiniKvCheckJson;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -150,6 +172,15 @@ export class MiniKvClient {
     return {
       ...result,
       explanation: parseMiniKvExplainJson(result.response),
+    };
+  }
+
+  async checkJson(command: string): Promise<MiniKvCheckJsonResult> {
+    const normalizedCommand = normalizeCheckCommand(command);
+    const result = await this.execute(`CHECKJSON ${normalizedCommand}`);
+    return {
+      ...result,
+      contract: parseMiniKvCheckJson(result.response),
     };
   }
 
@@ -272,6 +303,7 @@ export function validateRawGatewayCommand(command: string): void {
     "KEYS",
     "KEYSJSON",
     "EXPLAINJSON",
+    "CHECKJSON",
   ]);
   if (!allowed.has(verb)) {
     throw new AppHttpError(400, "MINIKV_COMMAND_NOT_ALLOWED", "Command is not allowed through the gateway");
@@ -394,6 +426,27 @@ export function parseMiniKvExplainJson(response: string): MiniKvExplainJson {
   return parsed as MiniKvExplainJson;
 }
 
+export function parseMiniKvCheckJson(response: string): MiniKvCheckJson {
+  const contract = parseMiniKvExplainJson(response) as MiniKvCheckJson;
+  if ("read_only" in contract && typeof contract.read_only !== "boolean") {
+    throw new AppHttpError(502, "MINIKV_CHECKJSON_INVALID", "mini-kv CHECKJSON read_only field must be a boolean");
+  }
+  if ("execution_allowed" in contract && typeof contract.execution_allowed !== "boolean") {
+    throw new AppHttpError(502, "MINIKV_CHECKJSON_INVALID", "mini-kv CHECKJSON execution_allowed field must be a boolean");
+  }
+  if ("write_command" in contract && typeof contract.write_command !== "boolean") {
+    throw new AppHttpError(502, "MINIKV_CHECKJSON_INVALID", "mini-kv CHECKJSON write_command field must be a boolean");
+  }
+  if ("checks" in contract && !isRecord(contract.checks)) {
+    throw new AppHttpError(502, "MINIKV_CHECKJSON_INVALID", "mini-kv CHECKJSON checks field must be an object");
+  }
+  if ("wal" in contract && !isRecord(contract.wal)) {
+    throw new AppHttpError(502, "MINIKV_CHECKJSON_INVALID", "mini-kv CHECKJSON wal field must be an object");
+  }
+
+  return contract;
+}
+
 function validateKey(key: string): void {
   if (!safeKeyPattern.test(key)) {
     throw new AppHttpError(400, "INVALID_MINIKV_KEY", "Key must use 1-160 letters, digits, colon, underscore, or dash characters");
@@ -412,11 +465,25 @@ function normalizeOptionalPrefix(prefix: string | undefined): string | undefined
 function normalizeExplainCommand(command: string): string {
   validateRawGatewayCommand(command);
   const normalized = command.trim();
-  if (normalized.toUpperCase().startsWith("EXPLAINJSON")) {
-    throw new AppHttpError(400, "INVALID_MINIKV_EXPLAIN_COMMAND", "EXPLAINJSON expects the command to explain, not a nested EXPLAINJSON command");
+  if (/^(EXPLAINJSON|CHECKJSON)\b/i.test(normalized)) {
+    throw new AppHttpError(400, "INVALID_MINIKV_EXPLAIN_COMMAND", "EXPLAINJSON expects the command to explain, not a nested meta explain command");
   }
 
   return normalized;
+}
+
+function normalizeCheckCommand(command: string): string {
+  validateRawGatewayCommand(command);
+  const normalized = command.trim();
+  if (/^(EXPLAINJSON|CHECKJSON)\b/i.test(normalized)) {
+    throw new AppHttpError(400, "INVALID_MINIKV_CHECK_COMMAND", "CHECKJSON expects the command to check, not a nested meta check command");
+  }
+
+  return normalized;
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
 function validateValue(value: string): void {

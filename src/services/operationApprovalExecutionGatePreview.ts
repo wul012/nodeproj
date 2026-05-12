@@ -36,9 +36,17 @@ export interface OperationApprovalExecutionGatePreview {
     javaApprovedForReplay?: boolean;
     javaApprovalDigest?: string;
     javaReplayEligibilityDigest?: string;
+    javaExecutionContractStatus: OperationApprovalHandoffBundle["summary"]["javaExecutionContractStatus"];
+    javaContractDigest?: string;
+    javaReplayPreconditionsSatisfied?: boolean;
+    javaDigestVerificationMode?: string;
     miniKvExplainCoverage: OperationApprovalHandoffBundle["summary"]["miniKvExplainCoverage"];
     miniKvCommandDigest?: string;
     miniKvSideEffectCount?: number;
+    miniKvExecutionContractStatus: OperationApprovalHandoffBundle["summary"]["miniKvExecutionContractStatus"];
+    miniKvCheckReadOnly?: boolean;
+    miniKvCheckExecutionAllowed?: boolean;
+    miniKvCheckDurability?: string;
     hardBlockerCount: number;
     warningCount: number;
   };
@@ -52,8 +60,13 @@ export interface OperationApprovalExecutionGatePreview {
     requiredUpstreamEvidenceAvailable: boolean;
     javaApprovedForReplayOk: boolean;
     javaApprovalDigestEvidenceValid: boolean;
+    javaExecutionContractEvidenceValid: boolean;
+    javaReplayPreconditionsSatisfiedOk: boolean;
     miniKvCommandDigestEvidenceValid: boolean;
     miniKvSideEffectCountMatches: boolean;
+    miniKvExecutionContractEvidenceValid: boolean;
+    miniKvCheckReadOnlyOk: boolean;
+    miniKvCheckExecutionAllowedOk: boolean;
   };
   hardBlockers: string[];
   warnings: string[];
@@ -142,9 +155,17 @@ export function renderOperationApprovalExecutionGatePreviewMarkdown(
     `- Java approved for replay: ${preview.summary.javaApprovedForReplay === undefined ? "unknown" : preview.summary.javaApprovedForReplay}`,
     `- Java approval digest: ${preview.summary.javaApprovalDigest ?? "unknown"}`,
     `- Java replay eligibility digest: ${preview.summary.javaReplayEligibilityDigest ?? "unknown"}`,
+    `- Java execution contract: ${preview.summary.javaExecutionContractStatus}`,
+    `- Java contract digest: ${preview.summary.javaContractDigest ?? "unknown"}`,
+    `- Java replay preconditions satisfied: ${preview.summary.javaReplayPreconditionsSatisfied === undefined ? "unknown" : preview.summary.javaReplayPreconditionsSatisfied}`,
+    `- Java digest verification mode: ${preview.summary.javaDigestVerificationMode ?? "unknown"}`,
     `- mini-kv EXPLAINJSON coverage: ${preview.summary.miniKvExplainCoverage}`,
     `- mini-kv command digest: ${preview.summary.miniKvCommandDigest ?? "unknown"}`,
     `- mini-kv side_effect_count: ${preview.summary.miniKvSideEffectCount ?? "unknown"}`,
+    `- mini-kv CHECKJSON contract: ${preview.summary.miniKvExecutionContractStatus}`,
+    `- mini-kv CHECKJSON read_only: ${preview.summary.miniKvCheckReadOnly === undefined ? "unknown" : preview.summary.miniKvCheckReadOnly}`,
+    `- mini-kv CHECKJSON execution_allowed: ${preview.summary.miniKvCheckExecutionAllowed === undefined ? "unknown" : preview.summary.miniKvCheckExecutionAllowed}`,
+    `- mini-kv CHECKJSON durability: ${preview.summary.miniKvCheckDurability ?? "unknown"}`,
     `- Hard blocker count: ${preview.summary.hardBlockerCount}`,
     `- Warning count: ${preview.summary.warningCount}`,
     "",
@@ -159,8 +180,13 @@ export function renderOperationApprovalExecutionGatePreviewMarkdown(
     `- Required upstream evidence available: ${preview.gateChecks.requiredUpstreamEvidenceAvailable}`,
     `- Java approved for replay ok: ${preview.gateChecks.javaApprovedForReplayOk}`,
     `- Java approval digest evidence valid: ${preview.gateChecks.javaApprovalDigestEvidenceValid}`,
+    `- Java execution contract evidence valid: ${preview.gateChecks.javaExecutionContractEvidenceValid}`,
+    `- Java replay preconditions satisfied ok: ${preview.gateChecks.javaReplayPreconditionsSatisfiedOk}`,
     `- mini-kv command digest evidence valid: ${preview.gateChecks.miniKvCommandDigestEvidenceValid}`,
     `- mini-kv side_effect_count matches: ${preview.gateChecks.miniKvSideEffectCountMatches}`,
+    `- mini-kv execution contract evidence valid: ${preview.gateChecks.miniKvExecutionContractEvidenceValid}`,
+    `- mini-kv CHECKJSON read_only ok: ${preview.gateChecks.miniKvCheckReadOnlyOk}`,
+    `- mini-kv CHECKJSON execution_allowed ok: ${preview.gateChecks.miniKvCheckExecutionAllowedOk}`,
     "",
     "## Would Call",
     "",
@@ -194,8 +220,13 @@ function createGateChecks(
     requiredUpstreamEvidenceAvailable: requiredUpstreamEvidenceAvailable(bundle),
     javaApprovedForReplayOk: javaApprovedForReplayOk(bundle),
     javaApprovalDigestEvidenceValid: bundle.verification.checks.javaApprovalDigestEvidenceValid,
+    javaExecutionContractEvidenceValid: bundle.verification.checks.javaExecutionContractEvidenceValid,
+    javaReplayPreconditionsSatisfiedOk: javaReplayPreconditionsSatisfiedOk(bundle),
     miniKvCommandDigestEvidenceValid: bundle.verification.checks.miniKvCommandDigestEvidenceValid,
     miniKvSideEffectCountMatches: bundle.verification.checks.miniKvSideEffectCountMatches,
+    miniKvExecutionContractEvidenceValid: bundle.verification.checks.miniKvExecutionContractEvidenceValid,
+    miniKvCheckReadOnlyOk: bundle.summary.target !== "mini-kv" || bundle.summary.miniKvCheckReadOnly === true,
+    miniKvCheckExecutionAllowedOk: bundle.summary.target !== "mini-kv" || bundle.summary.miniKvCheckExecutionAllowed === false,
   };
 }
 
@@ -231,11 +262,26 @@ function collectHardBlockers(
   if (!checks.javaApprovalDigestEvidenceValid) {
     blockers.push("JAVA_APPROVAL_DIGEST_EVIDENCE_INVALID");
   }
+  if (!checks.javaExecutionContractEvidenceValid) {
+    blockers.push("JAVA_EXECUTION_CONTRACT_EVIDENCE_INVALID");
+  }
+  if (!checks.javaReplayPreconditionsSatisfiedOk) {
+    blockers.push("JAVA_REPLAY_PRECONDITIONS_NOT_SATISFIED");
+  }
   if (!checks.miniKvCommandDigestEvidenceValid) {
     blockers.push("MINIKV_COMMAND_DIGEST_EVIDENCE_INVALID");
   }
   if (!checks.miniKvSideEffectCountMatches) {
     blockers.push("MINIKV_SIDE_EFFECT_COUNT_MISMATCH");
+  }
+  if (!checks.miniKvExecutionContractEvidenceValid) {
+    blockers.push("MINIKV_EXECUTION_CONTRACT_EVIDENCE_INVALID");
+  }
+  if (!checks.miniKvCheckReadOnlyOk) {
+    blockers.push("MINIKV_CHECKJSON_NOT_READ_ONLY");
+  }
+  if (!checks.miniKvCheckExecutionAllowedOk) {
+    blockers.push("MINIKV_CHECKJSON_EXECUTION_ALLOWED");
   }
   return [...new Set(blockers)];
 }
@@ -259,9 +305,17 @@ function summarizeGatePreview(
     ...(bundle.summary.javaApprovedForReplay === undefined ? {} : { javaApprovedForReplay: bundle.summary.javaApprovedForReplay }),
     ...(bundle.summary.javaApprovalDigest === undefined ? {} : { javaApprovalDigest: bundle.summary.javaApprovalDigest }),
     ...(bundle.summary.javaReplayEligibilityDigest === undefined ? {} : { javaReplayEligibilityDigest: bundle.summary.javaReplayEligibilityDigest }),
+    javaExecutionContractStatus: bundle.summary.javaExecutionContractStatus,
+    ...(bundle.summary.javaContractDigest === undefined ? {} : { javaContractDigest: bundle.summary.javaContractDigest }),
+    ...(bundle.summary.javaReplayPreconditionsSatisfied === undefined ? {} : { javaReplayPreconditionsSatisfied: bundle.summary.javaReplayPreconditionsSatisfied }),
+    ...(bundle.summary.javaDigestVerificationMode === undefined ? {} : { javaDigestVerificationMode: bundle.summary.javaDigestVerificationMode }),
     miniKvExplainCoverage: bundle.summary.miniKvExplainCoverage,
     ...(bundle.summary.miniKvCommandDigest === undefined ? {} : { miniKvCommandDigest: bundle.summary.miniKvCommandDigest }),
     ...(bundle.summary.miniKvSideEffectCount === undefined ? {} : { miniKvSideEffectCount: bundle.summary.miniKvSideEffectCount }),
+    miniKvExecutionContractStatus: bundle.summary.miniKvExecutionContractStatus,
+    ...(bundle.summary.miniKvCheckReadOnly === undefined ? {} : { miniKvCheckReadOnly: bundle.summary.miniKvCheckReadOnly }),
+    ...(bundle.summary.miniKvCheckExecutionAllowed === undefined ? {} : { miniKvCheckExecutionAllowed: bundle.summary.miniKvCheckExecutionAllowed }),
+    ...(bundle.summary.miniKvCheckDurability === undefined ? {} : { miniKvCheckDurability: bundle.summary.miniKvCheckDurability }),
     hardBlockerCount: hardBlockers.length,
     warningCount: warnings.length,
   };
@@ -269,10 +323,10 @@ function summarizeGatePreview(
 
 function requiredUpstreamEvidenceAvailable(bundle: OperationApprovalHandoffBundle): boolean {
   if (requiresJavaApprovalStatus(bundle)) {
-    return bundle.summary.javaApprovalStatus === "available";
+    return bundle.summary.javaApprovalStatus === "available" && bundle.summary.javaExecutionContractStatus === "available";
   }
   if (bundle.summary.target === "mini-kv") {
-    return bundle.summary.miniKvExplainCoverage === "available";
+    return bundle.summary.miniKvExplainCoverage === "available" && bundle.summary.miniKvExecutionContractStatus === "available";
   }
   return true;
 }
@@ -283,6 +337,10 @@ function javaApprovedForReplayOk(bundle: OperationApprovalHandoffBundle): boolea
 
 function requiresJavaApprovalStatus(bundle: OperationApprovalHandoffBundle): boolean {
   return bundle.summary.target === "order-platform" && bundle.summary.action === "failed-event-replay-simulation";
+}
+
+function javaReplayPreconditionsSatisfiedOk(bundle: OperationApprovalHandoffBundle): boolean {
+  return !requiresJavaApprovalStatus(bundle) || bundle.summary.javaReplayPreconditionsSatisfied === true;
 }
 
 function resolveState(hardBlockers: string[], warnings: string[]): OperationApprovalExecutionGateState {
@@ -303,18 +361,18 @@ function collectNextActions(
   if (state === "blocked") {
     return [
       `Resolve execution gate blockers before any real upstream action: ${hardBlockers.join(", ")}`,
-      "Keep this as a preview-only record; Node v68 does not execute upstream writes.",
+      "Keep this as a preview-only record; orderops-node does not execute upstream writes in this flow.",
     ];
   }
   if (state === "review-required") {
     return [
       `Review execution gate warnings before any real upstream action: ${warnings.join(", ")}`,
-      "Keep this as a preview-only record; Node v68 does not execute upstream writes.",
+      "Keep this as a preview-only record; orderops-node does not execute upstream writes in this flow.",
     ];
   }
   return [
     "Execution gate preview is ready for operator review.",
-    "Real execution remains unimplemented in Node v68 and must be added behind a separate explicit approval.",
+    "Real execution remains unimplemented in this flow and must be added behind a separate explicit approval.",
   ];
 }
 
