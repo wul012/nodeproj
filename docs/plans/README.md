@@ -39,5 +39,5 @@ v71-post-execution-contract-roadmap.md
  -> 由 Node v71 execution-contract evidence 衍生出的当前主线计划；已完成 Node v72-v75 并收口
 
 v75-post-fixture-diagnostics-roadmap.md
- -> 由 Node v75 fixture drift diagnostics 衍生出的下一阶段计划；收敛为 Node v76、Node v77、Java v44 + mini-kv v53、Node v78
+ -> 由 Node v75 fixture drift diagnostics 衍生出的下一阶段计划；已完成 Node v76/v77，下一步是 Java v44 + mini-kv v53，再回到 Node v78
 ```

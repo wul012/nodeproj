@@ -1,0 +1,34 @@
+﻿{
+    "version":  "v77",
+    "generatedAt":  "2026-05-12T04:33:08.9594373Z",
+    "environment":  {
+                        "port":  4177,
+                        "upstreamProbesEnabled":  false,
+                        "upstreamActionsEnabled":  false,
+                        "javaOrMiniKvProcessesStarted":  false
+                    },
+    "health":  {
+                   "status":  "ok",
+                   "service":  "orderops-node",
+                   "pid":  30340
+               },
+    "archiveSnapshot":  {
+                            "valid":  true,
+                            "fixtureArchiveDigest":  "sha256:208b459dedfc184d481d3e7b49c0a8941410cea8888f4627ccc4bee3587d0478",
+                            "fixtureReportDigest":  "sha256:57324df13649a2b18a76c52415a748efbb8a707395b5e57d11f46b76c1081201",
+                            "driftDigest":  "sha256:e2ebf71e87c222f81a098fa9fbbb2c9f40e832d10a0a059ba43c2cf1a3027c45",
+                            "javaContractDigest":  "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                            "miniKvCommandDigest":  "fnv1a64:9f5c7ff14c0ebc5e",
+                            "javaExecutionContractFixturePath":  "D:\\javaproj\\advanced-order-platform\\src\\main\\resources\\static\\contracts\\failed-event-replay-execution-contract-approved.sample.json",
+                            "miniKvCheckJsonFixturePath":  "D:\\C\\mini-kv\\fixtures\\checkjson\\set-orderops-write-contract.json",
+                            "hasDrift":  false,
+                            "issueCount":  0,
+                            "missingMappingCount":  0
+                        },
+    "markdown":  {
+                     "statusCode":  200,
+                     "contentType":  "text/markdown; charset=utf-8",
+                     "hasTitle":  true,
+                     "hasSourcePaths":  true
+                 }
+}

@@ -62,6 +62,16 @@ Node v75：
 - 不修改 Java / mini-kv
 - 不把 Dashboard 面板做成审批入口
 
+实施收口：
+
+```text
+已完成。Node v76 已在 Dashboard 中新增只读 fixture diagnostics panel，
+展示 fixture report valid / digest、Java contractDigest / preconditions / checks、
+mini-kv commandDigest / read_only / execution_allowed / side_effect_count，
+以及 drift issueCount / missingMappingCount。
+本版只复用现有 fixture report 与 drift diagnostics 接口，不新增真实执行入口。
+```
+
 ### Node v77：Fixture evidence archive snapshot
 
 目标：
@@ -86,6 +96,15 @@ Node v75：
 - 不把 fixture archive 当成真实执行许可
 - 不自动修复 fixture drift
 - 不修改 Java / mini-kv
+
+实施收口：
+
+```text
+已完成。Node v77 已新增 fixture evidence archive snapshot，
+输出 JSON / Markdown，包含 fixtureArchiveDigest、fixtureReportDigest、driftDigest、
+source file paths、Java / mini-kv 关键字段摘要和 evidence endpoint 列表。
+本版不做数据库持久化，不替代 execution gate archive，也不把 fixture archive 当成真实执行许可。
+```
 
 ### Java v44 + mini-kv v53：可以一起推进
 
@@ -134,8 +153,8 @@ mini-kv v53 目标：
 ## 推荐执行顺序
 
 ```text
-1. Node v76：Dashboard fixture diagnostics panel
-2. Node v77：Fixture evidence archive snapshot
+1. Node v76：Dashboard fixture diagnostics panel，已完成
+2. Node v77：Fixture evidence archive snapshot，已完成
 3. Java v44 + mini-kv v53：可以一起推进，分别新增 blocked replay sample 和 read-command CHECKJSON sample
 4. Node v78：Fixture scenario matrix
 ```

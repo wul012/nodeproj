@@ -11,6 +11,10 @@ import {
   loadUpstreamContractFixtureDriftDiagnostics,
   renderUpstreamContractFixtureDriftDiagnosticsMarkdown,
 } from "../services/upstreamContractFixtureDrift.js";
+import {
+  loadUpstreamContractFixtureArchiveSnapshot,
+  renderUpstreamContractFixtureArchiveSnapshotMarkdown,
+} from "../services/upstreamContractFixtureArchive.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -77,6 +81,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return diagnostics;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/archive-snapshot", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const snapshot = await loadUpstreamContractFixtureArchiveSnapshot(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamContractFixtureArchiveSnapshotMarkdown(snapshot);
+    }
+
+    return snapshot;
   });
 
   app.get("/api/v1/runtime/config", async () => ({
