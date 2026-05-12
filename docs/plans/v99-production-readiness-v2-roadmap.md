@@ -108,6 +108,17 @@ tag: v101
 - `/api/v1/audit/store-profile` 能反映运行时是否使用 file-backed store。
 - 不接 PostgreSQL，不处理加密/备份/轮转，仍不声明 production-ready。
 
+实施收口：
+
+```text
+已完成。
+runtime: AUDIT_STORE_KIND=memory|file
+file mode: AUDIT_STORE_PATH required
+archive: a/102/
+code notes: 代码讲解记录/106-audit-store-factory-file-runtime-v102.md
+tag: v102
+```
+
 ### Java v47 + mini-kv v56：生产证据解释增强
 
 目标：

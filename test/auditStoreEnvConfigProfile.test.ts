@@ -90,18 +90,19 @@ describe("audit store env config profile", () => {
         config: {
           normalizedStoreKind: "file",
           auditStorePathConfigured: true,
-          runtimeStillUsesDefaultInMemoryStore: true,
+          runtimeStillUsesDefaultInMemoryStore: false,
         },
         checks: {
+          currentRuntimeStillInMemory: false,
           fileStorePathReady: true,
           durableStoreRequested: true,
-          durableStoreWiringImplemented: false,
+          durableStoreWiringImplemented: true,
         },
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Audit store env config profile");
-      expect(markdown.body).toContain("AUDIT_STORE_RUNTIME_NOT_WIRED");
+      expect(markdown.body).toContain("AUDIT_STORE_MIGRATION_REQUIRED");
       expect(markdown.body).toContain("auditStoreEnvConfigProfileJson");
     } finally {
       await app.close();

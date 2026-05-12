@@ -316,6 +316,9 @@
 
 105-access-guard-dry-run-v101.md
  -> 第一百零一版 Access guard dry-run：全局评估 route group、requiredRole、matchedRoles 和 wouldDeny，但不拒绝请求
+
+106-audit-store-factory-file-runtime-v102.md
+ -> 第一百零二版 Audit store factory file runtime：用 AUDIT_STORE_KIND=memory|file 选择审计 store，并验证 file-backed 重启恢复
 ```
 
 ## 项目整体理解

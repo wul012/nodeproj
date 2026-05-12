@@ -23,7 +23,7 @@ import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { evaluateAccessGuard } from "./services/accessGuard.js";
-import { AuditLog } from "./services/auditLog.js";
+import { createAuditStoreRuntime } from "./services/auditStoreFactory.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
 import { OpsBaselineStore } from "./services/opsBaseline.js";
 import { OpsCheckpointLedger } from "./services/opsCheckpoint.js";
@@ -98,7 +98,8 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const orderPlatform = new OrderPlatformClient(config.orderPlatformUrl, config.orderPlatformTimeoutMs);
   const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs);
   const snapshots = new OpsSnapshotService(orderPlatform, miniKv, config.upstreamProbesEnabled);
-  const auditLog = new AuditLog();
+  const auditStoreRuntime = createAuditStoreRuntime(config);
+  const auditLog = auditStoreRuntime.auditLog;
   const mutationRateLimiter = new MutationRateLimiter({
     windowMs: config.mutationRateLimitWindowMs,
     maxRequests: config.mutationRateLimitMax,
@@ -129,7 +130,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   });
 
   await registerDashboardRoutes(app);
-  await registerAuditRoutes(app, { auditLog, config });
+  await registerAuditRoutes(app, { auditLog, auditStoreRuntime: auditStoreRuntime.description, config });
   await registerActionPlanRoutes(app, { config });
   await registerOperationPreflightRoutes(app, {
     config,

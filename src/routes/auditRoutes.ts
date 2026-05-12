@@ -10,9 +10,11 @@ import {
   createAuditStoreEnvConfigProfile,
   renderAuditStoreEnvConfigProfileMarkdown,
 } from "../services/auditStoreEnvConfigProfile.js";
+import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
   auditLog: AuditLog;
+  auditStoreRuntime: AuditStoreRuntimeDescription;
   config: Pick<AppConfig, "auditStoreKind" | "auditStorePath" | "auditStoreUrl">;
 }
 
@@ -54,6 +56,7 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
   }, async (request, reply) => {
     const profile = createAuditStoreRuntimeProfile({
       currentEventCount: deps.auditLog.summary().total,
+      runtime: deps.auditStoreRuntime,
     });
 
     if (request.query.format === "markdown") {

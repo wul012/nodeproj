@@ -14,7 +14,7 @@ export interface AuditStoreEnvConfigProfile {
     auditStorePathConfigured: boolean;
     auditStoreUrlConfigured: boolean;
     auditStoreUrlRedacted: string;
-    runtimeStillUsesDefaultInMemoryStore: true;
+    runtimeStillUsesDefaultInMemoryStore: boolean;
   };
   checks: {
     storeKindRecognized: boolean;
@@ -64,13 +64,14 @@ export function createAuditStoreEnvConfigProfile(
   const normalizedStoreKind = normalizeStoreKind(config.auditStoreKind);
   const auditStorePathConfigured = config.auditStorePath.length > 0;
   const auditStoreUrlConfigured = config.auditStoreUrl.length > 0;
+  const fileRuntimeConfigured = normalizedStoreKind === "file" && auditStorePathConfigured;
   const checks = {
     storeKindRecognized: normalizedStoreKind !== "unknown",
-    currentRuntimeStillInMemory: true,
+    currentRuntimeStillInMemory: !fileRuntimeConfigured,
     fileStorePathReady: normalizedStoreKind !== "file" || auditStorePathConfigured,
     databaseStoreUrlReady: normalizedStoreKind !== "database" || auditStoreUrlConfigured,
     durableStoreRequested: normalizedStoreKind === "file" || normalizedStoreKind === "database",
-    durableStoreWiringImplemented: false,
+    durableStoreWiringImplemented: fileRuntimeConfigured,
     noDatabaseConnectionAttempted: true,
     noSecretValueExposed: true,
     migrationRequiredBeforeProduction: true,
@@ -93,7 +94,7 @@ export function createAuditStoreEnvConfigProfile(
       auditStorePathConfigured,
       auditStoreUrlConfigured,
       auditStoreUrlRedacted: redactUrl(config.auditStoreUrl),
-      runtimeStillUsesDefaultInMemoryStore: true,
+      runtimeStillUsesDefaultInMemoryStore: !fileRuntimeConfigured,
     },
     checks,
     summary: {
@@ -212,9 +213,9 @@ function collectWarnings(
 function collectRecommendations(): AuditStoreEnvConfigMessage[] {
   return [
     {
-      code: "IMPLEMENT_AUDIT_STORE_FACTORY",
+      code: "VERIFY_FILE_STORE_RUNTIME",
       severity: "recommendation",
-      message: "Add a dedicated factory that chooses in-memory, file, or database audit store from validated config.",
+      message: "Use AUDIT_STORE_KIND=file only for restart and migration rehearsal until managed audit storage exists.",
     },
     {
       code: "ADD_RESTART_RECOVERY_TEST",
@@ -238,8 +239,8 @@ function collectNextActions(productionBlockerCount: number): string[] {
   }
 
   return [
-    "Keep runtime on the default in-memory audit store for now.",
-    "Implement durable audit store wiring in a dedicated version before production use.",
+    "Use file-backed audit runtime only for local restart-recovery rehearsal.",
+    "Promote managed database audit storage in a dedicated version before production use.",
     "Do not place secrets in logs or Markdown evidence; keep URLs redacted.",
   ];
 }

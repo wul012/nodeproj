@@ -1,0 +1,22 @@
+﻿{
+    "version":  "v102",
+    "checkedAt":  "2026-05-12T15:02:26.2770174Z",
+    "endpoint":  "/api/v1/audit/store-profile",
+    "port":  4202,
+    "safeEnv":  {
+                    "AUDIT_STORE_KIND":  "file",
+                    "AUDIT_STORE_PATH":  "D:\\nodeproj\\orderops-node\\output\\v102\\audit-smoke.jsonl",
+                    "UPSTREAM_ACTIONS_ENABLED":  "false",
+                    "UPSTREAM_PROBES_ENABLED":  "false"
+                },
+    "healthStatus":  "ok",
+    "runtimeStore":  "FileBackedAuditStore",
+    "durableAtRuntime":  true,
+    "configuredByEnvironment":  true,
+    "runtimeStoreKind":  "file",
+    "runtimeBlockerCount":  2,
+    "configDurableWiring":  true,
+    "configCurrentRuntimeStillInMemory":  false,
+    "auditSummaryTotal":  16,
+    "auditFileArchived":  "a/102/解释/audit-store-file-smoke.jsonl"
+}

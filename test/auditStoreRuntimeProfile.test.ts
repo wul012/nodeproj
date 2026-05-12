@@ -18,12 +18,14 @@ describe("audit store runtime profile", () => {
       readOnly: true,
       executionAllowed: false,
       runtime: {
-        instantiatedBy: "src/app.ts:new AuditLog()",
+        instantiatedBy: "src/app.ts:createAuditStoreRuntime(config)",
         defaultStore: "InMemoryAuditStore",
         defaultCapacity: 200,
         durableAtRuntime: false,
         currentEventCount: 7,
         configuredByEnvironment: false,
+        requestedStoreKind: "memory",
+        runtimeStoreKind: "memory",
       },
       checks: {
         auditStoreInterfacePresent: true,
@@ -38,7 +40,7 @@ describe("audit store runtime profile", () => {
         storeCount: 3,
         durablePrototypeCount: 2,
         productionBlockerCount: 3,
-        warningCount: 2,
+        warningCount: 1,
         recommendationCount: 3,
       },
     });
@@ -80,6 +82,8 @@ describe("audit store runtime profile", () => {
           defaultStore: "InMemoryAuditStore",
           durableAtRuntime: false,
           configuredByEnvironment: false,
+          requestedStoreKind: "memory",
+          runtimeStoreKind: "memory",
         },
         checks: {
           fileBackedPrototypeAvailable: true,
@@ -88,7 +92,7 @@ describe("audit store runtime profile", () => {
         },
         summary: {
           productionBlockerCount: 3,
-          warningCount: 2,
+          warningCount: 1,
           recommendationCount: 3,
         },
       });

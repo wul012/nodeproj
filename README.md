@@ -80,6 +80,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production readiness summary v2 for categorizing upstream observability, audit durability, access control, and execution safety blockers while keeping upstream execution disabled
 - Access policy profile for defining route groups, minimum roles, and request identity contract before enabling enforcement
 - Access guard dry-run headers and readiness profile for evaluating route group, required role, matched roles, and would-deny evidence without rejecting requests
+- Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
 
 ## Setup
 

@@ -1,4 +1,5 @@
 import { FileBackedAuditStore, InMemoryAuditStore } from "./auditLog.js";
+import type { AuditStoreRuntimeDescription } from "./auditStoreFactory.js";
 
 export interface AuditStoreRuntimeProfile {
   service: "orderops-node";
@@ -13,9 +14,12 @@ export interface AuditStoreRuntimeProfile {
     instantiatedBy: string;
     defaultStore: string;
     defaultCapacity: number;
-    durableAtRuntime: false;
+    durableAtRuntime: boolean;
     currentEventCount: number;
-    configuredByEnvironment: false;
+    configuredByEnvironment: boolean;
+    requestedStoreKind: string;
+    runtimeStoreKind: "memory" | "file";
+    auditStorePath?: string;
   };
   stores: AuditStoreDescription[];
   checks: {
@@ -64,6 +68,7 @@ export interface AuditStoreRuntimeProfileMessage {
 
 export interface AuditStoreRuntimeProfileInput {
   currentEventCount?: number;
+  runtime?: AuditStoreRuntimeDescription;
 }
 
 const DEFAULT_AUDIT_CAPACITY = 200;
@@ -78,13 +83,22 @@ const ENDPOINTS = Object.freeze({
 export function createAuditStoreRuntimeProfile(
   input: AuditStoreRuntimeProfileInput = {},
 ): AuditStoreRuntimeProfile {
+  const runtime = input.runtime ?? {
+    requestedStoreKind: "memory",
+    normalizedStoreKind: "memory" as const,
+    runtimeStoreKind: "memory" as const,
+    storeImplementation: InMemoryAuditStore.name,
+    durableAtRuntime: false,
+    configuredByEnvironment: false,
+    capacity: DEFAULT_AUDIT_CAPACITY,
+  };
   const stores = createStoreDescriptions();
   const checks = {
     auditStoreInterfacePresent: true,
     defaultStoreIsInMemory: InMemoryAuditStore.name === "InMemoryAuditStore",
     fileBackedPrototypeAvailable: FileBackedAuditStore.name === "FileBackedAuditStore",
     databaseStoreConfigured: false,
-    durableRuntimeConfigured: false,
+    durableRuntimeConfigured: runtime.durableAtRuntime,
     retentionPolicyConfigured: false,
     migrationRequiredBeforeProduction: true,
   };
@@ -102,12 +116,15 @@ export function createAuditStoreRuntimeProfile(
     readOnly: true,
     executionAllowed: false,
     runtime: {
-      instantiatedBy: "src/app.ts:new AuditLog()",
-      defaultStore: InMemoryAuditStore.name,
-      defaultCapacity: DEFAULT_AUDIT_CAPACITY,
-      durableAtRuntime: false,
+      instantiatedBy: "src/app.ts:createAuditStoreRuntime(config)",
+      defaultStore: runtime.storeImplementation,
+      defaultCapacity: runtime.capacity,
+      durableAtRuntime: runtime.durableAtRuntime,
       currentEventCount: input.currentEventCount ?? 0,
-      configuredByEnvironment: false,
+      configuredByEnvironment: runtime.configuredByEnvironment,
+      requestedStoreKind: runtime.requestedStoreKind,
+      runtimeStoreKind: runtime.runtimeStoreKind,
+      auditStorePath: runtime.auditStorePath,
     },
     stores,
     checks,
@@ -213,32 +230,29 @@ function collectProductionBlockers(
 ): AuditStoreRuntimeProfileMessage[] {
   const blockers: AuditStoreRuntimeProfileMessage[] = [];
   addMessage(blockers, checks.durableRuntimeConfigured, "AUDIT_RUNTIME_NOT_DURABLE", "Current runtime uses in-memory audit storage, so audit evidence is lost on restart.", "blocker");
-  addMessage(blockers, checks.databaseStoreConfigured, "DATABASE_AUDIT_STORE_MISSING", "A production audit store needs a database or equivalent durable service.", "blocker");
+  addMessage(blockers, checks.databaseStoreConfigured, "DATABASE_AUDIT_STORE_MISSING", "A production audit store still needs a database or equivalent managed durable service.", "blocker");
   addMessage(blockers, checks.retentionPolicyConfigured, "AUDIT_RETENTION_POLICY_MISSING", "Production audit evidence needs retention, rotation, and backup policy.", "blocker");
   return blockers;
 }
 
 function collectWarnings(): AuditStoreRuntimeProfileMessage[] {
-  return [
+  const warnings: AuditStoreRuntimeProfileMessage[] = [
     {
       code: "FILE_STORE_IS_PROTOTYPE",
       severity: "warning",
       message: "FileBackedAuditStore is useful for adapter validation but is not enough for production audit retention.",
     },
-    {
-      code: "RUNTIME_STORE_NOT_ENV_CONFIGURABLE",
-      severity: "warning",
-      message: "The running app currently constructs AuditLog with its default store instead of selecting a store from environment config.",
-    },
   ];
+
+  return warnings;
 }
 
 function collectRecommendations(): AuditStoreRuntimeProfileMessage[] {
   return [
     {
-      code: "ADD_AUDIT_STORE_CONFIG",
+      code: "PROMOTE_MANAGED_AUDIT_STORE",
       severity: "recommendation",
-      message: "Introduce AUDIT_STORE_KIND and AUDIT_STORE_URL before real operations.",
+      message: "Promote audit storage to a managed durable service before real production operations.",
     },
     {
       code: "ADD_DURABLE_STORE_TESTS",
@@ -255,9 +269,9 @@ function collectRecommendations(): AuditStoreRuntimeProfileMessage[] {
 
 function collectNextActions(): string[] {
   return [
-    "Keep the current in-memory store for local Node smoke and tests.",
+    "Use AUDIT_STORE_KIND=file for restart-recovery rehearsal only.",
     "Treat this endpoint as a production blocker list before real operations.",
-    "Promote a durable audit store only in a dedicated version with migration tests.",
+    "Promote database or managed audit storage only in a dedicated version with migration tests.",
   ];
 }
 

@@ -13,6 +13,7 @@ import {
   createAuditStoreRuntimeProfile,
   type AuditStoreRuntimeProfile,
 } from "./auditStoreRuntimeProfile.js";
+import { describeAuditStoreRuntime } from "./auditStoreFactory.js";
 import {
   loadProductionReadinessSummaryIndex,
   type ProductionReadinessSummaryIndex,
@@ -166,7 +167,9 @@ export async function loadProductionReadinessSummaryV2(config: AppConfig): Promi
     config,
     baseSummary,
     upstreamEvidenceIntake,
-    auditStoreRuntimeProfile: createAuditStoreRuntimeProfile(),
+    auditStoreRuntimeProfile: createAuditStoreRuntimeProfile({
+      runtime: describeAuditStoreRuntime(config),
+    }),
     auditStoreEnvConfigProfile: createAuditStoreEnvConfigProfile(config),
     accessControlReadinessProfile: createAccessControlReadinessProfile(config),
     javaReplayAuditApproved,
