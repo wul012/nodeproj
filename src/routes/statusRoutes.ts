@@ -14,6 +14,10 @@ import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
+import {
+  loadWorkflowEvidenceVerification,
+  renderWorkflowEvidenceVerificationMarkdown,
+} from "../services/workflowEvidenceVerification.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
 import {
   loadUpstreamContractFixtureReport,
@@ -285,6 +289,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/workflow-evidence-verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const verification = await loadWorkflowEvidenceVerification();
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderWorkflowEvidenceVerificationMarkdown(verification);
+    }
+
+    return verification;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/safety-profile", {

@@ -38,6 +38,16 @@ mini-kv：INFO/诊断稳定性、只读观测字段、崩溃恢复/快照证据
 - 检查没有 `secrets.`、kubectl、docker push、scp。
 - 补 endpoint、测试、safe HTTP smoke、归档、代码讲解。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/ci/workflow-evidence-verification
+archive: a/93/
+code notes: 代码讲解记录/97-workflow-evidence-verification-v93.md
+tag: v93
+```
+
 ### Node v94：Audit store runtime profile
 
 目标：

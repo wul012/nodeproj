@@ -1,0 +1,61 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Workflow evidence verification",
+    "generatedAt":  "2026-05-12T11:06:06.415Z",
+    "verificationVersion":  "workflow-evidence-verification.v1",
+    "workflowPath":  "D:\\nodeproj\\orderops-node\\.github\\workflows\\node-evidence.yml",
+    "workflowLineCount":  87,
+    "valid":  true,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "checks":  {
+                   "workflowFilePresent":  true,
+                   "workflowNamePresent":  true,
+                   "permissionsReadOnly":  true,
+                   "nodeSetupPresent":  true,
+                   "npmCiPresent":  true,
+                   "typecheckPresent":  true,
+                   "testPresent":  true,
+                   "buildPresent":  true,
+                   "safeSmokeServerPresent":  true,
+                   "healthSmokePresent":  true,
+                   "releaseEvidenceReadinessSmokePresent":  true,
+                   "probesDisabled":  true,
+                   "actionsDisabled":  true,
+                   "readinessSmokeKeepsExecutionBlocked":  true,
+                   "noSecretsReference":  true,
+                   "noKubectl":  true,
+                   "noDockerPush":  true,
+                   "noScp":  true,
+                   "noUpstreamActionsEnabledTrue":  true
+               },
+    "summary":  {
+                    "requiredCheckCount":  19,
+                    "passingCheckCount":  19,
+                    "failingCheckCount":  0,
+                    "blockerCount":  0,
+                    "warningCount":  1,
+                    "workflowLineCount":  87
+                },
+    "blockers":  [
+
+                 ],
+    "warnings":  [
+                     {
+                         "code":  "MANUAL_DISPATCH_PRESENT",
+                         "severity":  "warning",
+                         "message":  "Manual dispatch is present; keep workflow permissions read-only and upstream actions disabled."
+                     }
+                 ],
+    "evidenceEndpoints":  {
+                              "workflowEvidenceVerificationJson":  "/api/v1/ci/workflow-evidence-verification",
+                              "workflowEvidenceVerificationMarkdown":  "/api/v1/ci/workflow-evidence-verification?format=markdown",
+                              "ciEvidenceCommandProfileJson":  "/api/v1/ci/evidence-command-profile",
+                              "releaseEvidenceReadinessGateJson":  "/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate"
+                          },
+    "nextActions":  [
+                        "Archive this verification beside CI evidence before production-demo review.",
+                        "Keep workflow changes gated by this endpoint and the CI evidence command profile.",
+                        "Stop if the workflow starts referencing secrets, deployment commands, or upstream actions."
+                    ]
+}
