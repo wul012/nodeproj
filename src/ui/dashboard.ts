@@ -378,6 +378,93 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid overview-grid">
+      <article class="card">
+        <div class="metric-head">
+          <h2>Fixture Report</h2>
+          <div class="badge disabled" id="fixtureReportState">pending</div>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Digest</div>
+            <div class="signal-value" id="fixtureDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Java fixture</div>
+            <div class="signal-value" id="fixtureJavaStatusSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">mini-kv fixture</div>
+            <div class="signal-value" id="fixtureMiniKvStatusSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Endpoints</div>
+            <div class="signal-value">
+              <a id="fixtureReportJsonLink" href="/api/v1/upstream-contract-fixtures">JSON</a>
+              /
+              <a id="fixtureReportMarkdownLink" href="/api/v1/upstream-contract-fixtures?format=markdown">Markdown</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Java Contract Fixture</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Contract digest</div>
+            <div class="signal-value" id="fixtureJavaContractDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Preconditions</div>
+            <div class="signal-value" id="fixtureJavaPreconditionsSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Execution checks</div>
+            <div class="signal-value" id="fixtureJavaExecutionChecksSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Side effects</div>
+            <div class="signal-value" id="fixtureJavaSideEffectsSignal">-</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>mini-kv Fixture Drift</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Command digest</div>
+            <div class="signal-value" id="fixtureMiniKvCommandDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Read / execute</div>
+            <div class="signal-value" id="fixtureMiniKvReadExecuteSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Side effects</div>
+            <div class="signal-value" id="fixtureMiniKvSideEffectsSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Drift</div>
+            <div class="signal-value" id="fixtureDriftSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Mappings</div>
+            <div class="signal-value" id="fixtureDriftMappingSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Drift endpoints</div>
+            <div class="signal-value">
+              <a id="fixtureDriftJsonLink" href="/api/v1/upstream-contract-fixtures/drift-diagnostics">JSON</a>
+              /
+              <a id="fixtureDriftMarkdownLink" href="/api/v1/upstream-contract-fixtures/drift-diagnostics?format=markdown">Markdown</a>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <section class="grid audit-grid">
       <article class="card">
         <div class="metric-name">Audit total</div>
@@ -631,6 +718,9 @@ export function dashboardHtml(): string {
         <button data-action="auditEvents">Recent Events</button>
         <button data-action="runtimeConfig">Runtime Config</button>
         <button data-action="upstreamOverview">Upstream Overview</button>
+        <button data-action="fixtureDiagnostics">Fixture Diagnostics</button>
+        <button data-action="fixtureReportMarkdown">Fixture Report Markdown</button>
+        <button data-action="fixtureDriftMarkdown">Fixture Drift Markdown</button>
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
         <button data-action="opsRunbook">Runbook</button>
@@ -811,6 +901,16 @@ export function dashboardHtml(): string {
       return Array.isArray(value) && value.length > 0 ? value.join(", ") : "-";
     }
 
+    function formatDigest(value) {
+      return typeof value === "string" && value.length > 0 ? value : "-";
+    }
+
+    function formatCheckRatio(checks, prefix) {
+      const entries = Object.entries(checks || {}).filter(([name]) => name.startsWith(prefix));
+      const passing = entries.filter(([, value]) => value === true).length;
+      return entries.length === 0 ? "-" : passing + "/" + entries.length + " ok";
+    }
+
     async function api(path, options = {}) {
       const response = await fetch(path, {
         ...options,
@@ -883,6 +983,33 @@ export function dashboardHtml(): string {
       setText("kvInventorySignal", "prefix " + (inventory.prefix || "-") + " / count " + formatNumber(inventory.key_count));
       setText("kvInventoryTruncatedSignal", formatBool(inventory.truncated) + " / limit " + formatNumber(inventory.limit));
       setText("kvInventoryKeysSignal", formatList(inventory.keys));
+    }
+
+    function renderFixtureDiagnostics(report, drift) {
+      setBadge("fixtureReportState", report.valid ? "online" : "degraded");
+      setText("fixtureDigestSignal", report.fixtureDigest.algorithm + ":" + report.fixtureDigest.value);
+      setText("fixtureJavaStatusSignal", report.summary.javaFixtureStatus);
+      setText("fixtureMiniKvStatusSignal", report.summary.miniKvFixtureStatus);
+
+      setText("fixtureJavaContractDigestSignal", formatDigest(report.summary.javaContractDigest));
+      setText("fixtureJavaPreconditionsSignal", formatBool(report.summary.javaReplayPreconditionsSatisfied));
+      setText("fixtureJavaExecutionChecksSignal", formatCheckRatio(report.checks, "java"));
+      setText("fixtureJavaSideEffectsSignal", formatNumber(report.summary.javaExpectedSideEffectCount));
+
+      setText("fixtureMiniKvCommandDigestSignal", formatDigest(report.summary.miniKvCommandDigest));
+      setText("fixtureMiniKvReadExecuteSignal", "read_only " + formatBool(report.summary.miniKvReadOnly) + " / execution_allowed " + formatBool(report.summary.miniKvExecutionAllowed));
+      setText("fixtureMiniKvSideEffectsSignal", formatNumber(report.summary.miniKvSideEffectCount));
+      setText("fixtureDriftSignal", (drift.summary.issueCount > 0 ? "yes" : "no") + " / issues " + formatNumber(drift.summary.issueCount) + " / errors " + formatNumber(drift.summary.errorCount));
+      setText("fixtureDriftMappingSignal", "missing " + formatNumber(drift.summary.missingMappingCount) + " / total " + formatNumber(drift.mappings.length));
+    }
+
+    async function refreshFixtureDiagnostics() {
+      const [report, drift] = await Promise.all([
+        api("/api/v1/upstream-contract-fixtures"),
+        api("/api/v1/upstream-contract-fixtures/drift-diagnostics"),
+      ]);
+      renderFixtureDiagnostics(report, drift);
+      return { fixtureReport: report, driftDiagnostics: drift };
     }
 
     async function refreshMiniKvKeyInventory() {
@@ -1033,6 +1160,23 @@ export function dashboardHtml(): string {
         }
         if (action === "upstreamOverview") {
           write(await refreshUpstreamOverview());
+        }
+        if (action === "fixtureDiagnostics") {
+          write(await refreshFixtureDiagnostics());
+        }
+        if (action === "fixtureReportMarkdown") {
+          const response = await fetch("/api/v1/upstream-contract-fixtures?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "fixtureDriftMarkdown") {
+          const response = await fetch("/api/v1/upstream-contract-fixtures/drift-diagnostics?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
         }
         if (action === "opsSummary") {
           write(await refreshOpsSummary());
@@ -1618,6 +1762,7 @@ export function dashboardHtml(): string {
     void refreshAudit().catch(() => {});
     void refreshRuntimeConfig().catch(() => {});
     void refreshUpstreamOverview().catch(() => {});
+    void refreshFixtureDiagnostics().catch(() => {});
     void refreshOpsSummary().catch(() => {});
     void refreshOpsReadiness().catch(() => {});
   </script>

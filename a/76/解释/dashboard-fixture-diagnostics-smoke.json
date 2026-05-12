@@ -1,0 +1,35 @@
+﻿{
+    "version":  "v76",
+    "generatedAt":  "2026-05-12T04:25:31.6689450Z",
+    "environment":  {
+                        "port":  4176,
+                        "upstreamProbesEnabled":  false,
+                        "upstreamActionsEnabled":  false,
+                        "javaOrMiniKvProcessesStarted":  false
+                    },
+    "health":  {
+                   "status":  "ok",
+                   "service":  "orderops-node",
+                   "pid":  18300
+               },
+    "dashboard":  {
+                      "statusCode":  200,
+                      "hasFixtureReport":  true,
+                      "hasFixtureDiagnosticsAction":  true
+                  },
+    "fixtureReport":  {
+                          "valid":  true,
+                          "digest":  "sha256:57324df13649a2b18a76c52415a748efbb8a707395b5e57d11f46b76c1081201",
+                          "javaFixtureStatus":  "available",
+                          "miniKvFixtureStatus":  "available",
+                          "javaContractDigest":  "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+                          "miniKvCommandDigest":  "fnv1a64:9f5c7ff14c0ebc5e"
+                      },
+    "driftDiagnostics":  {
+                             "valid":  true,
+                             "digest":  "sha256:e2ebf71e87c222f81a098fa9fbbb2c9f40e832d10a0a059ba43c2cf1a3027c45",
+                             "issueCount":  0,
+                             "missingMappingCount":  0,
+                             "hasDrift":  false
+                         }
+}
