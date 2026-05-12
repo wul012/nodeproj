@@ -183,6 +183,9 @@
 
 77-execution-contract-diagnostics-v73.md
  -> 第七十三版 Execution contract mismatch diagnostics：输出 archive、gate、Java contract、mini-kv CHECKJSON 不一致的具体 code 和字段定位
+
+78-fixture-driven-smoke-v74.md
+ -> 第七十四版 Fixture-driven smoke：读取 Java v43 与 mini-kv v52 稳定样本，生成 fixture report 并驱动本地 smoke
 ```
 
 ## 项目整体理解

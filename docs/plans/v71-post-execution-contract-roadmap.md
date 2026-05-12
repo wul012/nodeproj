@@ -119,6 +119,15 @@ side_effects、side_effect_count、wal.durability。
 减少 mock 样本和真实上游 contract 格式漂移。
 ```
 
+实施收口：
+
+```text
+已完成。Node v74 新增 upstream-contract fixture report，
+读取 Java v43 replay-execution-contract sample 与 mini-kv v52 CHECKJSON fixture，
+校验 Node smoke 需要的关键字段，并用真实 fixture 样本驱动本地 HTTP smoke。
+本版仍不真实执行 Java replay POST，不真实执行 mini-kv 写命令，不把 fixture 当成生产数据。
+```
+
 本版不做：
 
 - 不真实执行 Java replay POST
@@ -146,7 +155,7 @@ side_effects、side_effect_count、wal.durability。
 1. Node v72：execution contract evidence archive bundle，已完成
 2. Node v73：execution contract mismatch diagnostics，已完成
 3. Java v43 + mini-kv v52：可以一起推进，产出稳定 fixture/sample
-4. Node v74：接入 fixture-driven smoke
+4. Node v74：接入 fixture-driven smoke，已完成
 5. Node v75：增加 fixture drift diagnostics
 ```
 

@@ -1,0 +1,52 @@
+{
+  "baseUrl": "http://127.0.0.1:52560",
+  "fixtureReportUrl": "http://127.0.0.1:52560/api/v1/upstream-contract-fixtures",
+  "fixtureReportMarkdownUrl": "http://127.0.0.1:52560/api/v1/upstream-contract-fixtures?format=markdown",
+  "fixtureReportSummary": {
+    "javaFixtureStatus": "available",
+    "javaContractVersion": "failed-event-replay-execution-contract.v1",
+    "javaContractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "javaApprovalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "javaReplayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "javaReplayPreconditionsSatisfied": true,
+    "javaDigestVerificationMode": "CLIENT_PRECHECK_ONLY",
+    "javaExpectedSideEffectCount": 4,
+    "miniKvFixtureStatus": "available",
+    "miniKvSchemaVersion": 1,
+    "miniKvCommandDigest": "fnv1a64:9f5c7ff14c0ebc5e",
+    "miniKvReadOnly": true,
+    "miniKvExecutionAllowed": false,
+    "miniKvSideEffectCount": 2,
+    "miniKvDurability": "memory_only",
+    "missingFixtureCount": 0,
+    "invalidFixtureCount": 0
+  },
+  "fixtureReportValid": true,
+  "javaFixturePath": "D:\\javaproj\\advanced-order-platform\\src\\main\\resources\\static\\contracts\\failed-event-replay-execution-contract-approved.sample.json",
+  "miniKvFixturePath": "D:\\C\\mini-kv\\fixtures\\checkjson\\set-orderops-write-contract.json",
+  "miniKvDiagnosticsSummary": {
+    "action": "kv-set",
+    "target": "mini-kv",
+    "archiveVerificationValid": true,
+    "diagnosticCount": 0,
+    "errorCount": 0,
+    "warningCount": 0,
+    "javaExecutionContractStatus": "not_applicable",
+    "miniKvExecutionContractStatus": "available",
+    "miniKvCommandDigest": "fnv1a64:9f5c7ff14c0ebc5e",
+    "miniKvCheckReadOnly": true,
+    "miniKvCheckExecutionAllowed": false
+  },
+  "javaDiagnosticsSummary": {
+    "action": "failed-event-replay-simulation",
+    "target": "order-platform",
+    "archiveVerificationValid": true,
+    "diagnosticCount": 0,
+    "errorCount": 0,
+    "warningCount": 0,
+    "javaExecutionContractStatus": "available",
+    "javaContractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "javaReplayPreconditionsSatisfied": true,
+    "miniKvExecutionContractStatus": "not_applicable"
+  }
+}

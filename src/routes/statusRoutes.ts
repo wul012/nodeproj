@@ -3,10 +3,18 @@ import type { FastifyInstance } from "fastify";
 import type { AppConfig } from "../config.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
+import {
+  loadUpstreamContractFixtureReport,
+  renderUpstreamContractFixtureReportMarkdown,
+} from "../services/upstreamContractFixtures.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
   snapshots: OpsSnapshotService;
+}
+
+interface FixtureReportQuery {
+  format?: "json" | "markdown";
 }
 
 export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRouteDeps): Promise<void> {
@@ -25,6 +33,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return createUpstreamOverview(deps.config, snapshot);
   });
 
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const report = await loadUpstreamContractFixtureReport(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamContractFixtureReportMarkdown(report);
+    }
+
+    return report;
+  });
+
   app.get("/api/v1/runtime/config", async () => ({
     service: "orderops-node",
     safety: {
@@ -34,6 +63,10 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     upstreams: {
       orderPlatformUrl: deps.config.orderPlatformUrl,
       miniKv: `${deps.config.miniKvHost}:${deps.config.miniKvPort}`,
+    },
+    fixtures: {
+      javaExecutionContractFixturePath: deps.config.javaExecutionContractFixturePath,
+      miniKvCheckJsonFixturePath: deps.config.miniKvCheckJsonFixturePath,
     },
     mutationRateLimit: {
       windowMs: deps.config.mutationRateLimitWindowMs,

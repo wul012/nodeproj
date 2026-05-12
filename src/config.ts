@@ -1,3 +1,5 @@
+import path from "node:path";
+
 export interface AppConfig {
   host: string;
   port: number;
@@ -12,6 +14,8 @@ export interface AppConfig {
   upstreamActionsEnabled: boolean;
   mutationRateLimitWindowMs: number;
   mutationRateLimitMax: number;
+  javaExecutionContractFixturePath: string;
+  miniKvCheckJsonFixturePath: string;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -54,6 +58,31 @@ function stripTrailingSlash(value: string): string {
   return value.endsWith("/") ? value.slice(0, -1) : value;
 }
 
+function defaultJavaExecutionContractFixturePath(): string {
+  return path.join(
+    path.parse(process.cwd()).root,
+    "javaproj",
+    "advanced-order-platform",
+    "src",
+    "main",
+    "resources",
+    "static",
+    "contracts",
+    "failed-event-replay-execution-contract-approved.sample.json",
+  );
+}
+
+function defaultMiniKvCheckJsonFixturePath(): string {
+  return path.join(
+    path.parse(process.cwd()).root,
+    "C",
+    "mini-kv",
+    "fixtures",
+    "checkjson",
+    "set-orderops-write-contract.json",
+  );
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   return {
     host: readString(env, "HOST", "127.0.0.1"),
@@ -69,5 +98,15 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     upstreamActionsEnabled: readBoolean(env, "UPSTREAM_ACTIONS_ENABLED", false),
     mutationRateLimitWindowMs: readNumber(env, "MUTATION_RATE_LIMIT_WINDOW_MS", 60000),
     mutationRateLimitMax: readNumber(env, "MUTATION_RATE_LIMIT_MAX", 30),
+    javaExecutionContractFixturePath: readString(
+      env,
+      "JAVA_EXECUTION_CONTRACT_FIXTURE_PATH",
+      defaultJavaExecutionContractFixturePath(),
+    ),
+    miniKvCheckJsonFixturePath: readString(
+      env,
+      "MINIKV_CHECKJSON_FIXTURE_PATH",
+      defaultMiniKvCheckJsonFixturePath(),
+    ),
   };
 }

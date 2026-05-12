@@ -14,6 +14,8 @@ describe("loadConfig", () => {
     expect(config.upstreamActionsEnabled).toBe(false);
     expect(config.mutationRateLimitWindowMs).toBe(60000);
     expect(config.mutationRateLimitMax).toBe(30);
+    expect(config.javaExecutionContractFixturePath).toContain("failed-event-replay-execution-contract-approved.sample.json");
+    expect(config.miniKvCheckJsonFixturePath).toContain("set-orderops-write-contract.json");
   });
 
   it("normalizes numeric values and strips the order URL slash", () => {
@@ -26,6 +28,8 @@ describe("loadConfig", () => {
       UPSTREAM_ACTIONS_ENABLED: "on",
       MUTATION_RATE_LIMIT_WINDOW_MS: "30000",
       MUTATION_RATE_LIMIT_MAX: "4",
+      JAVA_EXECUTION_CONTRACT_FIXTURE_PATH: "D:\\fixtures\\java.json",
+      MINIKV_CHECKJSON_FIXTURE_PATH: "D:\\fixtures\\minikv.json",
     });
 
     expect(config.port).toBe(4200);
@@ -36,6 +40,8 @@ describe("loadConfig", () => {
     expect(config.upstreamActionsEnabled).toBe(true);
     expect(config.mutationRateLimitWindowMs).toBe(30000);
     expect(config.mutationRateLimitMax).toBe(4);
+    expect(config.javaExecutionContractFixturePath).toBe("D:\\fixtures\\java.json");
+    expect(config.miniKvCheckJsonFixturePath).toBe("D:\\fixtures\\minikv.json");
   });
 
   it("parses boolean-style upstream probe flags", () => {
