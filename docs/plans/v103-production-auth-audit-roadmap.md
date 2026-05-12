@@ -111,6 +111,17 @@ tag: v105
 - 测试 file runtime 下事件可恢复，memory runtime 下明确不可作为生产审计。
 - 不接数据库，不做轮转/备份/加密。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/audit/file-restart-evidence
+coverage: file runtime reload / memory runtime skip / digest before-write-restore
+archive: a/106/
+code notes: 代码讲解记录_生产雏形阶段/110-file-audit-restart-evidence-v106.md
+tag: v106
+```
+
 ### Java v48 + mini-kv v57：上游只读证据增强
 
 目标：

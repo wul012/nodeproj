@@ -1,0 +1,78 @@
+﻿{
+    "events":  [
+                   {
+                       "id":  "3c5af62b-86d9-40b6-8158-62a894b5aa65",
+                       "requestId":  "dcf0d092-5a3a-4434-a4a7-0fa068a3de1c",
+                       "method":  "GET",
+                       "path":  "/api/v1/audit/file-restart-evidence",
+                       "routeGroup":  "audit",
+                       "accessGuard":  {
+                                           "guardVersion":  "access-guard-dry-run.v1",
+                                           "mode":  "dry-run",
+                                           "rejectsRequests":  false,
+                                           "policyMatched":  false,
+                                           "routeGroup":  "unmatched",
+                                           "matchedRoles":  [
+
+                                                            ],
+                                           "wouldDeny":  true,
+                                           "reason":  "missing_policy"
+                                       },
+                       "operatorIdentity":  {
+                                                "identityVersion":  "operator-identity-contract.v1",
+                                                "authenticated":  false,
+                                                "roles":  [
+
+                                                          ],
+                                                "authSource":  "none",
+                                                "rawRoles":  [
+
+                                                             ],
+                                                "rejectedRoles":  [
+
+                                                                  ]
+                                            },
+                       "statusCode":  200,
+                       "outcome":  "success",
+                       "durationMs":  2,
+                       "occurredAt":  "2026-05-12T22:45:07.571Z"
+                   },
+                   {
+                       "id":  "7ff29bce-9f57-4eb9-8c42-97a96321bd18",
+                       "requestId":  "ff9ceb45-93a4-4acd-9aa7-8089ecad34e4",
+                       "method":  "GET",
+                       "path":  "/api/v1/audit/file-restart-evidence",
+                       "routeGroup":  "audit",
+                       "accessGuard":  {
+                                           "guardVersion":  "access-guard-dry-run.v1",
+                                           "mode":  "dry-run",
+                                           "rejectsRequests":  false,
+                                           "policyMatched":  false,
+                                           "routeGroup":  "unmatched",
+                                           "matchedRoles":  [
+
+                                                            ],
+                                           "wouldDeny":  true,
+                                           "reason":  "missing_policy"
+                                       },
+                       "operatorIdentity":  {
+                                                "identityVersion":  "operator-identity-contract.v1",
+                                                "authenticated":  false,
+                                                "roles":  [
+
+                                                          ],
+                                                "authSource":  "none",
+                                                "rawRoles":  [
+
+                                                             ],
+                                                "rejectedRoles":  [
+
+                                                                  ]
+                                            },
+                       "statusCode":  200,
+                       "outcome":  "success",
+                       "durationMs":  7,
+                       "occurredAt":  "2026-05-12T22:45:07.540Z"
+                   }
+               ]
+}

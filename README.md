@@ -83,6 +83,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Access guard dry-run audit context on request audit events, so `/api/v1/audit/events` records route group, required role, matched roles, would-deny, and reason
 - Operator identity contract profile and audit context for rehearsing `x-orderops-operator-id` / `x-orderops-roles` parsing, invalid-role filtering, and audit evidence without trusting headers as production auth
 - Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
+- File audit restart evidence report for proving file-backed audit reload behavior with digest checks while keeping managed production audit storage as a blocker
 - Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
 
 ## Setup
@@ -147,6 +148,8 @@ GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile
 GET    /api/v1/audit/store-config-profile?format=markdown
+GET    /api/v1/audit/file-restart-evidence
+GET    /api/v1/audit/file-restart-evidence?format=markdown
 GET    /api/v1/security/access-control-readiness
 GET    /api/v1/security/access-control-readiness?format=markdown
 GET    /api/v1/security/access-policy

@@ -1,0 +1,89 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "File audit restart evidence",
+    "generatedAt":  "2026-05-12T22:45:07.536Z",
+    "evidenceVersion":  "file-audit-restart-evidence.v1",
+    "readyForProductionAudit":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "runtime":  {
+                    "requestedStoreKind":  "file",
+                    "runtimeStoreKind":  "file",
+                    "storeImplementation":  "FileBackedAuditStore",
+                    "durableAtRuntime":  true,
+                    "configuredByEnvironment":  true,
+                    "auditStorePath":  "D:\\nodeproj\\orderops-node\\output\\v106\\audit-smoke.jsonl"
+                },
+    "rehearsal":  {
+                      "mode":  "file-runtime-reload",
+                      "writesSyntheticEvent":  true,
+                      "beforeEventCount":  0,
+                      "writtenEventCount":  1,
+                      "restoredEventCount":  1,
+                      "expectedRequestId":  "restart-evidence-98075e3f-3a78-4d47-ab7d-7b4fb6fb3588",
+                      "restoredRequestIds":  [
+                                                 "restart-evidence-98075e3f-3a78-4d47-ab7d-7b4fb6fb3588"
+                                             ],
+                      "digestBefore":  "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+                      "digestAfterWrite":  "sha256:2c0bb02105baa62904248c6ed1d67c5092a90d8fcaae9e7c96f624861a14199e",
+                      "digestAfterRestore":  "sha256:2c0bb02105baa62904248c6ed1d67c5092a90d8fcaae9e7c96f624861a14199e",
+                      "recoveryVerified":  true
+                  },
+    "checks":  {
+                   "fileRuntimeSelected":  true,
+                   "filePathConfigured":  true,
+                   "syntheticWriteRecorded":  true,
+                   "restoredEventPresent":  true,
+                   "digestChangedAfterWrite":  true,
+                   "digestStableAfterRestore":  true,
+                   "memoryRuntimeNotClaimedDurable":  true,
+                   "productionAuditStillBlocked":  true
+               },
+    "summary":  {
+                    "productionBlockerCount":  2,
+                    "warningCount":  1,
+                    "recommendationCount":  2
+                },
+    "productionBlockers":  [
+                               {
+                                   "code":  "MANAGED_AUDIT_STORE_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "File-backed audit restart evidence is not a managed production audit store."
+                               },
+                               {
+                                   "code":  "AUDIT_RETENTION_POLICY_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "Production audit still needs retention, rotation, backup, and access policy."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "FILE_RUNTIME_REHEARSAL_ONLY",
+                         "severity":  "warning",
+                         "message":  "File runtime proves local reload behavior but is still not the final production audit target."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "PROMOTE_MANAGED_AUDIT_STORE",
+                                "severity":  "recommendation",
+                                "message":  "Move audit evidence to a managed durable store in a dedicated production-hardening version."
+                            },
+                            {
+                                "code":  "COVER_RETENTION_AND_BACKUP",
+                                "severity":  "recommendation",
+                                "message":  "Add explicit tests and documentation for retention, rotation, backup, and restore policy."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "fileAuditRestartEvidenceJson":  "/api/v1/audit/file-restart-evidence",
+                              "fileAuditRestartEvidenceMarkdown":  "/api/v1/audit/file-restart-evidence?format=markdown",
+                              "auditStoreProfileJson":  "/api/v1/audit/store-profile",
+                              "auditEventsJson":  "/api/v1/audit/events?limit=50"
+                          },
+    "nextActions":  [
+                        "Keep file-backed audit as restart rehearsal evidence, not as the final production audit store.",
+                        "Add retention, rotation, backup, encryption, and access-control policy before production operations.",
+                        "Use this report as input for the next production readiness summary."
+                    ]
+}
