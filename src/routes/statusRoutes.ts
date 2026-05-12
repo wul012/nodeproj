@@ -19,6 +19,10 @@ import {
   loadUpstreamContractFixtureScenarioMatrix,
   renderUpstreamContractFixtureScenarioMatrixMarkdown,
 } from "../services/upstreamContractFixtureScenarioMatrix.js";
+import {
+  loadUpstreamContractFixtureScenarioMatrixVerification,
+  renderUpstreamContractFixtureScenarioMatrixVerificationMarkdown,
+} from "../services/upstreamContractFixtureScenarioMatrixVerification.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -127,6 +131,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return matrix;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const verification = await loadUpstreamContractFixtureScenarioMatrixVerification(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamContractFixtureScenarioMatrixVerificationMarkdown(verification);
+    }
+
+    return verification;
   });
 
   app.get("/api/v1/runtime/config", async () => ({

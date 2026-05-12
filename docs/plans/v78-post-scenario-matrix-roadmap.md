@@ -98,11 +98,24 @@ Node v79 已完成：
 - 不自动修复 fixture。
 - 不修改 Java / mini-kv。
 
+实施收口：
+
+```text
+Node v80 已完成：
+- 已新增 scenario matrix verification JSON / Markdown endpoint
+- 已复算 matrixDigest 并校验 stored/recomputed 一致
+- 已校验四个 scenario id、source path、summary counts、drift issueCount
+- 已锁住 Java blocked replay 与 mini-kv read CHECKJSON 语义
+- 已归档 verification smoke 和截图到 a/80/
+- 已补充代码讲解记录 84-scenario-matrix-verification-v80.md
+- 本计划 v79-v80 已收口，后续另起 v80-post-scenario-matrix-verification-roadmap.md
+```
+
 ## 推荐执行顺序
 
 ```text
 1. Node v79：Dashboard scenario matrix panel，已完成
-2. Node v80：Scenario matrix verification report
+2. Node v80：Scenario matrix verification report，已完成
 ```
 
 ## 暂停条件

@@ -463,7 +463,7 @@ function collectNextActions(valid: boolean, issueCount: number): string[] {
   ];
 }
 
-function digestUpstreamContractFixtureScenarioMatrix(
+export function digestUpstreamContractFixtureScenarioMatrix(
   matrix: Omit<UpstreamContractFixtureScenarioMatrix, "matrixDigest">,
 ): UpstreamContractFixtureScenarioMatrixDigest {
   return {

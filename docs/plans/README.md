@@ -46,5 +46,8 @@ v75-post-fixture-diagnostics-roadmap.md
  -> 由 Node v75 fixture drift diagnostics 衍生出的下一阶段计划；已完成 Node v76-v78 并收口
 
 v78-post-scenario-matrix-roadmap.md
- -> 由 Node v78 fixture scenario matrix 衍生出的下一阶段计划；收敛为 Node v79、Node v80
+ -> 由 Node v78 fixture scenario matrix 衍生出的下一阶段计划；已完成 Node v79-v80 并收口
+
+v80-post-scenario-matrix-verification-roadmap.md
+ -> 由 Node v80 scenario matrix verification 衍生出的下一阶段计划；收敛为 Node v81、Node v82
 ```

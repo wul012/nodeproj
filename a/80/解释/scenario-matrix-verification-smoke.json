@@ -1,0 +1,41 @@
+{
+  "version": "v80",
+  "generatedAt": "2026-05-12T06:28:42.481Z",
+  "scope": "Node scenario matrix verification report",
+  "server": {
+    "host": "127.0.0.1",
+    "port": 4180,
+    "nodePid": 25800,
+    "upstreamProbesEnabled": false,
+    "upstreamActionsEnabled": false,
+    "javaOrMiniKvProcessesStarted": false
+  },
+  "checks": {
+    "healthStatus": "ok",
+    "verificationValid": true,
+    "matrixDigestValid": true,
+    "scenarioCountValid": true,
+    "expectedScenarioIdsPresent": true,
+    "noUnexpectedScenarioIds": true,
+    "summaryCountsMatchScenarios": true,
+    "sourcePathsPresent": true,
+    "driftIssueCountMatches": true,
+    "matrixValidityConsistent": true,
+    "blockedReplaySemanticsStable": true,
+    "miniKvReadSemanticsStable": true,
+    "totalScenarios": 4,
+    "issueCount": 0,
+    "markdownStatus": 200,
+    "markdownTitlePresent": true
+  },
+  "endpoints": {
+    "json": "/api/v1/upstream-contract-fixtures/scenario-matrix/verification",
+    "markdown": "/api/v1/upstream-contract-fixtures/scenario-matrix/verification?format=markdown"
+  },
+  "screenshot": "../图片/24-scenario-matrix-verification-markdown.png",
+  "notes": [
+    "Verification recomputes the scenario matrix digest and compares it with the stored matrix digest.",
+    "Verification checks the four expected scenario ids, source paths, drift issue count, and blocked/read semantics.",
+    "The smoke run did not start, stop, build, test, or modify Java or mini-kv."
+  ]
+}
