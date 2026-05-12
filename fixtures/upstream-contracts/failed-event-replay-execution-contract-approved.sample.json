@@ -1,0 +1,24 @@
+{
+  "contractVersion": "failed-event-replay-execution-contract.v1",
+  "contractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "approvalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "replayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "replayPreconditionsSatisfied": true,
+  "digestVerificationMode": "CLIENT_PRECHECK_ONLY",
+  "realExecutionMethod": "POST",
+  "realExecutionPath": "/api/v1/failed-events/{id}/replay",
+  "executionChecks": [
+    {
+      "checkId": "FAILED_EVENT_EXISTS",
+      "status": "PASSED"
+    },
+    {
+      "checkId": "REPLAY_APPROVAL_APPROVED",
+      "status": "PASSED"
+    }
+  ],
+  "blockedBy": [],
+  "expectedSideEffects": [
+    "PUBLISH_RABBITMQ_REPLAY_MESSAGE"
+  ]
+}

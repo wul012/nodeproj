@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "read_only": true,
+  "execution_allowed": false,
+  "command_digest": "fnv1a64:e8d7a3d61e2a8111",
+  "command": "GET",
+  "write_command": false,
+  "side_effects": [
+    "store_read"
+  ],
+  "side_effect_count": 1,
+  "wal": {
+    "durability": "not_applicable"
+  }
+}

@@ -1,3 +1,4 @@
+import { existsSync } from "node:fs";
 import path from "node:path";
 
 export interface AppConfig {
@@ -61,7 +62,7 @@ function stripTrailingSlash(value: string): string {
 }
 
 function defaultJavaExecutionContractFixturePath(): string {
-  return path.join(
+  const upstreamProjectPath = path.join(
     path.parse(process.cwd()).root,
     "javaproj",
     "advanced-order-platform",
@@ -72,10 +73,11 @@ function defaultJavaExecutionContractFixturePath(): string {
     "contracts",
     "failed-event-replay-execution-contract-approved.sample.json",
   );
+  return preferExistingPath(upstreamProjectPath, repoFixturePath("failed-event-replay-execution-contract-approved.sample.json"));
 }
 
 function defaultJavaExecutionContractBlockedFixturePath(): string {
-  return path.join(
+  const upstreamProjectPath = path.join(
     path.parse(process.cwd()).root,
     "javaproj",
     "advanced-order-platform",
@@ -86,10 +88,11 @@ function defaultJavaExecutionContractBlockedFixturePath(): string {
     "contracts",
     "failed-event-replay-execution-contract-blocked.sample.json",
   );
+  return preferExistingPath(upstreamProjectPath, repoFixturePath("failed-event-replay-execution-contract-blocked.sample.json"));
 }
 
 function defaultMiniKvCheckJsonFixturePath(): string {
-  return path.join(
+  const upstreamProjectPath = path.join(
     path.parse(process.cwd()).root,
     "C",
     "mini-kv",
@@ -97,10 +100,11 @@ function defaultMiniKvCheckJsonFixturePath(): string {
     "checkjson",
     "set-orderops-write-contract.json",
   );
+  return preferExistingPath(upstreamProjectPath, repoFixturePath("set-orderops-write-contract.json"));
 }
 
 function defaultMiniKvCheckJsonReadFixturePath(): string {
-  return path.join(
+  const upstreamProjectPath = path.join(
     path.parse(process.cwd()).root,
     "C",
     "mini-kv",
@@ -108,6 +112,15 @@ function defaultMiniKvCheckJsonReadFixturePath(): string {
     "checkjson",
     "get-orderops-read-contract.json",
   );
+  return preferExistingPath(upstreamProjectPath, repoFixturePath("get-orderops-read-contract.json"));
+}
+
+function repoFixturePath(fileName: string): string {
+  return path.join(process.cwd(), "fixtures", "upstream-contracts", fileName);
+}
+
+function preferExistingPath(primaryPath: string, fallbackPath: string): string {
+  return existsSync(primaryPath) ? primaryPath : fallbackPath;
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {

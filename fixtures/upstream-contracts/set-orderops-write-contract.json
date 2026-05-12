@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "read_only": true,
+  "execution_allowed": false,
+  "command_digest": "fnv1a64:9f5c7ff14c0ebc5e",
+  "command": "SET",
+  "write_command": true,
+  "side_effects": [
+    "store_write",
+    "wal_append_when_enabled"
+  ],
+  "side_effect_count": 2,
+  "wal": {
+    "durability": "memory_only"
+  }
+}

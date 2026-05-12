@@ -1,0 +1,22 @@
+{
+  "contractVersion": "failed-event-replay-execution-contract.v1",
+  "contractDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "approvalDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "replayEligibilityDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "replayPreconditionsSatisfied": false,
+  "digestVerificationMode": "CLIENT_PRECHECK_ONLY",
+  "executionChecks": [
+    {
+      "checkId": "FAILED_EVENT_EXISTS",
+      "status": "PASSED"
+    },
+    {
+      "checkId": "REPLAY_APPROVAL_APPROVED",
+      "status": "FAILED"
+    }
+  ],
+  "blockedBy": [
+    "REPLAY_APPROVAL_NOT_APPROVED"
+  ],
+  "expectedSideEffects": []
+}
