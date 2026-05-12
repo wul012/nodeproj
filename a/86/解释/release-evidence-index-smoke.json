@@ -1,0 +1,53 @@
+{
+  "version": "v86",
+  "scope": "Scenario release evidence index",
+  "safeEnvironment": {
+    "PORT": 4186,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "releaseEvidenceIndexTest": "passed",
+    "fullTest": "passed",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "indexValid": true,
+    "readOnly": true,
+    "executionAllowed": false,
+    "maturityTarget": "production-leaning",
+    "allEvidenceValid": true,
+    "allEvidenceReadOnly": true,
+    "executionNeverAllowed": true,
+    "digestsPresent": true,
+    "archiveVerificationValid": true,
+    "sourcePathCoverageValid": true,
+    "scenarioEvidenceCoverageValid": true,
+    "evidenceCount": 4,
+    "digestCount": 4,
+    "totalScenarios": 4,
+    "sourcePathCount": 4,
+    "scenarioEvidenceCount": 4,
+    "issueCount": 0,
+    "releaseEvidenceDigest": "sha256:6bca299c2b55188b75602fd8ee47259c58bfedcb814ab2c4e6233c0fd96b58d5",
+    "markdownHasTitle": true,
+    "markdownHasMaturityTarget": true
+  },
+  "artifacts": {
+    "screenshot": "a/86/图片/30-scenario-release-evidence-index.png",
+    "codeExplanation": "代码讲解记录/90-scenario-release-evidence-index-v86.md"
+  },
+  "boundaries": {
+    "javaModified": false,
+    "miniKvModified": false,
+    "javaStarted": false,
+    "miniKvStarted": false,
+    "realExecutionEndpointAdded": false,
+    "releasePermitGranted": false
+  }
+}

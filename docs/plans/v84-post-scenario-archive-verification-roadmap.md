@@ -12,6 +12,19 @@ Node v84 已新增 scenario archive bundle verification report，
 
 本计划继续只推进 Node 项目，不修改 Java / mini-kv。
 
+## 生产级靠近规则
+
+从 Node v86 起，后续版本目标从“作品级展示成熟”上调为“逐步靠近生产级”。
+
+推进规则：
+
+```text
+一版一个可验证小闭环，但不能小到只剩按钮、文案或流水账。
+优先补 CI / release gate / 权限安全 / 持久化审计 / 部署配置 / 观测告警 / 回滚证据。
+证据链继续保留，但后续要逐渐能服务自动化发布和运行治理。
+任何真实上游执行能力仍必须默认关闭、显式授权、可审计、可回滚。
+```
+
 继续保持：
 
 ```text
@@ -88,6 +101,20 @@ Node v85 已完成。
 - 新增 JSON / Markdown endpoint。
 - index 至少包含四类 evidence 的 endpoint、digest、valid 状态、readOnly/executionAllowed 边界摘要。
 - 归档 index smoke 和截图。
+
+实施收口：
+
+```text
+Node v86 已完成。
+- 已新增 Scenario release evidence index service。
+- 已新增 JSON / Markdown endpoint。
+- 已汇总 scenario matrix、verification、archive bundle、archive bundle verification 四类 evidence。
+- 每类 evidence 已包含 endpoint、digest、valid、readOnly、executionAllowed 边界。
+- index 已生成 releaseEvidenceDigest。
+- 已落地 maturityTarget=production-leaning，后续版本按靠近生产级推进。
+- 已归档 smoke 证据与 Markdown 截图到 a/86/。
+- 未修改 Java / mini-kv，未新增真实 execution endpoint。
+```
 
 本版不做：
 
