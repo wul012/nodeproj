@@ -313,6 +313,9 @@
 
 104-access-policy-profile-v100.md
  -> 第一百版 Access policy profile：定义 route policy map、minimum role 和 request identity contract，但不启用真实拦截
+
+105-access-guard-dry-run-v101.md
+ -> 第一百零一版 Access guard dry-run：全局评估 route group、requiredRole、matchedRoles 和 wouldDeny，但不拒绝请求
 ```
 
 ## 项目整体理解

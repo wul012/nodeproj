@@ -22,6 +22,7 @@ import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoute
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
+import { evaluateAccessGuard } from "./services/accessGuard.js";
 import { AuditLog } from "./services/auditLog.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
 import { OpsBaselineStore } from "./services/opsBaseline.js";
@@ -66,6 +67,23 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   app.addHook("onRequest", async (_request, reply) => {
     reply.header("x-orderops-service", "orderops-node");
     reply.header("access-control-allow-origin", "*");
+  });
+
+  app.addHook("onRequest", async (request, reply) => {
+    const evaluation = evaluateAccessGuard({
+      method: request.method,
+      path: request.url,
+      headers: request.headers,
+    });
+
+    reply
+      .header("x-orderops-access-guard-mode", evaluation.mode)
+      .header("x-orderops-access-policy-id", evaluation.policyId ?? "unmatched")
+      .header("x-orderops-access-route-group", evaluation.routeGroup)
+      .header("x-orderops-access-required-role", evaluation.requiredRole ?? "none")
+      .header("x-orderops-access-matched-roles", evaluation.matchedRoles.join(","))
+      .header("x-orderops-access-would-deny", String(evaluation.wouldDeny))
+      .header("x-orderops-access-reason", evaluation.reason);
   });
 
   app.options("/*", async (_request, reply) => {

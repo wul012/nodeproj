@@ -101,7 +101,7 @@ const REQUIRED_ROLES: AccessPolicyRole[] = ["viewer", "operator", "approver", "a
 export function createAccessPolicyProfile(
   config: Pick<AppConfig, "upstreamActionsEnabled">,
 ): AccessPolicyProfile {
-  const routePolicies = createRoutePolicies();
+  const routePolicies = createAccessRoutePolicies();
   const checks = {
     identityContractDefined: createRequestIdentityContract().fields.length === 4,
     routePolicyMapDefined: routePolicies.length >= 6,
@@ -250,7 +250,7 @@ function createRequestIdentityContract(): RequestIdentityContract {
   };
 }
 
-function createRoutePolicies(): AccessRoutePolicy[] {
+export function createAccessRoutePolicies(): AccessRoutePolicy[] {
   return [
     {
       id: "readiness-and-status",

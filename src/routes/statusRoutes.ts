@@ -11,6 +11,10 @@ import {
   renderAccessControlReadinessProfileMarkdown,
 } from "../services/accessControlReadinessProfile.js";
 import {
+  createAccessGuardReadinessProfile,
+  renderAccessGuardReadinessProfileMarkdown,
+} from "../services/accessGuard.js";
+import {
   createAccessPolicyProfile,
   renderAccessPolicyProfileMarkdown,
 } from "../services/accessPolicyProfile.js";
@@ -369,6 +373,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderAccessPolicyProfileMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/access-guard-readiness", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createAccessGuardReadinessProfile();
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderAccessGuardReadinessProfileMarkdown(profile);
     }
 
     return profile;

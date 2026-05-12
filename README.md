@@ -79,6 +79,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local promotion release audit trail record for carrying verified receipt digests into final release reporting
 - Production readiness summary v2 for categorizing upstream observability, audit durability, access control, and execution safety blockers while keeping upstream execution disabled
 - Access policy profile for defining route groups, minimum roles, and request identity contract before enabling enforcement
+- Access guard dry-run headers and readiness profile for evaluating route group, required role, matched roles, and would-deny evidence without rejecting requests
 
 ## Setup
 
@@ -144,6 +145,8 @@ GET    /api/v1/security/access-control-readiness
 GET    /api/v1/security/access-control-readiness?format=markdown
 GET    /api/v1/security/access-policy
 GET    /api/v1/security/access-policy?format=markdown
+GET    /api/v1/security/access-guard-readiness
+GET    /api/v1/security/access-guard-readiness?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary

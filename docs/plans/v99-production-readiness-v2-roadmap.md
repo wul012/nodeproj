@@ -81,6 +81,17 @@ tag: v100
 - 增加 protected-route readiness 测试，确认 audit/mutation 路由都有 policy 覆盖。
 - 不启用真实登录，不把 production-ready 改成 true。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/security/access-guard-readiness
+runtime evidence: x-orderops-access-* dry-run headers
+archive: a/101/
+code notes: 代码讲解记录/105-access-guard-dry-run-v101.md
+tag: v101
+```
+
 ### Node v102：audit store factory wiring for file mode
 
 目标：
