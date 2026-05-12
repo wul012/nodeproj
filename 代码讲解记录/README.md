@@ -186,6 +186,9 @@
 
 78-fixture-driven-smoke-v74.md
  -> 第七十四版 Fixture-driven smoke：读取 Java v43 与 mini-kv v52 稳定样本，生成 fixture report 并驱动本地 smoke
+
+79-fixture-drift-diagnostics-v75.md
+ -> 第七十五版 Fixture drift diagnostics：检查 fixture 字段、类型、digest 和 diagnostics 映射是否漂移
 ```
 
 ## 项目整体理解

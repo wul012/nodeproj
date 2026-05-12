@@ -34,6 +34,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - In-memory operation approval decision ledger for recording reviewer approve/reject decisions with SHA-256 digests and no upstream execution
 - Local operation approval evidence report, verification, handoff bundle, execution gate preview, archive record, archive verification, execution-contract archive bundle, and mismatch diagnostics for archiving request, decision, digest chain, Java approval-status and execution-contract evidence, mini-kv `command_digest` / `side_effect_count` / `CHECKJSON` contract evidence, and upstream untouched proof before any real execution
 - Local upstream execution-contract fixture report for reading Java v43 and mini-kv v52 stable samples before fixture-driven smoke
+- Local upstream execution-contract fixture drift diagnostics for catching fixture field, type, digest, and diagnostics-mapping drift
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
@@ -125,6 +126,8 @@ GET    /api/v1/sources/status
 GET    /api/v1/upstreams/overview
 GET    /api/v1/upstream-contract-fixtures
 GET    /api/v1/upstream-contract-fixtures?format=markdown
+GET    /api/v1/upstream-contract-fixtures/drift-diagnostics
+GET    /api/v1/upstream-contract-fixtures/drift-diagnostics?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary

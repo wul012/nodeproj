@@ -30,10 +30,12 @@ commit + tag + push
 ## 当前状态
 
 ```text
-Node v73：
+Node v75：
 - approval evidence 已收集 Java execution-contract 与 mini-kv CHECKJSON
 - execution-contract archive bundle 已可生成
 - mismatch diagnostics 已能定位 archive / gate / Java contract / mini-kv CHECKJSON 不一致
+- fixture report 已读取 Java v43 与 mini-kv v52 稳定样本
+- fixture drift diagnostics 已能定位字段、类型、digest 和 diagnostics 映射漂移
 - 仍不执行 Java replay POST
 - 仍不执行 mini-kv 写命令
 ```
@@ -143,6 +145,15 @@ side_effects、side_effect_count、wal.durability。
 输出缺字段/字段类型漂移报告，避免后续接入真实样本时静默失配。
 ```
 
+实施收口：
+
+```text
+已完成。Node v75 新增 upstream-contract fixture drift diagnostics，
+对 Java v43 与 mini-kv v52 样本执行字段、类型、digest、side_effect_count 和 diagnostics 映射检查，
+输出 issue code、field、expected、actual 与 Markdown 报告。
+本版仍不要求 Java / mini-kv 同步发版，不阻断已有只读观察台，不自动修复 fixture。
+```
+
 本版不做：
 
 - 不要求 Java / mini-kv 同步发版
@@ -156,7 +167,16 @@ side_effects、side_effect_count、wal.durability。
 2. Node v73：execution contract mismatch diagnostics，已完成
 3. Java v43 + mini-kv v52：可以一起推进，产出稳定 fixture/sample
 4. Node v74：接入 fixture-driven smoke，已完成
-5. Node v75：增加 fixture drift diagnostics
+5. Node v75：增加 fixture drift diagnostics，已完成
+```
+
+## 当前主线收口
+
+```text
+Node v72-v75 已完成 execution-contract 证据归档、mismatch diagnostics、fixture-driven smoke、
+fixture drift diagnostics 四个小闭环。
+本计划主线到 v75 收口；后续如果进入 Dashboard 展示、更多 fixture 样本或真实执行审批入口，
+应在本文件中先新增不重合的下一阶段小计划，或在主题明显变化时新建计划文件。
 ```
 
 ## 暂停条件

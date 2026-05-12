@@ -1,0 +1,41 @@
+{
+  "baseUrl": "http://127.0.0.1:57341",
+  "fixtureReportUrl": "http://127.0.0.1:57341/api/v1/upstream-contract-fixtures",
+  "driftDiagnosticsUrl": "http://127.0.0.1:57341/api/v1/upstream-contract-fixtures/drift-diagnostics",
+  "driftDiagnosticsMarkdownUrl": "http://127.0.0.1:57341/api/v1/upstream-contract-fixtures/drift-diagnostics?format=markdown",
+  "javaFixturePath": "D:\\javaproj\\advanced-order-platform\\src\\main\\resources\\static\\contracts\\failed-event-replay-execution-contract-approved.sample.json",
+  "miniKvFixturePath": "D:\\C\\mini-kv\\fixtures\\checkjson\\set-orderops-write-contract.json",
+  "fixtureReportValid": true,
+  "fixtureReportSummary": {
+    "javaFixtureStatus": "available",
+    "javaContractVersion": "failed-event-replay-execution-contract.v1",
+    "javaContractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "javaApprovalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "javaReplayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "javaReplayPreconditionsSatisfied": true,
+    "javaDigestVerificationMode": "CLIENT_PRECHECK_ONLY",
+    "javaExpectedSideEffectCount": 4,
+    "miniKvFixtureStatus": "available",
+    "miniKvSchemaVersion": 1,
+    "miniKvCommandDigest": "fnv1a64:9f5c7ff14c0ebc5e",
+    "miniKvReadOnly": true,
+    "miniKvExecutionAllowed": false,
+    "miniKvSideEffectCount": 2,
+    "miniKvDurability": "memory_only",
+    "missingFixtureCount": 0,
+    "invalidFixtureCount": 0
+  },
+  "driftValid": true,
+  "driftSummary": {
+    "fixtureReportValid": true,
+    "issueCount": 0,
+    "errorCount": 0,
+    "warningCount": 0,
+    "javaRequiredFieldCount": 7,
+    "miniKvRequiredFieldCount": 7,
+    "missingMappingCount": 0,
+    "invalidFixtureCount": 0
+  },
+  "mappingCount": 7,
+  "issueCodes": []
+}
