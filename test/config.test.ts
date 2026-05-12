@@ -18,6 +18,8 @@ describe("loadConfig", () => {
     expect(config.javaExecutionContractBlockedFixturePath).toContain("failed-event-replay-execution-contract-blocked.sample.json");
     expect(config.miniKvCheckJsonFixturePath).toContain("set-orderops-write-contract.json");
     expect(config.miniKvCheckJsonReadFixturePath).toContain("get-orderops-read-contract.json");
+    expect(config.javaOpsEvidenceFixturePath).toContain("java-ops-evidence.sample.json");
+    expect(config.miniKvStorageEvidenceFixturePath).toContain("mini-kv-storage-evidence.sample.json");
   });
 
   it("normalizes numeric values and strips the order URL slash", () => {
@@ -34,6 +36,8 @@ describe("loadConfig", () => {
       JAVA_EXECUTION_CONTRACT_BLOCKED_FIXTURE_PATH: "D:\\fixtures\\java-blocked.json",
       MINIKV_CHECKJSON_FIXTURE_PATH: "D:\\fixtures\\minikv.json",
       MINIKV_CHECKJSON_READ_FIXTURE_PATH: "D:\\fixtures\\minikv-read.json",
+      JAVA_OPS_EVIDENCE_FIXTURE_PATH: "D:\\fixtures\\java-ops-evidence.json",
+      MINIKV_STORAGE_EVIDENCE_FIXTURE_PATH: "D:\\fixtures\\minikv-storage-evidence.json",
     });
 
     expect(config.port).toBe(4200);
@@ -48,6 +52,8 @@ describe("loadConfig", () => {
     expect(config.javaExecutionContractBlockedFixturePath).toBe("D:\\fixtures\\java-blocked.json");
     expect(config.miniKvCheckJsonFixturePath).toBe("D:\\fixtures\\minikv.json");
     expect(config.miniKvCheckJsonReadFixturePath).toBe("D:\\fixtures\\minikv-read.json");
+    expect(config.javaOpsEvidenceFixturePath).toBe("D:\\fixtures\\java-ops-evidence.json");
+    expect(config.miniKvStorageEvidenceFixturePath).toBe("D:\\fixtures\\minikv-storage-evidence.json");
   });
 
   it("parses boolean-style upstream probe flags", () => {

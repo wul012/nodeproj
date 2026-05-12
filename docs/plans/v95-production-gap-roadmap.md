@@ -76,6 +76,16 @@ Java v45 和 mini-kv v54 完成后推进。
 - 把 Java / mini-kv 的 readOnly、executionAllowed、version、diagnostics 汇总进 Node。
 - 补 endpoint、测试、safe smoke、截图、归档、代码讲解。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/upstreams/production-evidence-intake
+archive: a/96/
+code notes: 代码讲解记录/100-upstream-production-evidence-intake-v96.md
+tag: v96
+```
+
 ### Node v97：audit store env config profile
 
 目标：

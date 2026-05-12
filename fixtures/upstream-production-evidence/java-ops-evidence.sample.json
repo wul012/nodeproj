@@ -1,0 +1,67 @@
+{
+  "sampledAt": "2026-05-12T00:00:00.000Z",
+  "evidenceVersion": "java-ops-evidence.v1",
+  "service": {
+    "name": "advanced-order-platform",
+    "version": "0.1.0-SNAPSHOT",
+    "profiles": [
+      "default"
+    ],
+    "startedAt": "2026-05-12T00:00:00.000Z",
+    "uptimeSeconds": 120
+  },
+  "readOnly": true,
+  "executionAllowed": false,
+  "failedEventReplay": {
+    "totalFailedEvents": 0,
+    "replayBacklog": 0,
+    "pendingReplayApprovals": 0,
+    "approvedReplayApprovals": 0,
+    "rejectedReplayApprovals": 0,
+    "latestFailedAt": null,
+    "latestApprovalAt": null,
+    "realReplayEndpoint": "/api/v1/failed-events/{id}/replay",
+    "realReplayAllowedByEvidence": false
+  },
+  "outbox": {
+    "pendingEvents": 0,
+    "publisherEnabled": false,
+    "rabbitMqEnabled": false,
+    "exchange": "order.events",
+    "queue": "order.events",
+    "deadLetterQueue": "order.events.dlq",
+    "blockers": [
+      "OUTBOX_PUBLISHER_DISABLED",
+      "RABBITMQ_OUTBOX_DISABLED"
+    ]
+  },
+  "approvalExecution": {
+    "requiredApprovalStatus": "APPROVED",
+    "digestVerificationMode": "contractDigest must match latest approval-status/readiness evidence before POST /replay",
+    "approvalRequired": true,
+    "dryRun": true,
+    "executionBlockers": [
+      "READ_ONLY_EVIDENCE_ENDPOINT"
+    ],
+    "nextEvidenceActions": [
+      "GET /api/v1/failed-events/summary",
+      "GET /api/v1/failed-events/{id}/replay-readiness",
+      "GET /api/v1/failed-events/{id}/replay-execution-contract"
+    ]
+  },
+  "blockers": [
+    "READ_ONLY_EVIDENCE_ENDPOINT",
+    "OUTBOX_PUBLISHER_DISABLED",
+    "RABBITMQ_OUTBOX_DISABLED"
+  ],
+  "warnings": [],
+  "evidenceEndpoints": [
+    "/api/v1/ops/overview",
+    "/api/v1/failed-events/summary",
+    "/api/v1/failed-events/{id}/approval-status",
+    "/api/v1/failed-events/{id}/replay-readiness",
+    "/api/v1/failed-events/{id}/replay-execution-contract",
+    "/contracts/failed-event-replay-execution-contract-approved.sample.json",
+    "/contracts/failed-event-replay-execution-contract-blocked.sample.json"
+  ]
+}

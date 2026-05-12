@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "read_only": true,
+  "execution_allowed": false,
+  "version": "0.54.0",
+  "store": {
+    "live_keys": 0,
+    "order_authoritative": false
+  },
+  "wal": {
+    "enabled": false,
+    "status": "disabled"
+  },
+  "snapshot": {
+    "supported": true,
+    "mode": "manual",
+    "atomic_save": true,
+    "load_replaces_store": true
+  },
+  "side_effects": [
+    "metadata_read",
+    "store_read",
+    "wal_metadata_read_when_enabled"
+  ],
+  "side_effect_count": 3,
+  "diagnostics": {
+    "read_only_command": true,
+    "write_commands_executed": false,
+    "order_authoritative": false,
+    "notes": [
+      "read_only_storage_evidence",
+      "not_order_authoritative",
+      "manual_snapshot_only",
+      "wal_disabled"
+    ]
+  }
+}

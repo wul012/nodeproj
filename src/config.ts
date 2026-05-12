@@ -19,6 +19,8 @@ export interface AppConfig {
   javaExecutionContractBlockedFixturePath: string;
   miniKvCheckJsonFixturePath: string;
   miniKvCheckJsonReadFixturePath: string;
+  javaOpsEvidenceFixturePath: string;
+  miniKvStorageEvidenceFixturePath: string;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -123,6 +125,14 @@ function preferExistingPath(primaryPath: string, fallbackPath: string): string {
   return existsSync(primaryPath) ? primaryPath : fallbackPath;
 }
 
+function defaultJavaOpsEvidenceFixturePath(): string {
+  return path.join(process.cwd(), "fixtures", "upstream-production-evidence", "java-ops-evidence.sample.json");
+}
+
+function defaultMiniKvStorageEvidenceFixturePath(): string {
+  return path.join(process.cwd(), "fixtures", "upstream-production-evidence", "mini-kv-storage-evidence.sample.json");
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   return {
     host: readString(env, "HOST", "127.0.0.1"),
@@ -157,6 +167,16 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       env,
       "MINIKV_CHECKJSON_READ_FIXTURE_PATH",
       defaultMiniKvCheckJsonReadFixturePath(),
+    ),
+    javaOpsEvidenceFixturePath: readString(
+      env,
+      "JAVA_OPS_EVIDENCE_FIXTURE_PATH",
+      defaultJavaOpsEvidenceFixturePath(),
+    ),
+    miniKvStorageEvidenceFixturePath: readString(
+      env,
+      "MINIKV_STORAGE_EVIDENCE_FIXTURE_PATH",
+      defaultMiniKvStorageEvidenceFixturePath(),
     ),
   };
 }

@@ -59,6 +59,10 @@ import {
   loadUpstreamContractFixtureScenarioReleaseEvidenceReadinessGate,
   renderUpstreamContractFixtureScenarioReleaseEvidenceReadinessGateMarkdown,
 } from "../services/upstreamContractFixtureScenarioReleaseEvidenceReadinessGate.js";
+import {
+  loadUpstreamProductionEvidenceIntake,
+  renderUpstreamProductionEvidenceIntakeMarkdown,
+} from "../services/upstreamProductionEvidenceIntake.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -83,6 +87,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
   app.get("/api/v1/upstreams/overview", async () => {
     const snapshot = await deps.snapshots.sample();
     return createUpstreamOverview(deps.config, snapshot);
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstreams/production-evidence-intake", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const intake = await loadUpstreamProductionEvidenceIntake(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamProductionEvidenceIntakeMarkdown(intake);
+    }
+
+    return intake;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures", {
@@ -394,6 +419,8 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       javaExecutionContractBlockedFixturePath: deps.config.javaExecutionContractBlockedFixturePath,
       miniKvCheckJsonFixturePath: deps.config.miniKvCheckJsonFixturePath,
       miniKvCheckJsonReadFixturePath: deps.config.miniKvCheckJsonReadFixturePath,
+      javaOpsEvidenceFixturePath: deps.config.javaOpsEvidenceFixturePath,
+      miniKvStorageEvidenceFixturePath: deps.config.miniKvStorageEvidenceFixturePath,
     },
     mutationRateLimit: {
       windowMs: deps.config.mutationRateLimitWindowMs,

@@ -1,0 +1,110 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Upstream production evidence intake",
+    "generatedAt":  "2026-05-12T12:36:19.960Z",
+    "intakeVersion":  "upstream-production-evidence-intake.v1",
+    "valid":  true,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "sources":  {
+                    "java":  {
+                                 "project":  "java",
+                                 "path":  "D:\\nodeproj\\orderops-node\\fixtures\\upstream-production-evidence\\java-ops-evidence.sample.json",
+                                 "status":  "available",
+                                 "message":  "Evidence fixture was read and parsed."
+                             },
+                    "miniKv":  {
+                                   "project":  "mini-kv",
+                                   "path":  "D:\\nodeproj\\orderops-node\\fixtures\\upstream-production-evidence\\mini-kv-storage-evidence.sample.json",
+                                   "status":  "available",
+                                   "message":  "Evidence fixture was read and parsed."
+                               }
+                },
+    "checks":  {
+                   "javaEvidenceReadable":  true,
+                   "javaEvidenceVersionOk":  true,
+                   "javaReadOnly":  true,
+                   "javaExecutionBlocked":  true,
+                   "javaReplayNotAllowedByEvidence":  true,
+                   "javaApprovalDryRun":  true,
+                   "javaEvidenceEndpointsPresent":  true,
+                   "miniKvEvidenceReadable":  true,
+                   "miniKvSchemaVersionOk":  true,
+                   "miniKvReadOnly":  true,
+                   "miniKvExecutionBlocked":  true,
+                   "miniKvNotOrderAuthoritative":  true,
+                   "miniKvNoWriteCommandsExecuted":  true,
+                   "miniKvSideEffectCountMatches":  true,
+                   "allSourcesReadOnly":  true,
+                   "executionStillBlocked":  true
+               },
+    "summary":  {
+                    "sourceCount":  2,
+                    "validSourceCount":  2,
+                    "invalidSourceCount":  0,
+                    "missingSourceCount":  0,
+                    "productionBlockerCount":  0,
+                    "warningCount":  2,
+                    "javaBlockerCount":  3,
+                    "javaWarningCount":  0,
+                    "miniKvDiagnosticNoteCount":  4
+                },
+    "normalized":  {
+                       "java":  {
+                                    "serviceName":  "advanced-order-platform",
+                                    "serviceVersion":  "0.1.0-SNAPSHOT",
+                                    "evidenceVersion":  "java-ops-evidence.v1",
+                                    "replayBacklog":  0,
+                                    "pendingOutboxEvents":  0,
+                                    "realReplayAllowedByEvidence":  false,
+                                    "requiredApprovalStatus":  "APPROVED",
+                                    "dryRun":  true,
+                                    "evidenceEndpointCount":  7
+                                },
+                       "miniKv":  {
+                                      "version":  "0.54.0",
+                                      "schemaVersion":  1,
+                                      "liveKeys":  0,
+                                      "walEnabled":  false,
+                                      "walStatus":  "disabled",
+                                      "snapshotSupported":  true,
+                                      "orderAuthoritative":  false,
+                                      "sideEffectCount":  3,
+                                      "diagnosticNotes":  [
+                                                              "read_only_storage_evidence",
+                                                              "not_order_authoritative",
+                                                              "manual_snapshot_only",
+                                                              "wal_disabled"
+                                                          ]
+                                  }
+                   },
+    "productionBlockers":  [
+
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "JAVA_EVIDENCE_HAS_RUNTIME_BLOCKERS",
+                         "severity":  "warning",
+                         "source":  "java",
+                         "message":  "Java evidence currently reports blockers: READ_ONLY_EVIDENCE_ENDPOINT, OUTBOX_PUBLISHER_DISABLED, RABBITMQ_OUTBOX_DISABLED"
+                     },
+                     {
+                         "code":  "MINIKV_NOT_ORDER_AUTHORITATIVE",
+                         "severity":  "warning",
+                         "source":  "mini-kv",
+                         "message":  "mini-kv storage evidence is intentionally not an order-authoritative data source."
+                     }
+                 ],
+    "evidenceEndpoints":  {
+                              "upstreamProductionEvidenceIntakeJson":  "/api/v1/upstreams/production-evidence-intake",
+                              "upstreamProductionEvidenceIntakeMarkdown":  "/api/v1/upstreams/production-evidence-intake?format=markdown",
+                              "productionReadinessSummaryJson":  "/api/v1/production/readiness-summary",
+                              "javaOpsEvidence":  "/api/v1/ops/evidence",
+                              "miniKvStorageEvidence":  "STORAGEJSON"
+                          },
+    "nextActions":  [
+                        "Archive this intake beside the production readiness summary before Node v99.",
+                        "Keep Java replay and mini-kv writes behind separate audited workflows.",
+                        "Use this intake as the upstream-observability input for the next production readiness summary."
+                    ]
+}
