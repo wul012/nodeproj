@@ -74,6 +74,7 @@ export interface MiniKvExplainJson {
   ttl_sensitive?: boolean;
   allowed_by_parser?: boolean;
   warnings?: string[];
+  side_effects?: string[];
 }
 
 export interface MiniKvExplainJsonResult extends MiniKvCommandResult {
@@ -373,6 +374,9 @@ export function parseMiniKvExplainJson(response: string): MiniKvExplainJson {
   }
   if ("warnings" in explanation && (!Array.isArray(explanation.warnings) || !explanation.warnings.every((warning) => typeof warning === "string"))) {
     throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON warnings field must be a string array");
+  }
+  if ("side_effects" in explanation && (!Array.isArray(explanation.side_effects) || !explanation.side_effects.every((sideEffect) => typeof sideEffect === "string"))) {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON side_effects field must be a string array");
   }
 
   return parsed as MiniKvExplainJson;

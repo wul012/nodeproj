@@ -26,5 +26,8 @@ v56-post-dashboard-control-roadmap.md
  -> 由 Node v56 Dashboard 上游观察详情面板衍生出的受控操作预演计划；收敛为 Java v38、mini-kv v47、Node v57、Node v58、Node v59，并说明哪些版本可以一起推进
 
 v59-post-preflight-control-roadmap.md
- -> 由 Node v59 operation preflight evidence bundle 衍生出的后续计划；收敛为 Node v60、Java v39、mini-kv v48、Node v61、Node v62，并继续保持只读预演和审批记录边界
+ -> 由 Node v59 operation preflight evidence bundle 衍生出的后续计划；已推进到 Node v65 接入 Java v40 approval-status 与 mini-kv v49 side_effects
+
+v65-post-upstream-evidence-roadmap.md
+ -> 由 Node v65 upstream evidence integration 衍生出的后续计划；收敛为 Node v66、Java v41 + mini-kv v50、Node v67、Node v68，并继续保持真实执行前 gate 边界
 ```

@@ -1,17 +1,23 @@
 import type { FastifyInstance } from "fastify";
 
+import type { MiniKvClient } from "../clients/miniKvClient.js";
+import type { OrderPlatformClient } from "../clients/orderPlatformClient.js";
+import type { AppConfig } from "../config.js";
 import { OperationApprovalDecisionLedger } from "../services/operationApprovalDecision.js";
 import { OperationApprovalRequestLedger } from "../services/operationApprovalRequest.js";
 import {
-  createOperationApprovalEvidenceReport,
   createOperationApprovalEvidenceVerification,
+  OperationApprovalEvidenceService,
   renderOperationApprovalEvidenceMarkdown,
   renderOperationApprovalEvidenceVerificationMarkdown,
 } from "../services/operationApprovalEvidence.js";
 
 interface OperationApprovalEvidenceRouteDeps {
+  config: AppConfig;
   operationApprovalRequests: OperationApprovalRequestLedger;
   operationApprovalDecisions: OperationApprovalDecisionLedger;
+  orderPlatform: OrderPlatformClient;
+  miniKv: MiniKvClient;
 }
 
 interface ApprovalRequestParams {
@@ -26,6 +32,8 @@ export async function registerOperationApprovalEvidenceRoutes(
   app: FastifyInstance,
   deps: OperationApprovalEvidenceRouteDeps,
 ): Promise<void> {
+  const evidenceService = new OperationApprovalEvidenceService(deps.config, deps.orderPlatform, deps.miniKv);
+
   app.get<{ Params: ApprovalRequestParams; Querystring: ApprovalEvidenceQuery }>("/api/v1/operation-approval-requests/:requestId/evidence", {
     schema: {
       querystring: {
@@ -37,7 +45,7 @@ export async function registerOperationApprovalEvidenceRoutes(
       },
     },
   }, async (request, reply) => {
-    const report = createOperationApprovalEvidenceReport(
+    const report = await evidenceService.createReport(
       deps.operationApprovalRequests.get(request.params.requestId),
       deps.operationApprovalDecisions.getByRequest(request.params.requestId),
     );
@@ -61,7 +69,7 @@ export async function registerOperationApprovalEvidenceRoutes(
       },
     },
   }, async (request, reply) => {
-    const report = createOperationApprovalEvidenceReport(
+    const report = await evidenceService.createReport(
       deps.operationApprovalRequests.get(request.params.requestId),
       deps.operationApprovalDecisions.getByRequest(request.params.requestId),
     );

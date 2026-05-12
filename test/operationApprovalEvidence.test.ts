@@ -1,3 +1,5 @@
+import http from "node:http";
+import type { Server as HttpServer } from "node:http";
 import net from "node:net";
 import type { AddressInfo } from "node:net";
 
@@ -6,10 +8,14 @@ import { afterEach, describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 
-const openServers: net.Server[] = [];
+const openTcpServers: net.Server[] = [];
+const openHttpServers: HttpServer[] = [];
 
 afterEach(async () => {
-  await Promise.all(openServers.splice(0).map((server) => new Promise<void>((resolve, reject) => {
+  await Promise.all(openTcpServers.splice(0).map((server) => new Promise<void>((resolve, reject) => {
+    server.close((error) => error ? reject(error) : resolve());
+  })));
+  await Promise.all(openHttpServers.splice(0).map((server) => new Promise<void>((resolve, reject) => {
     server.close((error) => error ? reject(error) : resolve());
   })));
 });
@@ -90,13 +96,13 @@ describe("operation approval evidence route", () => {
           return;
         }
         if (command.startsWith("EXPLAINJSON")) {
-          socket.end('{"command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:preview","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[]}\n');
+          socket.end('{"command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:preview","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[],"side_effects":["store_write","wal_append_when_enabled"]}\n');
           return;
         }
         socket.end("OK\n");
       });
     });
-    openServers.push(server);
+    openTcpServers.push(server);
 
     await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
     const address = server.address() as AddressInfo;
@@ -182,6 +188,14 @@ describe("operation approval evidence route", () => {
           reviewer: "ops-reviewer",
           upstreamTouched: false,
           readyForApprovalRequest: true,
+          javaApprovalStatus: "not_applicable",
+          miniKvExplainCoverage: "available",
+          miniKvSideEffects: ["store_write", "wal_append_when_enabled"],
+        },
+        upstreamEvidence: {
+          miniKvExplainCoverage: {
+            status: "available",
+          },
         },
       });
       expect(evidence.json().summary.previewDigest).toEqual(approval.json().previewDigest);
@@ -200,6 +214,7 @@ describe("operation approval evidence route", () => {
           requestPreviewDigestValid: true,
           decisionDigestValid: true,
           summaryMatches: true,
+          upstreamEvidenceMatchesSummary: true,
           nextActionsMatch: true,
           upstreamUntouched: true,
         },
@@ -209,10 +224,179 @@ describe("operation approval evidence route", () => {
       expect(markdown.body).toContain("- State: approved");
       expect(markdown.body).toContain("- Upstream touched: false");
       expect(markdown.body).toContain("mini-kv.store-would-mutate");
+      expect(markdown.body).toContain("- mini-kv EXPLAINJSON coverage: available");
+      expect(markdown.body).toContain("- store_write");
+      expect(markdown.body).toContain("- wal_append_when_enabled");
       expect(seenCommands).toEqual([
         "COMMANDSJSON",
         "KEYSJSON orderops:",
         "EXPLAINJSON SET orderops:preview preview-value",
+        "EXPLAINJSON SET orderops:preview preview-value",
+        "EXPLAINJSON SET orderops:preview preview-value",
+        "EXPLAINJSON SET orderops:preview preview-value",
+      ]);
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("attaches Java v40 approval-status evidence for approved replay simulations", async () => {
+    const seenRequests: string[] = [];
+    const server = http.createServer((request, response) => {
+      const path = request.url ?? "/";
+      seenRequests.push(`${request.method ?? "GET"} ${path}`);
+      response.setHeader("content-type", "application/json");
+
+      if (path === "/api/v1/failed-events/42/replay-simulation") {
+        response.end(JSON.stringify({
+          sampledAt: "2026-05-11T03:40:00.000Z",
+          failedEventId: 42,
+          exists: true,
+          eligibleForReplay: true,
+          wouldReplay: true,
+          wouldPublishOutbox: true,
+          wouldChangeManagementStatus: true,
+          requiredApprovalStatus: "APPROVED",
+          expectedSideEffects: ["order-event-replayed", "outbox-message-created"],
+          blockedBy: [],
+          warnings: ["approval-required-before-real-replay"],
+          nextAllowedActions: ["REQUEST_REPLAY_APPROVAL"],
+        }));
+        return;
+      }
+
+      if (path === "/api/v1/failed-events/42/approval-status") {
+        response.end(JSON.stringify({
+          sampledAt: "2026-05-11T03:41:00.000Z",
+          failedEventId: 42,
+          exists: true,
+          failedEventStatus: "FAILED",
+          managementStatus: "WAITING_REPLAY",
+          approvalStatus: "APPROVED",
+          requiredApprovalStatus: "APPROVED",
+          approvalRequested: true,
+          approvalPending: false,
+          approvedForReplay: true,
+          rejected: false,
+          requestReason: "ops review",
+          requestedBy: "ops-user",
+          requestedAt: "2026-05-11T03:39:00.000Z",
+          reviewedBy: "ops-reviewer",
+          reviewedAt: "2026-05-11T03:40:30.000Z",
+          reviewNote: "approved in Java v40 mock",
+          historyCount: 1,
+          latestApproval: {
+            action: "APPROVED",
+            status: "APPROVED",
+            operatorId: "ops-reviewer",
+            operatorRole: "OPERATOR",
+            note: "approved in Java v40 mock",
+            changedAt: "2026-05-11T03:40:30.000Z",
+          },
+          approvalBlockedBy: [],
+          nextAllowedActions: ["REPLAY_FAILED_EVENT"],
+        }));
+        return;
+      }
+
+      response.statusCode = 404;
+      response.end(JSON.stringify({ error: "not-found", path }));
+    });
+    openHttpServers.push(server);
+
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    const address = server.address() as AddressInfo;
+    const app = await buildApp(loadConfig({
+      LOG_LEVEL: "silent",
+      ORDER_PLATFORM_URL: `http://127.0.0.1:${address.port}`,
+      UPSTREAM_PROBES_ENABLED: "true",
+      UPSTREAM_ACTIONS_ENABLED: "false",
+    }));
+
+    try {
+      const created = await app.inject({
+        method: "POST",
+        url: "/api/v1/operation-intents",
+        payload: {
+          action: "failed-event-replay-simulation",
+          operatorId: "ops-user",
+          role: "operator",
+        },
+      });
+      const intent = created.json();
+      await app.inject({
+        method: "POST",
+        url: `/api/v1/operation-intents/${intent.id}/confirm`,
+        payload: {
+          operatorId: "ops-user",
+          confirmText: intent.confirmation.requiredText,
+        },
+      });
+      const approval = await app.inject({
+        method: "POST",
+        url: "/api/v1/operation-approval-requests",
+        payload: {
+          intentId: intent.id,
+          requestedBy: "ops-user",
+          reviewer: "ops-reviewer",
+          failedEventId: "42",
+        },
+      });
+      const decision = await app.inject({
+        method: "POST",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/decision`,
+        payload: {
+          decision: "approved",
+          reviewer: "ops-reviewer",
+          reason: "reviewed Java v40 approval-status evidence",
+        },
+      });
+      const evidence = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/evidence`,
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/verification`,
+      });
+
+      expect(evidence.statusCode).toBe(200);
+      expect(evidence.json()).toMatchObject({
+        state: "approved",
+        decisionId: decision.json().decisionId,
+        summary: {
+          action: "failed-event-replay-simulation",
+          target: "order-platform",
+          javaApprovalStatus: "available",
+          javaApprovedForReplay: true,
+          miniKvExplainCoverage: "not_applicable",
+        },
+        upstreamEvidence: {
+          javaApprovalStatus: {
+            status: "available",
+            details: {
+              failedEventId: "42",
+              approvalStatus: {
+                approvalStatus: "APPROVED",
+                approvedForReplay: true,
+                nextAllowedActions: ["REPLAY_FAILED_EVENT"],
+              },
+            },
+          },
+        },
+      });
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        valid: true,
+        checks: {
+          upstreamEvidenceMatchesSummary: true,
+          upstreamUntouched: true,
+        },
+      });
+      expect(seenRequests).toEqual([
+        "GET /api/v1/failed-events/42/replay-simulation",
+        "GET /api/v1/failed-events/42/approval-status",
+        "GET /api/v1/failed-events/42/approval-status",
       ]);
     } finally {
       await app.close();

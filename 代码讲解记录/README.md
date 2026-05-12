@@ -156,6 +156,9 @@
 
 68-operation-approval-evidence-v64.md
  -> 第六十四版 Approval evidence report + verification：把 request 与 decision 固化成可归档证据报告并复核 digest 链路
+
+69-upstream-approval-evidence-v65.md
+ -> 第六十五版上游审批证据接入：把 Java v40 approval-status 和 mini-kv v49 side_effects 纳入 approval evidence report
 ```
 
 ## 项目整体理解

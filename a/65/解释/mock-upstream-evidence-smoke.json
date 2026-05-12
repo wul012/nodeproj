@@ -1,0 +1,299 @@
+{
+  "service": "orderops-node",
+  "version": "v65",
+  "generatedAt": "2026-05-12T00:03:34.640Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:49843",
+    "javaMarkdownUrl": "http://127.0.0.1:49843/api/v1/operation-approval-requests/88db8fc6-6c86-41e5-abdf-b52cc2c10b91/evidence?format=markdown",
+    "miniKvMarkdownUrl": "http://127.0.0.1:49843/api/v1/operation-approval-requests/efa3bd6b-ab93-4530-985c-8a221ce18fc7/evidence?format=markdown"
+  },
+  "java": {
+    "intentId": "7cd07c17-0913-4fd8-a5b9-4f94d0522050",
+    "requestId": "88db8fc6-6c86-41e5-abdf-b52cc2c10b91",
+    "decisionId": "8d977d12-009d-4ba7-94d8-b2f8223b4141",
+    "evidenceSummary": {
+      "action": "failed-event-replay-simulation",
+      "target": "order-platform",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "reviewer": "ops-reviewer",
+      "upstreamTouched": false,
+      "readyForApprovalRequest": true,
+      "preflightDigest": {
+        "algorithm": "sha256",
+        "value": "37b19101bc312525a88ab2135560e1064965486f0d0391afa70f8df2bb5a153c",
+        "coveredFields": [
+          "service",
+          "intent",
+          "actionPlan",
+          "policy",
+          "confirmation",
+          "rateLimit",
+          "safety",
+          "dispatches",
+          "evidence",
+          "hardBlockers",
+          "warnings",
+          "recommendedNextActions",
+          "readyForDryRunDispatch"
+        ]
+      },
+      "previewDigest": {
+        "algorithm": "sha256",
+        "value": "441102bff4045721a3e6c57b5ab187f96cc205ac4a3c13114a8e9c18b3aea095",
+        "coveredFields": [
+          "service",
+          "intentId",
+          "action",
+          "target",
+          "state",
+          "preflightDigest",
+          "preflightState",
+          "wouldCall",
+          "evidence",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings",
+          "nextActions",
+          "readyForApprovalRequest"
+        ]
+      },
+      "decisionDigest": {
+        "algorithm": "sha256",
+        "value": "c13f38598064af5436b7a974b57d1dc8f749f451c06dbbd751aee70c3feca06b",
+        "coveredFields": [
+          "service",
+          "decisionId",
+          "requestId",
+          "intentId",
+          "action",
+          "target",
+          "previewDigest",
+          "decision",
+          "reviewer",
+          "reason",
+          "createdAt",
+          "requestStatusBeforeDecision",
+          "requestStatusAfterDecision",
+          "upstreamTouched",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings"
+        ]
+      },
+      "expectedSideEffectCount": 5,
+      "hardBlockerCount": 0,
+      "warningCount": 1,
+      "javaApprovalStatus": "available",
+      "javaApprovedForReplay": true,
+      "miniKvExplainCoverage": "not_applicable",
+      "miniKvSideEffects": []
+    },
+    "upstreamEvidence": {
+      "javaApprovalStatus": {
+        "status": "available",
+        "message": "Java failed-event approval-status evidence collected.",
+        "details": {
+          "latencyMs": 1,
+          "failedEventId": "42",
+          "approvalStatus": {
+            "sampledAt": "2026-05-11T03:41:00.000Z",
+            "failedEventId": 42,
+            "exists": true,
+            "failedEventStatus": "FAILED",
+            "managementStatus": "WAITING_REPLAY",
+            "approvalStatus": "APPROVED",
+            "requiredApprovalStatus": "APPROVED",
+            "approvalRequested": true,
+            "approvalPending": false,
+            "approvedForReplay": true,
+            "rejected": false,
+            "requestReason": "ops review",
+            "requestedBy": "ops-user",
+            "requestedAt": "2026-05-11T03:39:00.000Z",
+            "reviewedBy": "ops-reviewer",
+            "reviewedAt": "2026-05-11T03:40:30.000Z",
+            "reviewNote": "approved in Java v40 mock",
+            "historyCount": 1,
+            "latestApproval": {
+              "action": "APPROVED",
+              "status": "APPROVED",
+              "operatorId": "ops-reviewer",
+              "operatorRole": "OPERATOR",
+              "note": "approved in Java v40 mock",
+              "changedAt": "2026-05-11T03:40:30.000Z"
+            },
+            "approvalBlockedBy": [],
+            "nextAllowedActions": [
+              "REPLAY_FAILED_EVENT"
+            ]
+          }
+        }
+      },
+      "miniKvExplainCoverage": {
+        "status": "not_applicable",
+        "message": "Approval request does not target mini-kv EXPLAINJSON coverage."
+      }
+    },
+    "verification": {
+      "valid": true,
+      "checks": {
+        "digestValid": true,
+        "requestMatches": true,
+        "decisionPresent": true,
+        "decisionMatchesRequest": true,
+        "requestPreviewDigestValid": true,
+        "decisionDigestValid": true,
+        "summaryMatches": true,
+        "upstreamEvidenceMatchesSummary": true,
+        "nextActionsMatch": true,
+        "upstreamUntouched": true
+      }
+    }
+  },
+  "miniKv": {
+    "intentId": "f8b073f7-ad82-4fee-befa-c35991e93462",
+    "requestId": "efa3bd6b-ab93-4530-985c-8a221ce18fc7",
+    "decisionId": "753ee82d-c6b0-4249-ac90-3263a330759d",
+    "evidenceSummary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "reviewer": "ops-reviewer",
+      "upstreamTouched": false,
+      "readyForApprovalRequest": true,
+      "preflightDigest": {
+        "algorithm": "sha256",
+        "value": "6f5d9e3f8fcc06e12e0d9e5a74088a9130f4494732b6726fb8b9251a6f786ffa",
+        "coveredFields": [
+          "service",
+          "intent",
+          "actionPlan",
+          "policy",
+          "confirmation",
+          "rateLimit",
+          "safety",
+          "dispatches",
+          "evidence",
+          "hardBlockers",
+          "warnings",
+          "recommendedNextActions",
+          "readyForDryRunDispatch"
+        ]
+      },
+      "previewDigest": {
+        "algorithm": "sha256",
+        "value": "2c3d58f37ac2890ef4ab13d9fda116fbb7b766ad8bac6b8e0abd582adcb97c36",
+        "coveredFields": [
+          "service",
+          "intentId",
+          "action",
+          "target",
+          "state",
+          "preflightDigest",
+          "preflightState",
+          "wouldCall",
+          "evidence",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings",
+          "nextActions",
+          "readyForApprovalRequest"
+        ]
+      },
+      "decisionDigest": {
+        "algorithm": "sha256",
+        "value": "d73d54049f3d8989e23c9d43ee8d55137311851f5030aeaa2704be8c4bdd06eb",
+        "coveredFields": [
+          "service",
+          "decisionId",
+          "requestId",
+          "intentId",
+          "action",
+          "target",
+          "previewDigest",
+          "decision",
+          "reviewer",
+          "reason",
+          "createdAt",
+          "requestStatusBeforeDecision",
+          "requestStatusAfterDecision",
+          "upstreamTouched",
+          "expectedSideEffects",
+          "hardBlockers",
+          "warnings"
+        ]
+      },
+      "expectedSideEffectCount": 2,
+      "hardBlockerCount": 0,
+      "warningCount": 4,
+      "javaApprovalStatus": "not_applicable",
+      "miniKvExplainCoverage": "available",
+      "miniKvSideEffects": [
+        "store_write",
+        "wal_append_when_enabled"
+      ]
+    },
+    "upstreamEvidence": {
+      "javaApprovalStatus": {
+        "status": "not_applicable",
+        "message": "Approval request does not target Java failed-event approval status."
+      },
+      "miniKvExplainCoverage": {
+        "status": "available",
+        "message": "mini-kv EXPLAINJSON coverage evidence collected.",
+        "details": {
+          "latencyMs": 1,
+          "command": "SET orderops:preview preview-value",
+          "explanation": {
+            "command": "SET",
+            "category": "write",
+            "mutates_store": true,
+            "touches_wal": true,
+            "key": "orderops:preview",
+            "requires_value": true,
+            "ttl_sensitive": false,
+            "allowed_by_parser": true,
+            "warnings": [],
+            "side_effects": [
+              "store_write",
+              "wal_append_when_enabled"
+            ]
+          },
+          "sideEffects": [
+            "store_write",
+            "wal_append_when_enabled"
+          ]
+        }
+      }
+    },
+    "verification": {
+      "valid": true,
+      "checks": {
+        "digestValid": true,
+        "requestMatches": true,
+        "decisionPresent": true,
+        "decisionMatchesRequest": true,
+        "requestPreviewDigestValid": true,
+        "decisionDigestValid": true,
+        "summaryMatches": true,
+        "upstreamEvidenceMatchesSummary": true,
+        "nextActionsMatch": true,
+        "upstreamUntouched": true
+      }
+    }
+  },
+  "seenJavaRequests": [
+    "GET /api/v1/failed-events/42/replay-simulation",
+    "GET /api/v1/failed-events/42/approval-status",
+    "GET /api/v1/failed-events/42/approval-status"
+  ],
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ]
+}

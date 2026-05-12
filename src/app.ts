@@ -131,8 +131,11 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     mutationRateLimiter,
   });
   await registerOperationApprovalEvidenceRoutes(app, {
+    config,
     operationApprovalRequests,
     operationApprovalDecisions,
+    orderPlatform,
+    miniKv,
   });
   await registerOperationIntentRoutes(app, { operationIntents, mutationRateLimiter });
   await registerOperationDispatchRoutes(app, { operationDispatches, mutationRateLimiter });
