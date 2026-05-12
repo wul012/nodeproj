@@ -111,7 +111,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   });
 
   await registerDashboardRoutes(app);
-  await registerAuditRoutes(app, { auditLog });
+  await registerAuditRoutes(app, { auditLog, config });
   await registerActionPlanRoutes(app, { config });
   await registerOperationPreflightRoutes(app, {
     config,

@@ -1,0 +1,81 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Audit store env config profile",
+    "generatedAt":  "2026-05-12T12:46:03.883Z",
+    "profileVersion":  "audit-store-env-config-profile.v1",
+    "readyForDurableAuditMigration":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "config":  {
+                   "requestedStoreKind":  "file",
+                   "normalizedStoreKind":  "file",
+                   "auditStorePathConfigured":  true,
+                   "auditStoreUrlConfigured":  false,
+                   "auditStoreUrlRedacted":  "",
+                   "runtimeStillUsesDefaultInMemoryStore":  true
+               },
+    "checks":  {
+                   "storeKindRecognized":  true,
+                   "currentRuntimeStillInMemory":  true,
+                   "fileStorePathReady":  true,
+                   "databaseStoreUrlReady":  true,
+                   "durableStoreRequested":  true,
+                   "durableStoreWiringImplemented":  false,
+                   "noDatabaseConnectionAttempted":  true,
+                   "noSecretValueExposed":  true,
+                   "migrationRequiredBeforeProduction":  true
+               },
+    "summary":  {
+                    "productionBlockerCount":  2,
+                    "warningCount":  1,
+                    "recommendationCount":  3,
+                    "durableConfigFieldCount":  2
+                },
+    "productionBlockers":  [
+                               {
+                                   "code":  "AUDIT_STORE_RUNTIME_NOT_WIRED",
+                                   "severity":  "blocker",
+                                   "message":  "The app still constructs AuditLog with its default in-memory store."
+                               },
+                               {
+                                   "code":  "AUDIT_STORE_MIGRATION_REQUIRED",
+                                   "severity":  "blocker",
+                                   "message":  "A durable audit migration version is still required before production."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "FILE_STORE_NOT_FINAL_PRODUCTION_TARGET",
+                         "severity":  "warning",
+                         "message":  "File-backed audit can help migration rehearsal but still needs rotation, retention, and backup policy."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "IMPLEMENT_AUDIT_STORE_FACTORY",
+                                "severity":  "recommendation",
+                                "message":  "Add a dedicated factory that chooses in-memory, file, or database audit store from validated config."
+                            },
+                            {
+                                "code":  "ADD_RESTART_RECOVERY_TEST",
+                                "severity":  "recommendation",
+                                "message":  "Verify audit events survive restart before claiming durable audit readiness."
+                            },
+                            {
+                                "code":  "DEFINE_RETENTION_AND_BACKUP",
+                                "severity":  "recommendation",
+                                "message":  "Document retention, rotation, backup, and access policy for audit evidence."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "auditStoreEnvConfigProfileJson":  "/api/v1/audit/store-config-profile",
+                              "auditStoreEnvConfigProfileMarkdown":  "/api/v1/audit/store-config-profile?format=markdown",
+                              "auditStoreRuntimeProfileJson":  "/api/v1/audit/store-profile",
+                              "auditSummaryJson":  "/api/v1/audit/summary"
+                          },
+    "nextActions":  [
+                        "Keep runtime on the default in-memory audit store for now.",
+                        "Implement durable audit store wiring in a dedicated version before production use.",
+                        "Do not place secrets in logs or Markdown evidence; keep URLs redacted."
+                    ]
+}

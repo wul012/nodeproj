@@ -1,13 +1,19 @@
 import type { FastifyInstance } from "fastify";
 
+import type { AppConfig } from "../config.js";
 import { AuditLog } from "../services/auditLog.js";
 import {
   createAuditStoreRuntimeProfile,
   renderAuditStoreRuntimeProfileMarkdown,
 } from "../services/auditStoreRuntimeProfile.js";
+import {
+  createAuditStoreEnvConfigProfile,
+  renderAuditStoreEnvConfigProfileMarkdown,
+} from "../services/auditStoreEnvConfigProfile.js";
 
 interface AuditRouteDeps {
   auditLog: AuditLog;
+  config: Pick<AppConfig, "auditStoreKind" | "auditStorePath" | "auditStoreUrl">;
 }
 
 interface EventsQuery {
@@ -53,6 +59,31 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderAuditStoreRuntimeProfileMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/store-config-profile", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createAuditStoreEnvConfigProfile({
+      auditStoreKind: deps.config.auditStoreKind,
+      auditStorePath: deps.config.auditStorePath,
+      auditStoreUrl: deps.config.auditStoreUrl,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderAuditStoreEnvConfigProfileMarkdown(profile);
     }
 
     return profile;

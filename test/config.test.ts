@@ -20,6 +20,9 @@ describe("loadConfig", () => {
     expect(config.miniKvCheckJsonReadFixturePath).toContain("get-orderops-read-contract.json");
     expect(config.javaOpsEvidenceFixturePath).toContain("java-ops-evidence.sample.json");
     expect(config.miniKvStorageEvidenceFixturePath).toContain("mini-kv-storage-evidence.sample.json");
+    expect(config.auditStoreKind).toBe("memory");
+    expect(config.auditStorePath).toBe("");
+    expect(config.auditStoreUrl).toBe("");
   });
 
   it("normalizes numeric values and strips the order URL slash", () => {
@@ -38,6 +41,9 @@ describe("loadConfig", () => {
       MINIKV_CHECKJSON_READ_FIXTURE_PATH: "D:\\fixtures\\minikv-read.json",
       JAVA_OPS_EVIDENCE_FIXTURE_PATH: "D:\\fixtures\\java-ops-evidence.json",
       MINIKV_STORAGE_EVIDENCE_FIXTURE_PATH: "D:\\fixtures\\minikv-storage-evidence.json",
+      AUDIT_STORE_KIND: "database",
+      AUDIT_STORE_PATH: "D:\\audit\\audit.jsonl",
+      AUDIT_STORE_URL: "postgres://user:secret@localhost:5432/orderops",
     });
 
     expect(config.port).toBe(4200);
@@ -54,6 +60,9 @@ describe("loadConfig", () => {
     expect(config.miniKvCheckJsonReadFixturePath).toBe("D:\\fixtures\\minikv-read.json");
     expect(config.javaOpsEvidenceFixturePath).toBe("D:\\fixtures\\java-ops-evidence.json");
     expect(config.miniKvStorageEvidenceFixturePath).toBe("D:\\fixtures\\minikv-storage-evidence.json");
+    expect(config.auditStoreKind).toBe("database");
+    expect(config.auditStorePath).toBe("D:\\audit\\audit.jsonl");
+    expect(config.auditStoreUrl).toBe("postgres://user:secret@localhost:5432/orderops");
   });
 
   it("parses boolean-style upstream probe flags", () => {

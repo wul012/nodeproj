@@ -21,6 +21,9 @@ export interface AppConfig {
   miniKvCheckJsonReadFixturePath: string;
   javaOpsEvidenceFixturePath: string;
   miniKvStorageEvidenceFixturePath: string;
+  auditStoreKind: string;
+  auditStorePath: string;
+  auditStoreUrl: string;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -178,5 +181,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       "MINIKV_STORAGE_EVIDENCE_FIXTURE_PATH",
       defaultMiniKvStorageEvidenceFixturePath(),
     ),
+    auditStoreKind: readString(env, "AUDIT_STORE_KIND", "memory").toLowerCase(),
+    auditStorePath: readString(env, "AUDIT_STORE_PATH", ""),
+    auditStoreUrl: readString(env, "AUDIT_STORE_URL", ""),
   };
 }

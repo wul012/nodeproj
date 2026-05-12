@@ -101,6 +101,16 @@ tag: v96
 - 检查当前仍是 in-memory，并输出迁移阻塞项。
 - 不真正连接数据库，不迁移数据。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/audit/store-config-profile
+archive: a/97/
+code notes: 代码讲解记录/101-audit-store-env-config-profile-v97.md
+tag: v97
+```
+
 ### Node v98：access-control readiness profile
 
 目标：
