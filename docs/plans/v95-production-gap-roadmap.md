@@ -126,6 +126,16 @@ tag: v97
 - 给出最小生产化权限模型建议。
 - 不引入完整登录系统，先做 readiness evidence。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/security/access-control-readiness
+archive: a/98/
+code notes: 代码讲解记录/102-access-control-readiness-profile-v98.md
+tag: v98
+```
+
 ### Java v46：replay audit evidence sample
 
 目标：

@@ -7,6 +7,10 @@ import {
   renderCiEvidenceCommandProfileMarkdown,
 } from "../services/ciEvidenceCommandProfile.js";
 import {
+  createAccessControlReadinessProfile,
+  renderAccessControlReadinessProfileMarkdown,
+} from "../services/accessControlReadinessProfile.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -315,6 +319,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderCiEvidenceCommandProfileMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/access-control-readiness", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createAccessControlReadinessProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderAccessControlReadinessProfileMarkdown(profile);
     }
 
     return profile;

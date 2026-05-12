@@ -1,0 +1,182 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Access-control readiness profile",
+    "generatedAt":  "2026-05-12T12:55:30.716Z",
+    "profileVersion":  "access-control-readiness-profile.v1",
+    "readyForProductionAccessControl":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "currentState":  {
+                         "authenticationConfigured":  false,
+                         "rbacConfigured":  false,
+                         "operatorIdentityCaptured":  false,
+                         "auditReadProtected":  false,
+                         "mutationRoutesProtected":  false,
+                         "corsPolicy":  "wildcard",
+                         "upstreamActionsEnabled":  false
+                     },
+    "checks":  {
+                   "authenticationConfigured":  false,
+                   "rbacConfigured":  false,
+                   "operatorIdentityCaptured":  false,
+                   "auditReadProtected":  false,
+                   "mutationRoutesProtected":  false,
+                   "upstreamActionsDisabled":  true,
+                   "corsPolicyProductionReady":  false,
+                   "minimumRoleModelDefined":  true
+               },
+    "summary":  {
+                    "productionBlockerCount":  6,
+                    "warningCount":  1,
+                    "recommendationCount":  3,
+                    "requiredRoleCount":  5,
+                    "protectedRouteGroupCount":  0
+                },
+    "requiredRoles":  [
+                          {
+                              "role":  "viewer",
+                              "purpose":  "Read dashboards and readiness evidence.",
+                              "canMutate":  false,
+                              "canApprove":  false,
+                              "canReadAudit":  false
+                          },
+                          {
+                              "role":  "operator",
+                              "purpose":  "Create operation intents and preflight requests.",
+                              "canMutate":  true,
+                              "canApprove":  false,
+                              "canReadAudit":  false
+                          },
+                          {
+                              "role":  "approver",
+                              "purpose":  "Approve or reject operation approval requests.",
+                              "canMutate":  true,
+                              "canApprove":  true,
+                              "canReadAudit":  false
+                          },
+                          {
+                              "role":  "auditor",
+                              "purpose":  "Read audit events, evidence reports, and archive bundles.",
+                              "canMutate":  false,
+                              "canApprove":  false,
+                              "canReadAudit":  true
+                          },
+                          {
+                              "role":  "admin",
+                              "purpose":  "Manage access policies and emergency disable switches.",
+                              "canMutate":  true,
+                              "canApprove":  true,
+                              "canReadAudit":  true
+                          }
+                      ],
+    "routeGroups":  [
+                        {
+                            "id":  "readiness-and-status",
+                            "routes":  [
+                                           "/health",
+                                           "/api/v1/upstreams/*",
+                                           "/api/v1/production/readiness-summary"
+                                       ],
+                            "currentProtection":  "none",
+                            "requiredMinimumRole":  "viewer",
+                            "productionReady":  false
+                        },
+                        {
+                            "id":  "audit",
+                            "routes":  [
+                                           "/api/v1/audit/events",
+                                           "/api/v1/audit/summary"
+                                       ],
+                            "currentProtection":  "none",
+                            "requiredMinimumRole":  "auditor",
+                            "productionReady":  false
+                        },
+                        {
+                            "id":  "operation-mutations",
+                            "routes":  [
+                                           "/api/v1/operation-intents",
+                                           "/api/v1/operation-approval-requests",
+                                           "/api/v1/operation-approval-decisions"
+                                       ],
+                            "currentProtection":  "none",
+                            "requiredMinimumRole":  "operator",
+                            "productionReady":  false
+                        },
+                        {
+                            "id":  "approval-execution-gates",
+                            "routes":  [
+                                           "/api/v1/operation-approval-execution-gate-archives"
+                                       ],
+                            "currentProtection":  "none",
+                            "requiredMinimumRole":  "approver",
+                            "productionReady":  false
+                        }
+                    ],
+    "productionBlockers":  [
+                               {
+                                   "code":  "AUTHENTICATION_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "Production access control needs authenticated operators."
+                               },
+                               {
+                                   "code":  "RBAC_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "Production access control needs route-level RBAC."
+                               },
+                               {
+                                   "code":  "OPERATOR_IDENTITY_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "Mutating requests must capture operator identity for audit evidence."
+                               },
+                               {
+                                   "code":  "AUDIT_READ_UNPROTECTED",
+                                   "severity":  "blocker",
+                                   "message":  "Audit event and summary routes must require an auditor/admin role."
+                               },
+                               {
+                                   "code":  "MUTATION_ROUTES_UNPROTECTED",
+                                   "severity":  "blocker",
+                                   "message":  "Intent, approval, and archive mutation routes must be protected."
+                               },
+                               {
+                                   "code":  "CORS_POLICY_WILDCARD",
+                                   "severity":  "blocker",
+                                   "message":  "Wildcard CORS is acceptable for local smoke but not production exposure."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "ACTIONS_DISABLED_AS_COMPENSATING_CONTROL",
+                         "severity":  "warning",
+                         "message":  "Upstream actions are disabled, which limits blast radius while access control is not implemented."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "ADD_AUTH_MIDDLEWARE",
+                                "severity":  "recommendation",
+                                "message":  "Add a Fastify preHandler that validates identity and attaches operator context to requests."
+                            },
+                            {
+                                "code":  "ADD_ROUTE_POLICY_MAP",
+                                "severity":  "recommendation",
+                                "message":  "Define route-group to minimum-role policy before enabling production exposure."
+                            },
+                            {
+                                "code":  "PROPAGATE_OPERATOR_TO_AUDIT",
+                                "severity":  "recommendation",
+                                "message":  "Record operator id, roles, and decision id in audit events and approval ledgers."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "accessControlReadinessJson":  "/api/v1/security/access-control-readiness",
+                              "accessControlReadinessMarkdown":  "/api/v1/security/access-control-readiness?format=markdown",
+                              "auditStoreEnvConfigProfileJson":  "/api/v1/audit/store-config-profile",
+                              "productionReadinessSummaryJson":  "/api/v1/production/readiness-summary"
+                          },
+    "nextActions":  [
+                        "Keep UPSTREAM_ACTIONS_ENABLED=false until authentication and RBAC are implemented.",
+                        "Implement access-control middleware in a dedicated version before exposing the control plane.",
+                        "Use this profile as an input to the next production readiness summary."
+                    ]
+}
