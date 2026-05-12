@@ -151,13 +151,30 @@ mini-kv v53 目标：
 - 不引入 Java / mini-kv 运行时强依赖
 - 不开启 `UPSTREAM_ACTIONS_ENABLED` 默认值
 
+实施收口：
+
+```text
+已完成。Node v78 已新增 fixture scenario matrix，
+读取 Java approved / blocked execution-contract sample 与 mini-kv write / read CHECKJSON sample，
+输出 JSON / Markdown matrix、matrixDigest、四个场景的 diagnostic-ready 检查和 drift summary。
+blocked / negative sample 作为有效诊断样本处理，不当作失败测试。
+本版仍不调用 Java replay POST，不执行 mini-kv 写命令。
+```
+
 ## 推荐执行顺序
 
 ```text
 1. Node v76：Dashboard fixture diagnostics panel，已完成
 2. Node v77：Fixture evidence archive snapshot，已完成
 3. Java v44 + mini-kv v53：可以一起推进，分别新增 blocked replay sample 和 read-command CHECKJSON sample
-4. Node v78：Fixture scenario matrix
+4. Node v78：Fixture scenario matrix，已完成
+```
+
+## 当前主线收口
+
+```text
+Node v76-v78 已完成 Dashboard 可视化、fixture archive snapshot、scenario matrix 三个小闭环。
+本计划主线到 v78 收口；后续进入 scenario matrix Dashboard 展示或 matrix verification 时，必须另起新的计划文件。
 ```
 
 ## 暂停条件

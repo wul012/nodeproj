@@ -15,7 +15,9 @@ export interface AppConfig {
   mutationRateLimitWindowMs: number;
   mutationRateLimitMax: number;
   javaExecutionContractFixturePath: string;
+  javaExecutionContractBlockedFixturePath: string;
   miniKvCheckJsonFixturePath: string;
+  miniKvCheckJsonReadFixturePath: string;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -72,6 +74,20 @@ function defaultJavaExecutionContractFixturePath(): string {
   );
 }
 
+function defaultJavaExecutionContractBlockedFixturePath(): string {
+  return path.join(
+    path.parse(process.cwd()).root,
+    "javaproj",
+    "advanced-order-platform",
+    "src",
+    "main",
+    "resources",
+    "static",
+    "contracts",
+    "failed-event-replay-execution-contract-blocked.sample.json",
+  );
+}
+
 function defaultMiniKvCheckJsonFixturePath(): string {
   return path.join(
     path.parse(process.cwd()).root,
@@ -80,6 +96,17 @@ function defaultMiniKvCheckJsonFixturePath(): string {
     "fixtures",
     "checkjson",
     "set-orderops-write-contract.json",
+  );
+}
+
+function defaultMiniKvCheckJsonReadFixturePath(): string {
+  return path.join(
+    path.parse(process.cwd()).root,
+    "C",
+    "mini-kv",
+    "fixtures",
+    "checkjson",
+    "get-orderops-read-contract.json",
   );
 }
 
@@ -103,10 +130,20 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       "JAVA_EXECUTION_CONTRACT_FIXTURE_PATH",
       defaultJavaExecutionContractFixturePath(),
     ),
+    javaExecutionContractBlockedFixturePath: readString(
+      env,
+      "JAVA_EXECUTION_CONTRACT_BLOCKED_FIXTURE_PATH",
+      defaultJavaExecutionContractBlockedFixturePath(),
+    ),
     miniKvCheckJsonFixturePath: readString(
       env,
       "MINIKV_CHECKJSON_FIXTURE_PATH",
       defaultMiniKvCheckJsonFixturePath(),
+    ),
+    miniKvCheckJsonReadFixturePath: readString(
+      env,
+      "MINIKV_CHECKJSON_READ_FIXTURE_PATH",
+      defaultMiniKvCheckJsonReadFixturePath(),
     ),
   };
 }

@@ -1,0 +1,46 @@
+﻿{
+    "version":  "v78",
+    "generatedAt":  "2026-05-12T05:54:16.1912213Z",
+    "environment":  {
+                        "port":  4178,
+                        "upstreamProbesEnabled":  false,
+                        "upstreamActionsEnabled":  false,
+                        "javaOrMiniKvProcessesStarted":  false
+                    },
+    "upstreamCompletionCheck":  {
+                                    "javaV44TagObserved":  "v44失败事件重放execution-contract-blocked-sample",
+                                    "miniKvV53TagObserved":  "第五十三版CHECKJSON读命令稳定样本",
+                                    "javaBlockedFixture":  "D:\\javaproj\\advanced-order-platform\\src\\main\\resources\\static\\contracts\\failed-event-replay-execution-contract-blocked.sample.json",
+                                    "miniKvReadFixture":  "D:\\C\\mini-kv\\fixtures\\checkjson\\get-orderops-read-contract.json",
+                                    "miniKvReadSideEffects":  [
+                                                                  "store_read"
+                                                              ],
+                                    "miniKvReadSideEffectCount":  1
+                                },
+    "health":  {
+                   "status":  "ok",
+                   "service":  "orderops-node",
+                   "pid":  31976
+               },
+    "scenarioMatrix":  {
+                           "valid":  true,
+                           "matrixDigest":  "sha256:6484012b007d19e26d03eed4159849bc333a3906602271f82937ac92a4808d32",
+                           "totalScenarios":  4,
+                           "validScenarios":  4,
+                           "diagnosticReadyScenarios":  4,
+                           "issueCount":  0,
+                           "scenarioIds":  [
+                                               "java-approved-replay-contract",
+                                               "java-blocked-replay-contract",
+                                               "mini-kv-write-checkjson",
+                                               "mini-kv-read-checkjson"
+                                           ]
+                       },
+    "markdown":  {
+                     "statusCode":  200,
+                     "contentType":  "text/markdown; charset=utf-8",
+                     "hasTitle":  true,
+                     "hasBlockedScenario":  true,
+                     "hasReadScenario":  true
+                 }
+}

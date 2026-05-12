@@ -15,6 +15,10 @@ import {
   loadUpstreamContractFixtureArchiveSnapshot,
   renderUpstreamContractFixtureArchiveSnapshotMarkdown,
 } from "../services/upstreamContractFixtureArchive.js";
+import {
+  loadUpstreamContractFixtureScenarioMatrix,
+  renderUpstreamContractFixtureScenarioMatrixMarkdown,
+} from "../services/upstreamContractFixtureScenarioMatrix.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -104,6 +108,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return snapshot;
   });
 
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const matrix = await loadUpstreamContractFixtureScenarioMatrix(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamContractFixtureScenarioMatrixMarkdown(matrix);
+    }
+
+    return matrix;
+  });
+
   app.get("/api/v1/runtime/config", async () => ({
     service: "orderops-node",
     safety: {
@@ -116,7 +141,9 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     },
     fixtures: {
       javaExecutionContractFixturePath: deps.config.javaExecutionContractFixturePath,
+      javaExecutionContractBlockedFixturePath: deps.config.javaExecutionContractBlockedFixturePath,
       miniKvCheckJsonFixturePath: deps.config.miniKvCheckJsonFixturePath,
+      miniKvCheckJsonReadFixturePath: deps.config.miniKvCheckJsonReadFixturePath,
     },
     mutationRateLimit: {
       windowMs: deps.config.mutationRateLimitWindowMs,
