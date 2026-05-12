@@ -14,12 +14,24 @@ import {
   createFileAuditRestartEvidenceReport,
   renderFileAuditRestartEvidenceMarkdown,
 } from "../services/fileAuditRestartEvidence.js";
+import {
+  createAuditRetentionIntegrityEvidence,
+  renderAuditRetentionIntegrityEvidenceMarkdown,
+} from "../services/auditRetentionIntegrityEvidence.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
   auditLog: AuditLog;
   auditStoreRuntime: AuditStoreRuntimeDescription;
-  config: Pick<AppConfig, "auditStoreKind" | "auditStorePath" | "auditStoreUrl">;
+  config: Pick<AppConfig,
+    | "auditStoreKind"
+    | "auditStorePath"
+    | "auditStoreUrl"
+    | "auditRetentionDays"
+    | "auditMaxFileBytes"
+    | "auditRotationEnabled"
+    | "auditBackupEnabled"
+  >;
 }
 
 interface EventsQuery {
@@ -115,6 +127,31 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderFileAuditRestartEvidenceMarkdown(report);
+    }
+
+    return report;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/retention-integrity-evidence", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const report = createAuditRetentionIntegrityEvidence({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderAuditRetentionIntegrityEvidenceMarkdown(report);
     }
 
     return report;

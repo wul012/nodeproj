@@ -633,6 +633,12 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       windowMs: deps.config.mutationRateLimitWindowMs,
       maxRequests: deps.config.mutationRateLimitMax,
     },
+    auditRetention: {
+      retentionDays: deps.config.auditRetentionDays,
+      maxFileBytes: deps.config.auditMaxFileBytes,
+      rotationEnabled: deps.config.auditRotationEnabled,
+      backupEnabled: deps.config.auditBackupEnabled,
+    },
     opsSampleIntervalMs: deps.config.opsSampleIntervalMs,
   }));
 

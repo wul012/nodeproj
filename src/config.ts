@@ -31,6 +31,10 @@ export interface AppConfig {
   auditStoreKind: string;
   auditStorePath: string;
   auditStoreUrl: string;
+  auditRetentionDays: number;
+  auditMaxFileBytes: number;
+  auditRotationEnabled: boolean;
+  auditBackupEnabled: boolean;
 }
 
 function readString(env: NodeJS.ProcessEnv, key: string, fallback: string): string {
@@ -311,5 +315,9 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     auditStoreKind: readString(env, "AUDIT_STORE_KIND", "memory").toLowerCase(),
     auditStorePath: readString(env, "AUDIT_STORE_PATH", ""),
     auditStoreUrl: readString(env, "AUDIT_STORE_URL", ""),
+    auditRetentionDays: readNumber(env, "AUDIT_RETENTION_DAYS", 0),
+    auditMaxFileBytes: readNumber(env, "AUDIT_MAX_FILE_BYTES", 0),
+    auditRotationEnabled: readBoolean(env, "AUDIT_ROTATION_ENABLED", false),
+    auditBackupEnabled: readBoolean(env, "AUDIT_BACKUP_ENABLED", false),
   };
 }

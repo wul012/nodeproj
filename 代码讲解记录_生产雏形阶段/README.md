@@ -140,6 +140,9 @@ file audit restart evidence 与后续 managed audit store
 
 112-auth-enforcement-rehearsal-v108.md
  -> 第一百零八版 Auth enforcement rehearsal：新增可切换 auth/enforcement middleware，默认 observe-only，显式打开后可验证 401/403/200 访问控制路径
+
+113-audit-retention-integrity-evidence-v109.md
+ -> 第一百零九版 Audit retention integrity evidence：新增本地 retention knobs 与 file audit digest 证据，明确 managed audit store 仍是生产审计硬阻塞
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

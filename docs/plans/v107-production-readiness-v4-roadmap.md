@@ -81,6 +81,14 @@ managed audit store / retention / backup policy
 - 不接数据库、对象存储或云审计服务。
 - 不把 file audit 宣称为生产最终方案。
 
+完成状态：
+
+```text
+已由 Node v109 落地为 /api/v1/audit/retention-integrity-evidence。
+默认缺失 retention / rotation / backup 会继续阻塞。
+file runtime + retention knobs 配齐时，digest evidence 稳定，阻塞项收敛到 MANAGED_AUDIT_STORE_MISSING。
+```
+
 ## Node v110：production readiness summary v5
 
 目标：
