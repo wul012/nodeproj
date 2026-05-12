@@ -10,6 +10,7 @@
 - 如果计划由某个版本衍生，文档开头必须说明来源版本
 - 如果计划影响 Java 或 mini-kv，需要明确写出跨项目边界、暂停条件和不做事项
 - 每次推进 Node 自己的新版本前，必须先读取 `docs/plans/` 中最新计划文档，并按最新计划的版本范围、验证要求、截图规则、暂停条件执行
+- 同一条开发主线不要创建互相重合的多个计划文件；如果后续版本仍属于原主线，直接在原计划中续写和标记完成，只有进入新主题/新阶段时再新建计划
 - 普通版本归档仍放在 `a/<版本>/解释/说明.md`
 - 代码讲解仍放在 `代码讲解记录/`
 
@@ -30,4 +31,10 @@ v59-post-preflight-control-roadmap.md
 
 v65-post-upstream-evidence-roadmap.md
  -> 由 Node v65 upstream evidence integration 衍生出的后续计划；收敛为 Node v66、Java v41 + mini-kv v50、Node v67、Node v68，并继续保持真实执行前 gate 边界
+
+v68-post-execution-gate-roadmap.md
+ -> 由 Node v68 execution gate preview 衍生出的执行前证据链计划；已推进到 Node v71 接入 Java v42 与 mini-kv v51 execution-contract 证据
+
+v71-post-execution-contract-roadmap.md
+ -> 由 Node v71 execution-contract evidence 衍生出的当前主线计划；已完成 Node v72/v73，下一步收敛为 Java v43 + mini-kv v52、Node v74、Node v75
 ```
