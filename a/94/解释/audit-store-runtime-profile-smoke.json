@@ -1,0 +1,120 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Audit store runtime profile",
+    "generatedAt":  "2026-05-12T11:19:53.034Z",
+    "profileVersion":  "audit-store-runtime-profile.v1",
+    "safeForCurrentRuntime":  true,
+    "readyForProductionAudit":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "runtime":  {
+                    "instantiatedBy":  "src/app.ts:new AuditLog()",
+                    "defaultStore":  "InMemoryAuditStore",
+                    "defaultCapacity":  200,
+                    "durableAtRuntime":  false,
+                    "currentEventCount":  5,
+                    "configuredByEnvironment":  false
+                },
+    "stores":  [
+                   {
+                       "id":  "in-memory",
+                       "implementation":  "InMemoryAuditStore",
+                       "runtimeDefault":  true,
+                       "durable":  false,
+                       "productionReady":  false,
+                       "purpose":  "Fast local audit capture for development, tests, and safe smoke.",
+                       "limitation":  "Events are lost on process restart and cannot satisfy production audit retention."
+                   },
+                   {
+                       "id":  "file-backed-prototype",
+                       "implementation":  "FileBackedAuditStore",
+                       "runtimeDefault":  false,
+                       "durable":  true,
+                       "productionReady":  false,
+                       "purpose":  "Prototype adapter that appends audit events to JSONL and reloads recent events.",
+                       "limitation":  "No rotation, encryption, compaction, concurrent writer coordination, or retention policy."
+                   },
+                   {
+                       "id":  "database-required",
+                       "implementation":  "Not implemented",
+                       "runtimeDefault":  false,
+                       "durable":  true,
+                       "productionReady":  false,
+                       "purpose":  "Future production audit store with retention, query, backup, and access control.",
+                       "limitation":  "Required before real production operations; not wired in this version."
+                   }
+               ],
+    "checks":  {
+                   "auditStoreInterfacePresent":  true,
+                   "defaultStoreIsInMemory":  true,
+                   "fileBackedPrototypeAvailable":  true,
+                   "databaseStoreConfigured":  false,
+                   "durableRuntimeConfigured":  false,
+                   "retentionPolicyConfigured":  false,
+                   "migrationRequiredBeforeProduction":  true
+               },
+    "summary":  {
+                    "storeCount":  3,
+                    "durablePrototypeCount":  2,
+                    "productionBlockerCount":  3,
+                    "warningCount":  2,
+                    "recommendationCount":  3
+                },
+    "productionBlockers":  [
+                               {
+                                   "code":  "AUDIT_RUNTIME_NOT_DURABLE",
+                                   "severity":  "blocker",
+                                   "message":  "Current runtime uses in-memory audit storage, so audit evidence is lost on restart."
+                               },
+                               {
+                                   "code":  "DATABASE_AUDIT_STORE_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "A production audit store needs a database or equivalent durable service."
+                               },
+                               {
+                                   "code":  "AUDIT_RETENTION_POLICY_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "Production audit evidence needs retention, rotation, and backup policy."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "FILE_STORE_IS_PROTOTYPE",
+                         "severity":  "warning",
+                         "message":  "FileBackedAuditStore is useful for adapter validation but is not enough for production audit retention."
+                     },
+                     {
+                         "code":  "RUNTIME_STORE_NOT_ENV_CONFIGURABLE",
+                         "severity":  "warning",
+                         "message":  "The running app currently constructs AuditLog with its default store instead of selecting a store from environment config."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "ADD_AUDIT_STORE_CONFIG",
+                                "severity":  "recommendation",
+                                "message":  "Introduce AUDIT_STORE_KIND and AUDIT_STORE_URL before real operations."
+                            },
+                            {
+                                "code":  "ADD_DURABLE_STORE_TESTS",
+                                "severity":  "recommendation",
+                                "message":  "Add integration tests for restart recovery, retention limits, and malformed audit records."
+                            },
+                            {
+                                "code":  "ADD_AUDIT_ACCESS_POLICY",
+                                "severity":  "recommendation",
+                                "message":  "Protect audit export and query endpoints before exposing the control plane outside local smoke."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "auditStoreRuntimeProfileJson":  "/api/v1/audit/store-profile",
+                              "auditStoreRuntimeProfileMarkdown":  "/api/v1/audit/store-profile?format=markdown",
+                              "auditSummaryJson":  "/api/v1/audit/summary",
+                              "auditEventsJson":  "/api/v1/audit/events?limit=50"
+                          },
+    "nextActions":  [
+                        "Keep the current in-memory store for local Node smoke and tests.",
+                        "Treat this endpoint as a production blocker list before real operations.",
+                        "Promote a durable audit store only in a dedicated version with migration tests."
+                    ]
+}

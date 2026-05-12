@@ -63,6 +63,16 @@ tag: v93
 - 输出默认 store、可替换 store、持久化限制、迁移建议。
 - 补 endpoint、测试、safe HTTP smoke、归档、代码讲解。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/audit/store-profile
+archive: a/94/
+code notes: 代码讲解记录/98-audit-store-runtime-profile-v94.md
+tag: v94
+```
+
 ### Node v95：Production readiness summary index
 
 目标：
