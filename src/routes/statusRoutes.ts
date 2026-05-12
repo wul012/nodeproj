@@ -35,6 +35,10 @@ import {
   loadUpstreamContractFixtureScenarioReleaseEvidenceIndex,
   renderUpstreamContractFixtureScenarioReleaseEvidenceIndexMarkdown,
 } from "../services/upstreamContractFixtureScenarioReleaseEvidenceIndex.js";
+import {
+  loadUpstreamContractFixtureScenarioReleaseEvidenceReadinessGate,
+  renderUpstreamContractFixtureScenarioReleaseEvidenceReadinessGateMarkdown,
+} from "../services/upstreamContractFixtureScenarioReleaseEvidenceReadinessGate.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -227,6 +231,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return index;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const gate = await loadUpstreamContractFixtureScenarioReleaseEvidenceReadinessGate(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamContractFixtureScenarioReleaseEvidenceReadinessGateMarkdown(gate);
+    }
+
+    return gate;
   });
 
   app.get("/api/v1/runtime/config", async () => ({
