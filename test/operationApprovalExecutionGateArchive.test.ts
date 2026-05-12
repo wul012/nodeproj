@@ -129,6 +129,14 @@ describe("operation approval execution gate archive routes", () => {
         method: "GET",
         url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/verification?format=markdown`,
       });
+      const contractBundle = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/execution-contract-bundle`,
+      });
+      const contractBundleMarkdown = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/execution-contract-bundle?format=markdown`,
+      });
 
       expect(gatePreview.statusCode).toBe(200);
       expect(gatePreview.json()).toMatchObject({
@@ -200,6 +208,36 @@ describe("operation approval execution gate archive routes", () => {
       expect(verificationMarkdown.body).toContain("# Operation approval execution gate archive verification");
       expect(verificationMarkdown.body).toContain("- Valid: true");
       expect(verificationMarkdown.body).toContain("- Archive digest valid: true");
+      expect(contractBundle.statusCode).toBe(200);
+      expect(contractBundle.json()).toMatchObject({
+        service: "orderops-node",
+        archiveId: archive.json().archiveId,
+        requestId: approval.json().requestId,
+        decisionId: decision.json().decisionId,
+        executionAllowed: false,
+        summary: {
+          archiveVerificationValid: true,
+          miniKvExecutionContractStatus: "available",
+          miniKvCommandDigest: "fnv1a64:1234567890abcdef",
+          miniKvCheckReadOnly: true,
+          miniKvCheckExecutionAllowed: false,
+          miniKvCheckDurability: "wal_backed",
+          missingReferenceCount: 0,
+          invalidReferenceCount: 0,
+        },
+        references: expect.arrayContaining([
+          expect.objectContaining({ name: "execution-gate-archive-record", applicable: true, present: true, valid: true }),
+          expect.objectContaining({ name: "execution-gate-preview", applicable: true, present: true, valid: true }),
+          expect.objectContaining({ name: "archive-verification", applicable: true, present: true, valid: true }),
+          expect.objectContaining({ name: "mini-kv-checkjson-contract", applicable: true, present: true, valid: true }),
+          expect.objectContaining({ name: "java-execution-contract", applicable: false, present: false, valid: true }),
+        ]),
+      });
+      expect(contractBundle.json().bundleDigest.value).toHaveLength(64);
+      expect(contractBundleMarkdown.statusCode).toBe(200);
+      expect(contractBundleMarkdown.body).toContain("# Operation approval execution contract archive bundle");
+      expect(contractBundleMarkdown.body).toContain("- mini-kv CHECKJSON contract: available");
+      expect(contractBundleMarkdown.body).toContain("### mini-kv-checkjson-contract");
       expect(seenCommands.every((command) => !/^(SET|DEL|EXPIRE)\s/.test(command))).toBe(true);
     } finally {
       await app.close();

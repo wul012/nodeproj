@@ -177,6 +177,9 @@
 
 75-execution-contract-evidence-v71.md
  -> 第七十一版 Execution contract evidence：接入 Java replay-execution-contract 与 mini-kv CHECKJSON，只读校验执行契约证据
+
+76-execution-contract-archive-bundle-v72.md
+ -> 第七十二版 Execution contract archive bundle：把 archive、gate、handoff、verification、Java contractDigest 和 mini-kv CHECKJSON 组织成可归档引用链
 ```
 
 ## 项目整体理解

@@ -552,6 +552,18 @@ describe("operation approval evidence route", () => {
         method: "GET",
         url: `/api/v1/operation-approval-requests/${approval.json().requestId}/execution-gate-preview`,
       });
+      const archive = await app.inject({
+        method: "POST",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/execution-gate-archive`,
+        payload: {
+          reviewer: "ops-reviewer",
+          note: "archive Java execution contract bundle",
+        },
+      });
+      const contractBundle = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/execution-contract-bundle`,
+      });
 
       expect(evidence.statusCode).toBe(200);
       expect(evidence.json()).toMatchObject({
@@ -640,8 +652,32 @@ describe("operation approval evidence route", () => {
           javaReplayPreconditionsSatisfiedOk: true,
         },
       });
+      expect(archive.statusCode).toBe(201);
+      expect(contractBundle.statusCode).toBe(200);
+      expect(contractBundle.json()).toMatchObject({
+        archiveId: archive.json().archiveId,
+        requestId: approval.json().requestId,
+        decisionId: decision.json().decisionId,
+        executionAllowed: false,
+        summary: {
+          archiveVerificationValid: true,
+          javaExecutionContractStatus: "available",
+          javaContractVersion: "failed-event-replay-execution-contract.v1",
+          javaContractDigest: "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+          javaReplayPreconditionsSatisfied: true,
+          javaDigestVerificationMode: "CLIENT_PRECHECK_ONLY",
+          missingReferenceCount: 0,
+          invalidReferenceCount: 0,
+        },
+        references: expect.arrayContaining([
+          expect.objectContaining({ name: "java-execution-contract", applicable: true, present: true, valid: true }),
+          expect.objectContaining({ name: "mini-kv-checkjson-contract", applicable: false, present: false, valid: true }),
+        ]),
+      });
       expect(seenRequests).toEqual([
         "GET /api/v1/failed-events/42/replay-simulation",
+        "GET /api/v1/failed-events/42/approval-status",
+        "GET /api/v1/failed-events/42/replay-execution-contract",
         "GET /api/v1/failed-events/42/approval-status",
         "GET /api/v1/failed-events/42/replay-execution-contract",
         "GET /api/v1/failed-events/42/approval-status",

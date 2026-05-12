@@ -1,0 +1,191 @@
+{
+  "baseUrl": "http://127.0.0.1:59521",
+  "miniKvBundleUrl": "http://127.0.0.1:59521/api/v1/operation-approval-execution-gate-archives/377be8c7-6c26-485d-af7d-12fe634815e1/execution-contract-bundle",
+  "miniKvBundleMarkdownUrl": "http://127.0.0.1:59521/api/v1/operation-approval-execution-gate-archives/377be8c7-6c26-485d-af7d-12fe634815e1/execution-contract-bundle?format=markdown",
+  "javaBundleUrl": "http://127.0.0.1:59521/api/v1/operation-approval-execution-gate-archives/ec174483-6820-47ed-a4e6-627ce3c5963c/execution-contract-bundle",
+  "javaBundleMarkdownUrl": "http://127.0.0.1:59521/api/v1/operation-approval-execution-gate-archives/ec174483-6820-47ed-a4e6-627ce3c5963c/execution-contract-bundle?format=markdown",
+  "miniKvSummary": {
+    "action": "kv-set",
+    "target": "mini-kv",
+    "archiveVerificationValid": true,
+    "archiveDigest": {
+      "algorithm": "sha256",
+      "value": "9846e63cd12cdb29849dd0e916b810704fe1d9bae2383e729f081271c29f72c0"
+    },
+    "gateDigest": {
+      "algorithm": "sha256",
+      "value": "c5c96187607642c7e86bff86cb6edd40af7f073a4b7a2e49db1d664e5029f7f8"
+    },
+    "handoffBundleDigest": {
+      "algorithm": "sha256",
+      "value": "6dca3d11396bcf3af8cec6656845feaf5c565f6f00f577b59917bc9743347f23"
+    },
+    "archiveVerificationDigest": {
+      "algorithm": "sha256",
+      "value": "67d87df956f9a3dedd777fcee05eef8a5772b8f839e3b27b3813acdb6c0c41b3"
+    },
+    "javaExecutionContractStatus": "not_applicable",
+    "miniKvExecutionContractStatus": "available",
+    "miniKvCommandDigest": "fnv1a64:1234567890abcdef",
+    "miniKvCheckReadOnly": true,
+    "miniKvCheckExecutionAllowed": false,
+    "miniKvCheckDurability": "wal_backed",
+    "applicableReferenceCount": 5,
+    "missingReferenceCount": 0,
+    "invalidReferenceCount": 0
+  },
+  "javaSummary": {
+    "action": "failed-event-replay-simulation",
+    "target": "order-platform",
+    "archiveVerificationValid": true,
+    "archiveDigest": {
+      "algorithm": "sha256",
+      "value": "dee95c8e914835e17ee19c66a856320a3f06c0dc553a4164e4993e4826842ac2"
+    },
+    "gateDigest": {
+      "algorithm": "sha256",
+      "value": "4119b53d1c486d754bb1aa6927b83791080530bdefdd22a48febdad69a524a1a"
+    },
+    "handoffBundleDigest": {
+      "algorithm": "sha256",
+      "value": "075efaf639fad9bceb2aa8c6df2870c49913cb16693b1503a71b05ba3a67876b"
+    },
+    "archiveVerificationDigest": {
+      "algorithm": "sha256",
+      "value": "e8bbd12e64ac6579de35c2c0851207d4a96e22e95c69c5d68826f16773032c13"
+    },
+    "javaExecutionContractStatus": "available",
+    "javaContractVersion": "failed-event-replay-execution-contract.v1",
+    "javaContractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "javaReplayPreconditionsSatisfied": true,
+    "javaDigestVerificationMode": "CLIENT_PRECHECK_ONLY",
+    "miniKvExecutionContractStatus": "not_applicable",
+    "applicableReferenceCount": 5,
+    "missingReferenceCount": 0,
+    "invalidReferenceCount": 0
+  },
+  "miniKvReferences": [
+    {
+      "name": "execution-gate-archive-record",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "9846e63cd12cdb29849dd0e916b810704fe1d9bae2383e729f081271c29f72c0"
+      }
+    },
+    {
+      "name": "execution-gate-preview",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "c5c96187607642c7e86bff86cb6edd40af7f073a4b7a2e49db1d664e5029f7f8"
+      }
+    },
+    {
+      "name": "approval-handoff-bundle",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "6dca3d11396bcf3af8cec6656845feaf5c565f6f00f577b59917bc9743347f23"
+      }
+    },
+    {
+      "name": "archive-verification",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "67d87df956f9a3dedd777fcee05eef8a5772b8f839e3b27b3813acdb6c0c41b3"
+      }
+    },
+    {
+      "name": "java-execution-contract",
+      "applicable": false,
+      "present": false,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "98f551d26edce5d66feabc38e8e303fe303462e2a0b7a67c3fa8e25575285c5e"
+      }
+    },
+    {
+      "name": "mini-kv-checkjson-contract",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "972f5296659c23b1102a7c13d7ca2552ac229165d94cd59c3241cbdafae173ab"
+      }
+    }
+  ],
+  "javaReferences": [
+    {
+      "name": "execution-gate-archive-record",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "dee95c8e914835e17ee19c66a856320a3f06c0dc553a4164e4993e4826842ac2"
+      }
+    },
+    {
+      "name": "execution-gate-preview",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "4119b53d1c486d754bb1aa6927b83791080530bdefdd22a48febdad69a524a1a"
+      }
+    },
+    {
+      "name": "approval-handoff-bundle",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "075efaf639fad9bceb2aa8c6df2870c49913cb16693b1503a71b05ba3a67876b"
+      }
+    },
+    {
+      "name": "archive-verification",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "e8bbd12e64ac6579de35c2c0851207d4a96e22e95c69c5d68826f16773032c13"
+      }
+    },
+    {
+      "name": "java-execution-contract",
+      "applicable": true,
+      "present": true,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    },
+    {
+      "name": "mini-kv-checkjson-contract",
+      "applicable": false,
+      "present": false,
+      "valid": true,
+      "digest": {
+        "algorithm": "sha256",
+        "value": "e19ae6dd249972dab4cf4ab11dbfb701fa709fb8aa22ea4ee64bf98adf9dc276"
+      }
+    }
+  ]
+}

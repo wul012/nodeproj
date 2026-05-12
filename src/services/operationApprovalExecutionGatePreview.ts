@@ -37,6 +37,7 @@ export interface OperationApprovalExecutionGatePreview {
     javaApprovalDigest?: string;
     javaReplayEligibilityDigest?: string;
     javaExecutionContractStatus: OperationApprovalHandoffBundle["summary"]["javaExecutionContractStatus"];
+    javaContractVersion?: string;
     javaContractDigest?: string;
     javaReplayPreconditionsSatisfied?: boolean;
     javaDigestVerificationMode?: string;
@@ -156,6 +157,7 @@ export function renderOperationApprovalExecutionGatePreviewMarkdown(
     `- Java approval digest: ${preview.summary.javaApprovalDigest ?? "unknown"}`,
     `- Java replay eligibility digest: ${preview.summary.javaReplayEligibilityDigest ?? "unknown"}`,
     `- Java execution contract: ${preview.summary.javaExecutionContractStatus}`,
+    `- Java contract version: ${preview.summary.javaContractVersion ?? "unknown"}`,
     `- Java contract digest: ${preview.summary.javaContractDigest ?? "unknown"}`,
     `- Java replay preconditions satisfied: ${preview.summary.javaReplayPreconditionsSatisfied === undefined ? "unknown" : preview.summary.javaReplayPreconditionsSatisfied}`,
     `- Java digest verification mode: ${preview.summary.javaDigestVerificationMode ?? "unknown"}`,
@@ -306,6 +308,7 @@ function summarizeGatePreview(
     ...(bundle.summary.javaApprovalDigest === undefined ? {} : { javaApprovalDigest: bundle.summary.javaApprovalDigest }),
     ...(bundle.summary.javaReplayEligibilityDigest === undefined ? {} : { javaReplayEligibilityDigest: bundle.summary.javaReplayEligibilityDigest }),
     javaExecutionContractStatus: bundle.summary.javaExecutionContractStatus,
+    ...(bundle.summary.javaContractVersion === undefined ? {} : { javaContractVersion: bundle.summary.javaContractVersion }),
     ...(bundle.summary.javaContractDigest === undefined ? {} : { javaContractDigest: bundle.summary.javaContractDigest }),
     ...(bundle.summary.javaReplayPreconditionsSatisfied === undefined ? {} : { javaReplayPreconditionsSatisfied: bundle.summary.javaReplayPreconditionsSatisfied }),
     ...(bundle.summary.javaDigestVerificationMode === undefined ? {} : { javaDigestVerificationMode: bundle.summary.javaDigestVerificationMode }),

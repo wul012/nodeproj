@@ -32,7 +32,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Local operation execution preview that combines preflight digest, Java replay simulation, mini-kv EXPLAINJSON, would-call summary, and expected side effects
 - In-memory operation approval request ledger that binds preflight and execution-preview digests before any real upstream execution
 - In-memory operation approval decision ledger for recording reviewer approve/reject decisions with SHA-256 digests and no upstream execution
-- Local operation approval evidence report, verification, handoff bundle, execution gate preview, archive record, and archive verification for archiving request, decision, digest chain, Java approval-status and execution-contract evidence, mini-kv `command_digest` / `side_effect_count` / `CHECKJSON` contract evidence, and upstream untouched proof before any real execution
+- Local operation approval evidence report, verification, handoff bundle, execution gate preview, archive record, archive verification, and execution-contract archive bundle for archiving request, decision, digest chain, Java approval-status and execution-contract evidence, mini-kv `command_digest` / `side_effect_count` / `CHECKJSON` contract evidence, and upstream untouched proof before any real execution
 - In-memory mutation rate limiter for intent and dispatch POST operations
 - Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
 - Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
@@ -226,6 +226,8 @@ GET    /api/v1/operation-approval-execution-gate-archives/:archiveId
 GET    /api/v1/operation-approval-execution-gate-archives/:archiveId?format=markdown
 GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/verification
 GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/verification?format=markdown
+GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/execution-contract-bundle
+GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/execution-contract-bundle?format=markdown
 GET    /api/v1/operation-approval-decisions
 GET    /api/v1/operation-approval-decisions/:decisionId
 GET    /api/v1/operation-approval-decisions/:decisionId?format=markdown

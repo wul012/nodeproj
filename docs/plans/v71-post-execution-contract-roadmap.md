@@ -48,6 +48,16 @@ Node v71：
 突出 Java contractDigest、mini-kv CHECKJSON contract、gate digest、archive verification digest 的引用关系。
 ```
 
+实施收口：
+
+```text
+已完成。Node v72 新增 execution-contract archive bundle endpoint，
+从 execution gate archive record 与 archive verification 生成独立 bundle，
+串联 archiveDigest、gateDigest、handoffBundleDigest、archiveVerificationDigest、
+Java contractDigest 与 mini-kv CHECKJSON contract snapshot。
+本版仍不新增真实 execution endpoint，不调用 Java replay POST，不执行 mini-kv 写命令。
+```
+
 本版不做：
 
 - 不新增真实 execution endpoint
@@ -89,7 +99,7 @@ mini-kv v52 目标：
 ## 推荐执行顺序
 
 ```text
-1. Node v72：execution contract evidence archive bundle
+1. Node v72：execution contract evidence archive bundle，已完成
 2. Node v73：execution contract mismatch diagnostics
 3. Java v43 + mini-kv v52：可以一起推进，只做 fixture / sample 增强
 4. Node v74：接入 fixture-driven smoke，减少 mock 样本漂移
