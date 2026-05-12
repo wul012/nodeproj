@@ -1,0 +1,42 @@
+{
+  "version": "v82",
+  "generatedAt": "2026-05-12T07:56:30.305Z",
+  "scope": "Node scenario verification archive bundle",
+  "server": {
+    "host": "127.0.0.1",
+    "port": 4182,
+    "nodePid": 20648,
+    "upstreamProbesEnabled": false,
+    "upstreamActionsEnabled": false,
+    "javaOrMiniKvProcessesStarted": false
+  },
+  "checks": {
+    "healthStatus": "ok",
+    "bundleValid": true,
+    "readOnly": true,
+    "executionAllowed": false,
+    "verificationValid": true,
+    "matrixDigestValid": true,
+    "totalScenarios": 4,
+    "sourcePathCount": 4,
+    "issueCount": 0,
+    "archiveDigestLength": 64,
+    "markdownStatus": 200,
+    "markdownTitlePresent": true
+  },
+  "digests": {
+    "archiveBundleDigest": "sha256:3742328eb51584d9b1c0386a19bb5636a433dca05b1b70ed6c0969840970e972",
+    "matrixDigest": "sha256:6484012b007d19e26d03eed4159849bc333a3906602271f82937ac92a4808d32",
+    "verificationDigest": "sha256:dfec2e91716885c30e63412037bd9e33cbe53d847d7f707d22599c625016b1e5"
+  },
+  "endpoints": {
+    "json": "/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle",
+    "markdown": "/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle?format=markdown"
+  },
+  "screenshot": "../图片/26-scenario-verification-archive-bundle-markdown.png",
+  "notes": [
+    "Archive bundle combines scenario matrix, scenario verification, source paths, digests, and evidence endpoints.",
+    "Archive bundle is explicitly read-only and executionAllowed=false.",
+    "The smoke run did not start, stop, build, test, or modify Java or mini-kv."
+  ]
+}

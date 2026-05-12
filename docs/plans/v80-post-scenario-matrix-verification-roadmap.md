@@ -97,11 +97,24 @@ Node v81 已完成：
 - 不自动修复 fixture
 - 不修改 Java / mini-kv
 
+实施收口：
+
+```text
+Node v82 已完成：
+- 已新增 scenario verification archive bundle JSON / Markdown endpoint
+- 已固化 matrixDigest、verificationDigest、archiveBundleDigest
+- 已固化四个 scenario id、source path、scenario evidence 与 evidence endpoints
+- 已明确 readOnly=true、executionAllowed=false
+- 已归档 archive bundle smoke 和截图到 a/82/
+- 已补充代码讲解记录 86-scenario-verification-archive-bundle-v82.md
+- 本计划 v81-v82 已收口，后续另起 v82-post-scenario-archive-bundle-roadmap.md
+```
+
 ## 推荐执行顺序
 
 ```text
 1. Node v81：Dashboard scenario verification panel，已完成
-2. Node v82：Scenario verification archive bundle
+2. Node v82：Scenario verification archive bundle，已完成
 ```
 
 ## 暂停条件

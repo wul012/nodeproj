@@ -49,5 +49,8 @@ v78-post-scenario-matrix-roadmap.md
  -> 由 Node v78 fixture scenario matrix 衍生出的下一阶段计划；已完成 Node v79-v80 并收口
 
 v80-post-scenario-matrix-verification-roadmap.md
- -> 由 Node v80 scenario matrix verification 衍生出的下一阶段计划；收敛为 Node v81、Node v82
+ -> 由 Node v80 scenario matrix verification 衍生出的下一阶段计划；已完成 Node v81-v82 并收口
+
+v82-post-scenario-archive-bundle-roadmap.md
+ -> 由 Node v82 scenario verification archive bundle 衍生出的下一阶段计划；收敛为 Node v83、Node v84
 ```
