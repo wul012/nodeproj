@@ -52,6 +52,14 @@ managed audit store / retention / backup policy
 - 不新增 Java replay 执行。
 - 不修改 Java 或 mini-kv。
 
+完成状态：
+
+```text
+已由 Node v108 落地为 /api/v1/security/auth-enforcement-rehearsal。
+默认 ACCESS_GUARD_ENFORCEMENT_ENABLED=false，仍然 observe-only。
+测试环境显式打开后已覆盖 missing identity=401、insufficient role=403、allowed role=200。
+```
+
 ## Node v109：audit retention policy + file audit integrity evidence
 
 目标：

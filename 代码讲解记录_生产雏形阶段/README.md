@@ -137,6 +137,9 @@ file audit restart evidence 与后续 managed audit store
 
 111-production-readiness-summary-v4-v107.md
  -> 第一百零七版 Production readiness summary v4：汇总 Java v48、mini-kv v57、Node v104-v106 的 auth/audit/recovery 证据，明确生产级仍被真实 auth、RBAC enforcement、managed audit store 阻塞
+
+112-auth-enforcement-rehearsal-v108.md
+ -> 第一百零八版 Auth enforcement rehearsal：新增可切换 auth/enforcement middleware，默认 observe-only，显式打开后可验证 401/403/200 访问控制路径
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

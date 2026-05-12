@@ -13,6 +13,8 @@ export interface AppConfig {
   opsSampleIntervalMs: number;
   upstreamProbesEnabled: boolean;
   upstreamActionsEnabled: boolean;
+  orderopsAuthMode: "disabled" | "rehearsal";
+  accessGuardEnforcementEnabled: boolean;
   mutationRateLimitWindowMs: number;
   mutationRateLimitMax: number;
   javaExecutionContractFixturePath: string;
@@ -65,6 +67,11 @@ function readBoolean(env: NodeJS.ProcessEnv, key: string, fallback: boolean): bo
   }
 
   return fallback;
+}
+
+function readAuthMode(env: NodeJS.ProcessEnv): AppConfig["orderopsAuthMode"] {
+  const raw = env.ORDEROPS_AUTH_MODE?.trim().toLowerCase();
+  return raw === "disabled" || raw === "rehearsal" ? raw : "rehearsal";
 }
 
 function stripTrailingSlash(value: string): string {
@@ -242,6 +249,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     opsSampleIntervalMs: readNumber(env, "OPS_SAMPLE_INTERVAL_MS", 2000),
     upstreamProbesEnabled: readBoolean(env, "UPSTREAM_PROBES_ENABLED", false),
     upstreamActionsEnabled: readBoolean(env, "UPSTREAM_ACTIONS_ENABLED", false),
+    orderopsAuthMode: readAuthMode(env),
+    accessGuardEnforcementEnabled: readBoolean(env, "ACCESS_GUARD_ENFORCEMENT_ENABLED", false),
     mutationRateLimitWindowMs: readNumber(env, "MUTATION_RATE_LIMIT_WINDOW_MS", 60000),
     mutationRateLimitMax: readNumber(env, "MUTATION_RATE_LIMIT_MAX", 30),
     javaExecutionContractFixturePath: readString(

@@ -15,6 +15,10 @@ import {
   renderAccessGuardReadinessProfileMarkdown,
 } from "../services/accessGuard.js";
 import {
+  createAuthEnforcementRehearsalProfile,
+  renderAuthEnforcementRehearsalMarkdown,
+} from "../services/authEnforcementRehearsal.js";
+import {
   createAccessPolicyProfile,
   renderAccessPolicyProfileMarkdown,
 } from "../services/accessPolicyProfile.js";
@@ -411,6 +415,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return profile;
   });
 
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/auth-enforcement-rehearsal", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createAuthEnforcementRehearsalProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderAuthEnforcementRehearsalMarkdown(profile);
+    }
+
+    return profile;
+  });
+
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/operator-identity-contract", {
     schema: {
       querystring: {
@@ -584,6 +609,8 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     safety: {
       upstreamProbesEnabled: deps.config.upstreamProbesEnabled,
       upstreamActionsEnabled: deps.config.upstreamActionsEnabled,
+      orderopsAuthMode: deps.config.orderopsAuthMode,
+      accessGuardEnforcementEnabled: deps.config.accessGuardEnforcementEnabled,
     },
     upstreams: {
       orderPlatformUrl: deps.config.orderPlatformUrl,

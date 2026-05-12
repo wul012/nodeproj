@@ -23,6 +23,7 @@ import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { evaluateAccessGuard, type AccessGuardEvaluation } from "./services/accessGuard.js";
+import { authEnforcementActive } from "./services/authEnforcementRehearsal.js";
 import type { AuditAccessGuardContext, AuditOperatorIdentityContext } from "./services/auditLog.js";
 import { createAuditStoreRuntime } from "./services/auditStoreFactory.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
@@ -89,14 +90,37 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       .header("x-orderops-access-required-role", evaluation.requiredRole ?? "none")
       .header("x-orderops-access-matched-roles", evaluation.matchedRoles.join(","))
       .header("x-orderops-access-would-deny", String(evaluation.wouldDeny))
-      .header("x-orderops-access-reason", evaluation.reason);
+      .header("x-orderops-access-reason", evaluation.reason)
+      .header("x-orderops-auth-mode", config.orderopsAuthMode)
+      .header("x-orderops-access-enforcement", String(authEnforcementActive(config)));
+
+    if (request.method === "OPTIONS" || !authEnforcementActive(config) || !evaluation.wouldDeny) {
+      return;
+    }
+
+    const statusCode = evaluation.reason === "missing_identity" ? 401 : 403;
+    return reply.code(statusCode).send({
+      error: statusCode === 401 ? "ACCESS_GUARD_UNAUTHENTICATED" : "ACCESS_GUARD_FORBIDDEN",
+      message: statusCode === 401
+        ? "Operator identity is required by access guard rehearsal enforcement."
+        : "Operator identity does not have the required role for this route.",
+      details: {
+        authMode: config.orderopsAuthMode,
+        enforcement: "rehearsal",
+        policyId: evaluation.policyId ?? "unmatched",
+        routeGroup: evaluation.routeGroup,
+        requiredRole: evaluation.requiredRole ?? "none",
+        matchedRoles: evaluation.matchedRoles,
+        reason: evaluation.reason,
+      },
+    });
   });
 
   app.options("/*", async (_request, reply) => {
     reply
       .header("access-control-allow-origin", "*")
       .header("access-control-allow-methods", "GET,POST,PUT,DELETE,OPTIONS")
-      .header("access-control-allow-headers", "content-type,idempotency-key")
+      .header("access-control-allow-headers", "content-type,idempotency-key,x-orderops-operator-id,x-orderops-roles")
       .code(204)
       .send();
   });
