@@ -465,6 +465,69 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid overview-grid">
+      <article class="card">
+        <div class="metric-head">
+          <h2>Scenario Matrix</h2>
+          <div class="badge disabled" id="scenarioMatrixState">pending</div>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Matrix digest</div>
+            <div class="signal-value" id="scenarioMatrixDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Scenarios</div>
+            <div class="signal-value" id="scenarioMatrixCountSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Issues</div>
+            <div class="signal-value" id="scenarioMatrixIssueSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Endpoints</div>
+            <div class="signal-value">
+              <a id="scenarioMatrixJsonLink" href="/api/v1/upstream-contract-fixtures/scenario-matrix">JSON</a>
+              /
+              <a id="scenarioMatrixMarkdownLink" href="/api/v1/upstream-contract-fixtures/scenario-matrix?format=markdown">Markdown</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Java Scenario Matrix</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Approved replay</div>
+            <div class="signal-value" id="scenarioJavaApprovedSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Blocked replay</div>
+            <div class="signal-value" id="scenarioJavaBlockedSignal">-</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>mini-kv Scenario Matrix</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Write CHECKJSON</div>
+            <div class="signal-value" id="scenarioMiniKvWriteSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Read CHECKJSON</div>
+            <div class="signal-value" id="scenarioMiniKvReadSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Drift</div>
+            <div class="signal-value" id="scenarioMatrixDriftSignal">-</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <section class="grid audit-grid">
       <article class="card">
         <div class="metric-name">Audit total</div>
@@ -721,6 +784,8 @@ export function dashboardHtml(): string {
         <button data-action="fixtureDiagnostics">Fixture Diagnostics</button>
         <button data-action="fixtureReportMarkdown">Fixture Report Markdown</button>
         <button data-action="fixtureDriftMarkdown">Fixture Drift Markdown</button>
+        <button data-action="scenarioMatrix">Scenario Matrix</button>
+        <button data-action="scenarioMatrixMarkdown">Scenario Matrix Markdown</button>
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
         <button data-action="opsRunbook">Runbook</button>
@@ -1012,6 +1077,45 @@ export function dashboardHtml(): string {
       return { fixtureReport: report, driftDiagnostics: drift };
     }
 
+    function findScenario(matrix, id) {
+      return (matrix.scenarios || []).find((scenario) => scenario.id === id);
+    }
+
+    function formatScenarioStatus(scenario) {
+      if (!scenario) {
+        return "-";
+      }
+      return [
+        "valid " + formatBool(scenario.valid),
+        "ready " + formatBool(scenario.diagnosticReady),
+        "failing " + formatNumber(scenario.failingCheckCount) + "/" + formatNumber(scenario.checkCount),
+      ].join(" / ");
+    }
+
+    function renderScenarioMatrix(matrix) {
+      setBadge("scenarioMatrixState", matrix.valid ? "online" : "degraded");
+      setText("scenarioMatrixDigestSignal", matrix.matrixDigest.algorithm + ":" + matrix.matrixDigest.value);
+      setText(
+        "scenarioMatrixCountSignal",
+        formatNumber(matrix.summary.validScenarios) + "/" + formatNumber(matrix.summary.totalScenarios) + " valid / ready " + formatNumber(matrix.summary.diagnosticReadyScenarios),
+      );
+      setText(
+        "scenarioMatrixIssueSignal",
+        "issues " + formatNumber(matrix.summary.issueCount) + " / drift " + formatBool(matrix.driftSummary.hasDrift),
+      );
+      setText("scenarioJavaApprovedSignal", formatScenarioStatus(findScenario(matrix, "java-approved-replay-contract")));
+      setText("scenarioJavaBlockedSignal", formatScenarioStatus(findScenario(matrix, "java-blocked-replay-contract")));
+      setText("scenarioMiniKvWriteSignal", formatScenarioStatus(findScenario(matrix, "mini-kv-write-checkjson")));
+      setText("scenarioMiniKvReadSignal", formatScenarioStatus(findScenario(matrix, "mini-kv-read-checkjson")));
+      setText("scenarioMatrixDriftSignal", "issues " + formatNumber(matrix.driftSummary.issueCount));
+    }
+
+    async function refreshScenarioMatrix() {
+      const matrix = await api("/api/v1/upstream-contract-fixtures/scenario-matrix");
+      renderScenarioMatrix(matrix);
+      return matrix;
+    }
+
     async function refreshMiniKvKeyInventory() {
       const prefix = $("kvPrefix").value.trim();
       const query = prefix.length > 0 ? "?prefix=" + encodeURIComponent(prefix) : "";
@@ -1173,6 +1277,16 @@ export function dashboardHtml(): string {
         }
         if (action === "fixtureDriftMarkdown") {
           const response = await fetch("/api/v1/upstream-contract-fixtures/drift-diagnostics?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "scenarioMatrix") {
+          write(await refreshScenarioMatrix());
+        }
+        if (action === "scenarioMatrixMarkdown") {
+          const response = await fetch("/api/v1/upstream-contract-fixtures/scenario-matrix?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }
@@ -1763,6 +1877,7 @@ export function dashboardHtml(): string {
     void refreshRuntimeConfig().catch(() => {});
     void refreshUpstreamOverview().catch(() => {});
     void refreshFixtureDiagnostics().catch(() => {});
+    void refreshScenarioMatrix().catch(() => {});
     void refreshOpsSummary().catch(() => {});
     void refreshOpsReadiness().catch(() => {});
   </script>

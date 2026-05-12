@@ -62,6 +62,18 @@ Node v78：
 - 不修改 Java / mini-kv
 - 不把 matrix valid 状态当成真实执行许可
 
+实施收口：
+
+```text
+Node v79 已完成：
+- Dashboard 新增 Scenario Matrix 只读面板
+- 已展示 totalScenarios、validScenarios、diagnosticReadyScenarios、issueCount、matrixDigest
+- 已展示 Java approved / blocked 与 mini-kv write / read 四个场景状态
+- 已提供 scenario matrix JSON / Markdown 链接和 Audit 按钮
+- 已归档截图与 smoke 证据到 a/79/
+- 已补充代码讲解记录 83-dashboard-scenario-matrix-v79.md
+```
+
 ### Node v80：Scenario matrix verification report
 
 目标：
@@ -89,7 +101,7 @@ Node v78：
 ## 推荐执行顺序
 
 ```text
-1. Node v79：Dashboard scenario matrix panel
+1. Node v79：Dashboard scenario matrix panel，已完成
 2. Node v80：Scenario matrix verification report
 ```
 
