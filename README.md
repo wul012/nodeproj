@@ -81,6 +81,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Access policy profile for defining route groups, minimum roles, and request identity contract before enabling enforcement
 - Access guard dry-run headers and readiness profile for evaluating route group, required role, matched roles, and would-deny evidence without rejecting requests
 - Access guard dry-run audit context on request audit events, so `/api/v1/audit/events` records route group, required role, matched roles, would-deny, and reason
+- Operator identity contract profile and audit context for rehearsing `x-orderops-operator-id` / `x-orderops-roles` parsing, invalid-role filtering, and audit evidence without trusting headers as production auth
 - Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
 - Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
 
@@ -152,6 +153,8 @@ GET    /api/v1/security/access-policy
 GET    /api/v1/security/access-policy?format=markdown
 GET    /api/v1/security/access-guard-readiness
 GET    /api/v1/security/access-guard-readiness?format=markdown
+GET    /api/v1/security/operator-identity-contract
+GET    /api/v1/security/operator-identity-contract?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary

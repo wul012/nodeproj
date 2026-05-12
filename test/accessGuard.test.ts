@@ -5,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   createAccessGuardReadinessProfile,
   evaluateAccessGuard,
+  extractRequestIdentityFromHeaders,
+  parseOperatorRoles,
 } from "../src/services/accessGuard.js";
 
 describe("access guard dry-run", () => {
@@ -71,6 +73,41 @@ describe("access guard dry-run", () => {
       matchedRoles: ["auditor"],
       wouldDeny: true,
       reason: "missing_required_role",
+    });
+  });
+
+  it("parses header-derived operator identity as a rehearsal contract", () => {
+    expect(extractRequestIdentityFromHeaders({})).toMatchObject({
+      authenticated: false,
+      roles: [],
+      authSource: "none",
+      rawRoles: [],
+      rejectedRoles: [],
+    });
+    expect(extractRequestIdentityFromHeaders({
+      "x-orderops-roles": "operator",
+    })).toMatchObject({
+      authenticated: false,
+      roles: ["operator"],
+      authSource: "headers",
+      rawRoles: ["operator"],
+      rejectedRoles: [],
+    });
+    expect(extractRequestIdentityFromHeaders({
+      "x-orderops-operator-id": "operator-1",
+      "x-orderops-roles": "viewer,root,operator,viewer",
+    })).toMatchObject({
+      authenticated: true,
+      operatorId: "operator-1",
+      roles: ["viewer", "operator"],
+      authSource: "headers",
+      rawRoles: ["viewer", "root", "operator", "viewer"],
+      rejectedRoles: ["root"],
+    });
+    expect(parseOperatorRoles("admin,operator,admin,unknown")).toEqual({
+      roles: ["admin", "operator"],
+      rawRoles: ["admin", "operator", "admin", "unknown"],
+      rejectedRoles: ["unknown"],
     });
   });
 

@@ -84,6 +84,18 @@ tag: v104
 - 测试 viewer/operator/approver/auditor/admin 的最小角色契约。
 - 不读取 secret，不实现 JWT，不接外部身份系统。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/security/operator-identity-contract
+audit event field: operatorIdentity
+coverage: operatorId / roles / rawRoles / rejectedRoles / authSource
+archive: a/105/
+code notes: 代码讲解记录_生产雏形阶段/109-operator-identity-contract-v105.md
+tag: v105
+```
+
 ### Node v106：file audit restart evidence report
 
 目标：

@@ -19,6 +19,10 @@ import {
   renderAccessPolicyProfileMarkdown,
 } from "../services/accessPolicyProfile.js";
 import {
+  createOperatorIdentityContractProfile,
+  renderOperatorIdentityContractMarkdown,
+} from "../services/operatorIdentityContract.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -398,6 +402,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderAccessGuardReadinessProfileMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/operator-identity-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createOperatorIdentityContractProfile();
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOperatorIdentityContractMarkdown(profile);
     }
 
     return profile;

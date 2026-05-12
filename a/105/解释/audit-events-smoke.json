@@ -1,0 +1,87 @@
+﻿{
+    "events":  [
+                   {
+                       "id":  "06d718e3-cbad-4e41-bd93-0d68d03aa1f4",
+                       "requestId":  "32d90a26-b578-4045-b3fd-06a653cf6b26",
+                       "method":  "GET",
+                       "path":  "/api/v1/security/access-policy",
+                       "routeGroup":  "other",
+                       "accessGuard":  {
+                                           "guardVersion":  "access-guard-dry-run.v1",
+                                           "mode":  "dry-run",
+                                           "rejectsRequests":  false,
+                                           "policyMatched":  true,
+                                           "policyId":  "readiness-and-status",
+                                           "routeGroup":  "readiness",
+                                           "requiredRole":  "viewer",
+                                           "matchedRoles":  [
+                                                                "viewer",
+                                                                "operator"
+                                                            ],
+                                           "wouldDeny":  false,
+                                           "reason":  "allowed_by_role"
+                                       },
+                       "operatorIdentity":  {
+                                                "identityVersion":  "operator-identity-contract.v1",
+                                                "authenticated":  true,
+                                                "operatorId":  "operator-1",
+                                                "roles":  [
+                                                              "viewer",
+                                                              "operator"
+                                                          ],
+                                                "authSource":  "headers",
+                                                "rawRoles":  [
+                                                                 "viewer",
+                                                                 "root",
+                                                                 "operator"
+                                                             ],
+                                                "rejectedRoles":  [
+                                                                      "root"
+                                                                  ]
+                                            },
+                       "statusCode":  200,
+                       "outcome":  "success",
+                       "durationMs":  1,
+                       "occurredAt":  "2026-05-12T22:35:57.854Z"
+                   },
+                   {
+                       "id":  "63d056da-e52b-4036-af94-1f076451c6e1",
+                       "requestId":  "b4c22eb8-1f26-45c3-b812-68ecc6cea682",
+                       "method":  "GET",
+                       "path":  "/api/v1/security/operator-identity-contract",
+                       "routeGroup":  "other",
+                       "accessGuard":  {
+                                           "guardVersion":  "access-guard-dry-run.v1",
+                                           "mode":  "dry-run",
+                                           "rejectsRequests":  false,
+                                           "policyMatched":  true,
+                                           "policyId":  "readiness-and-status",
+                                           "routeGroup":  "readiness",
+                                           "requiredRole":  "viewer",
+                                           "matchedRoles":  [
+
+                                                            ],
+                                           "wouldDeny":  true,
+                                           "reason":  "missing_identity"
+                                       },
+                       "operatorIdentity":  {
+                                                "identityVersion":  "operator-identity-contract.v1",
+                                                "authenticated":  false,
+                                                "roles":  [
+
+                                                          ],
+                                                "authSource":  "none",
+                                                "rawRoles":  [
+
+                                                             ],
+                                                "rejectedRoles":  [
+
+                                                                  ]
+                                            },
+                       "statusCode":  200,
+                       "outcome":  "success",
+                       "durationMs":  4,
+                       "occurredAt":  "2026-05-12T22:35:57.816Z"
+                   }
+               ]
+}

@@ -11,6 +11,8 @@ export interface RequestIdentity {
   operatorId?: string;
   roles: AccessPolicyRole[];
   authSource: "none" | "headers";
+  rawRoles: string[];
+  rejectedRoles: string[];
 }
 
 export interface AccessGuardEvaluation {
@@ -102,7 +104,7 @@ export function evaluateAccessGuard(input: {
   const policies = input.policies ?? createAccessRoutePolicies();
   const policy = policies.find((candidate) =>
     candidate.methods.includes(normalizedMethod) && candidate.pathPatterns.some((pattern) => pathMatches(pattern, normalizedPath)));
-  const identity = extractRequestIdentity(input.headers ?? {});
+  const identity = extractRequestIdentityFromHeaders(input.headers ?? {});
 
   if (policy === undefined) {
     return {
@@ -233,15 +235,17 @@ export function renderAccessGuardReadinessProfileMarkdown(profile: AccessGuardRe
   ].join("\n");
 }
 
-function extractRequestIdentity(headers: IncomingHttpHeaders): RequestIdentity {
+export function extractRequestIdentityFromHeaders(headers: IncomingHttpHeaders): RequestIdentity {
   const operatorId = readHeader(headers, "x-orderops-operator-id");
-  const roles = parseRoles(readHeader(headers, "x-orderops-roles"));
+  const parsedRoles = parseOperatorRoles(readHeader(headers, "x-orderops-roles"));
 
   return {
-    authenticated: operatorId !== undefined && roles.length > 0,
+    authenticated: operatorId !== undefined && parsedRoles.roles.length > 0,
     operatorId,
-    roles,
-    authSource: operatorId === undefined && roles.length === 0 ? "none" : "headers",
+    roles: parsedRoles.roles,
+    authSource: operatorId === undefined && parsedRoles.rawRoles.length === 0 ? "none" : "headers",
+    rawRoles: parsedRoles.rawRoles,
+    rejectedRoles: parsedRoles.rejectedRoles,
   };
 }
 
@@ -249,18 +253,39 @@ function hasRequiredRole(roles: AccessPolicyRole[], requiredRole: AccessPolicyRo
   return roles.some((role) => ROLE_GRANTS[role].includes(requiredRole));
 }
 
-function parseRoles(value: string | undefined): AccessPolicyRole[] {
+export function parseOperatorRoles(value: string | undefined): {
+  roles: AccessPolicyRole[];
+  rawRoles: string[];
+  rejectedRoles: string[];
+} {
   if (value === undefined) {
-    return [];
+    return {
+      roles: [],
+      rawRoles: [],
+      rejectedRoles: [],
+    };
   }
 
   const unique = new Set<AccessPolicyRole>();
+  const rawRoles: string[] = [];
+  const rejectedRoles: string[] = [];
   for (const role of value.split(",").map((item) => item.trim().toLowerCase())) {
+    if (role.length === 0) {
+      continue;
+    }
+
+    rawRoles.push(role);
     if (isAccessPolicyRole(role)) {
       unique.add(role);
+    } else {
+      rejectedRoles.push(role);
     }
   }
-  return [...unique];
+  return {
+    roles: [...unique],
+    rawRoles,
+    rejectedRoles,
+  };
 }
 
 function pathMatches(pattern: string, requestPath: string): boolean {

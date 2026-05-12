@@ -1,0 +1,203 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Operator identity contract",
+    "generatedAt":  "2026-05-12T22:35:57.812Z",
+    "profileVersion":  "operator-identity-contract.v1",
+    "readyForProductionAuth":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "currentRuntime":  {
+                           "source":  "headers",
+                           "rejectsRequests":  false,
+                           "readsSecrets":  false,
+                           "writesAuditContext":  true,
+                           "productionReplacement":  "auth-middleware"
+                       },
+    "headerContract":  {
+                           "operatorIdHeader":  "x-orderops-operator-id",
+                           "rolesHeader":  "x-orderops-roles",
+                           "allowedRoles":  [
+                                                "viewer",
+                                                "operator",
+                                                "approver",
+                                                "auditor",
+                                                "admin"
+                                            ],
+                           "roleSeparator":  ",",
+                           "duplicateRolePolicy":  "dedupe-preserve-first-seen",
+                           "invalidRolePolicy":  "filter-and-record"
+                       },
+    "samples":  [
+                    {
+                        "id":  "anonymous",
+                        "purpose":  "Missing headers produce an anonymous local identity.",
+                        "inputHeaders":  {
+
+                                         },
+                        "identity":  {
+                                         "authenticated":  false,
+                                         "roles":  [
+
+                                                   ],
+                                         "authSource":  "none",
+                                         "rawRoles":  [
+
+                                                      ],
+                                         "rejectedRoles":  [
+
+                                                           ]
+                                     }
+                    },
+                    {
+                        "id":  "viewer",
+                        "purpose":  "Viewer header identity is accepted for read-only readiness routes.",
+                        "inputHeaders":  {
+                                             "x-orderops-operator-id":  "viewer-1",
+                                             "x-orderops-roles":  "viewer"
+                                         },
+                        "identity":  {
+                                         "authenticated":  true,
+                                         "operatorId":  "viewer-1",
+                                         "roles":  [
+                                                       "viewer"
+                                                   ],
+                                         "authSource":  "headers",
+                                         "rawRoles":  [
+                                                          "viewer"
+                                                      ],
+                                         "rejectedRoles":  [
+
+                                                           ]
+                                     }
+                    },
+                    {
+                        "id":  "roles-without-operator",
+                        "purpose":  "Roles without operatorId are parsed but not authenticated.",
+                        "inputHeaders":  {
+                                             "x-orderops-roles":  "operator"
+                                         },
+                        "identity":  {
+                                         "authenticated":  false,
+                                         "roles":  [
+                                                       "operator"
+                                                   ],
+                                         "authSource":  "headers",
+                                         "rawRoles":  [
+                                                          "operator"
+                                                      ],
+                                         "rejectedRoles":  [
+
+                                                           ]
+                                     }
+                    },
+                    {
+                        "id":  "invalid-roles-filtered",
+                        "purpose":  "Invalid roles are filtered and recorded for audit review.",
+                        "inputHeaders":  {
+                                             "x-orderops-operator-id":  "operator-1",
+                                             "x-orderops-roles":  "viewer,root,operator,viewer"
+                                         },
+                        "identity":  {
+                                         "authenticated":  true,
+                                         "operatorId":  "operator-1",
+                                         "roles":  [
+                                                       "viewer",
+                                                       "operator"
+                                                   ],
+                                         "authSource":  "headers",
+                                         "rawRoles":  [
+                                                          "viewer",
+                                                          "root",
+                                                          "operator",
+                                                          "viewer"
+                                                      ],
+                                         "rejectedRoles":  [
+                                                               "root"
+                                                           ]
+                                     }
+                    },
+                    {
+                        "id":  "admin",
+                        "purpose":  "Admin remains the broadest dry-run role for protected operation groups.",
+                        "inputHeaders":  {
+                                             "x-orderops-operator-id":  "admin-1",
+                                             "x-orderops-roles":  "admin"
+                                         },
+                        "identity":  {
+                                         "authenticated":  true,
+                                         "operatorId":  "admin-1",
+                                         "roles":  [
+                                                       "admin"
+                                                   ],
+                                         "authSource":  "headers",
+                                         "rawRoles":  [
+                                                          "admin"
+                                                      ],
+                                         "rejectedRoles":  [
+
+                                                           ]
+                                     }
+                    }
+                ],
+    "checks":  {
+                   "parserAvailable":  true,
+                   "anonymousWhenHeadersMissing":  true,
+                   "authenticatedRequiresOperatorId":  true,
+                   "invalidRolesFiltered":  true,
+                   "duplicateRolesDeduplicated":  true,
+                   "adminIncludesAllRolesInGuard":  true,
+                   "noSecretRequired":  true,
+                   "auditContextWritable":  true
+               },
+    "summary":  {
+                    "allowedRoleCount":  5,
+                    "sampleCount":  5,
+                    "rejectedSampleRoleCount":  1,
+                    "productionBlockerCount":  2,
+                    "warningCount":  1,
+                    "recommendationCount":  2
+                },
+    "productionBlockers":  [
+                               {
+                                   "code":  "AUTH_MIDDLEWARE_MISSING",
+                                   "severity":  "blocker",
+                                   "message":  "Header-derived identity is not trusted production authentication."
+                               },
+                               {
+                                   "code":  "IDENTITY_NOT_ENFORCED",
+                                   "severity":  "blocker",
+                                   "message":  "Operator identity is written to audit context but requests are not rejected by identity yet."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "HEADERS_ARE_REHEARSAL_ONLY",
+                         "severity":  "warning",
+                         "message":  "x-orderops-operator-id and x-orderops-roles are local rehearsal headers, not a trust boundary."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "ADD_AUTH_MIDDLEWARE",
+                                "severity":  "recommendation",
+                                "message":  "Replace header identity with signed auth middleware before exposing the control plane."
+                            },
+                            {
+                                "code":  "BIND_IDENTITY_TO_APPROVALS",
+                                "severity":  "recommendation",
+                                "message":  "Use the same operator identity shape for approval requests, decisions, and execution gates."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "operatorIdentityContractJson":  "/api/v1/security/operator-identity-contract",
+                              "operatorIdentityContractMarkdown":  "/api/v1/security/operator-identity-contract?format=markdown",
+                              "auditEventsJson":  "/api/v1/audit/events?limit=50",
+                              "accessGuardReadinessJson":  "/api/v1/security/access-guard-readiness",
+                              "accessPolicyProfileJson":  "/api/v1/security/access-policy"
+                          },
+    "nextActions":  [
+                        "Keep header identity as rehearsal-only evidence until a real auth middleware is implemented.",
+                        "Use audit events to verify operatorId, roles, rejectedRoles, and accessGuard context travel together.",
+                        "Do not enable upstream actions until identity is authenticated and access guard enforcement exists."
+                    ]
+}

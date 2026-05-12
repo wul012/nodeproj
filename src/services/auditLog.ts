@@ -11,6 +11,7 @@ export interface AuditEvent {
   path: string;
   routeGroup: string;
   accessGuard?: AuditAccessGuardContext;
+  operatorIdentity?: AuditOperatorIdentityContext;
   statusCode: number;
   outcome: AuditOutcome;
   durationMs: number;
@@ -30,6 +31,16 @@ export interface AuditAccessGuardContext {
   reason: "missing_policy" | "missing_identity" | "missing_required_role" | "allowed_by_role";
 }
 
+export interface AuditOperatorIdentityContext {
+  identityVersion: "operator-identity-contract.v1";
+  authenticated: boolean;
+  operatorId?: string;
+  roles: string[];
+  authSource: "none" | "headers";
+  rawRoles: string[];
+  rejectedRoles: string[];
+}
+
 export interface AuditSummary {
   total: number;
   success: number;
@@ -45,6 +56,7 @@ export interface AuditRecordInput {
   method: string;
   path: string;
   accessGuard?: AuditAccessGuardContext;
+  operatorIdentity?: AuditOperatorIdentityContext;
   statusCode: number;
   durationMs: number;
 }
@@ -170,6 +182,7 @@ export class AuditLog {
       path: normalizePath(input.path),
       routeGroup: routeGroupForPath(input.path),
       accessGuard: input.accessGuard,
+      operatorIdentity: input.operatorIdentity,
       statusCode: input.statusCode,
       outcome: outcomeForStatus(input.statusCode),
       durationMs: Math.max(0, Math.round(input.durationMs)),
@@ -293,10 +306,32 @@ function isAuditEvent(value: unknown): value is AuditEvent {
     && typeof event.path === "string"
     && typeof event.routeGroup === "string"
     && isAuditAccessGuardContext(event.accessGuard)
+    && isAuditOperatorIdentityContext(event.operatorIdentity)
     && typeof event.statusCode === "number"
     && (event.outcome === "success" || event.outcome === "client_error" || event.outcome === "server_error")
     && typeof event.durationMs === "number"
     && typeof event.occurredAt === "string";
+}
+
+function isAuditOperatorIdentityContext(value: unknown): value is AuditOperatorIdentityContext | undefined {
+  if (value === undefined) {
+    return true;
+  }
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+
+  const identity = value as Record<string, unknown>;
+  return identity.identityVersion === "operator-identity-contract.v1"
+    && typeof identity.authenticated === "boolean"
+    && (identity.operatorId === undefined || typeof identity.operatorId === "string")
+    && Array.isArray(identity.roles)
+    && identity.roles.every((role) => typeof role === "string")
+    && (identity.authSource === "none" || identity.authSource === "headers")
+    && Array.isArray(identity.rawRoles)
+    && identity.rawRoles.every((role) => typeof role === "string")
+    && Array.isArray(identity.rejectedRoles)
+    && identity.rejectedRoles.every((role) => typeof role === "string");
 }
 
 function isAuditAccessGuardContext(value: unknown): value is AuditAccessGuardContext | undefined {

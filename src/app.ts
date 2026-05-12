@@ -23,7 +23,7 @@ import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
 import { evaluateAccessGuard, type AccessGuardEvaluation } from "./services/accessGuard.js";
-import type { AuditAccessGuardContext } from "./services/auditLog.js";
+import type { AuditAccessGuardContext, AuditOperatorIdentityContext } from "./services/auditLog.js";
 import { createAuditStoreRuntime } from "./services/auditStoreFactory.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
 import { OpsBaselineStore } from "./services/opsBaseline.js";
@@ -66,6 +66,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   });
 
   const requestAccessGuards = new WeakMap<object, AuditAccessGuardContext>();
+  const requestOperatorIdentities = new WeakMap<object, AuditOperatorIdentityContext>();
 
   app.addHook("onRequest", async (_request, reply) => {
     reply.header("x-orderops-service", "orderops-node");
@@ -79,6 +80,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       headers: request.headers,
     });
     requestAccessGuards.set(request, toAuditAccessGuardContext(evaluation));
+    requestOperatorIdentities.set(request, toAuditOperatorIdentityContext(evaluation));
 
     reply
       .header("x-orderops-access-guard-mode", evaluation.mode)
@@ -129,6 +131,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       method: request.method,
       path: request.url,
       accessGuard: requestAccessGuards.get(request),
+      operatorIdentity: requestOperatorIdentities.get(request),
       statusCode: reply.statusCode,
       durationMs: startedAt === undefined ? 0 : performance.now() - startedAt,
     });
@@ -212,5 +215,17 @@ function toAuditAccessGuardContext(evaluation: AccessGuardEvaluation): AuditAcce
     matchedRoles: evaluation.matchedRoles,
     wouldDeny: evaluation.wouldDeny,
     reason: evaluation.reason,
+  };
+}
+
+function toAuditOperatorIdentityContext(evaluation: AccessGuardEvaluation): AuditOperatorIdentityContext {
+  return {
+    identityVersion: "operator-identity-contract.v1",
+    authenticated: evaluation.requestIdentity.authenticated,
+    operatorId: evaluation.requestIdentity.operatorId,
+    roles: evaluation.requestIdentity.roles,
+    authSource: evaluation.requestIdentity.authSource,
+    rawRoles: evaluation.requestIdentity.rawRoles,
+    rejectedRoles: evaluation.requestIdentity.rejectedRoles,
   };
 }
