@@ -53,6 +53,10 @@ describe("operation approval evidence route", () => {
         method: "GET",
         url: `/api/v1/operation-approval-requests/${approval.json().requestId}/verification`,
       });
+      const executionGatePreview = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/execution-gate-preview`,
+      });
 
       expect(evidence.statusCode).toBe(200);
       expect(evidence.json()).toMatchObject({
@@ -73,6 +77,17 @@ describe("operation approval evidence route", () => {
           digestValid: true,
           decisionPresent: false,
           upstreamUntouched: false,
+        },
+      });
+      expect(executionGatePreview.statusCode).toBe(200);
+      expect(executionGatePreview.json()).toMatchObject({
+        state: "blocked",
+        previewOnly: true,
+        executionAllowed: false,
+        gateChecks: {
+          requestApproved: false,
+          decisionApproved: false,
+          requiredUpstreamEvidenceAvailable: false,
         },
       });
     } finally {
@@ -182,6 +197,14 @@ describe("operation approval evidence route", () => {
         method: "GET",
         url: `/api/v1/operation-approval-requests/${approval.json().requestId}/evidence-bundle?format=markdown`,
       });
+      const executionGatePreview = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/execution-gate-preview`,
+      });
+      const executionGatePreviewMarkdown = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/execution-gate-preview?format=markdown`,
+      });
 
       expect(evidence.statusCode).toBe(200);
       expect(evidence.json()).toMatchObject({
@@ -279,9 +302,52 @@ describe("operation approval evidence route", () => {
       expect(bundleMarkdown.body).toContain("- mini-kv command digest: fnv1a64:1234567890abcdef");
       expect(bundleMarkdown.body).toContain("- mini-kv side_effect_count: 2");
       expect(bundleMarkdown.body).toContain("- store_write");
+      expect(executionGatePreview.statusCode).toBe(200);
+      expect(executionGatePreview.json()).toMatchObject({
+        service: "orderops-node",
+        requestId: approval.json().requestId,
+        decisionId: decision.json().decisionId,
+        intentId: intent.id,
+        state: "review-required",
+        previewOnly: true,
+        executionAllowed: false,
+        summary: {
+          action: "kv-set",
+          target: "mini-kv",
+          requestStatus: "approved",
+          decision: "approved",
+          handoffReady: true,
+          verificationValid: true,
+          upstreamTouched: false,
+          requiredUpstreamEvidenceAvailable: true,
+          miniKvExplainCoverage: "available",
+          miniKvCommandDigest: "fnv1a64:1234567890abcdef",
+          miniKvSideEffectCount: 2,
+          hardBlockerCount: 0,
+        },
+        gateChecks: {
+          requestApproved: true,
+          decisionApproved: true,
+          handoffReady: true,
+          evidenceVerificationValid: true,
+          upstreamUntouched: true,
+          noRequestHardBlockers: true,
+          requiredUpstreamEvidenceAvailable: true,
+          javaApprovedForReplayOk: true,
+          javaApprovalDigestEvidenceValid: true,
+          miniKvCommandDigestEvidenceValid: true,
+          miniKvSideEffectCountMatches: true,
+        },
+        hardBlockers: [],
+      });
+      expect(executionGatePreview.json().gateDigest.value).toHaveLength(64);
+      expect(executionGatePreviewMarkdown.statusCode).toBe(200);
+      expect(executionGatePreviewMarkdown.body).toContain("# Operation approval execution gate preview");
+      expect(executionGatePreviewMarkdown.body).toContain("- Execution allowed: false");
+      expect(executionGatePreviewMarkdown.body).toContain("- mini-kv command digest: fnv1a64:1234567890abcdef");
       expect(seenCommands[0]).toBe("COMMANDSJSON");
       expect(seenCommands[1]).toBe("KEYSJSON orderops:");
-      expect(seenCommands.filter((command) => command === "EXPLAINJSON SET orderops:preview preview-value")).toHaveLength(6);
+      expect(seenCommands.filter((command) => command === "EXPLAINJSON SET orderops:preview preview-value")).toHaveLength(8);
     } finally {
       await app.close();
     }
@@ -409,6 +475,10 @@ describe("operation approval evidence route", () => {
         method: "GET",
         url: `/api/v1/operation-approval-requests/${approval.json().requestId}/verification`,
       });
+      const executionGatePreview = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/execution-gate-preview`,
+      });
 
       expect(evidence.statusCode).toBe(200);
       expect(evidence.json()).toMatchObject({
@@ -452,8 +522,41 @@ describe("operation approval evidence route", () => {
           upstreamUntouched: true,
         },
       });
+      expect(executionGatePreview.statusCode).toBe(200);
+      expect(executionGatePreview.json()).toMatchObject({
+        state: "review-required",
+        previewOnly: true,
+        executionAllowed: false,
+        summary: {
+          action: "failed-event-replay-simulation",
+          target: "order-platform",
+          requestStatus: "approved",
+          decision: "approved",
+          handoffReady: true,
+          verificationValid: true,
+          upstreamTouched: false,
+          requiredUpstreamEvidenceAvailable: true,
+          javaApprovalStatus: "available",
+          javaApprovedForReplay: true,
+          javaApprovalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          javaReplayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          hardBlockerCount: 0,
+        },
+        gateChecks: {
+          requestApproved: true,
+          decisionApproved: true,
+          handoffReady: true,
+          evidenceVerificationValid: true,
+          upstreamUntouched: true,
+          noRequestHardBlockers: true,
+          requiredUpstreamEvidenceAvailable: true,
+          javaApprovedForReplayOk: true,
+          javaApprovalDigestEvidenceValid: true,
+        },
+      });
       expect(seenRequests).toEqual([
         "GET /api/v1/failed-events/42/replay-simulation",
+        "GET /api/v1/failed-events/42/approval-status",
         "GET /api/v1/failed-events/42/approval-status",
         "GET /api/v1/failed-events/42/approval-status",
       ]);

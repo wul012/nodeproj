@@ -1,0 +1,93 @@
+{
+  "service": "orderops-node",
+  "version": "v68",
+  "generatedAt": "2026-05-12T01:17:50.600Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:54539",
+    "javaGateMarkdownUrl": "http://127.0.0.1:54539/api/v1/operation-approval-requests/6f3745ec-b481-4ae1-8dcd-546fa547d779/execution-gate-preview?format=markdown",
+    "miniKvGateMarkdownUrl": "http://127.0.0.1:54539/api/v1/operation-approval-requests/c7edb33c-6a31-49b3-bdfa-dc18f33801d6/execution-gate-preview?format=markdown"
+  },
+  "java": {
+    "requestId": "6f3745ec-b481-4ae1-8dcd-546fa547d779",
+    "decisionId": "eaabd2e7-72e8-49f0-9688-9a0e92305b0f",
+    "state": "review-required",
+    "executionAllowed": false,
+    "summary": {
+      "action": "failed-event-replay-simulation",
+      "target": "order-platform",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "handoffReady": true,
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovalStatus": "available",
+      "javaApprovedForReplay": true,
+      "javaApprovalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "javaReplayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "miniKvExplainCoverage": "not_applicable",
+      "hardBlockerCount": 0,
+      "warningCount": 1
+    },
+    "gateChecks": {
+      "requestApproved": true,
+      "decisionApproved": true,
+      "handoffReady": true,
+      "evidenceVerificationValid": true,
+      "upstreamUntouched": true,
+      "noRequestHardBlockers": true,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovedForReplayOk": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true
+    },
+    "hardBlockers": []
+  },
+  "miniKv": {
+    "requestId": "c7edb33c-6a31-49b3-bdfa-dc18f33801d6",
+    "decisionId": "c3a32a92-80ca-4d9c-8895-b36d74abc973",
+    "state": "review-required",
+    "executionAllowed": false,
+    "summary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "handoffReady": true,
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovalStatus": "not_applicable",
+      "miniKvExplainCoverage": "available",
+      "miniKvCommandDigest": "fnv1a64:1234567890abcdef",
+      "miniKvSideEffectCount": 2,
+      "hardBlockerCount": 0,
+      "warningCount": 4
+    },
+    "gateChecks": {
+      "requestApproved": true,
+      "decisionApproved": true,
+      "handoffReady": true,
+      "evidenceVerificationValid": true,
+      "upstreamUntouched": true,
+      "noRequestHardBlockers": true,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovedForReplayOk": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true
+    },
+    "hardBlockers": []
+  },
+  "seenJavaRequests": [
+    "GET /api/v1/failed-events/42/replay-simulation",
+    "GET /api/v1/failed-events/42/approval-status"
+  ],
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ]
+}

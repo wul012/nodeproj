@@ -12,6 +12,10 @@ import {
   renderOperationApprovalEvidenceVerificationMarkdown,
 } from "../services/operationApprovalEvidence.js";
 import {
+  createOperationApprovalExecutionGatePreview,
+  renderOperationApprovalExecutionGatePreviewMarkdown,
+} from "../services/operationApprovalExecutionGatePreview.js";
+import {
   createOperationApprovalHandoffBundle,
   renderOperationApprovalHandoffBundleMarkdown,
 } from "../services/operationApprovalHandoffBundle.js";
@@ -111,5 +115,32 @@ export async function registerOperationApprovalEvidenceRoutes(
     }
 
     return bundle;
+  });
+
+  app.get<{ Params: ApprovalRequestParams; Querystring: ApprovalEvidenceQuery }>("/api/v1/operation-approval-requests/:requestId/execution-gate-preview", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const report = await evidenceService.createReport(
+      deps.operationApprovalRequests.get(request.params.requestId),
+      deps.operationApprovalDecisions.getByRequest(request.params.requestId),
+    );
+    const verification = createOperationApprovalEvidenceVerification(report);
+    const bundle = createOperationApprovalHandoffBundle(report, verification);
+    const preview = createOperationApprovalExecutionGatePreview(bundle);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOperationApprovalExecutionGatePreviewMarkdown(preview);
+    }
+
+    return preview;
   });
 }

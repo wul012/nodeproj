@@ -165,6 +165,9 @@
 
 71-digest-aware-upstream-evidence-v67.md
  -> 第六十七版 Digest-aware upstream evidence verification：接入 Java approvalDigest 和 mini-kv command_digest / side_effect_count 检查
+
+72-operation-approval-execution-gate-preview-v68.md
+ -> 第六十八版 Approval execution gate preview：基于 handoff bundle 判断执行门禁状态，但仍只返回 preview，不真实触碰上游
 ```
 
 ## 项目整体理解
