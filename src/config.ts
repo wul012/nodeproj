@@ -23,7 +23,9 @@ export interface AppConfig {
   miniKvStorageEvidenceFixturePath: string;
   javaReplayAuditApprovedFixturePath: string;
   javaReplayAuditBlockedFixturePath: string;
+  javaReplayEvidenceIndexFixturePath: string;
   miniKvRestartRecoveryEvidenceFixturePath: string;
+  miniKvRecoveryFixtureIndexPath: string;
   auditStoreKind: string;
   auditStorePath: string;
   auditStoreUrl: string;
@@ -194,6 +196,39 @@ function defaultMiniKvRestartRecoveryEvidenceFixturePath(): string {
   );
 }
 
+function defaultJavaReplayEvidenceIndexFixturePath(): string {
+  const upstreamProjectPath = path.join(
+    path.parse(process.cwd()).root,
+    "javaproj",
+    "advanced-order-platform",
+    "src",
+    "main",
+    "resources",
+    "static",
+    "contracts",
+    "failed-event-replay-evidence-index.sample.json",
+  );
+  return preferExistingPath(
+    upstreamProjectPath,
+    repoProductionEvidenceFixturePath("failed-event-replay-evidence-index.sample.json"),
+  );
+}
+
+function defaultMiniKvRecoveryFixtureIndexPath(): string {
+  const upstreamProjectPath = path.join(
+    path.parse(process.cwd()).root,
+    "C",
+    "mini-kv",
+    "fixtures",
+    "recovery",
+    "index.json",
+  );
+  return preferExistingPath(
+    upstreamProjectPath,
+    repoProductionEvidenceFixturePath("mini-kv-recovery-fixtures-index.json"),
+  );
+}
+
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
   return {
     host: readString(env, "HOST", "127.0.0.1"),
@@ -249,10 +284,20 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       "JAVA_REPLAY_AUDIT_BLOCKED_FIXTURE_PATH",
       defaultJavaReplayAuditBlockedFixturePath(),
     ),
+    javaReplayEvidenceIndexFixturePath: readString(
+      env,
+      "JAVA_REPLAY_EVIDENCE_INDEX_FIXTURE_PATH",
+      defaultJavaReplayEvidenceIndexFixturePath(),
+    ),
     miniKvRestartRecoveryEvidenceFixturePath: readString(
       env,
       "MINIKV_RESTART_RECOVERY_EVIDENCE_FIXTURE_PATH",
       defaultMiniKvRestartRecoveryEvidenceFixturePath(),
+    ),
+    miniKvRecoveryFixtureIndexPath: readString(
+      env,
+      "MINIKV_RECOVERY_FIXTURE_INDEX_PATH",
+      defaultMiniKvRecoveryFixtureIndexPath(),
     ),
     auditStoreKind: readString(env, "AUDIT_STORE_KIND", "memory").toLowerCase(),
     auditStorePath: readString(env, "AUDIT_STORE_PATH", ""),

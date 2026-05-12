@@ -22,7 +22,9 @@ describe("loadConfig", () => {
     expect(config.miniKvStorageEvidenceFixturePath).toContain("mini-kv-storage-evidence.sample.json");
     expect(config.javaReplayAuditApprovedFixturePath).toContain("failed-event-replay-audit-approved.sample.json");
     expect(config.javaReplayAuditBlockedFixturePath).toContain("failed-event-replay-audit-blocked.sample.json");
+    expect(config.javaReplayEvidenceIndexFixturePath).toContain("failed-event-replay-evidence-index.sample.json");
     expect(config.miniKvRestartRecoveryEvidenceFixturePath).toMatch(/(mini-kv-restart-recovery-evidence|restart-recovery-evidence)\.json$/);
+    expect(config.miniKvRecoveryFixtureIndexPath).toMatch(/(mini-kv-recovery-fixtures-index|index)\.json$/);
     expect(config.auditStoreKind).toBe("memory");
     expect(config.auditStorePath).toBe("");
     expect(config.auditStoreUrl).toBe("");
@@ -46,7 +48,9 @@ describe("loadConfig", () => {
       MINIKV_STORAGE_EVIDENCE_FIXTURE_PATH: "D:\\fixtures\\minikv-storage-evidence.json",
       JAVA_REPLAY_AUDIT_APPROVED_FIXTURE_PATH: "D:\\fixtures\\java-replay-audit-approved.json",
       JAVA_REPLAY_AUDIT_BLOCKED_FIXTURE_PATH: "D:\\fixtures\\java-replay-audit-blocked.json",
+      JAVA_REPLAY_EVIDENCE_INDEX_FIXTURE_PATH: "D:\\fixtures\\java-replay-index.json",
       MINIKV_RESTART_RECOVERY_EVIDENCE_FIXTURE_PATH: "D:\\fixtures\\minikv-recovery.json",
+      MINIKV_RECOVERY_FIXTURE_INDEX_PATH: "D:\\fixtures\\minikv-recovery-index.json",
       AUDIT_STORE_KIND: "database",
       AUDIT_STORE_PATH: "D:\\audit\\audit.jsonl",
       AUDIT_STORE_URL: "postgres://user:secret@localhost:5432/orderops",
@@ -68,7 +72,9 @@ describe("loadConfig", () => {
     expect(config.miniKvStorageEvidenceFixturePath).toBe("D:\\fixtures\\minikv-storage-evidence.json");
     expect(config.javaReplayAuditApprovedFixturePath).toBe("D:\\fixtures\\java-replay-audit-approved.json");
     expect(config.javaReplayAuditBlockedFixturePath).toBe("D:\\fixtures\\java-replay-audit-blocked.json");
+    expect(config.javaReplayEvidenceIndexFixturePath).toBe("D:\\fixtures\\java-replay-index.json");
     expect(config.miniKvRestartRecoveryEvidenceFixturePath).toBe("D:\\fixtures\\minikv-recovery.json");
+    expect(config.miniKvRecoveryFixtureIndexPath).toBe("D:\\fixtures\\minikv-recovery-index.json");
     expect(config.auditStoreKind).toBe("database");
     expect(config.auditStorePath).toBe("D:\\audit\\audit.jsonl");
     expect(config.auditStoreUrl).toBe("postgres://user:secret@localhost:5432/orderops");

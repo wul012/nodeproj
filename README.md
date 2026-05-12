@@ -81,6 +81,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Access policy profile for defining route groups, minimum roles, and request identity contract before enabling enforcement
 - Access guard dry-run headers and readiness profile for evaluating route group, required role, matched roles, and would-deny evidence without rejecting requests
 - Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
+- Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
 
 ## Setup
 
@@ -138,6 +139,8 @@ GET    /api/v1/production/readiness-summary
 GET    /api/v1/production/readiness-summary?format=markdown
 GET    /api/v1/production/readiness-summary-v2
 GET    /api/v1/production/readiness-summary-v2?format=markdown
+GET    /api/v1/production/readiness-summary-v3
+GET    /api/v1/production/readiness-summary-v3?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile

@@ -319,6 +319,9 @@
 
 106-audit-store-factory-file-runtime-v102.md
  -> 第一百零二版 Audit store factory file runtime：用 AUDIT_STORE_KIND=memory|file 选择审计 store，并验证 file-backed 重启恢复
+
+107-production-readiness-summary-v3-v103.md
+ -> 第一百零三版 Production readiness summary v3：汇总 Java v47、mini-kv v56、access policy、dry-run guard 和 audit runtime，复查生产阻塞项
 ```
 
 ## 项目整体理解

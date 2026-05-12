@@ -1,0 +1,137 @@
+{
+  "sampledAt": "2026-05-11T00:00:00Z",
+  "evidenceVersion": "failed-event-replay-evidence-index.v1",
+  "readOnly": true,
+  "executionAllowed": false,
+  "liveEvidenceEndpoints": [
+    {
+      "name": "failed-event-summary",
+      "method": "GET",
+      "path": "/api/v1/failed-events/summary",
+      "purpose": "Aggregate replay backlog and approval status signals.",
+      "readOnly": true,
+      "changesReplayState": false
+    },
+    {
+      "name": "replay-readiness",
+      "method": "GET",
+      "path": "/api/v1/failed-events/{id}/replay-readiness",
+      "purpose": "Explain whether one failed event is eligible for replay.",
+      "readOnly": true,
+      "changesReplayState": false
+    },
+    {
+      "name": "approval-status",
+      "method": "GET",
+      "path": "/api/v1/failed-events/{id}/approval-status",
+      "purpose": "Expose stored approval status and approval/replay eligibility digests.",
+      "readOnly": true,
+      "changesReplayState": false
+    },
+    {
+      "name": "replay-execution-contract",
+      "method": "GET",
+      "path": "/api/v1/failed-events/{id}/replay-execution-contract",
+      "purpose": "Describe the preconditions and expected side effects of real replay.",
+      "readOnly": true,
+      "changesReplayState": false
+    },
+    {
+      "name": "replay-attempts",
+      "method": "GET",
+      "path": "/api/v1/failed-events/{id}/replay-attempts",
+      "purpose": "Read replay attempt audit history for one failed event.",
+      "readOnly": true,
+      "changesReplayState": false
+    },
+    {
+      "name": "replay-approval-history",
+      "method": "GET",
+      "path": "/api/v1/failed-events/{id}/replay-approval-history",
+      "purpose": "Read replay approval request/review audit history for one failed event.",
+      "readOnly": true,
+      "changesReplayState": false
+    }
+  ],
+  "staticEvidenceSamples": [
+    {
+      "name": "execution-contract-approved",
+      "path": "/contracts/failed-event-replay-execution-contract-approved.sample.json",
+      "scenario": "APPROVED_EXECUTION_CONTRACT",
+      "evidenceVersion": "failed-event-replay-execution-contract.v1",
+      "requiredFields": [
+        "contractDigest",
+        "approvalDigest",
+        "replayEligibilityDigest",
+        "replayPreconditionsSatisfied",
+        "expectedSideEffects"
+      ]
+    },
+    {
+      "name": "execution-contract-blocked",
+      "path": "/contracts/failed-event-replay-execution-contract-blocked.sample.json",
+      "scenario": "BLOCKED_EXECUTION_CONTRACT",
+      "evidenceVersion": "failed-event-replay-execution-contract.v1",
+      "requiredFields": [
+        "approvalStatus",
+        "blockedBy",
+        "executionChecks",
+        "expectedSideEffects",
+        "nextAllowedActions"
+      ]
+    },
+    {
+      "name": "replay-audit-approved",
+      "path": "/contracts/failed-event-replay-audit-approved.sample.json",
+      "scenario": "APPROVED_REPLAY_AUDIT",
+      "evidenceVersion": "failed-event-replay-audit-evidence.v1",
+      "requiredFields": [
+        "operator",
+        "requestId",
+        "decisionId",
+        "dryRun",
+        "executionAllowed",
+        "auditTrail"
+      ]
+    },
+    {
+      "name": "replay-audit-blocked",
+      "path": "/contracts/failed-event-replay-audit-blocked.sample.json",
+      "scenario": "BLOCKED_REPLAY_AUDIT",
+      "evidenceVersion": "failed-event-replay-audit-evidence.v1",
+      "requiredFields": [
+        "operator",
+        "requestId",
+        "decisionId",
+        "dryRun",
+        "executionAllowed",
+        "blockedBy",
+        "auditTrail"
+      ]
+    }
+  ],
+  "auditIdentityFields": [
+    "operator.operatorId",
+    "operator.operatorRole",
+    "requestId",
+    "decisionId",
+    "approval.requestedBy",
+    "approval.reviewedBy",
+    "execution.attemptAuditType",
+    "execution.attemptStatus"
+  ],
+  "executionSafetyRules": [
+    "REAL_REPLAY_REQUIRES_APPROVED_STATUS",
+    "REAL_REPLAY_REQUIRES_OPERATOR_ACTION_REPLAY_FAILED_EVENT",
+    "REAL_REPLAY_REQUIRES_NON_BLANK_REASON",
+    "REAL_REPLAY_REQUIRES_RABBITMQ_OUTBOX_ENABLED",
+    "READ_ONLY_EVIDENCE_ENDPOINTS_MUST_NOT_CHANGE_REPLAY_STATE",
+    "BLOCKED_PRECHECK_MUST_NOT_CREATE_REPLAY_ATTEMPT"
+  ],
+  "productionReadinessNotes": [
+    "This index is read-only and does not execute replay.",
+    "Static samples are fixtures for smoke, diagnostics, and control-plane contract alignment.",
+    "Live endpoints should be queried before POST /api/v1/failed-events/{id}/replay.",
+    "The real replay POST still owns the final approval, role, request, and RabbitMQ checks."
+  ]
+}

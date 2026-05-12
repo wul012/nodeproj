@@ -35,6 +35,10 @@ import {
   renderProductionReadinessSummaryV2Markdown,
 } from "../services/productionReadinessSummaryV2.js";
 import {
+  loadProductionReadinessSummaryV3,
+  renderProductionReadinessSummaryV3Markdown,
+} from "../services/productionReadinessSummaryV3.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -504,6 +508,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return summary;
   });
 
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/readiness-summary-v3", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = await loadProductionReadinessSummaryV3(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionReadinessSummaryV3Markdown(summary);
+    }
+
+    return summary;
+  });
+
   app.get("/api/v1/runtime/config", async () => ({
     service: "orderops-node",
     safety: {
@@ -523,7 +548,9 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKvStorageEvidenceFixturePath: deps.config.miniKvStorageEvidenceFixturePath,
       javaReplayAuditApprovedFixturePath: deps.config.javaReplayAuditApprovedFixturePath,
       javaReplayAuditBlockedFixturePath: deps.config.javaReplayAuditBlockedFixturePath,
+      javaReplayEvidenceIndexFixturePath: deps.config.javaReplayEvidenceIndexFixturePath,
       miniKvRestartRecoveryEvidenceFixturePath: deps.config.miniKvRestartRecoveryEvidenceFixturePath,
+      miniKvRecoveryFixtureIndexPath: deps.config.miniKvRecoveryFixtureIndexPath,
     },
     mutationRateLimit: {
       windowMs: deps.config.mutationRateLimitWindowMs,

@@ -1,0 +1,353 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Production readiness summary v3",
+    "generatedAt":  "2026-05-12T22:03:08.019Z",
+    "summaryVersion":  "production-readiness-summary.v3",
+    "maturityTarget":  "production-near",
+    "readyForProductionOperations":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "checks":  {
+                   "previousSummaryAvailable":  true,
+                   "javaReplayEvidenceIndexReady":  true,
+                   "miniKvRecoveryFixtureIndexReady":  true,
+                   "accessPolicyCoverageReady":  true,
+                   "accessGuardDryRunReady":  true,
+                   "auditStoreRuntimeSelectable":  true,
+                   "auditStoreRuntimeDurable":  true,
+                   "auditStoreProductionReady":  false,
+                   "upstreamActionsStillDisabled":  true,
+                   "executionStillBlocked":  true,
+                   "categorizedProductionBlockersPresent":  true
+               },
+    "summary":  {
+                    "categoryCount":  4,
+                    "readyCategoryCount":  2,
+                    "notReadyCategoryCount":  2,
+                    "productionBlockerCount":  3,
+                    "warningCount":  5,
+                    "recommendationCount":  11,
+                    "accessPolicyCount":  6,
+                    "protectedRouteGroupCount":  6,
+                    "javaLiveEvidenceEndpointCount":  6,
+                    "javaStaticEvidenceSampleCount":  4,
+                    "miniKvRecoveryFixtureCount":  1,
+                    "auditRuntimeStoreKind":  "file"
+                },
+    "upstreamEvidenceIndexes":  {
+                                    "javaReplay":  {
+                                                       "source":  {
+                                                                      "project":  "java",
+                                                                      "path":  "D:\\nodeproj\\orderops-node\\fixtures\\upstream-production-evidence\\failed-event-replay-evidence-index.sample.json",
+                                                                      "status":  "available",
+                                                                      "message":  "Evidence fixture was read and parsed."
+                                                                  },
+                                                       "evidenceVersion":  "failed-event-replay-evidence-index.v1",
+                                                       "readOnly":  true,
+                                                       "executionAllowed":  false,
+                                                       "liveEvidenceEndpointCount":  6,
+                                                       "staticEvidenceSampleCount":  4,
+                                                       "auditIdentityFields":  [
+                                                                                   "operator.operatorId",
+                                                                                   "operator.operatorRole",
+                                                                                   "requestId",
+                                                                                   "decisionId",
+                                                                                   "approval.requestedBy",
+                                                                                   "approval.reviewedBy",
+                                                                                   "execution.attemptAuditType",
+                                                                                   "execution.attemptStatus"
+                                                                               ],
+                                                       "executionSafetyRules":  [
+                                                                                    "REAL_REPLAY_REQUIRES_APPROVED_STATUS",
+                                                                                    "REAL_REPLAY_REQUIRES_OPERATOR_ACTION_REPLAY_FAILED_EVENT",
+                                                                                    "REAL_REPLAY_REQUIRES_NON_BLANK_REASON",
+                                                                                    "REAL_REPLAY_REQUIRES_RABBITMQ_OUTBOX_ENABLED",
+                                                                                    "READ_ONLY_EVIDENCE_ENDPOINTS_MUST_NOT_CHANGE_REPLAY_STATE",
+                                                                                    "BLOCKED_PRECHECK_MUST_NOT_CREATE_REPLAY_ATTEMPT"
+                                                                                ],
+                                                       "checks":  {
+                                                                      "evidenceVersionMatches":  true,
+                                                                      "readOnlyIndex":  true,
+                                                                      "executionBlocked":  true,
+                                                                      "liveEvidenceEndpointsReadOnly":  true,
+                                                                      "staticEvidenceSamplesPresent":  true,
+                                                                      "auditIdentityFieldsPresent":  true,
+                                                                      "safetyRulesPresent":  true
+                                                                  }
+                                                   },
+                                    "miniKvRecovery":  {
+                                                           "source":  {
+                                                                          "project":  "mini-kv",
+                                                                          "path":  "D:\\C\\mini-kv\\fixtures\\recovery\\index.json",
+                                                                          "status":  "available",
+                                                                          "message":  "Evidence fixture was read and parsed."
+                                                                      },
+                                                           "indexVersion":  "mini-kv-recovery-fixtures.v1",
+                                                           "readOnly":  true,
+                                                           "executionAllowed":  false,
+                                                           "orderAuthoritative":  false,
+                                                           "fixtureCount":  1,
+                                                           "consumerHint":  "Node v103 production readiness summary v3",
+                                                           "boundaries":  [
+                                                                              "read-only fixture",
+                                                                              "no server command added",
+                                                                              "no write command expanded",
+                                                                              "not order authoritative"
+                                                                          ],
+                                                           "checks":  {
+                                                                          "indexVersionMatches":  true,
+                                                                          "readOnlyIndex":  true,
+                                                                          "executionBlocked":  true,
+                                                                          "notOrderAuthoritative":  true,
+                                                                          "recoveryFixturePresent":  true,
+                                                                          "recoveryFixtureValid":  true,
+                                                                          "fixtureCountMatchesDiagnostics":  true,
+                                                                          "consumerHintTargetsNodeV103":  true
+                                                                      }
+                                                       }
+                                },
+    "accessControlEvidence":  {
+                                  "policyProfileVersion":  "access-policy-profile.v1",
+                                  "policyCount":  6,
+                                  "protectedRouteGroupCount":  6,
+                                  "guardProfileVersion":  "access-guard-readiness-profile.v1",
+                                  "guardMode":  "dry-run",
+                                  "rejectsRequests":  false,
+                                  "routeGroups":  [
+                                                      "readiness",
+                                                      "audit",
+                                                      "intent",
+                                                      "approval",
+                                                      "archive",
+                                                      "upstream-proxy"
+                                                  ],
+                                  "productionBlockerCount":  2
+                              },
+    "auditEvidence":  {
+                          "runtimeProfileVersion":  "audit-store-runtime-profile.v1",
+                          "runtimeStoreKind":  "file",
+                          "storeImplementation":  "FileBackedAuditStore",
+                          "durableAtRuntime":  true,
+                          "configuredByEnvironment":  true,
+                          "envProfileReadyForMigration":  false,
+                          "productionBlockerCount":  3
+                      },
+    "categories":  [
+                       {
+                           "id":  "upstream-observability",
+                           "title":  "Upstream observability indexes",
+                           "ready":  true,
+                           "readOnly":  true,
+                           "executionAllowed":  false,
+                           "blockerCount":  0,
+                           "warningCount":  0,
+                           "recommendationCount":  1,
+                           "evidenceEndpoints":  [
+                                                     "/api/v1/production/readiness-summary-v2",
+                                                     "/api/v1/failed-events/replay-evidence-index",
+                                                     "fixtures/recovery/index.json"
+                                                 ],
+                           "note":  "Java v47 and mini-kv v56 indexes are accepted as read-only upstream evidence, not as permission to execute."
+                       },
+                       {
+                           "id":  "access-control",
+                           "title":  "Access policy and dry-run guard",
+                           "ready":  false,
+                           "readOnly":  true,
+                           "executionAllowed":  false,
+                           "blockerCount":  2,
+                           "warningCount":  3,
+                           "recommendationCount":  4,
+                           "evidenceEndpoints":  [
+                                                     "/api/v1/security/access-policy",
+                                                     "/api/v1/security/access-guard-readiness"
+                                                 ],
+                           "note":  "Policy coverage and dry-run evaluation exist, but real auth/RBAC enforcement is still intentionally blocked."
+                       },
+                       {
+                           "id":  "audit",
+                           "title":  "Audit runtime durability",
+                           "ready":  false,
+                           "readOnly":  true,
+                           "executionAllowed":  false,
+                           "blockerCount":  1,
+                           "warningCount":  2,
+                           "recommendationCount":  6,
+                           "evidenceEndpoints":  [
+                                                     "/api/v1/audit/store-profile",
+                                                     "/api/v1/audit/store-config-profile"
+                                                 ],
+                           "note":  "File mode can be selected for rehearsal, but production audit still needs managed durable storage and retention."
+                       },
+                       {
+                           "id":  "execution-safety",
+                           "title":  "Execution safety",
+                           "ready":  true,
+                           "readOnly":  true,
+                           "executionAllowed":  false,
+                           "blockerCount":  0,
+                           "warningCount":  0,
+                           "recommendationCount":  0,
+                           "evidenceEndpoints":  [
+                                                     "/api/v1/production/readiness-summary-v3",
+                                                     "/api/v1/production/readiness-summary-v2"
+                                                 ],
+                           "note":  "Node keeps upstream execution disabled while access and audit are not production-ready."
+                       }
+                   ],
+    "productionBlockers":  [
+                               {
+                                   "category":  "access-control",
+                                   "code":  "ACCESS_POLICY_CONTRACT_ONLY",
+                                   "severity":  "blocker",
+                                   "source":  "access-policy-profile",
+                                   "message":  "Access policy is still a contract and is not enforceable production authentication."
+                               },
+                               {
+                                   "category":  "access-control",
+                                   "code":  "ACCESS_GUARD_DRY_RUN_ONLY",
+                                   "severity":  "blocker",
+                                   "source":  "access-guard-readiness-profile",
+                                   "message":  "Access guard still records would-deny evidence without rejecting requests."
+                               },
+                               {
+                                   "category":  "audit",
+                                   "code":  "AUDIT_PRODUCTION_STORE_NOT_READY",
+                                   "severity":  "blocker",
+                                   "source":  "audit-store-runtime-profile",
+                                   "message":  "Durable audit still needs production storage, retention, rotation, and backup policy."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "category":  "access-control",
+                         "source":  "access-policy-profile",
+                         "code":  "POLICY_CONTRACT_ONLY",
+                         "severity":  "warning",
+                         "message":  "This version defines the access contract but deliberately does not reject requests."
+                     },
+                     {
+                         "category":  "access-control",
+                         "source":  "access-policy-profile",
+                         "code":  "IDENTITY_IS_ANONYMOUS",
+                         "severity":  "warning",
+                         "message":  "The current runtime identity sample is anonymous until an auth middleware attaches operator context."
+                     },
+                     {
+                         "category":  "access-control",
+                         "source":  "access-guard-readiness-profile",
+                         "code":  "DRY_RUN_HEADERS_ONLY",
+                         "severity":  "warning",
+                         "message":  "Access guard evidence is currently exposed through response headers and readiness profile, not durable audit."
+                     },
+                     {
+                         "category":  "audit",
+                         "source":  "audit-store-runtime-profile",
+                         "code":  "FILE_STORE_IS_PROTOTYPE",
+                         "severity":  "warning",
+                         "message":  "FileBackedAuditStore is useful for adapter validation but is not enough for production audit retention."
+                     },
+                     {
+                         "category":  "audit",
+                         "source":  "audit-store-env-config-profile",
+                         "code":  "FILE_STORE_NOT_FINAL_PRODUCTION_TARGET",
+                         "severity":  "warning",
+                         "message":  "File-backed audit can help migration rehearsal but still needs rotation, retention, and backup policy."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "category":  "access-control",
+                                "source":  "access-policy-profile",
+                                "code":  "ADD_DRY_RUN_GUARD",
+                                "severity":  "recommendation",
+                                "message":  "Next version should evaluate this policy per request in dry-run mode and record wouldDeny evidence."
+                            },
+                            {
+                                "category":  "access-control",
+                                "source":  "access-policy-profile",
+                                "code":  "PROPAGATE_IDENTITY_TO_AUDIT",
+                                "severity":  "recommendation",
+                                "message":  "Attach operator identity and matched roles to audit events before enabling upstream actions."
+                            },
+                            {
+                                "category":  "access-control",
+                                "source":  "access-guard-readiness-profile",
+                                "code":  "WRITE_GUARD_CONTEXT_TO_AUDIT",
+                                "severity":  "recommendation",
+                                "message":  "Persist routeGroup, requiredRole, matchedRoles, and wouldDeny in audit evidence before real enforcement."
+                            },
+                            {
+                                "category":  "access-control",
+                                "source":  "access-guard-readiness-profile",
+                                "code":  "ADD_AUTH_MIDDLEWARE",
+                                "severity":  "recommendation",
+                                "message":  "Replace header-derived dry-run identity with authenticated operator context."
+                            },
+                            {
+                                "category":  "audit",
+                                "source":  "audit-store-runtime-profile",
+                                "code":  "PROMOTE_MANAGED_AUDIT_STORE",
+                                "severity":  "recommendation",
+                                "message":  "Promote audit storage to a managed durable service before real production operations."
+                            },
+                            {
+                                "category":  "audit",
+                                "source":  "audit-store-runtime-profile",
+                                "code":  "ADD_DURABLE_STORE_TESTS",
+                                "severity":  "recommendation",
+                                "message":  "Add integration tests for restart recovery, retention limits, and malformed audit records."
+                            },
+                            {
+                                "category":  "audit",
+                                "source":  "audit-store-runtime-profile",
+                                "code":  "ADD_AUDIT_ACCESS_POLICY",
+                                "severity":  "recommendation",
+                                "message":  "Protect audit export and query endpoints before exposing the control plane outside local smoke."
+                            },
+                            {
+                                "category":  "audit",
+                                "source":  "audit-store-env-config-profile",
+                                "code":  "VERIFY_FILE_STORE_RUNTIME",
+                                "severity":  "recommendation",
+                                "message":  "Use AUDIT_STORE_KIND=file only for restart and migration rehearsal until managed audit storage exists."
+                            },
+                            {
+                                "category":  "audit",
+                                "source":  "audit-store-env-config-profile",
+                                "code":  "ADD_RESTART_RECOVERY_TEST",
+                                "severity":  "recommendation",
+                                "message":  "Verify audit events survive restart before claiming durable audit readiness."
+                            },
+                            {
+                                "category":  "audit",
+                                "source":  "audit-store-env-config-profile",
+                                "code":  "DEFINE_RETENTION_AND_BACKUP",
+                                "severity":  "recommendation",
+                                "message":  "Document retention, rotation, backup, and access policy for audit evidence."
+                            },
+                            {
+                                "category":  "upstream-observability",
+                                "code":  "KEEP_UPSTREAM_INDEXES_VERSIONED",
+                                "severity":  "recommendation",
+                                "source":  "production-readiness-summary-v3",
+                                "message":  "Keep Java replay evidence and mini-kv recovery indexes versioned before live probe windows."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "productionReadinessSummaryV3Json":  "/api/v1/production/readiness-summary-v3",
+                              "productionReadinessSummaryV3Markdown":  "/api/v1/production/readiness-summary-v3?format=markdown",
+                              "productionReadinessSummaryV2Json":  "/api/v1/production/readiness-summary-v2",
+                              "accessPolicyProfileJson":  "/api/v1/security/access-policy",
+                              "accessGuardReadinessJson":  "/api/v1/security/access-guard-readiness",
+                              "auditStoreRuntimeProfileJson":  "/api/v1/audit/store-profile",
+                              "auditStoreEnvConfigProfileJson":  "/api/v1/audit/store-config-profile",
+                              "javaReplayEvidenceIndex":  "/api/v1/failed-events/replay-evidence-index",
+                              "miniKvRecoveryFixtureIndex":  "fixtures/recovery/index.json"
+                          },
+    "nextActions":  [
+                        "Promote access guard evidence into durable audit records before real enforcement.",
+                        "Add operator identity authentication and RBAC middleware in a dedicated Node version.",
+                        "Keep using file-backed audit only for local restart rehearsal until managed audit storage and retention exist."
+                    ]
+}

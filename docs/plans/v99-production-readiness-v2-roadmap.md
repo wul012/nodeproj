@@ -149,6 +149,27 @@ tag: v102
 - 继续保持 `UPSTREAM_ACTIONS_ENABLED=false`。
 - 若 audit 或 access-control 仍有阻塞，保持 `readyForProductionOperations=false`。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/production/readiness-summary-v3
+evidence: Java v47 replay evidence index + mini-kv v56 recovery fixture index
+access: policy coverage ready, guard still dry-run
+audit: runtime kind visible, file mode selectable, production audit still blocked
+archive: a/103/
+code notes: 代码讲解记录/107-production-readiness-summary-v3-v103.md
+tag: v103
+```
+
+## 后续计划
+
+v103 已完成本计划的最后一个 Node 版本。后续不在本文件继续叠加，另起：
+
+```text
+docs/plans/v103-production-auth-audit-roadmap.md
+```
+
 ## 暂停条件
 
 - 需要真实登录密钥、JWT secret、数据库凭据或生产服务器。
