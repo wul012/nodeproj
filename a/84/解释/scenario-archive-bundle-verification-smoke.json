@@ -1,0 +1,38 @@
+{
+  "version": "v84",
+  "generatedAt": "2026-05-12T08:33:49.702Z",
+  "scope": "Node scenario archive bundle verification report",
+  "server": {
+    "host": "127.0.0.1",
+    "port": 4184,
+    "nodePid": 26680,
+    "upstreamProbesEnabled": false,
+    "upstreamActionsEnabled": false,
+    "javaOrMiniKvProcessesStarted": false
+  },
+  "checks": {
+    "healthStatus": "ok",
+    "verificationValid": true,
+    "archiveBundleDigestValid": true,
+    "verificationDigestValid": true,
+    "readOnlyStillTrue": true,
+    "executionAllowedStillFalse": true,
+    "sourcePathCountValid": true,
+    "scenarioEvidenceCountValid": true,
+    "totalScenarios": 4,
+    "sourcePathCount": 4,
+    "issueCount": 0,
+    "markdownStatus": 200,
+    "markdownTitlePresent": true
+  },
+  "endpoints": {
+    "json": "/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification",
+    "markdown": "/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification?format=markdown"
+  },
+  "screenshot": "../图片/28-scenario-archive-bundle-verification-markdown.png",
+  "notes": [
+    "Verification recomputes archiveBundleDigest and verificationDigest.",
+    "Verification checks readOnly=true, executionAllowed=false, four source paths, and four scenario evidence records.",
+    "The smoke run did not start, stop, build, test, or modify Java or mini-kv."
+  ]
+}

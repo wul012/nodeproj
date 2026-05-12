@@ -268,7 +268,7 @@ export function digestUpstreamContractFixtureScenarioVerificationArchiveBundle(
   };
 }
 
-function digestUpstreamContractFixtureScenarioMatrixVerification(
+export function digestUpstreamContractFixtureScenarioMatrixVerification(
   verification: UpstreamContractFixtureScenarioMatrixVerification,
 ): UpstreamContractFixtureScenarioVerificationArchiveBundleDigest {
   return {

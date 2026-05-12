@@ -27,6 +27,10 @@ import {
   loadUpstreamContractFixtureScenarioVerificationArchiveBundle,
   renderUpstreamContractFixtureScenarioVerificationArchiveBundleMarkdown,
 } from "../services/upstreamContractFixtureScenarioVerificationArchiveBundle.js";
+import {
+  loadUpstreamContractFixtureScenarioVerificationArchiveBundleVerification,
+  renderUpstreamContractFixtureScenarioVerificationArchiveBundleVerificationMarkdown,
+} from "../services/upstreamContractFixtureScenarioVerificationArchiveBundleVerification.js";
 
 interface StatusRouteDeps {
   config: AppConfig;
@@ -177,6 +181,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return bundle;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const verification = await loadUpstreamContractFixtureScenarioVerificationArchiveBundleVerification(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderUpstreamContractFixtureScenarioVerificationArchiveBundleVerificationMarkdown(verification);
+    }
+
+    return verification;
   });
 
   app.get("/api/v1/runtime/config", async () => ({

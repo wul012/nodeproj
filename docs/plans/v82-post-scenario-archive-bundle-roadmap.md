@@ -94,11 +94,23 @@ Node v83 已完成：
 - 不修改 Java / mini-kv
 - 不把 bundle verification 当成真实执行许可
 
+实施收口：
+
+```text
+Node v84 已完成：
+- 已新增 scenario archive bundle verification JSON / Markdown endpoint
+- 已复算 archiveBundleDigest 与 verificationDigest
+- 已检查 readOnly=true、executionAllowed=false、sourcePathCount=4、scenarioEvidenceCount=4
+- 已归档 verification smoke 和截图到 a/84/
+- 已补充代码讲解记录 88-scenario-archive-bundle-verification-v84.md
+- 本计划 v83-v84 已收口，后续另起 v84-post-scenario-archive-verification-roadmap.md
+```
+
 ## 推荐执行顺序
 
 ```text
 1. Node v83：Dashboard scenario archive bundle panel，已完成
-2. Node v84：Scenario archive bundle verification report
+2. Node v84：Scenario archive bundle verification report，已完成
 ```
 
 ## 暂停条件
