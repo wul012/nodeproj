@@ -176,7 +176,7 @@ side_effects、side_effect_count、wal.durability。
 Node v72-v75 已完成 execution-contract 证据归档、mismatch diagnostics、fixture-driven smoke、
 fixture drift diagnostics 四个小闭环。
 本计划主线到 v75 收口；后续如果进入 Dashboard 展示、更多 fixture 样本或真实执行审批入口，
-应在本文件中先新增不重合的下一阶段小计划，或在主题明显变化时新建计划文件。
+必须另起新的计划文件，并在 README 中登记来源和执行边界。
 ```
 
 ## 暂停条件
