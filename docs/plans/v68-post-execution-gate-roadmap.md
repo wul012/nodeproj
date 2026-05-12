@@ -54,6 +54,14 @@ Node v68：
 - 不执行 mini-kv 写命令
 - 不把 archive record 持久化到数据库
 
+Node v69 实施收口：
+
+```text
+已按本节新增本地 execution gate archive record：
+记录 gateDigest、bundleDigest、reviewer note、createdAt、archiveDigest 和 preview 快照。
+本版仍只写 Node 内存 ledger，不调用 Java replay POST，不执行 mini-kv 写命令，不持久化数据库。
+```
+
 ### Node v70：Execution gate archive verification
 
 目标：
@@ -88,7 +96,7 @@ mini-kv v51 目标：
 ## 推荐执行顺序
 
 ```text
-1. Node v69：execution gate preview archive record
+1. Node v69：execution gate preview archive record，已完成
 2. Node v70：execution gate archive verification
 3. Java v42 + mini-kv v51：可以一起推进，只做只读 execution-contract / CHECKJSON 增强
 4. Node v71：根据 Java v42 + mini-kv v51 的完成情况接入 execution-contract 证据

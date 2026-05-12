@@ -168,6 +168,9 @@
 
 72-operation-approval-execution-gate-preview-v68.md
  -> 第六十八版 Approval execution gate preview：基于 handoff bundle 判断执行门禁状态，但仍只返回 preview，不真实触碰上游
+
+73-operation-approval-execution-gate-archive-v69.md
+ -> 第六十九版 Execution gate archive record：把 gate preview 固化成本地归档记录，记录 gateDigest、bundleDigest 和 reviewer note
 ```
 
 ## 项目整体理解

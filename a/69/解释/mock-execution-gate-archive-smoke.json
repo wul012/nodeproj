@@ -1,0 +1,116 @@
+{
+  "service": "orderops-node",
+  "version": "v69",
+  "generatedAt": "2026-05-12T01:42:07.285Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:59490",
+    "archiveMarkdownUrl": "http://127.0.0.1:59490/api/v1/operation-approval-execution-gate-archives/f60bda84-30aa-4101-abd7-c3ca002461fd?format=markdown"
+  },
+  "intentId": "b596e1ab-6b2c-416b-8277-ccc761251e6e",
+  "requestId": "5947a70a-2db3-4f6f-91f0-12a3f28c487e",
+  "decisionId": "9c585d29-e1be-4ab6-96e1-ca4a97a59883",
+  "archiveId": "f60bda84-30aa-4101-abd7-c3ca002461fd",
+  "archive": {
+    "sequence": 1,
+    "state": "review-required",
+    "executionAllowed": false,
+    "gateDigest": {
+      "algorithm": "sha256",
+      "value": "ebc049ecbaad0a92d5fc58dfd90e7f51c9bf32653fa52519cb23de885be52b32",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "previewOnly",
+        "executionAllowed",
+        "bundleDigest",
+        "wouldCall",
+        "summary",
+        "gateChecks",
+        "hardBlockers",
+        "warnings",
+        "nextActions"
+      ]
+    },
+    "bundleDigest": {
+      "algorithm": "sha256",
+      "value": "fca0b68b35e7af29b9fd527fd3d3cf72114d1867e6cab13eb342496057b7747e",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    },
+    "archiveDigest": {
+      "algorithm": "sha256",
+      "value": "0ba5bdaa841859b84fd1986acd1bc65d66050ffee01b6a6019303b69e18b6414",
+      "coveredFields": [
+        "sequence",
+        "createdAt",
+        "reviewer",
+        "reviewerNote",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "previewOnly",
+        "executionAllowed",
+        "gateDigest",
+        "bundleDigest",
+        "summary",
+        "gateChecks",
+        "hardBlockers",
+        "warnings",
+        "nextActions",
+        "preview"
+      ]
+    },
+    "reviewerNote": "v69 smoke archive",
+    "summary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "handoffReady": true,
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovalStatus": "not_applicable",
+      "miniKvExplainCoverage": "available",
+      "miniKvCommandDigest": "fnv1a64:1234567890abcdef",
+      "miniKvSideEffectCount": 2,
+      "hardBlockerCount": 0,
+      "warningCount": 4
+    },
+    "gateChecks": {
+      "requestApproved": true,
+      "decisionApproved": true,
+      "handoffReady": true,
+      "evidenceVerificationValid": true,
+      "upstreamUntouched": true,
+      "noRequestHardBlockers": true,
+      "requiredUpstreamEvidenceAvailable": true,
+      "javaApprovedForReplayOk": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true
+    }
+  },
+  "listedCount": 1,
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ]
+}

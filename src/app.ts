@@ -16,6 +16,7 @@ import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
 import { registerOperationApprovalDecisionRoutes } from "./routes/operationApprovalDecisionRoutes.js";
 import { registerOperationApprovalEvidenceRoutes } from "./routes/operationApprovalEvidenceRoutes.js";
+import { registerOperationApprovalExecutionGateArchiveRoutes } from "./routes/operationApprovalExecutionGateArchiveRoutes.js";
 import { registerOperationApprovalRequestRoutes } from "./routes/operationApprovalRequestRoutes.js";
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
@@ -28,6 +29,7 @@ import { OpsCheckpointLedger } from "./services/opsCheckpoint.js";
 import { OpsPromotionDecisionLedger } from "./services/opsPromotionDecision.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
 import { OperationApprovalDecisionLedger } from "./services/operationApprovalDecision.js";
+import { OperationApprovalExecutionGateArchiveLedger } from "./services/operationApprovalExecutionGateArchive.js";
 import { OperationApprovalRequestLedger } from "./services/operationApprovalRequest.js";
 import { OperationDispatchLedger } from "./services/operationDispatch.js";
 import { OperationIntentStore } from "./services/operationIntent.js";
@@ -90,6 +92,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const operationDispatches = new OperationDispatchLedger(operationIntents);
   const operationApprovalRequests = new OperationApprovalRequestLedger();
   const operationApprovalDecisions = new OperationApprovalDecisionLedger(operationApprovalRequests);
+  const operationApprovalExecutionGateArchives = new OperationApprovalExecutionGateArchiveLedger();
   const requestStartTimes = new WeakMap<object, number>();
 
   app.addHook("onRequest", async (request) => {
@@ -134,6 +137,15 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     config,
     operationApprovalRequests,
     operationApprovalDecisions,
+    orderPlatform,
+    miniKv,
+  });
+  await registerOperationApprovalExecutionGateArchiveRoutes(app, {
+    config,
+    operationApprovalRequests,
+    operationApprovalDecisions,
+    operationApprovalExecutionGateArchives,
+    mutationRateLimiter,
     orderPlatform,
     miniKv,
   });
