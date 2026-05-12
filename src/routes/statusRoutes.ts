@@ -10,6 +10,10 @@ import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
+import {
+  loadRollbackEvidenceRunbook,
+  renderRollbackEvidenceRunbookMarkdown,
+} from "../services/rollbackEvidenceRunbook.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
 import {
   loadUpstreamContractFixtureReport,
@@ -302,6 +306,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const runbook = await loadRollbackEvidenceRunbook(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderRollbackEvidenceRunbookMarkdown(runbook);
+    }
+
+    return runbook;
   });
 
   app.get("/api/v1/runtime/config", async () => ({

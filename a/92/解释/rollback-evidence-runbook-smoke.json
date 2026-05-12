@@ -1,0 +1,47 @@
+{
+  "version": "v92",
+  "scope": "Rollback evidence runbook endpoint",
+  "safeEnvironment": {
+    "PORT": 4192,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "rollbackEvidenceRunbookTest": "passed, 3 tests",
+    "fullTest": "passed, 41 files / 169 tests",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "readyForRollbackEvidenceArchive": true,
+    "readOnly": true,
+    "executionAllowed": false,
+    "releaseEvidenceReady": true,
+    "ciProfileValid": true,
+    "deploymentProfileHasNoBlockers": true,
+    "executionStillBlocked": true,
+    "rollbackStepCount": 5,
+    "verificationStepCount": 4,
+    "stopConditionCount": 5,
+    "blockerCount": 0,
+    "evidenceEndpointCount": 8,
+    "markdownHasTitle": true,
+    "markdownHasStopCondition": true
+  },
+  "artifacts": {
+    "screenshot": "a/92/图片/36-rollback-evidence-runbook.png",
+    "codeExplanation": "代码讲解记录/96-rollback-evidence-runbook-v92.md"
+  },
+  "boundaries": {
+    "realRollbackPerformed": false,
+    "serverOperationPerformed": false,
+    "javaModified": false,
+    "miniKvModified": false,
+    "miniKvWriteExecuted": false,
+    "javaReplayExecuted": false
+  }
+}

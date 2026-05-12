@@ -105,6 +105,19 @@ Node v91 已完成。
 - 输出 rollback steps、verification steps、stop conditions。
 - 补测试、safe HTTP smoke、归档、代码讲解。
 
+实施收口：
+
+```text
+Node v92 已完成。
+- 已新增 rollback evidence runbook service。
+- 已新增 JSON / Markdown endpoint。
+- 已汇总 v87-v89 的 release gate、CI profile、deployment safety profile。
+- 已输出 5 个 rollback steps、4 个 verification steps、5 个 stop conditions。
+- 当前 smoke 结果 readyForRollbackEvidenceArchive=true、executionAllowed=false、blockerCount=0。
+- 已归档 smoke 证据与 Markdown 截图到 a/92/。
+- 未真实回滚，未操作服务器，未执行 Java / mini-kv 写操作。
+```
+
 本版不做：
 
 - 不真实回滚。
