@@ -56,6 +56,16 @@ readyForProductionOperations=false
 - 新增只读 endpoint 输出当前 policy 和 identity contract。
 - 不真正拦截请求，不要求登录，不读取 secret。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/security/access-policy
+archive: a/100/
+code notes: 代码讲解记录/104-access-policy-profile-v100.md
+tag: v100
+```
+
 ### Node v101：access guard dry-run middleware + protected-route readiness test
 
 目标：

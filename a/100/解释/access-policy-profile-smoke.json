@@ -1,0 +1,17 @@
+﻿{
+    "version":  "v100",
+    "checkedAt":  "2026-05-12T14:25:03.8836508Z",
+    "endpoint":  "/api/v1/security/access-policy",
+    "port":  4200,
+    "safeEnv":  {
+                    "UPSTREAM_PROBES_ENABLED":  "false",
+                    "UPSTREAM_ACTIONS_ENABLED":  "false"
+                },
+    "healthStatus":  "ok",
+    "profileVersion":  "access-policy-profile.v1",
+    "readyForEnforcement":  false,
+    "executionAllowed":  false,
+    "routePolicyCount":  6,
+    "productionBlockerCount":  1,
+    "blockers":  "ACCESS_GUARD_NOT_ENFORCED"
+}

@@ -310,6 +310,9 @@
 
 103-production-readiness-summary-v2-v99.md
  -> 第九十九版 Production readiness summary v2：按 upstream-observability、audit、access-control、execution-safety 分类生产阻塞项
+
+104-access-policy-profile-v100.md
+ -> 第一百版 Access policy profile：定义 route policy map、minimum role 和 request identity contract，但不启用真实拦截
 ```
 
 ## 项目整体理解
