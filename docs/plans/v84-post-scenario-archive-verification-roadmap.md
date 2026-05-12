@@ -53,6 +53,19 @@ sourcePathCountValid、readOnlyStillTrue、executionAllowedStillFalse。
 - 页面加载时自动刷新 archive bundle verification。
 - 归档 Dashboard 截图和 smoke 证据。
 
+实施收口：
+
+```text
+Node v85 已完成。
+- Dashboard 已新增 Scenario Archive Verification 面板。
+- 已展示 verificationValid、archiveBundleDigestValid、verificationDigestValid。
+- 已展示 sourcePathCountValid、readOnlyStillTrue、executionAllowedStillFalse。
+- 已提供 JSON / Markdown 链接和 Audit 操作按钮。
+- 已在页面加载时自动刷新 archive bundle verification。
+- 已归档 smoke 证据与 Dashboard 截图到 a/85/。
+- 未修改 Java / mini-kv，未新增真实 execution endpoint。
+```
+
 本版不做：
 
 - 不新增真实 execution endpoint

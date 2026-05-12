@@ -662,6 +662,73 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid overview-grid">
+      <article class="card">
+        <div class="metric-head">
+          <h2>Scenario Archive Verification</h2>
+          <div class="badge disabled" id="scenarioArchiveVerificationState">pending</div>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Verification valid</div>
+            <div class="signal-value" id="scenarioArchiveVerificationValidSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Archive digest</div>
+            <div class="signal-value" id="scenarioArchiveVerificationDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Verification digest</div>
+            <div class="signal-value" id="scenarioArchiveVerificationVerificationDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Endpoints</div>
+            <div class="signal-value">
+              <a id="scenarioArchiveVerificationJsonLink" href="/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification">JSON</a>
+              /
+              <a id="scenarioArchiveVerificationMarkdownLink" href="/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification?format=markdown">Markdown</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Archive Verification Boundaries</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Read only</div>
+            <div class="signal-value" id="scenarioArchiveVerificationReadOnlySignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Execution blocked</div>
+            <div class="signal-value" id="scenarioArchiveVerificationExecutionSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Bundle validity</div>
+            <div class="signal-value" id="scenarioArchiveVerificationBundleValiditySignal">-</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Archive Verification Coverage</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Source paths</div>
+            <div class="signal-value" id="scenarioArchiveVerificationSourcePathSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Scenario evidence</div>
+            <div class="signal-value" id="scenarioArchiveVerificationScenarioEvidenceSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Issues</div>
+            <div class="signal-value" id="scenarioArchiveVerificationIssueSignal">-</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <section class="grid audit-grid">
       <article class="card">
         <div class="metric-name">Audit total</div>
@@ -924,6 +991,8 @@ export function dashboardHtml(): string {
         <button data-action="scenarioVerificationMarkdown">Scenario Verification Markdown</button>
         <button data-action="scenarioArchiveBundle">Scenario Archive Bundle</button>
         <button data-action="scenarioArchiveBundleMarkdown">Scenario Archive Bundle Markdown</button>
+        <button data-action="scenarioArchiveVerification">Scenario Archive Verification</button>
+        <button data-action="scenarioArchiveVerificationMarkdown">Scenario Archive Verification Markdown</button>
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
         <button data-action="opsRunbook">Runbook</button>
@@ -1312,6 +1381,36 @@ export function dashboardHtml(): string {
       return bundle;
     }
 
+    function renderScenarioArchiveVerification(verification) {
+      const checks = verification.checks || {};
+      const summary = verification.summary || {};
+      setBadge("scenarioArchiveVerificationState", verification.valid ? "online" : "degraded");
+      setText("scenarioArchiveVerificationValidSignal", formatBool(verification.valid));
+      setText("scenarioArchiveVerificationDigestSignal", formatBool(checks.archiveBundleDigestValid));
+      setText("scenarioArchiveVerificationVerificationDigestSignal", formatBool(checks.verificationDigestValid));
+      setText("scenarioArchiveVerificationReadOnlySignal", formatBool(checks.readOnlyStillTrue));
+      setText("scenarioArchiveVerificationExecutionSignal", formatBool(checks.executionAllowedStillFalse));
+      setText("scenarioArchiveVerificationBundleValiditySignal", formatBool(checks.bundleValidityConsistent));
+      setText(
+        "scenarioArchiveVerificationSourcePathSignal",
+        formatBool(checks.sourcePathCountValid) + " / " + formatNumber(summary.sourcePathCount) + "/" + formatNumber(summary.totalScenarios),
+      );
+      setText(
+        "scenarioArchiveVerificationScenarioEvidenceSignal",
+        formatBool(checks.scenarioEvidenceCountValid) + " / " + formatNumber(summary.scenarioEvidenceCount),
+      );
+      setText(
+        "scenarioArchiveVerificationIssueSignal",
+        "issues " + formatNumber(summary.issueCount) + " / clean " + formatBool(checks.noScenarioIssues),
+      );
+    }
+
+    async function refreshScenarioArchiveVerification() {
+      const verification = await api("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification");
+      renderScenarioArchiveVerification(verification);
+      return verification;
+    }
+
     async function refreshMiniKvKeyInventory() {
       const prefix = $("kvPrefix").value.trim();
       const query = prefix.length > 0 ? "?prefix=" + encodeURIComponent(prefix) : "";
@@ -1503,6 +1602,16 @@ export function dashboardHtml(): string {
         }
         if (action === "scenarioArchiveBundleMarkdown") {
           const response = await fetch("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "scenarioArchiveVerification") {
+          write(await refreshScenarioArchiveVerification());
+        }
+        if (action === "scenarioArchiveVerificationMarkdown") {
+          const response = await fetch("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }
@@ -2096,6 +2205,7 @@ export function dashboardHtml(): string {
     void refreshScenarioMatrix().catch(() => {});
     void refreshScenarioVerification().catch(() => {});
     void refreshScenarioArchiveBundle().catch(() => {});
+    void refreshScenarioArchiveVerification().catch(() => {});
     void refreshOpsSummary().catch(() => {});
     void refreshOpsReadiness().catch(() => {});
   </script>

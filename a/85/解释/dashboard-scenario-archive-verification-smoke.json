@@ -1,0 +1,52 @@
+{
+  "version": "v85",
+  "scope": "Node Dashboard scenario archive verification panel",
+  "safeEnvironment": {
+    "PORT": 4185,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "dashboardTest": "passed",
+    "fullTest": "passed",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "dashboardHasPanel": true,
+    "dashboardHasAction": true,
+    "dashboardHasEndpoint": true,
+    "markdownHasTitle": true,
+    "verificationValid": true,
+    "archiveBundleDigestValid": true,
+    "verificationDigestValid": true,
+    "readOnlyStillTrue": true,
+    "executionAllowedStillFalse": true,
+    "sourcePathCountValid": true,
+    "scenarioEvidenceCountValid": true,
+    "totalScenarios": 4,
+    "sourcePathCount": 4,
+    "scenarioEvidenceCount": 4,
+    "issueCount": 0
+  },
+  "digests": {
+    "archiveBundleDigest": "sha256:3742328eb51584d9b1c0386a19bb5636a433dca05b1b70ed6c0969840970e972",
+    "storedVerificationDigest": "sha256:dfec2e91716885c30e63412037bd9e33cbe53d847d7f707d22599c625016b1e5",
+    "recomputedVerificationDigest": "sha256:dfec2e91716885c30e63412037bd9e33cbe53d847d7f707d22599c625016b1e5",
+    "matrixDigest": "sha256:6484012b007d19e26d03eed4159849bc333a3906602271f82937ac92a4808d32"
+  },
+  "artifacts": {
+    "screenshot": "a/85/图片/29-dashboard-scenario-archive-verification-panel.png"
+  },
+  "boundaries": {
+    "javaModified": false,
+    "miniKvModified": false,
+    "javaStarted": false,
+    "miniKvStarted": false,
+    "realExecutionEndpointAdded": false
+  }
+}
