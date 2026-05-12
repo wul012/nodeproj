@@ -96,7 +96,7 @@ describe("operation approval evidence route", () => {
           return;
         }
         if (command.startsWith("EXPLAINJSON")) {
-          socket.end('{"command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:preview","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[],"side_effects":["store_write","wal_append_when_enabled"]}\n');
+          socket.end('{"schema_version":1,"command_digest":"fnv1a64:1234567890abcdef","command":"SET","category":"write","mutates_store":true,"touches_wal":true,"key":"orderops:preview","requires_value":true,"ttl_sensitive":false,"allowed_by_parser":true,"warnings":[],"side_effects":["store_write","wal_append_when_enabled"],"side_effect_count":2}\n');
           return;
         }
         socket.end("OK\n");
@@ -199,6 +199,9 @@ describe("operation approval evidence route", () => {
           javaApprovalStatus: "not_applicable",
           miniKvExplainCoverage: "available",
           miniKvSideEffects: ["store_write", "wal_append_when_enabled"],
+          miniKvSchemaVersion: 1,
+          miniKvCommandDigest: "fnv1a64:1234567890abcdef",
+          miniKvSideEffectCount: 2,
         },
         upstreamEvidence: {
           miniKvExplainCoverage: {
@@ -223,6 +226,9 @@ describe("operation approval evidence route", () => {
           decisionDigestValid: true,
           summaryMatches: true,
           upstreamEvidenceMatchesSummary: true,
+          javaApprovalDigestEvidenceValid: true,
+          miniKvCommandDigestEvidenceValid: true,
+          miniKvSideEffectCountMatches: true,
           nextActionsMatch: true,
           upstreamUntouched: true,
         },
@@ -250,6 +256,9 @@ describe("operation approval evidence route", () => {
           upstreamTouched: false,
           miniKvExplainCoverage: "available",
           miniKvSideEffects: ["store_write", "wal_append_when_enabled"],
+          miniKvSchemaVersion: 1,
+          miniKvCommandDigest: "fnv1a64:1234567890abcdef",
+          miniKvSideEffectCount: 2,
           artifactCount: 5,
           missingArtifactCount: 0,
           invalidArtifactCount: 0,
@@ -267,6 +276,8 @@ describe("operation approval evidence route", () => {
       expect(bundleMarkdown.body).toContain("# Operation approval handoff bundle");
       expect(bundleMarkdown.body).toContain("- Handoff ready: true");
       expect(bundleMarkdown.body).toContain("### approval-evidence-verification");
+      expect(bundleMarkdown.body).toContain("- mini-kv command digest: fnv1a64:1234567890abcdef");
+      expect(bundleMarkdown.body).toContain("- mini-kv side_effect_count: 2");
       expect(bundleMarkdown.body).toContain("- store_write");
       expect(seenCommands[0]).toBe("COMMANDSJSON");
       expect(seenCommands[1]).toBe("KEYSJSON orderops:");
@@ -303,6 +314,9 @@ describe("operation approval evidence route", () => {
 
       if (path === "/api/v1/failed-events/42/approval-status") {
         response.end(JSON.stringify({
+          evidenceVersion: "failed-event-approval-status.v1",
+          approvalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          replayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
           sampledAt: "2026-05-11T03:41:00.000Z",
           failedEventId: 42,
           exists: true,
@@ -405,6 +419,9 @@ describe("operation approval evidence route", () => {
           target: "order-platform",
           javaApprovalStatus: "available",
           javaApprovedForReplay: true,
+          javaEvidenceVersion: "failed-event-approval-status.v1",
+          javaApprovalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          javaReplayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
           miniKvExplainCoverage: "not_applicable",
         },
         upstreamEvidence: {
@@ -413,6 +430,9 @@ describe("operation approval evidence route", () => {
             details: {
               failedEventId: "42",
               approvalStatus: {
+                evidenceVersion: "failed-event-approval-status.v1",
+                approvalDigest: "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                replayEligibilityDigest: "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
                 approvalStatus: "APPROVED",
                 approvedForReplay: true,
                 nextAllowedActions: ["REPLAY_FAILED_EVENT"],
@@ -426,6 +446,9 @@ describe("operation approval evidence route", () => {
         valid: true,
         checks: {
           upstreamEvidenceMatchesSummary: true,
+          javaApprovalDigestEvidenceValid: true,
+          miniKvCommandDigestEvidenceValid: true,
+          miniKvSideEffectCountMatches: true,
           upstreamUntouched: true,
         },
       });

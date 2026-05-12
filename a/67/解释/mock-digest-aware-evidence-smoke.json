@@ -1,0 +1,226 @@
+{
+  "service": "orderops-node",
+  "version": "v67",
+  "generatedAt": "2026-05-12T01:01:17.724Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:62312",
+    "javaBundleMarkdownUrl": "http://127.0.0.1:62312/api/v1/operation-approval-requests/b9fa3968-4759-4ea8-89db-d58c51dc081e/evidence-bundle?format=markdown",
+    "miniKvBundleMarkdownUrl": "http://127.0.0.1:62312/api/v1/operation-approval-requests/8f085582-4eca-4d25-ae82-e2dc00c2aec2/evidence-bundle?format=markdown"
+  },
+  "java": {
+    "requestId": "b9fa3968-4759-4ea8-89db-d58c51dc081e",
+    "summary": {
+      "action": "failed-event-replay-simulation",
+      "target": "order-platform",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "evidenceDigest": {
+        "algorithm": "sha256",
+        "value": "fbae6e238be3d84c42135fcbf0fe89de9f9a61e244e50e04b1dba02d9e818f40",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "storedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "fbae6e238be3d84c42135fcbf0fe89de9f9a61e244e50e04b1dba02d9e818f40",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "recomputedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "fbae6e238be3d84c42135fcbf0fe89de9f9a61e244e50e04b1dba02d9e818f40",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "javaApprovalStatus": "available",
+      "javaApprovedForReplay": true,
+      "javaEvidenceVersion": "failed-event-approval-status.v1",
+      "javaApprovalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "javaReplayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "miniKvExplainCoverage": "not_applicable",
+      "miniKvSideEffects": [],
+      "artifactCount": 5,
+      "missingArtifactCount": 0,
+      "invalidArtifactCount": 0
+    },
+    "checks": {
+      "digestValid": true,
+      "requestMatches": true,
+      "decisionPresent": true,
+      "decisionMatchesRequest": true,
+      "requestPreviewDigestValid": true,
+      "decisionDigestValid": true,
+      "summaryMatches": true,
+      "upstreamEvidenceMatchesSummary": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true,
+      "nextActionsMatch": true,
+      "upstreamUntouched": true
+    },
+    "handoffReady": true,
+    "bundleDigest": {
+      "algorithm": "sha256",
+      "value": "a5778f9b540f5984fd7d81bf3b4cbe75b2a1e340cc4a3eff8fb954b5d82636c7",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    }
+  },
+  "miniKv": {
+    "requestId": "8f085582-4eca-4d25-ae82-e2dc00c2aec2",
+    "summary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "evidenceDigest": {
+        "algorithm": "sha256",
+        "value": "d4d9823d3b016384f5aeee32a7763fa168fc2a18c7b938f94094017a12dd255e",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "storedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "d4d9823d3b016384f5aeee32a7763fa168fc2a18c7b938f94094017a12dd255e",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "recomputedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "d4d9823d3b016384f5aeee32a7763fa168fc2a18c7b938f94094017a12dd255e",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "javaApprovalStatus": "not_applicable",
+      "miniKvExplainCoverage": "available",
+      "miniKvSideEffects": [
+        "store_write",
+        "wal_append_when_enabled"
+      ],
+      "miniKvSchemaVersion": 1,
+      "miniKvCommandDigest": "fnv1a64:1234567890abcdef",
+      "miniKvSideEffectCount": 2,
+      "artifactCount": 5,
+      "missingArtifactCount": 0,
+      "invalidArtifactCount": 0
+    },
+    "checks": {
+      "digestValid": true,
+      "requestMatches": true,
+      "decisionPresent": true,
+      "decisionMatchesRequest": true,
+      "requestPreviewDigestValid": true,
+      "decisionDigestValid": true,
+      "summaryMatches": true,
+      "upstreamEvidenceMatchesSummary": true,
+      "javaApprovalDigestEvidenceValid": true,
+      "miniKvCommandDigestEvidenceValid": true,
+      "miniKvSideEffectCountMatches": true,
+      "nextActionsMatch": true,
+      "upstreamUntouched": true
+    },
+    "handoffReady": true,
+    "bundleDigest": {
+      "algorithm": "sha256",
+      "value": "141bee977c61346fac116c48cd66ddc94c061d09d14e83c9cd5d8f7a4968d289",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    }
+  },
+  "seenJavaRequests": [
+    "GET /api/v1/failed-events/42/replay-simulation",
+    "GET /api/v1/failed-events/42/approval-status"
+  ],
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ]
+}

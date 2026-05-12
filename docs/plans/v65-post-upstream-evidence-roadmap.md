@@ -115,6 +115,14 @@ mini-kv v50 不做：
 - 不新增真实写执行
 - 不把 digest mismatch 自动修复成通过
 
+Node v67 实施收口：
+
+```text
+已按本节接入 Java v41 approvalDigest / replayEligibilityDigest / evidenceVersion，
+并接入 mini-kv v50 schema_version / command_digest / side_effect_count。
+verification 新增上游 digest/schema 检查，但仍不新增真实写执行。
+```
+
 ### Node v68：Approval execution gate preview
 
 目标：
@@ -134,11 +142,11 @@ mini-kv v50 不做：
 
 ```text
 1. Node v66：approval evidence handoff bundle，已完成
-2. Java v41 + mini-kv v50：下一步可并行独立推进
+2. Java v41 + mini-kv v50：已完成
    - Java v41：approval-status 增加 evidenceVersion / approvalDigest / replayEligibilityDigest
    - mini-kv v50：EXPLAINJSON 增加 schema_version / command_digest / side_effect_count
-3. Node v67：等 Java v41 与 mini-kv v50 都完成后，统一接入 digest/schema 证据
-4. Node v68：在 v66/v67 证据链稳定后，做 execution gate preview，仍不真实执行
+3. Node v67：统一接入 digest/schema 证据，已完成
+4. Node v68：下一步做 execution gate preview，仍不真实执行
 ```
 
 ## 暂停条件

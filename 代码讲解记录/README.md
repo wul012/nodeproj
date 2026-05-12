@@ -162,6 +162,9 @@
 
 70-operation-approval-handoff-bundle-v66.md
  -> 第六十六版 Approval evidence handoff bundle：把 request、decision、evidence、verification 和 upstream evidence 打包成可归档交接包
+
+71-digest-aware-upstream-evidence-v67.md
+ -> 第六十七版 Digest-aware upstream evidence verification：接入 Java approvalDigest 和 mini-kv command_digest / side_effect_count 检查
 ```
 
 ## 项目整体理解

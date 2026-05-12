@@ -76,6 +76,9 @@ export interface OrderPlatformFailedEventReplaySimulation {
 }
 
 export interface OrderPlatformFailedEventApprovalStatus {
+  evidenceVersion?: string;
+  approvalDigest?: string;
+  replayEligibilityDigest?: string;
   sampledAt?: string;
   failedEventId?: number;
   exists?: boolean;

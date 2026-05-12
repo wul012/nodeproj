@@ -65,6 +65,8 @@ export interface MiniKvKeysJsonResult extends MiniKvCommandResult {
 }
 
 export interface MiniKvExplainJson {
+  schema_version?: number;
+  command_digest?: string;
   command?: string;
   category?: "read" | "write" | "admin" | "meta" | string;
   mutates_store?: boolean;
@@ -75,6 +77,7 @@ export interface MiniKvExplainJson {
   allowed_by_parser?: boolean;
   warnings?: string[];
   side_effects?: string[];
+  side_effect_count?: number;
 }
 
 export interface MiniKvExplainJsonResult extends MiniKvCommandResult {
@@ -367,6 +370,12 @@ export function parseMiniKvExplainJson(response: string): MiniKvExplainJson {
   }
 
   const explanation = parsed as Record<string, unknown>;
+  if ("schema_version" in explanation && (typeof explanation.schema_version !== "number" || !Number.isFinite(explanation.schema_version))) {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON schema_version field must be a finite number");
+  }
+  if ("command_digest" in explanation && typeof explanation.command_digest !== "string") {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON command_digest field must be a string");
+  }
   for (const field of ["mutates_store", "touches_wal", "requires_value", "ttl_sensitive", "allowed_by_parser"]) {
     if (field in explanation && typeof explanation[field] !== "boolean") {
       throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", `mini-kv EXPLAINJSON ${field} field must be a boolean`);
@@ -377,6 +386,9 @@ export function parseMiniKvExplainJson(response: string): MiniKvExplainJson {
   }
   if ("side_effects" in explanation && (!Array.isArray(explanation.side_effects) || !explanation.side_effects.every((sideEffect) => typeof sideEffect === "string"))) {
     throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON side_effects field must be a string array");
+  }
+  if ("side_effect_count" in explanation && (typeof explanation.side_effect_count !== "number" || !Number.isFinite(explanation.side_effect_count))) {
+    throw new AppHttpError(502, "MINIKV_EXPLAINJSON_INVALID", "mini-kv EXPLAINJSON side_effect_count field must be a finite number");
   }
 
   return parsed as MiniKvExplainJson;

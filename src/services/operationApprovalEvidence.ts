@@ -53,8 +53,14 @@ export interface OperationApprovalEvidenceReport {
     warningCount: number;
     javaApprovalStatus: EvidenceRecord["status"];
     javaApprovedForReplay?: boolean;
+    javaEvidenceVersion?: string;
+    javaApprovalDigest?: string;
+    javaReplayEligibilityDigest?: string;
     miniKvExplainCoverage: EvidenceRecord["status"];
     miniKvSideEffects: string[];
+    miniKvSchemaVersion?: number;
+    miniKvCommandDigest?: string;
+    miniKvSideEffectCount?: number;
   };
   request: OperationApprovalRequest;
   decision?: OperationApprovalDecision;
@@ -80,6 +86,9 @@ export interface OperationApprovalEvidenceVerification {
     decisionDigestValid: boolean;
     summaryMatches: boolean;
     upstreamEvidenceMatchesSummary: boolean;
+    javaApprovalDigestEvidenceValid: boolean;
+    miniKvCommandDigestEvidenceValid: boolean;
+    miniKvSideEffectCountMatches: boolean;
     nextActionsMatch: boolean;
     upstreamUntouched: boolean;
   };
@@ -257,6 +266,9 @@ export function createOperationApprovalEvidenceVerification(
       && report.decision.decisionDigest.value === recomputedDecisionDigest.value,
     summaryMatches: stableJson(report.summary) === stableJson(recomputed.summary),
     upstreamEvidenceMatchesSummary: summaryMatchesUpstreamEvidence(report.summary, report.upstreamEvidence),
+    javaApprovalDigestEvidenceValid: javaApprovalDigestEvidenceValid(report.upstreamEvidence.javaApprovalStatus),
+    miniKvCommandDigestEvidenceValid: miniKvCommandDigestEvidenceValid(report.upstreamEvidence.miniKvExplainCoverage),
+    miniKvSideEffectCountMatches: miniKvSideEffectCountMatches(report.upstreamEvidence.miniKvExplainCoverage),
     nextActionsMatch: stableJson(report.nextActions) === stableJson(recomputed.nextActions),
     upstreamUntouched: report.decision?.upstreamTouched === false,
   };
@@ -314,7 +326,13 @@ export function renderOperationApprovalEvidenceMarkdown(report: OperationApprova
     "",
     `- Java approval-status: ${report.summary.javaApprovalStatus} - ${report.upstreamEvidence.javaApprovalStatus.message}`,
     `- Java approved for replay: ${report.summary.javaApprovedForReplay === undefined ? "unknown" : report.summary.javaApprovedForReplay}`,
+    `- Java evidence version: ${report.summary.javaEvidenceVersion ?? "unknown"}`,
+    `- Java approval digest: ${report.summary.javaApprovalDigest ?? "unknown"}`,
+    `- Java replay eligibility digest: ${report.summary.javaReplayEligibilityDigest ?? "unknown"}`,
     `- mini-kv EXPLAINJSON coverage: ${report.summary.miniKvExplainCoverage} - ${report.upstreamEvidence.miniKvExplainCoverage.message}`,
+    `- mini-kv schema version: ${report.summary.miniKvSchemaVersion ?? "unknown"}`,
+    `- mini-kv command digest: ${report.summary.miniKvCommandDigest ?? "unknown"}`,
+    `- mini-kv side_effect_count: ${report.summary.miniKvSideEffectCount ?? "unknown"}`,
     "",
     "### mini-kv side_effects",
     "",
@@ -362,6 +380,9 @@ export function renderOperationApprovalEvidenceVerificationMarkdown(verification
     `- Decision digest valid: ${verification.checks.decisionDigestValid}`,
     `- Summary matches: ${verification.checks.summaryMatches}`,
     `- Upstream evidence matches summary: ${verification.checks.upstreamEvidenceMatchesSummary}`,
+    `- Java approval digest evidence valid: ${verification.checks.javaApprovalDigestEvidenceValid}`,
+    `- mini-kv command digest evidence valid: ${verification.checks.miniKvCommandDigestEvidenceValid}`,
+    `- mini-kv side_effect_count matches: ${verification.checks.miniKvSideEffectCountMatches}`,
     `- Next actions match: ${verification.checks.nextActionsMatch}`,
     `- Upstream untouched: ${verification.checks.upstreamUntouched}`,
     "",
@@ -401,6 +422,12 @@ function summarizeEvidence(
   upstreamEvidence: OperationApprovalUpstreamEvidence,
 ): OperationApprovalEvidenceReport["summary"] {
   const javaApprovedForReplay = readJavaApprovedForReplay(upstreamEvidence.javaApprovalStatus.details);
+  const javaEvidenceVersion = readJavaEvidenceVersion(upstreamEvidence.javaApprovalStatus.details);
+  const javaApprovalDigest = readJavaApprovalDigest(upstreamEvidence.javaApprovalStatus.details);
+  const javaReplayEligibilityDigest = readJavaReplayEligibilityDigest(upstreamEvidence.javaApprovalStatus.details);
+  const miniKvSchemaVersion = readMiniKvSchemaVersion(upstreamEvidence.miniKvExplainCoverage.details);
+  const miniKvCommandDigest = readMiniKvCommandDigest(upstreamEvidence.miniKvExplainCoverage.details);
+  const miniKvSideEffectCount = readMiniKvSideEffectCount(upstreamEvidence.miniKvExplainCoverage.details);
   return {
     action: request.action,
     target: request.target,
@@ -417,8 +444,14 @@ function summarizeEvidence(
     warningCount: request.warnings.length,
     javaApprovalStatus: upstreamEvidence.javaApprovalStatus.status,
     ...(javaApprovedForReplay === undefined ? {} : { javaApprovedForReplay }),
+    ...(javaEvidenceVersion === undefined ? {} : { javaEvidenceVersion }),
+    ...(javaApprovalDigest === undefined ? {} : { javaApprovalDigest }),
+    ...(javaReplayEligibilityDigest === undefined ? {} : { javaReplayEligibilityDigest }),
     miniKvExplainCoverage: upstreamEvidence.miniKvExplainCoverage.status,
     miniKvSideEffects: readMiniKvSideEffects(upstreamEvidence.miniKvExplainCoverage.details),
+    ...(miniKvSchemaVersion === undefined ? {} : { miniKvSchemaVersion }),
+    ...(miniKvCommandDigest === undefined ? {} : { miniKvCommandDigest }),
+    ...(miniKvSideEffectCount === undefined ? {} : { miniKvSideEffectCount }),
   };
 }
 
@@ -514,6 +547,18 @@ function readJavaApprovedForReplay(details: unknown): boolean | undefined {
     : undefined;
 }
 
+function readJavaEvidenceVersion(details: unknown): string | undefined {
+  return readStringFieldFromNestedRecord(details, "approvalStatus", "evidenceVersion");
+}
+
+function readJavaApprovalDigest(details: unknown): string | undefined {
+  return readStringFieldFromNestedRecord(details, "approvalStatus", "approvalDigest");
+}
+
+function readJavaReplayEligibilityDigest(details: unknown): string | undefined {
+  return readStringFieldFromNestedRecord(details, "approvalStatus", "replayEligibilityDigest");
+}
+
 function readMiniKvSideEffects(details: unknown): string[] {
   if (!isRecord(details)) {
     return [];
@@ -528,17 +573,126 @@ function readMiniKvSideEffects(details: unknown): string[] {
   return [];
 }
 
+function readMiniKvSchemaVersion(details: unknown): number | undefined {
+  return readNumberFieldFromMiniKvExplain(details, "schema_version");
+}
+
+function readMiniKvCommandDigest(details: unknown): string | undefined {
+  return readStringFieldFromMiniKvExplain(details, "command_digest");
+}
+
+function readMiniKvSideEffectCount(details: unknown): number | undefined {
+  if (!isRecord(details)) {
+    return undefined;
+  }
+  if (typeof details.sideEffectCount === "number" && Number.isFinite(details.sideEffectCount)) {
+    return details.sideEffectCount;
+  }
+  return readNumberFieldFromMiniKvExplain(details, "side_effect_count");
+}
+
 function summaryMatchesUpstreamEvidence(
   summary: OperationApprovalEvidenceReport["summary"],
   upstreamEvidence: OperationApprovalUpstreamEvidence,
 ): boolean {
   const javaApprovedForReplay = readJavaApprovedForReplay(upstreamEvidence.javaApprovalStatus.details);
+  const javaEvidenceVersion = readJavaEvidenceVersion(upstreamEvidence.javaApprovalStatus.details);
+  const javaApprovalDigest = readJavaApprovalDigest(upstreamEvidence.javaApprovalStatus.details);
+  const javaReplayEligibilityDigest = readJavaReplayEligibilityDigest(upstreamEvidence.javaApprovalStatus.details);
+  const miniKvSchemaVersion = readMiniKvSchemaVersion(upstreamEvidence.miniKvExplainCoverage.details);
+  const miniKvCommandDigest = readMiniKvCommandDigest(upstreamEvidence.miniKvExplainCoverage.details);
+  const miniKvSideEffectCount = readMiniKvSideEffectCount(upstreamEvidence.miniKvExplainCoverage.details);
   return summary.javaApprovalStatus === upstreamEvidence.javaApprovalStatus.status
     && (javaApprovedForReplay === undefined
       ? summary.javaApprovedForReplay === undefined
       : summary.javaApprovedForReplay === javaApprovedForReplay)
+    && (javaEvidenceVersion === undefined
+      ? summary.javaEvidenceVersion === undefined
+      : summary.javaEvidenceVersion === javaEvidenceVersion)
+    && (javaApprovalDigest === undefined
+      ? summary.javaApprovalDigest === undefined
+      : summary.javaApprovalDigest === javaApprovalDigest)
+    && (javaReplayEligibilityDigest === undefined
+      ? summary.javaReplayEligibilityDigest === undefined
+      : summary.javaReplayEligibilityDigest === javaReplayEligibilityDigest)
     && summary.miniKvExplainCoverage === upstreamEvidence.miniKvExplainCoverage.status
-    && stableJson(summary.miniKvSideEffects) === stableJson(readMiniKvSideEffects(upstreamEvidence.miniKvExplainCoverage.details));
+    && stableJson(summary.miniKvSideEffects) === stableJson(readMiniKvSideEffects(upstreamEvidence.miniKvExplainCoverage.details))
+    && (miniKvSchemaVersion === undefined
+      ? summary.miniKvSchemaVersion === undefined
+      : summary.miniKvSchemaVersion === miniKvSchemaVersion)
+    && (miniKvCommandDigest === undefined
+      ? summary.miniKvCommandDigest === undefined
+      : summary.miniKvCommandDigest === miniKvCommandDigest)
+    && (miniKvSideEffectCount === undefined
+      ? summary.miniKvSideEffectCount === undefined
+      : summary.miniKvSideEffectCount === miniKvSideEffectCount);
+}
+
+function javaApprovalDigestEvidenceValid(evidence: EvidenceRecord): boolean {
+  if (evidence.status !== "available") {
+    return true;
+  }
+
+  const evidenceVersion = readJavaEvidenceVersion(evidence.details);
+  const approvalDigest = readJavaApprovalDigest(evidence.details);
+  const replayEligibilityDigest = readJavaReplayEligibilityDigest(evidence.details);
+  return evidenceVersion === "failed-event-approval-status.v1"
+    && isSha256Digest(approvalDigest)
+    && isSha256Digest(replayEligibilityDigest);
+}
+
+function miniKvCommandDigestEvidenceValid(evidence: EvidenceRecord): boolean {
+  if (evidence.status !== "available") {
+    return true;
+  }
+
+  const schemaVersion = readMiniKvSchemaVersion(evidence.details);
+  const commandDigest = readMiniKvCommandDigest(evidence.details);
+  return Number.isInteger(schemaVersion)
+    && schemaVersion !== undefined
+    && schemaVersion > 0
+    && isFnv1a64Digest(commandDigest);
+}
+
+function miniKvSideEffectCountMatches(evidence: EvidenceRecord): boolean {
+  if (evidence.status !== "available") {
+    return true;
+  }
+
+  const count = readMiniKvSideEffectCount(evidence.details);
+  return Number.isInteger(count) && count === readMiniKvSideEffects(evidence.details).length;
+}
+
+function readStringFieldFromNestedRecord(details: unknown, nestedField: string, field: string): string | undefined {
+  if (!isRecord(details) || !isRecord(details[nestedField])) {
+    return undefined;
+  }
+  const value = details[nestedField][field];
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function readStringFieldFromMiniKvExplain(details: unknown, field: string): string | undefined {
+  if (!isRecord(details) || !isRecord(details.explanation)) {
+    return undefined;
+  }
+  const value = details.explanation[field];
+  return typeof value === "string" && value.length > 0 ? value : undefined;
+}
+
+function readNumberFieldFromMiniKvExplain(details: unknown, field: string): number | undefined {
+  if (!isRecord(details) || !isRecord(details.explanation)) {
+    return undefined;
+  }
+  const value = details.explanation[field];
+  return typeof value === "number" && Number.isFinite(value) ? value : undefined;
+}
+
+function isSha256Digest(value: string | undefined): boolean {
+  return typeof value === "string" && /^sha256:[a-f0-9]{64}$/i.test(value);
+}
+
+function isFnv1a64Digest(value: string | undefined): boolean {
+  return typeof value === "string" && /^fnv1a64:[a-f0-9]{16}$/i.test(value);
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {

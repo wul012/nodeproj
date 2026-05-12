@@ -51,8 +51,14 @@ export interface OperationApprovalHandoffBundle {
     recomputedEvidenceDigest: OperationApprovalEvidenceVerification["recomputedDigest"];
     javaApprovalStatus: OperationApprovalEvidenceReport["summary"]["javaApprovalStatus"];
     javaApprovedForReplay?: boolean;
+    javaEvidenceVersion?: string;
+    javaApprovalDigest?: string;
+    javaReplayEligibilityDigest?: string;
     miniKvExplainCoverage: OperationApprovalEvidenceReport["summary"]["miniKvExplainCoverage"];
     miniKvSideEffects: string[];
+    miniKvSchemaVersion?: number;
+    miniKvCommandDigest?: string;
+    miniKvSideEffectCount?: number;
     artifactCount: number;
     missingArtifactCount: number;
     invalidArtifactCount: number;
@@ -133,7 +139,13 @@ export function renderOperationApprovalHandoffBundleMarkdown(bundle: OperationAp
     `- Recomputed evidence digest: ${bundle.summary.recomputedEvidenceDigest.algorithm}:${bundle.summary.recomputedEvidenceDigest.value}`,
     `- Java approval-status: ${bundle.summary.javaApprovalStatus}`,
     `- Java approved for replay: ${bundle.summary.javaApprovedForReplay === undefined ? "unknown" : bundle.summary.javaApprovedForReplay}`,
+    `- Java evidence version: ${bundle.summary.javaEvidenceVersion ?? "unknown"}`,
+    `- Java approval digest: ${bundle.summary.javaApprovalDigest ?? "unknown"}`,
+    `- Java replay eligibility digest: ${bundle.summary.javaReplayEligibilityDigest ?? "unknown"}`,
     `- mini-kv EXPLAINJSON coverage: ${bundle.summary.miniKvExplainCoverage}`,
+    `- mini-kv schema version: ${bundle.summary.miniKvSchemaVersion ?? "unknown"}`,
+    `- mini-kv command digest: ${bundle.summary.miniKvCommandDigest ?? "unknown"}`,
+    `- mini-kv side_effect_count: ${bundle.summary.miniKvSideEffectCount ?? "unknown"}`,
     `- Artifact count: ${bundle.summary.artifactCount}`,
     `- Missing artifact count: ${bundle.summary.missingArtifactCount}`,
     `- Invalid artifact count: ${bundle.summary.invalidArtifactCount}`,
@@ -156,6 +168,9 @@ export function renderOperationApprovalHandoffBundleMarkdown(bundle: OperationAp
     `- Decision digest valid: ${bundle.verification.checks.decisionDigestValid}`,
     `- Summary matches: ${bundle.verification.checks.summaryMatches}`,
     `- Upstream evidence matches summary: ${bundle.verification.checks.upstreamEvidenceMatchesSummary}`,
+    `- Java approval digest evidence valid: ${bundle.verification.checks.javaApprovalDigestEvidenceValid}`,
+    `- mini-kv command digest evidence valid: ${bundle.verification.checks.miniKvCommandDigestEvidenceValid}`,
+    `- mini-kv side_effect_count matches: ${bundle.verification.checks.miniKvSideEffectCountMatches}`,
     `- Next actions match: ${bundle.verification.checks.nextActionsMatch}`,
     `- Upstream untouched: ${bundle.verification.checks.upstreamUntouched}`,
     "",
@@ -257,8 +272,14 @@ function summarizeHandoff(
     recomputedEvidenceDigest: structuredClone(verification.recomputedDigest),
     javaApprovalStatus: report.summary.javaApprovalStatus,
     ...(report.summary.javaApprovedForReplay === undefined ? {} : { javaApprovedForReplay: report.summary.javaApprovedForReplay }),
+    ...(report.summary.javaEvidenceVersion === undefined ? {} : { javaEvidenceVersion: report.summary.javaEvidenceVersion }),
+    ...(report.summary.javaApprovalDigest === undefined ? {} : { javaApprovalDigest: report.summary.javaApprovalDigest }),
+    ...(report.summary.javaReplayEligibilityDigest === undefined ? {} : { javaReplayEligibilityDigest: report.summary.javaReplayEligibilityDigest }),
     miniKvExplainCoverage: report.summary.miniKvExplainCoverage,
     miniKvSideEffects: [...report.summary.miniKvSideEffects],
+    ...(report.summary.miniKvSchemaVersion === undefined ? {} : { miniKvSchemaVersion: report.summary.miniKvSchemaVersion }),
+    ...(report.summary.miniKvCommandDigest === undefined ? {} : { miniKvCommandDigest: report.summary.miniKvCommandDigest }),
+    ...(report.summary.miniKvSideEffectCount === undefined ? {} : { miniKvSideEffectCount: report.summary.miniKvSideEffectCount }),
     artifactCount: artifacts.length,
     missingArtifactCount,
     invalidArtifactCount,
