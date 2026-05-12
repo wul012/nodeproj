@@ -179,6 +179,32 @@ Node v96-v98 完成，并尽量完成 Java v46 + mini-kv v55。
 - 更新 `/api/v1/production/readiness-summary` 或新增 v2 endpoint。
 - 补测试、safe smoke、截图、归档、代码讲解。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/production/readiness-summary-v2
+archive: a/99/
+code notes: 代码讲解记录/103-production-readiness-summary-v2-v99.md
+tag: v99
+```
+
+v99 结论：
+
+```text
+upstream-observability: ready=true
+audit: ready=false
+access-control: ready=false
+execution-safety: ready=true
+readyForProductionOperations=false
+```
+
+后续另起计划：
+
+```text
+docs/plans/v99-production-readiness-v2-roadmap.md
+```
+
 ## 并行判断
 
 ```text
@@ -203,4 +229,5 @@ Node v99 需要等 Node v96-v98 完成后再做，最好也等 Java v46 + mini-k
 v95 之后不要继续只做 Node 报告堆叠。
 先补 Java v45 + mini-kv v54 的只读生产证据，再让 Node v96 接入；
 同时 Node 后续要开始收敛 audit store 和 access-control 这两个生产级硬缺口。
+本计划到 Node v99 收口，下一阶段从 durable audit 与 access-control 开始继续靠近生产级。
 ```

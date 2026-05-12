@@ -1,0 +1,73 @@
+{
+  "sampledAt": "2026-05-12T13:35:00Z",
+  "auditEvidenceVersion": "failed-event-replay-audit-evidence.v1",
+  "scenario": "BLOCKED_REPLAY_AUDIT",
+  "failedEventId": 43,
+  "messageId": "audit-blocked-message-43",
+  "requestId": "req-replay-audit-20260512-0002",
+  "decisionId": "decision-replay-audit-blocked-20260512-0002",
+  "dryRun": true,
+  "executionAllowed": false,
+  "operator": {
+    "operatorId": "ops-user",
+    "operatorRole": "ORDER_SUPPORT",
+    "operatorAction": "REPLAY_FAILED_EVENT"
+  },
+  "approval": {
+    "requiredApprovalStatus": "APPROVED",
+    "approvalStatus": "PENDING",
+    "requestedBy": "ops-user",
+    "requestedRole": "ORDER_SUPPORT",
+    "reviewedBy": null,
+    "reviewerRole": null,
+    "reviewDecisionId": null
+  },
+  "execution": {
+    "realExecutionMethod": "POST",
+    "realExecutionPath": "/api/v1/failed-events/{id}/replay",
+    "attemptAuditType": "FAILED_EVENT_REPLAY_ATTEMPT",
+    "attemptStatus": "NOT_ATTEMPTED",
+    "attemptedAt": null,
+    "idempotencyKey": "failed-event-replay:43:order-1002",
+    "contractDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "approvalDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "replayEligibilityDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "effectiveEventId": null,
+    "effectiveEventType": null,
+    "effectiveAggregateType": null,
+    "effectiveAggregateId": null,
+    "expectedSideEffects": []
+  },
+  "auditTrail": [
+    {
+      "step": "REQUEST_REPLAY_APPROVAL",
+      "auditType": "FAILED_EVENT_REPLAY_APPROVAL_HISTORY",
+      "operatorId": "ops-user",
+      "operatorRole": "ORDER_SUPPORT",
+      "requestId": "req-replay-audit-20260512-0002",
+      "decisionId": null,
+      "result": "REQUESTED"
+    },
+    {
+      "step": "EXECUTION_CONTRACT_PRECHECK",
+      "auditType": "READ_ONLY_EVIDENCE",
+      "operatorId": "ops-user",
+      "operatorRole": "ORDER_SUPPORT",
+      "requestId": "req-replay-audit-20260512-0002",
+      "decisionId": "decision-replay-audit-blocked-20260512-0002",
+      "result": "BLOCKED"
+    }
+  ],
+  "blockedBy": [
+    "REPLAY_APPROVAL_NOT_APPROVED"
+  ],
+  "warnings": [
+    "real replay POST must not be called while approvalStatus is PENDING",
+    "blocked precheck does not create FailedEventReplayAttempt"
+  ],
+  "relatedEvidence": [
+    "/contracts/failed-event-replay-execution-contract-blocked.sample.json",
+    "/api/v1/failed-events/{id}/replay-readiness",
+    "/api/v1/failed-events/{id}/replay-execution-contract"
+  ]
+}

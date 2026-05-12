@@ -1,0 +1,81 @@
+{
+  "sampledAt": "2026-05-12T13:30:00Z",
+  "auditEvidenceVersion": "failed-event-replay-audit-evidence.v1",
+  "scenario": "APPROVED_REPLAY_AUDIT",
+  "failedEventId": 42,
+  "messageId": "audit-approved-message-42",
+  "requestId": "req-replay-audit-20260512-0001",
+  "decisionId": "decision-replay-audit-approved-20260512-0001",
+  "dryRun": false,
+  "executionAllowed": true,
+  "operator": {
+    "operatorId": "sre-user",
+    "operatorRole": "SRE",
+    "operatorAction": "REPLAY_FAILED_EVENT"
+  },
+  "approval": {
+    "requiredApprovalStatus": "APPROVED",
+    "approvalStatus": "APPROVED",
+    "requestedBy": "ops-user",
+    "requestedRole": "ORDER_SUPPORT",
+    "reviewedBy": "sre-reviewer",
+    "reviewerRole": "SRE",
+    "reviewDecisionId": "decision-replay-approval-approved-20260512-0001"
+  },
+  "execution": {
+    "realExecutionMethod": "POST",
+    "realExecutionPath": "/api/v1/failed-events/{id}/replay",
+    "attemptAuditType": "FAILED_EVENT_REPLAY_ATTEMPT",
+    "attemptStatus": "SUCCEEDED",
+    "attemptedAt": "2026-05-12T13:31:00Z",
+    "idempotencyKey": "failed-event-replay:42:order-1001",
+    "contractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "approvalDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "replayEligibilityDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "effectiveEventId": "11111111-1111-4111-8111-111111111111",
+    "effectiveEventType": "OrderNotificationFailed",
+    "effectiveAggregateType": "ORDER",
+    "effectiveAggregateId": "order-1001",
+    "expectedSideEffects": [
+      "PUBLISH_RABBITMQ_REPLAY_MESSAGE",
+      "SAVE_REPLAY_ATTEMPT_AUDIT",
+      "MARK_FAILED_EVENT_REPLAYED_ON_SUCCESS"
+    ]
+  },
+  "auditTrail": [
+    {
+      "step": "REQUEST_REPLAY_APPROVAL",
+      "auditType": "FAILED_EVENT_REPLAY_APPROVAL_HISTORY",
+      "operatorId": "ops-user",
+      "operatorRole": "ORDER_SUPPORT",
+      "requestId": "req-replay-audit-20260512-0001",
+      "decisionId": null,
+      "result": "REQUESTED"
+    },
+    {
+      "step": "APPROVE_REPLAY",
+      "auditType": "FAILED_EVENT_REPLAY_APPROVAL_HISTORY",
+      "operatorId": "sre-reviewer",
+      "operatorRole": "SRE",
+      "requestId": "req-replay-audit-20260512-0001",
+      "decisionId": "decision-replay-approval-approved-20260512-0001",
+      "result": "APPROVED"
+    },
+    {
+      "step": "REPLAY_FAILED_EVENT",
+      "auditType": "FAILED_EVENT_REPLAY_ATTEMPT",
+      "operatorId": "sre-user",
+      "operatorRole": "SRE",
+      "requestId": "req-replay-audit-20260512-0001",
+      "decisionId": "decision-replay-audit-approved-20260512-0001",
+      "result": "SUCCEEDED"
+    }
+  ],
+  "blockedBy": [],
+  "warnings": [],
+  "relatedEvidence": [
+    "/contracts/failed-event-replay-execution-contract-approved.sample.json",
+    "/api/v1/failed-events/{id}/replay-attempts",
+    "/api/v1/failed-events/{id}/replay-approval-history"
+  ]
+}

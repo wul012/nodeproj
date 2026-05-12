@@ -14,6 +14,7 @@
 - 跨项目只读完成度核对步骤：检查对应项目 `git status` 是否干净、`git log` / tag 是否出现计划版本、计划要求的 sample/fixture/文档文件是否存在、关键字段是否匹配计划；不得构建、启动、测试或修改 Java / mini-kv
 - 如果只读核对确认 Java / mini-kv 计划版本已完成，则继续推进下一个 Node 版本；如果未完成或证据不足，则说明缺少哪项证据并停止
 - 每次推进 Node 自己的新版本前，必须先读取 `docs/plans/` 中最新计划文档，并按最新计划的版本范围、验证要求、截图规则、暂停条件执行
+- 运行调试截图默认优先使用本机 Chrome / Chromium 可执行文件；不要默认触发 Playwright 浏览器下载。若当前机器未找到 Chrome / Chromium，可使用本机 Edge 兜底，并在归档说明中写明。
 - 同一条未完成开发主线不要创建互相重合的多个计划文件；当当前计划覆盖的版本做完后，下一阶段另起新的计划文件，并只在旧计划记录收口状态
 - 普通版本归档仍放在 `a/<版本>/解释/说明.md`
 - 代码讲解仍放在 `代码讲解记录/`
@@ -56,4 +57,19 @@ v82-post-scenario-archive-bundle-roadmap.md
 
 v84-post-scenario-archive-verification-roadmap.md
  -> 由 Node v84 scenario archive bundle verification 衍生出的下一阶段计划；收敛为 Node v85、Node v86
+
+v86-production-readiness-roadmap.md
+ -> 由 Node v86 release evidence index 后续主线衍生出的生产就绪路线；已推进到 Node v89
+
+v89-production-hardening-roadmap.md
+ -> 由 Node v89 deployment safety profile 衍生出的生产硬化路线；已推进到 Node v92
+
+v92-production-ops-roadmap.md
+ -> 由 Node v92 rollback evidence runbook 衍生出的生产运维证据路线；已推进到 Node v95
+
+v95-production-gap-roadmap.md
+ -> 由 Node v95 production readiness summary index 衍生出的生产阻塞项收敛计划；已完成 Node v96-v99 并收口
+
+v99-production-readiness-v2-roadmap.md
+ -> 由 Node v99 production readiness summary v2 衍生出的当前计划；下一步按 Node v100、Node v101、Node v102 顺序推进 access-control 与 audit 硬缺口
 ```

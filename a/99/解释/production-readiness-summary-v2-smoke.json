@@ -1,0 +1,25 @@
+﻿{
+    "version":  "v99",
+    "checkedAt":  "2026-05-12T14:05:35.8501421Z",
+    "nodeProject":  "D:\\nodeproj\\orderops-node",
+    "port":  4199,
+    "safeEnv":  {
+                    "UPSTREAM_PROBES_ENABLED":  "false",
+                    "UPSTREAM_ACTIONS_ENABLED":  "false"
+                },
+    "healthStatus":  "ok",
+    "summaryVersion":  "production-readiness-summary.v2",
+    "readyForProductionOperations":  false,
+    "executionAllowed":  false,
+    "upstreamEvidenceReady":  true,
+    "categoryCount":  4,
+    "productionBlockerCount":  12,
+    "readyCategories":  [
+                            "upstream-observability",
+                            "execution-safety"
+                        ],
+    "notReadyCategories":  [
+                               "audit",
+                               "access-control"
+                           ]
+}

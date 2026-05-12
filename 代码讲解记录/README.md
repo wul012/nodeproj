@@ -238,6 +238,78 @@
 
 79-fixture-drift-diagnostics-v75.md
  -> 第七十五版 Fixture drift diagnostics：检查 fixture 字段、类型、digest 和 diagnostics 映射是否漂移
+
+80-dashboard-fixture-diagnostics-v76.md
+ -> 第七十六版 Dashboard fixture diagnostics：把 fixture drift 结果接入页面展示
+
+81-fixture-evidence-archive-snapshot-v77.md
+ -> 第七十七版 Fixture evidence archive snapshot：为上游契约 fixture 生成归档快照
+
+82-fixture-scenario-matrix-v78.md
+ -> 第七十八版 Fixture scenario matrix：把 Java / mini-kv 契约样本整理成场景矩阵
+
+83-dashboard-scenario-matrix-v79.md
+ -> 第七十九版 Dashboard scenario matrix：在页面展示场景矩阵和风险分组
+
+84-scenario-matrix-verification-v80.md
+ -> 第八十版 Scenario matrix verification：验证场景矩阵字段、digest 和执行边界
+
+85-dashboard-scenario-verification-v81.md
+ -> 第八十一版 Dashboard scenario verification：把 verification 结果接入页面
+
+86-scenario-verification-archive-bundle-v82.md
+ -> 第八十二版 Scenario verification archive bundle：打包场景验证归档证据
+
+87-dashboard-scenario-archive-bundle-v83.md
+ -> 第八十三版 Dashboard scenario archive bundle：展示 archive bundle 摘要
+
+88-scenario-archive-bundle-verification-v84.md
+ -> 第八十四版 Scenario archive bundle verification：复核 archive bundle digest 和引用链
+
+89-dashboard-scenario-archive-verification-v85.md
+ -> 第八十五版 Dashboard archive verification：展示归档验证结果
+
+90-scenario-release-evidence-index-v86.md
+ -> 第八十六版 Scenario release evidence index：生成 release evidence 索引
+
+91-release-evidence-readiness-gate-v87.md
+ -> 第八十七版 Release evidence readiness gate：判断 release evidence 是否可归档
+
+92-ci-evidence-command-profile-v88.md
+ -> 第八十八版 CI evidence command profile：定义 CI 安全命令画像
+
+93-deployment-safety-profile-v89.md
+ -> 第八十九版 Deployment safety profile：检查部署安全配置和 upstream actions 边界
+
+94-node-evidence-workflow-v90.md
+ -> 第九十版 Node evidence workflow：补 GitHub Actions 证据工作流
+
+95-persistent-audit-store-adapter-v91.md
+ -> 第九十一版 Persistent audit store adapter：增加文件型 audit store 原型
+
+96-rollback-evidence-runbook-v92.md
+ -> 第九十二版 Rollback evidence runbook：输出回滚证据步骤和停止条件
+
+97-workflow-evidence-verification-v93.md
+ -> 第九十三版 Workflow evidence verification：验证 CI workflow 仍是安全证据流
+
+98-audit-store-runtime-profile-v94.md
+ -> 第九十四版 Audit store runtime profile：说明当前运行时 audit store 仍非生产持久化
+
+99-production-readiness-summary-index-v95.md
+ -> 第九十五版 Production readiness summary index：汇总 production-leaning 证据和阻塞项
+
+100-upstream-production-evidence-intake-v96.md
+ -> 第九十六版 Upstream production evidence intake：接入 Java v45 / mini-kv v54 只读生产证据
+
+101-audit-store-env-config-profile-v97.md
+ -> 第九十七版 Audit store env config profile：解释 AUDIT_STORE_KIND/PATH/URL 的迁移边界
+
+102-access-control-readiness-profile-v98.md
+ -> 第九十八版 Access-control readiness profile：列出认证、RBAC、operator identity 和审计访问阻塞项
+
+103-production-readiness-summary-v2-v99.md
+ -> 第九十九版 Production readiness summary v2：按 upstream-observability、audit、access-control、execution-safety 分类生产阻塞项
 ```
 
 ## 项目整体理解

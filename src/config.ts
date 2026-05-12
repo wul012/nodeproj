@@ -21,6 +21,9 @@ export interface AppConfig {
   miniKvCheckJsonReadFixturePath: string;
   javaOpsEvidenceFixturePath: string;
   miniKvStorageEvidenceFixturePath: string;
+  javaReplayAuditApprovedFixturePath: string;
+  javaReplayAuditBlockedFixturePath: string;
+  miniKvRestartRecoveryEvidenceFixturePath: string;
   auditStoreKind: string;
   auditStorePath: string;
   auditStoreUrl: string;
@@ -129,11 +132,66 @@ function preferExistingPath(primaryPath: string, fallbackPath: string): string {
 }
 
 function defaultJavaOpsEvidenceFixturePath(): string {
-  return path.join(process.cwd(), "fixtures", "upstream-production-evidence", "java-ops-evidence.sample.json");
+  return repoProductionEvidenceFixturePath("java-ops-evidence.sample.json");
 }
 
 function defaultMiniKvStorageEvidenceFixturePath(): string {
-  return path.join(process.cwd(), "fixtures", "upstream-production-evidence", "mini-kv-storage-evidence.sample.json");
+  return repoProductionEvidenceFixturePath("mini-kv-storage-evidence.sample.json");
+}
+
+function repoProductionEvidenceFixturePath(fileName: string): string {
+  return path.join(process.cwd(), "fixtures", "upstream-production-evidence", fileName);
+}
+
+function defaultJavaReplayAuditApprovedFixturePath(): string {
+  const upstreamProjectPath = path.join(
+    path.parse(process.cwd()).root,
+    "javaproj",
+    "advanced-order-platform",
+    "src",
+    "main",
+    "resources",
+    "static",
+    "contracts",
+    "failed-event-replay-audit-approved.sample.json",
+  );
+  return preferExistingPath(
+    upstreamProjectPath,
+    repoProductionEvidenceFixturePath("failed-event-replay-audit-approved.sample.json"),
+  );
+}
+
+function defaultJavaReplayAuditBlockedFixturePath(): string {
+  const upstreamProjectPath = path.join(
+    path.parse(process.cwd()).root,
+    "javaproj",
+    "advanced-order-platform",
+    "src",
+    "main",
+    "resources",
+    "static",
+    "contracts",
+    "failed-event-replay-audit-blocked.sample.json",
+  );
+  return preferExistingPath(
+    upstreamProjectPath,
+    repoProductionEvidenceFixturePath("failed-event-replay-audit-blocked.sample.json"),
+  );
+}
+
+function defaultMiniKvRestartRecoveryEvidenceFixturePath(): string {
+  const upstreamProjectPath = path.join(
+    path.parse(process.cwd()).root,
+    "C",
+    "mini-kv",
+    "fixtures",
+    "recovery",
+    "restart-recovery-evidence.json",
+  );
+  return preferExistingPath(
+    upstreamProjectPath,
+    repoProductionEvidenceFixturePath("mini-kv-restart-recovery-evidence.json"),
+  );
 }
 
 export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
@@ -180,6 +238,21 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
       env,
       "MINIKV_STORAGE_EVIDENCE_FIXTURE_PATH",
       defaultMiniKvStorageEvidenceFixturePath(),
+    ),
+    javaReplayAuditApprovedFixturePath: readString(
+      env,
+      "JAVA_REPLAY_AUDIT_APPROVED_FIXTURE_PATH",
+      defaultJavaReplayAuditApprovedFixturePath(),
+    ),
+    javaReplayAuditBlockedFixturePath: readString(
+      env,
+      "JAVA_REPLAY_AUDIT_BLOCKED_FIXTURE_PATH",
+      defaultJavaReplayAuditBlockedFixturePath(),
+    ),
+    miniKvRestartRecoveryEvidenceFixturePath: readString(
+      env,
+      "MINIKV_RESTART_RECOVERY_EVIDENCE_FIXTURE_PATH",
+      defaultMiniKvRestartRecoveryEvidenceFixturePath(),
     ),
     auditStoreKind: readString(env, "AUDIT_STORE_KIND", "memory").toLowerCase(),
     auditStorePath: readString(env, "AUDIT_STORE_PATH", ""),
