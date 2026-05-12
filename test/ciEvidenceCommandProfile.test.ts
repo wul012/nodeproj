@@ -49,7 +49,7 @@ describe("CI evidence command profile", () => {
         manualAuthorizationCommandCount: 2,
         smokeCommandCount: 3,
         blockerCount: 0,
-        warningCount: 1,
+        warningCount: 0,
       },
     });
     expect(profile.commands.map((command) => command.id)).toEqual([
@@ -74,9 +74,8 @@ describe("CI evidence command profile", () => {
     }));
 
     expect(profile.valid).toBe(true);
-    expect(profile.summary.warningCount).toBe(3);
+    expect(profile.summary.warningCount).toBe(2);
     expect(profile.warnings.map((warning) => warning.code)).toEqual([
-      "WORKFLOW_NOT_CREATED",
       "CURRENT_RUNTIME_PROBES_ENABLED",
       "CURRENT_RUNTIME_ACTIONS_ENABLED",
     ]);

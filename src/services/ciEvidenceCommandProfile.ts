@@ -276,13 +276,7 @@ function collectBlockers(checks: CiEvidenceCommandProfile["checks"]): CiEvidence
 }
 
 function collectWarnings(config: Pick<AppConfig, "upstreamProbesEnabled" | "upstreamActionsEnabled" | "host" | "port" | "logLevel">): CiEvidenceCommandProfileMessage[] {
-  const warnings: CiEvidenceCommandProfileMessage[] = [
-    {
-      code: "WORKFLOW_NOT_CREATED",
-      severity: "warning",
-      message: "This profile describes CI commands but does not create a GitHub Actions workflow yet.",
-    },
-  ];
+  const warnings: CiEvidenceCommandProfileMessage[] = [];
 
   if (config.upstreamProbesEnabled) {
     warnings.push({

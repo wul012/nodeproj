@@ -50,7 +50,7 @@ describe("deployment safety profile", () => {
       "ORDER_PLATFORM_LOCALHOST",
       "MINIKV_LOCALHOST",
     ]);
-    expect(profile.recommendations.map((recommendation) => recommendation.code)).toContain("ADD_REAL_CI_WORKFLOW");
+    expect(profile.recommendations.map((recommendation) => recommendation.code)).toContain("VERIFY_NODE_EVIDENCE_WORKFLOW");
   });
 
   it("blocks production-demo suitability when upstream actions are enabled", () => {

@@ -89,6 +89,17 @@ tag: v94
 - 输出 JSON / Markdown。
 - 补测试、safe HTTP smoke、归档、代码讲解。
 
+实施收口：
+
+```text
+已完成。
+endpoint: /api/v1/production/readiness-summary
+archive: a/95/
+code notes: 代码讲解记录/99-production-readiness-summary-index-v95.md
+tag: v95
+next plan: docs/plans/v95-production-gap-roadmap.md
+```
+
 ## 推荐执行顺序
 
 ```text

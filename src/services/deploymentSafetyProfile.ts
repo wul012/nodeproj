@@ -252,9 +252,9 @@ function collectWarnings(config: AppConfig): DeploymentSafetyMessage[] {
 function collectRecommendations(config: AppConfig): DeploymentSafetyMessage[] {
   const recommendations: DeploymentSafetyMessage[] = [
     {
-      code: "ADD_REAL_CI_WORKFLOW",
+      code: "VERIFY_NODE_EVIDENCE_WORKFLOW",
       severity: "recommendation",
-      message: "Create a CI workflow from the v88 evidence command profile before calling this production-like.",
+      message: "Verify the checked-in Node evidence workflow before calling this production-like.",
     },
     {
       code: "PERSIST_AUDIT_LOGS",

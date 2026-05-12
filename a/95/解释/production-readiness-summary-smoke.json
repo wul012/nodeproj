@@ -1,0 +1,274 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Production readiness summary index",
+    "generatedAt":  "2026-05-12T11:34:32.105Z",
+    "indexVersion":  "production-readiness-summary-index.v1",
+    "maturityTarget":  "production-leaning",
+    "readyForProductionOperations":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "checks":  {
+                   "releaseEvidenceReady":  true,
+                   "ciEvidenceProfileValid":  true,
+                   "workflowEvidenceValid":  true,
+                   "deploymentSafetyHasNoBlockers":  true,
+                   "rollbackRunbookReady":  true,
+                   "auditStoreProductionReady":  false,
+                   "allSectionsReadOnly":  true,
+                   "executionStillBlocked":  true
+               },
+    "summary":  {
+                    "sectionCount":  6,
+                    "readySectionCount":  5,
+                    "notReadySectionCount":  1,
+                    "endpointCount":  8,
+                    "productionBlockerCount":  3,
+                    "warningCount":  15,
+                    "recommendationCount":  7
+                },
+    "sections":  [
+                     {
+                         "id":  "release-evidence-readiness",
+                         "title":  "Upstream fixture scenario release evidence readiness gate",
+                         "endpoint":  "/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate",
+                         "ready":  true,
+                         "readOnly":  true,
+                         "executionAllowed":  false,
+                         "blockerCount":  0,
+                         "warningCount":  2,
+                         "recommendationCount":  0,
+                         "note":  "Scenario fixture release evidence can be archived, but does not authorize execution."
+                     },
+                     {
+                         "id":  "ci-evidence-command-profile",
+                         "title":  "CI evidence command profile",
+                         "endpoint":  "/api/v1/ci/evidence-command-profile",
+                         "ready":  true,
+                         "readOnly":  true,
+                         "executionAllowed":  false,
+                         "blockerCount":  0,
+                         "warningCount":  0,
+                         "recommendationCount":  0,
+                         "note":  "CI commands are safe and read-only, with manual authorization excluded from default runs."
+                     },
+                     {
+                         "id":  "workflow-evidence-verification",
+                         "title":  "Workflow evidence verification",
+                         "endpoint":  "/api/v1/ci/workflow-evidence-verification",
+                         "ready":  true,
+                         "readOnly":  true,
+                         "executionAllowed":  false,
+                         "blockerCount":  0,
+                         "warningCount":  1,
+                         "recommendationCount":  0,
+                         "note":  "Checked-in GitHub Actions workflow still avoids secrets and deployment commands."
+                     },
+                     {
+                         "id":  "deployment-safety-profile",
+                         "title":  "Deployment safety profile",
+                         "endpoint":  "/api/v1/deployment/safety-profile",
+                         "ready":  true,
+                         "readOnly":  true,
+                         "executionAllowed":  false,
+                         "blockerCount":  0,
+                         "warningCount":  5,
+                         "recommendationCount":  4,
+                         "note":  "Runtime is suitable for a production demo review but still has deployment warnings."
+                     },
+                     {
+                         "id":  "rollback-evidence-runbook",
+                         "title":  "Rollback evidence runbook",
+                         "endpoint":  "/api/v1/deployment/rollback-runbook",
+                         "ready":  true,
+                         "readOnly":  true,
+                         "executionAllowed":  false,
+                         "blockerCount":  0,
+                         "warningCount":  7,
+                         "recommendationCount":  4,
+                         "note":  "Rollback runbook is archive-ready but deliberately does not execute rollback commands."
+                     },
+                     {
+                         "id":  "audit-store-runtime-profile",
+                         "title":  "Audit store runtime profile",
+                         "endpoint":  "/api/v1/audit/store-profile",
+                         "ready":  false,
+                         "readOnly":  true,
+                         "executionAllowed":  false,
+                         "blockerCount":  3,
+                         "warningCount":  2,
+                         "recommendationCount":  3,
+                         "note":  "Audit capture is safe for local runtime but blocked for production until durable storage exists."
+                     }
+                 ],
+    "productionBlockers":  [
+                               {
+                                   "code":  "AUDIT_RUNTIME_NOT_DURABLE",
+                                   "severity":  "blocker",
+                                   "source":  "audit-store-runtime-profile",
+                                   "message":  "Current runtime uses in-memory audit storage, so audit evidence is lost on restart."
+                               },
+                               {
+                                   "code":  "DATABASE_AUDIT_STORE_MISSING",
+                                   "severity":  "blocker",
+                                   "source":  "audit-store-runtime-profile",
+                                   "message":  "A production audit store needs a database or equivalent durable service."
+                               },
+                               {
+                                   "code":  "AUDIT_RETENTION_POLICY_MISSING",
+                                   "severity":  "blocker",
+                                   "source":  "audit-store-runtime-profile",
+                                   "message":  "Production audit evidence needs retention, rotation, and backup policy."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "CI_GATE_NOT_WIRED",
+                         "severity":  "warning",
+                         "source":  "release-evidence-readiness",
+                         "message":  "This readiness gate is exposed as an endpoint but is not yet enforced by CI."
+                     },
+                     {
+                         "code":  "EVIDENCE_ONLY",
+                         "severity":  "warning",
+                         "source":  "release-evidence-readiness",
+                         "message":  "A ready gate only permits release evidence archival; it does not permit Java replay or mini-kv writes."
+                     },
+                     {
+                         "code":  "MANUAL_DISPATCH_PRESENT",
+                         "severity":  "warning",
+                         "source":  "workflow-evidence-verification",
+                         "message":  "Manual dispatch is present; keep workflow permissions read-only and upstream actions disabled."
+                     },
+                     {
+                         "code":  "HOST_LOOPBACK",
+                         "severity":  "warning",
+                         "source":  "deployment-safety-profile",
+                         "message":  "Node is bound to loopback; this is safe for smoke but not externally reachable as a demo service."
+                     },
+                     {
+                         "code":  "UPSTREAM_PROBES_DISABLED",
+                         "severity":  "warning",
+                         "source":  "deployment-safety-profile",
+                         "message":  "Upstream probes are disabled; production-demo observability will be limited until a coordinated integration window enables probes."
+                     },
+                     {
+                         "code":  "ORDER_PLATFORM_LOCALHOST",
+                         "severity":  "warning",
+                         "source":  "deployment-safety-profile",
+                         "message":  "Order platform points at a localhost URL; replace with an environment-specific URL for deployment."
+                     },
+                     {
+                         "code":  "MINIKV_LOCALHOST",
+                         "severity":  "warning",
+                         "source":  "deployment-safety-profile",
+                         "message":  "mini-kv points at a localhost endpoint; replace with an environment-specific endpoint for deployment."
+                     },
+                     {
+                         "code":  "LOGGING_SILENT",
+                         "severity":  "warning",
+                         "source":  "deployment-safety-profile",
+                         "message":  "Silent logging is useful for tests but not suitable for an observable production-demo runtime."
+                     },
+                     {
+                         "code":  "UPSTREAM_ACTIONS_ENABLED",
+                         "severity":  "warning",
+                         "source":  "rollback-evidence-runbook",
+                         "message":  "Stop if any profile reports executionAllowed=true or UPSTREAM_ACTIONS_ENABLED=true."
+                     },
+                     {
+                         "code":  "READINESS_BLOCKERS_PRESENT",
+                         "severity":  "warning",
+                         "source":  "rollback-evidence-runbook",
+                         "message":  "Stop if release evidence readiness blockers are present. Current count: 0."
+                     },
+                     {
+                         "code":  "CI_PROFILE_INVALID",
+                         "severity":  "warning",
+                         "source":  "rollback-evidence-runbook",
+                         "message":  "Stop if the CI evidence command profile is invalid. Current valid: true."
+                     },
+                     {
+                         "code":  "DEPLOYMENT_BLOCKERS_PRESENT",
+                         "severity":  "warning",
+                         "source":  "rollback-evidence-runbook",
+                         "message":  "Stop if deployment safety blockers are present. Current count: 0."
+                     },
+                     {
+                         "code":  "HUMAN_AUTHORIZATION_MISSING",
+                         "severity":  "warning",
+                         "source":  "rollback-evidence-runbook",
+                         "message":  "Stop before any real rollback command unless a human rollback owner explicitly authorizes it outside this Node endpoint."
+                     },
+                     {
+                         "code":  "FILE_STORE_IS_PROTOTYPE",
+                         "severity":  "warning",
+                         "source":  "audit-store-runtime-profile",
+                         "message":  "FileBackedAuditStore is useful for adapter validation but is not enough for production audit retention."
+                     },
+                     {
+                         "code":  "RUNTIME_STORE_NOT_ENV_CONFIGURABLE",
+                         "severity":  "warning",
+                         "source":  "audit-store-runtime-profile",
+                         "message":  "The running app currently constructs AuditLog with its default store instead of selecting a store from environment config."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "VERIFY_NODE_EVIDENCE_WORKFLOW",
+                                "severity":  "recommendation",
+                                "source":  "deployment-safety-profile",
+                                "message":  "Verify the checked-in Node evidence workflow before calling this production-like."
+                            },
+                            {
+                                "code":  "PERSIST_AUDIT_LOGS",
+                                "severity":  "recommendation",
+                                "source":  "deployment-safety-profile",
+                                "message":  "Move audit and readiness evidence from in-memory/runtime output to durable storage before real operations."
+                            },
+                            {
+                                "code":  "DEFINE_ROLLBACK_RUNBOOK",
+                                "severity":  "recommendation",
+                                "source":  "deployment-safety-profile",
+                                "message":  "Add a rollback runbook and verify it beside deployment evidence."
+                            },
+                            {
+                                "code":  "PLAN_PROBE_WINDOW",
+                                "severity":  "recommendation",
+                                "source":  "deployment-safety-profile",
+                                "message":  "Plan a read-only probe window with Java and mini-kv owners to validate live upstream observability."
+                            },
+                            {
+                                "code":  "ADD_AUDIT_STORE_CONFIG",
+                                "severity":  "recommendation",
+                                "source":  "audit-store-runtime-profile",
+                                "message":  "Introduce AUDIT_STORE_KIND and AUDIT_STORE_URL before real operations."
+                            },
+                            {
+                                "code":  "ADD_DURABLE_STORE_TESTS",
+                                "severity":  "recommendation",
+                                "source":  "audit-store-runtime-profile",
+                                "message":  "Add integration tests for restart recovery, retention limits, and malformed audit records."
+                            },
+                            {
+                                "code":  "ADD_AUDIT_ACCESS_POLICY",
+                                "severity":  "recommendation",
+                                "source":  "audit-store-runtime-profile",
+                                "message":  "Protect audit export and query endpoints before exposing the control plane outside local smoke."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "productionReadinessSummaryJson":  "/api/v1/production/readiness-summary",
+                              "productionReadinessSummaryMarkdown":  "/api/v1/production/readiness-summary?format=markdown",
+                              "releaseEvidenceReadinessGateJson":  "/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate",
+                              "ciEvidenceCommandProfileJson":  "/api/v1/ci/evidence-command-profile",
+                              "workflowEvidenceVerificationJson":  "/api/v1/ci/workflow-evidence-verification",
+                              "deploymentSafetyProfileJson":  "/api/v1/deployment/safety-profile",
+                              "rollbackEvidenceRunbookJson":  "/api/v1/deployment/rollback-runbook",
+                              "auditStoreRuntimeProfileJson":  "/api/v1/audit/store-profile"
+                          },
+    "nextActions":  [
+                        "Resolve production blockers before calling the Node control plane production-ready.",
+                        "Prioritize durable audit storage, access control, and upstream observability evidence.",
+                        "Use the next plan to decide whether Java or mini-kv should provide stronger upstream evidence."
+                    ]
+}

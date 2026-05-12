@@ -15,6 +15,10 @@ import {
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
 import {
+  loadProductionReadinessSummaryIndex,
+  renderProductionReadinessSummaryIndexMarkdown,
+} from "../services/productionReadinessSummaryIndex.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -352,6 +356,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return runbook;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/readiness-summary", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = await loadProductionReadinessSummaryIndex(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionReadinessSummaryIndexMarkdown(summary);
+    }
+
+    return summary;
   });
 
   app.get("/api/v1/runtime/config", async () => ({
