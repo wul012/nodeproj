@@ -120,7 +120,8 @@ mini-kv v53 目标：
 
 ```text
 新增一个 CHECKJSON read-command sample，例如 GET orderops:1，
-覆盖 read_only=true、execution_allowed=false、side_effects=[]、side_effect_count=0。
+覆盖 read_only=true、execution_allowed=false、side_effects=["store_read"]、side_effect_count=1。
+该样本必须来自 mini-kv 当前真实 CHECKJSON GET 语义，不允许为了迎合 Node fixture matrix 手写成空 side_effects。
 ```
 
 这两个版本可以一起推进，因为它们只新增各自项目内的 fixture / sample，不要求 Node 同时修改，也不互相依赖。完成后再交给 Node v78 汇总成多场景矩阵。
