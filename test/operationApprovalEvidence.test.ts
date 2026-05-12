@@ -174,6 +174,14 @@ describe("operation approval evidence route", () => {
         method: "GET",
         url: `/api/v1/operation-approval-requests/${approval.json().requestId}/evidence?format=markdown`,
       });
+      const bundle = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/evidence-bundle`,
+      });
+      const bundleMarkdown = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-requests/${approval.json().requestId}/evidence-bundle?format=markdown`,
+      });
 
       expect(evidence.statusCode).toBe(200);
       expect(evidence.json()).toMatchObject({
@@ -227,14 +235,42 @@ describe("operation approval evidence route", () => {
       expect(markdown.body).toContain("- mini-kv EXPLAINJSON coverage: available");
       expect(markdown.body).toContain("- store_write");
       expect(markdown.body).toContain("- wal_append_when_enabled");
-      expect(seenCommands).toEqual([
-        "COMMANDSJSON",
-        "KEYSJSON orderops:",
-        "EXPLAINJSON SET orderops:preview preview-value",
-        "EXPLAINJSON SET orderops:preview preview-value",
-        "EXPLAINJSON SET orderops:preview preview-value",
-        "EXPLAINJSON SET orderops:preview preview-value",
-      ]);
+      expect(bundle.statusCode).toBe(200);
+      expect(bundle.json()).toMatchObject({
+        service: "orderops-node",
+        requestId: approval.json().requestId,
+        decisionId: decision.json().decisionId,
+        intentId: intent.id,
+        state: "approved",
+        handoffReady: true,
+        summary: {
+          action: "kv-set",
+          target: "mini-kv",
+          verificationValid: true,
+          upstreamTouched: false,
+          miniKvExplainCoverage: "available",
+          miniKvSideEffects: ["store_write", "wal_append_when_enabled"],
+          artifactCount: 5,
+          missingArtifactCount: 0,
+          invalidArtifactCount: 0,
+        },
+        artifacts: expect.arrayContaining([
+          expect.objectContaining({ name: "approval-request", present: true, valid: true }),
+          expect.objectContaining({ name: "approval-decision", present: true, valid: true }),
+          expect.objectContaining({ name: "approval-evidence-report", present: true, valid: true }),
+          expect.objectContaining({ name: "approval-evidence-verification", present: true, valid: true }),
+          expect.objectContaining({ name: "upstream-evidence", present: true, valid: true }),
+        ]),
+      });
+      expect(bundle.json().bundleDigest.value).toHaveLength(64);
+      expect(bundleMarkdown.statusCode).toBe(200);
+      expect(bundleMarkdown.body).toContain("# Operation approval handoff bundle");
+      expect(bundleMarkdown.body).toContain("- Handoff ready: true");
+      expect(bundleMarkdown.body).toContain("### approval-evidence-verification");
+      expect(bundleMarkdown.body).toContain("- store_write");
+      expect(seenCommands[0]).toBe("COMMANDSJSON");
+      expect(seenCommands[1]).toBe("KEYSJSON orderops:");
+      expect(seenCommands.filter((command) => command === "EXPLAINJSON SET orderops:preview preview-value")).toHaveLength(6);
     } finally {
       await app.close();
     }

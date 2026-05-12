@@ -11,6 +11,10 @@ import {
   renderOperationApprovalEvidenceMarkdown,
   renderOperationApprovalEvidenceVerificationMarkdown,
 } from "../services/operationApprovalEvidence.js";
+import {
+  createOperationApprovalHandoffBundle,
+  renderOperationApprovalHandoffBundleMarkdown,
+} from "../services/operationApprovalHandoffBundle.js";
 
 interface OperationApprovalEvidenceRouteDeps {
   config: AppConfig;
@@ -81,5 +85,31 @@ export async function registerOperationApprovalEvidenceRoutes(
     }
 
     return verification;
+  });
+
+  app.get<{ Params: ApprovalRequestParams; Querystring: ApprovalEvidenceQuery }>("/api/v1/operation-approval-requests/:requestId/evidence-bundle", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const report = await evidenceService.createReport(
+      deps.operationApprovalRequests.get(request.params.requestId),
+      deps.operationApprovalDecisions.getByRequest(request.params.requestId),
+    );
+    const verification = createOperationApprovalEvidenceVerification(report);
+    const bundle = createOperationApprovalHandoffBundle(report, verification);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderOperationApprovalHandoffBundleMarkdown(bundle);
+    }
+
+    return bundle;
   });
 }

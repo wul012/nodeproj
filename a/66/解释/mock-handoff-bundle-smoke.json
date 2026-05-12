@@ -1,0 +1,208 @@
+{
+  "service": "orderops-node",
+  "version": "v66",
+  "generatedAt": "2026-05-12T00:17:46.779Z",
+  "state": {
+    "nodeBaseUrl": "http://127.0.0.1:61145",
+    "javaBundleMarkdownUrl": "http://127.0.0.1:61145/api/v1/operation-approval-requests/d0948901-8baf-4615-b304-fd672f411d77/evidence-bundle?format=markdown",
+    "miniKvBundleMarkdownUrl": "http://127.0.0.1:61145/api/v1/operation-approval-requests/97574689-8cf4-4935-b1d5-29280aad6506/evidence-bundle?format=markdown"
+  },
+  "java": {
+    "intentId": "80ed622c-b5b2-4f54-9003-1ac1e40e0c87",
+    "requestId": "d0948901-8baf-4615-b304-fd672f411d77",
+    "decisionId": "4535a61f-d89c-48e9-8875-f6bf50126b5e",
+    "bundleSummary": {
+      "action": "failed-event-replay-simulation",
+      "target": "order-platform",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "evidenceDigest": {
+        "algorithm": "sha256",
+        "value": "80b786ec576129849ea8b36e43381a21ffc182098f19398af5093de81e46d7e0",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "storedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "80b786ec576129849ea8b36e43381a21ffc182098f19398af5093de81e46d7e0",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "recomputedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "80b786ec576129849ea8b36e43381a21ffc182098f19398af5093de81e46d7e0",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "javaApprovalStatus": "available",
+      "javaApprovedForReplay": true,
+      "miniKvExplainCoverage": "not_applicable",
+      "miniKvSideEffects": [],
+      "artifactCount": 5,
+      "missingArtifactCount": 0,
+      "invalidArtifactCount": 0
+    },
+    "handoffReady": true,
+    "bundleDigest": {
+      "algorithm": "sha256",
+      "value": "29dcf8e86e50133ca4e37dc0c63ba6955edc31caed87ff318aecffca8c108b72",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    },
+    "artifactNames": [
+      "approval-request",
+      "approval-decision",
+      "approval-evidence-report",
+      "approval-evidence-verification",
+      "upstream-evidence"
+    ]
+  },
+  "miniKv": {
+    "intentId": "672b45f4-ebd7-400d-b6bc-c9fbca83613b",
+    "requestId": "97574689-8cf4-4935-b1d5-29280aad6506",
+    "decisionId": "84febdde-586e-43f8-b421-5614461f9b58",
+    "bundleSummary": {
+      "action": "kv-set",
+      "target": "mini-kv",
+      "requestStatus": "approved",
+      "decision": "approved",
+      "verificationValid": true,
+      "upstreamTouched": false,
+      "evidenceDigest": {
+        "algorithm": "sha256",
+        "value": "6656c8e7fdd96f6c6839833c39afdcd235538a1052596e9af96ebb969609c709",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "storedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "6656c8e7fdd96f6c6839833c39afdcd235538a1052596e9af96ebb969609c709",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "recomputedEvidenceDigest": {
+        "algorithm": "sha256",
+        "value": "6656c8e7fdd96f6c6839833c39afdcd235538a1052596e9af96ebb969609c709",
+        "coveredFields": [
+          "service",
+          "requestId",
+          "decisionId",
+          "intentId",
+          "state",
+          "summary",
+          "request",
+          "decision",
+          "upstreamEvidence",
+          "nextActions"
+        ]
+      },
+      "javaApprovalStatus": "not_applicable",
+      "miniKvExplainCoverage": "available",
+      "miniKvSideEffects": [
+        "store_write",
+        "wal_append_when_enabled"
+      ],
+      "artifactCount": 5,
+      "missingArtifactCount": 0,
+      "invalidArtifactCount": 0
+    },
+    "handoffReady": true,
+    "bundleDigest": {
+      "algorithm": "sha256",
+      "value": "d2921fa2285e267c3ae422ea0c48e58c5ffa84b797a0498f67eb7e64a24a3163",
+      "coveredFields": [
+        "service",
+        "requestId",
+        "decisionId",
+        "intentId",
+        "state",
+        "handoffReady",
+        "summary",
+        "artifacts",
+        "reportDigest",
+        "verificationChecks",
+        "nextActions"
+      ]
+    },
+    "artifactNames": [
+      "approval-request",
+      "approval-decision",
+      "approval-evidence-report",
+      "approval-evidence-verification",
+      "upstream-evidence"
+    ]
+  },
+  "seenJavaRequests": [
+    "GET /api/v1/failed-events/42/replay-simulation",
+    "GET /api/v1/failed-events/42/approval-status"
+  ],
+  "seenMiniKvCommands": [
+    "COMMANDSJSON",
+    "KEYSJSON orderops:",
+    "EXPLAINJSON SET orderops:preview preview-value",
+    "EXPLAINJSON SET orderops:preview preview-value"
+  ]
+}

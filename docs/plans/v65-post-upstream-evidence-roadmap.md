@@ -67,6 +67,13 @@ GET /api/v1/operation-approval-requests/:requestId/evidence-bundle?format=markdo
 - 不把 bundle 写入数据库
 - 不修改 Java / mini-kv
 
+Node v66 实施收口：
+
+```text
+已按本节实现 approval evidence handoff bundle、bundle digest、artifact 摘要、JSON/Markdown endpoint。
+本版只打包 request、decision、evidence report、verification、upstream evidence，不新增真实执行入口，不写数据库，不修改 Java / mini-kv。
+```
+
 ### Java v41 + mini-kv v50：可并行独立推进
 
 Java v41 目标：
@@ -126,8 +133,8 @@ mini-kv v50 不做：
 ## 推荐执行顺序
 
 ```text
-1. Node v66：approval evidence handoff bundle，可直接推进
-2. Java v41 + mini-kv v50：可并行独立推进
+1. Node v66：approval evidence handoff bundle，已完成
+2. Java v41 + mini-kv v50：下一步可并行独立推进
    - Java v41：approval-status 增加 evidenceVersion / approvalDigest / replayEligibilityDigest
    - mini-kv v50：EXPLAINJSON 增加 schema_version / command_digest / side_effect_count
 3. Node v67：等 Java v41 与 mini-kv v50 都完成后，统一接入 digest/schema 证据

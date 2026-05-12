@@ -159,6 +159,9 @@
 
 69-upstream-approval-evidence-v65.md
  -> 第六十五版上游审批证据接入：把 Java v40 approval-status 和 mini-kv v49 side_effects 纳入 approval evidence report
+
+70-operation-approval-handoff-bundle-v66.md
+ -> 第六十六版 Approval evidence handoff bundle：把 request、decision、evidence、verification 和 upstream evidence 打包成可归档交接包
 ```
 
 ## 项目整体理解
