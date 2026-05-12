@@ -82,6 +82,19 @@ Node v87 已完成。
 - 标注哪些命令可在 CI 跑，哪些命令必须人工授权。
 - 补测试、safe HTTP smoke、归档、代码讲解。
 
+实施收口：
+
+```text
+Node v88 已完成。
+- 已新增 CI evidence command profile service。
+- 已新增 JSON / Markdown endpoint。
+- 已标准化 typecheck、test、build、safe smoke、readiness gate smoke 命令。
+- 已明确 UPSTREAM_PROBES_ENABLED=false、UPSTREAM_ACTIONS_ENABLED=false。
+- 已标注 manual-upstream-probes / manual-upstream-actions 必须人工授权且不在默认 CI 运行。
+- 已归档 smoke 证据与 Markdown 截图到 a/88/。
+- 未创建 GitHub Actions workflow，未写 secret，未启动 Java / mini-kv。
+```
+
 本版不做：
 
 - 不创建 GitHub Actions 工作流。

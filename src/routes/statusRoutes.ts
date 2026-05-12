@@ -2,6 +2,10 @@ import type { FastifyInstance } from "fastify";
 
 import type { AppConfig } from "../config.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
+import {
+  createCiEvidenceCommandProfile,
+  renderCiEvidenceCommandProfileMarkdown,
+} from "../services/ciEvidenceCommandProfile.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
 import {
   loadUpstreamContractFixtureReport,
@@ -252,6 +256,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return gate;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/evidence-command-profile", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createCiEvidenceCommandProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderCiEvidenceCommandProfileMarkdown(profile);
+    }
+
+    return profile;
   });
 
   app.get("/api/v1/runtime/config", async () => ({

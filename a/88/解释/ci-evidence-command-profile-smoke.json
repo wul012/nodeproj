@@ -1,0 +1,50 @@
+{
+  "version": "v88",
+  "scope": "CI evidence command profile",
+  "safeEnvironment": {
+    "PORT": 4188,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "ciEvidenceCommandProfileTest": "passed",
+    "fullTest": "passed",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "profileValid": true,
+    "readOnly": true,
+    "executionAllowed": false,
+    "probesDisabled": true,
+    "actionsDisabled": true,
+    "readinessGateSmokePresent": true,
+    "allCiRunnableCommandsAreReadOnly": true,
+    "noManualAuthorizationCommandRunsByDefault": true,
+    "commandCount": 8,
+    "ciRunnableCommandCount": 6,
+    "manualAuthorizationCommandCount": 2,
+    "smokeCommandCount": 3,
+    "blockerCount": 0,
+    "warningCount": 1,
+    "markdownHasTitle": true,
+    "markdownHasReadinessGate": true
+  },
+  "artifacts": {
+    "screenshot": "a/88/图片/32-ci-evidence-command-profile.png",
+    "codeExplanation": "代码讲解记录/92-ci-evidence-command-profile-v88.md"
+  },
+  "boundaries": {
+    "javaModified": false,
+    "miniKvModified": false,
+    "javaStarted": false,
+    "miniKvStarted": false,
+    "githubActionsWorkflowCreated": false,
+    "ciSecretWritten": false,
+    "realExecutionEndpointAdded": false
+  }
+}
