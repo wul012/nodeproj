@@ -1,0 +1,32 @@
+{
+  "version": "v81",
+  "generatedAt": "2026-05-12T07:03:42.212Z",
+  "scope": "Node Dashboard scenario verification panel",
+  "server": {
+    "host": "127.0.0.1",
+    "port": 4181,
+    "nodePid": 9904,
+    "upstreamProbesEnabled": false,
+    "upstreamActionsEnabled": false,
+    "javaOrMiniKvProcessesStarted": false
+  },
+  "checks": {
+    "healthStatus": "ok",
+    "dashboardStatus": 200,
+    "hasScenarioVerificationPanel": true,
+    "hasScenarioVerificationAction": true,
+    "verificationValid": true,
+    "matrixDigestValid": true,
+    "scenarioCountValid": true,
+    "blockedReplaySemanticsStable": true,
+    "miniKvReadSemanticsStable": true,
+    "sourcePathsPresent": true,
+    "issueCount": 0
+  },
+  "screenshot": "../图片/25-dashboard-scenario-verification-panel.png",
+  "notes": [
+    "Dashboard renders the read-only scenario verification panel.",
+    "The panel consumes the existing scenario matrix verification endpoint.",
+    "The smoke run did not start, stop, build, test, or modify Java or mini-kv."
+  ]
+}

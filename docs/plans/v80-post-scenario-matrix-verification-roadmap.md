@@ -61,6 +61,19 @@ blockedReplaySemanticsStable、miniKvReadSemanticsStable。
 - 不执行 mini-kv 写命令
 - 不修改 Java / mini-kv
 
+实施收口：
+
+```text
+Node v81 已完成：
+- Dashboard 新增 Scenario Verification 只读面板
+- 已展示 verificationValid、matrixDigestValid、scenarioCountValid
+- 已展示 blockedReplaySemanticsStable 与 miniKvReadSemanticsStable
+- 已展示 expected IDs、source paths、drift issueCount 检查
+- 已提供 verification JSON / Markdown 链接和 Audit 按钮
+- 已归档截图与 smoke 证据到 a/81/
+- 已补充代码讲解记录 85-dashboard-scenario-verification-v81.md
+```
+
 ### Node v82：Scenario verification archive bundle
 
 目标：
@@ -87,7 +100,7 @@ blockedReplaySemanticsStable、miniKvReadSemanticsStable。
 ## 推荐执行顺序
 
 ```text
-1. Node v81：Dashboard scenario verification panel
+1. Node v81：Dashboard scenario verification panel，已完成
 2. Node v82：Scenario verification archive bundle
 ```
 

@@ -73,5 +73,18 @@ describe("dashboardHtml", () => {
     expect(html).toContain('data-action="scenarioMatrixMarkdown"');
     expect(html).toContain("function renderScenarioMatrix");
     expect(html).toContain("refreshScenarioMatrix");
+    expect(html).toContain("Scenario Verification");
+    expect(html).toContain('id="scenarioVerificationState"');
+    expect(html).toContain('id="scenarioVerificationValidSignal"');
+    expect(html).toContain('id="scenarioVerificationDigestSignal"');
+    expect(html).toContain('id="scenarioVerificationScenarioCountSignal"');
+    expect(html).toContain('id="scenarioVerificationBlockedReplaySignal"');
+    expect(html).toContain('id="scenarioVerificationMiniKvReadSignal"');
+    expect(html).toContain('id="scenarioVerificationSourcePathsSignal"');
+    expect(html).toContain("/api/v1/upstream-contract-fixtures/scenario-matrix/verification");
+    expect(html).toContain('data-action="scenarioVerification"');
+    expect(html).toContain('data-action="scenarioVerificationMarkdown"');
+    expect(html).toContain("function renderScenarioVerification");
+    expect(html).toContain("refreshScenarioVerification");
   });
 });
