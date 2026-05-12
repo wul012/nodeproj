@@ -1,6 +1,6 @@
 {
-  "sampledAt": "2026-05-11T00:00:00Z",
-  "evidenceVersion": "failed-event-replay-evidence-index.v1",
+  "sampledAt": "2026-05-13T00:00:00Z",
+  "evidenceVersion": "failed-event-replay-evidence-index.v2",
   "readOnly": true,
   "executionAllowed": false,
   "liveEvidenceEndpoints": [
@@ -110,6 +110,52 @@
       ]
     }
   ],
+  "operatorAuthBoundary": {
+    "identitySource": "HEADER_DERIVED_OPERATOR_CONTEXT",
+    "requiredHeaders": [
+      "X-Operator-Id",
+      "X-Operator-Role"
+    ],
+    "anonymousAllowed": false,
+    "javaAuthenticatesCredentials": false,
+    "enforcementMode": "ROLE_POLICY_PRECHECK_AND_SERVICE_GATE",
+    "globalAllowedRoles": [
+      "OPERATOR",
+      "APPROVER",
+      "ADMIN"
+    ],
+    "allowedRolesByAction": {
+      "REQUEST_REPLAY": [
+        "OPERATOR",
+        "APPROVER",
+        "ADMIN"
+      ],
+      "APPROVE_REPLAY": [
+        "APPROVER",
+        "ADMIN"
+      ],
+      "REJECT_REPLAY": [
+        "APPROVER",
+        "ADMIN"
+      ],
+      "REPLAY_FAILED_EVENT": [
+        "OPERATOR",
+        "ADMIN"
+      ]
+    },
+    "normalizationRules": [
+      "operator id must be present, stripped, and truncated to 80 chars",
+      "operator role must be present, stripped, upper-cased, allow-listed, and truncated to 80 chars",
+      "action-specific role checks run after the global allow-list",
+      "operator-context endpoint exposes allowed and denied actions"
+    ],
+    "productionAuthGaps": [
+      "Java does not validate JWT/session cookies/external IdP signatures yet.",
+      "Upstream gateway/control plane must prevent client-side spoofing of X-Operator-* headers.",
+      "Header-derived identity is rehearsal/audit evidence, not final production auth.",
+      "Real replay still requires approval status, action role, non-blank reason, RabbitMQ outbox readiness."
+    ]
+  },
   "auditIdentityFields": [
     "operator.operatorId",
     "operator.operatorRole",
@@ -126,12 +172,15 @@
     "REAL_REPLAY_REQUIRES_NON_BLANK_REASON",
     "REAL_REPLAY_REQUIRES_RABBITMQ_OUTBOX_ENABLED",
     "READ_ONLY_EVIDENCE_ENDPOINTS_MUST_NOT_CHANGE_REPLAY_STATE",
-    "BLOCKED_PRECHECK_MUST_NOT_CREATE_REPLAY_ATTEMPT"
+    "BLOCKED_PRECHECK_MUST_NOT_CREATE_REPLAY_ATTEMPT",
+    "OPERATOR_HEADERS_ARE_REQUIRED_BUT_NOT_CREDENTIAL_AUTHENTICATION",
+    "UPSTREAM_MUST_PREVENT_X_OPERATOR_HEADER_SPOOFING"
   ],
   "productionReadinessNotes": [
     "This index is read-only and does not execute replay.",
     "Static samples are fixtures for smoke, diagnostics, and control-plane contract alignment.",
     "Live endpoints should be queried before POST /api/v1/failed-events/{id}/replay.",
-    "The real replay POST still owns the final approval, role, request, and RabbitMQ checks."
+    "The real replay POST still owns the final approval, role, request, and RabbitMQ checks.",
+    "Operator headers are precheck context, not production authentication."
   ]
 }

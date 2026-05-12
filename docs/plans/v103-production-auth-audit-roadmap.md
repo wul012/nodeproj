@@ -153,6 +153,15 @@ tag: v106
 - 继续保持 `UPSTREAM_ACTIONS_ENABLED=false`。
 - 若真实 auth、RBAC enforcement、managed audit store 仍未完成，保持 `readyForProductionOperations=false`。
 
+完成状态：
+
+```text
+已由 Node v107 落地为 /api/v1/production/readiness-summary-v4。
+v107 汇总 Java v48 operator auth boundary、mini-kv v57 recovery retention boundary、
+Node v104 access guard audit context、v105 operator identity contract、v106 file audit restart evidence。
+结论仍保持 readyForProductionOperations=false，因为真实 auth/RBAC enforcement/managed audit store 仍未完成。
+```
+
 ## 暂停条件
 
 - 需要真实登录密钥、JWT secret、数据库凭据或生产服务器。
@@ -168,4 +177,11 @@ tag: v106
 v103 之后重点不是再堆报告，而是把 access guard 证据写入审计、
 把 operator identity 契约稳定下来、再验证 file audit 的重启恢复证据；
 这些完成后，再用 v107 复查离生产级还差哪些硬门槛。
+```
+
+## 收口状态
+
+```text
+本计划覆盖的 Node v104-v107 已完成。
+后续计划另起：docs/plans/v107-production-readiness-v4-roadmap.md
 ```

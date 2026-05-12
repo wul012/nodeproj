@@ -96,6 +96,7 @@ D:\nodeproj\orderops-node\代码讲解记录_生产雏形阶段
  -> access guard dry-run headers
  -> audit store memory/file runtime
  -> production readiness summary v3
+ -> production readiness summary v4
 ```
 
 成熟度判断：
@@ -133,6 +134,9 @@ file audit restart evidence 与后续 managed audit store
 
 110-file-audit-restart-evidence-v106.md
  -> 第一百零六版 File audit restart evidence：验证 file audit runtime 的重启恢复证据，为生产审计迁移做前置证明
+
+111-production-readiness-summary-v4-v107.md
+ -> 第一百零七版 Production readiness summary v4：汇总 Java v48、mini-kv v57、Node v104-v106 的 auth/audit/recovery 证据，明确生产级仍被真实 auth、RBAC enforcement、managed audit store 阻塞
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

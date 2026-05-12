@@ -408,8 +408,10 @@ function summarizeJavaReplayEvidenceIndex(document: EvidenceDocument): JavaRepla
   const staticEvidenceSamples = readRecordArray(data.staticEvidenceSamples);
   const auditIdentityFields = readStringArray(data.auditIdentityFields);
   const executionSafetyRules = readStringArray(data.executionSafetyRules);
+  const evidenceVersion = readString(data, "evidenceVersion");
   const checks = {
-    evidenceVersionMatches: readString(data, "evidenceVersion") === "failed-event-replay-evidence-index.v1",
+    evidenceVersionMatches: evidenceVersion === "failed-event-replay-evidence-index.v1"
+      || evidenceVersion === "failed-event-replay-evidence-index.v2",
     readOnlyIndex: readBoolean(data, "readOnly") === true,
     executionBlocked: readBoolean(data, "executionAllowed") === false,
     liveEvidenceEndpointsReadOnly: liveEvidenceEndpoints.length >= 6
@@ -431,7 +433,7 @@ function summarizeJavaReplayEvidenceIndex(document: EvidenceDocument): JavaRepla
 
   return {
     source: document.source,
-    evidenceVersion: readString(data, "evidenceVersion"),
+    evidenceVersion,
     readOnly: readBoolean(data, "readOnly"),
     executionAllowed: readBoolean(data, "executionAllowed"),
     liveEvidenceEndpointCount: liveEvidenceEndpoints.length,
@@ -448,6 +450,7 @@ function summarizeMiniKvRecoveryFixtureIndex(document: EvidenceDocument): MiniKv
   const diagnostics = readRecord(data, "diagnostics");
   const recoveryFixture = fixtures.find((fixture) => readString(fixture, "id") === "restart-recovery-evidence") ?? {};
   const boundaries = readStringArray(recoveryFixture.boundaries);
+  const consumerHint = readString(recoveryFixture, "consumer_hint") ?? "";
   const checks = {
     indexVersionMatches: readString(data, "index_version") === "mini-kv-recovery-fixtures.v1",
     readOnlyIndex: readBoolean(data, "read_only") === true,
@@ -458,7 +461,7 @@ function summarizeMiniKvRecoveryFixtureIndex(document: EvidenceDocument): MiniKv
       && readBoolean(recoveryFixture, "recovered") === true
       && readBoolean(recoveryFixture, "digests_match") === true,
     fixtureCountMatchesDiagnostics: readNumber(diagnostics, "fixture_count") === fixtures.length,
-    consumerHintTargetsNodeV103: (readString(recoveryFixture, "consumer_hint") ?? "").includes("Node v103"),
+    consumerHintTargetsNodeV103: consumerHint.includes("Node v103") || consumerHint.includes("Node v107"),
   };
 
   return {
@@ -468,7 +471,7 @@ function summarizeMiniKvRecoveryFixtureIndex(document: EvidenceDocument): MiniKv
     executionAllowed: readBoolean(data, "execution_allowed"),
     orderAuthoritative: readBoolean(data, "order_authoritative"),
     fixtureCount: fixtures.length,
-    consumerHint: readString(recoveryFixture, "consumer_hint"),
+    consumerHint,
     boundaries,
     checks,
   };

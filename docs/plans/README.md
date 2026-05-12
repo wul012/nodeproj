@@ -16,8 +16,8 @@
 - 每次推进 Node 自己的新版本前，必须先读取 `docs/plans/` 中最新计划文档，并按最新计划的版本范围、验证要求、截图规则、暂停条件执行
 - 运行调试截图默认优先使用本机 Chrome / Chromium 可执行文件；不要默认触发 Playwright 浏览器下载。若当前机器未找到 Chrome / Chromium，可使用本机 Edge 兜底，并在归档说明中写明。
 - 同一条未完成开发主线不要创建互相重合的多个计划文件；当当前计划覆盖的版本做完后，下一阶段另起新的计划文件，并只在旧计划记录收口状态
-- 普通版本归档仍放在 `a/<版本>/解释/说明.md`
-- 代码讲解仍放在 `代码讲解记录/`
+- v107 起运行调试截图和解释默认放在 `b/<版本>/图片` 与 `b/<版本>/解释`；`a/` 保留历史归档
+- v104 起代码讲解写入 `代码讲解记录_生产雏形阶段/`；旧目录 `代码讲解记录/` 保留 v1-v103 历史记录
 
 ## 当前计划
 
@@ -71,5 +71,11 @@ v95-production-gap-roadmap.md
  -> 由 Node v95 production readiness summary index 衍生出的生产阻塞项收敛计划；已完成 Node v96-v99 并收口
 
 v99-production-readiness-v2-roadmap.md
- -> 由 Node v99 production readiness summary v2 衍生出的当前计划；下一步按 Node v100、Node v101、Node v102 顺序推进 access-control 与 audit 硬缺口
+ -> 由 Node v99 production readiness summary v2 衍生出的生产阻塞项收敛计划；已完成 Node v100-v103 并收口
+
+v103-production-auth-audit-roadmap.md
+ -> 由 Node v103 production readiness summary v3 衍生出的生产 auth/audit 计划；已完成 Node v104-v107 并收口
+
+v107-production-readiness-v4-roadmap.md
+ -> 由 Node v107 production readiness summary v4 衍生出的当前计划；下一步按 Node v108、Node v109、Node v110 顺序推进 auth enforcement、audit retention 和 production readiness v5
 ```
