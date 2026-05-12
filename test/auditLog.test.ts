@@ -1,6 +1,10 @@
+import { mkdtemp, readFile, rm } from "node:fs/promises";
+import os from "node:os";
+import path from "node:path";
+
 import { describe, expect, it } from "vitest";
 
-import { AuditLog, outcomeForStatus, routeGroupForPath } from "../src/services/auditLog.js";
+import { AuditLog, FileBackedAuditStore, InMemoryAuditStore, outcomeForStatus, routeGroupForPath } from "../src/services/auditLog.js";
 
 describe("AuditLog", () => {
   it("records recent events with route groups and summary counts", () => {
@@ -51,6 +55,45 @@ describe("AuditLog", () => {
     log.record({ requestId: "req-3", method: "GET", path: "/api/v1/sources/status", statusCode: 200, durationMs: 3 });
 
     expect(log.list().map((event) => event.requestId)).toEqual(["req-3", "req-2"]);
+  });
+
+  it("keeps default behavior through the in-memory store adapter", () => {
+    const log = new AuditLog({ capacity: 2, store: new InMemoryAuditStore(2) });
+
+    log.record({ requestId: "req-1", method: "GET", path: "/health", statusCode: 200, durationMs: 1 });
+    log.record({ requestId: "req-2", method: "GET", path: "/api/v1/audit/summary", statusCode: 200, durationMs: 2 });
+    log.record({ requestId: "req-3", method: "GET", path: "/api/v1/sources/status", statusCode: 200, durationMs: 3 });
+
+    expect(log.list().map((event) => event.requestId)).toEqual(["req-3", "req-2"]);
+    expect(log.summary()).toMatchObject({
+      total: 2,
+      success: 2,
+      latest: {
+        requestId: "req-3",
+      },
+    });
+  });
+
+  it("can persist audit events through the file-backed store prototype", async () => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-audit-store-"));
+    const filePath = path.join(directory, "audit.jsonl");
+
+    try {
+      const log = new AuditLog({ capacity: 3, store: new FileBackedAuditStore(filePath, 3) });
+      log.record({ requestId: "req-1", method: "GET", path: "/health", statusCode: 200, durationMs: 1 });
+      log.record({ requestId: "req-2", method: "GET", path: "/api/v1/audit/summary", statusCode: 200, durationMs: 2 });
+
+      const restored = new AuditLog({ capacity: 3, store: new FileBackedAuditStore(filePath, 3) });
+
+      expect(restored.list().map((event) => event.requestId)).toEqual(["req-2", "req-1"]);
+      expect(restored.summary()).toMatchObject({
+        total: 2,
+        success: 2,
+      });
+      expect(await readFile(filePath, "utf8")).toContain("\"requestId\":\"req-2\"");
+    } finally {
+      await rm(directory, { recursive: true, force: true });
+    }
   });
 });
 

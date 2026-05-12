@@ -1,0 +1,42 @@
+{
+  "version": "v91",
+  "scope": "Persistent audit store adapter",
+  "safeEnvironment": {
+    "PORT": 4191,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "auditLogTest": "passed, 6 tests",
+    "fullTest": "passed, 40 files / 166 tests",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "probesEnabled": false,
+    "actionsEnabled": false,
+    "auditTotal": 8,
+    "auditSuccess": 8,
+    "auditLatestGroup": "audit",
+    "eventCount": 7,
+    "hasHealthEvent": true,
+    "hasAuditEvent": true,
+    "summaryEndpointWorked": true
+  },
+  "artifacts": {
+    "screenshot": "a/91/图片/35-audit-store-summary.png",
+    "codeExplanation": "代码讲解记录/95-persistent-audit-store-adapter-v91.md"
+  },
+  "boundaries": {
+    "defaultRuntimeStore": "in-memory",
+    "fileBackedStoreStatus": "prototype",
+    "databaseConnected": false,
+    "historyMigrated": false,
+    "javaModified": false,
+    "miniKvModified": false
+  }
+}

@@ -69,6 +69,19 @@ Node v90 已完成。
 - 新增 file-backed prototype 或 adapter skeleton。
 - 补测试证明现有审计 API 不回退。
 
+实施收口：
+
+```text
+Node v91 已完成。
+- 已新增 AuditStore interface。
+- 已新增 InMemoryAuditStore，默认运行时行为保持不变。
+- 已新增 FileBackedAuditStore JSONL prototype。
+- AuditLog 已改为通过 store adapter 读写。
+- 已补测试验证默认内存行为和 file-backed 恢复事件。
+- 已归档 smoke 证据与 audit summary 截图到 a/91/。
+- 未接真实数据库，未迁移历史数据，未修改 Java / mini-kv。
+```
+
 本版不做：
 
 - 不接真实数据库。
