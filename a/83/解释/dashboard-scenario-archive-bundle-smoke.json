@@ -1,0 +1,33 @@
+{
+  "version": "v83",
+  "generatedAt": "2026-05-12T08:13:21.935Z",
+  "scope": "Node Dashboard scenario archive bundle panel",
+  "server": {
+    "host": "127.0.0.1",
+    "port": 4183,
+    "nodePid": 9880,
+    "upstreamProbesEnabled": false,
+    "upstreamActionsEnabled": false,
+    "javaOrMiniKvProcessesStarted": false
+  },
+  "checks": {
+    "healthStatus": "ok",
+    "dashboardStatus": 200,
+    "hasArchiveBundlePanel": true,
+    "hasArchiveBundleAction": true,
+    "bundleValid": true,
+    "readOnly": true,
+    "executionAllowed": false,
+    "archiveBundleDigestLength": 64,
+    "verificationDigest": "sha256:dfec2e91716885c30e63412037bd9e33cbe53d847d7f707d22599c625016b1e5",
+    "sourcePathCount": 4,
+    "totalScenarios": 4,
+    "issueCount": 0
+  },
+  "screenshot": "../图片/27-dashboard-scenario-archive-bundle-panel.png",
+  "notes": [
+    "Dashboard renders the read-only scenario archive bundle panel.",
+    "The panel consumes the existing scenario verification archive bundle endpoint.",
+    "The smoke run did not start, stop, build, test, or modify Java or mini-kv."
+  ]
+}

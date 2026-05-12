@@ -59,6 +59,18 @@ Node v82：
 - 不执行 mini-kv 写命令
 - 不修改 Java / mini-kv
 
+实施收口：
+
+```text
+Node v83 已完成：
+- Dashboard 新增 Scenario Archive Bundle 只读面板
+- 已展示 bundleValid、archiveBundleDigest、verificationDigest、sourcePathCount
+- 已展示 readOnly=true 与 executionAllowed=false
+- 已提供 archive bundle JSON / Markdown 链接和 Audit 按钮
+- 已归档 Dashboard 截图和 smoke 证据到 a/83/
+- 已补充代码讲解记录 87-dashboard-scenario-archive-bundle-v83.md
+```
+
 ### Node v84：Scenario archive bundle verification report
 
 目标：
@@ -85,7 +97,7 @@ Node v82：
 ## 推荐执行顺序
 
 ```text
-1. Node v83：Dashboard scenario archive bundle panel
+1. Node v83：Dashboard scenario archive bundle panel，已完成
 2. Node v84：Scenario archive bundle verification report
 ```
 

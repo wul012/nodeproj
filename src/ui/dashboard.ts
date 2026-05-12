@@ -595,6 +595,73 @@ export function dashboardHtml(): string {
       </article>
     </section>
 
+    <section class="grid overview-grid">
+      <article class="card">
+        <div class="metric-head">
+          <h2>Scenario Archive Bundle</h2>
+          <div class="badge disabled" id="scenarioArchiveBundleState">pending</div>
+        </div>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Bundle valid</div>
+            <div class="signal-value" id="scenarioArchiveBundleValidSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Read / execute</div>
+            <div class="signal-value" id="scenarioArchiveBundleReadExecuteSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Source paths</div>
+            <div class="signal-value" id="scenarioArchiveBundleSourcePathSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Endpoints</div>
+            <div class="signal-value">
+              <a id="scenarioArchiveBundleJsonLink" href="/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle">JSON</a>
+              /
+              <a id="scenarioArchiveBundleMarkdownLink" href="/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle?format=markdown">Markdown</a>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Archive Bundle Digests</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Archive bundle</div>
+            <div class="signal-value" id="scenarioArchiveBundleDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Verification</div>
+            <div class="signal-value" id="scenarioArchiveBundleVerificationDigestSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Matrix</div>
+            <div class="signal-value" id="scenarioArchiveBundleMatrixDigestSignal">-</div>
+          </div>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Archive Bundle Coverage</h2>
+        <div class="signal-list">
+          <div class="signal-row">
+            <div class="signal-label">Scenarios</div>
+            <div class="signal-value" id="scenarioArchiveBundleScenarioSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Issue count</div>
+            <div class="signal-value" id="scenarioArchiveBundleIssueSignal">-</div>
+          </div>
+          <div class="signal-row">
+            <div class="signal-label">Evidence</div>
+            <div class="signal-value" id="scenarioArchiveBundleEvidenceSignal">-</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
     <section class="grid audit-grid">
       <article class="card">
         <div class="metric-name">Audit total</div>
@@ -855,6 +922,8 @@ export function dashboardHtml(): string {
         <button data-action="scenarioMatrixMarkdown">Scenario Matrix Markdown</button>
         <button data-action="scenarioVerification">Scenario Verification</button>
         <button data-action="scenarioVerificationMarkdown">Scenario Verification Markdown</button>
+        <button data-action="scenarioArchiveBundle">Scenario Archive Bundle</button>
+        <button data-action="scenarioArchiveBundleMarkdown">Scenario Archive Bundle Markdown</button>
         <button data-action="opsSummary">Ops Summary</button>
         <button data-action="opsReadiness">Readiness</button>
         <button data-action="opsRunbook">Runbook</button>
@@ -1214,6 +1283,35 @@ export function dashboardHtml(): string {
       return verification;
     }
 
+    function renderScenarioArchiveBundle(bundle) {
+      const summary = bundle.summary || {};
+      setBadge("scenarioArchiveBundleState", bundle.valid ? "online" : "degraded");
+      setText("scenarioArchiveBundleValidSignal", formatBool(bundle.valid));
+      setText(
+        "scenarioArchiveBundleReadExecuteSignal",
+        "read_only " + formatBool(bundle.readOnly) + " / execution_allowed " + formatBool(bundle.executionAllowed),
+      );
+      setText(
+        "scenarioArchiveBundleSourcePathSignal",
+        formatNumber(summary.sourcePathCount) + "/" + formatNumber(summary.totalScenarios),
+      );
+      setText("scenarioArchiveBundleDigestSignal", bundle.archiveBundleDigest.algorithm + ":" + bundle.archiveBundleDigest.value);
+      setText("scenarioArchiveBundleVerificationDigestSignal", bundle.digests.verificationDigest);
+      setText("scenarioArchiveBundleMatrixDigestSignal", bundle.digests.matrixDigest);
+      setText(
+        "scenarioArchiveBundleScenarioSignal",
+        formatNumber(summary.validScenarios) + "/" + formatNumber(summary.totalScenarios) + " valid / ready " + formatNumber(summary.diagnosticReadyScenarios),
+      );
+      setText("scenarioArchiveBundleIssueSignal", formatNumber(summary.issueCount));
+      setText("scenarioArchiveBundleEvidenceSignal", formatNumber((bundle.scenarioEvidence || []).length) + " records");
+    }
+
+    async function refreshScenarioArchiveBundle() {
+      const bundle = await api("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle");
+      renderScenarioArchiveBundle(bundle);
+      return bundle;
+    }
+
     async function refreshMiniKvKeyInventory() {
       const prefix = $("kvPrefix").value.trim();
       const query = prefix.length > 0 ? "?prefix=" + encodeURIComponent(prefix) : "";
@@ -1395,6 +1493,16 @@ export function dashboardHtml(): string {
         }
         if (action === "scenarioVerificationMarkdown") {
           const response = await fetch("/api/v1/upstream-contract-fixtures/scenario-matrix/verification?format=markdown");
+          if (!response.ok) {
+            throw await response.json();
+          }
+          output.textContent = await response.text();
+        }
+        if (action === "scenarioArchiveBundle") {
+          write(await refreshScenarioArchiveBundle());
+        }
+        if (action === "scenarioArchiveBundleMarkdown") {
+          const response = await fetch("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle?format=markdown");
           if (!response.ok) {
             throw await response.json();
           }
@@ -1987,6 +2095,7 @@ export function dashboardHtml(): string {
     void refreshFixtureDiagnostics().catch(() => {});
     void refreshScenarioMatrix().catch(() => {});
     void refreshScenarioVerification().catch(() => {});
+    void refreshScenarioArchiveBundle().catch(() => {});
     void refreshOpsSummary().catch(() => {});
     void refreshOpsReadiness().catch(() => {});
   </script>
