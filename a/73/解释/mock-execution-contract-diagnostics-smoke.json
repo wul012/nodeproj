@@ -1,0 +1,34 @@
+{
+  "baseUrl": "http://127.0.0.1:54402",
+  "miniKvDiagnosticsUrl": "http://127.0.0.1:54402/api/v1/operation-approval-execution-gate-archives/d91f0158-a519-4a34-bc42-b1b7e889c6bc/execution-contract-diagnostics",
+  "miniKvDiagnosticsMarkdownUrl": "http://127.0.0.1:54402/api/v1/operation-approval-execution-gate-archives/d91f0158-a519-4a34-bc42-b1b7e889c6bc/execution-contract-diagnostics?format=markdown",
+  "javaDiagnosticsUrl": "http://127.0.0.1:54402/api/v1/operation-approval-execution-gate-archives/87f8a30e-247f-420f-ae4b-b6907071bec7/execution-contract-diagnostics",
+  "javaDiagnosticsMarkdownUrl": "http://127.0.0.1:54402/api/v1/operation-approval-execution-gate-archives/87f8a30e-247f-420f-ae4b-b6907071bec7/execution-contract-diagnostics?format=markdown",
+  "miniKvSummary": {
+    "action": "kv-set",
+    "target": "mini-kv",
+    "archiveVerificationValid": true,
+    "diagnosticCount": 0,
+    "errorCount": 0,
+    "warningCount": 0,
+    "javaExecutionContractStatus": "not_applicable",
+    "miniKvExecutionContractStatus": "available",
+    "miniKvCommandDigest": "fnv1a64:1234567890abcdef",
+    "miniKvCheckReadOnly": true,
+    "miniKvCheckExecutionAllowed": false
+  },
+  "javaSummary": {
+    "action": "failed-event-replay-simulation",
+    "target": "order-platform",
+    "archiveVerificationValid": true,
+    "diagnosticCount": 0,
+    "errorCount": 0,
+    "warningCount": 0,
+    "javaExecutionContractStatus": "available",
+    "javaContractDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "javaReplayPreconditionsSatisfied": true,
+    "miniKvExecutionContractStatus": "not_applicable"
+  },
+  "miniKvDiagnostics": [],
+  "javaDiagnostics": []
+}

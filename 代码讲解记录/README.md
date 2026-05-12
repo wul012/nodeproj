@@ -180,6 +180,9 @@
 
 76-execution-contract-archive-bundle-v72.md
  -> 第七十二版 Execution contract archive bundle：把 archive、gate、handoff、verification、Java contractDigest 和 mini-kv CHECKJSON 组织成可归档引用链
+
+77-execution-contract-diagnostics-v73.md
+ -> 第七十三版 Execution contract mismatch diagnostics：输出 archive、gate、Java contract、mini-kv CHECKJSON 不一致的具体 code 和字段定位
 ```
 
 ## 项目整体理解

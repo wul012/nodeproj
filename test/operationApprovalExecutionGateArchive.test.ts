@@ -5,6 +5,9 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
+import {
+  createOperationApprovalExecutionContractDiagnostics,
+} from "../src/services/operationApprovalExecutionContractDiagnostics.js";
 
 const openTcpServers: net.Server[] = [];
 
@@ -137,6 +140,14 @@ describe("operation approval execution gate archive routes", () => {
         method: "GET",
         url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/execution-contract-bundle?format=markdown`,
       });
+      const diagnostics = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/execution-contract-diagnostics`,
+      });
+      const diagnosticsMarkdown = await app.inject({
+        method: "GET",
+        url: `/api/v1/operation-approval-execution-gate-archives/${archive.json().archiveId}/execution-contract-diagnostics?format=markdown`,
+      });
 
       expect(gatePreview.statusCode).toBe(200);
       expect(gatePreview.json()).toMatchObject({
@@ -238,6 +249,62 @@ describe("operation approval execution gate archive routes", () => {
       expect(contractBundleMarkdown.body).toContain("# Operation approval execution contract archive bundle");
       expect(contractBundleMarkdown.body).toContain("- mini-kv CHECKJSON contract: available");
       expect(contractBundleMarkdown.body).toContain("### mini-kv-checkjson-contract");
+      expect(diagnostics.statusCode).toBe(200);
+      expect(diagnostics.json()).toMatchObject({
+        service: "orderops-node",
+        archiveId: archive.json().archiveId,
+        valid: true,
+        summary: {
+          archiveVerificationValid: true,
+          diagnosticCount: 0,
+          errorCount: 0,
+          warningCount: 0,
+          miniKvExecutionContractStatus: "available",
+          miniKvCommandDigest: "fnv1a64:1234567890abcdef",
+          miniKvCheckReadOnly: true,
+          miniKvCheckExecutionAllowed: false,
+        },
+        diagnostics: [],
+      });
+      expect(diagnostics.json().diagnosticsDigest.value).toHaveLength(64);
+      expect(diagnosticsMarkdown.statusCode).toBe(200);
+      expect(diagnosticsMarkdown.body).toContain("# Operation approval execution contract mismatch diagnostics");
+      expect(diagnosticsMarkdown.body).toContain("- Diagnostic count: 0");
+      expect(diagnosticsMarkdown.body).toContain("- No execution contract mismatch diagnostics.");
+
+      const corruptedArchive = structuredClone(archive.json());
+      corruptedArchive.preview.gateDigest.value = "0000000000000000000000000000000000000000000000000000000000000000";
+      corruptedArchive.summary.miniKvCheckExecutionAllowed = true;
+      corruptedArchive.gateChecks.miniKvCheckExecutionAllowedOk = false;
+      const corruptedVerification = structuredClone(verification.json());
+      corruptedVerification.valid = false;
+      corruptedVerification.checks.gateDigestMatchesPreview = false;
+      corruptedVerification.archivedPreviewGateDigest.value = corruptedArchive.preview.gateDigest.value;
+      const mismatchDiagnostics = createOperationApprovalExecutionContractDiagnostics(corruptedArchive, corruptedVerification);
+      expect(mismatchDiagnostics.valid).toBe(false);
+      expect(mismatchDiagnostics.diagnostics).toEqual(expect.arrayContaining([
+        expect.objectContaining({ code: "GATE_DIGEST_PREVIEW_MISMATCH", field: "gateDigest" }),
+        expect.objectContaining({ code: "MINI_KV_CHECK_EXECUTION_ALLOWED_ARCHIVE_PREVIEW_MISMATCH", field: "miniKvCheckExecutionAllowed" }),
+        expect.objectContaining({ code: "MINIKV_CHECKJSON_EXECUTION_ALLOWED", field: "miniKvCheckExecutionAllowed" }),
+      ]));
+
+      const corruptedJavaArchive = structuredClone(archive.json());
+      corruptedJavaArchive.summary.action = "failed-event-replay-simulation";
+      corruptedJavaArchive.summary.target = "order-platform";
+      corruptedJavaArchive.summary.javaExecutionContractStatus = "available";
+      corruptedJavaArchive.summary.javaContractDigest = "not-a-sha256-digest";
+      corruptedJavaArchive.summary.javaReplayPreconditionsSatisfied = false;
+      corruptedJavaArchive.summary.javaDigestVerificationMode = "SERVER_ONLY";
+      corruptedJavaArchive.gateChecks.javaExecutionContractEvidenceValid = false;
+      corruptedJavaArchive.gateChecks.javaReplayPreconditionsSatisfiedOk = false;
+      const javaMismatchDiagnostics = createOperationApprovalExecutionContractDiagnostics(corruptedJavaArchive, verification.json());
+      expect(javaMismatchDiagnostics.valid).toBe(false);
+      expect(javaMismatchDiagnostics.diagnostics).toEqual(expect.arrayContaining([
+        expect.objectContaining({ code: "JAVA_CONTRACT_DIGEST_INVALID", field: "javaContractDigest" }),
+        expect.objectContaining({ code: "JAVA_EXECUTION_CONTRACT_GATE_CHECK_FAILED" }),
+        expect.objectContaining({ code: "JAVA_REPLAY_PRECONDITIONS_NOT_SATISFIED" }),
+        expect.objectContaining({ code: "JAVA_DIGEST_VERIFICATION_MODE_MISMATCH" }),
+      ]));
       expect(seenCommands.every((command) => !/^(SET|DEL|EXPIRE)\s/.test(command))).toBe(true);
     } finally {
       await app.close();

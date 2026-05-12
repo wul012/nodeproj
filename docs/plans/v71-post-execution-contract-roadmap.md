@@ -74,6 +74,15 @@ Java contractDigest 与 mini-kv CHECKJSON contract snapshot。
 输出更清晰的 mismatch diagnostics，方便定位是哪一类证据不匹配。
 ```
 
+实施收口：
+
+```text
+已完成。Node v73 新增 execution-contract diagnostics endpoint，
+可输出 archiveDigest、gateDigest、handoff bundle、archive verification、
+Java execution-contract 与 mini-kv CHECKJSON contract 的 mismatch code、字段、expected/actual 和说明。
+本版仍不自动修复 mismatch，不绕过 reviewer decision，不把 warning 降级成通过。
+```
+
 本版不做：
 
 - 不自动修复 mismatch
@@ -100,7 +109,7 @@ mini-kv v52 目标：
 
 ```text
 1. Node v72：execution contract evidence archive bundle，已完成
-2. Node v73：execution contract mismatch diagnostics
+2. Node v73：execution contract mismatch diagnostics，已完成
 3. Java v43 + mini-kv v52：可以一起推进，只做 fixture / sample 增强
 4. Node v74：接入 fixture-driven smoke，减少 mock 样本漂移
 ```
