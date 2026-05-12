@@ -1,0 +1,221 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Access policy profile",
+    "generatedAt":  "2026-05-12T22:14:39.520Z",
+    "profileVersion":  "access-policy-profile.v1",
+    "readyForEnforcement":  false,
+    "readOnly":  true,
+    "executionAllowed":  false,
+    "enforcement":  {
+                        "mode":  "contract-only",
+                        "rejectsRequests":  false,
+                        "requiresLogin":  false,
+                        "readsSecrets":  false,
+                        "upstreamActionsEnabled":  false
+                    },
+    "requestIdentityContract":  {
+                                    "source":  "future-auth-middleware",
+                                    "requiredForProduction":  true,
+                                    "currentRuntime":  "anonymous-local",
+                                    "fields":  [
+                                                   {
+                                                       "name":  "authenticated",
+                                                       "type":  "boolean",
+                                                       "requiredForMutation":  true,
+                                                       "currentRuntimeValue":  "false"
+                                                   },
+                                                   {
+                                                       "name":  "operatorId",
+                                                       "type":  "string",
+                                                       "requiredForMutation":  true,
+                                                       "currentRuntimeValue":  "null"
+                                                   },
+                                                   {
+                                                       "name":  "roles",
+                                                       "type":  "string[]",
+                                                       "requiredForMutation":  true,
+                                                       "currentRuntimeValue":  "[]"
+                                                   },
+                                                   {
+                                                       "name":  "authSource",
+                                                       "type":  "string",
+                                                       "requiredForMutation":  true,
+                                                       "currentRuntimeValue":  "none"
+                                                   }
+                                               ],
+                                    "sample":  {
+                                                   "authenticated":  false,
+                                                   "operatorId":  null,
+                                                   "roles":  [
+
+                                                             ],
+                                                   "authSource":  "none"
+                                               }
+                                },
+    "routePolicies":  [
+                          {
+                              "id":  "readiness-and-status",
+                              "routeGroup":  "readiness",
+                              "methods":  [
+                                              "GET"
+                                          ],
+                              "pathPatterns":  [
+                                                   "/health",
+                                                   "/api/v1/runtime/config",
+                                                   "/api/v1/production/*",
+                                                   "/api/v1/security/*"
+                                               ],
+                              "minimumRole":  "viewer",
+                              "mutatesLocalState":  false,
+                              "touchesUpstream":  false,
+                              "productionReady":  false,
+                              "note":  "Readiness and security evidence should be readable by authenticated viewers before external exposure."
+                          },
+                          {
+                              "id":  "audit-read",
+                              "routeGroup":  "audit",
+                              "methods":  [
+                                              "GET"
+                                          ],
+                              "pathPatterns":  [
+                                                   "/api/v1/audit/events",
+                                                   "/api/v1/audit/summary",
+                                                   "/api/v1/audit/store-*"
+                                               ],
+                              "minimumRole":  "auditor",
+                              "mutatesLocalState":  false,
+                              "touchesUpstream":  false,
+                              "productionReady":  false,
+                              "note":  "Audit events can expose operator activity and need auditor or admin access."
+                          },
+                          {
+                              "id":  "operation-intent-mutations",
+                              "routeGroup":  "intent",
+                              "methods":  [
+                                              "POST",
+                                              "PUT",
+                                              "DELETE"
+                                          ],
+                              "pathPatterns":  [
+                                                   "/api/v1/operation-intents",
+                                                   "/api/v1/operation-intents/:intentId/confirm"
+                                               ],
+                              "minimumRole":  "operator",
+                              "mutatesLocalState":  true,
+                              "touchesUpstream":  false,
+                              "productionReady":  false,
+                              "note":  "Intent creation and confirmation mutate local ledgers and require an operator identity."
+                          },
+                          {
+                              "id":  "approval-decisions",
+                              "routeGroup":  "approval",
+                              "methods":  [
+                                              "POST"
+                                          ],
+                              "pathPatterns":  [
+                                                   "/api/v1/operation-approval-requests",
+                                                   "/api/v1/operation-approval-requests/:requestId/decision"
+                                               ],
+                              "minimumRole":  "approver",
+                              "mutatesLocalState":  true,
+                              "touchesUpstream":  false,
+                              "productionReady":  false,
+                              "note":  "Approval records must be bound to an approver before real execution can ever be considered."
+                          },
+                          {
+                              "id":  "archive-mutations",
+                              "routeGroup":  "archive",
+                              "methods":  [
+                                              "POST"
+                                          ],
+                              "pathPatterns":  [
+                                                   "/api/v1/operation-approval-requests/:requestId/execution-gate-archive"
+                                               ],
+                              "minimumRole":  "approver",
+                              "mutatesLocalState":  true,
+                              "touchesUpstream":  false,
+                              "productionReady":  false,
+                              "note":  "Archive creation changes the local evidence ledger and needs an approver identity."
+                          },
+                          {
+                              "id":  "upstream-proxy-actions",
+                              "routeGroup":  "upstream-proxy",
+                              "methods":  [
+                                              "POST",
+                                              "PUT",
+                                              "DELETE"
+                                          ],
+                              "pathPatterns":  [
+                                                   "/api/v1/order-platform/*",
+                                                   "/api/v1/mini-kv/*"
+                                               ],
+                              "minimumRole":  "admin",
+                              "mutatesLocalState":  false,
+                              "touchesUpstream":  true,
+                              "productionReady":  false,
+                              "note":  "Upstream actions stay disabled until authentication, RBAC, audit durability, and explicit execution gates are complete."
+                          }
+                      ],
+    "checks":  {
+                   "identityContractDefined":  true,
+                   "routePolicyMapDefined":  true,
+                   "readinessRoutesCovered":  true,
+                   "auditRoutesRequireAuditor":  true,
+                   "mutationRoutesRequireOperatorOrApprover":  true,
+                   "archiveRoutesRequireApprover":  true,
+                   "noSecretRequired":  true,
+                   "enforcementStillDisabled":  true,
+                   "upstreamActionsStillDisabled":  true
+               },
+    "summary":  {
+                    "roleCount":  5,
+                    "routePolicyCount":  6,
+                    "protectedRouteGroupCount":  6,
+                    "mutationPolicyCount":  3,
+                    "productionBlockerCount":  1,
+                    "warningCount":  2,
+                    "recommendationCount":  2
+                },
+    "productionBlockers":  [
+                               {
+                                   "code":  "ACCESS_GUARD_NOT_ENFORCED",
+                                   "severity":  "blocker",
+                                   "message":  "Policy exists, but no request is blocked by it yet."
+                               }
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "POLICY_CONTRACT_ONLY",
+                         "severity":  "warning",
+                         "message":  "This version defines the access contract but deliberately does not reject requests."
+                     },
+                     {
+                         "code":  "IDENTITY_IS_ANONYMOUS",
+                         "severity":  "warning",
+                         "message":  "The current runtime identity sample is anonymous until an auth middleware attaches operator context."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "ADD_DRY_RUN_GUARD",
+                                "severity":  "recommendation",
+                                "message":  "Next version should evaluate this policy per request in dry-run mode and record wouldDeny evidence."
+                            },
+                            {
+                                "code":  "PROPAGATE_IDENTITY_TO_AUDIT",
+                                "severity":  "recommendation",
+                                "message":  "Attach operator identity and matched roles to audit events before enabling upstream actions."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "accessPolicyProfileJson":  "/api/v1/security/access-policy",
+                              "accessPolicyProfileMarkdown":  "/api/v1/security/access-policy?format=markdown",
+                              "accessControlReadinessJson":  "/api/v1/security/access-control-readiness",
+                              "productionReadinessSummaryV2Json":  "/api/v1/production/readiness-summary-v2"
+                          },
+    "nextActions":  [
+                        "Use this policy map as the source for a dry-run access guard in Node v101.",
+                        "Keep this endpoint read-only and do not require secrets until a dedicated auth version.",
+                        "Keep UPSTREAM_ACTIONS_ENABLED=false while access enforcement is contract-only."
+                    ]
+}

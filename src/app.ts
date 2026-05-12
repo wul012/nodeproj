@@ -22,7 +22,8 @@ import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoute
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
 import { registerStatusRoutes } from "./routes/statusRoutes.js";
-import { evaluateAccessGuard } from "./services/accessGuard.js";
+import { evaluateAccessGuard, type AccessGuardEvaluation } from "./services/accessGuard.js";
+import type { AuditAccessGuardContext } from "./services/auditLog.js";
 import { createAuditStoreRuntime } from "./services/auditStoreFactory.js";
 import { MutationRateLimiter } from "./services/mutationRateLimiter.js";
 import { OpsBaselineStore } from "./services/opsBaseline.js";
@@ -64,6 +65,8 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     });
   });
 
+  const requestAccessGuards = new WeakMap<object, AuditAccessGuardContext>();
+
   app.addHook("onRequest", async (_request, reply) => {
     reply.header("x-orderops-service", "orderops-node");
     reply.header("access-control-allow-origin", "*");
@@ -75,6 +78,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       path: request.url,
       headers: request.headers,
     });
+    requestAccessGuards.set(request, toAuditAccessGuardContext(evaluation));
 
     reply
       .header("x-orderops-access-guard-mode", evaluation.mode)
@@ -124,6 +128,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       requestId: request.id,
       method: request.method,
       path: request.url,
+      accessGuard: requestAccessGuards.get(request),
       statusCode: reply.statusCode,
       durationMs: startedAt === undefined ? 0 : performance.now() - startedAt,
     });
@@ -193,4 +198,19 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   });
 
   return app;
+}
+
+function toAuditAccessGuardContext(evaluation: AccessGuardEvaluation): AuditAccessGuardContext {
+  return {
+    guardVersion: evaluation.guardVersion,
+    mode: evaluation.mode,
+    rejectsRequests: evaluation.rejectsRequests,
+    policyMatched: evaluation.policyMatched,
+    policyId: evaluation.policyId,
+    routeGroup: evaluation.routeGroup,
+    requiredRole: evaluation.requiredRole,
+    matchedRoles: evaluation.matchedRoles,
+    wouldDeny: evaluation.wouldDeny,
+    reason: evaluation.reason,
+  };
 }

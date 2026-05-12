@@ -10,10 +10,24 @@ export interface AuditEvent {
   method: string;
   path: string;
   routeGroup: string;
+  accessGuard?: AuditAccessGuardContext;
   statusCode: number;
   outcome: AuditOutcome;
   durationMs: number;
   occurredAt: string;
+}
+
+export interface AuditAccessGuardContext {
+  guardVersion: "access-guard-dry-run.v1";
+  mode: "dry-run";
+  rejectsRequests: false;
+  policyMatched: boolean;
+  policyId?: string;
+  routeGroup: string;
+  requiredRole?: string;
+  matchedRoles: string[];
+  wouldDeny: boolean;
+  reason: "missing_policy" | "missing_identity" | "missing_required_role" | "allowed_by_role";
 }
 
 export interface AuditSummary {
@@ -30,6 +44,7 @@ export interface AuditRecordInput {
   requestId: string;
   method: string;
   path: string;
+  accessGuard?: AuditAccessGuardContext;
   statusCode: number;
   durationMs: number;
 }
@@ -154,6 +169,7 @@ export class AuditLog {
       method: input.method.toUpperCase(),
       path: normalizePath(input.path),
       routeGroup: routeGroupForPath(input.path),
+      accessGuard: input.accessGuard,
       statusCode: input.statusCode,
       outcome: outcomeForStatus(input.statusCode),
       durationMs: Math.max(0, Math.round(input.durationMs)),
@@ -276,8 +292,36 @@ function isAuditEvent(value: unknown): value is AuditEvent {
     && typeof event.method === "string"
     && typeof event.path === "string"
     && typeof event.routeGroup === "string"
+    && isAuditAccessGuardContext(event.accessGuard)
     && typeof event.statusCode === "number"
     && (event.outcome === "success" || event.outcome === "client_error" || event.outcome === "server_error")
     && typeof event.durationMs === "number"
     && typeof event.occurredAt === "string";
+}
+
+function isAuditAccessGuardContext(value: unknown): value is AuditAccessGuardContext | undefined {
+  if (value === undefined) {
+    return true;
+  }
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+
+  const context = value as Record<string, unknown>;
+  return context.guardVersion === "access-guard-dry-run.v1"
+    && context.mode === "dry-run"
+    && context.rejectsRequests === false
+    && typeof context.policyMatched === "boolean"
+    && (context.policyId === undefined || typeof context.policyId === "string")
+    && typeof context.routeGroup === "string"
+    && (context.requiredRole === undefined || typeof context.requiredRole === "string")
+    && Array.isArray(context.matchedRoles)
+    && context.matchedRoles.every((role) => typeof role === "string")
+    && typeof context.wouldDeny === "boolean"
+    && (
+      context.reason === "missing_policy"
+      || context.reason === "missing_identity"
+      || context.reason === "missing_required_role"
+      || context.reason === "allowed_by_role"
+    );
 }

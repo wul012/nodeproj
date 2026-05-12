@@ -1,0 +1,29 @@
+﻿{
+    "events":  [
+                   {
+                       "id":  "e4909f5a-3b9a-44b2-b15a-cef61d74d450",
+                       "requestId":  "e74d30b3-3a5c-4ecc-bf7c-b2ec72bc5bc6",
+                       "method":  "GET",
+                       "path":  "/api/v1/security/access-policy",
+                       "routeGroup":  "other",
+                       "accessGuard":  {
+                                           "guardVersion":  "access-guard-dry-run.v1",
+                                           "mode":  "dry-run",
+                                           "rejectsRequests":  false,
+                                           "policyMatched":  true,
+                                           "policyId":  "readiness-and-status",
+                                           "routeGroup":  "readiness",
+                                           "requiredRole":  "viewer",
+                                           "matchedRoles":  [
+                                                                "viewer"
+                                                            ],
+                                           "wouldDeny":  false,
+                                           "reason":  "allowed_by_role"
+                                       },
+                       "statusCode":  200,
+                       "outcome":  "success",
+                       "durationMs":  4,
+                       "occurredAt":  "2026-05-12T22:14:39.523Z"
+                   }
+               ]
+}

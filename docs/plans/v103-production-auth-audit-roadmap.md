@@ -58,6 +58,17 @@ readyForProductionOperations=false
 - 新增 audit context readiness 或测试，证明受保护路由会产生 guard evidence。
 - 不启用真实登录，不把 guard 改为 enforcement。
 
+实施收口：
+
+```text
+已完成。
+audit event field: accessGuard
+coverage: routeGroup / requiredRole / matchedRoles / wouldDeny / reason
+archive: a/104/
+code notes: 代码讲解记录_生产雏形阶段/108-access-guard-audit-context-v104.md
+tag: v104
+```
+
 ### Node v105：operator identity contract rehearsal
 
 目标：
