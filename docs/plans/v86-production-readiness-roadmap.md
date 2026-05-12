@@ -117,6 +117,19 @@ Node v88 已完成。
 - 输出 blockers / warnings / recommendations。
 - 补 JSON / Markdown endpoint、测试、safe HTTP smoke、归档、代码讲解。
 
+实施收口：
+
+```text
+Node v89 已完成。
+- 已新增 deployment safety profile service。
+- 已新增 JSON / Markdown endpoint。
+- 已汇总 probes/actions、host/port、log level、upstream URL、fixture paths、rate limit。
+- 已输出 blockers / warnings / recommendations。
+- 当前 smoke 结果 blockerCount=0、warningCount=5、recommendationCount=4。
+- 已归档 smoke 证据与 Markdown 截图到 a/89/。
+- 未真实部署，未修改服务器环境，未写 secret，未启动 Java / mini-kv。
+```
+
 本版不做：
 
 - 不真实部署。

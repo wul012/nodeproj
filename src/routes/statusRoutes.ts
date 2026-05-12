@@ -6,6 +6,10 @@ import {
   createCiEvidenceCommandProfile,
   renderCiEvidenceCommandProfileMarkdown,
 } from "../services/ciEvidenceCommandProfile.js";
+import {
+  createDeploymentSafetyProfile,
+  renderDeploymentSafetyProfileMarkdown,
+} from "../services/deploymentSafetyProfile.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
 import {
   loadUpstreamContractFixtureReport,
@@ -274,6 +278,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderCiEvidenceCommandProfileMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/safety-profile", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createDeploymentSafetyProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderDeploymentSafetyProfileMarkdown(profile);
     }
 
     return profile;

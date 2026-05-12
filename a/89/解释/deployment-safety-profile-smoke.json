@@ -1,0 +1,51 @@
+{
+  "version": "v89",
+  "scope": "Deployment safety profile",
+  "safeEnvironment": {
+    "PORT": 4189,
+    "HOST": "127.0.0.1",
+    "UPSTREAM_PROBES_ENABLED": "false",
+    "UPSTREAM_ACTIONS_ENABLED": "false"
+  },
+  "checks": {
+    "typecheck": "passed",
+    "deploymentSafetyProfileTest": "passed",
+    "fullTest": "passed",
+    "build": "passed",
+    "httpSmoke": "passed",
+    "playwrightScreenshot": "passed"
+  },
+  "httpSmoke": {
+    "healthStatus": "ok",
+    "suitableForProductionDemo": true,
+    "readOnly": true,
+    "executionAllowed": false,
+    "upstreamActionsDisabled": true,
+    "portValid": true,
+    "logLevelKnown": true,
+    "mutationRateLimitConfigured": true,
+    "fixturePathsAbsolute": true,
+    "blockerCount": 0,
+    "warningCount": 5,
+    "recommendationCount": 4,
+    "probesEnabled": false,
+    "actionsEnabled": false,
+    "loopbackHost": true,
+    "localhostUpstreams": 2,
+    "markdownHasTitle": true,
+    "markdownHasSuitable": true
+  },
+  "artifacts": {
+    "screenshot": "a/89/图片/33-deployment-safety-profile.png",
+    "codeExplanation": "代码讲解记录/93-deployment-safety-profile-v89.md"
+  },
+  "boundaries": {
+    "javaModified": false,
+    "miniKvModified": false,
+    "javaStarted": false,
+    "miniKvStarted": false,
+    "realDeploymentPerformed": false,
+    "secretWritten": false,
+    "serverEnvironmentModified": false
+  }
+}
