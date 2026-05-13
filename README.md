@@ -120,6 +120,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production live probe real-read smoke dry-run command package for bundling execution request, result importer, and release gate digests into one operator package before real upstream capture
 - Production live probe real-read smoke evidence capture for sealing skipped/mixed/pass capture status without automatically starting Java or mini-kv
 - Production live probe real-read smoke production pass evidence verification for checking whether v148 capture can become production pass evidence without opening production operations
+- Production live probe real-read smoke production pass evidence archive for sealing v149 verification, v148 capture, and v146 release gate digests before Java and mini-kv add fresh read-only evidence
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
