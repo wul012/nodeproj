@@ -75,6 +75,8 @@ mini-kv INFOJSON / STATSJSON live read
 
 ## Node v134：production readiness summary v12
 
+状态：已由 Node v134 完成。
+
 目标：
 
 ```text

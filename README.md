@@ -112,6 +112,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production readiness summary v9 for combining managed audit adapter runner and JWKS cache contract evidence while keeping real production connections blocked
 - Production readiness summary v10 for combining production connection config contract and failure-mode rehearsal while separating readiness evidence from real production connections
 - Production readiness summary v11 for combining implementation precheck and dry-run change request readiness while keeping owner approval and real connection blockers explicit
+- Production readiness summary v12 for combining dry-run approval ledger and archive verification readiness while keeping real production connections blocked
 
 ## Setup
 
@@ -187,6 +188,8 @@ GET    /api/v1/production/readiness-summary-v10
 GET    /api/v1/production/readiness-summary-v10?format=markdown
 GET    /api/v1/production/readiness-summary-v11
 GET    /api/v1/production/readiness-summary-v11?format=markdown
+GET    /api/v1/production/readiness-summary-v12
+GET    /api/v1/production/readiness-summary-v12?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile
