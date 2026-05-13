@@ -124,6 +124,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production live probe real-read smoke production pass evidence archive verification for recomputing v150 archive digests and referencing Java v49 / mini-kv v58 read-only evidence without runtime cross-repo file reads
 - Production live probe real-read smoke operator runbook for turning v152 archive verification into manual Java / mini-kv read-only startup steps, allowed probe targets, forbidden writes, and environment gates
 - Production live probe real-read smoke operator runbook verification for recomputing the v153 runbook digest and checking step order, read-only targets, forbidden operations, and no-auto-start boundaries
+- Production live probe real-read smoke read-only window readiness packet for bundling v152 archive verification, v153 runbook, and v154 runbook verification into a manual review package before any Java / mini-kv startup
 - Shared live-probe report helpers for stable digest generation, Markdown rendering, and repeated JSON/Markdown route registration without changing existing endpoints
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
