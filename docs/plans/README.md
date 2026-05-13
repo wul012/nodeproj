@@ -107,5 +107,8 @@ v134-production-live-probe-roadmap.md
  -> 由 Node v134 production readiness summary v12 衍生出的计划；已完成 Node v135-v137 并收口
 
 v137-production-live-probe-evidence-roadmap.md
- -> 由 Node v137 production readiness summary v13 衍生出的当前计划；下一步按 Node v138、Node v139、Node v140 顺序推进 live probe evidence archive record、archive verification、production readiness summary v14
+ -> 由 Node v137 production readiness summary v13 衍生出的计划；已完成 Node v138-v140 并收口，且本阶段没有新增 summary v14
+
+v140-live-probe-handoff-roadmap.md
+ -> 由 Node v140 production live probe evidence archive bundle 衍生出的当前计划；下一步按 Node v141、Node v142、Node v143 顺序推进 live probe handoff checklist、real-read smoke readiness switch、real-read smoke archive adapter
 ```
