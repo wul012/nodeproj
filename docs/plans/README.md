@@ -86,5 +86,8 @@ v113-production-integration-roadmap.md
  -> 由 Node v113 deployment environment readiness gate 衍生出的生产硬门槛集成计划；已完成 Node v114-v116 并收口
 
 v116-production-adapter-roadmap.md
- -> 由 Node v116 production readiness summary v6 衍生出的当前计划；下一步按 Node v117、Node v118、Node v119 顺序推进 managed audit adapter boundary、real IdP verifier boundary、production readiness summary v7
+ -> 由 Node v116 production readiness summary v6 衍生出的生产 adapter 边界计划；已完成 Node v117-v119 并收口
+
+v119-production-connection-roadmap.md
+ -> 由 Node v119 production readiness summary v7 衍生出的当前计划；下一步按 Node v120、Node v121、Node v122 顺序推进 managed audit adapter compliance harness、JWKS verifier fixture rehearsal、production readiness summary v8
 ```

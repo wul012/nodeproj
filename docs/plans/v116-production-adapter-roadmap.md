@@ -66,6 +66,8 @@ v114-v116 已经把 verified identity audit binding、managed audit readiness su
 
 ## Node v119：production readiness summary v7
 
+状态：已由 Node v119 落地为 `/api/v1/production/readiness-summary-v7`。
+
 目标：
 
 ```text
@@ -93,3 +95,7 @@ v114-v116 已经把 verified identity audit binding、managed audit readiness su
 ```text
 v117-v119 的主线是从 evidence 总览推进到生产 adapter 边界，但仍不接真实外部依赖、不打开真实执行。
 ```
+
+## 收口
+
+本计划已由 Node v117、v118、v119 完成。下一阶段不继续修改本文件，另起 `v119-production-connection-roadmap.md`。
