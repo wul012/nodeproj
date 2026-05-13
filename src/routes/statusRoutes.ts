@@ -218,6 +218,10 @@ import {
   renderProductionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacketMarkdown,
 } from "../services/productionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacket.js";
 import {
+  loadProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCapture,
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCaptureMarkdown,
+} from "../services/productionLiveProbeRealReadSmokeReadOnlyWindowLiveCapture.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1395,6 +1399,20 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderProductionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacketMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-read-only-window-live-capture",
+    () => loadProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCapture({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+      productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    }),
+    renderProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCaptureMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

@@ -2,7 +2,7 @@
 
 来源版本：Node v153 `production live probe real-read smoke operator runbook`。
 
-计划状态：当前有效全局计划；Node v154-v155 已完成，下一步推进 Java v50 + mini-kv v59。上一份 `docs/plans/v149-post-production-pass-evidence-roadmap.md` 已完成，本文件从 Node v154 开始，不重复安排 v150-v153。
+计划状态：已完成；Node v154-v156 已完成，Java v50 + mini-kv v59 已只读核对完成。后续从 `docs/plans/v156-post-read-only-window-capture-roadmap.md` 接力。
 
 ## 计划接力规则
 
@@ -27,6 +27,9 @@ Node v152：production pass evidence archive verification
 Node v153：real-read smoke operator runbook
 Node v154：operator runbook verification
 Node v155：read-only window readiness packet
+Java v50：ops read-only window self description
+mini-kv v59：runtime read self description
+Node v156：read-only window live capture
 ```
 
 Node v153 已经把真实只读联调窗口拆成明确人工步骤：
@@ -44,8 +47,8 @@ Java replay POST、订单写操作、mini-kv 写命令全部禁止
 ```text
 1. Node v154：operator runbook verification，已复核 v153 runbook digest、步骤数量、允许目标、禁止操作和 no-auto-start 边界；未启动 Java / mini-kv。
 2. Node v155：read-only window readiness packet，已把 v154 verification、v153 runbook、v152 archive verification 打包成一次人工窗口前的审阅包；仍未启动 Java / mini-kv。
-3. Java v50 + mini-kv v59：下一步推进，可以一起推进，只补真实只读联调窗口需要的“启动后自描述/健康证据”增强；Java 补 ops health/evidence 字段稳定性，mini-kv 补 INFOJSON/STATSJSON smoke 输出稳定性。
-4. Node v156：在用户明确允许并由 operator 手动启动 Java / mini-kv 后，执行真实只读 live probe capture；如果上游没有启动，则记录 skipped，不得当作 pass。
+3. Java v50 + mini-kv v59：已一起完成，只补真实只读联调窗口需要的“启动后自描述/健康证据”增强；Java 补 ops health/evidence 字段稳定性，mini-kv 补 INFOJSON/STATSJSON smoke 输出稳定性。
+4. Node v156：已完成真实只读 live probe capture；如果上游没有启动，则记录 skipped，不得当作 pass。
 ```
 
 ## Node v154：operator runbook verification
@@ -111,6 +114,8 @@ mini-kv v59 建议：
 
 ## Node v156：真实只读 live probe capture
 
+状态：已由 Node v156 完成。
+
 目标：
 
 ```text
@@ -138,5 +143,5 @@ mini-kv v59 建议：
 ## 一句话结论
 
 ```text
-Node v154-v155 已验证并打包真实只读窗口前 Node 证据；下一步 Java v50 + mini-kv v59 一起补上游只读自描述能力，再进入 Node v156 的真实只读 capture。
+Node v154-v156 已验证、打包并执行真实只读窗口 capture；Java v50 + mini-kv v59 已提供上游只读自描述能力。下一阶段另起 plan，从 v157 开始。
 ```
