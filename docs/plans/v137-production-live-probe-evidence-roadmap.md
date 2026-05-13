@@ -43,12 +43,21 @@ UPSTREAM_ACTIONS_ENABLED=true
 ```text
 1. Node v138：live probe evidence archive record
 2. Node v139：live probe evidence archive verification
-3. Node v140：production readiness summary v14
+3. Node v140：live probe evidence archive bundle
 ```
 
 这三版都属于 Node。未启动 Java / mini-kv 时，v138-v140 都必须基于 skipped live probe evidence 继续推进。
 
+说明：
+
+```text
+本阶段不新增 production readiness summary v14。
+summary 后续只承担阶段总汇总，不再为一两个新增 check 单独出新版本。
+```
+
 ## Node v138：live probe evidence archive record
+
+状态：已由 Node v138 完成。
 
 目标：
 
@@ -80,20 +89,21 @@ UPSTREAM_ACTIONS_ENABLED=true
 - 校验没有 write probe、没有 upstream action。
 - 输出 verification blockers / warnings / recommendations。
 
-## Node v140：production readiness summary v14
+## Node v140：live probe evidence archive bundle
 
 目标：
 
 ```text
-把 live probe archive record 和 archive verification 接入新的生产就绪汇总。
+把 live probe archive record 和 archive verification 打包成可交付的 archive bundle。
 ```
 
 本版要落地：
 
-- 新增 `/api/v1/production/readiness-summary-v14`。
-- 区分 live probe evidence archived、archive verification ready、real production connections still missing。
-- 继续保持 `readyForProductionOperations=false`。
-- 若 v138-v139 都只有 skipped evidence，summary v14 必须明确写出 skipped 不是 production pass。
+- 新增 `/api/v1/production/live-probe-evidence-archive/bundle`。
+- 汇总 archive record、archive verification、截图/运行说明引用。
+- 输出 bundle digest 和 evidence endpoint 列表。
+- 明确 skipped evidence 只是本地归档证据，不是 production pass。
+- 不新增 production readiness summary 版本。
 
 ## 暂停条件
 
@@ -108,5 +118,5 @@ UPSTREAM_ACTIONS_ENABLED=true
 ## 一句话结论
 
 ```text
-v138-v140 把 live probe readiness 变成可归档、可验证、可汇总的生产证据，但仍不把 skipped evidence 当作真实生产连接成功。
+v138-v140 把 live probe readiness 变成可归档、可验证、可交付的生产证据包；summary 版本延后到更完整阶段收口时再做。
 ```
