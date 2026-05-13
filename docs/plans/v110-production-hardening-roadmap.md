@@ -103,6 +103,14 @@ InMemoryManagedAuditStoreFake 覆盖 append-only write、query by requestId、di
 - 输出 blocker / warning / recommendation。
 - 继续保持真实执行关闭。
 
+完成状态：
+
+```text
+已由 Node v113 落地为 /api/v1/deployment/environment-readiness。
+gate 汇总 signed auth token contract、managed audit store contract、retention/backup 配置、upstream action safety。
+rehearsal 配置齐时仍保留 REAL_IDP_NOT_CONNECTED 和 MANAGED_AUDIT_ADAPTER_MISSING。
+```
+
 ## 暂停条件
 
 - 需要真实登录密钥、JWT secret、数据库凭据或生产服务器。
@@ -116,4 +124,11 @@ InMemoryManagedAuditStoreFake 覆盖 append-only write、query by requestId、di
 
 ```text
 v111-v113 不再继续堆 readiness summary，而是补生产认证、managed audit contract、部署环境 gate 三个硬门槛的前置工程。
+```
+
+## 收口状态
+
+```text
+本计划覆盖的 Node v111-v113 已完成。
+后续计划另起：docs/plans/v113-production-integration-roadmap.md
 ```

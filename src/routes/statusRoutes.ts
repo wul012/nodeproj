@@ -37,6 +37,10 @@ import {
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
 import {
+  createDeploymentEnvironmentReadinessGate,
+  renderDeploymentEnvironmentReadinessMarkdown,
+} from "../services/deploymentEnvironmentReadiness.js";
+import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
@@ -530,6 +534,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/environment-readiness", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const gate = createDeploymentEnvironmentReadinessGate(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderDeploymentEnvironmentReadinessMarkdown(gate);
+    }
+
+    return gate;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

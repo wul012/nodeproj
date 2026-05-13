@@ -80,5 +80,8 @@ v107-production-readiness-v4-roadmap.md
  -> 由 Node v107 production readiness summary v4 衍生出的生产门槛可切换演练计划；已完成 Node v108-v110 并收口
 
 v110-production-hardening-roadmap.md
- -> 由 Node v110 production readiness summary v5 衍生出的当前计划；下一步按 Node v111、Node v112、Node v113 顺序推进 signed auth token contract、managed audit store contract、deployment environment readiness gate
+ -> 由 Node v110 production readiness summary v5 衍生出的生产认证与审计硬化计划；已完成 Node v111-v113 并收口
+
+v113-production-integration-roadmap.md
+ -> 由 Node v113 deployment environment readiness gate 衍生出的当前计划；下一步按 Node v114、Node v115、Node v116 顺序推进 verified identity audit binding、managed audit readiness summary、production readiness summary v6
 ```

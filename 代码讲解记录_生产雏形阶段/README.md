@@ -152,6 +152,9 @@ file audit restart evidence 与后续 managed audit store
 
 116-managed-audit-store-contract-v112.md
  -> 第一百一十二版 Managed audit store adapter contract：用 fake adapter 覆盖 append/query/digest/retention/backup marker 五项生产审计存储契约，同时保留真实 managed adapter 缺失阻塞
+
+117-deployment-environment-readiness-v113.md
+ -> 第一百一十三版 Deployment environment readiness gate：汇总 signed token、managed audit、retention/backup、upstream action safety，输出部署前 blocker
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
