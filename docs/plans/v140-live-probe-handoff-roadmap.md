@@ -69,6 +69,8 @@ UPSTREAM_ACTIONS_ENABLED=true
 
 ## Node v142：live probe real-read smoke readiness switch
 
+状态：已由 Node v142 完成。
+
 目标：
 
 ```text

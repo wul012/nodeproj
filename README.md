@@ -112,6 +112,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production live probe evidence archive verification for rechecking archive digest, version references, probe counts, no-write evidence, and skipped-not-production-pass boundaries
 - Production live probe evidence archive bundle for packaging the archive record, verification, screenshots, runbooks, and bundle digest without adding another summary version
 - Production live probe operator handoff checklist for turning skipped archive evidence into an operator-readable real read-only smoke checklist without starting upstreams automatically
+- Production live probe real-read smoke readiness switch for making the explicit read-only probe window visible while keeping the default state closed and write actions disabled
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -268,6 +269,8 @@ GET    /api/v1/production/live-probe-evidence-archive/bundle
 GET    /api/v1/production/live-probe-evidence-archive/bundle?format=markdown
 GET    /api/v1/production/live-probe-handoff-checklist
 GET    /api/v1/production/live-probe-handoff-checklist?format=markdown
+GET    /api/v1/production/live-probe-real-read-smoke-readiness-switch
+GET    /api/v1/production/live-probe-real-read-smoke-readiness-switch?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
