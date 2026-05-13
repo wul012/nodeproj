@@ -74,6 +74,8 @@ real-read smoke archive adapter
 
 ## Node v146：real-read smoke release evidence gate
 
+状态：已由 Node v146 完成。
+
 目标：
 
 ```text
