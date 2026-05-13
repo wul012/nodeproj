@@ -37,6 +37,8 @@ real-read smoke archive adapter
 
 ## Node v144：real-read smoke execution request + operator command profile
 
+状态：已由 Node v144 完成。
+
 目标：
 
 ```text
