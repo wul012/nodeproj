@@ -43,7 +43,9 @@ not-production-pass-evidence
 - Codex 默认继续负责 Node 项目。
 - 每次推进 Node 前先读取最新 plan，并判断是否轮到 Node。
 - 不再为了小字段继续堆 summary；阶段性总汇总要等真实只读 smoke 或 CI/deploy gate 有实质变化。
-- Java / mini-kv 只在需要真实 pass evidence 时介入。
+- Java / mini-kv 未明确授权时，只做只读状态核对，不构建、不启动、不测试、不修改。
+- Node 版本先完成 capture / verification 能力；如果 Java / mini-kv 未启动，必须输出 skipped/mixed evidence，不能伪装 pass，也不能把上游启动写成 Node 版本的默认前置阻塞。
+- Java / mini-kv 只在用户明确要求真实 pass evidence capture 时进入真实只读窗口。
 - 真实联调只允许读操作：
   - Java `GET /actuator/health`
   - Java `GET /api/v1/ops/overview`
@@ -60,9 +62,8 @@ not-production-pass-evidence
 
 ```text
 1. Node v147：real-read smoke dry-run command package，把 v144-v146 的执行请求、导入、gate 串成单一 operator package
-2. Java / mini-kv：如果用户准备真实联调，则启动两个项目并只读确认 health/info 能力
-3. Node v148：real-read smoke pass evidence capture，只在 Java / mini-kv 已启动且只读窗口打开时运行
-4. Node v149：production pass evidence verification，校验 v148 pass evidence 是否能通过 v146 gate
+2. Node v148：real-read smoke evidence capture mechanism，默认未启动上游时记录 skipped/mixed；若用户已明确打开只读窗口，则记录真实 pass/mixed
+3. Node v149：production pass evidence verification，校验 v148 evidence 是否能通过 v146 gate；skipped/mixed 必须继续阻断
 ```
 
 ## Node v147：real-read smoke dry-run command package
@@ -87,6 +88,8 @@ not-production-pass-evidence
 
 只有当用户明确要做真实 pass evidence capture 时再启动。
 
+这不是单独的版本顺序项，也不是 Node v148 的默认阻塞条件。Node v148 应先把 capture 机制做完整；没有真实上游时，结果必须是 skipped/mixed evidence。用户明确进入真实只读窗口后，Node 再使用同一套 capture 机制记录 pass/mixed evidence。
+
 如果启动，顺序建议：
 
 ```text
@@ -101,7 +104,7 @@ not-production-pass-evidence
 目标：
 
 ```text
-在两个上游已显式启动时，捕获真实只读 smoke evidence。
+固化真实只读 smoke 的 evidence capture 机制，并正确区分 skipped、mixed、pass。
 ```
 
 本版必须满足：
@@ -109,7 +112,9 @@ not-production-pass-evidence
 - `UPSTREAM_PROBES_ENABLED=true`
 - `UPSTREAM_ACTIONS_ENABLED=false`
 - 不执行任何写命令
+- 默认不自动启动 Java / mini-kv
 - 如果任一上游不可用，仍输出 skipped/mixed，不伪装 pass
+- 如果用户已经明确打开真实只读窗口，则记录真实 pass/mixed 证据
 
 ## Node v149：production pass evidence verification
 
@@ -130,11 +135,12 @@ not-production-pass-evidence
 - 需要真实生产密钥、生产数据库、生产 IdP 配置。
 - 需要打开 `UPSTREAM_ACTIONS_ENABLED=true`。
 - 需要 Java replay POST 或 mini-kv 写命令。
-- Java / mini-kv 未启动但版本要求必须真实 pass。
+- 用户明确要求真实 pass evidence，但 Java / mini-kv 只读窗口无法打开。
+- 任何 skipped/mixed evidence 被要求当作 production pass。
 - 对推进版本有疑惑时就暂停并停止自动化。
 
 ## 一句话结论
 
 ```text
-v147 先做 dry-run package；真实 pass evidence 从 v148 开始才需要 Java / mini-kv 介入。
+v147 先做 dry-run package；v148-v149 继续由 Node 完成 capture / verification 能力。真实 pass 只在用户明确打开 Java / mini-kv 只读窗口后产生，默认不能把 skipped/mixed 冒充 pass。
 ```
