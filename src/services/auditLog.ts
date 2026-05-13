@@ -39,6 +39,21 @@ export interface AuditOperatorIdentityContext {
   authSource: "none" | "headers";
   rawRoles: string[];
   rejectedRoles: string[];
+  verifiedToken?: AuditVerifiedTokenContext;
+}
+
+export interface AuditVerifiedTokenContext {
+  verifiedTokenVersion: "signed-auth-token-audit-binding.v1";
+  tokenFormat: "orderops-hmac-jws-rehearsal";
+  issuer: string;
+  requiredRole: string;
+  verification: "accepted" | "rejected";
+  subject?: string;
+  roles: string[];
+  expiresAt?: string;
+  failureReason?: string;
+  identityProvider: "local-hmac-rehearsal";
+  productionIdentityProviderConnected: false;
 }
 
 export interface AuditSummary {
@@ -331,7 +346,8 @@ function isAuditOperatorIdentityContext(value: unknown): value is AuditOperatorI
     && Array.isArray(identity.rawRoles)
     && identity.rawRoles.every((role) => typeof role === "string")
     && Array.isArray(identity.rejectedRoles)
-    && identity.rejectedRoles.every((role) => typeof role === "string");
+    && identity.rejectedRoles.every((role) => typeof role === "string")
+    && isAuditVerifiedTokenContext(identity.verifiedToken);
 }
 
 function isAuditAccessGuardContext(value: unknown): value is AuditAccessGuardContext | undefined {
@@ -359,4 +375,27 @@ function isAuditAccessGuardContext(value: unknown): value is AuditAccessGuardCon
       || context.reason === "missing_required_role"
       || context.reason === "allowed_by_role"
     );
+}
+
+function isAuditVerifiedTokenContext(value: unknown): value is AuditVerifiedTokenContext | undefined {
+  if (value === undefined) {
+    return true;
+  }
+  if (typeof value !== "object" || value === null || Array.isArray(value)) {
+    return false;
+  }
+
+  const token = value as Record<string, unknown>;
+  return token.verifiedTokenVersion === "signed-auth-token-audit-binding.v1"
+    && token.tokenFormat === "orderops-hmac-jws-rehearsal"
+    && typeof token.issuer === "string"
+    && typeof token.requiredRole === "string"
+    && (token.verification === "accepted" || token.verification === "rejected")
+    && (token.subject === undefined || typeof token.subject === "string")
+    && Array.isArray(token.roles)
+    && token.roles.every((role) => typeof role === "string")
+    && (token.expiresAt === undefined || typeof token.expiresAt === "string")
+    && (token.failureReason === undefined || typeof token.failureReason === "string")
+    && token.identityProvider === "local-hmac-rehearsal"
+    && token.productionIdentityProviderConnected === false;
 }

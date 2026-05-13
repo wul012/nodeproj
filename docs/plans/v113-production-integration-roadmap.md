@@ -26,6 +26,8 @@ v111-v113 已经把 signed token contract、managed audit store contract、deplo
 
 ## Node v114：verified identity audit binding
 
+状态：已由 Node v114 落地为 `/api/v1/security/verified-identity-audit-binding`。
+
 目标：
 
 ```text

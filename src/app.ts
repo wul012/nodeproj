@@ -36,6 +36,7 @@ import { OperationApprovalExecutionGateArchiveLedger } from "./services/operatio
 import { OperationApprovalRequestLedger } from "./services/operationApprovalRequest.js";
 import { OperationDispatchLedger } from "./services/operationDispatch.js";
 import { OperationIntentStore } from "./services/operationIntent.js";
+import { createVerifiedTokenAuditContext } from "./services/verifiedIdentityAuditBinding.js";
 
 export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const app = Fastify({
@@ -81,7 +82,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       headers: request.headers,
     });
     requestAccessGuards.set(request, toAuditAccessGuardContext(evaluation));
-    requestOperatorIdentities.set(request, toAuditOperatorIdentityContext(evaluation));
+    requestOperatorIdentities.set(request, toAuditOperatorIdentityContext(evaluation, request.headers.authorization, config));
 
     reply
       .header("x-orderops-access-guard-mode", evaluation.mode)
@@ -120,7 +121,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     reply
       .header("access-control-allow-origin", "*")
       .header("access-control-allow-methods", "GET,POST,PUT,DELETE,OPTIONS")
-      .header("access-control-allow-headers", "content-type,idempotency-key,x-orderops-operator-id,x-orderops-roles")
+      .header("access-control-allow-headers", "authorization,content-type,idempotency-key,x-orderops-operator-id,x-orderops-roles")
       .code(204)
       .send();
   });
@@ -247,8 +248,12 @@ function toAuditAccessGuardContext(evaluation: AccessGuardEvaluation): AuditAcce
   };
 }
 
-function toAuditOperatorIdentityContext(evaluation: AccessGuardEvaluation): AuditOperatorIdentityContext {
-  return {
+function toAuditOperatorIdentityContext(
+  evaluation: AccessGuardEvaluation,
+  authorization: string | string[] | undefined,
+  config: AppConfig,
+): AuditOperatorIdentityContext {
+  const context: AuditOperatorIdentityContext = {
     identityVersion: "operator-identity-contract.v1",
     authenticated: evaluation.requestIdentity.authenticated,
     operatorId: evaluation.requestIdentity.operatorId,
@@ -257,4 +262,14 @@ function toAuditOperatorIdentityContext(evaluation: AccessGuardEvaluation): Audi
     rawRoles: evaluation.requestIdentity.rawRoles,
     rejectedRoles: evaluation.requestIdentity.rejectedRoles,
   };
+
+  if (authorization !== undefined) {
+    context.verifiedToken = createVerifiedTokenAuditContext({
+      config,
+      authorization,
+      requiredRole: evaluation.requiredRole ?? "viewer",
+    });
+  }
+
+  return context;
 }

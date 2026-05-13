@@ -33,6 +33,10 @@ import {
   renderSignedAuthTokenContractMarkdown,
 } from "../services/signedAuthTokenContract.js";
 import {
+  createVerifiedIdentityAuditBindingProfile,
+  renderVerifiedIdentityAuditBindingMarkdown,
+} from "../services/verifiedIdentityAuditBinding.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -489,6 +493,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderSignedAuthTokenContractMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/verified-identity-audit-binding", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createVerifiedIdentityAuditBindingProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderVerifiedIdentityAuditBindingMarkdown(profile);
     }
 
     return profile;

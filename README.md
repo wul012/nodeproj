@@ -84,6 +84,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Operator identity contract profile and audit context for rehearsing `x-orderops-operator-id` / `x-orderops-roles` parsing, invalid-role filtering, and audit evidence without trusting headers as production auth
 - Auth enforcement rehearsal profile and middleware switch for explicitly testing 401/403/200 access guard behavior while default runtime remains observe-only
 - Signed auth token contract rehearsal for HMAC-based local token samples covering missing token, bad signature, expiry, insufficient role, and allowed role without exposing secrets
+- Verified identity audit binding for writing signed-token subject, roles, issuer, and verification result into audit context while real IdP integration remains blocked
 - Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
 - File audit restart evidence report for proving file-backed audit reload behavior with digest checks while keeping managed production audit storage as a blocker
 - Audit retention integrity evidence for checking local retention knobs, file digest stability, and managed-store blockers without deleting or rotating audit files
@@ -177,6 +178,8 @@ GET    /api/v1/security/operator-identity-contract
 GET    /api/v1/security/operator-identity-contract?format=markdown
 GET    /api/v1/security/signed-auth-token-contract
 GET    /api/v1/security/signed-auth-token-contract?format=markdown
+GET    /api/v1/security/verified-identity-audit-binding
+GET    /api/v1/security/verified-identity-audit-binding?format=markdown
 GET    /api/v1/deployment/environment-readiness
 GET    /api/v1/deployment/environment-readiness?format=markdown
 GET    /api/v1/events/ops
