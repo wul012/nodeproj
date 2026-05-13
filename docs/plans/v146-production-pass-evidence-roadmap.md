@@ -2,6 +2,22 @@
 
 来源版本：Node v146 `production live probe real-read smoke release evidence gate`。
 
+计划状态：当前有效计划，从 v147 开始。
+
+上一阶段历史计划：
+
+```text
+docs/plans/v143-live-probe-real-read-window-roadmap.md
+```
+
+## 计划接力规则
+
+- 本文件只覆盖 v147-v149，不重新安排 v144-v146。
+- 新 plan 必须从上一阶段完成后的下一个版本开始。
+- 不允许多个 plan 同时声明同一个未完成版本为“下一步”。
+- 如果后续再新建 plan，必须在本文件顶部标记“已完成/已接续到新 plan”。
+- 推荐执行顺序中不要使用容易误解的“或/任选”，需要并行时明确写“可以一起推进”。
+
 v144-v146 已完成：
 
 ```text

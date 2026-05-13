@@ -2,6 +2,21 @@
 
 来源版本：Node v143 `production live probe real-read smoke archive adapter`。
 
+计划状态：已完成，仅作为历史记录保留。
+
+当前有效后续计划：
+
+```text
+docs/plans/v146-production-pass-evidence-roadmap.md
+```
+
+## 计划接力规则
+
+- 本文件只覆盖 v144-v146，不再指导 v147 及以后版本。
+- 新阶段计划创建后，旧计划必须标记为已完成历史计划。
+- 后续 plan 不能重复列出已经完成的版本作为待执行任务。
+- 同一版本只能出现在一个“当前有效”的推荐执行顺序中。
+
 v141-v143 已完成：
 
 ```text
@@ -25,6 +40,8 @@ real-read smoke archive adapter
 - 小 check 不再单独做 summary 版本；只有阶段收口才做阶段总汇总。
 
 ## 推荐执行顺序
+
+状态：已完成。以下顺序是历史执行记录，不是当前下一步。
 
 ```text
 1. Node v144：real-read smoke execution request + operator command profile
@@ -127,5 +144,5 @@ UPSTREAM_ACTIONS_ENABLED=true
 ## 一句话结论
 
 ```text
-v144-v146 继续由 Node 把真实只读 smoke 的执行请求、结果导入和 release gate 做扎实；Java / mini-kv 只在需要真实 pass evidence 时介入。
+v144-v146 已由 Node 完成；后续从 docs/plans/v146-production-pass-evidence-roadmap.md 继续。
 ```
