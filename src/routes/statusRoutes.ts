@@ -136,6 +136,10 @@ import {
   renderProductionReadinessSummaryV12Markdown,
 } from "../services/productionReadinessSummaryV12.js";
 import {
+  createProductionLiveProbeReadinessContract,
+  renderProductionLiveProbeReadinessContractMarkdown,
+} from "../services/productionLiveProbeReadinessContract.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -941,6 +945,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-readiness-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const contract = createProductionLiveProbeReadinessContract(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionLiveProbeReadinessContractMarkdown(contract);
+    }
+
+    return contract;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

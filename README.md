@@ -106,6 +106,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production connection dry-run change request for reviewing managed audit adapter, IdP/JWKS, rollback, and owner approval work as a non-executable archive-ready change
 - Production connection dry-run approval ledger for recording approve/reject reviewer decisions against the current change request digest without executing real connections
 - Production connection archive verification for checking precheck version, change request digest, approval digest, and no-real-connection evidence before archive handoff
+- Production live probe readiness contract for defining Java and mini-kv read-only live probe targets, skipped/pass/blocked semantics, and no-write boundaries before probing
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -247,6 +248,8 @@ GET    /api/v1/production/connection-dry-run-approvals/:approvalId?format=markdo
 POST   /api/v1/production/connection-dry-run-approvals
 GET    /api/v1/production/connection-archive-verification
 GET    /api/v1/production/connection-archive-verification?format=markdown
+GET    /api/v1/production/live-probe-readiness-contract
+GET    /api/v1/production/live-probe-readiness-contract?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
