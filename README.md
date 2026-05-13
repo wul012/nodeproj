@@ -94,6 +94,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production readiness summary v4 for combining Java v48 operator auth boundary, mini-kv v57 recovery retention boundary, Node access guard audit context, operator identity contract, and file audit restart evidence while keeping production operations blocked
 - Production readiness summary v5 for rechecking auth enforcement rehearsal and audit retention integrity evidence while signed auth and managed audit storage remain production blockers
 - Deployment environment readiness gate for checking auth token config, audit retention and backup config, managed audit URL, upstream action safety, and remaining real IdP / managed adapter blockers
+- Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 
 ## Setup
 
@@ -157,6 +158,8 @@ GET    /api/v1/production/readiness-summary-v4
 GET    /api/v1/production/readiness-summary-v4?format=markdown
 GET    /api/v1/production/readiness-summary-v5
 GET    /api/v1/production/readiness-summary-v5?format=markdown
+GET    /api/v1/production/readiness-summary-v6
+GET    /api/v1/production/readiness-summary-v6?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile

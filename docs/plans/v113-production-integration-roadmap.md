@@ -59,6 +59,8 @@ v111-v113 已经把 signed token contract、managed audit store contract、deplo
 
 ## Node v116：production readiness summary v6
 
+状态：已由 Node v116 落地为 `/api/v1/production/readiness-summary-v6`。
+
 目标：
 
 ```text
@@ -85,3 +87,7 @@ v111-v113 已经把 signed token contract、managed audit store contract、deplo
 ```text
 v114-v116 的主线是把 signed identity、audit contract、deployment gate 三块证据接起来，形成下一版 production readiness v6。
 ```
+
+## 收口
+
+本计划已由 Node v114、v115、v116 完成。下一阶段不继续修改本文件，另起 `v116-production-adapter-roadmap.md`。

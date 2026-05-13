@@ -83,5 +83,8 @@ v110-production-hardening-roadmap.md
  -> 由 Node v110 production readiness summary v5 衍生出的生产认证与审计硬化计划；已完成 Node v111-v113 并收口
 
 v113-production-integration-roadmap.md
- -> 由 Node v113 deployment environment readiness gate 衍生出的当前计划；下一步按 Node v114、Node v115、Node v116 顺序推进 verified identity audit binding、managed audit readiness summary、production readiness summary v6
+ -> 由 Node v113 deployment environment readiness gate 衍生出的生产硬门槛集成计划；已完成 Node v114-v116 并收口
+
+v116-production-adapter-roadmap.md
+ -> 由 Node v116 production readiness summary v6 衍生出的当前计划；下一步按 Node v117、Node v118、Node v119 顺序推进 managed audit adapter boundary、real IdP verifier boundary、production readiness summary v7
 ```
