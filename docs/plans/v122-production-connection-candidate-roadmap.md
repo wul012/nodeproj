@@ -26,6 +26,8 @@ v120-v122 已经把 managed audit adapter compliance harness、JWKS verifier fix
 
 ## Node v123：managed audit adapter harness runner
 
+状态：已由 Node v123 落地为 `/api/v1/audit/managed-adapter-runner`。
+
 目标：
 
 ```text
