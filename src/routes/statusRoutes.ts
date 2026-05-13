@@ -41,6 +41,10 @@ import {
   renderIdpVerifierBoundaryMarkdown,
 } from "../services/idpVerifierBoundary.js";
 import {
+  createJwksVerifierFixtureRehearsalProfile,
+  renderJwksVerifierFixtureRehearsalMarkdown,
+} from "../services/jwksVerifierFixtureRehearsal.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -547,6 +551,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderIdpVerifierBoundaryMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/jwks-verifier-fixture-rehearsal", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createJwksVerifierFixtureRehearsalProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderJwksVerifierFixtureRehearsalMarkdown(profile);
     }
 
     return profile;

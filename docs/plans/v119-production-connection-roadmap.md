@@ -43,6 +43,8 @@ v117-v119 已经把 managed audit adapter boundary、IdP verifier boundary、pro
 
 ## Node v121：JWKS verifier fixture rehearsal
 
+状态：已由 Node v121 落地为 `/api/v1/security/jwks-verifier-fixture-rehearsal`。
+
 目标：
 
 ```text
