@@ -80,6 +80,10 @@ import {
   renderProductionConnectionDryRunChangeRequestMarkdown,
 } from "../services/productionConnectionDryRunChangeRequest.js";
 import {
+  loadProductionConnectionArchiveVerification,
+  renderProductionConnectionArchiveVerificationMarkdown,
+} from "../services/productionConnectionArchiveVerification.js";
+import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
@@ -907,6 +911,32 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
 
     reply.code(201);
     return approval;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-archive-verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadProductionConnectionArchiveVerification({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+      productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionArchiveVerificationMarkdown(profile);
+    }
+
+    return profile;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

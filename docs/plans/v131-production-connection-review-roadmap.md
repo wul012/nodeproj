@@ -58,6 +58,8 @@ mini-kv INFOJSON / STATSJSON live read
 
 ## Node v133：production connection change request archive verification
 
+状态：已由 Node v133 完成。
+
 目标：
 
 ```text
