@@ -178,6 +178,10 @@ import {
   renderProductionLiveProbeRealReadSmokeExecutionRequestMarkdown,
 } from "../services/productionLiveProbeRealReadSmokeExecutionRequest.js";
 import {
+  loadProductionLiveProbeRealReadSmokeResultImporter,
+  renderProductionLiveProbeRealReadSmokeResultImporterMarkdown,
+} from "../services/productionLiveProbeRealReadSmokeResultImporter.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1224,6 +1228,34 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionLiveProbeRealReadSmokeExecutionRequestMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-result-importer", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadProductionLiveProbeRealReadSmokeResultImporter({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+      productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionLiveProbeRealReadSmokeResultImporterMarkdown(profile);
     }
 
     return profile;

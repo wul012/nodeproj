@@ -57,6 +57,8 @@ real-read smoke archive adapter
 
 ## Node v145：real-read smoke result importer
 
+状态：已由 Node v145 完成。
+
 目标：
 
 ```text
