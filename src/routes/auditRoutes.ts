@@ -22,6 +22,10 @@ import {
   createManagedAuditStoreContractProfile,
   renderManagedAuditStoreContractMarkdown,
 } from "../services/managedAuditStoreContract.js";
+import {
+  createManagedAuditReadinessSummary,
+  renderManagedAuditReadinessSummaryMarkdown,
+} from "../services/managedAuditReadinessSummary.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -180,5 +184,30 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     }
 
     return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-readiness-summary", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = createManagedAuditReadinessSummary({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditReadinessSummaryMarkdown(summary);
+    }
+
+    return summary;
   });
 }

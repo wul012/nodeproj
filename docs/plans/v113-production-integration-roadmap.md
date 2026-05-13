@@ -43,6 +43,8 @@ v111-v113 已经把 signed token contract、managed audit store contract、deplo
 
 ## Node v115：managed audit contract readiness summary
 
+状态：已由 Node v115 落地为 `/api/v1/audit/managed-readiness-summary`。
+
 目标：
 
 ```text
