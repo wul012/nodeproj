@@ -95,5 +95,8 @@ v122-production-connection-candidate-roadmap.md
  -> 由 Node v122 production readiness summary v8 衍生出的计划；已完成 Node v123-v125 并收口
 
 v125-production-connection-readiness-roadmap.md
- -> 由 Node v125 production readiness summary v9 衍生出的当前计划；下一步按 Node v126、Node v127、Node v128 顺序推进 production connection config contract、failure-mode rehearsal、production readiness summary v10
+ -> 由 Node v125 production readiness summary v9 衍生出的计划；已完成 Node v126-v128 并收口
+
+v128-production-connection-implementation-roadmap.md
+ -> 由 Node v128 production readiness summary v10 衍生出的当前计划；下一步按 Node v129、Node v130、Node v131 顺序推进 production connection implementation precheck、dry-run change request、production readiness summary v11
 ```

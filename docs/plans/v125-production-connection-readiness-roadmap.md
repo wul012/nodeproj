@@ -60,6 +60,8 @@ v123-v125 已经把 audit runner、JWKS cache contract、production readiness su
 
 ## Node v128：production readiness summary v10
 
+状态：已由 Node v128 落地为 `/api/v1/production/readiness-summary-v10`。
+
 目标：
 
 ```text

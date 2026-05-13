@@ -106,6 +106,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
 - Production readiness summary v9 for combining managed audit adapter runner and JWKS cache contract evidence while keeping real production connections blocked
+- Production readiness summary v10 for combining production connection config contract and failure-mode rehearsal while separating readiness evidence from real production connections
 
 ## Setup
 
@@ -177,6 +178,8 @@ GET    /api/v1/production/readiness-summary-v8
 GET    /api/v1/production/readiness-summary-v8?format=markdown
 GET    /api/v1/production/readiness-summary-v9
 GET    /api/v1/production/readiness-summary-v9?format=markdown
+GET    /api/v1/production/readiness-summary-v10
+GET    /api/v1/production/readiness-summary-v10?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile
