@@ -110,5 +110,14 @@ v137-production-live-probe-evidence-roadmap.md
  -> 由 Node v137 production readiness summary v13 衍生出的计划；已完成 Node v138-v140 并收口，且本阶段没有新增 summary v14
 
 v140-live-probe-handoff-roadmap.md
- -> 由 Node v140 production live probe evidence archive bundle 衍生出的当前计划；下一步按 Node v141、Node v142、Node v143 顺序推进 live probe handoff checklist、real-read smoke readiness switch、real-read smoke archive adapter
+ -> 由 Node v140 production live probe evidence archive bundle 衍生出的计划；已完成 Node v141-v143 并收口
+
+v143-live-probe-real-read-window-roadmap.md
+ -> 由 Node v143 real-read smoke archive adapter 衍生出的计划；已完成 Node v144-v146 并由 v146-production-pass-evidence-roadmap.md 接续
+
+v146-production-pass-evidence-roadmap.md
+ -> 由 Node v146 production live probe real-read smoke release evidence gate 衍生出的计划；已完成 Node v147-v149 并由 v149-post-production-pass-evidence-roadmap.md 接续
+
+v149-post-production-pass-evidence-roadmap.md
+ -> 当前唯一有效全局计划；Node v150-v151 已完成，当前下一步是 Java v49 + mini-kv v58 一起补只读 evidence，随后 Node v152-v153 消费上游证据做 archive verification 和 operator runbook
 ```

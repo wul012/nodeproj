@@ -59,6 +59,14 @@ readyForProductionOperations=false
 3. Node v153：real-read smoke operator runbook，基于 Node v150-v152 和 Java v49 / mini-kv v58 的只读证据，生成真实只读联调前操作清单
 ```
 
+当前只读核对结果：
+
+```text
+Java v49：工作区已有 ops read-only evidence sample 相关改动，但尚未提交/tag。
+mini-kv v58：工作区已有 readonly fixture 相关改动，但尚未提交/tag。
+Node v152：等待 Java v49 和 mini-kv v58 完成并形成可引用版本证据后再推进。
+```
+
 ## Node v150：production pass evidence archive
 
 状态：已由 Node v150 完成。

@@ -4,7 +4,7 @@
 
 来源版本：Node v146 `production live probe real-read smoke release evidence gate`。
 
-计划状态：当前有效计划，从 v147 开始。
+计划状态：已完成并由 `docs/plans/v149-post-production-pass-evidence-roadmap.md` 接续，仅作为历史记录保留。
 
 上一阶段历史计划：
 
