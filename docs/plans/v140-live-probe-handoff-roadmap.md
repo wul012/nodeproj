@@ -52,6 +52,8 @@ UPSTREAM_ACTIONS_ENABLED=true
 
 ## Node v141：live probe operator handoff checklist
 
+状态：已由 Node v141 完成。
+
 目标：
 
 ```text
