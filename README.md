@@ -87,6 +87,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
 - File audit restart evidence report for proving file-backed audit reload behavior with digest checks while keeping managed production audit storage as a blocker
 - Audit retention integrity evidence for checking local retention knobs, file digest stability, and managed-store blockers without deleting or rotating audit files
+- Managed audit store contract profile for append-only write, requestId query, digest verification, retention metadata, and backup/restore marker coverage through a fake adapter while real managed storage remains blocked
 - Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
 - Production readiness summary v4 for combining Java v48 operator auth boundary, mini-kv v57 recovery retention boundary, Node access guard audit context, operator identity contract, and file audit restart evidence while keeping production operations blocked
 - Production readiness summary v5 for rechecking auth enforcement rehearsal and audit retention integrity evidence while signed auth and managed audit storage remain production blockers
@@ -161,6 +162,8 @@ GET    /api/v1/audit/file-restart-evidence
 GET    /api/v1/audit/file-restart-evidence?format=markdown
 GET    /api/v1/audit/retention-integrity-evidence
 GET    /api/v1/audit/retention-integrity-evidence?format=markdown
+GET    /api/v1/audit/managed-store-contract
+GET    /api/v1/audit/managed-store-contract?format=markdown
 GET    /api/v1/security/access-control-readiness
 GET    /api/v1/security/access-control-readiness?format=markdown
 GET    /api/v1/security/access-policy

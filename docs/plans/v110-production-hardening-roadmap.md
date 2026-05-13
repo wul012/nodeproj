@@ -80,6 +80,14 @@ managed audit store
 - 不迁移历史 audit 文件。
 - 不执行真实保留和删除。
 
+完成状态：
+
+```text
+已由 Node v112 落地为 /api/v1/audit/managed-store-contract。
+InMemoryManagedAuditStoreFake 覆盖 append-only write、query by requestId、digest verification、retention metadata、backup restore marker。
+仍保持 REAL_MANAGED_AUDIT_ADAPTER_MISSING，不接真实数据库、不迁移文件、不执行保留删除。
+```
+
 ## Node v113：deployment environment readiness gate
 
 目标：

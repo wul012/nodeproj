@@ -18,6 +18,10 @@ import {
   createAuditRetentionIntegrityEvidence,
   renderAuditRetentionIntegrityEvidenceMarkdown,
 } from "../services/auditRetentionIntegrityEvidence.js";
+import {
+  createManagedAuditStoreContractProfile,
+  renderManagedAuditStoreContractMarkdown,
+} from "../services/managedAuditStoreContract.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -155,5 +159,26 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     }
 
     return report;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-store-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createManagedAuditStoreContractProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditStoreContractMarkdown(profile);
+    }
+
+    return profile;
   });
 }

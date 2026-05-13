@@ -149,6 +149,9 @@ file audit restart evidence 与后续 managed audit store
 
 115-signed-auth-token-contract-v111.md
  -> 第一百一十一版 Signed auth token contract rehearsal：新增本地 HMAC signed token contract，覆盖 missing/bad signature/expired/role denied/allowed 样本，同时明确真实 IdP 未接入
+
+116-managed-audit-store-contract-v112.md
+ -> 第一百一十二版 Managed audit store adapter contract：用 fake adapter 覆盖 append/query/digest/retention/backup marker 五项生产审计存储契约，同时保留真实 managed adapter 缺失阻塞
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
