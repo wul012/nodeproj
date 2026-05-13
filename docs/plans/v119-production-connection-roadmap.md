@@ -26,6 +26,8 @@ v117-v119 已经把 managed audit adapter boundary、IdP verifier boundary、pro
 
 ## Node v120：managed audit adapter compliance harness
 
+状态：已由 Node v120 落地为 `/api/v1/audit/managed-adapter-compliance`。
+
 目标：
 
 ```text

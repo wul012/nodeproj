@@ -30,6 +30,10 @@ import {
   createManagedAuditAdapterBoundaryProfile,
   renderManagedAuditAdapterBoundaryMarkdown,
 } from "../services/managedAuditAdapterBoundary.js";
+import {
+  createManagedAuditAdapterComplianceProfile,
+  renderManagedAuditAdapterComplianceMarkdown,
+} from "../services/managedAuditAdapterCompliance.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -235,6 +239,27 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditAdapterBoundaryMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-adapter-compliance", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await createManagedAuditAdapterComplianceProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditAdapterComplianceMarkdown(profile);
     }
 
     return profile;

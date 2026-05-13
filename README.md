@@ -92,6 +92,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Managed audit store contract profile for append-only write, requestId query, digest verification, retention metadata, and backup/restore marker coverage through a fake adapter while real managed storage remains blocked
 - Managed audit readiness summary for combining fake adapter capability coverage, file audit integrity evidence, retention/backup knobs, managed store URL, and real adapter blockers
 - Managed audit adapter boundary for documenting `memory`, `file`, and `managed-unimplemented` audit runtime states before any real database adapter is connected
+- Managed audit adapter compliance harness for exercising append-only write, requestId query, digest stability, and backup marker behavior against a local adapter before real storage is connected
 - Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
 - Production readiness summary v4 for combining Java v48 operator auth boundary, mini-kv v57 recovery retention boundary, Node access guard audit context, operator identity contract, and file audit restart evidence while keeping production operations blocked
 - Production readiness summary v5 for rechecking auth enforcement rehearsal and audit retention integrity evidence while signed auth and managed audit storage remain production blockers
@@ -179,6 +180,8 @@ GET    /api/v1/audit/managed-readiness-summary
 GET    /api/v1/audit/managed-readiness-summary?format=markdown
 GET    /api/v1/audit/managed-adapter-boundary
 GET    /api/v1/audit/managed-adapter-boundary?format=markdown
+GET    /api/v1/audit/managed-adapter-compliance
+GET    /api/v1/audit/managed-adapter-compliance?format=markdown
 GET    /api/v1/security/access-control-readiness
 GET    /api/v1/security/access-control-readiness?format=markdown
 GET    /api/v1/security/access-policy
