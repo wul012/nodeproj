@@ -17,6 +17,10 @@ export interface AppConfig {
   accessGuardEnforcementEnabled: boolean;
   authTokenIssuer: string;
   authTokenSecret: string;
+  idpIssuer: string;
+  idpAudience: string;
+  idpJwksUrl: string;
+  idpClockSkewSeconds: number;
   mutationRateLimitWindowMs: number;
   mutationRateLimitMax: number;
   javaExecutionContractFixturePath: string;
@@ -259,6 +263,10 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     accessGuardEnforcementEnabled: readBoolean(env, "ACCESS_GUARD_ENFORCEMENT_ENABLED", false),
     authTokenIssuer: readString(env, "ORDEROPS_AUTH_TOKEN_ISSUER", "orderops-local-rehearsal"),
     authTokenSecret: readString(env, "ORDEROPS_AUTH_TOKEN_SECRET", ""),
+    idpIssuer: readString(env, "ORDEROPS_IDP_ISSUER", ""),
+    idpAudience: readString(env, "ORDEROPS_IDP_AUDIENCE", ""),
+    idpJwksUrl: readString(env, "ORDEROPS_IDP_JWKS_URL", ""),
+    idpClockSkewSeconds: readNumber(env, "ORDEROPS_IDP_CLOCK_SKEW_SECONDS", 60),
     mutationRateLimitWindowMs: readNumber(env, "MUTATION_RATE_LIMIT_WINDOW_MS", 60000),
     mutationRateLimitMax: readNumber(env, "MUTATION_RATE_LIMIT_MAX", 30),
     javaExecutionContractFixturePath: readString(

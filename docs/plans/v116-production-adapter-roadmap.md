@@ -49,6 +49,8 @@ v114-v116 已经把 verified identity audit binding、managed audit readiness su
 
 ## Node v118：real IdP verifier boundary
 
+状态：已由 Node v118 落地为 `/api/v1/security/idp-verifier-boundary`。
+
 目标：
 
 ```text

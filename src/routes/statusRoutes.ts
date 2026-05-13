@@ -37,6 +37,10 @@ import {
   renderVerifiedIdentityAuditBindingMarkdown,
 } from "../services/verifiedIdentityAuditBinding.js";
 import {
+  createIdpVerifierBoundaryProfile,
+  renderIdpVerifierBoundaryMarkdown,
+} from "../services/idpVerifierBoundary.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -523,6 +527,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return profile;
   });
 
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/idp-verifier-boundary", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createIdpVerifierBoundaryProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderIdpVerifierBoundaryMarkdown(profile);
+    }
+
+    return profile;
+  });
+
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/workflow-evidence-verification", {
     schema: {
       querystring: {
@@ -750,6 +775,10 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       accessGuardEnforcementEnabled: deps.config.accessGuardEnforcementEnabled,
       authTokenIssuer: deps.config.authTokenIssuer,
       authTokenSecretConfigured: deps.config.authTokenSecret.length > 0,
+      idpIssuerConfigured: deps.config.idpIssuer.length > 0,
+      idpAudienceConfigured: deps.config.idpAudience.length > 0,
+      idpJwksUrlConfigured: deps.config.idpJwksUrl.length > 0,
+      idpClockSkewSeconds: deps.config.idpClockSkewSeconds,
     },
     upstreams: {
       orderPlatformUrl: deps.config.orderPlatformUrl,
