@@ -41,6 +41,8 @@ mini-kv INFOJSON / STATSJSON live read
 
 ## Node v132：production connection dry-run approval ledger
 
+状态：已由 Node v132 完成。
+
 目标：
 
 ```text

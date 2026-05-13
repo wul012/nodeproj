@@ -296,7 +296,11 @@ export function createAccessRoutePolicies(): AccessRoutePolicy[] {
       id: "approval-decisions",
       routeGroup: "approval",
       methods: ["POST"],
-      pathPatterns: ["/api/v1/operation-approval-requests", "/api/v1/operation-approval-requests/:requestId/decision"],
+      pathPatterns: [
+        "/api/v1/operation-approval-requests",
+        "/api/v1/operation-approval-requests/:requestId/decision",
+        "/api/v1/production/connection-dry-run-approvals",
+      ],
       minimumRole: "approver",
       mutatesLocalState: true,
       touchesUpstream: false,

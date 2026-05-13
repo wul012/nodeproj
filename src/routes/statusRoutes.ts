@@ -5,6 +5,13 @@ import type { AuditLog } from "../services/auditLog.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
 import {
+  ProductionConnectionDryRunApprovalLedger,
+  productionConnectionDryRunApprovalDecisions,
+  renderProductionConnectionDryRunApprovalLedgerMarkdown,
+  renderProductionConnectionDryRunApprovalMarkdown,
+} from "../services/productionConnectionDryRunApprovalLedger.js";
+import type { ProductionConnectionDryRunApprovalDecision } from "../services/productionConnectionDryRunApprovalLedger.js";
+import {
   createCiEvidenceCommandProfile,
   renderCiEvidenceCommandProfileMarkdown,
 } from "../services/ciEvidenceCommandProfile.js";
@@ -171,10 +178,27 @@ interface StatusRouteDeps {
   snapshots: OpsSnapshotService;
   auditLog: AuditLog;
   auditStoreRuntime: AuditStoreRuntimeDescription;
+  productionConnectionDryRunApprovals: ProductionConnectionDryRunApprovalLedger;
 }
 
 interface FixtureReportQuery {
   format?: "json" | "markdown";
+}
+
+interface ProductionConnectionApprovalQuery {
+  format?: "json" | "markdown";
+  limit?: number;
+}
+
+interface ProductionConnectionApprovalParams {
+  approvalId: string;
+}
+
+interface CreateProductionConnectionApprovalBody {
+  decision: ProductionConnectionDryRunApprovalDecision;
+  reviewer: string;
+  reason?: string;
+  changeRequestDigest: string;
 }
 
 export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRouteDeps): Promise<void> {
@@ -787,6 +811,102 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return profile;
+  });
+
+  app.get<{ Querystring: ProductionConnectionApprovalQuery }>("/api/v1/production/connection-dry-run-approvals", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+          limit: { type: "integer", minimum: 1, maximum: 100 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = deps.productionConnectionDryRunApprovals.snapshot(deps.config, request.query.limit ?? 20);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionDryRunApprovalLedgerMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-dry-run-approvals/latest", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const approval = deps.productionConnectionDryRunApprovals.latest();
+    if (approval === undefined) {
+      reply.code(404);
+      return {
+        error: "DRY_RUN_APPROVAL_NOT_FOUND",
+        message: "No production connection dry-run approval has been recorded",
+      };
+    }
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionDryRunApprovalMarkdown(approval);
+    }
+
+    return approval;
+  });
+
+  app.get<{ Params: ProductionConnectionApprovalParams; Querystring: FixtureReportQuery }>("/api/v1/production/connection-dry-run-approvals/:approvalId", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const approval = deps.productionConnectionDryRunApprovals.get(request.params.approvalId);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionDryRunApprovalMarkdown(approval);
+    }
+
+    return approval;
+  });
+
+  app.post<{ Body: CreateProductionConnectionApprovalBody }>("/api/v1/production/connection-dry-run-approvals", {
+    schema: {
+      body: {
+        type: "object",
+        required: ["decision", "reviewer", "changeRequestDigest"],
+        properties: {
+          decision: { type: "string", enum: productionConnectionDryRunApprovalDecisions },
+          reviewer: { type: "string", minLength: 1, maxLength: 80 },
+          reason: { type: "string", maxLength: 400 },
+          changeRequestDigest: { type: "string", minLength: 64, maxLength: 64 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const approval = await deps.productionConnectionDryRunApprovals.create(request.body, {
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+    });
+
+    reply.code(201);
+    return approval;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

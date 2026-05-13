@@ -31,6 +31,7 @@ import { OpsBaselineStore } from "./services/opsBaseline.js";
 import { OpsCheckpointLedger } from "./services/opsCheckpoint.js";
 import { OpsPromotionDecisionLedger } from "./services/opsPromotionDecision.js";
 import { OpsSnapshotService } from "./services/opsSnapshotService.js";
+import { ProductionConnectionDryRunApprovalLedger } from "./services/productionConnectionDryRunApprovalLedger.js";
 import { OperationApprovalDecisionLedger } from "./services/operationApprovalDecision.js";
 import { OperationApprovalExecutionGateArchiveLedger } from "./services/operationApprovalExecutionGateArchive.js";
 import { OperationApprovalRequestLedger } from "./services/operationApprovalRequest.js";
@@ -138,6 +139,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   const opsCheckpoints = new OpsCheckpointLedger();
   const opsBaseline = new OpsBaselineStore();
   const opsPromotionDecisions = new OpsPromotionDecisionLedger();
+  const productionConnectionDryRunApprovals = new ProductionConnectionDryRunApprovalLedger();
   const operationIntents = new OperationIntentStore(config);
   const operationDispatches = new OperationDispatchLedger(operationIntents);
   const operationApprovalRequests = new OperationApprovalRequestLedger();
@@ -218,6 +220,7 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     snapshots,
     auditLog,
     auditStoreRuntime: auditStoreRuntime.description,
+    productionConnectionDryRunApprovals,
   });
   await registerOrderPlatformRoutes(app, {
     orderPlatform,

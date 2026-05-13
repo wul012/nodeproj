@@ -104,6 +104,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production connection failure-mode rehearsal for simulating audit connection missing, JWKS timeout, credentials missing, and safe fallback without external calls
 - Production connection implementation precheck for combining config contract, failure rehearsal, summary v10, and missing human approvals before any real connection work
 - Production connection dry-run change request for reviewing managed audit adapter, IdP/JWKS, rollback, and owner approval work as a non-executable archive-ready change
+- Production connection dry-run approval ledger for recording approve/reject reviewer decisions against the current change request digest without executing real connections
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -233,6 +234,13 @@ GET    /api/v1/production/connection-implementation-precheck
 GET    /api/v1/production/connection-implementation-precheck?format=markdown
 GET    /api/v1/production/connection-dry-run-change-request
 GET    /api/v1/production/connection-dry-run-change-request?format=markdown
+GET    /api/v1/production/connection-dry-run-approvals
+GET    /api/v1/production/connection-dry-run-approvals?format=markdown
+GET    /api/v1/production/connection-dry-run-approvals/latest
+GET    /api/v1/production/connection-dry-run-approvals/latest?format=markdown
+GET    /api/v1/production/connection-dry-run-approvals/:approvalId
+GET    /api/v1/production/connection-dry-run-approvals/:approvalId?format=markdown
+POST   /api/v1/production/connection-dry-run-approvals
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
