@@ -2,7 +2,7 @@
 
 来源版本：Node v149 `production live probe real-read smoke production pass evidence verification`。
 
-计划状态：当前有效全局计划，从 Node v150 / Node v151 / Java v49 / mini-kv v50 开始。
+计划状态：当前有效全局计划；Node v150-v151 已完成，当前下一步是 Java v49 + mini-kv v50。
 
 上一阶段历史计划：
 
@@ -23,12 +23,14 @@ docs/plans/v146-production-pass-evidence-roadmap.md
 
 ## 当前状态
 
-v147-v149 已完成：
+v147-v151 已完成：
 
 ```text
 dry-run command package
 evidence capture
 production pass evidence verification
+production pass evidence archive
+production live-probe shared helpers refactor
 ```
 
 默认未启动上游时，Node 已能稳定输出：
@@ -41,14 +43,19 @@ readyForProductionOperations=false
 
 这说明 skipped/mixed evidence 不会被冒充成 production pass。
 
-## 推荐执行顺序
+## 已完成顺序
 
 ```text
-1. Node v150：production pass evidence archive，先把 v149 verification + v148 capture + v146 gate 的 digest 链归档成稳定输入
-2. Node v151：production live-probe shared helpers refactor，先收敛 v144-v150 重复的 digest / markdown / route 工具函数，避免后续 archive verification 继续复制膨胀
-3. Java v49 + mini-kv v50：可以一起推进，只补只读 evidence 供给能力，不做写操作；Java 补 ops/read-only evidence sample，mini-kv 补 CHECKJSON/INFOJSON/STATSJSON 只读样本与说明
-4. Node v152：production pass evidence archive verification，消费 Node v150 archive，并预留 Java v49 / mini-kv v50 evidence 引用位；若上游尚未完成，明确标记 upstreamEvidenceReady=false
-5. Node v153：real-read smoke operator runbook，基于 Node v150-v152 和 Java v49 / mini-kv v50 的只读证据，生成真实只读联调前操作清单
+1. Node v150：production pass evidence archive，已把 v149 verification + v148 capture + v146 gate 的 digest 链归档成稳定输入
+2. Node v151：production live-probe shared helpers refactor，已收敛 v144-v150 重复的 digest / markdown / route 工具函数
+```
+
+## 当前推荐执行顺序
+
+```text
+1. Java v49 + mini-kv v50：可以一起推进，只补只读 evidence 供给能力，不做写操作；Java 补 ops/read-only evidence sample，mini-kv 补 CHECKJSON/INFOJSON/STATSJSON 只读样本与说明
+2. Node v152：production pass evidence archive verification，消费 Node v150 archive，并预留 Java v49 / mini-kv v50 evidence 引用位；若上游尚未完成，明确标记 upstreamEvidenceReady=false
+3. Node v153：real-read smoke operator runbook，基于 Node v150-v152 和 Java v49 / mini-kv v50 的只读证据，生成真实只读联调前操作清单
 ```
 
 ## Node v150：production pass evidence archive
