@@ -86,6 +86,8 @@ UPSTREAM_ACTIONS_ENABLED=true
 
 ## Node v143：live probe real-read smoke archive adapter
 
+状态：已由 Node v143 完成。
+
 目标：
 
 ```text
