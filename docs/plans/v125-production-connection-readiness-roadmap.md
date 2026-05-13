@@ -26,6 +26,8 @@ v123-v125 已经把 audit runner、JWKS cache contract、production readiness su
 
 ## Node v126：production connection config contract
 
+状态：已由 Node v126 落地为 `/api/v1/production/connection-config-contract`。
+
 目标：
 
 ```text

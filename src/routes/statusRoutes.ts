@@ -57,6 +57,10 @@ import {
   renderDeploymentEnvironmentReadinessMarkdown,
 } from "../services/deploymentEnvironmentReadiness.js";
 import {
+  createProductionConnectionConfigContractProfile,
+  renderProductionConnectionConfigContractMarkdown,
+} from "../services/productionConnectionConfigContract.js";
+import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
@@ -671,6 +675,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return gate;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-config-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createProductionConnectionConfigContractProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionConfigContractMarkdown(profile);
+    }
+
+    return profile;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
