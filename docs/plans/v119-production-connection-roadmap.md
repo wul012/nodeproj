@@ -60,6 +60,8 @@ v117-v119 已经把 managed audit adapter boundary、IdP verifier boundary、pro
 
 ## Node v122：production readiness summary v8
 
+状态：已由 Node v122 落地为 `/api/v1/production/readiness-summary-v8`。
+
 目标：
 
 ```text

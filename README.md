@@ -100,6 +100,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Deployment environment readiness gate for checking auth token config, audit retention and backup config, managed audit URL, upstream action safety, and remaining real IdP / managed adapter blockers
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
+- Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
 
 ## Setup
 
@@ -167,6 +168,8 @@ GET    /api/v1/production/readiness-summary-v6
 GET    /api/v1/production/readiness-summary-v6?format=markdown
 GET    /api/v1/production/readiness-summary-v7
 GET    /api/v1/production/readiness-summary-v7?format=markdown
+GET    /api/v1/production/readiness-summary-v8
+GET    /api/v1/production/readiness-summary-v8?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile
