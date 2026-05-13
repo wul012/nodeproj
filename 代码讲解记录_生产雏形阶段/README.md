@@ -143,6 +143,9 @@ file audit restart evidence 与后续 managed audit store
 
 113-audit-retention-integrity-evidence-v109.md
  -> 第一百零九版 Audit retention integrity evidence：新增本地 retention knobs 与 file audit digest 证据，明确 managed audit store 仍是生产审计硬阻塞
+
+114-production-readiness-summary-v5-v110.md
+ -> 第一百一十版 Production readiness summary v5：汇总 v108 auth rehearsal、v109 audit retention integrity 与 v107 上游边界证据，明确 signed auth 和 managed audit store 仍未完成
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

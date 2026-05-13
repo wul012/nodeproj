@@ -212,7 +212,12 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     opsPromotionDecisions,
     snapshots,
   });
-  await registerStatusRoutes(app, { config, snapshots });
+  await registerStatusRoutes(app, {
+    config,
+    snapshots,
+    auditLog,
+    auditStoreRuntime: auditStoreRuntime.description,
+  });
   await registerOrderPlatformRoutes(app, {
     orderPlatform,
     upstreamProbesEnabled: config.upstreamProbesEnabled,

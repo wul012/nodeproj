@@ -104,6 +104,14 @@ file runtime + retention knobs 配齐时，digest evidence 稳定，阻塞项收
 - 明确哪些 blocker 已减少，哪些仍必须由真实 auth、managed audit store、部署/密钥治理解决。
 - 继续保持 `readyForProductionOperations=false`，除非真实 auth/RBAC/managed audit store 都已经完成。
 
+完成状态：
+
+```text
+已由 Node v110 落地为 /api/v1/production/readiness-summary-v5。
+v5 汇总 v108 auth enforcement rehearsal、v109 audit retention integrity evidence、v107 upstream boundary evidence。
+当前结论：上游边界、auth rehearsal、audit retention evidence 都可复查；signed auth middleware 和 managed audit store 仍是生产级硬阻塞。
+```
+
 ## 暂停条件
 
 - 需要真实登录密钥、JWT secret、数据库凭据或生产服务器。
@@ -118,4 +126,11 @@ file runtime + retention knobs 配齐时，digest evidence 稳定，阻塞项收
 ```text
 v108-v110 的主线是从“生产证据汇总”推进到“生产门槛可切换演练”：
 先补 auth/enforcement rehearsal，再补 audit retention/integrity，最后用 readiness v5 重新评估。
+```
+
+## 收口状态
+
+```text
+本计划覆盖的 Node v108-v110 已完成。
+后续计划另起：docs/plans/v110-production-hardening-roadmap.md
 ```

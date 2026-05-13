@@ -88,6 +88,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Audit retention integrity evidence for checking local retention knobs, file digest stability, and managed-store blockers without deleting or rotating audit files
 - Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
 - Production readiness summary v4 for combining Java v48 operator auth boundary, mini-kv v57 recovery retention boundary, Node access guard audit context, operator identity contract, and file audit restart evidence while keeping production operations blocked
+- Production readiness summary v5 for rechecking auth enforcement rehearsal and audit retention integrity evidence while signed auth and managed audit storage remain production blockers
 
 ## Setup
 
@@ -149,6 +150,8 @@ GET    /api/v1/production/readiness-summary-v3
 GET    /api/v1/production/readiness-summary-v3?format=markdown
 GET    /api/v1/production/readiness-summary-v4
 GET    /api/v1/production/readiness-summary-v4?format=markdown
+GET    /api/v1/production/readiness-summary-v5
+GET    /api/v1/production/readiness-summary-v5?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile

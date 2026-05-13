@@ -1,6 +1,8 @@
 import type { FastifyInstance } from "fastify";
 
 import type { AppConfig } from "../config.js";
+import type { AuditLog } from "../services/auditLog.js";
+import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
 import {
   createCiEvidenceCommandProfile,
@@ -51,6 +53,10 @@ import {
   renderProductionReadinessSummaryV4Markdown,
 } from "../services/productionReadinessSummaryV4.js";
 import {
+  loadProductionReadinessSummaryV5,
+  renderProductionReadinessSummaryV5Markdown,
+} from "../services/productionReadinessSummaryV5.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -99,6 +105,8 @@ import {
 interface StatusRouteDeps {
   config: AppConfig;
   snapshots: OpsSnapshotService;
+  auditLog: AuditLog;
+  auditStoreRuntime: AuditStoreRuntimeDescription;
 }
 
 interface FixtureReportQuery {
@@ -599,6 +607,31 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionReadinessSummaryV4Markdown(summary);
+    }
+
+    return summary;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/readiness-summary-v5", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = await loadProductionReadinessSummaryV5({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionReadinessSummaryV5Markdown(summary);
     }
 
     return summary;
