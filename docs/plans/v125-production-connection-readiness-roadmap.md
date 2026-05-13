@@ -43,6 +43,8 @@ v123-v125 已经把 audit runner、JWKS cache contract、production readiness su
 
 ## Node v127：production connection failure-mode rehearsal
 
+状态：已由 Node v127 落地为 `/api/v1/production/connection-failure-mode-rehearsal`。
+
 目标：
 
 ```text

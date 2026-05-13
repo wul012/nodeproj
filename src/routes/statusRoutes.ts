@@ -61,6 +61,10 @@ import {
   renderProductionConnectionConfigContractMarkdown,
 } from "../services/productionConnectionConfigContract.js";
 import {
+  createProductionConnectionFailureModeRehearsalProfile,
+  renderProductionConnectionFailureModeRehearsalMarkdown,
+} from "../services/productionConnectionFailureModeRehearsal.js";
+import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
@@ -693,6 +697,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionConnectionConfigContractMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-failure-mode-rehearsal", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createProductionConnectionFailureModeRehearsalProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionFailureModeRehearsalMarkdown(profile);
     }
 
     return profile;
