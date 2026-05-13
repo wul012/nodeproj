@@ -26,6 +26,10 @@ import {
   createManagedAuditReadinessSummary,
   renderManagedAuditReadinessSummaryMarkdown,
 } from "../services/managedAuditReadinessSummary.js";
+import {
+  createManagedAuditAdapterBoundaryProfile,
+  renderManagedAuditAdapterBoundaryMarkdown,
+} from "../services/managedAuditAdapterBoundary.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -39,6 +43,7 @@ interface AuditRouteDeps {
     | "auditMaxFileBytes"
     | "auditRotationEnabled"
     | "auditBackupEnabled"
+    | "upstreamActionsEnabled"
   >;
 }
 
@@ -209,5 +214,29 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     }
 
     return summary;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-adapter-boundary", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createManagedAuditAdapterBoundaryProfile({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditAdapterBoundaryMarkdown(profile);
+    }
+
+    return profile;
   });
 }

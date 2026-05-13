@@ -31,6 +31,8 @@ v114-v116 已经把 verified identity audit binding、managed audit readiness su
 
 ## Node v117：managed audit adapter boundary
 
+状态：已由 Node v117 落地为 `/api/v1/audit/managed-adapter-boundary`。
+
 目标：
 
 ```text
