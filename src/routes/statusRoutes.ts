@@ -45,6 +45,10 @@ import {
   renderJwksVerifierFixtureRehearsalMarkdown,
 } from "../services/jwksVerifierFixtureRehearsal.js";
 import {
+  createJwksCacheContractProfile,
+  renderJwksCacheContractMarkdown,
+} from "../services/jwksCacheContract.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -576,6 +580,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderJwksVerifierFixtureRehearsalMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/jwks-cache-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createJwksCacheContractProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderJwksCacheContractMarkdown(profile);
     }
 
     return profile;

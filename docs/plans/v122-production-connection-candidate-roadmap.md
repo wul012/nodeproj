@@ -44,6 +44,8 @@ v120-v122 已经把 managed audit adapter compliance harness、JWKS verifier fix
 
 ## Node v124：JWKS cache contract rehearsal
 
+状态：已由 Node v124 落地为 `/api/v1/security/jwks-cache-contract`。
+
 目标：
 
 ```text
