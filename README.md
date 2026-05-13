@@ -109,6 +109,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production live probe readiness contract for defining Java and mini-kv read-only live probe targets, skipped/pass/blocked semantics, and no-write boundaries before probing
 - Production live probe smoke harness for recording pass or graceful skipped evidence for Java health/ops overview and mini-kv HEALTH/INFOJSON/STATSJSON without writes
 - Production live probe evidence archive for sealing the live probe contract, smoke harness, and summary v13 evidence into a digest-backed archive record
+- Production live probe evidence archive verification for rechecking archive digest, version references, probe counts, no-write evidence, and skipped-not-production-pass boundaries
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -259,6 +260,8 @@ GET    /api/v1/production/live-probe-smoke-harness
 GET    /api/v1/production/live-probe-smoke-harness?format=markdown
 GET    /api/v1/production/live-probe-evidence-archive
 GET    /api/v1/production/live-probe-evidence-archive?format=markdown
+GET    /api/v1/production/live-probe-evidence-archive/verification
+GET    /api/v1/production/live-probe-evidence-archive/verification?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary
