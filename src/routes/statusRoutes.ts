@@ -93,6 +93,10 @@ import {
   renderProductionReadinessSummaryV8Markdown,
 } from "../services/productionReadinessSummaryV8.js";
 import {
+  loadProductionReadinessSummaryV9,
+  renderProductionReadinessSummaryV9Markdown,
+} from "../services/productionReadinessSummaryV9.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -869,6 +873,31 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionReadinessSummaryV8Markdown(summary);
+    }
+
+    return summary;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/readiness-summary-v9", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = await loadProductionReadinessSummaryV9({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionReadinessSummaryV9Markdown(summary);
     }
 
     return summary;

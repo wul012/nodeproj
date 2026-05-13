@@ -62,6 +62,8 @@ v120-v122 已经把 managed audit adapter compliance harness、JWKS verifier fix
 
 ## Node v125：production readiness summary v9
 
+状态：已由 Node v125 落地为 `/api/v1/production/readiness-summary-v9`。
+
 目标：
 
 ```text

@@ -92,5 +92,8 @@ v119-production-connection-roadmap.md
  -> 由 Node v119 production readiness summary v7 衍生出的计划；已完成 Node v120-v122 并收口
 
 v122-production-connection-candidate-roadmap.md
- -> 由 Node v122 production readiness summary v8 衍生出的当前计划；下一步按 Node v123、Node v124、Node v125 顺序推进 managed audit adapter harness runner、JWKS cache contract rehearsal、production readiness summary v9
+ -> 由 Node v122 production readiness summary v8 衍生出的计划；已完成 Node v123-v125 并收口
+
+v125-production-connection-readiness-roadmap.md
+ -> 由 Node v125 production readiness summary v9 衍生出的当前计划；下一步按 Node v126、Node v127、Node v128 顺序推进 production connection config contract、failure-mode rehearsal、production readiness summary v10
 ```
