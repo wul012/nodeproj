@@ -65,6 +65,10 @@ import {
   renderProductionConnectionFailureModeRehearsalMarkdown,
 } from "../services/productionConnectionFailureModeRehearsal.js";
 import {
+  loadProductionConnectionImplementationPrecheck,
+  renderProductionConnectionImplementationPrecheckMarkdown,
+} from "../services/productionConnectionImplementationPrecheck.js";
+import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
@@ -722,6 +726,31 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionConnectionFailureModeRehearsalMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-implementation-precheck", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadProductionConnectionImplementationPrecheck({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionConnectionImplementationPrecheckMarkdown(profile);
     }
 
     return profile;

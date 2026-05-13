@@ -26,6 +26,8 @@ v126-v128 已经把生产连接配置合约、失败模式演练、production re
 
 ## Node v129：production connection implementation precheck
 
+状态：已由 Node v129 完成。
+
 目标：
 
 ```text
