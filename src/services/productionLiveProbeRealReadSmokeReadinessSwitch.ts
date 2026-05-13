@@ -1,5 +1,12 @@
-import { createHash } from "node:crypto";
-
+﻿import {
+  countPassedReportChecks,
+  countReportChecks,
+  formatValue,
+  renderEntries,
+  renderList,
+  renderMessages,
+  sha256StableJson,
+} from "./liveProbeReportUtils.js";
 import type { MiniKvClient } from "../clients/miniKvClient.js";
 import type { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import type { AppConfig } from "../config.js";
@@ -365,9 +372,7 @@ function addMessage(
 }
 
 function digestSwitch(value: unknown): string {
-  return createHash("sha256")
-    .update(stableJson(value))
-    .digest("hex");
+  return sha256StableJson(value);
 }
 
 function renderGate(gate: ProductionLiveProbeRealReadSmokeSwitchGate): string[] {
@@ -383,44 +388,4 @@ function renderGate(gate: ProductionLiveProbeRealReadSmokeSwitchGate): string[] 
   ];
 }
 
-function renderMessages(messages: ProductionLiveProbeRealReadSmokeSwitchMessage[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
 
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.source}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
-}
-
-function stableJson(value: unknown): string {
-  if (Array.isArray(value)) {
-    return `[${value.map(stableJson).join(",")}]`;
-  }
-
-  if (value !== null && typeof value === "object") {
-    const record = value as Record<string, unknown>;
-    return `{${Object.keys(record)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${stableJson(record[key])}`)
-      .join(",")}}`;
-  }
-
-  return JSON.stringify(value);
-}

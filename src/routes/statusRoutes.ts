@@ -277,6 +277,36 @@ interface CreateProductionConnectionApprovalBody {
   changeRequestDigest: string;
 }
 
+const fixtureReportQuerySchema = {
+  type: "object",
+  properties: {
+    format: { type: "string", enum: ["json", "markdown"] },
+  },
+  additionalProperties: false,
+} as const;
+
+function registerJsonMarkdownReportRoute<TProfile>(
+  app: FastifyInstance,
+  path: string,
+  loadProfile: () => Promise<TProfile>,
+  renderMarkdown: (profile: TProfile) => string,
+): void {
+  app.get<{ Querystring: FixtureReportQuery }>(path, {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadProfile();
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderMarkdown(profile);
+    }
+
+    return profile;
+  });
+}
+
 export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRouteDeps): Promise<void> {
   app.get("/health", async () => ({
     service: "orderops-node",
@@ -1169,257 +1199,131 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return profile;
   });
 
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-readiness-switch", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeReadinessSwitch({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-readiness-switch",
+    () => loadProductionLiveProbeRealReadSmokeReadinessSwitch({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeReadinessSwitchMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeReadinessSwitchMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-archive-adapter", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeArchiveAdapter({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-archive-adapter",
+    () => loadProductionLiveProbeRealReadSmokeArchiveAdapter({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeArchiveAdapterMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeArchiveAdapterMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-execution-request", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeExecutionRequest({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-execution-request",
+    () => loadProductionLiveProbeRealReadSmokeExecutionRequest({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeExecutionRequestMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeExecutionRequestMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-result-importer", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeResultImporter({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-result-importer",
+    () => loadProductionLiveProbeRealReadSmokeResultImporter({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeResultImporterMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeResultImporterMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-release-evidence-gate", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeReleaseEvidenceGate({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-release-evidence-gate",
+    () => loadProductionLiveProbeRealReadSmokeReleaseEvidenceGate({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeReleaseEvidenceGateMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeReleaseEvidenceGateMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-dry-run-command-package", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeDryRunCommandPackage({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-dry-run-command-package",
+    () => loadProductionLiveProbeRealReadSmokeDryRunCommandPackage({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeDryRunCommandPackageMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeDryRunCommandPackageMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-evidence-capture", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeEvidenceCapture({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-evidence-capture",
+    () => loadProductionLiveProbeRealReadSmokeEvidenceCapture({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeEvidenceCaptureMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeEvidenceCaptureMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification",
+    () => loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
+    }),
+    renderProductionLiveProbeRealReadSmokeProductionPassEvidenceVerificationMarkdown,
+  );
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeProductionPassEvidenceVerificationMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-archive", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionLiveProbeRealReadSmokeProductionPassEvidenceArchive({
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-archive",
+    () => loadProductionLiveProbeRealReadSmokeProductionPassEvidenceArchive({
       config: deps.config,
       auditLog: deps.auditLog,
       auditStoreRuntime: deps.auditStoreRuntime,
       productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
       orderPlatform: deps.orderPlatform,
       miniKv: deps.miniKv,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionLiveProbeRealReadSmokeProductionPassEvidenceArchiveMarkdown(profile);
-    }
-
-    return profile;
-  });
+    }),
+    renderProductionLiveProbeRealReadSmokeProductionPassEvidenceArchiveMarkdown,
+  );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
     schema: {

@@ -2,7 +2,7 @@
 
 来源版本：Node v149 `production live probe real-read smoke production pass evidence verification`。
 
-计划状态：当前有效全局计划，从 Node v150 / Java v49 / mini-kv v50 开始。
+计划状态：当前有效全局计划，从 Node v150 / Node v151 / Java v49 / mini-kv v50 开始。
 
 上一阶段历史计划：
 
@@ -12,7 +12,7 @@ docs/plans/v146-production-pass-evidence-roadmap.md
 
 ## 计划接力规则
 
-- 本文件覆盖 Node v150-v152，并明确插入 Java v49、mini-kv v50，不重新安排 v147-v149。
+- 本文件覆盖 Node v150-v153，并明确插入 Java v49、mini-kv v50，不重新安排 v147-v149。
 - 新 plan 必须从上一阶段完成后的下一个版本开始。
 - 不允许多个 plan 同时声明同一个未完成版本为“下一步”。
 - 推荐执行顺序中不使用“或/任选”这类容易误解的表达。
@@ -45,9 +45,10 @@ readyForProductionOperations=false
 
 ```text
 1. Node v150：production pass evidence archive，先把 v149 verification + v148 capture + v146 gate 的 digest 链归档成稳定输入
-2. Java v49 + mini-kv v50：可以一起推进，只补只读 evidence 供给能力，不做写操作；Java 补 ops/read-only evidence sample，mini-kv 补 CHECKJSON/INFOJSON/STATSJSON 只读样本与说明
-3. Node v151：production pass evidence archive verification，消费 Node v150 archive，并预留 Java v49 / mini-kv v50 evidence 引用位；若上游尚未完成，明确标记 upstreamEvidenceReady=false
-4. Node v152：real-read smoke operator runbook，基于 Node v150-v151 和 Java v49 / mini-kv v50 的只读证据，生成真实只读联调前操作清单
+2. Node v151：production live-probe shared helpers refactor，先收敛 v144-v150 重复的 digest / markdown / route 工具函数，避免后续 archive verification 继续复制膨胀
+3. Java v49 + mini-kv v50：可以一起推进，只补只读 evidence 供给能力，不做写操作；Java 补 ops/read-only evidence sample，mini-kv 补 CHECKJSON/INFOJSON/STATSJSON 只读样本与说明
+4. Node v152：production pass evidence archive verification，消费 Node v150 archive，并预留 Java v49 / mini-kv v50 evidence 引用位；若上游尚未完成，明确标记 upstreamEvidenceReady=false
+5. Node v153：real-read smoke operator runbook，基于 Node v150-v152 和 Java v49 / mini-kv v50 的只读证据，生成真实只读联调前操作清单
 ```
 
 ## Node v150：production pass evidence archive
@@ -70,7 +71,25 @@ readyForProductionOperations=false
 - `readyForProductionOperations` 仍为 `false`。
 - 不启动 Java / mini-kv。
 
-## Node v151：production pass evidence archive verification
+## Node v151：production live-probe shared helpers refactor
+
+状态：已由 Node v151 完成。
+
+目标：
+
+```text
+在继续 archive verification 前，先收敛 v144-v150 的工具函数复制和 route 注册重复。
+```
+
+本版本要落地：
+
+- 提取 live-probe 共享 digest / stableJson / markdown render helpers。
+- 提取 status route 中重复的 JSON / Markdown 注册辅助。
+- 不改变 v144-v150 endpoint 路径和响应语义。
+- 不启动 Java / mini-kv。
+- 只做小闭环重构，避免一次性重命名所有长服务名。
+
+## Node v152：production pass evidence archive verification
 
 目标：
 
@@ -87,7 +106,7 @@ readyForProductionOperations=false
 - 预留 Java v49 / mini-kv v50 只读 evidence 引用位；上游未完成时必须输出 `upstreamEvidenceReady=false`。
 - 输出 JSON / Markdown verification endpoint。
 
-## Node v152：real-read smoke operator runbook
+## Node v153：real-read smoke operator runbook
 
 目标：
 
@@ -105,7 +124,7 @@ readyForProductionOperations=false
 
 ## 何时启动 Java / mini-kv
 
-v150-v152 默认仍不启动 Java / mini-kv。
+Node v150-v151 默认不启动 Java / mini-kv。Node v152-v153 也默认不启动 Java / mini-kv，除非用户明确进入真实只读联调窗口。
 
 只有当用户明确进入真实只读联调窗口时，才按以下顺序：
 
@@ -128,5 +147,5 @@ v150-v152 默认仍不启动 Java / mini-kv。
 ## 一句话结论
 
 ```text
-v150-v152 继续由 Node 完成 production pass evidence 的 archive、verification 和 operator runbook。真实上游联调仍由用户明确开启，Node 默认不启动、不修改 Java / mini-kv。
+v150-v151 已由 Node 完成 archive 与共享工具收口；下一步转到 Java v49 + mini-kv v50 一起补只读 evidence。之后 Node v152-v153 再消费这些证据做 verification 和 operator runbook。
 ```
