@@ -104,5 +104,8 @@ v131-production-connection-review-roadmap.md
  -> 由 Node v131 production readiness summary v11 衍生出的计划；已完成 Node v132-v134 并收口
 
 v134-production-live-probe-roadmap.md
- -> 由 Node v134 production readiness summary v12 衍生出的当前计划；下一步按 Node v135、Node v136、Node v137 顺序推进 live probe readiness contract、read-only live probe smoke harness、production readiness summary v13
+ -> 由 Node v134 production readiness summary v12 衍生出的计划；已完成 Node v135-v137 并收口
+
+v137-production-live-probe-evidence-roadmap.md
+ -> 由 Node v137 production readiness summary v13 衍生出的当前计划；下一步按 Node v138、Node v139、Node v140 顺序推进 live probe evidence archive record、archive verification、production readiness summary v14
 ```

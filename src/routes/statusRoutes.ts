@@ -138,6 +138,10 @@ import {
   renderProductionReadinessSummaryV12Markdown,
 } from "../services/productionReadinessSummaryV12.js";
 import {
+  loadProductionReadinessSummaryV13,
+  renderProductionReadinessSummaryV13Markdown,
+} from "../services/productionReadinessSummaryV13.js";
+import {
   createProductionLiveProbeReadinessContract,
   renderProductionLiveProbeReadinessContractMarkdown,
 } from "../services/productionLiveProbeReadinessContract.js";
@@ -1302,6 +1306,34 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionReadinessSummaryV12Markdown(summary);
+    }
+
+    return summary;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/readiness-summary-v13", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = await loadProductionReadinessSummaryV13({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+      productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionReadinessSummaryV13Markdown(summary);
     }
 
     return summary;
