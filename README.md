@@ -117,6 +117,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production live probe real-read smoke execution request for producing an operator-reviewed command profile, required environment, and forbidden-write list before opening a live read-only smoke window
 - Production live probe real-read smoke result importer for normalizing pass/skipped smoke output into a schema-backed import envelope before release evidence gating
 - Production live probe real-read smoke release evidence gate for deciding whether imported smoke records can become production pass evidence while keeping production operations gated
+- Production live probe real-read smoke dry-run command package for bundling execution request, result importer, and release gate digests into one operator package before real upstream capture
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -283,6 +284,8 @@ GET    /api/v1/production/live-probe-real-read-smoke-result-importer
 GET    /api/v1/production/live-probe-real-read-smoke-result-importer?format=markdown
 GET    /api/v1/production/live-probe-real-read-smoke-release-evidence-gate
 GET    /api/v1/production/live-probe-real-read-smoke-release-evidence-gate?format=markdown
+GET    /api/v1/production/live-probe-real-read-smoke-dry-run-command-package
+GET    /api/v1/production/live-probe-real-read-smoke-dry-run-command-package?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary

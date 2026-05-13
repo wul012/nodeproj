@@ -186,6 +186,10 @@ import {
   renderProductionLiveProbeRealReadSmokeReleaseEvidenceGateMarkdown,
 } from "../services/productionLiveProbeRealReadSmokeReleaseEvidenceGate.js";
 import {
+  loadProductionLiveProbeRealReadSmokeDryRunCommandPackage,
+  renderProductionLiveProbeRealReadSmokeDryRunCommandPackageMarkdown,
+} from "../services/productionLiveProbeRealReadSmokeDryRunCommandPackage.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1288,6 +1292,34 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderProductionLiveProbeRealReadSmokeReleaseEvidenceGateMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-real-read-smoke-dry-run-command-package", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadProductionLiveProbeRealReadSmokeDryRunCommandPackage({
+      config: deps.config,
+      auditLog: deps.auditLog,
+      auditStoreRuntime: deps.auditStoreRuntime,
+      productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionLiveProbeRealReadSmokeDryRunCommandPackageMarkdown(profile);
     }
 
     return profile;

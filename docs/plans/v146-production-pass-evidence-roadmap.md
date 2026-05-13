@@ -67,6 +67,8 @@ not-production-pass-evidence
 
 ## Node v147：real-read smoke dry-run command package
 
+状态：已由 Node v147 完成。
+
 目标：
 
 ```text
