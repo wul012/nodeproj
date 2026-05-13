@@ -98,5 +98,8 @@ v125-production-connection-readiness-roadmap.md
  -> 由 Node v125 production readiness summary v9 衍生出的计划；已完成 Node v126-v128 并收口
 
 v128-production-connection-implementation-roadmap.md
- -> 由 Node v128 production readiness summary v10 衍生出的当前计划；下一步按 Node v129、Node v130、Node v131 顺序推进 production connection implementation precheck、dry-run change request、production readiness summary v11
+ -> 由 Node v128 production readiness summary v10 衍生出的计划；已完成 Node v129-v131 并收口
+
+v131-production-connection-review-roadmap.md
+ -> 由 Node v131 production readiness summary v11 衍生出的当前计划；下一步按 Node v132、Node v133、Node v134 顺序推进 dry-run approval ledger、change request archive verification、production readiness summary v12
 ```

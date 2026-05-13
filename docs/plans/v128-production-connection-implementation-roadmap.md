@@ -60,6 +60,8 @@ v126-v128 已经把生产连接配置合约、失败模式演练、production re
 
 ## Node v131：production readiness summary v11
 
+状态：已由 Node v131 完成。
+
 目标：
 
 ```text
