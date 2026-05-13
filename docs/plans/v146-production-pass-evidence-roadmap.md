@@ -1,3 +1,5 @@
+﻿# Completed: v147-v149 finished; superseded by docs/plans/v149-post-production-pass-evidence-roadmap.md.
+
 # Node v146 衍生计划：production pass evidence 与真实只读联调
 
 来源版本：Node v146 `production live probe real-read smoke release evidence gate`。

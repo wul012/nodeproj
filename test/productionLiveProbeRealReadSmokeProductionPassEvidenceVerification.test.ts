@@ -12,20 +12,20 @@ import { createAuditStoreRuntime } from "../src/services/auditStoreFactory.js";
 import { loadProductionConnectionDryRunChangeRequest } from "../src/services/productionConnectionDryRunChangeRequest.js";
 import { ProductionConnectionDryRunApprovalLedger } from "../src/services/productionConnectionDryRunApprovalLedger.js";
 import {
-  loadProductionLiveProbeRealReadSmokeEvidenceCapture,
-} from "../src/services/productionLiveProbeRealReadSmokeEvidenceCapture.js";
+  loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification,
+} from "../src/services/productionLiveProbeRealReadSmokeProductionPassEvidenceVerification.js";
 import type { UpstreamJsonResponse } from "../src/types.js";
 
-describe("production live probe real-read smoke evidence capture", () => {
-  it("captures skipped evidence without starting upstreams automatically", async () => {
-    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-"));
+describe("production live probe real-read smoke production pass evidence verification", () => {
+  it("blocks skipped capture from becoming production pass evidence", async () => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"));
     const runtime = createAuditStoreRuntime(config);
     const ledger = new ProductionConnectionDryRunApprovalLedger();
 
     try {
-      await approveCurrentChangeRequest(config, runtime, ledger, "approve v148 evidence capture");
-      const profile = await loadProductionLiveProbeRealReadSmokeEvidenceCapture({
+      await approveCurrentChangeRequest(config, runtime, ledger, "approve v149 skipped verification");
+      const profile = await loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification({
         config,
         auditLog: runtime.auditLog,
         auditStoreRuntime: runtime.description,
@@ -35,63 +35,57 @@ describe("production live probe real-read smoke evidence capture", () => {
       });
 
       expect(profile).toMatchObject({
-        profileVersion: "production-live-probe-real-read-smoke-evidence-capture.v1",
-        captureState: "captured-skipped",
-        readyForEvidenceCapture: true,
-        readyForProductionPassEvidenceCandidate: false,
+        profileVersion: "production-live-probe-real-read-smoke-production-pass-evidence-verification.v1",
+        verificationState: "not-production-pass-evidence",
+        readyForProductionPassEvidenceVerification: false,
         readyForProductionOperations: false,
         readOnly: true,
         executionAllowed: false,
-        capture: {
-          releaseGateDecision: "not-production-pass-evidence",
+        verification: {
+          captureState: "captured-skipped",
           captureMode: "skipped",
+          releaseGateDecision: "not-production-pass-evidence",
           upstreamProbesEnabled: false,
           upstreamActionsEnabled: false,
           readOnlyWindowOpen: false,
           automaticUpstreamStart: false,
           mutatesUpstreamState: false,
-          importedRecordCount: 5,
-          passRecordCount: 0,
-          skippedRecordCount: 5,
-          rejectedRecordCount: 0,
+          allCapturedRecordsPass: false,
+          skippedOrMixedRemainsBlocked: true,
         },
         checks: {
-          dryRunPackageDigestValid: true,
-          archiveAdapterReady: true,
-          resultImporterReady: true,
-          releaseEvidenceGateReady: true,
-          allExpectedRecordsCaptured: true,
-          allCapturedRecordsAccepted: true,
-          noWriteEvidenceCaptured: true,
+          captureReadyForEvidenceCapture: true,
+          captureDigestValid: true,
+          captureRecordCountMatches: true,
+          captureAllCapturedRecordsAccepted: true,
+          captureAllCapturedRecordsPass: false,
+          captureNoSkippedRecords: false,
+          captureNoRejectedRecords: true,
+          captureNoWriteEvidenceCaptured: true,
+          captureReadOnlyWindowOpen: false,
+          releaseGateReadyForReleaseEvidenceGate: true,
+          releaseGateDigestValid: true,
+          releaseGateReadyForProductionPassEvidence: false,
+          releaseGateDecisionMatchesCapture: true,
           upstreamActionsStillDisabled: true,
           noAutomaticUpstreamStart: true,
-          passRequiresProbeWindowOpen: true,
-          skippedOrMixedNotProductionPass: true,
-          readyForEvidenceCapture: true,
-          readyForProductionPassEvidenceCandidate: false,
+          skippedOrMixedRemainsBlocked: true,
+          readyForProductionPassEvidenceVerification: false,
         },
         summary: {
-          capturedRecordCount: 5,
-          passRecordCount: 0,
-          skippedRecordCount: 5,
-          rejectedRecordCount: 0,
+          verificationCheckCount: 17,
           productionBlockerCount: 0,
         },
       });
-      expect(profile.capture.captureDigest).toMatch(/^[a-f0-9]{64}$/);
-      expect(profile.capture.dryRunPackageDigest).toMatch(/^[a-f0-9]{64}$/);
-      expect(profile.capture.archiveAdapterDigest).toMatch(/^[a-f0-9]{64}$/);
-      expect(profile.capture.resultImportDigest).toMatch(/^[a-f0-9]{64}$/);
-      expect(profile.capture.releaseEvidenceGateDigest).toMatch(/^[a-f0-9]{64}$/);
-      expect(profile.capturedRecords.every((record) => record.captureStatus === "captured-skipped")).toBe(true);
-      expect(profile.warnings.map((warning) => warning.code)).toContain("REAL_READ_SMOKE_SKIPPED_CAPTURED");
+      expect(profile.productionBlockers).toHaveLength(0);
+      expect(profile.warnings.map((warning) => warning.code)).toContain("SKIPPED_OR_MIXED_CAPTURE_REMAINS_BLOCKED");
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
   }, 30000);
 
-  it("captures all-pass evidence as a pass candidate only when the read-only window is open", async () => {
-    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-pass-"));
+  it("verifies all-pass capture as production pass evidence candidate only in the read-only window", async () => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-pass-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"), {
       UPSTREAM_PROBES_ENABLED: "true",
     });
@@ -99,8 +93,8 @@ describe("production live probe real-read smoke evidence capture", () => {
     const ledger = new ProductionConnectionDryRunApprovalLedger();
 
     try {
-      await approveCurrentChangeRequest(config, runtime, ledger, "approve v148 pass evidence capture");
-      const profile = await loadProductionLiveProbeRealReadSmokeEvidenceCapture({
+      await approveCurrentChangeRequest(config, runtime, ledger, "approve v149 pass verification");
+      const profile = await loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification({
         config,
         auditLog: runtime.auditLog,
         auditStoreRuntime: runtime.description,
@@ -110,48 +104,53 @@ describe("production live probe real-read smoke evidence capture", () => {
       });
 
       expect(profile).toMatchObject({
-        captureState: "captured-pass",
-        readyForEvidenceCapture: true,
-        readyForProductionPassEvidenceCandidate: true,
+        verificationState: "production-pass-evidence-ready",
+        readyForProductionPassEvidenceVerification: true,
         readyForProductionOperations: false,
-        capture: {
-          releaseGateDecision: "production-pass-evidence-ready",
+        verification: {
+          captureState: "captured-pass",
           captureMode: "pass",
+          releaseGateDecision: "production-pass-evidence-ready",
           upstreamProbesEnabled: true,
           upstreamActionsEnabled: false,
           readOnlyWindowOpen: true,
-          automaticUpstreamStart: false,
-          mutatesUpstreamState: false,
-          importedRecordCount: 5,
-          passRecordCount: 5,
-          skippedRecordCount: 0,
-          rejectedRecordCount: 0,
+          allCapturedRecordsPass: true,
+          skippedOrMixedRemainsBlocked: false,
         },
         checks: {
-          passRequiresProbeWindowOpen: true,
-          skippedOrMixedNotProductionPass: true,
-          readyForEvidenceCapture: true,
-          readyForProductionPassEvidenceCandidate: true,
+          captureReadyForEvidenceCapture: true,
+          captureDigestValid: true,
+          captureRecordCountMatches: true,
+          captureAllCapturedRecordsAccepted: true,
+          captureAllCapturedRecordsPass: true,
+          captureNoSkippedRecords: true,
+          captureNoRejectedRecords: true,
+          captureNoWriteEvidenceCaptured: true,
+          captureReadOnlyWindowOpen: true,
+          releaseGateReadyForReleaseEvidenceGate: true,
+          releaseGateDigestValid: true,
+          releaseGateReadyForProductionPassEvidence: true,
+          releaseGateDecisionMatchesCapture: true,
+          upstreamActionsStillDisabled: true,
+          noAutomaticUpstreamStart: true,
+          skippedOrMixedRemainsBlocked: false,
+          readyForProductionPassEvidenceVerification: true,
         },
         summary: {
-          capturedRecordCount: 5,
-          passRecordCount: 5,
-          skippedRecordCount: 0,
-          rejectedRecordCount: 0,
+          verificationCheckCount: 17,
           productionBlockerCount: 0,
         },
       });
-      expect(profile.capturedRecords.every((record) => record.captureStatus === "captured-pass")).toBe(true);
-      expect(profile.capturedRecords.every((record) => record.attempted)).toBe(true);
-      expect(profile.warnings.map((warning) => warning.code)).toContain("REAL_READ_SMOKE_PASS_CAPTURED");
-      expect(profile.warnings.map((warning) => warning.code)).toContain("RELEASE_GATE_ACCEPTS_CAPTURE_AS_PASS_CANDIDATE");
+      expect(profile.productionBlockers).toHaveLength(0);
+      expect(profile.warnings.map((warning) => warning.code)).toContain("PASS_CAPTURE_VERIFIED");
+      expect(profile.warnings.map((warning) => warning.code)).toContain("RELEASE_GATE_ACCEPTS_CAPTURE");
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
   }, 20000);
 
-  it("blocks capture when upstream write actions are enabled", async () => {
-    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-blocked-"));
+  it("blocks verification when upstream write actions are enabled", async () => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-blocked-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"), {
       UPSTREAM_ACTIONS_ENABLED: "true",
     });
@@ -159,8 +158,8 @@ describe("production live probe real-read smoke evidence capture", () => {
     const ledger = new ProductionConnectionDryRunApprovalLedger();
 
     try {
-      await approveCurrentChangeRequest(config, runtime, ledger, "approve v148 blocked evidence capture");
-      const profile = await loadProductionLiveProbeRealReadSmokeEvidenceCapture({
+      await approveCurrentChangeRequest(config, runtime, ledger, "approve v149 blocked verification");
+      const profile = await loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification({
         config,
         auditLog: runtime.auditLog,
         auditStoreRuntime: runtime.description,
@@ -169,9 +168,8 @@ describe("production live probe real-read smoke evidence capture", () => {
         miniKv: new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs),
       });
 
-      expect(profile.captureState).toBe("blocked");
-      expect(profile.readyForEvidenceCapture).toBe(false);
-      expect(profile.readyForProductionPassEvidenceCandidate).toBe(false);
+      expect(profile.verificationState).toBe("blocked");
+      expect(profile.readyForProductionPassEvidenceVerification).toBe(false);
       expect(profile.checks.upstreamActionsStillDisabled).toBe(false);
       expect(profile.productionBlockers.map((blocker) => blocker.code)).toContain("UPSTREAM_ACTIONS_ENABLED");
     } finally {
@@ -179,8 +177,8 @@ describe("production live probe real-read smoke evidence capture", () => {
     }
   }, 20000);
 
-  it("exposes evidence capture routes in JSON and Markdown", async () => {
-    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-route-"));
+  it("exposes production pass evidence verification routes in JSON and Markdown", async () => {
+    const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-route-"));
     const app = await buildApp(loadTestConfig(path.join(directory, "audit.jsonl")));
 
     try {
@@ -200,42 +198,41 @@ describe("production live probe real-read smoke evidence capture", () => {
         payload: {
           decision: "approve",
           reviewer: "approver-1",
-          reason: "approve v148 route evidence",
+          reason: "approve v149 route verification",
           changeRequestDigest: changeRequest.json().changeRequest.changeRequestDigest,
         },
       });
       const json = await app.inject({
         method: "GET",
-        url: "/api/v1/production/live-probe-real-read-smoke-evidence-capture",
+        url: "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification",
         headers,
       });
       const markdown = await app.inject({
         method: "GET",
-        url: "/api/v1/production/live-probe-real-read-smoke-evidence-capture?format=markdown",
+        url: "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification?format=markdown",
         headers,
       });
 
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        profileVersion: "production-live-probe-real-read-smoke-evidence-capture.v1",
-        captureState: "captured-skipped",
-        readyForEvidenceCapture: true,
-        readyForProductionPassEvidenceCandidate: false,
-        capture: {
+        profileVersion: "production-live-probe-real-read-smoke-production-pass-evidence-verification.v1",
+        verificationState: "not-production-pass-evidence",
+        readyForProductionPassEvidenceVerification: false,
+        verification: {
           captureMode: "skipped",
-          skippedRecordCount: 5,
+          releaseGateDecision: "not-production-pass-evidence",
         },
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
-      expect(markdown.body).toContain("# Production live probe real-read smoke evidence capture");
-      expect(markdown.body).toContain("REAL_READ_SMOKE_SKIPPED_CAPTURED");
-      expect(markdown.body).toContain("captured-skipped");
+      expect(markdown.body).toContain("# Production live probe real-read smoke production pass evidence verification");
+      expect(markdown.body).toContain("SKIPPED_OR_MIXED_CAPTURE_REMAINS_BLOCKED");
+      expect(markdown.body).toContain("not-production-pass-evidence");
     } finally {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 });
 
 async function approveCurrentChangeRequest(
@@ -251,7 +248,7 @@ async function approveCurrentChangeRequest(
   });
   await ledger.create({
     decision: "approve",
-    reviewer: "live-probe-evidence-capture",
+    reviewer: "live-probe-production-pass-verification",
     reason,
     changeRequestDigest: changeRequest.changeRequest.changeRequestDigest,
   }, {
