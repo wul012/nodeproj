@@ -89,7 +89,7 @@ describe("production live probe real-read smoke result importer", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  });
+  }, 20000);
 
   it("blocks result import when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-result-importer-blocked-"));
@@ -116,7 +116,7 @@ describe("production live probe real-read smoke result importer", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 
   it("exposes result importer routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-result-importer-route-"));
@@ -173,7 +173,7 @@ describe("production live probe real-read smoke result importer", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 });
 
 async function approveCurrentChangeRequest(

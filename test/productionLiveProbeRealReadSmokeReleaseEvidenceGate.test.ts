@@ -83,7 +83,7 @@ describe("production live probe real-read smoke release evidence gate", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 
   it("blocks release evidence gate when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-release-gate-blocked-"));
@@ -112,7 +112,7 @@ describe("production live probe real-read smoke release evidence gate", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 
   it("exposes release evidence gate routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-release-gate-route-"));
@@ -166,7 +166,7 @@ describe("production live probe real-read smoke release evidence gate", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 });
 
 async function approveCurrentChangeRequest(

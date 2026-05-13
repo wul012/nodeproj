@@ -101,6 +101,8 @@ not-production-pass-evidence
 
 ## Node v148：real-read smoke pass evidence capture
 
+状态：已由 Node v148 完成。
+
 目标：
 
 ```text
