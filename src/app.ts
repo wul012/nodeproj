@@ -218,6 +218,8 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   await registerStatusRoutes(app, {
     config,
     snapshots,
+    orderPlatform,
+    miniKv,
     auditLog,
     auditStoreRuntime: auditStoreRuntime.description,
     productionConnectionDryRunApprovals,

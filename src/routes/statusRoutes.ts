@@ -1,5 +1,7 @@
 import type { FastifyInstance } from "fastify";
 
+import type { MiniKvClient } from "../clients/miniKvClient.js";
+import type { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import type { AppConfig } from "../config.js";
 import type { AuditLog } from "../services/auditLog.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
@@ -140,6 +142,10 @@ import {
   renderProductionLiveProbeReadinessContractMarkdown,
 } from "../services/productionLiveProbeReadinessContract.js";
 import {
+  loadProductionLiveProbeSmokeHarness,
+  renderProductionLiveProbeSmokeHarnessMarkdown,
+} from "../services/productionLiveProbeSmokeHarness.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -188,6 +194,8 @@ import {
 interface StatusRouteDeps {
   config: AppConfig;
   snapshots: OpsSnapshotService;
+  orderPlatform: OrderPlatformClient;
+  miniKv: MiniKvClient;
   auditLog: AuditLog;
   auditStoreRuntime: AuditStoreRuntimeDescription;
   productionConnectionDryRunApprovals: ProductionConnectionDryRunApprovalLedger;
@@ -966,6 +974,31 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return contract;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-smoke-harness", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadProductionLiveProbeSmokeHarness({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionLiveProbeSmokeHarnessMarkdown(profile);
+    }
+
+    return profile;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
