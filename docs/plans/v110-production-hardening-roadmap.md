@@ -51,6 +51,14 @@ managed audit store
 - 不暴露生产密钥。
 - 不启用 Java replay。
 
+完成状态：
+
+```text
+已由 Node v111 落地为 /api/v1/security/signed-auth-token-contract。
+支持本地 HMAC rehearsal token，覆盖 missing token、bad signature、expired、insufficient role、allowed role。
+接口只暴露 secretConfigured，不回显 secret；仍标记 REAL_IDP_NOT_CONNECTED。
+```
+
 ## Node v112：managed audit store adapter contract
 
 目标：

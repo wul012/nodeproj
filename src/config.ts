@@ -15,6 +15,8 @@ export interface AppConfig {
   upstreamActionsEnabled: boolean;
   orderopsAuthMode: "disabled" | "rehearsal";
   accessGuardEnforcementEnabled: boolean;
+  authTokenIssuer: string;
+  authTokenSecret: string;
   mutationRateLimitWindowMs: number;
   mutationRateLimitMax: number;
   javaExecutionContractFixturePath: string;
@@ -255,6 +257,8 @@ export function loadConfig(env: NodeJS.ProcessEnv = process.env): AppConfig {
     upstreamActionsEnabled: readBoolean(env, "UPSTREAM_ACTIONS_ENABLED", false),
     orderopsAuthMode: readAuthMode(env),
     accessGuardEnforcementEnabled: readBoolean(env, "ACCESS_GUARD_ENFORCEMENT_ENABLED", false),
+    authTokenIssuer: readString(env, "ORDEROPS_AUTH_TOKEN_ISSUER", "orderops-local-rehearsal"),
+    authTokenSecret: readString(env, "ORDEROPS_AUTH_TOKEN_SECRET", ""),
     mutationRateLimitWindowMs: readNumber(env, "MUTATION_RATE_LIMIT_WINDOW_MS", 60000),
     mutationRateLimitMax: readNumber(env, "MUTATION_RATE_LIMIT_MAX", 30),
     javaExecutionContractFixturePath: readString(

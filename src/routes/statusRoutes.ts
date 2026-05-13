@@ -29,6 +29,10 @@ import {
   renderOperatorIdentityContractMarkdown,
 } from "../services/operatorIdentityContract.js";
 import {
+  createSignedAuthTokenContractProfile,
+  renderSignedAuthTokenContractMarkdown,
+} from "../services/signedAuthTokenContract.js";
+import {
   createDeploymentSafetyProfile,
   renderDeploymentSafetyProfileMarkdown,
 } from "../services/deploymentSafetyProfile.js";
@@ -465,6 +469,27 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return profile;
   });
 
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/signed-auth-token-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = createSignedAuthTokenContractProfile(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderSignedAuthTokenContractMarkdown(profile);
+    }
+
+    return profile;
+  });
+
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/workflow-evidence-verification", {
     schema: {
       querystring: {
@@ -644,6 +669,8 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       upstreamActionsEnabled: deps.config.upstreamActionsEnabled,
       orderopsAuthMode: deps.config.orderopsAuthMode,
       accessGuardEnforcementEnabled: deps.config.accessGuardEnforcementEnabled,
+      authTokenIssuer: deps.config.authTokenIssuer,
+      authTokenSecretConfigured: deps.config.authTokenSecret.length > 0,
     },
     upstreams: {
       orderPlatformUrl: deps.config.orderPlatformUrl,

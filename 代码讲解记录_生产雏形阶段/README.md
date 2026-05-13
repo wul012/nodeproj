@@ -146,6 +146,9 @@ file audit restart evidence 与后续 managed audit store
 
 114-production-readiness-summary-v5-v110.md
  -> 第一百一十版 Production readiness summary v5：汇总 v108 auth rehearsal、v109 audit retention integrity 与 v107 上游边界证据，明确 signed auth 和 managed audit store 仍未完成
+
+115-signed-auth-token-contract-v111.md
+ -> 第一百一十一版 Signed auth token contract rehearsal：新增本地 HMAC signed token contract，覆盖 missing/bad signature/expired/role denied/allowed 样本，同时明确真实 IdP 未接入
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
