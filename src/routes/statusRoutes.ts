@@ -286,6 +286,10 @@ import {
   renderProductionReleaseDryRunEnvelopeMarkdown,
 } from "../services/productionReleaseDryRunEnvelope.js";
 import {
+  loadReleaseHandoffReadinessReview,
+  renderReleaseHandoffReadinessReviewMarkdown,
+} from "../services/releaseHandoffReadinessReview.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1610,6 +1614,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/release-dry-run-envelope",
     () => Promise.resolve(loadProductionReleaseDryRunEnvelope(deps.config)),
     renderProductionReleaseDryRunEnvelopeMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/release-handoff-readiness-review",
+    () => Promise.resolve(loadReleaseHandoffReadinessReview(deps.config)),
+    renderReleaseHandoffReadinessReviewMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
