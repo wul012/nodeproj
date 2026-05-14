@@ -167,6 +167,9 @@ file audit restart evidence 与后续 managed audit store
 
 167-release-rollback-readiness-runbook-v163.md
  -> 第一百六十三版 Release rollback readiness runbook：汇总 Java v55 deployment rollback evidence 与 mini-kv v64 runtime artifact rollback evidence，生成只读 dry-run 回滚窗口准备 runbook，并另起 post-v163 生产交付硬化计划
+
+168-release-report-shared-helpers-refactor-v164.md
+ -> 第一百六十四版 Release report shared helpers refactor：抽出 release report Markdown、blocking message、step/forbidden operation 和 digest 公共 helper，收敛 v162/v163 报告模板重复，并把 release bundle gate 顺延到 Node v165
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

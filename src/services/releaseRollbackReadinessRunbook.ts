@@ -2,11 +2,15 @@ import type { AppConfig } from "../config.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
-  sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  appendBlockingMessage,
+  completeAggregateReadyCheck,
+  digestReleaseReport,
+  renderReleaseForbiddenOperation,
+  renderReleaseReportMarkdown,
+  renderReleaseReportStep,
+} from "./releaseReportShared.js";
 import {
   loadCrossProjectReleaseVerificationIntakeGate,
 } from "./crossProjectReleaseVerificationIntakeGate.js";
@@ -319,9 +323,7 @@ export function loadReleaseRollbackReadinessRunbook(config: AppConfig): ReleaseR
   const operatorSteps = createOperatorSteps();
   const forbiddenOperations = createForbiddenOperations();
   const checks = createChecks(config, previousIntakeGate, operatorSteps, forbiddenOperations);
-  checks.readyForReleaseRollbackReadinessRunbook = Object.entries(checks)
-    .filter(([key]) => key !== "readyForReleaseRollbackReadinessRunbook")
-    .every(([, value]) => value);
+  completeAggregateReadyCheck(checks, "readyForReleaseRollbackReadinessRunbook");
   const runbookState = checks.readyForReleaseRollbackReadinessRunbook
     ? "ready-for-manual-dry-run"
     : "blocked";
@@ -425,78 +427,56 @@ export function loadReleaseRollbackReadinessRunbook(config: AppConfig): ReleaseR
 export function renderReleaseRollbackReadinessRunbookMarkdown(
   profile: ReleaseRollbackReadinessRunbookProfile,
 ): string {
-  return [
-    "# Release rollback readiness runbook",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Runbook state: ${profile.runbookState}`,
-    `- Ready for release rollback readiness runbook: ${profile.readyForReleaseRollbackReadinessRunbook}`,
-    `- Ready for production rollback: ${profile.readyForProductionRollback}`,
-    `- Ready for production operations: ${profile.readyForProductionOperations}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Dry run only: ${profile.dryRunOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Runbook",
-    "",
-    ...renderEntries(profile.runbook),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Artifacts",
-    "",
-    "### Previous Intake Gate",
-    "",
-    ...renderEntries(profile.artifacts.previousIntakeGate),
-    "",
-    "### Java Deployment Rollback Evidence",
-    "",
-    ...renderEntries(profile.artifacts.javaDeploymentRollbackEvidence),
-    "",
-    "### mini-kv Runtime Artifact Rollback Evidence",
-    "",
-    ...renderEntries(profile.artifacts.miniKvRuntimeArtifactRollbackEvidence),
-    "",
-    "### Node Runbook Envelope",
-    "",
-    ...renderEntries(profile.artifacts.nodeRunbookEnvelope),
-    "",
-    "## Operator Steps",
-    "",
-    ...profile.operatorSteps.flatMap(renderStep),
-    "## Forbidden Operations",
-    "",
-    ...profile.forbiddenOperations.flatMap(renderForbiddenOperation),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No release rollback readiness runbook blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No release rollback readiness runbook warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No release rollback readiness runbook recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderReleaseReportMarkdown({
+    title: "Release rollback readiness runbook",
+    header: {
+      Service: profile.service,
+      "Generated at": profile.generatedAt,
+      "Profile version": profile.profileVersion,
+      "Runbook state": profile.runbookState,
+      "Ready for release rollback readiness runbook": profile.readyForReleaseRollbackReadinessRunbook,
+      "Ready for production rollback": profile.readyForProductionRollback,
+      "Ready for production operations": profile.readyForProductionOperations,
+      "Read only": profile.readOnly,
+      "Dry run only": profile.dryRunOnly,
+      "Execution allowed": profile.executionAllowed,
+    },
+    sections: [
+      { heading: "Runbook", entries: profile.runbook },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Previous Intake Gate", entries: profile.artifacts.previousIntakeGate },
+      { heading: "Java Deployment Rollback Evidence", entries: profile.artifacts.javaDeploymentRollbackEvidence },
+      {
+        heading: "mini-kv Runtime Artifact Rollback Evidence",
+        entries: profile.artifacts.miniKvRuntimeArtifactRollbackEvidence,
+      },
+      { heading: "Node Runbook Envelope", entries: profile.artifacts.nodeRunbookEnvelope },
+      { heading: "Summary", entries: profile.summary },
+    ],
+    itemSections: [
+      { heading: "Operator Steps", items: profile.operatorSteps, renderItem: renderStep },
+      { heading: "Forbidden Operations", items: profile.forbiddenOperations, renderItem: renderForbiddenOperation },
+    ],
+    messageSections: [
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No release rollback readiness runbook blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No release rollback readiness runbook warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No release rollback readiness runbook recommendations.",
+      },
+    ],
+    evidenceEndpoints: profile.evidenceEndpoints,
+    nextActions: profile.nextActions,
+  });
 }
 
 function createOperatorSteps(): ReleaseRollbackReadinessStep[] {
@@ -756,33 +736,26 @@ function addMessage(
   source: ReleaseRollbackReadinessMessage["source"],
   message: string,
 ): void {
-  if (!condition) {
-    messages.push({ code, severity: "blocker", source, message });
-  }
+  appendBlockingMessage(messages, condition, code, source, message);
 }
 
 function renderStep(step: ReleaseRollbackReadinessStep): string[] {
-  return [
-    `### Step ${step.order}: ${step.phase}`,
-    "",
-    `- Actor: ${step.actor}`,
-    `- Action: ${step.action}`,
-    `- Evidence target: ${step.evidenceTarget}`,
-    `- Expected evidence: ${step.expectedEvidence}`,
-    `- Dry run only: ${step.dryRunOnly}`,
-    `- Read only: ${step.readOnly}`,
-    `- Mutates state: ${step.mutatesState}`,
-    `- Executes rollback: ${step.executesRollback}`,
-    "",
-  ];
+  return renderReleaseReportStep(step as unknown as Record<string, unknown>, {
+    identityLabel: "Actor",
+    identityKey: "actor",
+    booleanFields: [
+      ["Dry run only", "dryRunOnly"],
+      ["Read only", "readOnly"],
+      ["Mutates state", "mutatesState"],
+      ["Executes rollback", "executesRollback"],
+    ],
+  });
 }
 
 function renderForbiddenOperation(operation: ReleaseRollbackForbiddenOperation): string[] {
-  return [
-    `- ${operation.operation}: ${operation.reason} Blocked by ${operation.blockedBy}.`,
-  ];
+  return renderReleaseForbiddenOperation(operation);
 }
 
 function digestRunbook(value: unknown): string {
-  return sha256StableJson(value);
+  return digestReleaseReport(value);
 }

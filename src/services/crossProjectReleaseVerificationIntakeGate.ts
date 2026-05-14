@@ -2,11 +2,15 @@ import type { AppConfig } from "../config.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
-  sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  appendBlockingMessage,
+  completeAggregateReadyCheck,
+  digestReleaseReport,
+  renderReleaseForbiddenOperation,
+  renderReleaseReportMarkdown,
+  renderReleaseReportStep,
+} from "./releaseReportShared.js";
 import {
   loadControlledIdempotencyDrillRunbook,
 } from "./controlledIdempotencyDrillRunbook.js";
@@ -294,9 +298,7 @@ export function loadCrossProjectReleaseVerificationIntakeGate(
   const intakeSteps = createIntakeSteps();
   const forbiddenOperations = createForbiddenOperations();
   const checks = createChecks(config, previousRunbook, intakeSteps, forbiddenOperations);
-  checks.readyForCrossProjectReleaseVerificationIntakeGate = Object.entries(checks)
-    .filter(([key]) => key !== "readyForCrossProjectReleaseVerificationIntakeGate")
-    .every(([, value]) => value);
+  completeAggregateReadyCheck(checks, "readyForCrossProjectReleaseVerificationIntakeGate");
   const gateState = checks.readyForCrossProjectReleaseVerificationIntakeGate
     ? "ready-for-release-verification-intake"
     : "blocked";
@@ -394,77 +396,53 @@ export function loadCrossProjectReleaseVerificationIntakeGate(
 export function renderCrossProjectReleaseVerificationIntakeGateMarkdown(
   profile: CrossProjectReleaseVerificationIntakeGateProfile,
 ): string {
-  return [
-    "# Cross-project release verification intake gate",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Gate state: ${profile.gateState}`,
-    `- Ready for cross-project release verification intake gate: ${profile.readyForCrossProjectReleaseVerificationIntakeGate}`,
-    `- Ready for production release: ${profile.readyForProductionRelease}`,
-    `- Ready for production operations: ${profile.readyForProductionOperations}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Gate",
-    "",
-    ...renderEntries(profile.gate),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Artifacts",
-    "",
-    "### Previous Runbook",
-    "",
-    ...renderEntries(profile.artifacts.previousRunbook),
-    "",
-    "### Java Release Manifest",
-    "",
-    ...renderEntries(profile.artifacts.javaReleaseManifest),
-    "",
-    "### mini-kv Release Manifest",
-    "",
-    ...renderEntries(profile.artifacts.miniKvReleaseManifest),
-    "",
-    "### Node Intake Envelope",
-    "",
-    ...renderEntries(profile.artifacts.nodeIntakeEnvelope),
-    "",
-    "## Intake Steps",
-    "",
-    ...profile.intakeSteps.flatMap(renderStep),
-    "## Forbidden Operations",
-    "",
-    ...profile.forbiddenOperations.flatMap(renderForbiddenOperation),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No cross-project release verification intake gate blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No cross-project release verification intake gate warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No cross-project release verification intake gate recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderReleaseReportMarkdown({
+    title: "Cross-project release verification intake gate",
+    header: {
+      Service: profile.service,
+      "Generated at": profile.generatedAt,
+      "Profile version": profile.profileVersion,
+      "Gate state": profile.gateState,
+      "Ready for cross-project release verification intake gate":
+        profile.readyForCrossProjectReleaseVerificationIntakeGate,
+      "Ready for production release": profile.readyForProductionRelease,
+      "Ready for production operations": profile.readyForProductionOperations,
+      "Read only": profile.readOnly,
+      "Execution allowed": profile.executionAllowed,
+    },
+    sections: [
+      { heading: "Gate", entries: profile.gate },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Previous Runbook", entries: profile.artifacts.previousRunbook },
+      { heading: "Java Release Manifest", entries: profile.artifacts.javaReleaseManifest },
+      { heading: "mini-kv Release Manifest", entries: profile.artifacts.miniKvReleaseManifest },
+      { heading: "Node Intake Envelope", entries: profile.artifacts.nodeIntakeEnvelope },
+      { heading: "Summary", entries: profile.summary },
+    ],
+    itemSections: [
+      { heading: "Intake Steps", items: profile.intakeSteps, renderItem: renderStep },
+      { heading: "Forbidden Operations", items: profile.forbiddenOperations, renderItem: renderForbiddenOperation },
+    ],
+    messageSections: [
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No cross-project release verification intake gate blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No cross-project release verification intake gate warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No cross-project release verification intake gate recommendations.",
+      },
+    ],
+    evidenceEndpoints: profile.evidenceEndpoints,
+    nextActions: profile.nextActions,
+  });
 }
 
 function createIntakeSteps(): CrossProjectReleaseVerificationIntakeStep[] {
@@ -696,32 +674,25 @@ function addMessage(
   source: CrossProjectReleaseVerificationIntakeGateMessage["source"],
   message: string,
 ): void {
-  if (!condition) {
-    messages.push({ code, severity: "blocker", source, message });
-  }
+  appendBlockingMessage(messages, condition, code, source, message);
 }
 
 function renderStep(step: CrossProjectReleaseVerificationIntakeStep): string[] {
-  return [
-    `### Step ${step.order}: ${step.phase}`,
-    "",
-    `- Source: ${step.source}`,
-    `- Action: ${step.action}`,
-    `- Evidence target: ${step.evidenceTarget}`,
-    `- Expected evidence: ${step.expectedEvidence}`,
-    `- Read only: ${step.readOnly}`,
-    `- Executes external build: ${step.executesExternalBuild}`,
-    `- Mutates state: ${step.mutatesState}`,
-    "",
-  ];
+  return renderReleaseReportStep(step as unknown as Record<string, unknown>, {
+    identityLabel: "Source",
+    identityKey: "source",
+    booleanFields: [
+      ["Read only", "readOnly"],
+      ["Executes external build", "executesExternalBuild"],
+      ["Mutates state", "mutatesState"],
+    ],
+  });
 }
 
 function renderForbiddenOperation(operation: CrossProjectReleaseVerificationForbiddenOperation): string[] {
-  return [
-    `- ${operation.operation}: ${operation.reason} Blocked by ${operation.blockedBy}.`,
-  ];
+  return renderReleaseForbiddenOperation(operation);
 }
 
 function digestGate(value: unknown): string {
-  return sha256StableJson(value);
+  return digestReleaseReport(value);
 }
