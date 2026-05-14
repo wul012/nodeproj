@@ -282,6 +282,10 @@ import {
   renderReleaseWindowReadinessPacketMarkdown,
 } from "../services/releaseWindowReadinessPacket.js";
 import {
+  loadProductionReleaseDryRunEnvelope,
+  renderProductionReleaseDryRunEnvelopeMarkdown,
+} from "../services/productionReleaseDryRunEnvelope.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1599,6 +1603,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/release-window-readiness-packet",
     () => Promise.resolve(loadReleaseWindowReadinessPacket(deps.config)),
     renderReleaseWindowReadinessPacketMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/release-dry-run-envelope",
+    () => Promise.resolve(loadProductionReleaseDryRunEnvelope(deps.config)),
+    renderProductionReleaseDryRunEnvelopeMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

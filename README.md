@@ -137,6 +137,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Deployment evidence intake gate for consuming Java v60 deployment runbook contract and mini-kv v69 release artifact digest package while keeping deployment, rollback, SQL, secret, database, and restore execution blocked
 - Deployment evidence verification for rechecking the v171 intake digest, Java v60 runbook fields, mini-kv v69 digest package fields, and no-execution boundaries before requesting the next upstream evidence stage
 - Release window readiness packet for combining Node v171/v172, Java v61 rollback approval record fixture, and mini-kv v70 restore drill evidence into a manual review packet with production release, rollback, SQL, secret, database, and restore execution still blocked
+- Production release dry-run envelope for wrapping the v173 release window packet into non-executing release preparation evidence before Java v62 and mini-kv v71 handoff fixtures
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -230,6 +231,8 @@ GET    /api/v1/production/deployment-evidence-verification
 GET    /api/v1/production/deployment-evidence-verification?format=markdown
 GET    /api/v1/production/release-window-readiness-packet
 GET    /api/v1/production/release-window-readiness-packet?format=markdown
+GET    /api/v1/production/release-dry-run-envelope
+GET    /api/v1/production/release-dry-run-envelope?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile
