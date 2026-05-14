@@ -132,6 +132,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Shared live-probe report helpers for stable digest generation, Markdown rendering, and repeated JSON/Markdown route registration without changing existing endpoints
 - Rollback execution preflight contract for consuming Java v58 rollback SQL review gate and mini-kv v67 restore dry-run package while keeping rollback execution blocked
 - Production environment preflight checklist for consuming Java v59 secret source contract and mini-kv v68 digest compatibility matrix without reading secrets, connecting production databases, or executing restore
+- Post-v166 readiness summary for closing the rollback/environment preflight stage and starting a non-overlapping v169-derived plan
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -308,6 +309,8 @@ GET    /api/v1/production/rollback-execution-preflight-contract
 GET    /api/v1/production/rollback-execution-preflight-contract?format=markdown
 GET    /api/v1/production/environment-preflight-checklist
 GET    /api/v1/production/environment-preflight-checklist?format=markdown
+GET    /api/v1/production/post-v166-readiness-summary
+GET    /api/v1/production/post-v166-readiness-summary?format=markdown
 GET    /api/v1/events/ops
 GET    /api/v1/runtime/config
 GET    /api/v1/ops/summary

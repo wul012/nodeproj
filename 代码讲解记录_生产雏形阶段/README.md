@@ -182,6 +182,9 @@ file audit restart evidence 与后续 managed audit store
 
 172-production-environment-preflight-checklist-v168.md
  -> 第一百六十八版 Production environment preflight checklist：消费 Java v59 secret source contract 与 mini-kv v68 artifact digest compatibility matrix，生成生产环境前置 checklist，继续保持不读 secret、不连生产库、不执行 restore
+
+173-post-v166-readiness-summary-v169.md
+ -> 第一百六十九版 Post-v166 readiness summary：汇总 Node v167/v168 的 preflight 和 environment checklist 证据，收口 v166 衍生计划，并另起 v169 衍生部署证据计划
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
