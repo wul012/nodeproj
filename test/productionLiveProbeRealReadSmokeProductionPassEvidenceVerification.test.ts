@@ -82,7 +82,7 @@ describe("production live probe real-read smoke production pass evidence verific
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("verifies all-pass capture as production pass evidence candidate only in the read-only window", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-pass-"));

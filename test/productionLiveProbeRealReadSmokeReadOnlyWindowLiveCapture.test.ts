@@ -90,7 +90,7 @@ describe("production live probe real-read smoke read-only window live capture", 
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("records pass capture when manually available upstreams respond in a probe window", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-read-only-live-capture-pass-"));

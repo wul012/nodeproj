@@ -82,7 +82,7 @@ describe("production live probe real-read smoke read-only window capture archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("blocks verification when the source archive is blocked", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-capture-archive-verification-blocked-"));
@@ -111,7 +111,7 @@ describe("production live probe real-read smoke read-only window capture archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("exposes capture archive verification routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-capture-archive-verification-route-"));

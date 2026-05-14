@@ -176,6 +176,9 @@ file audit restart evidence 与后续 managed audit store
 
 170-rollback-window-readiness-checklist-v166.md
  -> 第一百六十六版 Rollback window readiness checklist：消费 Java v57 rollback approval handoff 与 mini-kv v66 restore compatibility handoff，生成只读人工回滚窗口 checklist，并收口 v163 衍生生产交付硬化计划
+
+171-rollback-execution-preflight-contract-v167.md
+ -> 第一百六十七版 Rollback execution preflight contract：消费 Java v58 rollback SQL review gate 与 mini-kv v67 restore dry-run operator package，生成只读执行前 preflight contract，并修正旧 live-probe 慢测在全量并发下的 timeout 稳定性
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

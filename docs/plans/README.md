@@ -131,5 +131,5 @@ v163-post-rollback-readiness-roadmap.md
  -> 已完成并收口；Node v164-v166、Java v56-v57、mini-kv v65-v66 已完成，由 v166-post-rollback-window-roadmap.md 接续
 
 v166-post-rollback-window-roadmap.md
- -> 当前唯一有效全局计划；下一步是推荐并行 Java v58 + mini-kv v67，随后 Node v167 消费两边 preflight/review evidence
+ -> 当前唯一有效全局计划；Node v167 已消费 Java v58 + mini-kv v67 的 preflight/review evidence，下一步是推荐并行 Java v59 + mini-kv v68，随后 Node v168 消费两边 secret/digest evidence
 ```

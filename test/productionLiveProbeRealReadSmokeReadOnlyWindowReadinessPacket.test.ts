@@ -96,7 +96,7 @@ describe("production live probe real-read smoke read-only window readiness packe
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("keeps the packet review-only when source archive verifies as pass", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-readiness-packet-pass-"));

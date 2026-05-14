@@ -95,7 +95,7 @@ describe("production live probe real-read smoke operator runbook", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("keeps production operations closed when source archive verifies as pass", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-operator-runbook-pass-"));

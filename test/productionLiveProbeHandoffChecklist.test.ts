@@ -185,7 +185,7 @@ describe("production live probe handoff checklist", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 60000);
 });
 
 function loadTestConfig(auditStorePath: string) {

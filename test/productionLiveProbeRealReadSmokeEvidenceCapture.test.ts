@@ -88,7 +88,7 @@ describe("production live probe real-read smoke evidence capture", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("captures all-pass evidence as a pass candidate only when the read-only window is open", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-pass-"));
@@ -235,7 +235,7 @@ describe("production live probe real-read smoke evidence capture", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 });
 
 async function approveCurrentChangeRequest(

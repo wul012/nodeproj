@@ -258,6 +258,10 @@ import {
   renderRollbackWindowReadinessChecklistMarkdown,
 } from "../services/rollbackWindowReadinessChecklist.js";
 import {
+  loadRollbackExecutionPreflightContract,
+  renderRollbackExecutionPreflightContractMarkdown,
+} from "../services/rollbackExecutionPreflightContract.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1533,6 +1537,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/rollback-window-readiness-checklist",
     () => Promise.resolve(loadRollbackWindowReadinessChecklist(deps.config)),
     renderRollbackWindowReadinessChecklistMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/rollback-execution-preflight-contract",
+    () => Promise.resolve(loadRollbackExecutionPreflightContract(deps.config)),
+    renderRollbackExecutionPreflightContractMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

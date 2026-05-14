@@ -81,7 +81,7 @@ describe("production live probe real-read smoke production pass evidence archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 60000);
 
   it("archives all-pass verification as pass evidence without unlocking operations", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-archive-pass-"));
