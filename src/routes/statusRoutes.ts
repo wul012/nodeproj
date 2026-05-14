@@ -298,6 +298,10 @@ import {
   renderReleaseHandoffReadinessReviewMarkdown,
 } from "../services/releaseHandoffReadinessReview.js";
 import {
+  loadCrossProjectEvidenceRetentionGate,
+  renderCrossProjectEvidenceRetentionGateMarkdown,
+} from "../services/crossProjectEvidenceRetentionGate.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1652,6 +1656,21 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     () => Promise.resolve(loadReleaseHandoffReadinessReview(deps.config)),
     renderReleaseHandoffReadinessReviewMarkdown,
   );
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/cross-project-evidence-retention-gate", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = loadCrossProjectEvidenceRetentionGate(deps.config, request.headers);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderCrossProjectEvidenceRetentionGateMarkdown(profile);
+    }
+
+    return profile;
+  });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
     schema: {

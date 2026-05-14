@@ -209,6 +209,9 @@ file audit restart evidence 与后续 managed audit store
 
 181-ci-operator-identity-evidence-packet-v177.md
  -> 第一百七十七版 CI operator identity evidence packet：消费 v176，记录 local smoke operator identity 与 GitHub Actions 非 secret 身份字段预期，为后续 retention gate 提供 Node 身份证据
+
+182-cross-project-evidence-retention-gate-v178.md
+ -> 第一百七十八版 Cross-project evidence retention gate：消费 Node v177、Java v63、mini-kv v72，形成三项目证据保留 gate，并继续阻断 release、deployment、rollback、restore 和生产认证
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
