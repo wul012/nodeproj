@@ -18,6 +18,10 @@ import {
   renderCiEvidenceCommandProfileMarkdown,
 } from "../services/ciEvidenceCommandProfile.js";
 import {
+  loadCiEvidenceHardeningPacket,
+  renderCiEvidenceHardeningPacketMarkdown,
+} from "../services/ciEvidenceHardeningPacket.js";
+import {
   createAccessControlReadinessProfile,
   renderAccessControlReadinessProfileMarkdown,
 } from "../services/accessControlReadinessProfile.js";
@@ -641,6 +645,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
 
     return profile;
   });
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/ci/evidence-hardening-packet",
+    () => Promise.resolve(loadCiEvidenceHardeningPacket(deps.config)),
+    renderCiEvidenceHardeningPacketMarkdown,
+  );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/access-control-readiness", {
     schema: {

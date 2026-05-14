@@ -256,7 +256,7 @@ export function createAccessRoutePolicies(): AccessRoutePolicy[] {
       id: "readiness-and-status",
       routeGroup: "readiness",
       methods: ["GET"],
-      pathPatterns: ["/health", "/api/v1/runtime/config", "/api/v1/production/*", "/api/v1/security/*", "/api/v1/deployment/*"],
+      pathPatterns: ["/health", "/api/v1/runtime/config", "/api/v1/ci/*", "/api/v1/production/*", "/api/v1/security/*", "/api/v1/deployment/*"],
       minimumRole: "viewer",
       mutatesLocalState: false,
       touchesUpstream: false,

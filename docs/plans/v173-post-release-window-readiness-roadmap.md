@@ -29,6 +29,7 @@ Node v173：release window readiness packet
 Node v174：production release dry-run envelope
 Java v62 + mini-kv v71：已推荐并行完成，分别提供 release handoff checklist fixture 与 restore handoff checklist fixture
 Node v175：release handoff readiness review
+Node v176：CI evidence hardening packet
 ```
 
 当前仍不授权生产发布或回滚：
@@ -58,7 +59,7 @@ release window packet -> dry-run release envelope -> handoff checklist -> CI evi
    Java v62 做 release handoff checklist fixture，记录发布执行前人工 checklist，不执行部署或回滚。
    mini-kv v71 做 restore handoff checklist fixture，记录恢复执行前人工 checklist，不执行 LOAD/COMPACT/SETNXEX。
 3. Node v175：release handoff readiness review，已完成；消费 Java v62、mini-kv v71 和 Node v174，形成 handoff review，不授权真实操作。
-4. Node v176：CI evidence hardening packet，下一步；等待 Node v175 完成后再做；收敛 typecheck/test/build/smoke/screenshot 的 CI evidence 指引。
+4. Node v176：CI evidence hardening packet，已完成；消费 Node v175 和 CI command profile，收敛 typecheck/test/build/smoke/screenshot 的 CI evidence 指引。
 ```
 
 ## 并行依赖说明
@@ -67,7 +68,7 @@ release window packet -> dry-run release envelope -> handoff checklist -> CI evi
 Node v174 只消费 Node v173，不依赖 Java v62 / mini-kv v71，当前已完成。
 Java v62 与 mini-kv v71 推荐并行，因为两者都只补人工 handoff checklist fixture，不互相调用。
 Node v175 已等待并消费 Java v62 + mini-kv v71 + Node v174。
-Node v176 必须等待 Node v175 完成后再做，避免又变成零散 summary。
+Node v176 已等待并消费 Node v175；本计划到 v176 收口，后续另起新计划，不在本文件继续叠重合版本。
 ```
 
 ## Node v174：production release dry-run envelope
@@ -140,7 +141,7 @@ Node v176 必须等待 Node v175 完成后再做，避免又变成零散 summary
 
 ## Node v176：CI evidence hardening packet
 
-依赖关系：必须等待 Node v175 完成后推进。
+依赖关系：必须等待 Node v175 完成后推进。当前已完成。
 
 目标：
 
@@ -153,6 +154,14 @@ Node v176 必须等待 Node v175 完成后再做，避免又变成零散 summary
 - 记录 typecheck、target test、full test、build、HTTP smoke、Chrome screenshot 的 expected evidence。
 - 记录 GitHub Actions / local run 的差异和失败处理边界。
 - 明确不替代真实 CI runner，不执行上游项目。
+
+## 本计划收口
+
+```text
+Node v174-v176、Java v62、mini-kv v71 均已完成。
+本计划到 CI evidence hardening packet 收口。
+后续从 docs/plans/v176-post-ci-evidence-hardening-roadmap.md 接续，不继续在本文件追加重合版本。
+```
 
 ## 暂停条件
 

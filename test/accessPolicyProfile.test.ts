@@ -117,6 +117,7 @@ describe("access policy profile", () => {
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Access policy profile");
       expect(markdown.body).toContain("### audit-read");
+      expect(markdown.body).toContain("/api/v1/ci/*");
       expect(markdown.body).toContain("ACCESS_GUARD_NOT_ENFORCED");
       expect(markdown.body).toContain("accessPolicyProfileJson");
     } finally {
