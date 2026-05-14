@@ -161,6 +161,9 @@ file audit restart evidence 与后续 managed audit store
 
 165-controlled-idempotency-drill-runbook-v161.md
  -> 第一百六十一版 Controlled idempotency drill runbook：汇总 Java v53 IdempotencyStore 抽象和 mini-kv v62 TTL recovery evidence，生成只读 dry-run 演练 runbook，并另起 post-v161 发布验证计划
+
+166-cross-project-release-verification-intake-gate-v162.md
+ -> 第一百六十二版 Cross-project release verification intake gate：汇总 Java v54 与 mini-kv v63 的 release verification manifest，形成只读跨项目 intake gate，并把下一步推进到推荐并行 Java v55 + mini-kv v64
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

@@ -242,6 +242,10 @@ import {
   renderControlledIdempotencyDrillRunbookMarkdown,
 } from "../services/controlledIdempotencyDrillRunbook.js";
 import {
+  loadCrossProjectReleaseVerificationIntakeGate,
+  renderCrossProjectReleaseVerificationIntakeGateMarkdown,
+} from "../services/crossProjectReleaseVerificationIntakeGate.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1489,6 +1493,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/controlled-idempotency-drill-runbook",
     () => Promise.resolve(loadControlledIdempotencyDrillRunbook(deps.config)),
     renderControlledIdempotencyDrillRunbookMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/cross-project-release-verification-intake-gate",
+    () => Promise.resolve(loadCrossProjectReleaseVerificationIntakeGate(deps.config)),
+    renderCrossProjectReleaseVerificationIntakeGateMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
