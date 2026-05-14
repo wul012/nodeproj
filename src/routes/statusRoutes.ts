@@ -274,6 +274,10 @@ import {
   renderDeploymentEvidenceIntakeGateMarkdown,
 } from "../services/deploymentEvidenceIntakeGate.js";
 import {
+  loadDeploymentEvidenceVerification,
+  renderDeploymentEvidenceVerificationMarkdown,
+} from "../services/deploymentEvidenceVerification.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1577,6 +1581,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/deployment-evidence-intake-gate",
     () => Promise.resolve(loadDeploymentEvidenceIntakeGate(deps.config)),
     renderDeploymentEvidenceIntakeGateMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/deployment-evidence-verification",
+    () => Promise.resolve(loadDeploymentEvidenceVerification(deps.config)),
+    renderDeploymentEvidenceVerificationMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

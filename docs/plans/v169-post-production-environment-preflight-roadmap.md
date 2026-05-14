@@ -27,6 +27,7 @@ Node v169：post-v166 readiness summary
 Node v170：report shared helpers hardening，作为维护重构版插入，消化 v165-v169 报告重复度，不消费 Java v60 / mini-kv v69
 Java v60 + mini-kv v69：已推荐并行完成，Node v171 可以消费两边部署/摘要证据
 Node v171：deployment evidence intake gate
+Node v172：deployment evidence verification
 ```
 
 当前仍不授权生产回滚：
@@ -62,7 +63,7 @@ Node：deployment evidence intake、release window readiness、post-runbook veri
    mini-kv v69 做 release artifact digest package，记录 binary/WAL/Snapshot/fixture digest、restore drill command profile、operator confirmation；不执行 LOAD/COMPACT/SETNXEX。
 2. Node v170：report shared helpers hardening，维护重构版，已插入完成；只抽取报告共享 check summary / digest 校验工具，不改变任何上游依赖，也不替代 deployment intake。
 3. Node v171：deployment evidence intake gate，已完成；消费两边部署/摘要证据，输出 JSON/Markdown intake gate，不授权真实动作。
-4. Node v172：deployment evidence verification，必须等待 Node v171 完成后再做；验证 intake gate digest、Java runbook 字段、mini-kv digest package 字段和 no-execution 边界。
+4. Node v172：deployment evidence verification，已完成；验证 intake gate digest、Java runbook 字段、mini-kv digest package 字段和 no-execution 边界。
 5. 推荐并行：Java v61 + mini-kv v70。
    Java v61 做 rollback approval record fixture，补人工审批记录样本，不执行 rollback。
    mini-kv v70 做 restore drill evidence fixture，补恢复演练证据样本，不执行 restore。
