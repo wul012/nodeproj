@@ -170,6 +170,9 @@ file audit restart evidence 与后续 managed audit store
 
 168-release-report-shared-helpers-refactor-v164.md
  -> 第一百六十四版 Release report shared helpers refactor：抽出 release report Markdown、blocking message、step/forbidden operation 和 digest 公共 helper，收敛 v162/v163 报告模板重复，并把 release bundle gate 顺延到 Node v165
+
+169-cross-project-release-bundle-gate-v165.md
+ -> 第一百六十五版 Cross-project release bundle gate：消费 Java v56 release bundle manifest 与 mini-kv v65 runtime artifact bundle manifest，生成只读跨项目发布证据 gate，并保持生产发布、回滚和上游执行权限关闭
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
