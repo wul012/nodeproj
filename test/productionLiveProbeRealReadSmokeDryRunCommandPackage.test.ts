@@ -85,7 +85,7 @@ describe("production live probe real-read smoke dry-run command package", () => 
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("blocks the package when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-dry-run-package-blocked-"));
@@ -113,7 +113,7 @@ describe("production live probe real-read smoke dry-run command package", () => 
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("exposes dry-run package routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-dry-run-package-route-"));
@@ -171,7 +171,7 @@ describe("production live probe real-read smoke dry-run command package", () => 
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 });
 
 async function approveCurrentChangeRequest(

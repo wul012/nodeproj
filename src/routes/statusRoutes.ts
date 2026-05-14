@@ -234,6 +234,10 @@ import {
   renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdown,
 } from "../services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReview.js";
 import {
+  loadIdempotencyVerticalReadinessReview,
+  renderIdempotencyVerticalReadinessReviewMarkdown,
+} from "../services/idempotencyVerticalReadinessReview.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1467,6 +1471,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/idempotency-vertical-readiness-review",
+    () => Promise.resolve(loadIdempotencyVerticalReadinessReview(deps.config)),
+    renderIdempotencyVerticalReadinessReviewMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

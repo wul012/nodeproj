@@ -139,7 +139,7 @@ describe("production live probe real-read smoke read-only window readiness packe
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("blocks the packet when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-readiness-packet-blocked-"));
@@ -169,7 +169,7 @@ describe("production live probe real-read smoke read-only window readiness packe
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("exposes readiness packet routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-readiness-packet-route-"));

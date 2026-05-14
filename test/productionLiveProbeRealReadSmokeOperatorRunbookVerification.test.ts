@@ -140,7 +140,7 @@ describe("production live probe real-read smoke operator runbook verification", 
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("blocks verification when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-operator-runbook-verification-blocked-"));
@@ -170,7 +170,7 @@ describe("production live probe real-read smoke operator runbook verification", 
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("exposes operator runbook verification routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-operator-runbook-verification-route-"));

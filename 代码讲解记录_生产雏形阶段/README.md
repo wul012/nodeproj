@@ -155,6 +155,9 @@ file audit restart evidence 与后续 managed audit store
 
 117-deployment-environment-readiness-v113.md
  -> 第一百一十三版 Deployment environment readiness gate：汇总 signed token、managed audit、retention/backup、upstream action safety，输出部署前 blocker
+
+164-idempotency-vertical-readiness-review-v160.md
+ -> 第一百六十版 Idempotency vertical readiness review：汇总 Java v52 订单幂等边界和 mini-kv v61 TTL token primitive，确认纵向幂等切片可只读推进，但仍不授权生产写操作
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

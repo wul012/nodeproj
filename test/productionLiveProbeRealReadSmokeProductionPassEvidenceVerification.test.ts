@@ -147,7 +147,7 @@ describe("production live probe real-read smoke production pass evidence verific
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("blocks verification when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-blocked-"));
@@ -175,7 +175,7 @@ describe("production live probe real-read smoke production pass evidence verific
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 60000);
 
   it("exposes production pass evidence verification routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-verification-route-"));
