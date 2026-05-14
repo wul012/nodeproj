@@ -27,6 +27,9 @@ Node v166：rollback window readiness checklist
 Java v58：production rollback SQL review gate sample
 mini-kv v67：restore dry-run operator package
 Node v167：rollback execution preflight contract
+Java v59：production secret source contract
+mini-kv v68：artifact digest compatibility matrix
+Node v168：production environment preflight checklist
 ```
 
 当前仍不授权生产回滚：
@@ -62,11 +65,13 @@ Node：跨项目 CI gate、production preflight checklist、post-window evidence
    mini-kv v67 做 restore dry-run operator package，只说明 restore target、artifact digest、WAL/Snapshot compatibility 字段；不执行 LOAD/COMPACT/SETNXEX。
 2. 已完成：Node v167。
    Node v167 做 rollback execution preflight contract，消费 Java v58 和 mini-kv v67 的 preflight/review 证据；只读，不启动上游，不授权生产回滚。
-3. 下一步推荐并行：Java v59 + mini-kv v68。
+3. 已完成推荐并行：Java v59 + mini-kv v68。
    Java v59 做 production secret source contract，确认 secret manager/source/rotation owner 字段；不读取 secret value。
    mini-kv v68 做 artifact digest compatibility matrix，确认 binary/WAL/Snapshot/fixture digest 与版本矩阵；不执行 restore。
-4. Node v168：production environment preflight checklist，必须等待 Java v59 和 mini-kv v68 都完成后再做；合成生产环境前置检查，仍然不授权真实动作。
-5. Node v169：post-v166 readiness summary，汇总 v167-v168 的缺口收敛结果；这是阶段总结版，不要只加一两个 check。
+4. 已完成：Node v168。
+   Node v168 做 production environment preflight checklist，已等待 Java v59 和 mini-kv v68 都完成后推进；合成生产环境前置检查，仍然不授权真实动作。
+5. 下一步：Node v169。
+   Node v169 做 post-v166 readiness summary，汇总 v167-v168 的缺口收敛结果；这是阶段总结版，不要只加一两个 check。
 ```
 
 ## 并行依赖说明
@@ -75,7 +80,7 @@ Node：跨项目 CI gate、production preflight checklist、post-window evidence
 Java v58 与 mini-kv v67 已推荐并行完成，因为两者都只补人工执行前 review/dry-run package，不互相调用。
 Node v167 已在 Java v58 和 mini-kv v67 完成后推进完成，消费两边 preflight/review evidence 但不执行上游动作。
 Java v59 与 mini-kv v68 推荐并行，因为两者都只补生产环境元数据和 digest matrix，不执行真实动作。
-Node v168 不能提前做，因为它要消费 Java v59 和 mini-kv v68 的完成证据。
+Node v168 已在 Java v59 和 mini-kv v68 完成后推进完成，消费两边 secret/digest evidence 但不执行上游动作。
 Node v169 必须在 Node v167/v168 完成后再做，承担阶段总结，不做零散 summary。
 ```
 
@@ -173,6 +178,8 @@ Node v169 必须在 Node v167/v168 完成后再做，承担阶段总结，不做
 ## Node v168：production environment preflight checklist
 
 依赖关系：必须等待 Java v59 和 mini-kv v68 都完成后推进。
+
+完成状态：Node v168 已完成。
 
 目标：
 

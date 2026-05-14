@@ -179,6 +179,9 @@ file audit restart evidence 与后续 managed audit store
 
 171-rollback-execution-preflight-contract-v167.md
  -> 第一百六十七版 Rollback execution preflight contract：消费 Java v58 rollback SQL review gate 与 mini-kv v67 restore dry-run operator package，生成只读执行前 preflight contract，并修正旧 live-probe 慢测在全量并发下的 timeout 稳定性
+
+172-production-environment-preflight-checklist-v168.md
+ -> 第一百六十八版 Production environment preflight checklist：消费 Java v59 secret source contract 与 mini-kv v68 artifact digest compatibility matrix，生成生产环境前置 checklist，继续保持不读 secret、不连生产库、不执行 restore
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
