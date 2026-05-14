@@ -238,6 +238,10 @@ import {
   renderIdempotencyVerticalReadinessReviewMarkdown,
 } from "../services/idempotencyVerticalReadinessReview.js";
 import {
+  loadControlledIdempotencyDrillRunbook,
+  renderControlledIdempotencyDrillRunbookMarkdown,
+} from "../services/controlledIdempotencyDrillRunbook.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1478,6 +1482,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/idempotency-vertical-readiness-review",
     () => Promise.resolve(loadIdempotencyVerticalReadinessReview(deps.config)),
     renderIdempotencyVerticalReadinessReviewMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/controlled-idempotency-drill-runbook",
+    () => Promise.resolve(loadControlledIdempotencyDrillRunbook(deps.config)),
+    renderControlledIdempotencyDrillRunbookMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {

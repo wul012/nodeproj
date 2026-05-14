@@ -158,6 +158,9 @@ file audit restart evidence 与后续 managed audit store
 
 164-idempotency-vertical-readiness-review-v160.md
  -> 第一百六十版 Idempotency vertical readiness review：汇总 Java v52 订单幂等边界和 mini-kv v61 TTL token primitive，确认纵向幂等切片可只读推进，但仍不授权生产写操作
+
+165-controlled-idempotency-drill-runbook-v161.md
+ -> 第一百六十一版 Controlled idempotency drill runbook：汇总 Java v53 IdempotencyStore 抽象和 mini-kv v62 TTL recovery evidence，生成只读 dry-run 演练 runbook，并另起 post-v161 发布验证计划
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
