@@ -16,7 +16,7 @@
 - 每次推进 Node 自己的新版本前，必须先读取 `docs/plans/` 中最新计划文档，并按最新计划的版本范围、验证要求、截图规则、暂停条件执行
 - 运行调试截图默认优先使用本机 Chrome / Chromium 可执行文件；不要默认触发 Playwright 浏览器下载。若当前机器未找到 Chrome / Chromium，可使用本机 Edge 兜底，并在归档说明中写明。
 - 同一条未完成开发主线不要创建互相重合的多个计划文件；当当前计划覆盖的版本做完后，下一阶段另起新的计划文件，并只在旧计划记录收口状态
-- v107 起运行调试截图和解释默认放在 `b/<版本>/图片` 与 `b/<版本>/解释`；`a/` 保留历史归档
+- v107 起运行调试截图和解释默认放在 `b/<版本>/图片` 与 `b/<版本>/解释`；v161 起切换到 `c/<版本>/图片` 与 `c/<版本>/解释`；`a/` 和 `b/` 保留历史归档
 - v104 起代码讲解写入 `代码讲解记录_生产雏形阶段/`；旧目录 `代码讲解记录/` 保留 v1-v103 历史记录
 
 ## 当前计划
@@ -119,5 +119,14 @@ v146-production-pass-evidence-roadmap.md
  -> 由 Node v146 production live probe real-read smoke release evidence gate 衍生出的计划；已完成 Node v147-v149 并由 v149-post-production-pass-evidence-roadmap.md 接续
 
 v149-post-production-pass-evidence-roadmap.md
- -> 当前唯一有效全局计划；Node v150-v151 已完成，当前下一步是 Java v49 + mini-kv v58 一起补只读 evidence，随后 Node v152-v153 消费上游证据做 archive verification 和 operator runbook
+ -> 已完成 Node v150-v159 并由 v159-post-release-evidence-review-roadmap.md 接续
+
+v159-post-release-evidence-review-roadmap.md
+ -> 已完成 Node v160-v161 并由 v161-post-controlled-idempotency-drill-roadmap.md 接续
+
+v161-post-controlled-idempotency-drill-roadmap.md
+ -> 已完成 Java v54、mini-kv v63、Node v162、Java v55、mini-kv v64、Node v163，并由 v163-post-rollback-readiness-roadmap.md 接续
+
+v163-post-rollback-readiness-roadmap.md
+ -> 当前唯一有效全局计划；下一步是推荐并行 Java v56 + mini-kv v65，随后 Node v164 消费两边 release bundle evidence
 ```

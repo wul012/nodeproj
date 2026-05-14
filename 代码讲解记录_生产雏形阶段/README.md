@@ -164,6 +164,9 @@ file audit restart evidence 与后续 managed audit store
 
 166-cross-project-release-verification-intake-gate-v162.md
  -> 第一百六十二版 Cross-project release verification intake gate：汇总 Java v54 与 mini-kv v63 的 release verification manifest，形成只读跨项目 intake gate，并把下一步推进到推荐并行 Java v55 + mini-kv v64
+
+167-release-rollback-readiness-runbook-v163.md
+ -> 第一百六十三版 Release rollback readiness runbook：汇总 Java v55 deployment rollback evidence 与 mini-kv v64 runtime artifact rollback evidence，生成只读 dry-run 回滚窗口准备 runbook，并另起 post-v163 生产交付硬化计划
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

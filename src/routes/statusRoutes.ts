@@ -246,6 +246,10 @@ import {
   renderCrossProjectReleaseVerificationIntakeGateMarkdown,
 } from "../services/crossProjectReleaseVerificationIntakeGate.js";
 import {
+  loadReleaseRollbackReadinessRunbook,
+  renderReleaseRollbackReadinessRunbookMarkdown,
+} from "../services/releaseRollbackReadinessRunbook.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1500,6 +1504,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/cross-project-release-verification-intake-gate",
     () => Promise.resolve(loadCrossProjectReleaseVerificationIntakeGate(deps.config)),
     renderCrossProjectReleaseVerificationIntakeGateMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/release-rollback-readiness-runbook",
+    () => Promise.resolve(loadReleaseRollbackReadinessRunbook(deps.config)),
+    renderReleaseRollbackReadinessRunbookMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
