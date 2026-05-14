@@ -167,7 +167,7 @@ export function loadPostV166ReadinessSummary(config: AppConfig): PostV166Readine
       "Close the v166-derived plan after archiving Node v169 evidence.",
       "Start the new v169-derived plan instead of appending more overlapping work to the v166 plan.",
       "Recommended parallel next stage: Java v60 plus mini-kv v69 should add production deployment and artifact evidence without executing rollback or restore.",
-      "Node v170 should wait for Java v60 and mini-kv v69 before consuming those new evidence records.",
+      "Node v171 should wait for Java v60 and mini-kv v69 before consuming those new evidence records; Node v170 was inserted as a report-helper hardening version.",
     ],
   };
 }
@@ -397,7 +397,7 @@ function collectRecommendations(summaryState: SummaryState): SummaryMessage[] {
       source: "post-v166-readiness-summary",
       message: summaryState === "blocked"
         ? "Fix v167/v168 evidence before starting a new plan."
-        : "Start a v169-derived plan with recommended parallel Java v60 plus mini-kv v69, then Node v170.",
+        : "Start a v169-derived plan with recommended parallel Java v60 plus mini-kv v69, then Node v171 intake after the v170 helper-hardening insertion.",
     },
   ];
 }

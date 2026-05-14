@@ -134,6 +134,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Rollback execution preflight contract for consuming Java v58 rollback SQL review gate and mini-kv v67 restore dry-run package while keeping rollback execution blocked
 - Production environment preflight checklist for consuming Java v59 secret source contract and mini-kv v68 digest compatibility matrix without reading secrets, connecting production databases, or executing restore
 - Post-v166 readiness summary for closing the rollback/environment preflight stage and starting a non-overlapping v169-derived plan
+- Deployment evidence intake gate for consuming Java v60 deployment runbook contract and mini-kv v69 release artifact digest package while keeping deployment, rollback, SQL, secret, database, and restore execution blocked
 - Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
 - Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
 - Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
@@ -221,6 +222,8 @@ GET    /api/v1/production/readiness-summary-v12
 GET    /api/v1/production/readiness-summary-v12?format=markdown
 GET    /api/v1/production/readiness-summary-v13
 GET    /api/v1/production/readiness-summary-v13?format=markdown
+GET    /api/v1/production/deployment-evidence-intake-gate
+GET    /api/v1/production/deployment-evidence-intake-gate?format=markdown
 GET    /api/v1/audit/store-profile
 GET    /api/v1/audit/store-profile?format=markdown
 GET    /api/v1/audit/store-config-profile

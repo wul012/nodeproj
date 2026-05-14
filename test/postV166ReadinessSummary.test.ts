@@ -164,6 +164,7 @@ describe("post-v166 readiness summary", () => {
       expect(markdown.body).toContain("REAL_SECRET_MANAGER_NOT_CONNECTED");
       expect(markdown.body).toContain("START_V169_DERIVED_PLAN");
       expect(markdown.body).toContain("v169-post-production-environment-preflight-roadmap.md");
+      expect(markdown.body).toContain("Node v171");
     } finally {
       await app.close();
       await rm(directory, { recursive: true, force: true });

@@ -134,5 +134,5 @@ v166-post-rollback-window-roadmap.md
  -> 已完成并收口；Java v59 + mini-kv v68 已推荐并行完成，Node v168 已消费两边 secret/digest evidence，Node v169 已完成 post-v166 readiness summary
 
 v169-post-production-environment-preflight-roadmap.md
- -> 当前唯一有效全局计划；由 Node v169 post-v166 readiness summary 衍生，Node v170 已插入 report shared helpers hardening 维护重构；下一步是推荐并行 Java v60 + mini-kv v69，随后 Node v171 消费 deployment runbook / release digest evidence
+ -> 当前唯一有效全局计划；由 Node v169 post-v166 readiness summary 衍生，Node v170 已插入 report shared helpers hardening 维护重构，Java v60 + mini-kv v69 已推荐并行完成，Node v171 已消费 deployment runbook / release digest evidence；下一步是 Node v172 deployment evidence verification
 ```

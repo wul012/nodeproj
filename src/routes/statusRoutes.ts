@@ -270,6 +270,10 @@ import {
   renderPostV166ReadinessSummaryMarkdown,
 } from "../services/postV166ReadinessSummary.js";
 import {
+  loadDeploymentEvidenceIntakeGate,
+  renderDeploymentEvidenceIntakeGateMarkdown,
+} from "../services/deploymentEvidenceIntakeGate.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1566,6 +1570,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/post-v166-readiness-summary",
     () => Promise.resolve(loadPostV166ReadinessSummary(deps.config)),
     renderPostV166ReadinessSummaryMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/deployment-evidence-intake-gate",
+    () => Promise.resolve(loadDeploymentEvidenceIntakeGate(deps.config)),
+    renderDeploymentEvidenceIntakeGateMarkdown,
   );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
