@@ -22,6 +22,10 @@ import {
   renderCiEvidenceHardeningPacketMarkdown,
 } from "../services/ciEvidenceHardeningPacket.js";
 import {
+  loadCiOperatorIdentityEvidencePacket,
+  renderCiOperatorIdentityEvidencePacketMarkdown,
+} from "../services/ciOperatorIdentityEvidencePacket.js";
+import {
   createAccessControlReadinessProfile,
   renderAccessControlReadinessProfileMarkdown,
 } from "../services/accessControlReadinessProfile.js";
@@ -652,6 +656,21 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     () => Promise.resolve(loadCiEvidenceHardeningPacket(deps.config)),
     renderCiEvidenceHardeningPacketMarkdown,
   );
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/operator-identity-evidence-packet", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = loadCiOperatorIdentityEvidencePacket(deps.config, request.headers);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderCiOperatorIdentityEvidencePacketMarkdown(profile);
+    }
+
+    return profile;
+  });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/security/access-control-readiness", {
     schema: {

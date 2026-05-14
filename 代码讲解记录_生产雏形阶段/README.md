@@ -185,6 +185,30 @@ file audit restart evidence 与后续 managed audit store
 
 173-post-v166-readiness-summary-v169.md
  -> 第一百六十九版 Post-v166 readiness summary：汇总 Node v167/v168 的 preflight 和 environment checklist 证据，收口 v166 衍生计划，并另起 v169 衍生部署证据计划
+
+174-release-report-shared-hardening-v170.md
+ -> 第一百七十版 Release report shared hardening：抽出 report check summary、digest 校验和禁用操作渲染公共 helper，减少后续生产证据报告的重复骨架
+
+175-deployment-evidence-intake-gate-v171.md
+ -> 第一百七十一版 Deployment evidence intake gate：消费 Java v60 与 mini-kv v69 的只读部署证据，形成 deployment evidence intake gate，不执行部署、回滚、SQL 或 restore
+
+176-deployment-evidence-verification-v172.md
+ -> 第一百七十二版 Deployment evidence verification：校验 v171 intake digest、Java/mini-kv 证据字段与禁用执行边界，保持生产部署仍被人工审批和真实环境权限阻塞
+
+177-release-window-readiness-packet-v173.md
+ -> 第一百七十三版 Release window readiness packet 收口：补齐 release window 证据闭环和后续计划接续，进入 release handoff 与 CI evidence hardening 阶段
+
+178-production-release-dry-run-envelope-v174.md
+ -> 第一百七十四版 Production release dry-run envelope：把发布前 dry-run envelope 固化为只读证据，明确不会变成真实发布请求或审批决定
+
+179-release-handoff-readiness-review-v175.md
+ -> 第一百七十五版 Release handoff readiness review：消费 dry-run envelope 和 Java/mini-kv handoff 证据，形成手工发布交接 readiness review
+
+180-ci-evidence-hardening-packet-v176.md
+ -> 第一百七十六版 CI evidence hardening packet：把 typecheck/test/build/smoke/screenshot/cleanup 的 CI 与本地证据要求固化，并继续阻断生产执行
+
+181-ci-operator-identity-evidence-packet-v177.md
+ -> 第一百七十七版 CI operator identity evidence packet：消费 v176，记录 local smoke operator identity 与 GitHub Actions 非 secret 身份字段预期，为后续 retention gate 提供 Node 身份证据
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

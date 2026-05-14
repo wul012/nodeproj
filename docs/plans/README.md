@@ -137,5 +137,8 @@ v169-post-production-environment-preflight-roadmap.md
  -> 当前唯一有效全局计划；由 Node v169 post-v166 readiness summary 衍生，Node v170 已插入 report shared helpers hardening 维护重构，Java v60 + mini-kv v69、Java v61 + mini-kv v70 均已推荐并行完成，Node v171-v173 已消费并形成 release window readiness packet；下一步需另起新计划，不在本文件继续追加重合版本
 
 v173-post-release-window-readiness-roadmap.md
- -> 当前唯一有效全局计划；由 Node v173 release window readiness packet 衍生，Node v174 production release dry-run envelope、推荐并行 Java v62 + mini-kv v71、Node v175 release handoff readiness review 已完成；下一步是 Node v176 CI evidence hardening packet
+ -> 已完成并收口；由 Node v173 release window readiness packet 衍生，Node v174 production release dry-run envelope、推荐并行 Java v62 + mini-kv v71、Node v175 release handoff readiness review、Node v176 CI evidence hardening packet 已完成，由 v176-post-ci-evidence-hardening-roadmap.md 接续
+
+v176-post-ci-evidence-hardening-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v176 CI evidence hardening packet 衍生，Node v177 CI operator identity evidence packet 已完成；下一步是推荐并行 Java v63 + mini-kv v72，然后 Node v178 消费三方 retention evidence
 ```
