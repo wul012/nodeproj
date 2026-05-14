@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  collectBlockingMessages,
   isReleaseReportDigest,
   prefixReportCheckSummary,
   summarizeReportChecks,
@@ -36,5 +37,48 @@ describe("release report shared helpers", () => {
     expect(isReleaseReportDigest("a".repeat(63))).toBe(false);
     expect(isReleaseReportDigest({ value: digest })).toBe(false);
     expect(isReleaseReportDigest(undefined)).toBe(false);
+  });
+
+  it("collects blocker messages from declarative check specs", () => {
+    interface TestMessage {
+      code: string;
+      severity: "blocker" | "warning" | "recommendation";
+      source: "node" | "java";
+      message: string;
+    }
+
+    expect(collectBlockingMessages<TestMessage>([
+      {
+        condition: true,
+        code: "NODE_READY",
+        source: "node",
+        message: "Node check is ready.",
+      },
+      {
+        condition: false,
+        code: "JAVA_BLOCKED",
+        source: "java",
+        message: "Java evidence is blocked.",
+      },
+      {
+        condition: undefined,
+        code: "NODE_MISSING",
+        source: "node",
+        message: "Node evidence is missing.",
+      },
+    ])).toEqual([
+      {
+        code: "JAVA_BLOCKED",
+        severity: "blocker",
+        source: "java",
+        message: "Java evidence is blocked.",
+      },
+      {
+        code: "NODE_MISSING",
+        severity: "blocker",
+        source: "node",
+        message: "Node evidence is missing.",
+      },
+    ]);
   });
 });

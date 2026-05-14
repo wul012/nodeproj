@@ -1,6 +1,6 @@
 import type { AppConfig } from "../config.js";
 import {
-  appendBlockingMessage,
+  collectBlockingMessages,
   completeAggregateReadyCheck,
   digestReleaseReport,
   isReleaseReportDigest,
@@ -341,29 +341,29 @@ function summarizeMiniKvPackage(profile: DeploymentEvidenceIntakeGateProfile): R
 }
 
 function collectProductionBlockers(checks: Record<string, boolean>): VerificationMessage[] {
-  const blockers: VerificationMessage[] = [];
-  addMessage(blockers, checks.sourceIntakeGateReady, "SOURCE_INTAKE_GATE_NOT_READY", "deployment-evidence-intake-gate", "Node v171 deployment evidence intake gate must be ready before v172 verification.");
-  addMessage(blockers, checks.sourceIntakeDigestValid, "SOURCE_INTAKE_DIGEST_INVALID", "deployment-evidence-intake-gate", "Node v171 intake digest must be a valid SHA-256 hex digest.");
-  addMessage(blockers, checks.sourceSummaryDigestValid, "SOURCE_SUMMARY_DIGEST_INVALID", "deployment-evidence-intake-gate", "Node v171 source summary digest must be valid.");
-  addMessage(blockers, checks.sourceSummaryStillBlocksProduction, "SOURCE_SUMMARY_UNLOCKED_PRODUCTION", "deployment-evidence-intake-gate", "Source post-v166 summary must still block production operations.");
-  addMessage(blockers, checks.javaVersionMatchesIntake, "JAVA_VERSION_MISMATCH", "java-v60-production-deployment-runbook-contract", "Java runbook version must match the intake gate.");
-  addMessage(blockers, checks.javaContractVersionMatchesIntake, "JAVA_CONTRACT_VERSION_MISMATCH", "java-v60-production-deployment-runbook-contract", "Java runbook contract version must match the intake gate.");
-  addMessage(blockers, checks.javaDeploymentWindowFieldsVerified, "JAVA_DEPLOYMENT_WINDOW_FIELDS_INVALID", "java-v60-production-deployment-runbook-contract", "Java deployment window owner, rollback approver, and no-trigger fields must be present.");
-  addMessage(blockers, checks.javaMigrationFieldsVerified, "JAVA_MIGRATION_FIELDS_INVALID", "java-v60-production-deployment-runbook-contract", "Java migration fields must keep SQL and production database access disabled.");
-  addMessage(blockers, checks.javaSecretBoundaryVerified, "JAVA_SECRET_BOUNDARY_INVALID", "java-v60-production-deployment-runbook-contract", "Java secret source confirmation must not expose secret values.");
-  addMessage(blockers, checks.javaNoExecutionBoundaryVerified, "JAVA_EXECUTION_BOUNDARY_OPEN", "java-v60-production-deployment-runbook-contract", "Java v60 must not let Node deploy, rollback, execute SQL, or modify runtime config.");
-  addMessage(blockers, checks.miniKvVersionMatchesIntake, "MINI_KV_VERSION_MISMATCH", "mini-kv-v69-release-artifact-digest-package", "mini-kv package version must match the intake gate.");
-  addMessage(blockers, checks.miniKvPackageVersionMatchesIntake, "MINI_KV_PACKAGE_VERSION_MISMATCH", "mini-kv-v69-release-artifact-digest-package", "mini-kv package contract version must match the intake gate.");
-  addMessage(blockers, checks.miniKvDigestFieldsVerified, "MINI_KV_DIGEST_FIELDS_INVALID", "mini-kv-v69-release-artifact-digest-package", "mini-kv package must include binary, WAL, Snapshot, and fixture digest fields.");
-  addMessage(blockers, checks.miniKvRestoreDrillVerified, "MINI_KV_RESTORE_DRILL_INVALID", "mini-kv-v69-release-artifact-digest-package", "mini-kv restore drill must use CHECKJSON/read-only commands.");
-  addMessage(blockers, checks.miniKvOperatorConfirmationVerified, "MINI_KV_OPERATOR_CONFIRMATION_INVALID", "mini-kv-v69-release-artifact-digest-package", "mini-kv operator confirmation fields must be present.");
-  addMessage(blockers, checks.miniKvNoExecutionBoundaryVerified, "MINI_KV_EXECUTION_BOUNDARY_OPEN", "mini-kv-v69-release-artifact-digest-package", "mini-kv package must not execute writes, admin commands, or restore.");
-  addMessage(blockers, checks.miniKvOrderAuthorityBoundaryVerified, "MINI_KV_ORDER_AUTHORITY_OPEN", "mini-kv-v69-release-artifact-digest-package", "mini-kv package must not create Java order authority.");
-  addMessage(blockers, checks.intakeNoExecutionBoundaryVerified, "INTAKE_EXECUTION_BOUNDARY_OPEN", "deployment-evidence-intake-gate", "Node v171 intake gate must keep all execution flags closed.");
-  addMessage(blockers, checks.upstreamActionsStillDisabled, "UPSTREAM_ACTIONS_ENABLED", "runtime-config", "UPSTREAM_ACTIONS_ENABLED must remain false.");
-  addMessage(blockers, checks.noAutomaticUpstreamStart, "AUTOMATIC_UPSTREAM_START_NOT_ALLOWED", "deployment-evidence-verification", "Node v172 must not start Java or mini-kv.");
-  addMessage(blockers, checks.verificationDigestValid, "VERIFICATION_DIGEST_INVALID", "deployment-evidence-verification", "v172 verification digest must be a valid SHA-256 hex digest.");
-  return blockers;
+  return collectBlockingMessages<VerificationMessage>([
+    { condition: checks.sourceIntakeGateReady, code: "SOURCE_INTAKE_GATE_NOT_READY", source: "deployment-evidence-intake-gate", message: "Node v171 deployment evidence intake gate must be ready before v172 verification." },
+    { condition: checks.sourceIntakeDigestValid, code: "SOURCE_INTAKE_DIGEST_INVALID", source: "deployment-evidence-intake-gate", message: "Node v171 intake digest must be a valid SHA-256 hex digest." },
+    { condition: checks.sourceSummaryDigestValid, code: "SOURCE_SUMMARY_DIGEST_INVALID", source: "deployment-evidence-intake-gate", message: "Node v171 source summary digest must be valid." },
+    { condition: checks.sourceSummaryStillBlocksProduction, code: "SOURCE_SUMMARY_UNLOCKED_PRODUCTION", source: "deployment-evidence-intake-gate", message: "Source post-v166 summary must still block production operations." },
+    { condition: checks.javaVersionMatchesIntake, code: "JAVA_VERSION_MISMATCH", source: "java-v60-production-deployment-runbook-contract", message: "Java runbook version must match the intake gate." },
+    { condition: checks.javaContractVersionMatchesIntake, code: "JAVA_CONTRACT_VERSION_MISMATCH", source: "java-v60-production-deployment-runbook-contract", message: "Java runbook contract version must match the intake gate." },
+    { condition: checks.javaDeploymentWindowFieldsVerified, code: "JAVA_DEPLOYMENT_WINDOW_FIELDS_INVALID", source: "java-v60-production-deployment-runbook-contract", message: "Java deployment window owner, rollback approver, and no-trigger fields must be present." },
+    { condition: checks.javaMigrationFieldsVerified, code: "JAVA_MIGRATION_FIELDS_INVALID", source: "java-v60-production-deployment-runbook-contract", message: "Java migration fields must keep SQL and production database access disabled." },
+    { condition: checks.javaSecretBoundaryVerified, code: "JAVA_SECRET_BOUNDARY_INVALID", source: "java-v60-production-deployment-runbook-contract", message: "Java secret source confirmation must not expose secret values." },
+    { condition: checks.javaNoExecutionBoundaryVerified, code: "JAVA_EXECUTION_BOUNDARY_OPEN", source: "java-v60-production-deployment-runbook-contract", message: "Java v60 must not let Node deploy, rollback, execute SQL, or modify runtime config." },
+    { condition: checks.miniKvVersionMatchesIntake, code: "MINI_KV_VERSION_MISMATCH", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv package version must match the intake gate." },
+    { condition: checks.miniKvPackageVersionMatchesIntake, code: "MINI_KV_PACKAGE_VERSION_MISMATCH", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv package contract version must match the intake gate." },
+    { condition: checks.miniKvDigestFieldsVerified, code: "MINI_KV_DIGEST_FIELDS_INVALID", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv package must include binary, WAL, Snapshot, and fixture digest fields." },
+    { condition: checks.miniKvRestoreDrillVerified, code: "MINI_KV_RESTORE_DRILL_INVALID", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv restore drill must use CHECKJSON/read-only commands." },
+    { condition: checks.miniKvOperatorConfirmationVerified, code: "MINI_KV_OPERATOR_CONFIRMATION_INVALID", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv operator confirmation fields must be present." },
+    { condition: checks.miniKvNoExecutionBoundaryVerified, code: "MINI_KV_EXECUTION_BOUNDARY_OPEN", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv package must not execute writes, admin commands, or restore." },
+    { condition: checks.miniKvOrderAuthorityBoundaryVerified, code: "MINI_KV_ORDER_AUTHORITY_OPEN", source: "mini-kv-v69-release-artifact-digest-package", message: "mini-kv package must not create Java order authority." },
+    { condition: checks.intakeNoExecutionBoundaryVerified, code: "INTAKE_EXECUTION_BOUNDARY_OPEN", source: "deployment-evidence-intake-gate", message: "Node v171 intake gate must keep all execution flags closed." },
+    { condition: checks.upstreamActionsStillDisabled, code: "UPSTREAM_ACTIONS_ENABLED", source: "runtime-config", message: "UPSTREAM_ACTIONS_ENABLED must remain false." },
+    { condition: checks.noAutomaticUpstreamStart, code: "AUTOMATIC_UPSTREAM_START_NOT_ALLOWED", source: "deployment-evidence-verification", message: "Node v172 must not start Java or mini-kv." },
+    { condition: checks.verificationDigestValid, code: "VERIFICATION_DIGEST_INVALID", source: "deployment-evidence-verification", message: "v172 verification digest must be a valid SHA-256 hex digest." },
+  ]);
 }
 
 function collectWarnings(verificationState: VerificationState): VerificationMessage[] {
@@ -400,16 +400,6 @@ function collectRecommendations(verificationState: VerificationState): Verificat
         : "Proceed to recommended parallel Java v61 plus mini-kv v70; Node v173 must wait for both and this verification.",
     },
   ];
-}
-
-function addMessage(
-  messages: VerificationMessage[],
-  condition: boolean | undefined,
-  code: string,
-  source: VerificationMessage["source"],
-  message: string,
-): void {
-  appendBlockingMessage(messages, Boolean(condition), code, source, message);
 }
 
 function digestVerification(value: unknown): string {

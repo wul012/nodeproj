@@ -58,6 +58,13 @@ export interface ReleaseReportCheckSummary {
   passedCheckCount: number;
 }
 
+export interface ReleaseReportBlockingMessageSpec<TMessage extends LiveProbeReportMessage> {
+  condition: boolean | undefined;
+  code: string;
+  source: TMessage["source"];
+  message: string;
+}
+
 export function summarizeReportChecks(checks: Record<string, boolean>): ReleaseReportCheckSummary {
   return {
     checkCount: countReportChecks(checks),
@@ -94,6 +101,16 @@ export function appendBlockingMessage<TMessage extends LiveProbeReportMessage>(
   if (!condition) {
     messages.push({ code, severity: "blocker", source, message } as TMessage);
   }
+}
+
+export function collectBlockingMessages<TMessage extends LiveProbeReportMessage>(
+  specs: Array<ReleaseReportBlockingMessageSpec<TMessage>>,
+): TMessage[] {
+  const messages: TMessage[] = [];
+  for (const spec of specs) {
+    appendBlockingMessage(messages, Boolean(spec.condition), spec.code, spec.source, spec.message);
+  }
+  return messages;
 }
 
 export function renderReleaseReportMarkdown<TMessage extends LiveProbeReportMessage>(
