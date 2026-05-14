@@ -173,6 +173,9 @@ file audit restart evidence 与后续 managed audit store
 
 169-cross-project-release-bundle-gate-v165.md
  -> 第一百六十五版 Cross-project release bundle gate：消费 Java v56 release bundle manifest 与 mini-kv v65 runtime artifact bundle manifest，生成只读跨项目发布证据 gate，并保持生产发布、回滚和上游执行权限关闭
+
+170-rollback-window-readiness-checklist-v166.md
+ -> 第一百六十六版 Rollback window readiness checklist：消费 Java v57 rollback approval handoff 与 mini-kv v66 restore compatibility handoff，生成只读人工回滚窗口 checklist，并收口 v163 衍生生产交付硬化计划
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

@@ -128,5 +128,8 @@ v161-post-controlled-idempotency-drill-roadmap.md
  -> 已完成 Java v54、mini-kv v63、Node v162、Java v55、mini-kv v64、Node v163，并由 v163-post-rollback-readiness-roadmap.md 接续
 
 v163-post-rollback-readiness-roadmap.md
- -> 当前唯一有效全局计划；Node v165 已消费 Java v56 + mini-kv v65 的 release bundle evidence，下一步是推荐并行 Java v57 + mini-kv v66，随后 Node v166 消费两边 handoff evidence
+ -> 已完成并收口；Node v164-v166、Java v56-v57、mini-kv v65-v66 已完成，由 v166-post-rollback-window-roadmap.md 接续
+
+v166-post-rollback-window-roadmap.md
+ -> 当前唯一有效全局计划；下一步是推荐并行 Java v58 + mini-kv v67，随后 Node v167 消费两边 preflight/review evidence
 ```
