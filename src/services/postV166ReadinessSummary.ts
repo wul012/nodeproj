@@ -1,12 +1,10 @@
 import type { AppConfig } from "../config.js";
 import {
-  countPassedReportChecks,
-  countReportChecks,
-} from "./liveProbeReportUtils.js";
-import {
   appendBlockingMessage,
   digestReleaseReport,
+  isReleaseReportDigest,
   renderReleaseReportMarkdown,
+  summarizeReportChecks,
 } from "./releaseReportShared.js";
 import {
   loadProductionEnvironmentPreflightChecklist,
@@ -109,6 +107,7 @@ export function loadPostV166ReadinessSummary(config: AppConfig): PostV166Readine
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(summaryState);
   const recommendations = collectRecommendations(summaryState);
+  const checkSummary = summarizeReportChecks(checks);
 
   return {
     service: "orderops-node",
@@ -154,8 +153,8 @@ export function loadPostV166ReadinessSummary(config: AppConfig): PostV166Readine
       categoryCount: categories.length,
       passedCategoryCount: categories.filter((category) => category.status === "pass").length,
       blockedCategoryCount: categories.filter((category) => category.status === "blocked").length,
-      checkCount: countReportChecks(checks),
-      passedCheckCount: countPassedReportChecks(checks),
+      checkCount: checkSummary.checkCount,
+      passedCheckCount: checkSummary.passedCheckCount,
       productionBlockerCount: productionBlockers.length,
       warningCount: warnings.length,
       recommendationCount: recommendations.length,
@@ -237,10 +236,8 @@ function createChecks(
       && rollbackPreflight.contractState === "ready-for-manual-preflight-review",
     productionEnvironmentPreflightReady: environmentPreflight.readyForProductionEnvironmentPreflightChecklist
       && environmentPreflight.checklistState === "ready-for-manual-environment-review",
-    rollbackPreflightDigestPresent: typeof rollbackPreflight.contract.contractDigest === "string"
-      && /^[a-f0-9]{64}$/.test(String(rollbackPreflight.contract.contractDigest)),
-    environmentChecklistDigestPresent: typeof environmentPreflight.checklist.checklistDigest === "string"
-      && /^[a-f0-9]{64}$/.test(String(environmentPreflight.checklist.checklistDigest)),
+    rollbackPreflightDigestPresent: isReleaseReportDigest(rollbackPreflight.contract.contractDigest),
+    environmentChecklistDigestPresent: isReleaseReportDigest(environmentPreflight.checklist.checklistDigest),
     secretSourceEvidenceConsumed: environmentPreflight.checklist.javaVersion === "Java v59"
       && environmentPreflight.checks.javaSecretValuesClosed,
     artifactDigestEvidenceConsumed: environmentPreflight.checklist.miniKvVersion === "mini-kv v68"

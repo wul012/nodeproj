@@ -24,6 +24,7 @@
 Node v167：rollback execution preflight contract
 Node v168：production environment preflight checklist
 Node v169：post-v166 readiness summary
+Node v170：report shared helpers hardening，作为维护重构版插入，消化 v165-v169 报告重复度，不消费 Java v60 / mini-kv v69
 ```
 
 当前仍不授权生产回滚：
@@ -57,23 +58,43 @@ Node：deployment evidence intake、release window readiness、post-runbook veri
 1. 下一步推荐并行：Java v60 + mini-kv v69。
    Java v60 做 production deployment runbook contract，记录部署窗口 owner、rollback approver、database migration direction、secret source confirmation；不执行 SQL，不连生产库。
    mini-kv v69 做 release artifact digest package，记录 binary/WAL/Snapshot/fixture digest、restore drill command profile、operator confirmation；不执行 LOAD/COMPACT/SETNXEX。
-2. Node v170：deployment evidence intake gate，必须等待 Java v60 和 mini-kv v69 都完成后再做；消费两边部署/摘要证据，输出 JSON/Markdown intake gate，不授权真实动作。
-3. Node v171：deployment evidence verification，必须等待 Node v170 完成后再做；验证 intake gate digest、Java runbook 字段、mini-kv digest package 字段和 no-execution 边界。
-4. 推荐并行：Java v61 + mini-kv v70。
+2. Node v170：report shared helpers hardening，维护重构版，已插入完成；只抽取报告共享 check summary / digest 校验工具，不改变任何上游依赖，也不替代 deployment intake。
+3. Node v171：deployment evidence intake gate，必须等待 Java v60 和 mini-kv v69 都完成后再做；消费两边部署/摘要证据，输出 JSON/Markdown intake gate，不授权真实动作。
+4. Node v172：deployment evidence verification，必须等待 Node v171 完成后再做；验证 intake gate digest、Java runbook 字段、mini-kv digest package 字段和 no-execution 边界。
+5. 推荐并行：Java v61 + mini-kv v70。
    Java v61 做 rollback approval record fixture，补人工审批记录样本，不执行 rollback。
    mini-kv v70 做 restore drill evidence fixture，补恢复演练证据样本，不执行 restore。
-5. Node v172：release window readiness packet，等待 Java v61 + mini-kv v70 和 Node v171 完成后再做；形成发布窗口人工 review 包。
+6. Node v173：release window readiness packet，等待 Java v61 + mini-kv v70 和 Node v172 完成后再做；形成发布窗口人工 review 包。
 ```
 
 ## 并行依赖说明
 
 ```text
 Java v60 与 mini-kv v69 推荐并行，因为两者都只补部署证据和 artifact digest，不互相调用。
-Node v170 不能提前做，因为它要消费 Java v60 和 mini-kv v69 的完成证据。
-Node v171 必须在 Node v170 后做，承担 verification，不做零散 summary。
+Node v170 是插入的维护重构版，只收敛 Node 报告重复代码，不消费 Java v60 / mini-kv v69。
+Node v171 不能提前做，因为它要消费 Java v60 和 mini-kv v69 的完成证据。
+Node v172 必须在 Node v171 后做，承担 verification，不做零散 summary。
 Java v61 与 mini-kv v70 推荐并行，因为两者都只补人工审批/恢复演练样本。
-Node v172 必须等待 Java v61 + mini-kv v70 + Node v171 完成后再做。
+Node v173 必须等待 Java v61 + mini-kv v70 + Node v172 完成后再做。
 ```
+
+## Node v170：report shared helpers hardening
+
+依赖关系：维护重构版；不依赖 Java v60 / mini-kv v69，也不改变下一阶段纵向开发前置条件。
+
+目标：
+
+```text
+把 v165-v169 报告链里重复的 check summary 与 digest 校验逻辑收敛到共享 helper，降低后续 production evidence intake 继续复制大文件骨架的风险。
+```
+
+本版本要落地：
+
+- 在 `releaseReportShared.ts` 中提供共享 check summary helper。
+- 在 `releaseReportShared.ts` 中提供 SHA-256 report digest 字符串校验 helper。
+- 将 v165-v169 报告链中最近几处重复 check summary / digest 校验迁移到共享 helper。
+- 保持现有 JSON/Markdown endpoint、字段名、digest 输出语义不变。
+- 补共享 helper 单测、运行截图和解释归档。
 
 ## Java v60：production deployment runbook contract
 
@@ -112,7 +133,7 @@ Node v172 必须等待 Java v61 + mini-kv v70 + Node v171 完成后再做。
 - 明确 LOAD/COMPACT/SETNXEX 不执行。
 - 明确 mini-kv 仍不是 Java order authority。
 
-## Node v170：deployment evidence intake gate
+## Node v171：deployment evidence intake gate
 
 依赖关系：必须等待 Java v60 和 mini-kv v69 都完成后推进。
 
@@ -131,9 +152,9 @@ Node v172 必须等待 Java v61 + mini-kv v70 + Node v171 完成后再做。
 - 默认只读或 dry-run。
 - 不读取 production secret，不连接 production database，不执行 restore。
 
-## Node v171：deployment evidence verification
+## Node v172：deployment evidence verification
 
-依赖关系：必须等待 Node v170 完成后推进。
+依赖关系：必须等待 Node v171 完成后推进。
 
 目标：
 
@@ -143,7 +164,7 @@ Node v172 必须等待 Java v61 + mini-kv v70 + Node v171 完成后再做。
 
 本版本要落地：
 
-- 复核 Node v170 intake digest。
+- 复核 Node v171 intake digest。
 - 复核 Java v60 runbook 字段完整性。
 - 复核 mini-kv v69 digest package 字段完整性。
 - 明确仍不授权 production operations。
@@ -182,9 +203,9 @@ Node v172 必须等待 Java v61 + mini-kv v70 + Node v171 完成后再做。
 - 记录 digest comparison placeholder。
 - 明确 fixture 不执行 restore。
 
-## Node v172：release window readiness packet
+## Node v173：release window readiness packet
 
-依赖关系：必须等待 Java v61、mini-kv v70、Node v171 都完成后推进。
+依赖关系：必须等待 Java v61、mini-kv v70、Node v172 都完成后推进。
 
 目标：
 
@@ -194,7 +215,7 @@ Node v172 必须等待 Java v61 + mini-kv v70 + Node v171 完成后再做。
 
 本版本要落地：
 
-- 汇总 Node v170/v171。
+- 汇总 Node v171/v172。
 - 引用 Java v61 rollback approval record。
 - 引用 mini-kv v70 restore drill evidence。
 - 输出 JSON/Markdown packet。

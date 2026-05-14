@@ -1,15 +1,13 @@
 import type { AppConfig } from "../config.js";
 import {
-  countPassedReportChecks,
-  countReportChecks,
-} from "./liveProbeReportUtils.js";
-import {
   appendBlockingMessage,
   completeAggregateReadyCheck,
   digestReleaseReport,
+  prefixReportCheckSummary,
   renderReleaseForbiddenOperation,
   renderReleaseReportMarkdown,
   renderReleaseReportStep,
+  summarizeReportChecks,
 } from "./releaseReportShared.js";
 import {
   loadCrossProjectReleaseBundleGate,
@@ -376,6 +374,7 @@ export function loadRollbackWindowReadinessChecklist(config: AppConfig): Rollbac
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(checklistState);
   const recommendations = collectRecommendations(checklistState);
+  const checkSummary = prefixReportCheckSummary(summarizeReportChecks(checks), "checklist");
 
   return {
     service: "orderops-node",
@@ -435,8 +434,8 @@ export function loadRollbackWindowReadinessChecklist(config: AppConfig): Rollbac
     checklistSteps,
     forbiddenOperations,
     summary: {
-      checklistCheckCount: countReportChecks(checks),
-      passedChecklistCheckCount: countPassedReportChecks(checks),
+      checklistCheckCount: checkSummary.checklistCheckCount,
+      passedChecklistCheckCount: checkSummary.passedChecklistCheckCount,
       handoffCount: 2,
       checklistStepCount: checklistSteps.length,
       forbiddenOperationCount: forbiddenOperations.length,

@@ -1,15 +1,13 @@
 import type { AppConfig } from "../config.js";
 import {
-  countPassedReportChecks,
-  countReportChecks,
-} from "./liveProbeReportUtils.js";
-import {
   appendBlockingMessage,
   completeAggregateReadyCheck,
   digestReleaseReport,
+  prefixReportCheckSummary,
   renderReleaseForbiddenOperation,
   renderReleaseReportMarkdown,
   renderReleaseReportStep,
+  summarizeReportChecks,
 } from "./releaseReportShared.js";
 import {
   loadReleaseRollbackReadinessRunbook,
@@ -409,6 +407,7 @@ export function loadCrossProjectReleaseBundleGate(config: AppConfig): CrossProje
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(gateState);
   const recommendations = collectRecommendations(gateState);
+  const checkSummary = prefixReportCheckSummary(summarizeReportChecks(checks), "gate");
 
   return {
     service: "orderops-node",
@@ -469,8 +468,8 @@ export function loadCrossProjectReleaseBundleGate(config: AppConfig): CrossProje
     bundleSteps,
     forbiddenOperations,
     summary: {
-      gateCheckCount: countReportChecks(checks),
-      passedGateCheckCount: countPassedReportChecks(checks),
+      gateCheckCount: checkSummary.gateCheckCount,
+      passedGateCheckCount: checkSummary.passedGateCheckCount,
       bundleManifestCount: 2,
       bundleStepCount: bundleSteps.length,
       forbiddenOperationCount: forbiddenOperations.length,

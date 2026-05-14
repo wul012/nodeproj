@@ -1,15 +1,13 @@
 import type { AppConfig } from "../config.js";
 import {
-  countPassedReportChecks,
-  countReportChecks,
-} from "./liveProbeReportUtils.js";
-import {
   appendBlockingMessage,
   completeAggregateReadyCheck,
   digestReleaseReport,
+  prefixReportCheckSummary,
   renderReleaseForbiddenOperation,
   renderReleaseReportMarkdown,
   renderReleaseReportStep,
+  summarizeReportChecks,
 } from "./releaseReportShared.js";
 import {
   loadRollbackExecutionPreflightContract,
@@ -354,6 +352,7 @@ export function loadProductionEnvironmentPreflightChecklist(
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(checklistState);
   const recommendations = collectRecommendations(checklistState);
+  const checkSummary = prefixReportCheckSummary(summarizeReportChecks(checks), "checklist");
 
   return {
     service: "orderops-node",
@@ -416,8 +415,8 @@ export function loadProductionEnvironmentPreflightChecklist(
     preflightSteps,
     forbiddenOperations,
     summary: {
-      checklistCheckCount: countReportChecks(checks),
-      passedChecklistCheckCount: countPassedReportChecks(checks),
+      checklistCheckCount: checkSummary.checklistCheckCount,
+      passedChecklistCheckCount: checkSummary.passedChecklistCheckCount,
       preflightArtifactCount: 3,
       preflightStepCount: preflightSteps.length,
       forbiddenOperationCount: forbiddenOperations.length,

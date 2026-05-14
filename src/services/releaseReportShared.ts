@@ -1,5 +1,7 @@
 import type { LiveProbeReportMessage } from "./liveProbeReportUtils.js";
 import {
+  countPassedReportChecks,
+  countReportChecks,
   renderEntries,
   renderList,
   renderMessages,
@@ -49,6 +51,28 @@ export interface ReleaseReportMarkdownOptions<TMessage extends LiveProbeReportMe
   messageSections: Array<ReleaseReportMarkdownMessageSection<TMessage>>;
   evidenceEndpoints: object;
   nextActions: string[];
+}
+
+export interface ReleaseReportCheckSummary {
+  checkCount: number;
+  passedCheckCount: number;
+}
+
+export function summarizeReportChecks(checks: Record<string, boolean>): ReleaseReportCheckSummary {
+  return {
+    checkCount: countReportChecks(checks),
+    passedCheckCount: countPassedReportChecks(checks),
+  };
+}
+
+export function prefixReportCheckSummary(
+  summary: ReleaseReportCheckSummary,
+  prefix: string,
+): Record<string, number> {
+  return {
+    [`${prefix}CheckCount`]: summary.checkCount,
+    [`passed${capitalize(prefix)}CheckCount`]: summary.passedCheckCount,
+  };
 }
 
 export function completeAggregateReadyCheck<TChecks extends Record<string, boolean>>(
@@ -118,6 +142,14 @@ export function renderReleaseForbiddenOperation(operation: ReleaseReportForbidde
 
 export function digestReleaseReport(value: unknown): string {
   return sha256StableJson(value);
+}
+
+export function isReleaseReportDigest(value: unknown): boolean {
+  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
+}
+
+function capitalize(value: string): string {
+  return value.length === 0 ? value : `${value[0]!.toUpperCase()}${value.slice(1)}`;
 }
 
 function renderObjectSection(section: ReleaseReportMarkdownSection): string[] {

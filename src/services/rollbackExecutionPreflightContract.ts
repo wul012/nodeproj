@@ -1,15 +1,13 @@
 import type { AppConfig } from "../config.js";
 import {
-  countPassedReportChecks,
-  countReportChecks,
-} from "./liveProbeReportUtils.js";
-import {
   appendBlockingMessage,
   completeAggregateReadyCheck,
   digestReleaseReport,
+  prefixReportCheckSummary,
   renderReleaseForbiddenOperation,
   renderReleaseReportMarkdown,
   renderReleaseReportStep,
+  summarizeReportChecks,
 } from "./releaseReportShared.js";
 import {
   loadRollbackWindowReadinessChecklist,
@@ -218,6 +216,7 @@ export function loadRollbackExecutionPreflightContract(config: AppConfig): Rollb
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(contractState);
   const recommendations = collectRecommendations(contractState);
+  const checkSummary = prefixReportCheckSummary(summarizeReportChecks(checks), "preflight");
 
   return {
     service: "orderops-node",
@@ -274,8 +273,8 @@ export function loadRollbackExecutionPreflightContract(config: AppConfig): Rollb
     preflightSteps,
     forbiddenOperations,
     summary: {
-      preflightCheckCount: countReportChecks(checks),
-      passedPreflightCheckCount: countPassedReportChecks(checks),
+      preflightCheckCount: checkSummary.preflightCheckCount,
+      passedPreflightCheckCount: checkSummary.passedPreflightCheckCount,
       preflightArtifactCount: 2,
       preflightStepCount: preflightSteps.length,
       forbiddenOperationCount: forbiddenOperations.length,

@@ -130,6 +130,7 @@ This project keeps Node as the gateway, live operations view, and integration sh
 - Production live probe real-read smoke read-only window capture archive verification for recomputing the v157 archive digest and proving skipped/mixed capture stays out of production pass evidence
 - Production live probe real-read smoke read-only window capture release evidence review for combining the v158 archive verification with Java v51 and mini-kv v60 field guides while keeping production operations closed
 - Shared live-probe report helpers for stable digest generation, Markdown rendering, and repeated JSON/Markdown route registration without changing existing endpoints
+- Shared release report helpers for stable check summaries and SHA-256 digest validation across the v165-v169 production evidence report chain
 - Rollback execution preflight contract for consuming Java v58 rollback SQL review gate and mini-kv v67 restore dry-run package while keeping rollback execution blocked
 - Production environment preflight checklist for consuming Java v59 secret source contract and mini-kv v68 digest compatibility matrix without reading secrets, connecting production databases, or executing restore
 - Post-v166 readiness summary for closing the rollback/environment preflight stage and starting a non-overlapping v169-derived plan
