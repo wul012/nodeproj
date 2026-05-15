@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v192 real-read adapter operator window runbook</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #15202b;
+      background: #f6f8fb;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 42px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 26px;
+      color: #4a5568;
+      font-size: 17px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+
+    .metric,
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d9e1ec;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+    }
+
+    .metric .label {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .metric .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #0f766e;
+    }
+
+    .warn {
+      color: #b45309;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 16px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 19px;
+    }
+
+    ol,
+    ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 8px 0;
+      line-height: 1.42;
+    }
+
+    code {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      background: #eef2f7;
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: #475569;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v192：real-read adapter operator window runbook</h1>
+    <p class="subtitle">v192 把 v191 的真实只读 adapter rehearsal 变成可人工执行、可停止、可归档的操作窗口说明。</p>
+
+    <section class="grid" aria-label="v192 metrics">
+      <div class="metric">
+        <div class="label">runbookState</div>
+        <div class="value ok">ready-for-manual-window</div>
+      </div>
+      <div class="metric">
+        <div class="label">operator steps</div>
+        <div class="value">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">allowed reads</div>
+        <div class="value">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">production blockers</div>
+        <div class="value ok">0</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <div class="panel">
+        <h2>人工窗口顺序</h2>
+        <ol>
+          <li>记录关闭窗口 baseline：<code>rehearsalState=closed-skipped</code>。</li>
+          <li>操作者手动启动 Java 和 mini-kv，Node 不启动上游。</li>
+          <li>Node 仅以 <code>UPSTREAM_PROBES_ENABLED=true</code>、<code>UPSTREAM_ACTIONS_ENABLED=false</code> 采集只读结果。</li>
+          <li>操作者手动停止 Java 和 mini-kv。</li>
+          <li>归档 JSON、Markdown、digest、runtime env 和窗口结果。</li>
+        </ol>
+      </div>
+
+      <div class="panel">
+        <h2>只读边界</h2>
+        <ul>
+          <li>Java：<code>GET /actuator/health</code>、<code>GET /api/v1/ops/overview</code></li>
+          <li>mini-kv：<code>HEALTH</code>、<code>INFOJSON</code>、<code>STATSJSON</code></li>
+          <li class="warn">禁止：自动启动上游、打开 actions、Java 写接口、mini-kv 写入或管理命令。</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">
+      Endpoint: <code>/api/v1/production/real-read-adapter-operator-window-runbook</code>。
+      下一步按计划推荐并行 Java v68 + mini-kv v77，再由 Node v193 做 failure taxonomy。
+    </p>
+  </main>
+</body>
+</html>

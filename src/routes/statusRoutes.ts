@@ -326,6 +326,10 @@ import {
   renderRealReadAdapterRehearsalMarkdown,
 } from "../services/realReadAdapterRehearsal.js";
 import {
+  loadRealReadAdapterOperatorWindowRunbook,
+  renderRealReadAdapterOperatorWindowRunbookMarkdown,
+} from "../services/realReadAdapterOperatorWindowRunbook.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1592,6 +1596,13 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderRealReadAdapterRehearsalMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/real-read-adapter-operator-window-runbook",
+    () => Promise.resolve(loadRealReadAdapterOperatorWindowRunbook(deps.config)),
+    renderRealReadAdapterOperatorWindowRunbookMarkdown,
   );
 
   registerJsonMarkdownReportRoute(

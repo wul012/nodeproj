@@ -23,7 +23,7 @@ mini-kv = 自研 KV 基础设施实验位
 ## 推荐执行顺序
 
 ```text
-1. Node v192：real-read adapter operator window runbook。
+1. Node v192：real-read adapter operator window runbook。（已完成）
    基于 v191 endpoint，生成操作员手动开启窗口的 runbook：需要谁启动 Java/mini-kv、设置哪些 env、预期哪些 endpoint/command 被读取、如何停止；不自动启动上游。
 2. 推荐并行：Java v68 + mini-kv v77。
    Java v68 补 release approval rehearsal 的只读失败分类字段，例如 upstream readiness / auth-context warning / audit-correlation warning；mini-kv v77 补 SMOKEJSON / runtime-smoke evidence 的失败分类说明。两者都不新增写操作。
@@ -43,11 +43,21 @@ mini-kv = 自研 KV 基础设施实验位
 
 本版本要落地：
 
-- 新增一个 Node 只读 runbook endpoint。
-- 明确 `UPSTREAM_PROBES_ENABLED=true` 只允许在人工窗口中开启。
-- 明确 `UPSTREAM_ACTIONS_ENABLED=false` 必须保持。
-- 明确 Java / mini-kv 由操作者手动启动和停止。
+- 已新增 `GET /api/v1/production/real-read-adapter-operator-window-runbook`。
+- 已新增 Markdown 输出 `GET /api/v1/production/real-read-adapter-operator-window-runbook?format=markdown`。
+- 已明确 `UPSTREAM_PROBES_ENABLED=true` 只允许在人工窗口中开启。
+- 已明确 `UPSTREAM_ACTIONS_ENABLED=false` 必须保持。
+- 已明确 Java / mini-kv 由操作者手动启动和停止。
+- 已覆盖默认关闭、upstream actions 开启阻断、JSON/Markdown 路由测试。
 - 不执行写操作。
+
+v192 归档：
+
+```text
+c/192/图片/real-read-adapter-operator-window-runbook-v192.png
+c/192/解释/real-read-adapter-operator-window-runbook-v192.md
+代码讲解记录_生产雏形阶段/196-real-read-adapter-operator-window-runbook-v192.md
+```
 
 ## 推荐并行：Java v68 + mini-kv v77
 
