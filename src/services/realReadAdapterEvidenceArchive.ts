@@ -135,6 +135,41 @@ const ENDPOINTS = Object.freeze({
   realReadAdapterFailureTaxonomyJson: "/api/v1/production/real-read-adapter-failure-taxonomy",
 });
 
+export interface RealReadAdapterEvidenceArchiveDigestPayload {
+  profileVersion: "real-read-adapter-evidence-archive.v1";
+  archiveState: RealReadAdapterEvidenceArchiveProfile["archiveState"];
+  adapterDigest: string;
+  taxonomyDigest: string;
+  operatorWindowRunbookDigest: string;
+  rehearsalState: RealReadAdapterEvidenceArchiveProfile["archive"]["rehearsalState"];
+  taxonomyState: RealReadAdapterEvidenceArchiveProfile["archive"]["taxonomyState"];
+  failureClasses: FailureClass[];
+  checks: RealReadAdapterEvidenceArchiveProfile["checks"];
+}
+
+export function createRealReadAdapterEvidenceArchiveDigestPayload(input: {
+  archiveState: RealReadAdapterEvidenceArchiveProfile["archiveState"];
+  adapterDigest: string;
+  taxonomyDigest: string;
+  operatorWindowRunbookDigest: string;
+  rehearsalState: RealReadAdapterEvidenceArchiveProfile["archive"]["rehearsalState"];
+  taxonomyState: RealReadAdapterEvidenceArchiveProfile["archive"]["taxonomyState"];
+  failureClasses: FailureClass[];
+  checks: RealReadAdapterEvidenceArchiveProfile["checks"];
+}): RealReadAdapterEvidenceArchiveDigestPayload {
+  return {
+    profileVersion: "real-read-adapter-evidence-archive.v1",
+    archiveState: input.archiveState,
+    adapterDigest: input.adapterDigest,
+    taxonomyDigest: input.taxonomyDigest,
+    operatorWindowRunbookDigest: input.operatorWindowRunbookDigest,
+    rehearsalState: input.rehearsalState,
+    taxonomyState: input.taxonomyState,
+    failureClasses: [...input.failureClasses],
+    checks: input.checks,
+  };
+}
+
 export async function loadRealReadAdapterEvidenceArchive(input: {
   config: AppConfig;
   orderPlatform: OrderPlatformClient;
@@ -149,8 +184,7 @@ export async function loadRealReadAdapterEvidenceArchive(input: {
     .filter(([key]) => key !== "readyForRealReadAdapterEvidenceArchive")
     .every(([, value]) => value);
   const archiveState = determineArchiveState(input.config, checks, taxonomy);
-  const archiveDigest = sha256StableJson({
-    profileVersion: "real-read-adapter-evidence-archive.v1",
+  const archiveDigest = sha256StableJson(createRealReadAdapterEvidenceArchiveDigestPayload({
     archiveState,
     adapterDigest: adapter.adapter.adapterDigest,
     taxonomyDigest: taxonomy.taxonomy.taxonomyDigest,
@@ -159,7 +193,7 @@ export async function loadRealReadAdapterEvidenceArchive(input: {
     taxonomyState: taxonomy.taxonomyState,
     failureClasses,
     checks,
-  });
+  }));
   const productionBlockers = collectProductionBlockers(checks, taxonomy.productionBlockers.length);
   const warnings = collectWarnings(archiveState, input.config.upstreamProbesEnabled, failureClasses);
   const recommendations = collectRecommendations(archiveState);

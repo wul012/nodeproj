@@ -155,5 +155,5 @@ v191-post-real-read-adapter-roadmap.md
  -> 已完成并收口；由 Node v191 real HTTP/TCP read adapter rehearsal 衍生；Node v192、推荐并行 Java v68 + mini-kv v77、Node v193 real-read adapter failure taxonomy、Node v194 evidence archive 已完成，由 v194-post-real-read-archive-roadmap.md 接续
 
 v194-post-real-read-archive-roadmap.md
- -> 当前唯一有效全局计划；由 Node v194 real-read adapter evidence archive 衍生；下一步是 Node v195 archive verification，然后推荐并行 Java v69 + mini-kv v78，再由 Node v196-v197 做 imported window result packet 和 production readiness checkpoint
+ -> 当前唯一有效全局计划；由 Node v194 real-read adapter evidence archive 衍生；Node v195 archive verification 已完成，下一步推荐并行 Java v69 + mini-kv v78，再由 Node v196-v197 做 imported window result packet 和 production readiness checkpoint
 ```

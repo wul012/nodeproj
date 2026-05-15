@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v195 real-read adapter archive verification</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #111827;
+      background: #f6f8fb;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 42px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: #4b5563;
+      font-size: 17px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric,
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dbe4ef;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .label {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #047857;
+    }
+
+    .blue {
+      color: #2563eb;
+    }
+
+    .warn {
+      color: #b45309;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 19px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 8px 0;
+      line-height: 1.42;
+    }
+
+    code {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      background: #eef2f7;
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: #475569;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v195：real-read adapter archive verification</h1>
+    <p class="subtitle">v195 独立复算 v194 archive digest，确认真实只读 adapter 证据链没有漂移。</p>
+
+    <section class="metrics">
+      <div class="metric">
+        <div class="label">verificationState</div>
+        <div class="value ok">verified-closed-window-archive</div>
+      </div>
+      <div class="metric">
+        <div class="label">digest match</div>
+        <div class="value ok">true</div>
+      </div>
+      <div class="metric">
+        <div class="label">checks</div>
+        <div class="value blue">16 / 16</div>
+      </div>
+      <div class="metric">
+        <div class="label">production blockers</div>
+        <div class="value ok">0</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <div class="panel">
+        <h2>Verified Digest Chain</h2>
+        <ul>
+          <li>v191：<code>adapterDigest</code> 有效。</li>
+          <li>v192：<code>operatorWindowRunbookDigest</code> 有效。</li>
+          <li>v193：<code>taxonomyDigest</code> 有效。</li>
+          <li>v194：<code>archiveDigest</code> 复算匹配。</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>生产边界</h2>
+        <ul>
+          <li><code>archivedAsProductionPassEvidence=false</code></li>
+          <li><code>readyForProductionOperations=false</code></li>
+          <li><code>UPSTREAM_ACTIONS_ENABLED=false</code></li>
+          <li class="warn">v195 只验证 archive，不启动上游、不写上游。</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">
+      Endpoint: <code>/api/v1/production/real-read-adapter-evidence-archive-verification</code>。
+      下一步：推荐并行 <code>Java v69 + mini-kv v78</code>，再由 Node v196 导入人工窗口结果。
+    </p>
+  </main>
+</body>
+</html>

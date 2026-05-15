@@ -23,8 +23,14 @@ mini-kv = 自研 KV 基础设施实验位
 ## 推荐执行顺序
 
 ```text
-1. Node v195：real-read adapter evidence archive verification。
+1. Node v195：real-read adapter evidence archive verification。（已完成）
    验证 v194 archive digest、v191 adapter digest、v192 operator window digest、v193 taxonomy digest、classification 覆盖率和 production operation 仍关闭。
+   产物：
+   - `GET /api/v1/production/real-read-adapter-evidence-archive-verification`
+   - `GET /api/v1/production/real-read-adapter-evidence-archive-verification?format=markdown`
+   - `代码讲解记录_生产雏形阶段/199-real-read-adapter-evidence-archive-verification-v195.md`
+   - `c/195/图片/real-read-adapter-evidence-archive-verification-v195.png`
+   - `c/195/解释/real-read-adapter-evidence-archive-verification-v195.md`
 2. 推荐并行：Java v69 + mini-kv v78。
    Java v69 补 release approval rehearsal 的只读 archive verification hint，例如 response schema version / warning digest / no-ledger-write proof；mini-kv v78 补 SMOKEJSON taxonomy digest 或 runtime smoke verification sample。两者都不新增写操作。
 3. Node v196：real-read adapter imported window result packet。
@@ -59,5 +65,5 @@ mini-kv v78 目标：
 ## 一句话结论
 
 ```text
-v194 后先做 archive verification，再让 Java/mini-kv 补只读 verification hint，最后 Node 才做导入窗口结果和生产 readiness checkpoint。
+v195 已完成 archive verification；下一步先推荐并行 Java v69 + mini-kv v78，补只读 verification hint，之后 Node v196 再做导入窗口结果。
 ```

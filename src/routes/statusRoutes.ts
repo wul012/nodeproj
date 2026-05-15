@@ -338,6 +338,10 @@ import {
   renderRealReadAdapterEvidenceArchiveMarkdown,
 } from "../services/realReadAdapterEvidenceArchive.js";
 import {
+  loadRealReadAdapterEvidenceArchiveVerification,
+  renderRealReadAdapterEvidenceArchiveVerificationMarkdown,
+} from "../services/realReadAdapterEvidenceArchiveVerification.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1633,6 +1637,17 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderRealReadAdapterEvidenceArchiveMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/real-read-adapter-evidence-archive-verification",
+    () => loadRealReadAdapterEvidenceArchiveVerification({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    }),
+    renderRealReadAdapterEvidenceArchiveVerificationMarkdown,
   );
 
   registerJsonMarkdownReportRoute(
