@@ -342,6 +342,10 @@ import {
   renderRealReadAdapterEvidenceArchiveVerificationMarkdown,
 } from "../services/realReadAdapterEvidenceArchiveVerification.js";
 import {
+  loadRealReadAdapterImportedWindowResultPacket,
+  renderRealReadAdapterImportedWindowResultPacketMarkdown,
+} from "../services/realReadAdapterImportedWindowResultPacket.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1648,6 +1652,17 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderRealReadAdapterEvidenceArchiveVerificationMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/real-read-adapter-imported-window-result-packet",
+    () => loadRealReadAdapterImportedWindowResultPacket({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    }),
+    renderRealReadAdapterImportedWindowResultPacketMarkdown,
   );
 
   registerJsonMarkdownReportRoute(

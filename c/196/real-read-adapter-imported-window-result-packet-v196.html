@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v196 real-read adapter imported window result packet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #111827;
+      background: #f6f8fb;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 42px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: #4b5563;
+      font-size: 17px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric,
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dbe4ef;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .label {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #047857;
+    }
+
+    .blue {
+      color: #2563eb;
+    }
+
+    .warn {
+      color: #b45309;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 19px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 8px 0;
+      line-height: 1.42;
+    }
+
+    code {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      background: #eef2f7;
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: #475569;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v196：imported window result packet</h1>
+    <p class="subtitle">v196 将 closed-window baseline 与 operator-window result sample 分离，并接入 Java v69 / mini-kv v78 只读证据锚点。</p>
+
+    <section class="metrics">
+      <div class="metric">
+        <div class="label">packetState</div>
+        <div class="value ok">closed-baseline-with-imported-window-sample</div>
+      </div>
+      <div class="metric">
+        <div class="label">imported records</div>
+        <div class="value blue">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">checks</div>
+        <div class="value ok">16 / 16</div>
+      </div>
+      <div class="metric">
+        <div class="label">production blockers</div>
+        <div class="value ok">0</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <div class="panel">
+        <h2>Imported Evidence Anchors</h2>
+        <ul>
+          <li>Java v69：<code>java-release-approval-rehearsal-response-schema.v3</code></li>
+          <li>Java v69：<code>warningDigest</code> + no-ledger proof。</li>
+          <li>mini-kv v78：<code>SMOKEJSON taxonomy_digest</code></li>
+          <li>mini-kv v78：<code>fnv1a64:f92fcba55feb26a2</code></li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>生产边界</h2>
+        <ul>
+          <li><code>importedAsProductionPassEvidence=false</code></li>
+          <li><code>readyForProductionOperations=false</code></li>
+          <li><code>UPSTREAM_ACTIONS_ENABLED=false</code></li>
+          <li class="warn">v196 只导入样本，不启动上游、不写上游。</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">
+      Endpoint: <code>/api/v1/production/real-read-adapter-imported-window-result-packet</code>。
+      下一步：Node v197 production readiness checkpoint。
+    </p>
+  </main>
+</body>
+</html>

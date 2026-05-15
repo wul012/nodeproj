@@ -33,8 +33,14 @@ mini-kv = 自研 KV 基础设施实验位
    - `c/195/解释/real-read-adapter-evidence-archive-verification-v195.md`
 2. 推荐并行：Java v69 + mini-kv v78。
    Java v69 补 release approval rehearsal 的只读 archive verification hint，例如 response schema version / warning digest / no-ledger-write proof；mini-kv v78 补 SMOKEJSON taxonomy digest 或 runtime smoke verification sample。两者都不新增写操作。
-3. Node v196：real-read adapter imported window result packet。
+3. Node v196：real-read adapter imported window result packet。（已完成）
    消费一个人工窗口导入样本，把 closed-window baseline 和 operator-window result 区分开；默认仍不启动 Java / mini-kv。
+   产物：
+   - `GET /api/v1/production/real-read-adapter-imported-window-result-packet`
+   - `GET /api/v1/production/real-read-adapter-imported-window-result-packet?format=markdown`
+   - `代码讲解记录_生产雏形阶段/200-real-read-adapter-imported-window-result-packet-v196.md`
+   - `c/196/图片/real-read-adapter-imported-window-result-packet-v196.png`
+   - `c/196/解释/real-read-adapter-imported-window-result-packet-v196.md`
 4. Node v197：real-read adapter production readiness checkpoint。
    汇总 v191-v196，说明距离真正生产窗口还缺哪些硬门槛：真实 operator identity、managed audit store、CI archive artifact、人工审批记录。
 ```
@@ -65,5 +71,5 @@ mini-kv v78 目标：
 ## 一句话结论
 
 ```text
-v195 已完成 archive verification；下一步先推荐并行 Java v69 + mini-kv v78，补只读 verification hint，之后 Node v196 再做导入窗口结果。
+v196 已完成 imported window result packet；下一步 Node v197 做 production readiness checkpoint，汇总 v191-v196 以及真正生产窗口仍缺的硬门槛。
 ```
