@@ -2,7 +2,7 @@
 
 来源版本：Node v194 `real-read adapter evidence archive`。
 
-计划状态：当前唯一有效全局计划。`docs/plans/v191-post-real-read-adapter-roadmap.md` 已覆盖并收口 Node v192-v194、Java v68、mini-kv v77；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。`docs/plans/v191-post-real-read-adapter-roadmap.md` 已覆盖并收口 Node v192-v194、Java v68、mini-kv v77；本文件已覆盖 Node v195-v197、Java v69、mini-kv v78。后续由 `docs/plans/v197-post-readiness-checkpoint-roadmap.md` 接续，不再向本文件追加重合版本。
 
 ## 阶段原则
 
@@ -41,8 +41,14 @@ mini-kv = 自研 KV 基础设施实验位
    - `代码讲解记录_生产雏形阶段/200-real-read-adapter-imported-window-result-packet-v196.md`
    - `c/196/图片/real-read-adapter-imported-window-result-packet-v196.png`
    - `c/196/解释/real-read-adapter-imported-window-result-packet-v196.md`
-4. Node v197：real-read adapter production readiness checkpoint。
+4. Node v197：real-read adapter production readiness checkpoint。（已完成）
    汇总 v191-v196，说明距离真正生产窗口还缺哪些硬门槛：真实 operator identity、managed audit store、CI archive artifact、人工审批记录。
+   产物：
+   - `GET /api/v1/production/real-read-adapter-production-readiness-checkpoint`
+   - `GET /api/v1/production/real-read-adapter-production-readiness-checkpoint?format=markdown`
+   - `代码讲解记录_生产雏形阶段/201-real-read-adapter-production-readiness-checkpoint-v197.md`
+   - `c/197/图片/real-read-adapter-production-readiness-checkpoint-v197.png`
+   - `c/197/解释/real-read-adapter-production-readiness-checkpoint-v197.md`
 ```
 
 ## 推荐并行：Java v69 + mini-kv v78
@@ -71,5 +77,5 @@ mini-kv v78 目标：
 ## 一句话结论
 
 ```text
-v196 已完成 imported window result packet；下一步 Node v197 做 production readiness checkpoint，汇总 v191-v196 以及真正生产窗口仍缺的硬门槛。
+v197 已完成 production readiness checkpoint；本计划收口。下一阶段另起 `v197-post-readiness-checkpoint-roadmap.md`，优先处理真实 operator identity、managed audit store、CI archive artifact、人工审批记录这些硬门槛。
 ```

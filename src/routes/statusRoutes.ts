@@ -346,6 +346,10 @@ import {
   renderRealReadAdapterImportedWindowResultPacketMarkdown,
 } from "../services/realReadAdapterImportedWindowResultPacket.js";
 import {
+  loadRealReadAdapterProductionReadinessCheckpoint,
+  renderRealReadAdapterProductionReadinessCheckpointMarkdown,
+} from "../services/realReadAdapterProductionReadinessCheckpoint.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1663,6 +1667,17 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderRealReadAdapterImportedWindowResultPacketMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/real-read-adapter-production-readiness-checkpoint",
+    () => loadRealReadAdapterProductionReadinessCheckpoint({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    }),
+    renderRealReadAdapterProductionReadinessCheckpointMarkdown,
   );
 
   registerJsonMarkdownReportRoute(
