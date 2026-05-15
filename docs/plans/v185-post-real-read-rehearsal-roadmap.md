@@ -54,9 +54,9 @@ types
 ```text
 1. Node v186：opsPromotionArchiveBundle type split phase 2，已完成。
    已从巨型文件中抽出 68 个 archive bundle 相关类型到独立 types 模块；不改 endpoint、不改 profileVersion、不改 JSON/Markdown 契约。
-2. Node v187：opsPromotionArchiveBundle digest payload split phase 3。
-   在 v184 边界测试保护下，把 manifest/archive/attestation digest payload helper 从巨型文件拆出；不改 digest 算法。
-3. 推荐并行：Java v67 + mini-kv v76。
+2. Node v187：opsPromotionArchiveBundle digest payload split phase 3，已完成。
+   已在 v184 边界测试保护下，把 manifest/archive/attestation digest payload helper 从巨型文件拆出；不改 digest 算法。
+3. 推荐并行：Java v67 + mini-kv v76，下一步执行。
    Java v67 做 release approval rehearsal 的持久化/认证前置只读证据增强，不执行审批或 ledger 写入。
    mini-kv v76 做真实只读 HTTP/TCP smoke evidence 的结构化输出增强，不执行 LOAD/COMPACT/SETNXEX/restore。
 4. Node v188：real HTTP read adapter rehearsal。
@@ -93,7 +93,7 @@ c/186/解释/ops-promotion-archive-bundle-type-split-phase-2-v186.md
 
 ## Node v187：opsPromotionArchiveBundle digest payload split phase 3
 
-依赖关系：Node v186 已完成，可作为下一版直接推进。
+状态：已完成。
 
 目标：
 
@@ -103,14 +103,22 @@ c/186/解释/ops-promotion-archive-bundle-type-split-phase-2-v186.md
 
 本版本要落地：
 
-- 抽出 manifest/archive/attestation digest payload helper。
-- 保持 `stableDigest.ts` 的算法不变。
-- 使用 v184 新增边界测试保护 manifest digest、artifact digest、summary 和 nextActions。
+- 已新增 `src/services/opsPromotionArchiveDigestPayloads.ts`，抽出 manifest/archive/attestation digest payload helper。
+- 已保持 `stableDigest.ts` 的算法不变。
+- 已使用 v184 新增边界测试保护 manifest digest、artifact digest、summary 和 nextActions。
 - 不新增业务 surface。
+
+完成证据：
+
+```text
+c/187/图片/ops-promotion-archive-digest-payload-split-v187.png
+c/187/解释/ops-promotion-archive-digest-payload-split-v187.md
+代码讲解记录_生产雏形阶段/191-ops-promotion-archive-digest-payload-split-v187.md
+```
 
 ## 推荐并行：Java v67 + mini-kv v76
 
-依赖关系：等待 Node v187 完成后再并行推进更顺。
+依赖关系：Node v187 已完成；下一步推荐并行推进 Java v67 + mini-kv v76。
 
 Java v67 目标：
 
