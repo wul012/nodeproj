@@ -2,7 +2,7 @@
 
 来源版本：Node v182 `release approval decision rehearsal packet`。
 
-计划状态：当前计划在 v182 完成后接棒；上一份 `docs/plans/v179-post-pre-approval-roadmap.md` 覆盖 Node v180-v182、Java v64-v65、mini-kv v73-v74，完成后收口，不继续追加重合版本。Node v183-v184 已完成第一轮实际优化与边界测试，后续按本计划进入推荐并行 Java v66 + mini-kv v75。
+计划状态：已完成并收口。上一份 `docs/plans/v179-post-pre-approval-roadmap.md` 覆盖 Node v180-v182、Java v64-v65、mini-kv v73-v74，完成后收口，不继续追加重合版本。本计划覆盖 Node v183-v185、Java v66、mini-kv v75：Node v183-v184 已完成第一轮实际优化与边界测试，Java v66 + mini-kv v75 已推荐并行完成，Node v185 已消费两边证据形成 real-read rehearsal intake。后续不继续写回本文件，改由 `docs/plans/v185-post-real-read-rehearsal-roadmap.md` 接续。
 
 ## 阶段原则
 
@@ -42,7 +42,7 @@ Node 当前质量大约是 B+：
    Java v66 只做真实运行纵深准备，例如 release approval rehearsal 的只读 endpoint 聚合，不执行审批/回滚/SQL。
    mini-kv v75 只做真实运行纵深准备，例如 restore approval boundary 的只读 smoke manifest，不执行 LOAD/COMPACT/SETNXEX。
 4. Node v185：real-read rehearsal intake。
-   等 Java v66 + mini-kv v75 完成后，Node 只读消费两边更接近真实运行的 evidence，生成 intake，不执行写操作。
+   已完成。Node 只读消费 Java v66 与 mini-kv v75 的真实运行纵深 evidence，生成 intake，不执行写操作。
 ```
 
 ## Node v183：opsPromotionArchiveBundle split phase 1
@@ -108,6 +108,8 @@ mini-kv v75 目标：
 
 依赖关系：等待 Java v66 + mini-kv v75 完成。
 
+完成状态：已完成。
+
 目标：
 
 ```text
@@ -116,11 +118,21 @@ Node 读取更接近真实运行的 Java / mini-kv 只读 evidence，形成 real
 
 本版本要落地：
 
-- 只读消费 Java v66。
-- 只读消费 mini-kv v75。
-- 保持 `UPSTREAM_ACTIONS_ENABLED=false`。
-- 不启动 Java / mini-kv，除非用户明确要求真实联调。
-- 不执行 approval decision、ledger write、release、rollback、restore。
+- 已只读消费 Java v66。
+- 已只读消费 mini-kv v75。
+- 已保持 `UPSTREAM_ACTIONS_ENABLED=false`。
+- 已明确不启动 Java / mini-kv。
+- 已明确不执行 approval decision、ledger write、release、rollback、restore。
+
+## v185 后续优化规则
+
+用户重点关注项已纳入下一阶段计划：
+
+```text
+1. Node P0：opsPromotionArchiveBundle.ts 必须继续加速拆分。v183 只抽出 stableDigest.ts 是正确方向，但拆分比例仍很低，后续应按职责域拆为 archive、digest、boundary、gate、report、step、validation、types 等 5-8 个模块。
+2. 全局方向：三项目已完成证据/契约/治理层建设，下一阶段必须转向真实能力落地，包括数据库持久化、认证中间件、真实 HTTP 调用和可控真实运行窗口，而不是继续横向增加 fixture/contract。
+3. Java 节奏：Java v66 的 release approval rehearsal endpoint 是好方向，它是真实功能型只读 endpoint，不只是 fixture。后续 Node 和 mini-kv 的设计也应学习这个节奏：优先真实只读能力，再封装证据。
+```
 
 ## 暂停条件
 
@@ -134,5 +146,5 @@ Node 读取更接近真实运行的 Java / mini-kv 只读 evidence，形成 real
 ## 一句话结论
 
 ```text
-v182 之后不继续横向堆证据面；先用 Node v183-v184 处理真实技术债，再让 Java v66 + mini-kv v75 补更接近真实运行的只读 evidence，最后由 Node v185 做 real-read rehearsal intake。
+v182 之后不继续横向堆证据面；Node v183-v184 已处理第一轮真实技术债，Java v66 + mini-kv v75 已补更接近真实运行的只读 evidence，Node v185 已完成 real-read rehearsal intake。下一阶段由 v185 新计划接续：继续拆分 Node 巨型文件，并推动真实能力落地。
 ```

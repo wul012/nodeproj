@@ -318,6 +318,10 @@ import {
   renderReleaseApprovalDecisionRehearsalPacketMarkdown,
 } from "../services/releaseApprovalDecisionRehearsalPacket.js";
 import {
+  loadRealReadRehearsalIntake,
+  renderRealReadRehearsalIntakeMarkdown,
+} from "../services/realReadRehearsalIntake.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1743,6 +1747,21 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderReleaseApprovalDecisionRehearsalPacketMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/real-read-rehearsal-intake", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = loadRealReadRehearsalIntake(deps.config);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderRealReadRehearsalIntakeMarkdown(profile);
     }
 
     return profile;

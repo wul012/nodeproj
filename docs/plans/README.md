@@ -146,5 +146,8 @@ v179-post-pre-approval-roadmap.md
  -> 已完成并收口；由 Node v179 production release pre-approval packet 衍生，推荐并行 Java v64 + mini-kv v73、Node v180、Node v181、推荐并行 Java v65 + mini-kv v74、Node v182 release approval decision rehearsal packet 已完成，由 v182-post-rehearsal-quality-roadmap.md 接续
 
 v182-post-rehearsal-quality-roadmap.md
- -> 当前唯一有效全局计划；由 Node v182 release approval decision rehearsal packet 衍生；下一步是 Node v183 opsPromotionArchiveBundle split phase 1，先做实际质量优化，再继续三项目纵深运行
+ -> 已完成并收口；由 Node v182 release approval decision rehearsal packet 衍生，Node v183-v184 已完成 opsPromotionArchiveBundle 第一轮实际优化与边界测试，Java v66 + mini-kv v75 已推荐并行完成，Node v185 已完成 real-read rehearsal intake，由 v185-post-real-read-rehearsal-roadmap.md 接续
+
+v185-post-real-read-rehearsal-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v185 real-read rehearsal intake 衍生；吸收用户关注的 1/3/4：Node P0 继续加速拆分 opsPromotionArchiveBundle.ts，全局转向数据库持久化/认证中间件/真实 HTTP 调用等真实能力落地，并学习 Java v66 真实只读 endpoint 节奏
 ```
