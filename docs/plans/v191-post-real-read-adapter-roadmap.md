@@ -25,9 +25,9 @@ mini-kv = 自研 KV 基础设施实验位
 ```text
 1. Node v192：real-read adapter operator window runbook。（已完成）
    基于 v191 endpoint，生成操作员手动开启窗口的 runbook：需要谁启动 Java/mini-kv、设置哪些 env、预期哪些 endpoint/command 被读取、如何停止；不自动启动上游。
-2. 推荐并行：Java v68 + mini-kv v77。
+2. 推荐并行：Java v68 + mini-kv v77。（已完成）
    Java v68 补 release approval rehearsal 的只读失败分类字段，例如 upstream readiness / auth-context warning / audit-correlation warning；mini-kv v77 补 SMOKEJSON / runtime-smoke evidence 的失败分类说明。两者都不新增写操作。
-3. Node v193：real-read adapter failure taxonomy。
+3. Node v193：real-read adapter failure taxonomy。（已完成）
    消费 v191/v192 和 Java v68 + mini-kv v77 的证据，给真实读取失败做分类：closed-window、connection-refused、timeout、invalid-json、unsafe-surface、unexpected-write-signal。
 4. Node v194：real-read adapter evidence archive。
    把 v191/v193 的结果固化成可归档 bundle，包含 adapter digest、records、operator window、failure taxonomy；仍不授权生产操作。
@@ -81,6 +81,24 @@ mini-kv v77 目标：
 
 ```text
 把真实只读 adapter 的失败结果从普通 skipped/blocked 细分为可操作分类，方便真实演练时定位问题。
+```
+
+完成内容：
+
+- 已新增 `GET /api/v1/production/real-read-adapter-failure-taxonomy`。
+- 已新增 Markdown 输出 `GET /api/v1/production/real-read-adapter-failure-taxonomy?format=markdown`。
+- 已消费 v191 adapter rehearsal 与 v192 operator window runbook。
+- 已把默认关闭窗口分类为 `closed-window`，且不访问上游。
+- 已覆盖 `connection-refused`、`timeout`、`invalid-json`、`unsafe-surface`、`unexpected-write-signal` 分类框架。
+- 已引用 Java v68 与 mini-kv v77 的只读 failure taxonomy 证据。
+- 仍保持 `readyForProductionOperations=false`。
+
+v193 归档：
+
+```text
+c/193/图片/real-read-adapter-failure-taxonomy-v193.png
+c/193/解释/real-read-adapter-failure-taxonomy-v193.md
+代码讲解记录_生产雏形阶段/197-real-read-adapter-failure-taxonomy-v193.md
 ```
 
 ## Node v194：real-read adapter evidence archive

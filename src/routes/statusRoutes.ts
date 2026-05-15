@@ -330,6 +330,10 @@ import {
   renderRealReadAdapterOperatorWindowRunbookMarkdown,
 } from "../services/realReadAdapterOperatorWindowRunbook.js";
 import {
+  loadRealReadAdapterFailureTaxonomy,
+  renderRealReadAdapterFailureTaxonomyMarkdown,
+} from "../services/realReadAdapterFailureTaxonomy.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1603,6 +1607,17 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     "/api/v1/production/real-read-adapter-operator-window-runbook",
     () => Promise.resolve(loadRealReadAdapterOperatorWindowRunbook(deps.config)),
     renderRealReadAdapterOperatorWindowRunbookMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/real-read-adapter-failure-taxonomy",
+    () => loadRealReadAdapterFailureTaxonomy({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    }),
+    renderRealReadAdapterFailureTaxonomyMarkdown,
   );
 
   registerJsonMarkdownReportRoute(

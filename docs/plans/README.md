@@ -152,5 +152,5 @@ v185-post-real-read-rehearsal-roadmap.md
  -> 已完成并收口；由 Node v185 real-read rehearsal intake 衍生；Node v186-v190 已完成 opsPromotionArchiveBundle 技术债拆分，Java v67 + mini-kv v76 已推荐并行完成，Node v191 已完成 real HTTP/TCP read adapter rehearsal；由 v191-post-real-read-adapter-roadmap.md 接续
 
 v191-post-real-read-adapter-roadmap.md
- -> 当前唯一有效全局计划；由 Node v191 real HTTP/TCP read adapter rehearsal 衍生；Node v192 real-read adapter operator window runbook 已完成，下一步推荐并行 Java v68 + mini-kv v77，再由 Node v193-v194 做失败分类和 evidence archive
+ -> 当前唯一有效全局计划；由 Node v191 real HTTP/TCP read adapter rehearsal 衍生；Node v192、推荐并行 Java v68 + mini-kv v77、Node v193 real-read adapter failure taxonomy 已完成，下一步是 Node v194 evidence archive
 ```

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v193 real-read adapter failure taxonomy</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #111827;
+      background: #f7fafc;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 42px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: #4b5563;
+      font-size: 17px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric,
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dbe4ef;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .label {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #047857;
+    }
+
+    .info {
+      color: #2563eb;
+    }
+
+    .warn {
+      color: #b45309;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 19px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 8px 0;
+      line-height: 1.42;
+    }
+
+    code {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      background: #eef2f7;
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: #475569;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v193：real-read adapter failure taxonomy</h1>
+    <p class="subtitle">v193 消费 v191/v192 与 Java v68、mini-kv v77 证据，把真实只读 adapter 结果分类成可操作原因。</p>
+
+    <section class="metrics">
+      <div class="metric">
+        <div class="label">taxonomyState</div>
+        <div class="value ok">closed-window-classified</div>
+      </div>
+      <div class="metric">
+        <div class="label">classifications</div>
+        <div class="value">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">closed-window</div>
+        <div class="value info">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">production blockers</div>
+        <div class="value ok">0</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <div class="panel">
+        <h2>分类集合</h2>
+        <ul>
+          <li><code>closed-window</code>：人工窗口未开启，默认跳过。</li>
+          <li><code>connection-refused</code>：上游未启动或端口不可达。</li>
+          <li><code>timeout</code>：只读探针超时。</li>
+          <li><code>invalid-json</code>：JSON 结构不可解析或不符合契约。</li>
+          <li><code>unsafe-surface</code> / <code>unexpected-write-signal</code>：直接 blocker。</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>证据来源</h2>
+        <ul>
+          <li>Node v191：<code>real-read adapter rehearsal</code></li>
+          <li>Node v192：<code>operator window runbook</code></li>
+          <li>Java v68：release approval failure taxonomy</li>
+          <li>mini-kv v77：runtime smoke failure taxonomy</li>
+          <li class="warn">仍然不启动上游、不写上游、不授权生产操作。</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">
+      Endpoint: <code>/api/v1/production/real-read-adapter-failure-taxonomy</code>。
+      下一步：Node v194 evidence archive。
+    </p>
+  </main>
+</body>
+</html>
