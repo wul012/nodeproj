@@ -302,6 +302,10 @@ import {
   renderCrossProjectEvidenceRetentionGateMarkdown,
 } from "../services/crossProjectEvidenceRetentionGate.js";
 import {
+  loadProductionReleasePreApprovalPacket,
+  renderProductionReleasePreApprovalPacketMarkdown,
+} from "../services/productionReleasePreApprovalPacket.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1667,6 +1671,21 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderCrossProjectEvidenceRetentionGateMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/release-pre-approval-packet", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = loadProductionReleasePreApprovalPacket(deps.config, request.headers);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderProductionReleasePreApprovalPacketMarkdown(profile);
     }
 
     return profile;

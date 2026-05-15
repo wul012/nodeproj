@@ -212,9 +212,35 @@ file audit restart evidence 与后续 managed audit store
 
 182-cross-project-evidence-retention-gate-v178.md
  -> 第一百七十八版 Cross-project evidence retention gate：消费 Node v177、Java v63、mini-kv v72，形成三项目证据保留 gate，并继续阻断 release、deployment、rollback、restore 和生产认证
+
+183-production-release-pre-approval-packet-v179.md
+ -> 第一百七十九版 Production release pre-approval packet：消费 Node v178 retention gate，生成发布前人工预审批审查 packet，明确 missing evidence 会阻断 approval decision、release、rollback 和 restore
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
+
+## 当前推进到 v179
+
+截至 v179，Node 已经把发布前链路推进到：
+
+```text
+CI evidence hardening
+ -> operator identity evidence
+ -> cross-project evidence retention gate
+ -> production release pre-approval packet
+```
+
+但当前仍然不是生产发布系统：
+
+```text
+approval decision 未创建
+approval ledger 未写入
+UPSTREAM_ACTIONS_ENABLED=false
+Java / mini-kv 不由 Node 自动启动
+release / deployment / rollback / restore 全部保持阻断
+```
+
+下一阶段按 `docs/plans/v179-post-pre-approval-roadmap.md` 继续，先推荐并行补 Java v64 + mini-kv v73，再由 Node v180 消费两侧证据。
 
 ## 一句话总览
 
