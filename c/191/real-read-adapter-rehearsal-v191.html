@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Node v191 real-read adapter rehearsal</title>
+  <style>
+    body {
+      margin: 0;
+      background: #f7f9fb;
+      color: #182230;
+      font-family: "Microsoft YaHei", "Segoe UI", Arial, sans-serif;
+    }
+
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 42px 52px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 26px;
+      color: #536171;
+      font-size: 17px;
+      line-height: 1.7;
+    }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .node {
+      min-height: 128px;
+      padding: 16px;
+      border: 1px solid #d5dde8;
+      border-radius: 8px;
+      background: #ffffff;
+    }
+
+    .node strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 15px;
+    }
+
+    .node code {
+      display: block;
+      color: #344054;
+      font-size: 13px;
+      line-height: 1.5;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-top: 24px;
+    }
+
+    .metric {
+      border-radius: 8px;
+      background: #16202d;
+      color: #f8fafc;
+      padding: 18px;
+    }
+
+    .metric span {
+      display: block;
+      color: #b8c4d0;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .metric strong {
+      font-size: 22px;
+    }
+
+    .checks {
+      margin-top: 26px;
+      padding: 18px 22px;
+      border-radius: 8px;
+      border: 1px solid #b8e2c6;
+      background: #eaf8ef;
+      color: #185c2f;
+      line-height: 1.8;
+      font-size: 15px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v191：real-read adapter rehearsal</h1>
+    <p class="subtitle">
+      Java v67 与 mini-kv v76 已完成只读证据准备。v191 新增默认关闭的真实 HTTP/TCP read adapter rehearsal，
+      复用既有 live-probe smoke harness，只允许五个读探针，不自动启动上游，不授权生产操作。
+    </p>
+
+    <section class="flow" aria-label="rehearsal flow">
+      <div class="node">
+        <strong>关闭窗口</strong>
+        <code>UPSTREAM_PROBES_ENABLED=false<br>records = skipped-read<br>attempted = false</code>
+      </div>
+      <div class="node">
+        <strong>Java reads</strong>
+        <code>GET /actuator/health<br>GET /api/v1/ops/overview</code>
+      </div>
+      <div class="node">
+        <strong>mini-kv reads</strong>
+        <code>HEALTH<br>INFOJSON<br>STATSJSON</code>
+      </div>
+      <div class="node">
+        <strong>Adapter evidence</strong>
+        <code>adapterDigest<br>allowed surface<br>read-only records</code>
+      </div>
+      <div class="node">
+        <strong>Still blocked</strong>
+        <code>UPSTREAM_ACTIONS_ENABLED=false<br>readyForProductionOperations=false</code>
+      </div>
+    </section>
+
+    <section class="metrics" aria-label="status metrics">
+      <div class="metric"><span>Endpoint</span><strong>/real-read-adapter-rehearsal</strong></div>
+      <div class="metric"><span>Probe count</span><strong>5 read-only</strong></div>
+      <div class="metric"><span>Default state</span><strong>closed-skipped</strong></div>
+      <div class="metric"><span>Next plan</span><strong>v192 runbook</strong></div>
+    </section>
+
+    <section class="checks">
+      验证通过：typecheck、v191 目标测试、live-probe 合约组合测试、全量 Vitest、build。边界保持：不写 Java、不写 mini-kv、不启动上游、不把 rehearsal pass 当作生产操作授权。
+    </section>
+  </main>
+</body>
+</html>

@@ -322,6 +322,10 @@ import {
   renderRealReadRehearsalIntakeMarkdown,
 } from "../services/realReadRehearsalIntake.js";
 import {
+  loadRealReadAdapterRehearsal,
+  renderRealReadAdapterRehearsalMarkdown,
+} from "../services/realReadAdapterRehearsal.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1577,6 +1581,17 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
       miniKv: deps.miniKv,
     }),
     renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdown,
+  );
+
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/production/real-read-adapter-rehearsal",
+    () => loadRealReadAdapterRehearsal({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    }),
+    renderRealReadAdapterRehearsalMarkdown,
   );
 
   registerJsonMarkdownReportRoute(
