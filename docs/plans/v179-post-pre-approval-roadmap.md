@@ -2,7 +2,7 @@
 
 来源版本：Node v179 `production release pre-approval packet`。
 
-计划状态：当前唯一有效全局计划；上一份 `docs/plans/v176-post-ci-evidence-hardening-roadmap.md` 已完成 Node v177-v179、Java v63、mini-kv v72 并收口，不再继续追加重合版本。
+计划状态：已完成并收口；上一份 `docs/plans/v176-post-ci-evidence-hardening-roadmap.md` 已完成 Node v177-v179、Java v63、mini-kv v72 并收口。本计划覆盖到 Node v182，不再继续追加重合版本，由 `docs/plans/v182-post-rehearsal-quality-roadmap.md` 接续。
 
 ## 计划接力规则
 
@@ -11,6 +11,7 @@
 - 能并行的 Java / mini-kv 同阶段版本必须明确写成“推荐并行”。
 - 推荐执行顺序不使用“或/任选”。
 - 每个版本必须形成一个合理小闭环，不只做零散字段或单纯流水账 summary。
+- 下一次另起新 plan 时必须加入实际优化版本，优先拆分 `src/services/opsPromotionArchiveBundle.ts`；该文件当前约 8389 行，属于严重技术债，优化必须落到代码结构，不只写说明文档。
 - 新版本运行截图和解释默认写入 `c/<版本>/`。
 - 代码讲解写入 `代码讲解记录_生产雏形阶段/`。
 - 需要真实生产密钥、生产数据库、生产 IdP、真实发布、真实回滚、真实恢复权限时暂停。
@@ -29,6 +30,9 @@ Java v64：release operator signoff fixture
 mini-kv v73：retained restore artifact digest fixture
 Node v180：approval decision prerequisite gate
 Node v181：approval ledger dry-run envelope
+Java v65：rollback approver evidence fixture
+mini-kv v74：restore approval boundary fixture
+Node v182：release approval decision rehearsal packet
 ```
 
 当前仍不授权生产发布或回滚：
@@ -195,6 +199,8 @@ Node v182 必须等待 Node v181 + Java v65 + mini-kv v74 完成后再做。
 
 依赖关系：必须等待 Node v181、Java v65、mini-kv v74 都完成后推进。
 
+完成状态：已完成并由 Node v182 tag 固化。
+
 目标：
 
 ```text
@@ -203,11 +209,41 @@ Node v182 必须等待 Node v181 + Java v65 + mini-kv v74 完成后再做。
 
 本版本要落地：
 
-- 引用 Node v181 dry-run envelope。
-- 引用 Java v65 rollback approver evidence fixture。
-- 引用 mini-kv v74 restore approval boundary fixture。
-- 输出 rehearsal packet。
-- 不写 approval ledger，不执行 release/deployment/rollback/restore。
+- 已引用 Node v181 dry-run envelope。
+- 已引用 Java v65 rollback approver evidence fixture。
+- 已引用 mini-kv v74 restore approval boundary fixture。
+- 已输出 rehearsal packet。
+- 已明确不写 approval ledger，不执行 release/deployment/rollback/restore。
+
+## 下一次计划必须加入的实际优化
+
+下一次另起新 plan 时，除业务版本外，必须安排 Node 实际优化版本，并把质量修复写成可执行任务：
+
+```text
+Node 优化版：拆分 src/services/opsPromotionArchiveBundle.ts
+```
+
+原因：
+
+```text
+该文件当前约 8389 行，已经属于严重技术债。
+```
+
+优化要求：
+
+- 先做低风险纵向拆分，不做大重构。
+- 优先抽出纯类型、fixture/contract 常量、digest/summary helper、markdown render helper。
+- 保持现有公开 endpoint 和测试契约不变。
+- 本优化必须落到代码结构和测试验证，不能只写文档。
+- 如果业务推进和拆分冲突，先做最小可验证拆分，再继续业务版本。
+
+下一次 plan 还必须纳入这些可执行质量优化项：
+
+- 文件膨胀治理：优先拆 `opsPromotionArchiveBundle.ts`；后续 top 大文件超过约 800 行的，按风险分批抽 helper / constants / renderer / fixtures。
+- 命名膨胀治理：新模块和新 endpoint 命名必须更短，避免继续出现 70-90 字符级别的类型名、路径名和文件名。
+- 版本粒度治理：减少一天内连续堆 10+ 个横向 contract/fixture 版本；每个版本必须有独立工程收益，summary 类版本优先合并。
+- 测试覆盖治理：在保持现有 128 个测试文件稳定的前提下，为关键 gate 增加边界测试，例如缺字段、digest mismatch、actions enabled、identity missing。
+- 纵深优先原则：三项目体量已可观，下一阶段优先真实运行、可维护性、持久化/真实 HTTP 调用/端到端演练，不再只横向扩展 contract/fixture。
 
 ## 暂停条件
 

@@ -143,5 +143,8 @@ v176-post-ci-evidence-hardening-roadmap.md
  -> 已完成并收口；由 Node v176 CI evidence hardening packet 衍生，Node v177 CI operator identity evidence packet、推荐并行 Java v63 + mini-kv v72、Node v178 cross-project evidence retention gate、Node v179 production release pre-approval packet 已完成，由 v179-post-pre-approval-roadmap.md 接续
 
 v179-post-pre-approval-roadmap.md
- -> 当前唯一有效全局计划；由 Node v179 production release pre-approval packet 衍生；推荐并行 Java v64 + mini-kv v73 已完成，Node v180 approval decision prerequisite gate 与 Node v181 approval ledger dry-run envelope 已完成；下一步是推荐并行 Java v65 + mini-kv v74，Node 只做只读核对后等待上游证据
+ -> 已完成并收口；由 Node v179 production release pre-approval packet 衍生，推荐并行 Java v64 + mini-kv v73、Node v180、Node v181、推荐并行 Java v65 + mini-kv v74、Node v182 release approval decision rehearsal packet 已完成，由 v182-post-rehearsal-quality-roadmap.md 接续
+
+v182-post-rehearsal-quality-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v182 release approval decision rehearsal packet 衍生；下一步是 Node v183 opsPromotionArchiveBundle split phase 1，先做实际质量优化，再继续三项目纵深运行
 ```

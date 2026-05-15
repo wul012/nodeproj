@@ -314,6 +314,10 @@ import {
   renderApprovalLedgerDryRunEnvelopeMarkdown,
 } from "../services/approvalLedgerDryRunEnvelope.js";
 import {
+  loadReleaseApprovalDecisionRehearsalPacket,
+  renderReleaseApprovalDecisionRehearsalPacketMarkdown,
+} from "../services/releaseApprovalDecisionRehearsalPacket.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1724,6 +1728,21 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderApprovalLedgerDryRunEnvelopeMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/release-approval-decision-rehearsal-packet", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = loadReleaseApprovalDecisionRehearsalPacket(deps.config, request.headers);
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderReleaseApprovalDecisionRehearsalPacketMarkdown(profile);
     }
 
     return profile;
