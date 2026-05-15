@@ -28,6 +28,7 @@ Node v179：production release pre-approval packet
 Java v64：release operator signoff fixture
 mini-kv v73：retained restore artifact digest fixture
 Node v180：approval decision prerequisite gate
+Node v181：approval ledger dry-run envelope
 ```
 
 当前仍不授权生产发布或回滚：
@@ -65,8 +66,8 @@ mini-kv 侧能否给出更稳定的 retained artifact digest evidence？
    Java v64 做 release operator signoff fixture，只读记录 release operator、rollback approver、release window、artifact target，不执行 deployment / rollback / SQL。
    mini-kv v73 做 retained restore artifact digest fixture，只读记录 restore artifact digest、Snapshot/WAL review digest、retention owner，不执行 LOAD / COMPACT / SETNXEX / restore。
 2. Node v180：approval decision prerequisite gate，已完成；等待 Java v64 + mini-kv v73 完成后推进；消费 v179 + 两边新 fixture，判断是否满足“可以进入审批决定 dry-run envelope”的前置条件，但仍不创建 approval decision。
-3. Node v181：approval ledger dry-run envelope，下一步推进；等待 Node v180 完成后再做；只设计 approval ledger 写入前的 dry-run envelope，不写真实 ledger，不发布。
-4. 推荐并行：Java v65 + mini-kv v74。
+3. Node v181：approval ledger dry-run envelope，已完成；等待 Node v180 完成后推进；只设计 approval ledger 写入前的 dry-run envelope，不写真实 ledger，不发布。
+4. 推荐并行：Java v65 + mini-kv v74，下一步推进。
    Java v65 做 rollback approver evidence fixture，补 rollback approver、migration direction、SQL/no-SQL boundary 的只读证据。
    mini-kv v74 做 restore approval boundary fixture，补 restore approver、restore target、order-authority=false 的只读证据。
 5. Node v182：release approval decision rehearsal packet，等待 Node v181、Java v65、mini-kv v74 完成后再做；只生成 rehearsal packet，不创建真实 approval decision。
@@ -77,7 +78,7 @@ mini-kv 侧能否给出更稳定的 retained artifact digest evidence？
 ```text
 Java v64 与 mini-kv v73 推荐并行，因为两者都只补 v179 missing evidence 的只读 fixture，不互相调用。
 Node v180 必须等待 Java v64 + mini-kv v73 + Node v179 完成后再做。
-Node v181 只依赖 Node v180，不依赖新的上游版本。
+Node v181 只依赖 Node v180，不依赖新的上游版本，已完成。
 Java v65 与 mini-kv v74 推荐并行，因为两者都只补 rollback/restore approval boundary fixture。
 Node v182 必须等待 Node v181 + Java v65 + mini-kv v74 完成后再做。
 ```
@@ -142,6 +143,8 @@ Node v182 必须等待 Node v181 + Java v65 + mini-kv v74 完成后再做。
 
 依赖关系：必须等待 Node v180 完成后推进。
 
+完成状态：已完成并由 Node v181 tag 固化。
+
 目标：
 
 ```text
@@ -150,10 +153,10 @@ Node v182 必须等待 Node v181 + Java v65 + mini-kv v74 完成后再做。
 
 本版本要落地：
 
-- 引用 Node v180 prerequisite gate。
-- 设计 approval ledger candidate fields、idempotency key、audit context、rollback boundary。
-- 输出 dry-run JSON/Markdown。
-- 不写真实 ledger，不调用上游，不发布。
+- 已引用 Node v180 prerequisite gate。
+- 已设计 approval ledger candidate fields、idempotency key、audit context、rollback boundary。
+- 已输出 dry-run JSON/Markdown。
+- 已明确不写真实 ledger，不调用上游，不发布。
 
 ## Java v65：rollback approver evidence fixture
 
@@ -219,5 +222,5 @@ Node v182 必须等待 Node v181 + Java v65 + mini-kv v74 完成后再做。
 ## 一句话结论
 
 ```text
-v179 已经把 release pre-approval packet 做成只读审查输入；下一阶段先补真实审批决定前的人工 signoff 和 artifact digest 证据，再让 Node 判断是否可以进入 approval decision rehearsal。
+v179 已经把 release pre-approval packet 做成只读审查输入；Node v181 已完成 approval ledger dry-run envelope；下一步推荐并行 Java v65 + mini-kv v74，补 rollback/restore approval boundary 后再让 Node v182 生成 decision rehearsal packet。
 ```
