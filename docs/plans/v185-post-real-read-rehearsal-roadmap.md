@@ -52,8 +52,8 @@ types
 ## 推荐执行顺序
 
 ```text
-1. Node v186：opsPromotionArchiveBundle type split phase 2，直接推进。
-   从巨型文件中抽出 archive bundle 相关类型到独立 types 模块；不改 endpoint、不改 profileVersion、不改 JSON/Markdown 契约。
+1. Node v186：opsPromotionArchiveBundle type split phase 2，已完成。
+   已从巨型文件中抽出 68 个 archive bundle 相关类型到独立 types 模块；不改 endpoint、不改 profileVersion、不改 JSON/Markdown 契约。
 2. Node v187：opsPromotionArchiveBundle digest payload split phase 3。
    在 v184 边界测试保护下，把 manifest/archive/attestation digest payload helper 从巨型文件拆出；不改 digest 算法。
 3. 推荐并行：Java v67 + mini-kv v76。
@@ -65,7 +65,7 @@ types
 
 ## Node v186：opsPromotionArchiveBundle type split phase 2
 
-依赖关系：可直接推进。
+状态：已完成。
 
 目标：
 
@@ -75,17 +75,25 @@ types
 
 本版本要落地：
 
-- 新增 archive bundle types 模块。
-- `opsPromotionArchiveBundle.ts` 从独立 types 模块导入类型。
+- 已新增 archive bundle types 模块：`src/services/opsPromotionArchiveBundleTypes.ts`。
+- `opsPromotionArchiveBundle.ts` 已从独立 types 模块导入类型，并 re-export 原公开类型。
 - 不改公开 endpoint。
 - 不改 profileVersion。
 - 不改 JSON/Markdown 字段。
 - 不改 digest 算法。
-- 运行 typecheck、目标测试、全量测试、build。
+- 已运行 typecheck、目标测试、全量测试、build，全部通过。
+
+完成证据：
+
+```text
+c/186/图片/ops-promotion-archive-bundle-type-split-phase-2-v186.png
+c/186/解释/ops-promotion-archive-bundle-type-split-phase-2-v186.md
+代码讲解记录_生产雏形阶段/190-ops-promotion-archive-bundle-type-split-phase-2-v186.md
+```
 
 ## Node v187：opsPromotionArchiveBundle digest payload split phase 3
 
-依赖关系：等待 Node v186 完成。
+依赖关系：Node v186 已完成，可作为下一版直接推进。
 
 目标：
 
