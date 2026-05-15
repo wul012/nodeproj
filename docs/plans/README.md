@@ -1,4 +1,4 @@
-# OrderOps Node 计划文档目录
+﻿# OrderOps Node 计划文档目录
 
 本目录统一保存 Node 后续版本计划、跨项目联调计划、阶段路线图和由某个版本衍生出的下一阶段开发安排。
 
@@ -158,5 +158,5 @@ v194-post-real-read-archive-roadmap.md
  -> 已完成并收口；由 Node v194 real-read adapter evidence archive 衍生；Node v195 archive verification、推荐并行 Java v69 + mini-kv v78、Node v196 imported window result packet、Node v197 production readiness checkpoint 已完成，由 v197-post-readiness-checkpoint-roadmap.md 接续
 
 v197-post-readiness-checkpoint-roadmap.md
- -> 当前唯一有效全局计划；由 Node v197 production readiness checkpoint 衍生；下一步是 Node v198 real-read window operator identity binding，然后推荐并行 Java v70 + mini-kv v79，再由 Node v199-v200 处理 audit store handoff contract 和 CI archive artifact manifest
+ -> 当前唯一有效全局计划；由 Node v197 production readiness checkpoint 衍生；Node v198 real-read window operator identity binding 已完成；下一步推荐并行 Java v70 + mini-kv v79，再由 Node v199-v200 处理 audit store handoff contract 和 CI archive artifact manifest
 ```

@@ -1,0 +1,66 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Node v198 real-read window operator identity binding</title>
+  <style>
+    body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; background: #f4f5f7; color: #111; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 32px 28px 40px; }
+    .hero { background: #fff; border: 1px solid #d8dde6; border-radius: 10px; padding: 24px 26px; box-shadow: 0 2px 10px rgba(0,0,0,.05); }
+    h1 { margin: 0 0 12px; font-size: 34px; line-height: 1.2; }
+    .sub { color: #444; margin: 0 0 18px; font-size: 15px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+    .card { background: #fff; border: 1px solid #d8dde6; border-radius: 10px; padding: 16px 18px; }
+    .card h2 { margin: 0 0 10px; font-size: 18px; }
+    .card ul { margin: 0; padding-left: 20px; line-height: 1.7; }
+    .tag { display: inline-block; margin-right: 8px; padding: 4px 10px; background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 999px; font-size: 12px; }
+    pre { white-space: pre-wrap; word-break: break-word; background: #0f172a; color: #e2e8f0; border-radius: 10px; padding: 18px; line-height: 1.5; overflow: auto; }
+    .footer { margin-top: 16px; color: #555; font-size: 13px; }
+    @media (max-width: 960px) { .grid { grid-template-columns: 1fr; } h1 { font-size: 28px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="hero">
+      <span class="tag">Node v198</span>
+      <span class="tag">production-ready gating</span>
+      <h1>real-read window operator identity binding</h1>
+      <p class="sub">请求头身份、verified claim 和 approval correlation id 形成只读 rehearsal binding；生产窗口依然关闭。</p>
+      <div class="grid">
+        <div class="card">
+          <h2>Binding</h2>
+          <ul>
+            <li>operator id</li>
+            <li>roles</li>
+            <li>verified claim</li>
+            <li>approval correlation id</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Hard Gates</h2>
+          <ul>
+            <li>real IdP not connected</li>
+            <li>managed audit store pending</li>
+            <li>CI artifact manifest pending</li>
+            <li>manual approval record pending</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h2>Next Step</h2>
+          <ul>
+            <li>Java v70</li>
+            <li>mini-kv v79</li>
+            <li>Node v199 audit handoff</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:16px;">
+      <h2>Version Note</h2>
+      <pre>v198 keeps production window blocked while proving the rehearsal identity binding shape is complete. It does not unlock production auth.</pre>
+    </div>
+    <div class="footer">orderops-node · c/198/real-read-window-operator-identity-binding-v198.html</div>
+  </div>
+</body>
+</html>

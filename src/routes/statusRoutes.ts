@@ -350,6 +350,10 @@ import {
   renderRealReadAdapterProductionReadinessCheckpointMarkdown,
 } from "../services/realReadAdapterProductionReadinessCheckpoint.js";
 import {
+  loadRealReadWindowOperatorIdentityBinding,
+  renderRealReadWindowOperatorIdentityBindingMarkdown,
+} from "../services/realReadWindowOperatorIdentityBinding.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1679,6 +1683,26 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }),
     renderRealReadAdapterProductionReadinessCheckpointMarkdown,
   );
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/real-read-window-operator-identity-binding", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadRealReadWindowOperatorIdentityBinding({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+      headers: request.headers,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderRealReadWindowOperatorIdentityBindingMarkdown(profile);
+    }
+
+    return profile;
+  });
 
   registerJsonMarkdownReportRoute(
     app,

@@ -1,4 +1,4 @@
-# Node v197 衍生全局计划：真实只读窗口硬门槛落地
+﻿# Node v197 衍生全局计划：真实只读窗口硬门槛落地
 
 来源版本：Node v197 `real-read adapter production readiness checkpoint`。
 
@@ -23,14 +23,24 @@ mini-kv = 自研 KV 基础设施实验位
 ## 推荐执行顺序
 
 ```text
-1. Node v198：real-read window operator identity binding。
+1. Node v198：real-read window operator identity binding。已完成。
    把 v197 的 real-operator-identity hard gate 拆成可验证 profile：要求真实只读窗口请求必须带 verified operator identity、roles、approval correlation id；默认仍不接生产 IdP，不打开上游写操作。
-2. 推荐并行：Java v70 + mini-kv v79。
+2. 推荐并行：Java v70 + mini-kv v79。下一步。
    Java v70 补 release approval rehearsal 的 operator identity echo / schema hint，mini-kv v79 补 SMOKEJSON operator-window consumer field 或 identity-neutral runtime proof。两者都只读，不认证、不持久化、不执行写操作。
 3. Node v199：real-read window audit store handoff contract。
    定义 managed audit store 写入窗口 open/import/checkpoint 记录的 contract 和 fake adapter 测试；不连接真实数据库，不写生产审计。
 4. Node v200：real-read window CI archive artifact manifest。
    生成 CI artifact manifest schema，列出 v191-v199 JSON/Markdown/screenshot/digest 产物；不要求真实 GitHub artifact 立即存在，但要给后续 CI 落地明确路径。
+```
+
+## Node v198 收口记录
+
+```text
+完成内容：real-read window operator identity binding
+新增入口：/api/v1/production/real-read-window-operator-identity-binding
+核心边界：请求头必须带 operator id、roles、verified claim、approval correlation id
+安全结论：binding ready 只代表 rehearsal 绑定形状完整；真实生产窗口仍因 real IdP 和 persisted manual approval record 缺失而 blocked
+验证：typecheck、聚焦测试、全量 test、build
 ```
 
 ## 推荐并行：Java v70 + mini-kv v79
@@ -60,5 +70,5 @@ mini-kv v79 目标：
 ## 一句话结论
 
 ```text
-下一阶段从“证据链齐全”转向“生产窗口硬门槛落地”：先做 Node v198 operator identity binding，再并行补 Java v70 + mini-kv v79 的只读身份/消费者提示，随后 Node 继续 audit store 和 CI artifact manifest。
+下一阶段从“证据链齐全”转向“生产窗口硬门槛落地”：Node v198 operator identity binding 已完成；下一步先推荐并行补 Java v70 + mini-kv v79 的只读身份/消费者提示，随后 Node 继续 audit store 和 CI artifact manifest。
 ```
