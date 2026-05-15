@@ -2,7 +2,7 @@
 
 来源版本：Node v182 `release approval decision rehearsal packet`。
 
-计划状态：当前计划在 v182 完成后接棒；上一份 `docs/plans/v179-post-pre-approval-roadmap.md` 覆盖 Node v180-v182、Java v64-v65、mini-kv v73-v74，完成后收口，不继续追加重合版本。
+计划状态：当前计划在 v182 完成后接棒；上一份 `docs/plans/v179-post-pre-approval-roadmap.md` 覆盖 Node v180-v182、Java v64-v65、mini-kv v73-v74，完成后收口，不继续追加重合版本。Node v183 已完成第一步实际优化，后续继续按本计划推进 v184。
 
 ## 阶段原则
 
@@ -34,8 +34,8 @@ Node 当前质量大约是 B+：
 ## 推荐执行顺序
 
 ```text
-1. Node v183：opsPromotionArchiveBundle split phase 1，直接推进。
-   只做低风险实际拆分：先抽类型、常量、digest/summary helper 或 markdown renderer 中最稳的一块；保持 endpoint、返回字段、测试契约不变。
+1. Node v183：opsPromotionArchiveBundle split phase 1，已完成。
+   已抽出 `src/services/stableDigest.ts`，把稳定 JSON 序列化和 sha256 digest 从 `opsPromotionArchiveBundle.ts` 移出；endpoint、返回字段、测试契约不变。
 2. Node v184：opsPromotionArchiveBundle boundary tests。
    给拆分后的 archive bundle 增加边界测试：缺字段、digest mismatch、actions enabled、identity missing，避免重构只看 typecheck。
 3. 推荐并行：Java v66 + mini-kv v75。
@@ -49,6 +49,8 @@ Node 当前质量大约是 B+：
 
 依赖关系：可直接推进。
 
+完成状态：已完成。
+
 目标：
 
 ```text
@@ -61,8 +63,9 @@ Node 当前质量大约是 B+：
 - 不改 profileVersion。
 - 不改 JSON/Markdown 字段语义。
 - 不改测试预期行为。
-- 优先抽出纯类型、frozen constants、digest helper、summary helper 或 markdown renderer 中最稳的一块。
-- 运行 typecheck、目标测试、全量测试和 build。
+- 已抽出 `digestStable()` / `stableJson()` 到 `src/services/stableDigest.ts`。
+- 已新增 `test/stableDigest.test.ts` 锁住排序序列化和 `undefined -> null` 的既有 archive digest 语义。
+- 已运行 typecheck、目标测试、全量测试和 build。
 
 ## Node v184：opsPromotionArchiveBundle boundary tests
 

@@ -1,8 +1,7 @@
-import { createHash } from "node:crypto";
-
 import type { OpsPromotionDecisionLedgerIntegrity } from "./opsPromotionDecision.js";
 import type { OpsPromotionEvidenceReport } from "./opsPromotionEvidenceReport.js";
 import type { OpsPromotionDecision } from "./opsPromotionReview.js";
+import { digestStable, stableJson } from "./stableDigest.js";
 
 export type OpsPromotionArchiveState = "empty" | "ready" | "attention-required";
 export type OpsPromotionArchiveArtifactType = "archive-summary" | "latest-evidence" | "ledger-integrity";
@@ -8752,28 +8751,4 @@ function renderReleaseAuditTrailItems(items: OpsPromotionReleaseAuditTrailRecord
     `- Detail: ${item.detail}`,
     "",
   ]);
-}
-
-function digestStable(value: unknown): string {
-  return createHash("sha256").update(stableJson(value)).digest("hex");
-}
-
-function stableJson(value: unknown): string {
-  if (value === undefined) {
-    return "null";
-  }
-
-  if (Array.isArray(value)) {
-    return `[${value.map(stableJson).join(",")}]`;
-  }
-
-  if (value !== null && typeof value === "object") {
-    const record = value as Record<string, unknown>;
-    return `{${Object.keys(record)
-      .sort()
-      .map((key) => `${JSON.stringify(key)}:${stableJson(record[key])}`)
-      .join(",")}}`;
-  }
-
-  return JSON.stringify(value);
 }
