@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v194 real-read adapter evidence archive</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #111827;
+      background: #f6f8fb;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 42px;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 0 0 24px;
+      color: #4b5563;
+      font-size: 17px;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .metric,
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dbe4ef;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .label {
+      color: #64748b;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .ok {
+      color: #047857;
+    }
+
+    .blue {
+      color: #2563eb;
+    }
+
+    .warn {
+      color: #b45309;
+    }
+
+    .panels {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    h2 {
+      margin: 0 0 12px;
+      font-size: 19px;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 22px;
+    }
+
+    li {
+      margin: 8px 0;
+      line-height: 1.42;
+    }
+
+    code {
+      font-family: Consolas, "SFMono-Regular", monospace;
+      background: #eef2f7;
+      border-radius: 5px;
+      padding: 2px 5px;
+    }
+
+    .footer {
+      margin-top: 18px;
+      color: #475569;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v194：real-read adapter evidence archive</h1>
+    <p class="subtitle">v194 把 v191 adapter、v192 operator window、v193 taxonomy 固化成一个可验证的 archive bundle。</p>
+
+    <section class="metrics">
+      <div class="metric">
+        <div class="label">archiveState</div>
+        <div class="value ok">closed-window-evidence-archived</div>
+      </div>
+      <div class="metric">
+        <div class="label">adapter records</div>
+        <div class="value">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">classifications</div>
+        <div class="value blue">5</div>
+      </div>
+      <div class="metric">
+        <div class="label">production blockers</div>
+        <div class="value ok">0</div>
+      </div>
+    </section>
+
+    <section class="panels">
+      <div class="panel">
+        <h2>Archive Digest Chain</h2>
+        <ul>
+          <li>v191：<code>adapterDigest</code></li>
+          <li>v192：<code>operatorWindowRunbookDigest</code></li>
+          <li>v193：<code>taxonomyDigest</code></li>
+          <li>v194：<code>archiveDigest</code></li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>归档边界</h2>
+        <ul>
+          <li><code>archivedAsProductionPassEvidence=false</code></li>
+          <li><code>readyForProductionOperations=false</code></li>
+          <li>closed-window baseline 不提升为 pass evidence。</li>
+          <li class="warn">仍然不启动上游、不写上游、不授权生产操作。</li>
+        </ul>
+      </div>
+    </section>
+
+    <p class="footer">
+      Endpoint: <code>/api/v1/production/real-read-adapter-evidence-archive</code>。
+      下一步：新计划 <code>v194-post-real-read-archive-roadmap.md</code>，Node v195 archive verification。
+    </p>
+  </main>
+</body>
+</html>

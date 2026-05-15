@@ -2,7 +2,7 @@
 
 来源版本：Node v191 `real HTTP/TCP read adapter rehearsal`。
 
-计划状态：当前唯一有效全局计划。`docs/plans/v185-post-real-read-rehearsal-roadmap.md` 已覆盖并收口 Node v186-v191、Java v67、mini-kv v76；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。`docs/plans/v185-post-real-read-rehearsal-roadmap.md` 已覆盖并收口 Node v186-v191、Java v67、mini-kv v76；本文件已覆盖 Node v192-v194、Java v68、mini-kv v77。后续由 `docs/plans/v194-post-real-read-archive-roadmap.md` 接续，不再向本文件追加重合版本。
 
 ## 阶段原则
 
@@ -29,7 +29,7 @@ mini-kv = 自研 KV 基础设施实验位
    Java v68 补 release approval rehearsal 的只读失败分类字段，例如 upstream readiness / auth-context warning / audit-correlation warning；mini-kv v77 补 SMOKEJSON / runtime-smoke evidence 的失败分类说明。两者都不新增写操作。
 3. Node v193：real-read adapter failure taxonomy。（已完成）
    消费 v191/v192 和 Java v68 + mini-kv v77 的证据，给真实读取失败做分类：closed-window、connection-refused、timeout、invalid-json、unsafe-surface、unexpected-write-signal。
-4. Node v194：real-read adapter evidence archive。
+4. Node v194：real-read adapter evidence archive。（已完成）
    把 v191/v193 的结果固化成可归档 bundle，包含 adapter digest、records、operator window、failure taxonomy；仍不授权生产操作。
 ```
 
@@ -111,6 +111,29 @@ c/193/解释/real-read-adapter-failure-taxonomy-v193.md
 归档真实只读 adapter rehearsal 的运行窗口、结果、失败分类和 digest，形成后续生产 pass evidence 的基础材料。
 ```
 
+完成内容：
+
+- 已新增 `GET /api/v1/production/real-read-adapter-evidence-archive`。
+- 已新增 Markdown 输出 `GET /api/v1/production/real-read-adapter-evidence-archive?format=markdown`。
+- 已固化 v191 adapter digest、v192 operator window digest、v193 taxonomy digest。
+- 已把默认关闭窗口归档为 `closed-window-evidence-archived`，且不提升为 production pass evidence。
+- 已覆盖 open-window failure taxonomy 的 archive 场景。
+- 已确保 `archivedAsProductionPassEvidence=false`、`readyForProductionOperations=false`。
+
+v194 归档：
+
+```text
+c/194/图片/real-read-adapter-evidence-archive-v194.png
+c/194/解释/real-read-adapter-evidence-archive-v194.md
+代码讲解记录_生产雏形阶段/198-real-read-adapter-evidence-archive-v194.md
+```
+
+下一阶段：
+
+```text
+docs/plans/v194-post-real-read-archive-roadmap.md
+```
+
 ## 暂停条件
 
 - 需要生产密钥、生产数据库、生产 IdP。
@@ -123,5 +146,5 @@ c/193/解释/real-read-adapter-failure-taxonomy-v193.md
 ## 一句话结论
 
 ```text
-v191 后不要继续只加 summary；先把真实只读窗口的人工流程、失败分类和归档证据做实，再考虑更深的生产化能力。
+v191-v194 已完成真实只读窗口的人工流程、失败分类和归档证据。下一阶段另起计划，不在本文件继续追加重合版本。
 ```
