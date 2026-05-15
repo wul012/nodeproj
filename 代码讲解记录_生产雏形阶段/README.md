@@ -215,6 +215,9 @@ file audit restart evidence 与后续 managed audit store
 
 183-production-release-pre-approval-packet-v179.md
  -> 第一百七十九版 Production release pre-approval packet：消费 Node v178 retention gate，生成发布前人工预审批审查 packet，明确 missing evidence 会阻断 approval decision、release、rollback 和 restore
+
+184-approval-decision-prerequisite-gate-v180.md
+ -> 第一百八十版 Approval decision prerequisite gate：消费 Node v179、Java v64、mini-kv v73，确认可进入 approval ledger dry-run envelope，但仍不创建真实 approval decision
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。
@@ -241,6 +244,8 @@ release / deployment / rollback / restore 全部保持阻断
 ```
 
 下一阶段按 `docs/plans/v179-post-pre-approval-roadmap.md` 继续，先推荐并行补 Java v64 + mini-kv v73，再由 Node v180 消费两侧证据。
+
+截至 v180，Java v64 + mini-kv v73 已完成并被 Node 消费，当前下一步是 Node v181：approval ledger dry-run envelope。
 
 ## 一句话总览
 
