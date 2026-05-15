@@ -2,7 +2,7 @@
 
 来源版本：Node v182 `release approval decision rehearsal packet`。
 
-计划状态：当前计划在 v182 完成后接棒；上一份 `docs/plans/v179-post-pre-approval-roadmap.md` 覆盖 Node v180-v182、Java v64-v65、mini-kv v73-v74，完成后收口，不继续追加重合版本。Node v183 已完成第一步实际优化，后续继续按本计划推进 v184。
+计划状态：当前计划在 v182 完成后接棒；上一份 `docs/plans/v179-post-pre-approval-roadmap.md` 覆盖 Node v180-v182、Java v64-v65、mini-kv v73-v74，完成后收口，不继续追加重合版本。Node v183-v184 已完成第一轮实际优化与边界测试，后续按本计划进入推荐并行 Java v66 + mini-kv v75。
 
 ## 阶段原则
 
@@ -36,8 +36,8 @@ Node 当前质量大约是 B+：
 ```text
 1. Node v183：opsPromotionArchiveBundle split phase 1，已完成。
    已抽出 `src/services/stableDigest.ts`，把稳定 JSON 序列化和 sha256 digest 从 `opsPromotionArchiveBundle.ts` 移出；endpoint、返回字段、测试契约不变。
-2. Node v184：opsPromotionArchiveBundle boundary tests。
-   给拆分后的 archive bundle 增加边界测试：缺字段、digest mismatch、actions enabled、identity missing，避免重构只看 typecheck。
+2. Node v184：opsPromotionArchiveBundle boundary tests，已完成。
+   已给拆分后的 archive bundle 增加真实边界测试：manifest digest corruption、artifact digest mismatch、missing artifact、summary/nextActions drift。该模块本身不负责 actions enabled / identity missing，所以不做伪测试。
 3. 推荐并行：Java v66 + mini-kv v75。
    Java v66 只做真实运行纵深准备，例如 release approval rehearsal 的只读 endpoint 聚合，不执行审批/回滚/SQL。
    mini-kv v75 只做真实运行纵深准备，例如 restore approval boundary 的只读 smoke manifest，不执行 LOAD/COMPACT/SETNXEX。
@@ -71,6 +71,8 @@ Node 当前质量大约是 B+：
 
 依赖关系：等待 Node v183 完成。
 
+完成状态：已完成。
+
 目标：
 
 ```text
@@ -79,10 +81,11 @@ Node 当前质量大约是 B+：
 
 本版本要落地：
 
-- 增加缺字段测试。
-- 增加 digest mismatch 测试。
-- 增加 actions enabled 阻断测试。
-- 增加 identity missing 或等价安全上下文测试。
+- 已增加缺 artifact 测试。
+- 已增加 manifest digest corruption 测试。
+- 已增加 artifact digest mismatch 测试。
+- 已增加 summary / nextActions drift 测试。
+- 说明：`opsPromotionArchiveBundle` 是纯 archive/verification 模块，不负责 actions enabled 或 identity missing；这两类边界由 access/production gate 类模块覆盖，v184 不把它们硬塞进 archive bundle。
 - 不新增业务 surface。
 
 ## 推荐并行：Java v66 + mini-kv v75
