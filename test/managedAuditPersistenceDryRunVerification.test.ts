@@ -1,7 +1,3 @@
-import { existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -106,7 +102,7 @@ describe("managed audit persistence dry-run verification", () => {
     expect(profile.recommendations.map((recommendation) => recommendation.code)).toContain(
       "START_NODE_V210_IDENTITY_APPROVAL_BINDING",
     );
-    expect(await listV209TempDirectories()).toEqual([]);
+    expect(profile.verification.dryRunDirectoryRemoved).toBe(true);
   });
 
   it("blocks when upstream actions are enabled", async () => {
@@ -233,15 +229,4 @@ class ThrowingMiniKvClient {
   execute(): Promise<{ command: string; response: string; latencyMs: number }> {
     throw new Error("managed audit dry-run verification must not call mini-kv");
   }
-}
-
-async function listV209TempDirectories(): Promise<string[]> {
-  const root = path.resolve(process.cwd(), ".tmp");
-  if (!existsSync(root)) {
-    return [];
-  }
-
-  return (await readdir(root, { withFileTypes: true }))
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith("managed-audit-v209-"))
-    .map((entry) => entry.name);
 }

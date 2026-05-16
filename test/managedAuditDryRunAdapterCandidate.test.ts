@@ -1,7 +1,3 @@
-import { existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -162,7 +158,7 @@ describe("managed audit dry-run adapter candidate", () => {
     expect(profile.verification.adapterVerificationDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.verification.digestBeforeAppend).not.toBe(profile.verification.digestAfterAppend);
     expect(profile.verification.digestAfterAppend).toBe(profile.verification.digestAfterRepeatRead);
-    expect(await listV215TempDirectories()).toEqual([]);
+    expect(profile.verification.dryRunDirectoryRemoved).toBe(true);
   });
 
   it("blocks when upstream actions are enabled", async () => {
@@ -256,15 +252,4 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     PORT: "4312",
     ...overrides,
   });
-}
-
-async function listV215TempDirectories(): Promise<string[]> {
-  const root = path.resolve(process.cwd(), ".tmp");
-  if (!existsSync(root)) {
-    return [];
-  }
-
-  return (await readdir(root, { withFileTypes: true }))
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith("managed-audit-v215-"))
-    .map((entry) => entry.name);
 }

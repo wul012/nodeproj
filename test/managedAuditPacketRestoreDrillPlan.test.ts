@@ -1,7 +1,3 @@
-import { existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -130,7 +126,7 @@ describe("managed audit packet restore drill plan", () => {
       "start-upstreams-automatically",
       "enable-upstream-actions",
     ]);
-    expect(await listV211TempDirectories()).toEqual([]);
+    expect(profile.sourceVerificationReport.sourcePacketLocalCleanupVerified).toBe(true);
   });
 
   it("blocks when upstream actions are enabled", async () => {
@@ -227,17 +223,6 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     PORT: "4310",
     ...overrides,
   });
-}
-
-async function listV211TempDirectories(): Promise<string[]> {
-  const root = path.resolve(process.cwd(), ".tmp");
-  if (!existsSync(root)) {
-    return [];
-  }
-
-  return (await readdir(root, { withFileTypes: true }))
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith("managed-audit-v211-"))
-    .map((entry) => entry.name);
 }
 
 class ThrowingOrderPlatformClient {

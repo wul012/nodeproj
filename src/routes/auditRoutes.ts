@@ -72,6 +72,10 @@ import {
   loadManagedAuditDryRunAdapterCandidate,
   renderManagedAuditDryRunAdapterCandidateMarkdown,
 } from "../services/managedAuditDryRunAdapterCandidate.js";
+import {
+  loadManagedAuditDryRunAdapterArchiveVerification,
+  renderManagedAuditDryRunAdapterArchiveVerificationMarkdown,
+} from "../services/managedAuditDryRunAdapterArchiveVerification.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -478,6 +482,29 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditDryRunAdapterCandidateMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-dry-run-adapter-archive-verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = loadManagedAuditDryRunAdapterArchiveVerification({
+      config: deps.config,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditDryRunAdapterArchiveVerificationMarkdown(profile);
     }
 
     return profile;

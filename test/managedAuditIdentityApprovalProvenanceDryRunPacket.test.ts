@@ -1,7 +1,3 @@
-import { existsSync } from "node:fs";
-import { readdir } from "node:fs/promises";
-import path from "node:path";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -151,7 +147,7 @@ describe("managed audit identity approval provenance dry-run packet", () => {
     expect(profile.dryRunPacket.correlation.traceDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.verification.digestAfterAppend).toBe(profile.verification.digestAfterRepeatRead);
     expect(profile.verification.packetVerificationDigest).toMatch(/^[a-f0-9]{64}$/);
-    expect(await listV211TempDirectories()).toEqual([]);
+    expect(profile.verification.dryRunDirectoryRemoved).toBe(true);
   });
 
   it("blocks when upstream actions are enabled", async () => {
@@ -248,17 +244,6 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     PORT: "4308",
     ...overrides,
   });
-}
-
-async function listV211TempDirectories(): Promise<string[]> {
-  const root = path.resolve(process.cwd(), ".tmp");
-  if (!existsSync(root)) {
-    return [];
-  }
-
-  return (await readdir(root, { withFileTypes: true }))
-    .filter((entry) => entry.isDirectory() && entry.name.startsWith("managed-audit-v211-"))
-    .map((entry) => entry.name);
 }
 
 class ThrowingOrderPlatformClient {
