@@ -161,5 +161,5 @@ v197-post-readiness-checkpoint-roadmap.md
  -> 已完成并收口；由 Node v197 production readiness checkpoint 衍生；Node v198 real-read window operator identity binding、推荐并行 Java v70 + mini-kv v79、Node v199 real-read window audit store handoff contract、Node v200 CI archive artifact manifest 已完成；由 v200-post-ci-artifact-manifest-roadmap.md 接续
 
 v200-post-ci-artifact-manifest-roadmap.md
- -> 当前唯一有效全局计划；由 Node v200 real-read window CI archive artifact manifest 衍生；下一步是推荐并行 Java v71 + mini-kv v80，再由 Node v201 做 real-read window CI artifact manifest verification
+ -> 当前唯一有效全局计划；由 Node v200 real-read window CI archive artifact manifest 衍生；推荐并行 Java v71 + mini-kv v80、Node v201 real-read window CI artifact manifest verification 已完成；下一步是 Node v202 CI artifact upload dry-run contract
 ```

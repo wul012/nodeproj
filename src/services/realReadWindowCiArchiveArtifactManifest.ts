@@ -58,6 +58,7 @@ export interface RealReadWindowCiArchiveArtifactManifestProfile {
   manifest: {
     manifestDigest: string;
     evidenceSpan: "Node v191-v199 + Java v70 + mini-kv v79";
+    sourceDigests: string[];
     artifactRecordCount: 9;
     requiredFileKindCount: 4;
     ciArtifactConnected: false;
@@ -107,6 +108,18 @@ export interface RealReadWindowCiArchiveArtifactManifestProfile {
     realReadWindowAuditStoreHandoffContractJson: string;
   };
   nextActions: string[];
+}
+
+export interface RealReadWindowCiArchiveArtifactManifestDigestPayload {
+  profileVersion: "real-read-window-ci-archive-artifact-manifest.v1";
+  manifestState: RealReadWindowCiArchiveArtifactManifestProfile["manifestState"];
+  evidenceSpan: RealReadWindowCiArchiveArtifactManifestProfile["manifest"]["evidenceSpan"];
+  sourceDigests: string[];
+  artifactRecordDigests: string[];
+  fileKindRequirements: RealReadWindowCiArchiveArtifactManifestProfile["fileKindRequirements"];
+  ciArtifactConnected: false;
+  productionWindowAllowed: false;
+  checks: RealReadWindowCiArchiveArtifactManifestProfile["checks"];
 }
 
 interface CiArtifactRecord {
@@ -181,17 +194,14 @@ export async function loadRealReadWindowCiArchiveArtifactManifest(input: {
   const manifestState = checks.readyForRealReadWindowCiArchiveArtifactManifest
     ? "ready-for-ci-artifact-publication"
     : "blocked";
-  const manifestDigest = sha256StableJson({
-    profileVersion: "real-read-window-ci-archive-artifact-manifest.v1",
+  const sourceDigestList = sourceDigests(checkpoint, identityBinding, auditHandoff);
+  const manifestDigest = sha256StableJson(createRealReadWindowCiArchiveArtifactManifestDigestPayload({
     manifestState,
-    evidenceSpan: "Node v191-v199 + Java v70 + mini-kv v79",
-    sourceDigests: sourceDigests(checkpoint, identityBinding, auditHandoff),
+    sourceDigests: sourceDigestList,
     artifactRecordDigests: artifactRecords.map((record) => record.recordDigest),
     fileKindRequirements,
-    ciArtifactConnected: false,
-    productionWindowAllowed: false,
     checks,
-  });
+  }));
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(manifestState);
   const recommendations = collectRecommendations();
@@ -230,6 +240,7 @@ export async function loadRealReadWindowCiArchiveArtifactManifest(input: {
     manifest: {
       manifestDigest,
       evidenceSpan: "Node v191-v199 + Java v70 + mini-kv v79",
+      sourceDigests: sourceDigestList,
       artifactRecordCount: 9,
       requiredFileKindCount: 4,
       ciArtifactConnected: false,
@@ -259,6 +270,26 @@ export async function loadRealReadWindowCiArchiveArtifactManifest(input: {
       "Use the manifest digest to pin Node v191-v199 evidence before opening any real-read window.",
       "Start the next plan with recommended parallel Java v71 + mini-kv v80 only if they provide read-only CI/evidence hints.",
     ],
+  };
+}
+
+export function createRealReadWindowCiArchiveArtifactManifestDigestPayload(input: {
+  manifestState: RealReadWindowCiArchiveArtifactManifestProfile["manifestState"];
+  sourceDigests: string[];
+  artifactRecordDigests: string[];
+  fileKindRequirements: RealReadWindowCiArchiveArtifactManifestProfile["fileKindRequirements"];
+  checks: RealReadWindowCiArchiveArtifactManifestProfile["checks"];
+}): RealReadWindowCiArchiveArtifactManifestDigestPayload {
+  return {
+    profileVersion: "real-read-window-ci-archive-artifact-manifest.v1",
+    manifestState: input.manifestState,
+    evidenceSpan: "Node v191-v199 + Java v70 + mini-kv v79",
+    sourceDigests: [...input.sourceDigests],
+    artifactRecordDigests: [...input.artifactRecordDigests],
+    fileKindRequirements: [...input.fileKindRequirements],
+    ciArtifactConnected: false,
+    productionWindowAllowed: false,
+    checks: input.checks,
   };
 }
 

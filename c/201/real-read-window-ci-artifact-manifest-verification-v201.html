@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v201 real-read window CI artifact manifest verification</title>
+    <style>
+      :root {
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: #f7f9fc;
+        color: #172033;
+      }
+      body {
+        margin: 0;
+        padding: 36px;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .lead {
+        margin: 0 0 28px;
+        max-width: 920px;
+        color: #526174;
+        line-height: 1.6;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #dbe4ef;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      .metric {
+        font-size: 32px;
+        font-weight: 750;
+        margin-bottom: 4px;
+      }
+      .label {
+        color: #607084;
+        font-size: 14px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .status {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        background: #e8f6ef;
+        color: #236344;
+      }
+      .blocked {
+        background: #fff1df;
+        color: #89510d;
+      }
+      .hints {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+      code {
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 13px;
+        color: #303f52;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v201：CI Artifact Manifest Verification</h1>
+      <p class="lead">
+        v201 复算 v200 manifest digest，并只读引用 Java v71 与 mini-kv v80 的 CI evidence hint。它验证清单，不上传 artifact，
+        不读取 secret，也不打开真实只读生产窗口。
+      </p>
+      <div class="grid">
+        <section>
+          <div class="metric">19/19</div>
+          <div class="label">verification checks passed</div>
+        </section>
+        <section>
+          <div class="metric">9</div>
+          <div class="label">Node v191-v199 artifact records</div>
+        </section>
+        <section>
+          <div class="metric">2</div>
+          <div class="label">upstream hints accepted</div>
+        </section>
+        <section class="wide">
+          <h2>Verification State</h2>
+          <p><span class="status">verified-manifest-ci-upload-blocked</span></p>
+          <p><span class="status blocked">CI_ARTIFACT_STORE_NOT_CONNECTED</span></p>
+          <ul>
+            <li><code>storedManifestDigest == recomputedManifestDigest</code></li>
+            <li><code>readyForCiArtifactUpload=false</code></li>
+            <li><code>githubArtifactUploadAttempted=false</code></li>
+            <li><code>readyForProductionWindow=false</code></li>
+          </ul>
+        </section>
+        <section class="wide">
+          <h2>Upstream Hints</h2>
+          <div class="hints">
+            <section>
+              <h2>Java v71</h2>
+              <ul>
+                <li><code>noLedgerWriteProved=true</code></li>
+                <li><code>ciArtifactUploadedByJava=false</code></li>
+                <li><code>nodeMayTreatAsCiArtifactPublication=false</code></li>
+              </ul>
+            </section>
+            <section>
+              <h2>mini-kv v80</h2>
+              <ul>
+                <li><code>artifactPathHint=c/80/</code></li>
+                <li><code>identityNeutralProof=true</code></li>
+                <li><code>noRestoreProof=true</code></li>
+              </ul>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
