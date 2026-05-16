@@ -2,7 +2,7 @@
 
 来源版本：Node v217 `managed audit adapter production-hardening readiness gate`。
 
-计划状态：当前唯一有效全局计划。v217 已消费 Node v216、Java v78、mini-kv v87，确认真实 managed audit adapter 前的硬门槛已经能被 Node 只读汇总；但它仍然没有连接真实 managed audit，也没有打开生产窗口。下一阶段先做质量收口和上游只读回执，再进入真实 adapter wiring 的小步准备。
+计划状态：已完成并收口。v217 已消费 Node v216、Java v78、mini-kv v87，确认真实 managed audit adapter 前的硬门槛已经能被 Node 只读汇总；Node v218 已完成质量收口；Java v79 + mini-kv v88 已推荐并行完成质量回执；Node v219 已完成 implementation precheck packet。下一阶段由 `v219-post-implementation-precheck-roadmap.md` 接续。
 
 ## 阶段原则
 
@@ -34,7 +34,7 @@ restoreExecutionAllowed=false
    - Java v79：OpsEvidenceService quality split receipt。只读说明 release approval evidence 的 receipt / digest / hint / render / record 职责拆分计划或首轮安全拆分结果，继续不创建 approval decision、不写 ledger、不执行 SQL。
    - mini-kv v88：command dispatch quality receipt。只读说明 command.cpp 可按命令族或 handler table 拆分，若实际拆分则必须保持 INFOJSON/SMOKEJSON/HEALTH/readonly fixture 行为不变，不执行 restore/write/admin 命令。
 
-3. Node v219：managed audit adapter implementation precheck packet。
+3. Node v219：已完成 managed audit adapter implementation precheck packet。
    消费 Node v218、Java v79、mini-kv v88，输出真实 adapter wiring 前的最小 precheck：配置开关、owner approval、schema migration、retention/recovery、failure taxonomy、rollback disable path。仍不连接真实 managed audit，只给后续 v220+ 的小步 implementation 做闸门。
 ```
 
@@ -43,7 +43,7 @@ restoreExecutionAllowed=false
 ```text
 Node v218 已把 auditRoutes helper 和 managedAudit* helper 收口放在同一版，因为它们同属 Node 路由/报告重复结构治理，且不依赖上游。
 Java v79 + mini-kv v88 推荐并行推进，因为二者都只是质量/只读回执，不互相依赖，也不会阻塞对方。
-Node v219 必须等 Java v79 + mini-kv v88 完成后再消费；若两边未完成，应记录缺口并停止。
+Node v219 已等 Java v79 + mini-kv v88 完成后消费；下一阶段不在本文件继续追加重合版本。
 ```
 
 ## 质量优化插队项
@@ -61,6 +61,11 @@ Java v79 推荐：
 mini-kv v88 推荐：
 - command.cpp 按命令族或 handler table 拆分 dispatch，优先不碰 WAL/snapshot/restore 核心。
 - 保持 INFOJSON / SMOKEJSON / HEALTH / readonly fixture 输出兼容。
+
+Node v219 已完成：
+- 消费 Node v218 / Java v79 / mini-kv v88，生成 implementation precheck packet。
+- 明确 `realAdapterWiringAllowed=false`、`connectsManagedAudit=false`、`readyForProductionAudit=false`。
+- 新增 post-v219 计划，把真实 adapter 实现拆成 disabled shell、并行 guard receipt、本地 dry-run candidate 三步。
 ```
 
 ## 暂停条件
@@ -76,5 +81,5 @@ mini-kv v88 推荐：
 ## 一句话结论
 
 ```text
-v217 已经把真实 managed audit adapter 前的硬门槛汇总成只读 gate；下一阶段不要急着接真 adapter，先把 Node 重复结构收口，再让 Java/mini-kv 并行补质量回执，最后 Node 做 implementation precheck。
+v217-v219 已完成真实 managed audit adapter 前的 readiness gate、质量收口、上游质量回执消费和 implementation precheck；下一阶段从 disabled adapter shell 开始，不直接连接真实审计。
 ```

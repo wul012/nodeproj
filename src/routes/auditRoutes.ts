@@ -84,6 +84,10 @@ import {
   loadManagedAuditRouteHelperQualityPass,
   renderManagedAuditRouteHelperQualityPassMarkdown,
 } from "../services/managedAuditRouteHelperQualityPass.js";
+import {
+  loadManagedAuditAdapterImplementationPrecheckPacket,
+  renderManagedAuditAdapterImplementationPrecheckPacketMarkdown,
+} from "../services/managedAuditAdapterImplementationPrecheckPacket.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -384,6 +388,10 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-route-helper-quality-pass", () => loadManagedAuditRouteHelperQualityPass({
     config: deps.config,
   }), renderManagedAuditRouteHelperQualityPassMarkdown);
+
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-adapter-implementation-precheck-packet", () => loadManagedAuditAdapterImplementationPrecheckPacket({
+    config: deps.config,
+  }), renderManagedAuditAdapterImplementationPrecheckPacketMarkdown);
 
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-compliance", () => createManagedAuditAdapterComplianceProfile(deps.config), renderManagedAuditAdapterComplianceMarkdown);
 
