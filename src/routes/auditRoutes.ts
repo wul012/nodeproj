@@ -1,6 +1,8 @@
 import type { FastifyInstance } from "fastify";
 
 import type { AppConfig } from "../config.js";
+import type { MiniKvClient } from "../clients/miniKvClient.js";
+import type { OrderPlatformClient } from "../clients/orderPlatformClient.js";
 import { AuditLog } from "../services/auditLog.js";
 import {
   createAuditStoreRuntimeProfile,
@@ -38,21 +40,18 @@ import {
   createManagedAuditAdapterRunnerProfile,
   renderManagedAuditAdapterRunnerMarkdown,
 } from "../services/managedAuditAdapterRunner.js";
+import {
+  loadManagedAuditPersistenceBoundaryCandidate,
+  renderManagedAuditPersistenceBoundaryCandidateMarkdown,
+} from "../services/managedAuditPersistenceBoundaryCandidate.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
   auditLog: AuditLog;
   auditStoreRuntime: AuditStoreRuntimeDescription;
-  config: Pick<AppConfig,
-    | "auditStoreKind"
-    | "auditStorePath"
-    | "auditStoreUrl"
-    | "auditRetentionDays"
-    | "auditMaxFileBytes"
-    | "auditRotationEnabled"
-    | "auditBackupEnabled"
-    | "upstreamActionsEnabled"
-  >;
+  orderPlatform: OrderPlatformClient;
+  miniKv: MiniKvClient;
+  config: AppConfig;
 }
 
 interface EventsQuery {
@@ -243,6 +242,33 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditAdapterBoundaryMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-persistence-boundary-candidate", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadManagedAuditPersistenceBoundaryCandidate({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditPersistenceBoundaryCandidateMarkdown(profile);
     }
 
     return profile;

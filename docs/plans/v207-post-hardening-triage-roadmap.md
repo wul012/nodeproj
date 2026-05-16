@@ -2,7 +2,7 @@
 
 来源版本：Node v207 `post-real-read production hardening triage`。
 
-计划状态：当前下一阶段计划。v207 已经把 v204-v206 的真实只读联调/归档阶段转成生产硬化分诊；后续不再继续叠 archive-only summary，而是推进 managed audit 这条真实生产雏形能力。
+计划状态：已完成并收口。Java v74 + mini-kv v83 已完成，Node v208 已完成 managed audit persistence boundary candidate，并由 `v208-managed-audit-boundary-roadmap.md` 接续。
 
 ## 阶段原则
 
@@ -27,14 +27,14 @@ readyForProductionWindow=false
 ## 推荐执行顺序
 
 ```text
-1. 推荐并行：Java v74 + mini-kv v83。
+1. 推荐并行：Java v74 + mini-kv v83。已完成。
    Java v74：补 release approval rehearsal 的 audit-persistence handoff hint，只说明哪些只读字段未来可进入 Node managed audit，不写 ledger。
    mini-kv v83：补 runtime artifact path / binary provenance hint，只说明真实运行二进制、fixture、release evidence 如何对应，不做 LOAD/RESTORE/COMPACT。
 
-2. Node v208：managed audit persistence boundary candidate。
+2. Node v208：managed audit persistence boundary candidate。已完成。
    消费 Node v207 + Java v74 + mini-kv v83，只定义 managed audit adapter contract、file/sqlite candidate、retention/rotation、failure mode 和降级策略；默认不切换生产，不连接真实外部审计系统。
 
-3. Node v209：managed audit persistence dry-run verification。
+3. Node v209：managed audit persistence dry-run verification。下一步。
    消费 v208 candidate，验证 dry-run 写入边界、临时目录清理、故障降级和 digest 记录。只写 Node 本地测试临时目录，不写 Java 或 mini-kv。
 
 4. Node v210：operator identity + approval record binding plan。

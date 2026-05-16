@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v208 managed audit persistence boundary candidate</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18212f;
+      --muted: #5d6977;
+      --line: #cbd5e1;
+      --panel: #f7f9fc;
+      --green: #0f766e;
+      --blue: #1d4ed8;
+      --red: #b91c1c;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+    }
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 32px 28px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 17px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .metric, .section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 16px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .metric span {
+      color: var(--muted);
+    }
+    .section {
+      margin-top: 14px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 21px;
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+    li {
+      margin: 8px 0;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #e9eef5;
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .ok { color: var(--green); }
+    .next { color: var(--blue); }
+    .blocked { color: var(--red); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v208 managed audit boundary candidate</h1>
+    <p class="subtitle">消费 Node v207、Java v74、mini-kv v83，把 managed audit persistence 定义成可在 v209 dry-run 验证的小闭环。</p>
+
+    <section class="grid">
+      <div class="metric"><strong class="ok">ready</strong><span>candidateState</span></div>
+      <div class="metric"><strong>2</strong><span>dry-run stores</span></div>
+      <div class="metric"><strong>4</strong><span>failure modes</span></div>
+      <div class="metric"><strong class="blocked">false</strong><span>production audit</span></div>
+    </section>
+
+    <section class="section">
+      <h2>Consumed Evidence</h2>
+      <ul>
+        <li><code>Node v207</code>：managed audit 是第一优先级。</li>
+        <li><code>Java v74</code>：audit-persistence handoff hint，只读、no ledger write。</li>
+        <li><code>mini-kv v83</code>：binary provenance digest <code>fnv1a64:c1c0896fc6b77fe2</code>。</li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>v209 Requirements</h2>
+      <ol>
+        <li><code>temp-directory-only</code></li>
+        <li><code>append-query-digest</code></li>
+        <li><code>cleanup-after-test</code></li>
+        <li><code>no-java-mini-kv-write</code></li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>Safety Boundary</h2>
+      <ul>
+        <li><code>realManagedAdapterConnected=false</code></li>
+        <li><code>externalAuditSystemAccessed=false</code></li>
+        <li><code>productionAuditRecordAllowed=false</code></li>
+        <li class="next">下一步 Node v209：只在 Node 本地临时目录做 dry-run audit record 验证。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

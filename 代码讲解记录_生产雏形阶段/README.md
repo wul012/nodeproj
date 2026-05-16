@@ -267,3 +267,4 @@ release / deployment / rollback / restore 全部保持阻断
 
 - `210-three-project-real-read-runtime-smoke-archive-verification-v206.md`：Node v206 三项目真实只读 runtime smoke 归档验证，确认 v205 截图、HTML、说明、代码讲解和计划状态完整，且 v206 不重新触发上游联调。
 - `211-post-real-read-production-hardening-triage-v207.md`：Node v207 生产硬化分诊，消费 v206 archive verification，选出 managed audit、operator identity、manual approval record 三个下一阶段优先硬门槛。
+- `212-managed-audit-persistence-boundary-candidate-v208.md`：Node v208 managed audit 持久化边界候选，消费 Node v207、Java v74、mini-kv v83，只定义 file-jsonl/sqlite dry-run 候选、失败模式和 v209 验证要求。

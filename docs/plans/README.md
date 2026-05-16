@@ -170,5 +170,8 @@ v206-post-real-read-archive-verification-roadmap.md
  -> 已完成并收口；由 Node v206 three-project real-read runtime smoke archive verification 衍生；Node v207 post-real-read production hardening triage 已完成，由 v207-post-hardening-triage-roadmap.md 接续
 
 v207-post-hardening-triage-roadmap.md
- -> 当前唯一有效全局计划；由 Node v207 post-real-read production hardening triage 衍生；下一步推荐并行 Java v74 + mini-kv v83，完成后 Node v208 消费两边只读证据并推进 managed audit persistence boundary candidate
+ -> 已完成并收口；由 Node v207 post-real-read production hardening triage 衍生；Java v74 + mini-kv v83 已推荐并行完成，Node v208 managed audit persistence boundary candidate 已完成，由 v208-managed-audit-boundary-roadmap.md 接续
+
+v208-managed-audit-boundary-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v208 managed audit persistence boundary candidate 衍生；下一步是 Node v209 managed audit persistence dry-run verification，只写 Node 本地测试临时目录，不写 Java 或 mini-kv
 ```

@@ -165,7 +165,13 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
   });
 
   await registerDashboardRoutes(app);
-  await registerAuditRoutes(app, { auditLog, auditStoreRuntime: auditStoreRuntime.description, config });
+  await registerAuditRoutes(app, {
+    auditLog,
+    auditStoreRuntime: auditStoreRuntime.description,
+    config,
+    orderPlatform,
+    miniKv,
+  });
   await registerActionPlanRoutes(app, { config });
   await registerOperationPreflightRoutes(app, {
     config,
