@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v200 real-read window CI archive artifact manifest</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: #f6f8fb;
+        color: #18212f;
+      }
+      body {
+        margin: 0;
+        padding: 36px;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 28px;
+        color: #506070;
+        font-size: 16px;
+        line-height: 1.6;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #dce4ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .metric {
+        font-size: 32px;
+        font-weight: 700;
+        margin-bottom: 4px;
+      }
+      .label {
+        color: #5d6c7c;
+        font-size: 14px;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      .records {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+      .record {
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        padding: 12px;
+        background: #fbfcfe;
+      }
+      .record strong {
+        display: block;
+        margin-bottom: 6px;
+      }
+      code {
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 13px;
+        color: #324154;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #eaf7ee;
+        color: #23633a;
+        font-weight: 600;
+      }
+      .blocked {
+        background: #fff4e5;
+        color: #875414;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v200：CI Archive Artifact Manifest</h1>
+      <p class="subtitle">
+        v200 将 Node v191-v199 的真实只读窗口证据整理成可由 CI 接管的 artifact manifest。它只声明 schema、路径和 digest，
+        不连接 GitHub artifact，不上传文件，也不打开生产窗口。
+      </p>
+
+      <div class="grid">
+        <section>
+          <div class="metric">9</div>
+          <div class="label">Node v191-v199 artifact records</div>
+        </section>
+        <section>
+          <div class="metric">4</div>
+          <div class="label">required file kinds</div>
+        </section>
+        <section>
+          <div class="metric">17/17</div>
+          <div class="label">manifest checks passed</div>
+        </section>
+
+        <section class="wide">
+          <h2>Window State</h2>
+          <p><span class="status">ready-for-ci-artifact-publication</span></p>
+          <p><span class="status blocked">CI_ARTIFACT_STORE_NOT_CONNECTED</span></p>
+          <ul>
+            <li><code>ciArtifactConnected=false</code></li>
+            <li><code>githubArtifactRequiredNow=false</code></li>
+            <li><code>readyForProductionWindow=false</code></li>
+            <li><code>executionAllowed=false</code></li>
+          </ul>
+        </section>
+
+        <section class="wide">
+          <h2>Artifact Records</h2>
+          <div class="records">
+            <div class="record"><strong>Node v191</strong><code>real-read adapter rehearsal</code></div>
+            <div class="record"><strong>Node v192</strong><code>operator window runbook</code></div>
+            <div class="record"><strong>Node v193</strong><code>failure taxonomy</code></div>
+            <div class="record"><strong>Node v194</strong><code>evidence archive</code></div>
+            <div class="record"><strong>Node v195</strong><code>archive verification</code></div>
+            <div class="record"><strong>Node v196</strong><code>imported window result packet</code></div>
+            <div class="record"><strong>Node v197</strong><code>production readiness checkpoint</code></div>
+            <div class="record"><strong>Node v198</strong><code>operator identity binding</code></div>
+            <div class="record"><strong>Node v199</strong><code>audit store handoff contract</code></div>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
