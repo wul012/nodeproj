@@ -167,5 +167,8 @@ v203-post-ci-artifact-retention-roadmap.md
  -> 已完成并收口；由 Node v203 cross-project CI artifact retention gate 衍生；Node v204 联调预检、推荐并行 Java v73 + mini-kv v82、Node v205 真实只读联调 execution packet、Node v206 archive verification 已完成；由 v206-post-real-read-archive-verification-roadmap.md 接续
 
 v206-post-real-read-archive-verification-roadmap.md
- -> 当前唯一有效全局计划；由 Node v206 three-project real-read runtime smoke archive verification 衍生；下一步是 Node v207 post-real-read production hardening triage，随后推荐并行 Java v74 + mini-kv v83，再由 Node v208-v209 推进 managed audit persistence boundary candidate
+ -> 已完成并收口；由 Node v206 three-project real-read runtime smoke archive verification 衍生；Node v207 post-real-read production hardening triage 已完成，由 v207-post-hardening-triage-roadmap.md 接续
+
+v207-post-hardening-triage-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v207 post-real-read production hardening triage 衍生；下一步推荐并行 Java v74 + mini-kv v83，完成后 Node v208 消费两边只读证据并推进 managed audit persistence boundary candidate
 ```

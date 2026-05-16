@@ -2,7 +2,7 @@
 
 来源版本：Node v206 `three-project real-read runtime smoke archive verification`。
 
-计划状态：当前下一阶段计划。v204-v206 真实只读联调阶段应在 v206 收口；后续不要继续叠加重复 archive/summary，而要转向真实生产硬门槛的小闭环。
+计划状态：已完成并收口。v207 已完成 post-real-read production hardening triage，并由 `v207-post-hardening-triage-roadmap.md` 接续。
 
 ## 阶段原则
 
@@ -29,10 +29,10 @@ readyForProductionWindow=false
 ## 推荐执行顺序
 
 ```text
-1. Node v207：post-real-read production hardening triage。
+1. Node v207：post-real-read production hardening triage。已完成。
    消费 v206 archive verification，输出下一阶段硬门槛优先级矩阵。要求不是 summary 膨胀，而是明确选出 2-3 个真正阻塞生产雏形的能力，例如 managed audit、real identity、approval record、CI artifact store。
 
-2. 推荐并行：Java v74 + mini-kv v83。
+2. 推荐并行：Java v74 + mini-kv v83。下一步。
    Java v74 可以补 release approval rehearsal 的 audit-persistence handoff hint，说明哪些只读字段未来可进入 Node managed audit；mini-kv v83 可以补 runtime artifact path / binary provenance hint，说明真实运行二进制和 fixture 版本如何对应。两边都只做只读证据，不做业务写入。
 
 3. Node v208：managed audit persistence boundary candidate。

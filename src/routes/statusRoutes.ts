@@ -386,6 +386,10 @@ import {
   renderThreeProjectRealReadRuntimeSmokeArchiveVerificationMarkdown,
 } from "../services/threeProjectRealReadRuntimeSmokeArchiveVerification.js";
 import {
+  loadPostRealReadProductionHardeningTriage,
+  renderPostRealReadProductionHardeningTriageMarkdown,
+} from "../services/postRealReadProductionHardeningTriage.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1891,6 +1895,26 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderThreeProjectRealReadRuntimeSmokeArchiveVerificationMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/post-real-read-production-hardening-triage", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadPostRealReadProductionHardeningTriage({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+      headers: request.headers,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderPostRealReadProductionHardeningTriageMarkdown(profile);
     }
 
     return profile;
