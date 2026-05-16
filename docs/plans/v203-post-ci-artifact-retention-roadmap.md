@@ -2,7 +2,7 @@
 
 来源版本：Node v203 `cross-project CI artifact retention gate`。
 
-计划状态：当前唯一有效全局计划。Node v204 已完成，下一步是推荐并行 Java v73 + mini-kv v82。
+计划状态：当前唯一有效全局计划。Node v204、推荐并行 Java v73 + mini-kv v82、Node v205 均已完成；下一步是 Node v206 archive verification。
 
 ## 阶段原则
 
@@ -30,22 +30,22 @@ mini-kv = 自研 KV 基础设施实验位，只提供只读 runtime smoke eviden
 1. Node v204：three-project real-read runtime smoke preflight。已完成。
    先做真实联调前的运行计划和预检 profile：列出 Java health/release rehearsal、mini-kv SMOKEJSON/INFOJSON/STORAGEJSON/HEALTH、Node gate endpoint 的只读目标、端口、环境变量、启动/停止责任和失败分类。若 Java/mini-kv 未运行，本版可以记录为 closed-window，不自动强行启动；若需要启动，由本版明确启动命令、PID、端口和收尾。
 
-2. 推荐并行：Java v73 + mini-kv v82。下一步。
+2. 推荐并行：Java v73 + mini-kv v82。已完成。
    Java v73 补真实只读联调友好字段，例如 release rehearsal 的 live-read readiness echo、server timestamp、read-only endpoint version；mini-kv v82 补 SMOKEJSON live-read session hint，例如 session id echo、server uptime bucket、read command list digest。两者都不做写操作，不进入订单一致性链路。
 
-3. Node v205：three-project real-read runtime smoke execution packet。
+3. Node v205：three-project real-read runtime smoke execution packet。已完成。
    在 v204 预检基础上执行一次真实只读联调：Node 服务必须启动；Java/mini-kv 是否由 Node 本轮启动，取决于 v204 预检和用户当前授权。只允许 GET/health/rehearsal 和 mini-kv SMOKEJSON/INFOJSON/STORAGEJSON/HEALTH，不执行 Java 写操作，不执行 mini-kv LOAD/COMPACT/SETNXEX/RESTORE。
 
-4. Node v206：real-read runtime smoke archive verification。
+4. Node v206：real-read runtime smoke archive verification。下一步。
    消费 v205 的真实联调结果，验证截图、HTTP status、digest、失败分类和 cleanup 记录。若联调未跑通，本版应明确 blocker，而不是假装生产窗口 ready。
 ```
 
 ## 可并行说明
 
 ```text
-Java v73 + mini-kv v82 推荐并行推进。
+Java v73 + mini-kv v82 已推荐并行完成。
 Node v204 可以先做，因为它是联调预检和运行计划，不依赖 Java v73 / mini-kv v82。
-Node v205 必须读取 v204 结果；如果 Java v73 + mini-kv v82 已完成，则优先消费新字段，否则只消费 Java v72 / mini-kv v81 的既有字段。
+Node v205 已读取 v204 结果，并消费 Java v73 + mini-kv v82 新字段完成真实只读联调；下一步 Node v206 只验证 v205 归档，不再重复规划联调目标。
 ```
 
 ## 暂停条件

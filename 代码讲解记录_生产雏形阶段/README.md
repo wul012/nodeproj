@@ -224,6 +224,9 @@ file audit restart evidence 与后续 managed audit store
 
 208-three-project-real-read-runtime-smoke-preflight-v204.md
  -> Node v204 three-project real-read runtime smoke preflight：消费 v203 retention gate，固化 Node/Java/mini-kv 真实只读联调目标、进程清理责任和失败分类，但本版不执行真实上游读取
+
+209-three-project-real-read-runtime-smoke-execution-packet-v205.md
+ -> Node v205 three-project real-read runtime smoke execution packet：消费 v204 preflight、Java v73 live-read hint 和 mini-kv v82 live-read session hint，实际启动 Node/Java/mini-kv 执行 8 个只读目标并生成 execution packet，保持生产窗口和写操作关闭
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

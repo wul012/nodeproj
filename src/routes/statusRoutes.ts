@@ -378,6 +378,10 @@ import {
   renderThreeProjectRealReadRuntimeSmokePreflightMarkdown,
 } from "../services/threeProjectRealReadRuntimeSmokePreflight.js";
 import {
+  loadThreeProjectRealReadRuntimeSmokeExecutionPacket,
+  renderThreeProjectRealReadRuntimeSmokeExecutionPacketMarkdown,
+} from "../services/threeProjectRealReadRuntimeSmokeExecutionPacket.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1843,6 +1847,26 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderThreeProjectRealReadRuntimeSmokePreflightMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/three-project-real-read-runtime-smoke-execution-packet", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadThreeProjectRealReadRuntimeSmokeExecutionPacket({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+      headers: request.headers,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderThreeProjectRealReadRuntimeSmokeExecutionPacketMarkdown(profile);
     }
 
     return profile;

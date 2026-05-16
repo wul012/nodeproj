@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v205 Three-project Runtime Smoke Execution Packet</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f8fa;
+        --ink: #202631;
+        --muted: #657285;
+        --line: #d4dae3;
+        --panel: #ffffff;
+        --blue: #1f5fbf;
+        --green: #157347;
+        --red: #b42318;
+        --amber: #8a5a00;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      }
+      main {
+        width: min(1220px, calc(100vw - 48px));
+        margin: 30px auto;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 24px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: 14px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .wide { grid-column: 1 / -1; }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .pill {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid currentColor;
+        font-weight: 700;
+      }
+      .green { color: var(--green); }
+      .blue { color: var(--blue); }
+      .red { color: var(--red); }
+      .amber { color: var(--amber); }
+      dl {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 8px 14px;
+        margin: 12px 0 0;
+        font-size: 14px;
+      }
+      dt { color: var(--muted); }
+      dd {
+        margin: 0;
+        font-weight: 650;
+        overflow-wrap: anywhere;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th { color: var(--muted); }
+      code {
+        background: #edf2f7;
+        border-radius: 4px;
+        padding: 2px 5px;
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+      }
+      .callout {
+        border-left: 4px solid var(--amber);
+        padding-left: 12px;
+        color: var(--ink);
+      }
+      @media (max-width: 900px) {
+        .grid { grid-template-columns: 1fr; }
+        .wide { grid-column: auto; }
+        dl { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v205 Three-project Runtime Smoke Execution Packet</h1>
+      <p class="subtitle">真实只读联调执行包：Node 实际读取 Java v73 与 mini-kv v82，仍保持生产执行关闭。</p>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Execution State</h2>
+          <span class="pill green">executed-pass</span>
+          <dl>
+            <dt>Ready for archive verification</dt>
+            <dd>true</dd>
+            <dt>Ready for production window</dt>
+            <dd>false</dd>
+            <dt>Read only</dt>
+            <dd>true</dd>
+            <dt>Execution allowed</dt>
+            <dd>false</dd>
+            <dt>Execution digest</dt>
+            <dd><code>1bb5dcd900100feb0ce0bccb96a9db371c03f90cab7199edc98433b5a21f36c1</code></dd>
+          </dl>
+        </article>
+
+        <article class="panel">
+          <h2>Runtime Smoke</h2>
+          <dl>
+            <dt>Session</dt>
+            <dd><code>runtime-smoke-v205-session-001</code></dd>
+            <dt>Planned targets</dt>
+            <dd>8</dd>
+            <dt>Attempted</dt>
+            <dd>8</dd>
+            <dt>Passed</dt>
+            <dd>8</dd>
+            <dt>Failed</dt>
+            <dd>0</dd>
+            <dt>Skipped</dt>
+            <dd>0</dd>
+          </dl>
+        </article>
+
+        <article class="panel wide">
+          <h2>Read Targets</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Target</th>
+                <th>Project</th>
+                <th>Method / command</th>
+                <th>Status</th>
+                <th>Latency</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>node-health</td><td>Node</td><td>GET /health</td><td><span class="green">passed-read</span></td><td>0 ms</td></tr>
+              <tr><td>node-v203-retention-gate</td><td>Node</td><td>GET retention gate</td><td><span class="green">passed-read</span></td><td>0 ms</td></tr>
+              <tr><td>java-health</td><td>Java</td><td>GET /actuator/health</td><td><span class="green">passed-read</span></td><td>24 ms</td></tr>
+              <tr><td>java-release-approval-rehearsal</td><td>Java</td><td>GET rehearsal</td><td><span class="green">passed-read</span></td><td>214 ms</td></tr>
+              <tr><td>mini-kv-smokejson</td><td>mini-kv</td><td>SMOKEJSON</td><td><span class="green">passed-read</span></td><td>10 ms</td></tr>
+              <tr><td>mini-kv-infojson</td><td>mini-kv</td><td>INFOJSON</td><td><span class="green">passed-read</span></td><td>7 ms</td></tr>
+              <tr><td>mini-kv-storagejson</td><td>mini-kv</td><td>STORAGEJSON</td><td><span class="green">passed-read</span></td><td>1 ms</td></tr>
+              <tr><td>mini-kv-health</td><td>mini-kv</td><td>HEALTH</td><td><span class="green">passed-read</span></td><td>1 ms</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="panel">
+          <h2>Java Evidence</h2>
+          <dl>
+            <dt>Source version</dt>
+            <dd>Java v73</dd>
+            <dt>Hint version</dt>
+            <dd><code>java-release-approval-rehearsal-live-readiness-hint.v1</code></dd>
+            <dt>Endpoint</dt>
+            <dd><code>/api/v1/ops/release-approval-rehearsal</code></dd>
+            <dt>Ready for runtime smoke read</dt>
+            <dd>true</dd>
+            <dt>Production authorization</dt>
+            <dd>false</dd>
+          </dl>
+        </article>
+
+        <article class="panel">
+          <h2>mini-kv Evidence</h2>
+          <dl>
+            <dt>Source version</dt>
+            <dd>mini-kv v82</dd>
+            <dt>Project version</dt>
+            <dd><code>0.82.0</code></dd>
+            <dt>Session echo</dt>
+            <dd><code>mini-kv-live-read-v82</code></dd>
+            <dt>Read digest</dt>
+            <dd><code>fnv1a64:5bef33f2fbe65cc5</code></dd>
+            <dt>Write commands allowed</dt>
+            <dd>false</dd>
+          </dl>
+        </article>
+
+        <article class="panel wide">
+          <h2>Boundary</h2>
+          <p class="callout">
+            v205 证明三项目能在安全窗口里真实读起来，但没有打开生产窗口。Java 没有写订单、审批、部署或回滚；
+            mini-kv 没有执行 <code>LOAD</code>、<code>COMPACT</code>、<code>SETNXEX</code>、<code>RESTORE</code>；
+            Node 只生成 execution packet，下一步由 v206 验证归档。
+          </p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

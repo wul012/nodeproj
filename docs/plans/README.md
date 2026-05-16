@@ -164,5 +164,5 @@ v200-post-ci-artifact-manifest-roadmap.md
  -> 已完成并收口；由 Node v200 real-read window CI archive artifact manifest 衍生；推荐并行 Java v71 + mini-kv v80、Node v201、Node v202、推荐并行 Java v72 + mini-kv v81、Node v203 cross-project CI artifact retention gate 已完成；由 v203-post-ci-artifact-retention-roadmap.md 接续
 
 v203-post-ci-artifact-retention-roadmap.md
- -> 当前唯一有效全局计划；由 Node v203 cross-project CI artifact retention gate 衍生；Node v204 联调预检已完成，下一步是推荐并行 Java v73 + mini-kv v82，随后 Node v205-v206 执行和验证真实只读联调
+ -> 当前唯一有效全局计划；由 Node v203 cross-project CI artifact retention gate 衍生；Node v204 联调预检、推荐并行 Java v73 + mini-kv v82、Node v205 真实只读联调 execution packet 已完成；下一步是 Node v206 archive verification
 ```

@@ -159,6 +159,10 @@ export class OrderPlatformClient {
     return this.request("/api/v1/ops/overview");
   }
 
+  releaseApprovalRehearsal(headers: Record<string, string> = {}): Promise<UpstreamJsonResponse<Record<string, unknown>>> {
+    return this.request("/api/v1/ops/release-approval-rehearsal", { headers });
+  }
+
   failedEventsSummary(): Promise<UpstreamJsonResponse<OrderPlatformFailedEventSummary>> {
     return this.request("/api/v1/failed-events/summary");
   }
