@@ -48,6 +48,10 @@ import {
   loadManagedAuditPersistenceDryRunVerification,
   renderManagedAuditPersistenceDryRunVerificationMarkdown,
 } from "../services/managedAuditPersistenceDryRunVerification.js";
+import {
+  loadManagedAuditIdentityApprovalBindingContract,
+  renderManagedAuditIdentityApprovalBindingContractMarkdown,
+} from "../services/managedAuditIdentityApprovalBindingContract.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -300,6 +304,33 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditPersistenceDryRunVerificationMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-identity-approval-binding-contract", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadManagedAuditIdentityApprovalBindingContract({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditIdentityApprovalBindingContractMarkdown(profile);
     }
 
     return profile;
