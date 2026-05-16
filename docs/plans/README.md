@@ -183,5 +183,5 @@ v211-post-managed-audit-packet-roadmap.md
  -> 已完成并收口；由 Node v211 managed audit identity approval provenance dry-run packet 衍生；Node v212 packet verification report、推荐并行 Java v76 + mini-kv v85 只读消费回执、Node v213 managed audit packet restore drill plan 已完成，下一阶段应另起新计划
 
 v213-post-restore-drill-plan-roadmap.md
- -> 当前唯一有效全局计划；由 Node v213 managed audit packet restore drill plan 衍生；Node v214 archive verification 已完成，下一步推荐并行 Java v77 + mini-kv v86，为 Node v215 dry-run adapter candidate 提供只读边界回执
+ -> 已完成并收口；由 Node v213 managed audit packet restore drill plan 衍生；Node v214 archive verification、推荐并行 Java v77 + mini-kv v86、Node v215 managed audit dry-run adapter candidate 已完成，下一阶段应另起 post-v215 计划
 ```
