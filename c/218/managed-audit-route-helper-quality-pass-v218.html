@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v218 Managed Audit Route Helper Quality Pass</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f6f8fb;
+      color: #182232;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #566274;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d9e0ea;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf1f6;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #5a6878;
+    }
+    .ok {
+      color: #0e7650;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #9e3e32;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef3f8;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v218 Route Helper Quality Pass</h1>
+    <p class="subtitle">Managed audit 路由和 readiness gate helper 收口，不改变 API，不连接真实上游。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Quality State</h2>
+        <div class="metric"><span class="label">state</span><span class="ok">verified-quality-pass</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">connects audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">auto upstream start</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Route Shape</h2>
+        <div class="metric"><span class="label">auditRoutes</span><span><code>518 -> 391</code></span></div>
+        <div class="metric"><span class="label">removed</span><span><code>127 lines</code></span></div>
+        <div class="metric"><span class="label">helper routes</span><span><code>13</code></span></div>
+        <div class="metric"><span class="label">paths changed</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Gate Helper</h2>
+        <div class="metric"><span class="label">main service</span><span><code>540 -> 438</code></span></div>
+        <div class="metric"><span class="label">helper file</span><span class="ok">added</span></div>
+        <div class="metric"><span class="label">message rules</span><span class="ok">extracted</span></div>
+        <div class="metric"><span class="label">digest helper</span><span class="ok">extracted</span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>What This Version Protects</h2>
+        <ul>
+          <li>Repeated audit route schema and Markdown branching now live in one helper.</li>
+          <li>v217 production-hardening gate keeps the same endpoint and response shape after helper extraction.</li>
+          <li>The next global step is recommended parallel Java v79 + mini-kv v88, not Node v219 until both receipts exist.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

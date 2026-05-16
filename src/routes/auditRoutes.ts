@@ -80,6 +80,10 @@ import {
   loadManagedAuditAdapterProductionHardeningReadinessGate,
   renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown,
 } from "../services/managedAuditAdapterProductionHardeningReadinessGate.js";
+import {
+  loadManagedAuditRouteHelperQualityPass,
+  renderManagedAuditRouteHelperQualityPassMarkdown,
+} from "../services/managedAuditRouteHelperQualityPass.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -96,6 +100,36 @@ interface EventsQuery {
 
 interface AuditStoreProfileQuery {
   format?: "json" | "markdown";
+}
+
+const auditStoreProfileRouteSchema = {
+  querystring: {
+    type: "object",
+    properties: {
+      format: { type: "string", enum: ["json", "markdown"] },
+    },
+    additionalProperties: false,
+  },
+};
+
+function registerAuditJsonMarkdownRoute<TProfile>(
+  app: FastifyInstance,
+  routePath: string,
+  loadProfile: () => TProfile | Promise<TProfile>,
+  renderMarkdown: (profile: TProfile) => string,
+): void {
+  app.get<{ Querystring: AuditStoreProfileQuery }>(routePath, {
+    schema: auditStoreProfileRouteSchema,
+  }, async (request, reply) => {
+    const profile = await loadProfile();
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderMarkdown(profile);
+    }
+
+    return profile;
+  });
 }
 
 export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRouteDeps): Promise<void> {
@@ -283,299 +317,75 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     return profile;
   });
 
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-persistence-boundary-candidate", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditPersistenceBoundaryCandidate({
-      config: deps.config,
-      runtime: deps.auditStoreRuntime,
-      auditLog: deps.auditLog,
-      orderPlatform: deps.orderPlatform,
-      miniKv: deps.miniKv,
-    });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-persistence-boundary-candidate", () => loadManagedAuditPersistenceBoundaryCandidate({
+    config: deps.config,
+    runtime: deps.auditStoreRuntime,
+    auditLog: deps.auditLog,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditPersistenceBoundaryCandidateMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditPersistenceBoundaryCandidateMarkdown(profile);
-    }
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-persistence-dry-run-verification", () => loadManagedAuditPersistenceDryRunVerification({
+    config: deps.config,
+    runtime: deps.auditStoreRuntime,
+    auditLog: deps.auditLog,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditPersistenceDryRunVerificationMarkdown);
 
-    return profile;
-  });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-identity-approval-binding-contract", () => loadManagedAuditIdentityApprovalBindingContract({
+    config: deps.config,
+    runtime: deps.auditStoreRuntime,
+    auditLog: deps.auditLog,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditIdentityApprovalBindingContractMarkdown);
 
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-persistence-dry-run-verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditPersistenceDryRunVerification({
-      config: deps.config,
-      runtime: deps.auditStoreRuntime,
-      auditLog: deps.auditLog,
-      orderPlatform: deps.orderPlatform,
-      miniKv: deps.miniKv,
-    });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-identity-approval-provenance-dry-run-packet", () => loadManagedAuditIdentityApprovalProvenanceDryRunPacket({
+    config: deps.config,
+    runtime: deps.auditStoreRuntime,
+    auditLog: deps.auditLog,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditIdentityApprovalProvenanceDryRunPacketMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditPersistenceDryRunVerificationMarkdown(profile);
-    }
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-identity-approval-provenance-packet-verification-report", () => loadManagedAuditIdentityApprovalProvenancePacketVerificationReport({
+    config: deps.config,
+    runtime: deps.auditStoreRuntime,
+    auditLog: deps.auditLog,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown);
 
-    return profile;
-  });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-packet-restore-drill-plan", () => loadManagedAuditPacketRestoreDrillPlan({
+    config: deps.config,
+    runtime: deps.auditStoreRuntime,
+    auditLog: deps.auditLog,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditPacketRestoreDrillPlanMarkdown);
 
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-identity-approval-binding-contract", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditIdentityApprovalBindingContract({
-      config: deps.config,
-      runtime: deps.auditStoreRuntime,
-      auditLog: deps.auditLog,
-      orderPlatform: deps.orderPlatform,
-      miniKv: deps.miniKv,
-    });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-restore-drill-archive-verification", () => loadManagedAuditRestoreDrillArchiveVerification({
+    config: deps.config,
+  }), renderManagedAuditRestoreDrillArchiveVerificationMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditIdentityApprovalBindingContractMarkdown(profile);
-    }
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-dry-run-adapter-candidate", () => loadManagedAuditDryRunAdapterCandidate({
+    config: deps.config,
+  }), renderManagedAuditDryRunAdapterCandidateMarkdown);
 
-    return profile;
-  });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-dry-run-adapter-archive-verification", () => loadManagedAuditDryRunAdapterArchiveVerification({
+    config: deps.config,
+  }), renderManagedAuditDryRunAdapterArchiveVerificationMarkdown);
 
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-identity-approval-provenance-dry-run-packet", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditIdentityApprovalProvenanceDryRunPacket({
-      config: deps.config,
-      runtime: deps.auditStoreRuntime,
-      auditLog: deps.auditLog,
-      orderPlatform: deps.orderPlatform,
-      miniKv: deps.miniKv,
-    });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate", () => loadManagedAuditAdapterProductionHardeningReadinessGate({
+    config: deps.config,
+  }), renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditIdentityApprovalProvenanceDryRunPacketMarkdown(profile);
-    }
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-route-helper-quality-pass", () => loadManagedAuditRouteHelperQualityPass({
+    config: deps.config,
+  }), renderManagedAuditRouteHelperQualityPassMarkdown);
 
-    return profile;
-  });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-compliance", () => createManagedAuditAdapterComplianceProfile(deps.config), renderManagedAuditAdapterComplianceMarkdown);
 
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-identity-approval-provenance-packet-verification-report", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditIdentityApprovalProvenancePacketVerificationReport({
-      config: deps.config,
-      runtime: deps.auditStoreRuntime,
-      auditLog: deps.auditLog,
-      orderPlatform: deps.orderPlatform,
-      miniKv: deps.miniKv,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-packet-restore-drill-plan", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditPacketRestoreDrillPlan({
-      config: deps.config,
-      runtime: deps.auditStoreRuntime,
-      auditLog: deps.auditLog,
-      orderPlatform: deps.orderPlatform,
-      miniKv: deps.miniKv,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditPacketRestoreDrillPlanMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-restore-drill-archive-verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = loadManagedAuditRestoreDrillArchiveVerification({
-      config: deps.config,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditRestoreDrillArchiveVerificationMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-dry-run-adapter-candidate", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadManagedAuditDryRunAdapterCandidate({
-      config: deps.config,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditDryRunAdapterCandidateMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-dry-run-adapter-archive-verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = loadManagedAuditDryRunAdapterArchiveVerification({
-      config: deps.config,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditDryRunAdapterArchiveVerificationMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = loadManagedAuditAdapterProductionHardeningReadinessGate({
-      config: deps.config,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-adapter-compliance", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await createManagedAuditAdapterComplianceProfile(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditAdapterComplianceMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-adapter-runner", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await createManagedAuditAdapterRunnerProfile(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditAdapterRunnerMarkdown(profile);
-    }
-
-    return profile;
-  });
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-runner", () => createManagedAuditAdapterRunnerProfile(deps.config), renderManagedAuditAdapterRunnerMarkdown);
 }

@@ -5,8 +5,17 @@ import {
   renderEntries,
   renderList,
   renderMessages,
-  sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  collectReadinessGateProductionBlockers,
+  collectReadinessGateRecommendations,
+  collectReadinessGateWarnings,
+  createManagedAuditAdapterProductionHardeningGateDigest,
+  MANAGED_AUDIT_ADAPTER_PRODUCTION_HARDENING_ENDPOINTS,
+  MANAGED_AUDIT_ADAPTER_PRODUCTION_HARDENING_PREREQUISITES,
+  type ManagedAuditAdapterProductionHardeningReadinessGateChecks,
+  type ReadinessGateMessage,
+} from "./managedAuditAdapterProductionHardeningReadinessGateHelpers.js";
 import {
   loadManagedAuditDryRunAdapterArchiveVerification,
   type ManagedAuditDryRunAdapterArchiveVerificationProfile,
@@ -148,40 +157,6 @@ interface MiniKvV87ManagedAuditAdapterNonAuthoritativeStorageReceipt {
   readyForNodeV217ProductionHardeningReadinessGate: true;
 }
 
-interface ReadinessGateMessage {
-  code: string;
-  severity: "blocker" | "warning" | "recommendation";
-  source:
-    | "managed-audit-adapter-production-hardening-readiness-gate"
-    | "node-v216-archive-verification"
-    | "java-v78-production-adapter-prerequisite-receipt"
-    | "mini-kv-v87-non-authoritative-storage-receipt"
-    | "runtime-config";
-  message: string;
-}
-
-const ENDPOINTS = Object.freeze({
-  managedAuditAdapterProductionHardeningReadinessGateJson:
-    "/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate",
-  managedAuditAdapterProductionHardeningReadinessGateMarkdown:
-    "/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate?format=markdown",
-  sourceArchiveVerificationJson: "/api/v1/audit/managed-audit-dry-run-adapter-archive-verification",
-  javaV78ReceiptHint: "advanced-order-platform:c/78/\u89e3\u91ca/\u8bf4\u660e.md",
-  miniKvV87ReceiptHint: "mini-kv:c/87/\u89e3\u91ca/\u8bf4\u660e.md",
-  activePlan: "docs/plans/v215-post-dry-run-adapter-roadmap.md",
-});
-
-const HARD_PREREQUISITES = Object.freeze([
-  "managed audit store target configured",
-  "operator identity prerequisite recorded",
-  "approval decision source prerequisite recorded",
-  "approval ledger handoff prerequisite recorded",
-  "retention and recovery owner recorded",
-  "failure handling taxonomy recorded",
-  "rollback review prerequisite recorded",
-  "mini-kv non-authoritative storage boundary recorded",
-]);
-
 export function loadManagedAuditAdapterProductionHardeningReadinessGate(input: {
   config: AppConfig;
 }): ManagedAuditAdapterProductionHardeningReadinessGateProfile {
@@ -195,14 +170,12 @@ export function loadManagedAuditAdapterProductionHardeningReadinessGate(input: {
   const gateState = checks.readyForManagedAuditAdapterProductionHardeningReadinessGate
     ? "ready-for-production-hardening-review"
     : "blocked";
-  const gateDigest = sha256StableJson({
-    profileVersion: "managed-audit-adapter-production-hardening-readiness-gate.v1",
+  const gateDigest = createManagedAuditAdapterProductionHardeningGateDigest({
     gateState,
     sourceArchiveDigest: sourceArchive.verification.verificationDigest,
     javaReceiptVersion: javaV78.receiptVersion,
     miniKvReceiptDigest: miniKvV87.receiptDigest,
     checks,
-    productionAuditAllowed: false,
   });
   const productionHardeningGate = {
     gateDigest,
@@ -222,9 +195,9 @@ export function loadManagedAuditAdapterProductionHardeningReadinessGate(input: {
     upstreamActionsEnabled: input.config.upstreamActionsEnabled,
     productionAuditAllowed: false as const,
   };
-  const productionBlockers = collectProductionBlockers(checks);
-  const warnings = collectWarnings();
-  const recommendations = collectRecommendations();
+  const productionBlockers = collectReadinessGateProductionBlockers(checks);
+  const warnings = collectReadinessGateWarnings();
+  const recommendations = collectReadinessGateRecommendations();
   const satisfiedHardPrerequisiteCount = [
     checks.managedAuditStoreUrlConfigured,
     checks.operatorIdentityPrerequisiteRecorded,
@@ -269,7 +242,7 @@ export function loadManagedAuditAdapterProductionHardeningReadinessGate(input: {
     summary: {
       checkCount: countReportChecks(checks),
       passedCheckCount: countPassedReportChecks(checks),
-      hardPrerequisiteCount: HARD_PREREQUISITES.length,
+      hardPrerequisiteCount: MANAGED_AUDIT_ADAPTER_PRODUCTION_HARDENING_PREREQUISITES.length,
       satisfiedHardPrerequisiteCount,
       productionBlockerCount: productionBlockers.length,
       warningCount: warnings.length,
@@ -278,7 +251,7 @@ export function loadManagedAuditAdapterProductionHardeningReadinessGate(input: {
     productionBlockers,
     warnings,
     recommendations,
-    evidenceEndpoints: { ...ENDPOINTS },
+    evidenceEndpoints: { ...MANAGED_AUDIT_ADAPTER_PRODUCTION_HARDENING_ENDPOINTS },
     nextActions: [
       "Keep the v217 gate read-only; it is a production-hardening review gate, not a production audit adapter.",
       "Use the next plan to split audit route registration and managed audit service helpers before implementing real adapter wiring.",
@@ -462,95 +435,4 @@ function createChecks(
     productionWindowStillBlocked: true,
     readyForManagedAuditAdapterProductionHardeningReadinessGate: false,
   };
-}
-
-function collectProductionBlockers(
-  checks: ManagedAuditAdapterProductionHardeningReadinessGateProfile["checks"],
-): ReadinessGateMessage[] {
-  const rules: Array<{
-    condition: boolean;
-    code: string;
-    source: ReadinessGateMessage["source"];
-    message: string;
-  }> = [
-    {
-      condition: checks.nodeV216ArchiveVerificationReady,
-      code: "NODE_V216_ARCHIVE_VERIFICATION_NOT_READY",
-      source: "node-v216-archive-verification",
-      message: "Node v216 dry-run adapter archive verification must be ready before v217 can review production hardening.",
-    },
-    {
-      condition: checks.javaV78ReceiptAccepted,
-      code: "JAVA_V78_RECEIPT_NOT_ACCEPTED",
-      source: "java-v78-production-adapter-prerequisite-receipt",
-      message: "Java v78 production adapter prerequisite receipt is missing or not accepted.",
-    },
-    {
-      condition: checks.miniKvV87ReceiptAccepted,
-      code: "MINI_KV_V87_RECEIPT_NOT_ACCEPTED",
-      source: "mini-kv-v87-non-authoritative-storage-receipt",
-      message: "mini-kv v87 non-authoritative storage receipt is missing or not accepted.",
-    },
-    {
-      condition: checks.javaV78NoWriteBoundaryValid && checks.miniKvV87NonAuthoritativeBoundaryValid,
-      code: "UPSTREAM_WRITE_BOUNDARY_NOT_VALID",
-      source: "managed-audit-adapter-production-hardening-readiness-gate",
-      message: "Java or mini-kv receipts do not preserve the no-write production boundary.",
-    },
-    {
-      condition: checks.managedAuditStoreUrlConfigured,
-      code: "AUDIT_STORE_URL_MISSING",
-      source: "runtime-config",
-      message: "AUDIT_STORE_URL must identify the future managed audit target before production hardening review is meaningful.",
-    },
-    {
-      condition: checks.upstreamActionsStillDisabled,
-      code: "UPSTREAM_ACTIONS_ENABLED",
-      source: "runtime-config",
-      message: "UPSTREAM_ACTIONS_ENABLED must remain false while v217 is only a readiness gate.",
-    },
-  ];
-
-  return rules
-    .filter((rule) => !rule.condition)
-    .map((rule) => ({
-      code: rule.code,
-      severity: "blocker" as const,
-      source: rule.source,
-      message: rule.message,
-    }));
-}
-
-function collectWarnings(): ReadinessGateMessage[] {
-  return [
-    {
-      code: "REAL_MANAGED_AUDIT_ADAPTER_STILL_MISSING",
-      severity: "warning",
-      source: "managed-audit-adapter-production-hardening-readiness-gate",
-      message: "The gate can be ready for hardening review while the real managed audit adapter remains disconnected.",
-    },
-    {
-      code: "STATIC_UPSTREAM_RECEIPT_CONSUMPTION",
-      severity: "warning",
-      source: "managed-audit-adapter-production-hardening-readiness-gate",
-      message: "Java v78 and mini-kv v87 receipts are consumed as versioned evidence, not by starting those services.",
-    },
-  ];
-}
-
-function collectRecommendations(): ReadinessGateMessage[] {
-  return [
-    {
-      code: "SPLIT_AUDIT_ROUTE_REGISTRATION",
-      severity: "recommendation",
-      source: "managed-audit-adapter-production-hardening-readiness-gate",
-      message: "Before adding real adapter wiring, extract common audit JSON/Markdown route registration to keep auditRoutes maintainable.",
-    },
-    {
-      code: "IMPLEMENT_REAL_ADAPTER_BEHIND_EXPLICIT_CONFIG",
-      severity: "recommendation",
-      source: "runtime-config",
-      message: "The real adapter should remain behind explicit config, owner approval, retention policy, restore drill, and rollback review.",
-    },
-  ];
 }
