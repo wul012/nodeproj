@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v202 CI artifact upload dry-run contract</title>
+    <style>
+      :root {
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: #f8fafc;
+        color: #172033;
+      }
+      body {
+        margin: 0;
+        padding: 36px;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 34px;
+      }
+      .lead {
+        margin: 0 0 28px;
+        max-width: 900px;
+        color: #596a7d;
+        line-height: 1.6;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #dce5ef;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .metric {
+        font-size: 32px;
+        font-weight: 750;
+        margin-bottom: 4px;
+      }
+      .label {
+        color: #607083;
+        font-size: 14px;
+      }
+      .status {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        background: #e9f7ef;
+        color: #226241;
+      }
+      .blocked {
+        background: #fff1df;
+        color: #8b520e;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+      code {
+        font-family: "Cascadia Mono", Consolas, monospace;
+        font-size: 13px;
+        color: #2f4054;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v202：CI Artifact Upload Dry-run Contract</h1>
+      <p class="lead">
+        v202 定义未来 GitHub Actions artifact upload 的 dry-run contract：artifact name、retention days、path allowlist 和 forbidden paths。
+        它不上传 artifact，不读取 token，也不打开生产窗口。
+      </p>
+      <div class="grid">
+        <section>
+          <div class="metric">15/15</div>
+          <div class="label">dry-run checks passed</div>
+        </section>
+        <section>
+          <div class="metric">4</div>
+          <div class="label">allowed path groups</div>
+        </section>
+        <section>
+          <div class="metric">8</div>
+          <div class="label">forbidden path rules</div>
+        </section>
+        <section class="wide">
+          <h2>Contract State</h2>
+          <p><span class="status">ready-for-upload-dry-run</span></p>
+          <p><span class="status blocked">REAL_GITHUB_ARTIFACT_UPLOAD_NOT_CONFIGURED</span></p>
+          <ul>
+            <li><code>artifactName=orderops-real-read-window-evidence-v191-v201</code></li>
+            <li><code>retentionDays=30</code></li>
+            <li><code>githubTokenRequiredNow=false</code></li>
+            <li><code>githubArtifactUploadAttempted=false</code></li>
+          </ul>
+        </section>
+        <section class="wide">
+          <h2>Upload Boundaries</h2>
+          <div class="cols">
+            <section>
+              <h2>Allowlist</h2>
+              <ul>
+                <li><code>c/{191..201}/**</code></li>
+                <li><code>代码讲解记录_生产雏形阶段/*-v{191..202}.md</code></li>
+                <li><code>docs/plans/v200-post-ci-artifact-manifest-roadmap.md</code></li>
+                <li><code>package.json</code></li>
+              </ul>
+            </section>
+            <section>
+              <h2>Forbidden</h2>
+              <ul>
+                <li><code>**/.env*</code></li>
+                <li><code>.git/**</code></li>
+                <li><code>node_modules/**</code></li>
+                <li><code>dist/**</code></li>
+                <li><code>**/*secret*</code> / <code>**/*.pem</code></li>
+              </ul>
+            </section>
+          </div>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

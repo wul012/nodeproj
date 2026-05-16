@@ -366,6 +366,10 @@ import {
   renderRealReadWindowCiArtifactManifestVerificationMarkdown,
 } from "../services/realReadWindowCiArtifactManifestVerification.js";
 import {
+  loadRealReadWindowCiArtifactUploadDryRunContract,
+  renderRealReadWindowCiArtifactUploadDryRunContractMarkdown,
+} from "../services/realReadWindowCiArtifactUploadDryRunContract.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1771,6 +1775,26 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderRealReadWindowCiArtifactManifestVerificationMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/real-read-window-ci-artifact-upload-dry-run-contract", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadRealReadWindowCiArtifactUploadDryRunContract({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+      headers: request.headers,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderRealReadWindowCiArtifactUploadDryRunContractMarkdown(profile);
     }
 
     return profile;

@@ -27,9 +27,9 @@ mini-kv = 自研 KV 基础设施实验位
    Java v71 补 release approval / operator window 的只读 CI evidence hint，例如 artifact manifest echo、no-ledger-write proof、approval correlation field；mini-kv v80 补 SMOKEJSON / INFOJSON 的 CI evidence hint，例如 runtime artifact path hint、identity-neutral proof、no-restore proof。两者都只读，不做写操作。
 2. Node v201：real-read window CI artifact manifest verification。已完成。
    消费 Node v200 manifest，并只读引用 Java v71 / mini-kv v80 的 evidence hint，复核 manifest digest、record count、required file kinds、production window blocked。
-3. Node v202：CI artifact upload dry-run contract。下一步。
+3. Node v202：CI artifact upload dry-run contract。已完成。
    定义未来 GitHub Actions artifact upload 的 dry-run contract，不真实上传，不要求 secret；只描述 artifact name、retention days、path allowlist、forbidden paths。
-4. 推荐并行：Java v72 + mini-kv v81。
+4. 推荐并行：Java v72 + mini-kv v81。下一步。
    Java v72 和 mini-kv v81 分别补只读 artifact retention / release evidence 字段，让 Node v203 能检查三项目 artifact retention 一致性。
 5. Node v203：cross-project CI artifact retention gate。
    汇总 Node v202、Java v72、mini-kv v81，形成三项目 artifact retention gate；仍不打开生产窗口。
@@ -64,8 +64,18 @@ mini-kv v80：已完成，HEAD/tag 为 第八十版CI证据提示。
 验证：typecheck、聚焦测试、全量 test、build
 ```
 
+## Node v202 收口记录
+
+```text
+完成内容：real-read window CI artifact upload dry-run contract
+新增入口：/api/v1/production/real-read-window-ci-artifact-upload-dry-run-contract
+核心边界：定义未来 GitHub artifact upload 的 artifact name、retention days、path allowlist、forbidden paths
+安全结论：dry-run contract ready 只代表上传形状已受约束；真实 GitHub artifact upload 仍未配置，不读取 token、不上传、不打开生产窗口
+验证：typecheck、聚焦测试、全量 test、build
+```
+
 ## 一句话结论
 
 ```text
-v200 已完成 CI artifact manifest schema，Java v71 + mini-kv v80 已完成只读 CI/evidence hint，Node v201 已完成 manifest verification。下一步是 Node v202 CI artifact upload dry-run contract，不抢跑真实上传或生产开窗。
+v200 已完成 CI artifact manifest schema，Java v71 + mini-kv v80 已完成只读 CI/evidence hint，Node v201 已完成 manifest verification，Node v202 已完成 CI artifact upload dry-run contract。下一步是推荐并行 Java v72 + mini-kv v81，不抢跑真实上传或生产开窗。
 ```
