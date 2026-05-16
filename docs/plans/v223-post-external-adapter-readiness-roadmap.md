@@ -4,6 +4,25 @@
 
 计划状态：当前唯一有效全局计划。v223 已消费 Node v222、Java v81、mini-kv v90，确认真实外部 managed audit adapter 连接前的 owner approval、schema migration review、credential review、mini-kv 非参与边界和生产阻断状态。Node v224 已完成 sandbox-only adapter dry-run plan，并把质量优化写成 profile 中的硬性 `qualityGates`。下一步推荐并行 Java v82 + mini-kv v91，只读补 sandbox 前 guard。
 
+## 给 Java / mini-kv / Node 窗口的当前任务
+
+```text
+1. 推荐并行 Java v82 + mini-kv v91。
+   两边都只做 sandbox 前只读 guard，不互相依赖，可以一起推进。
+
+2. Java v82 必须项：
+   - 不允许继续把新 receipt 堆进 OpsEvidenceService。
+   - 必须使用 builder / helper / 子 service 拆分。
+   - 不允许长布尔参数构造链。
+
+3. mini-kv v91 必须项：
+   - 不允许继续膨胀 command.cpp 主 if-chain。
+   - sandbox 只读 evidence 必须复用 runtime evidence helper。
+   - 不触碰 WAL / snapshot / restore 核心。
+
+4. Node v225 只有在 Java v82 + mini-kv v91 都完成后才推进。
+```
+
 ## 阶段原则
 
 ```text

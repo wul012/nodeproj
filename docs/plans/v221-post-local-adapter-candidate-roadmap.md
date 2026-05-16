@@ -2,6 +2,21 @@
 
 来源版本：Node v221 `managed audit local adapter candidate dry-run`。
 
+> **已收口旧计划，不要按本文推进。**
+>
+> 当前唯一有效全局计划是：
+>
+> ```text
+> docs/plans/v223-post-external-adapter-readiness-roadmap.md
+> ```
+>
+> 当前下一步是：
+>
+> ```text
+> 推荐并行 Java v82 + mini-kv v91，只做 sandbox 前只读 guard。
+> 两边完成后，Node 才能推进 v225。
+> ```
+
 计划状态：已完成并收口。v221 已消费 Node v220、Java v80、mini-kv v89，并完成本地 JSONL adapter candidate dry-run；Node v222 已完成 local adapter candidate verification report，只读验证 v221 archive / record shape / digest linkage / cleanup evidence，不重跑 v221 dry-run，也不新增写能力。Java v81 + mini-kv v90 已推荐并行完成真实外部 adapter 前的只读 guard。Node v223 已消费 Node v222、Java v81、mini-kv v90，形成真实外部 adapter connection readiness review；后续由 `v223-post-external-adapter-readiness-roadmap.md` 接续。
 
 ## 阶段原则

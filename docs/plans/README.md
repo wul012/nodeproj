@@ -2,6 +2,41 @@
 
 本目录统一保存 Node 后续版本计划、跨项目联调计划、阶段路线图和由某个版本衍生出的下一阶段开发安排。
 
+## 当前唯一入口（先读这里）
+
+```text
+当前唯一有效全局计划：
+docs/plans/v223-post-external-adapter-readiness-roadmap.md
+
+当前状态：
+Node v224 已完成 managed audit sandbox adapter dry-run plan，并已把质量优化写入 profile.qualityGates。
+
+下一步：
+推荐并行 Java v82 + mini-kv v91，只做 sandbox 前只读 guard。
+两边完成后，Node 才能推进 v225 managed audit sandbox adapter dry-run package。
+
+不要按旧计划推进：
+v221-post-local-adapter-candidate-roadmap.md 已收口，只是历史计划。
+```
+
+## 当前硬性质量验收门槛
+
+```text
+Java v82 必须项：
+- 不允许继续把新 receipt 堆进 OpsEvidenceService。
+- 必须沿用 builder / helper / 子 service 拆分方式。
+- 不允许新增长布尔参数构造链；字段增多时按 owner approval / schema rehearsal / credential boundary 分组。
+
+mini-kv v91 必须项：
+- 不允许继续膨胀 command.cpp 主 if-chain。
+- sandbox 只读 evidence 必须优先复用 runtime evidence helper。
+- 不允许触碰 WAL / snapshot / restore 核心，不允许把 mini-kv 接成 sandbox audit storage backend。
+
+Node v225 前置条件：
+- 必须先只读确认 Java v82 + mini-kv v91 已完成且证据匹配。
+- 不得读取 credential value，不得连接生产 managed audit，不得执行 SQL / ledger / mini-kv 写操作。
+```
+
 规则：
 
 - Node 每个版本或每几个版本，视工作量输出一份计划文档
