@@ -221,6 +221,9 @@ file audit restart evidence 与后续 managed audit store
 
 207-cross-project-ci-artifact-retention-gate-v203.md
  -> Node v203 cross-project CI artifact retention gate：消费 Node v202、Java v72、mini-kv v81，形成三项目 artifact retention review gate，但仍阻断真实 GitHub artifact upload、生产窗口和执行权限
+
+208-three-project-real-read-runtime-smoke-preflight-v204.md
+ -> Node v204 three-project real-read runtime smoke preflight：消费 v203 retention gate，固化 Node/Java/mini-kv 真实只读联调目标、进程清理责任和失败分类，但本版不执行真实上游读取
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

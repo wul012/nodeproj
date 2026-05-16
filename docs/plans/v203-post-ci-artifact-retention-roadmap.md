@@ -2,7 +2,7 @@
 
 来源版本：Node v203 `cross-project CI artifact retention gate`。
 
-计划状态：当前唯一有效全局计划。
+计划状态：当前唯一有效全局计划。Node v204 已完成，下一步是推荐并行 Java v73 + mini-kv v82。
 
 ## 阶段原则
 
@@ -27,10 +27,10 @@ mini-kv = 自研 KV 基础设施实验位，只提供只读 runtime smoke eviden
 ## 推荐执行顺序
 
 ```text
-1. Node v204：three-project real-read runtime smoke preflight。
+1. Node v204：three-project real-read runtime smoke preflight。已完成。
    先做真实联调前的运行计划和预检 profile：列出 Java health/release rehearsal、mini-kv SMOKEJSON/INFOJSON/STORAGEJSON/HEALTH、Node gate endpoint 的只读目标、端口、环境变量、启动/停止责任和失败分类。若 Java/mini-kv 未运行，本版可以记录为 closed-window，不自动强行启动；若需要启动，由本版明确启动命令、PID、端口和收尾。
 
-2. 推荐并行：Java v73 + mini-kv v82。
+2. 推荐并行：Java v73 + mini-kv v82。下一步。
    Java v73 补真实只读联调友好字段，例如 release rehearsal 的 live-read readiness echo、server timestamp、read-only endpoint version；mini-kv v82 补 SMOKEJSON live-read session hint，例如 session id echo、server uptime bucket、read command list digest。两者都不做写操作，不进入订单一致性链路。
 
 3. Node v205：three-project real-read runtime smoke execution packet。

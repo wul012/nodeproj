@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v204 Three-project Runtime Smoke Preflight</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f6f8fa;
+        --ink: #202631;
+        --muted: #657285;
+        --line: #d4dae3;
+        --panel: #ffffff;
+        --blue: #1f5fbf;
+        --green: #157347;
+        --red: #b42318;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      }
+      main {
+        width: min(1200px, calc(100vw - 48px));
+        margin: 30px auto;
+      }
+      h1 {
+        margin: 0 0 8px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 24px;
+        color: var(--muted);
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 14px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .pill {
+        display: inline-flex;
+        padding: 4px 10px;
+        border-radius: 999px;
+        border: 1px solid currentColor;
+        font-weight: 700;
+      }
+      .green {
+        color: var(--green);
+      }
+      .blue {
+        color: var(--blue);
+      }
+      .red {
+        color: var(--red);
+      }
+      dl {
+        display: grid;
+        grid-template-columns: 210px 1fr;
+        gap: 8px 14px;
+        margin: 12px 0 0;
+        font-size: 14px;
+      }
+      dt {
+        color: var(--muted);
+      }
+      dd {
+        margin: 0;
+        font-weight: 650;
+        overflow-wrap: anywhere;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        border-bottom: 1px solid var(--line);
+        padding: 10px 8px;
+        text-align: left;
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+      }
+      code {
+        background: #edf2f7;
+        border-radius: 4px;
+        padding: 2px 5px;
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .wide {
+          grid-column: auto;
+        }
+        dl {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v204 Three-project Real-read Runtime Smoke Preflight</h1>
+      <p class="subtitle">The runtime smoke is planned, not executed. Java and mini-kv are not started or touched in this version.</p>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Preflight State</h2>
+          <p class="pill green">closed-window-preflight-ready</p>
+          <dl>
+            <dt>Runtime smoke executed</dt>
+            <dd class="red">false</dd>
+            <dt>Automatic upstream start</dt>
+            <dd class="red">false</dd>
+            <dt>Production window</dt>
+            <dd class="red">false</dd>
+          </dl>
+        </article>
+
+        <article class="panel">
+          <h2>Source Gate</h2>
+          <p class="pill blue">Node v203 retention gate</p>
+          <dl>
+            <dt>Source span</dt>
+            <dd>Node v203 + Java v72 + mini-kv v81</dd>
+            <dt>Next upstream step</dt>
+            <dd>Java v73 + mini-kv v82</dd>
+          </dl>
+        </article>
+
+        <article class="panel wide">
+          <h2>Read Targets for v205</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Target</th>
+                <th>Allowed action</th>
+                <th>v204 attempted</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Node</td><td><code>/health</code></td><td>GET</td><td>false</td></tr>
+              <tr><td>Node</td><td><code>/api/v1/production/cross-project-ci-artifact-retention-gate</code></td><td>GET</td><td>false</td></tr>
+              <tr><td>Java</td><td><code>/actuator/health</code></td><td>GET</td><td>false</td></tr>
+              <tr><td>Java</td><td><code>/api/v1/ops/release-approval-rehearsal</code></td><td>GET</td><td>false</td></tr>
+              <tr><td>mini-kv</td><td><code>SMOKEJSON</code></td><td>TCP read command</td><td>false</td></tr>
+              <tr><td>mini-kv</td><td><code>INFOJSON</code></td><td>TCP read command</td><td>false</td></tr>
+              <tr><td>mini-kv</td><td><code>STORAGEJSON</code></td><td>TCP read command</td><td>false</td></tr>
+              <tr><td>mini-kv</td><td><code>HEALTH</code></td><td>TCP read command</td><td>false</td></tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="panel">
+          <h2>Forbidden Surface</h2>
+          <p><code>POST</code> <code>PUT</code> <code>PATCH</code> <code>DELETE</code></p>
+          <p><code>SET</code> <code>DEL</code> <code>EXPIRE</code> <code>LOAD</code> <code>COMPACT</code> <code>SETNXEX</code> <code>RESTORE</code></p>
+        </article>
+
+        <article class="panel">
+          <h2>Remaining Blocker</h2>
+          <p class="pill red">REAL_RUNTIME_SMOKE_NOT_EXECUTED</p>
+          <p>v204 is a run sheet. v205 must perform and archive the real read-only smoke.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

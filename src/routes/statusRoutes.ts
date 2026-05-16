@@ -374,6 +374,10 @@ import {
   renderCrossProjectCiArtifactRetentionGateMarkdown,
 } from "../services/crossProjectCiArtifactRetentionGate.js";
 import {
+  loadThreeProjectRealReadRuntimeSmokePreflight,
+  renderThreeProjectRealReadRuntimeSmokePreflightMarkdown,
+} from "../services/threeProjectRealReadRuntimeSmokePreflight.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1819,6 +1823,26 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderCrossProjectCiArtifactRetentionGateMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/three-project-real-read-runtime-smoke-preflight", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadThreeProjectRealReadRuntimeSmokePreflight({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+      headers: request.headers,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderThreeProjectRealReadRuntimeSmokePreflightMarkdown(profile);
     }
 
     return profile;
