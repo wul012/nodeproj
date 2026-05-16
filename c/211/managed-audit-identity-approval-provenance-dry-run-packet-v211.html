@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v211 managed audit identity approval provenance dry-run packet</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #5d6675;
+      --line: #cbd5e1;
+      --panel: #f8fafc;
+      --green: #0f766e;
+      --blue: #1d4ed8;
+      --red: #b91c1c;
+      --amber: #92400e;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 28px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .metric, .section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 16px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .metric span {
+      color: var(--muted);
+    }
+    .section {
+      margin-top: 14px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 21px;
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+    li {
+      margin: 8px 0;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #e9eef5;
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .ok { color: var(--green); }
+    .next { color: var(--blue); }
+    .blocked { color: var(--red); }
+    .warn { color: var(--amber); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v211 managed audit packet</h1>
+    <p class="subtitle">消费 Node v210、Java v75、mini-kv v84，把 identity、approval、correlation 和 provenance 合成一条本地 dry-run packet，并完成 append / query / digest / cleanup。</p>
+
+    <section class="grid">
+      <div class="metric"><strong class="ok">verified</strong><span>packetState</span></div>
+      <div class="metric"><strong>1</strong><span>JSONL packet</span></div>
+      <div class="metric"><strong class="ok">true</strong><span>cleanup covered</span></div>
+      <div class="metric"><strong class="blocked">false</strong><span>production audit</span></div>
+    </section>
+
+    <section class="section">
+      <h2>Packet Sources</h2>
+      <ol>
+        <li><code>Node v210</code>：identity / approval binding contract。</li>
+        <li><code>Java v75</code>：approval record handoff hint。</li>
+        <li><code>mini-kv v84</code>：retention provenance check。</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>Packet Fields</h2>
+      <ul>
+        <li><code>operator:v211-dry-run</code></li>
+        <li><code>approval-decision-v211-dry-run</code></li>
+        <li><code>upstreamTouched=false</code></li>
+        <li><code>miniKvRetentionProvenanceCheckDigest=fnv1a64:357cc7e9eec3f223</code></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Next Plan</h2>
+      <ul>
+        <li class="next">Node v212：managed audit packet verification report。</li>
+        <li class="next">推荐并行 Java v76 + mini-kv v85：补只读消费回执。</li>
+        <li class="warn">继续禁止真实 approval execution 和真实 managed audit storage。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>

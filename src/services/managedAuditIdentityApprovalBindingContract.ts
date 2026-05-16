@@ -37,6 +37,7 @@ export interface ManagedAuditIdentityApprovalBindingContractProfile {
     verificationDigest: string;
     sourceCandidateDigest: string;
     dryRunRecordVersion: ManagedAuditPersistenceDryRunVerificationProfile["dryRunRecord"]["recordVersion"];
+    sourceDryRunRecordId: string;
   };
   contract: {
     contractDigest: string;
@@ -243,6 +244,7 @@ export async function loadManagedAuditIdentityApprovalBindingContract(input: {
       verificationDigest: sourceDryRun.verification.verificationDigest,
       sourceCandidateDigest: sourceDryRun.sourceCandidate.candidateDigest,
       dryRunRecordVersion: sourceDryRun.dryRunRecord.recordVersion,
+      sourceDryRunRecordId: sourceDryRun.dryRunRecord.recordId,
     },
     contract,
     bindingShape,

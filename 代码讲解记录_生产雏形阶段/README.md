@@ -270,3 +270,4 @@ release / deployment / rollback / restore 全部保持阻断
 - `212-managed-audit-persistence-boundary-candidate-v208.md`：Node v208 managed audit 持久化边界候选，消费 Node v207、Java v74、mini-kv v83，只定义 file-jsonl/sqlite dry-run 候选、失败模式和 v209 验证要求。
 - `213-managed-audit-persistence-dry-run-verification-v209.md`：Node v209 managed audit 持久化 dry-run 验证，在 Node 本地 `.tmp` 临时目录完成一条 JSONL audit record 的 append/query/digest/cleanup，并继续阻断 Java、mini-kv 和真实外部审计写入。
 - `214-managed-audit-identity-approval-binding-contract-v210.md`：Node v210 managed audit identity / approval binding contract，消费 v209 dry-run verification，绑定 operator identity、approval request、approval decision、correlation id 和 digest linkage，仍不创建真实审批决定或写 ledger。
+- `215-managed-audit-identity-approval-provenance-dry-run-packet-v211.md`：Node v211 managed audit identity approval provenance dry-run packet，消费 Node v210、Java v75、mini-kv v84，在 Node 本地临时目录生成带 identity/approval/provenance 的 JSONL packet 并完成 append/query/digest/cleanup。

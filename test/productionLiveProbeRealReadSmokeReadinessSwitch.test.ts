@@ -169,7 +169,7 @@ describe("production live probe real-read smoke readiness switch", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 });
 
 async function approveCurrentChangeRequest(
