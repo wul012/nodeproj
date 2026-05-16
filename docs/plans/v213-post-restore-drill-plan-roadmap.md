@@ -2,7 +2,7 @@
 
 来源版本：Node v213 `managed audit packet restore drill plan`。
 
-计划状态：当前唯一有效全局计划。v211-v213 已完成 managed audit packet 的本地 dry-run 生成、复核和恢复演练计划。下一阶段不能直接连接真实 managed audit，也不能让 Java/mini-kv 进入写链路；应先验证 v213 归档，再准备第一版 dry-run adapter candidate。
+计划状态：当前唯一有效全局计划。v211-v214 已完成 managed audit packet 的本地 dry-run 生成、复核、恢复演练计划和 v213 archive verification。下一阶段不能直接连接真实 managed audit，也不能让 Java/mini-kv 进入写链路；应推荐并行完成 Java v77 + mini-kv v86 的只读边界回执，再准备第一版 dry-run adapter candidate。
 
 ## 阶段原则
 
@@ -27,10 +27,10 @@ restoreExecutionAllowed=false
 ## 推荐执行顺序
 
 ```text
-1. Node v214：managed audit restore drill archive verification。
+1. Node v214：已完成 managed audit restore drill archive verification。
    消费 Node v213 的 HTML、截图、解释、代码讲解、测试记录、HTTP smoke 记录和计划收口状态，验证归档完整性、digest/marker 字段、forbidden operations 和 cleanup 证据。只做归档验证，不新增 adapter，也不重新触发 Java/mini-kv 联调。
 
-2. 推荐并行：Java v77 + mini-kv v86。
+2. 下一步推荐并行：Java v77 + mini-kv v86。
    - Java v77：managed audit adapter boundary receipt。只读说明 Java approval handoff marker 不允许 Node dry-run adapter 创建真实 approval decision、approval ledger、SQL、deployment 或 rollback。
    - mini-kv v86：managed audit adapter restore boundary receipt。只读说明 mini-kv 仍不执行 LOAD/COMPACT/SETNXEX/RESTORE，不写 managed audit，不承担订单权威状态。
 
@@ -41,15 +41,15 @@ restoreExecutionAllowed=false
 ## 本阶段可合并/并行规则
 
 ```text
-Node v214 可以直接推进，因为它只依赖 Node v213。
-Java v77 + mini-kv v86 推荐与 Node v214 同轮并行推进，给 Node v215 提供上游 no-write 边界回执。
+Node v214 已完成，因为它只依赖 Node v213。
+Java v77 + mini-kv v86 推荐同轮并行推进，给 Node v215 提供上游 no-write 边界回执。
 Node v215 必须等 Java v77 + mini-kv v86 完成后再消费；若两边未完成，应记录缺口并停止。
 ```
 
 ## 质量优化插队项
 
 ```text
-Node v214 可顺手做：
+Node v214 已完成：
 - 验证 v213 的 evidence hints 都是项目相对路径。
 - 检查 v213 archive 是否包含截图、HTML、解释、代码讲解和计划收口。
 

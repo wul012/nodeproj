@@ -273,3 +273,4 @@ release / deployment / rollback / restore 全部保持阻断
 - `215-managed-audit-identity-approval-provenance-dry-run-packet-v211.md`：Node v211 managed audit identity approval provenance dry-run packet，消费 Node v210、Java v75、mini-kv v84，在 Node 本地临时目录生成带 identity/approval/provenance 的 JSONL packet 并完成 append/query/digest/cleanup。
 - `216-managed-audit-packet-verification-report-v212.md`：Node v212 managed audit packet verification report，复核 v211 packet 的 shape、digest、identity、approval、provenance 和 cleanup 证据，同时修正 v205 mini-kv readCommands 与 records 统计重复问题。
 - `217-managed-audit-packet-restore-drill-plan-v213.md`：Node v213 managed audit packet restore drill plan，消费 Node v212、Java v76、mini-kv v85，只生成人工 dry-run 恢复演练计划，不执行 restore、不连接真实 managed audit。
+- `218-managed-audit-restore-drill-archive-verification-v214.md`：Node v214 managed audit restore drill archive verification，验证 v213 HTML、截图、解释、代码讲解和计划证据完整性，继续阻断真实 managed audit、restore、Java 写入和 mini-kv restore。

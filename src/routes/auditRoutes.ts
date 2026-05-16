@@ -64,6 +64,10 @@ import {
   loadManagedAuditPacketRestoreDrillPlan,
   renderManagedAuditPacketRestoreDrillPlanMarkdown,
 } from "../services/managedAuditPacketRestoreDrillPlan.js";
+import {
+  loadManagedAuditRestoreDrillArchiveVerification,
+  renderManagedAuditRestoreDrillArchiveVerificationMarkdown,
+} from "../services/managedAuditRestoreDrillArchiveVerification.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -424,6 +428,29 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditPacketRestoreDrillPlanMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-restore-drill-archive-verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = loadManagedAuditRestoreDrillArchiveVerification({
+      config: deps.config,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditRestoreDrillArchiveVerificationMarkdown(profile);
     }
 
     return profile;
