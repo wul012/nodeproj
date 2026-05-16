@@ -32,14 +32,28 @@ export interface ManagedAuditQueryFilter {
 }
 
 export interface ManagedAuditAdapterAppendResult {
+  status: "disabled" | "appended";
+  accepted: boolean;
+  written: boolean;
+  code?: "MANAGED_AUDIT_ADAPTER_DISABLED";
+  message: string;
+}
+
+export interface DisabledManagedAuditAdapterAppendResult extends ManagedAuditAdapterAppendResult {
   status: "disabled";
   accepted: false;
   written: false;
   code: "MANAGED_AUDIT_ADAPTER_DISABLED";
-  message: string;
 }
 
 export interface ManagedAuditAdapterQueryResult {
+  status: "disabled" | "queried";
+  records: unknown[];
+  recordCount: number;
+  code?: "MANAGED_AUDIT_ADAPTER_DISABLED";
+}
+
+export interface DisabledManagedAuditAdapterQueryResult extends ManagedAuditAdapterQueryResult {
   status: "disabled";
   records: [];
   recordCount: 0;
@@ -47,25 +61,44 @@ export interface ManagedAuditAdapterQueryResult {
 }
 
 export interface ManagedAuditAdapterDigestResult {
-  status: "disabled";
+  status: "disabled" | "ready";
   digest: string;
+  recordCount: number;
+}
+
+export interface DisabledManagedAuditAdapterDigestResult extends ManagedAuditAdapterDigestResult {
+  status: "disabled";
   recordCount: 0;
 }
 
 export interface ManagedAuditAdapterHealthResult {
-  status: "disabled";
-  writable: false;
+  status: "disabled" | "healthy";
+  writable: boolean;
   externalConnectionAttempted: false;
   message: string;
 }
 
+export interface DisabledManagedAuditAdapterHealthResult extends ManagedAuditAdapterHealthResult {
+  status: "disabled";
+  writable: false;
+}
+
 export interface ManagedAuditAdapterDescription {
+  adapterName: string;
+  adapterKind: "disabled" | "local-dry-run";
+  profileVersion: string;
+  appendEnabled: boolean;
+  queryEnabled: boolean;
+  externalConnectionEnabled: false;
+  localDryRunEnabled: boolean;
+}
+
+export interface DisabledManagedAuditAdapterDescription extends ManagedAuditAdapterDescription {
   adapterName: "DisabledManagedAuditAdapter";
   adapterKind: "disabled";
   profileVersion: "managed-audit-adapter-disabled-shell.v1";
   appendEnabled: false;
   queryEnabled: false;
-  externalConnectionEnabled: false;
   localDryRunEnabled: false;
 }
 
@@ -182,7 +215,7 @@ const ENDPOINTS = Object.freeze({
 });
 
 export class DisabledManagedAuditAdapter implements ManagedAuditAdapter {
-  async append(_record: ManagedAuditAppendRecord): Promise<ManagedAuditAdapterAppendResult> {
+  async append(_record: ManagedAuditAppendRecord): Promise<DisabledManagedAuditAdapterAppendResult> {
     return {
       status: "disabled",
       accepted: false,
@@ -192,7 +225,7 @@ export class DisabledManagedAuditAdapter implements ManagedAuditAdapter {
     };
   }
 
-  async query(_filter: ManagedAuditQueryFilter): Promise<ManagedAuditAdapterQueryResult> {
+  async query(_filter: ManagedAuditQueryFilter): Promise<DisabledManagedAuditAdapterQueryResult> {
     return {
       status: "disabled",
       records: [],
@@ -201,7 +234,7 @@ export class DisabledManagedAuditAdapter implements ManagedAuditAdapter {
     };
   }
 
-  async digest(): Promise<ManagedAuditAdapterDigestResult> {
+  async digest(): Promise<DisabledManagedAuditAdapterDigestResult> {
     return {
       status: "disabled",
       digest: sha256StableJson({
@@ -214,7 +247,7 @@ export class DisabledManagedAuditAdapter implements ManagedAuditAdapter {
     };
   }
 
-  async health(): Promise<ManagedAuditAdapterHealthResult> {
+  async health(): Promise<DisabledManagedAuditAdapterHealthResult> {
     return {
       status: "disabled",
       writable: false,
@@ -223,7 +256,7 @@ export class DisabledManagedAuditAdapter implements ManagedAuditAdapter {
     };
   }
 
-  async describe(): Promise<ManagedAuditAdapterDescription> {
+  async describe(): Promise<DisabledManagedAuditAdapterDescription> {
     return {
       adapterName: "DisabledManagedAuditAdapter",
       adapterKind: "disabled",
@@ -239,7 +272,7 @@ export class DisabledManagedAuditAdapter implements ManagedAuditAdapter {
 export function selectManagedAuditAdapterShell(input: {
   config: Pick<AppConfig, "auditStoreKind" | "auditStoreUrl" | "upstreamActionsEnabled">;
 }): {
-  adapter: ManagedAuditAdapter;
+  adapter: DisabledManagedAuditAdapter;
   selection: ManagedAuditAdapterDisabledShellProfile["adapterSelection"];
 } {
   return {

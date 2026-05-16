@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v221 Managed Audit Local Adapter Candidate</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f5f8fb;
+      color: #172233;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #586879;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dbe4ee;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf2f7;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #5b6878;
+    }
+    .ok {
+      color: #0d7651;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #9b3c30;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef3f8;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v221 Local Adapter Candidate</h1>
+    <p class="subtitle">本地 JSONL dry-run：append/query/digest/cleanup 已验证，但生产审计仍关闭。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Candidate State</h2>
+        <div class="metric"><span class="label">state</span><span class="ok">verified</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">connects managed audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">execution allowed</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Dry-run Evidence</h2>
+        <div class="metric"><span class="label">append</span><span class="ok">1 record</span></div>
+        <div class="metric"><span class="label">query</span><span class="ok">1 result</span></div>
+        <div class="metric"><span class="label">digest</span><span class="ok">stable</span></div>
+        <div class="metric"><span class="label">cleanup</span><span class="ok">removed</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Consumed Guards</h2>
+        <div class="metric"><span class="label">Node</span><span>v220 shell</span></div>
+        <div class="metric"><span class="label">Java</span><span>v80 guard</span></div>
+        <div class="metric"><span class="label">mini-kv</span><span>v89 guard</span></div>
+        <div class="metric"><span class="label">mini-kv digest</span><span><code>76411286a0913dc8</code></span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>What This Version Does Not Allow</h2>
+        <ul>
+          <li>No production managed audit connection, credential read, or database migration.</li>
+          <li>No Java approval decision, ledger write, SQL, deployment, rollback, or restore.</li>
+          <li>No mini-kv storage backend role, managed audit write, restore, LOAD, COMPACT, or SETNXEX.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
