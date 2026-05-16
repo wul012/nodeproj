@@ -27,13 +27,26 @@ readyForProductionWindow=false
 
 ```text
 1. Node v212：managed audit packet verification report。
-   消费 Node v211 packet，验证 packet shape、digest linkage、identity/approval/provenance 字段和 cleanup evidence。只读报告，不再次扩展真实写入范围。
+   消费 Node v211 packet，验证 packet shape、digest linkage、identity/approval/provenance 字段和 cleanup evidence。只读报告，不再次扩展真实写入范围。本版同时做一组小型 Node 质量优化：修正 v205 `threeProjectRealReadRuntimeSmokeExecutionPacket` 中 mini-kv `readCommands` 与实际 `SMOKEJSON/INFOJSON/STORAGEJSON/HEALTH` 执行列表不一致的问题，并把 `records.filter(...)` 重复统计收敛为一次性 counts helper，供 `smokeSession`、`summary`、`createChecks`/相关判断复用。
 
 2. 推荐并行：Java v76 + mini-kv v85。
    Java v76 可补 approval handoff verification marker，只读说明 v75 handoff 如何被 Node v211 消费。mini-kv v85 可补 retention provenance replay marker，只读说明 v84 evidence 如何被 Node v211 消费。两边都不写业务状态。
 
 3. Node v213：managed audit packet restore drill plan。
-   消费 Node v212 和 Java v76 / mini-kv v85，生成本地 dry-run restore drill plan，只说明如何重建 packet evidence，不执行真实 restore、不连真实 managed audit。
+   消费 Node v212 和 Java v76 / mini-kv v85，生成本地 dry-run restore drill plan，只说明如何重建 packet evidence，不执行真实 restore、不连真实 managed audit。本版可继续做 evidence path normalization，把报告里的 `D:/...` 文档性 evidence hint 收敛为相对路径或 config 派生路径；若发现影响面过大，则拆到 v214。
+```
+
+## 已确认的质量优化插队项
+
+```text
+Node v212 必做：
+- 修正 v205 mini-kv readCommands 声明与 runTarget 实际执行命令不同源的问题。
+- 为 v205 runtime smoke records 提取一次性 counts helper，减少多处重复 filter。
+
+Node v213 或 v214 视工作量推进：
+- evidence endpoint 文档性路径去硬编码，优先处理 v205 与 managed-audit 相关报告。
+- collectProductionBlockers 可改为声明式 rules，但只有在不降低可读性时执行。
+- classifyError 可增加 ECONNREFUSED / TIMEOUT / unknown network error 区分，但必须基于现有 client 错误形状，避免臆造分类。
 ```
 
 ## 可并行说明
