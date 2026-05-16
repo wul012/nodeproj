@@ -218,6 +218,9 @@ file audit restart evidence 与后续 managed audit store
 
 184-approval-decision-prerequisite-gate-v180.md
  -> 第一百八十版 Approval decision prerequisite gate：消费 Node v179、Java v64、mini-kv v73，确认可进入 approval ledger dry-run envelope，但仍不创建真实 approval decision
+
+207-cross-project-ci-artifact-retention-gate-v203.md
+ -> Node v203 cross-project CI artifact retention gate：消费 Node v202、Java v72、mini-kv v81，形成三项目 artifact retention review gate，但仍阻断真实 GitHub artifact upload、生产窗口和执行权限
 ```
 
 实际推进后续版本时，再把主题说明替换为本版真实完成内容，并补齐具体讲解。

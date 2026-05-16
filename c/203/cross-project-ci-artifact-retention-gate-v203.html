@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v203 Cross-project CI Artifact Retention Gate</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --bg: #f7f8fb;
+        --ink: #1f2937;
+        --muted: #5b6472;
+        --line: #cfd6df;
+        --panel: #ffffff;
+        --green: #13795b;
+        --red: #b42318;
+        --blue: #1f5fbf;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+        background: var(--bg);
+        color: var(--ink);
+      }
+      main {
+        width: min(1180px, calc(100vw - 48px));
+        margin: 32px auto;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 24px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        min-height: 28px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-weight: 700;
+        border: 1px solid currentColor;
+      }
+      .ready {
+        color: var(--green);
+      }
+      .blocked {
+        color: var(--red);
+      }
+      .review {
+        color: var(--blue);
+      }
+      dl {
+        display: grid;
+        grid-template-columns: 190px 1fr;
+        gap: 8px 14px;
+        margin: 0;
+        font-size: 14px;
+      }
+      dt {
+        color: var(--muted);
+      }
+      dd {
+        margin: 0;
+        font-weight: 600;
+        overflow-wrap: anywhere;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+      th,
+      td {
+        text-align: left;
+        border-bottom: 1px solid var(--line);
+        padding: 10px 8px;
+        vertical-align: top;
+      }
+      th {
+        color: var(--muted);
+        font-weight: 700;
+      }
+      code {
+        font-family: "Cascadia Code", Consolas, monospace;
+        font-size: 13px;
+        background: #eef2f7;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        dl {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v203 Cross-project CI Artifact Retention Gate</h1>
+      <p class="subtitle">Node v202 + Java v72 + mini-kv v81 retention evidence is consistent, while real upload and production window stay blocked.</p>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Gate State</h2>
+          <p class="status ready">ready-for-retention-review</p>
+          <dl>
+            <dt>Real CI upload</dt>
+            <dd class="blocked">false</dd>
+            <dt>Production window</dt>
+            <dd class="blocked">false</dd>
+            <dt>Execution allowed</dt>
+            <dd class="blocked">false</dd>
+          </dl>
+        </article>
+
+        <article class="panel">
+          <h2>Retention Contract</h2>
+          <dl>
+            <dt>Artifact name</dt>
+            <dd><code>orderops-real-read-window-evidence-v191-v201</code></dd>
+            <dt>Artifact root</dt>
+            <dd><code>c/</code></dd>
+            <dt>Retention days</dt>
+            <dd>30</dd>
+            <dt>Mode</dt>
+            <dd><code>dry-run-contract-only</code></dd>
+          </dl>
+        </article>
+
+        <article class="panel">
+          <h2>Hard Blocker</h2>
+          <p class="status blocked">REAL_ARTIFACT_RETENTION_STORE_NOT_CONNECTED</p>
+          <p>Evidence is review-ready, but GitHub artifact upload and a real retention store are not connected.</p>
+        </article>
+
+        <article class="panel wide">
+          <h2>Cross-project Records</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Project</th>
+                <th>Source</th>
+                <th>Evidence path</th>
+                <th>Boundary</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Node</td>
+                <td>v202 upload dry-run contract</td>
+                <td><code>c/202/</code></td>
+                <td>no token, no upload, no production window</td>
+              </tr>
+              <tr>
+                <td>Java</td>
+                <td>v72 release approval artifact retention hint</td>
+                <td><code>D:/javaproj/advanced-order-platform/c/72/</code></td>
+                <td>read-only echo, no GitHub artifact access, no ledger write</td>
+              </tr>
+              <tr>
+                <td>mini-kv</td>
+                <td>v81 runtime smoke retention evidence</td>
+                <td><code>c/81/</code></td>
+                <td>read-only smoke, no restore, not order authoritative</td>
+              </tr>
+            </tbody>
+          </table>
+        </article>
+
+        <article class="panel wide">
+          <h2>Next Direction</h2>
+          <p class="status review">Node v204: true read-only three-project runtime smoke preflight</p>
+          <p>The next phase should exercise real read paths deliberately, with explicit process/port cleanup, instead of adding another artifact summary layer.</p>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

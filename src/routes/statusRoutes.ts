@@ -370,6 +370,10 @@ import {
   renderRealReadWindowCiArtifactUploadDryRunContractMarkdown,
 } from "../services/realReadWindowCiArtifactUploadDryRunContract.js";
 import {
+  loadCrossProjectCiArtifactRetentionGate,
+  renderCrossProjectCiArtifactRetentionGateMarkdown,
+} from "../services/crossProjectCiArtifactRetentionGate.js";
+import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
@@ -1795,6 +1799,26 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderRealReadWindowCiArtifactUploadDryRunContractMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/cross-project-ci-artifact-retention-gate", {
+    schema: {
+      querystring: fixtureReportQuerySchema,
+    },
+  }, async (request, reply) => {
+    const profile = await loadCrossProjectCiArtifactRetentionGate({
+      config: deps.config,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+      headers: request.headers,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderCrossProjectCiArtifactRetentionGateMarkdown(profile);
     }
 
     return profile;

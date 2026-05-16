@@ -161,5 +161,8 @@ v197-post-readiness-checkpoint-roadmap.md
  -> 已完成并收口；由 Node v197 production readiness checkpoint 衍生；Node v198 real-read window operator identity binding、推荐并行 Java v70 + mini-kv v79、Node v199 real-read window audit store handoff contract、Node v200 CI archive artifact manifest 已完成；由 v200-post-ci-artifact-manifest-roadmap.md 接续
 
 v200-post-ci-artifact-manifest-roadmap.md
- -> 当前唯一有效全局计划；由 Node v200 real-read window CI archive artifact manifest 衍生；推荐并行 Java v71 + mini-kv v80、Node v201 real-read window CI artifact manifest verification、Node v202 CI artifact upload dry-run contract 已完成；下一步是推荐并行 Java v72 + mini-kv v81
+ -> 已完成并收口；由 Node v200 real-read window CI archive artifact manifest 衍生；推荐并行 Java v71 + mini-kv v80、Node v201、Node v202、推荐并行 Java v72 + mini-kv v81、Node v203 cross-project CI artifact retention gate 已完成；由 v203-post-ci-artifact-retention-roadmap.md 接续
+
+v203-post-ci-artifact-retention-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v203 cross-project CI artifact retention gate 衍生；下一阶段转向真实只读三项目 runtime smoke，先做 Node v204 联调预检，再推荐并行 Java v73 + mini-kv v82，随后 Node v205-v206 执行和验证真实只读联调
 ```
