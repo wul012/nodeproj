@@ -19,6 +19,8 @@ import {
   type ThreeProjectRealReadRuntimeSmokePreflightProfile,
 } from "./threeProjectRealReadRuntimeSmokePreflight.js";
 
+const MINI_KV_RUNTIME_SMOKE_READ_COMMANDS = ["SMOKEJSON", "INFOJSON", "STORAGEJSON", "HEALTH"] as const;
+
 export interface ThreeProjectRealReadRuntimeSmokeExecutionPacketProfile {
   service: "orderops-node";
   title: string;
@@ -147,7 +149,7 @@ interface MiniKvV82LiveReadSessionReference {
   projectVersion: "0.82.0";
   sessionIdEcho: "mini-kv-live-read-v82";
   readCommandListDigest: "fnv1a64:5bef33f2fbe65cc5";
-  readCommands: readonly ["INFOJSON", "STORAGEJSON", "HEALTH", "STATSJSON"];
+  readCommands: typeof MINI_KV_RUNTIME_SMOKE_READ_COMMANDS;
   writeCommandsAllowed: false;
   autoStartAllowed: false;
   restoreExecutionAllowed: false;
@@ -164,6 +166,16 @@ interface RuntimeSmokeExecutionMessage {
     | "mini-kv-v82-live-read-session-hint"
     | "runtime-config";
   message: string;
+}
+
+interface RuntimeSmokeRecordCounts {
+  attemptedTargetCount: number;
+  passedTargetCount: number;
+  skippedTargetCount: number;
+  failedTargetCount: number;
+  javaRecordCount: number;
+  miniKvRecordCount: number;
+  httpRecordCount: number;
 }
 
 const SESSION_ID = "runtime-smoke-v205-session-001" as const;
@@ -190,7 +202,8 @@ export async function loadThreeProjectRealReadRuntimeSmokeExecutionPacket(input:
   const records = input.config.upstreamProbesEnabled
     ? await runRuntimeSmoke(input, sourcePreflight)
     : sourcePreflight.readTargets.map((target) => skippedRecord(target));
-  const checks = createChecks(input.config, sourcePreflight, upstreamEvidence, records);
+  const recordCounts = countRuntimeSmokeRecords(records);
+  const checks = createChecks(input.config, sourcePreflight, upstreamEvidence, records, recordCounts);
   checks.readyForThreeProjectRealReadRuntimeSmokeExecutionPacket = Object.entries(checks)
     .filter(([key]) => ![
       "readyForThreeProjectRealReadRuntimeSmokeExecutionPacket",
@@ -214,7 +227,7 @@ export async function loadThreeProjectRealReadRuntimeSmokeExecutionPacket(input:
     checks,
   });
   const productionBlockers = collectProductionBlockers(input.config, checks, records);
-  const warnings = collectWarnings(input.config, packetState, records);
+  const warnings = collectWarnings(input.config, packetState, recordCounts);
   const recommendations = collectRecommendations(packetState);
 
   return {
@@ -243,12 +256,12 @@ export async function loadThreeProjectRealReadRuntimeSmokeExecutionPacket(input:
       upstreamProbesEnabled: input.config.upstreamProbesEnabled,
       upstreamActionsEnabled: input.config.upstreamActionsEnabled,
       automaticUpstreamStart: false,
-      realRuntimeSmokeExecuted: input.config.upstreamProbesEnabled && records.some((record) => record.attempted),
+      realRuntimeSmokeExecuted: input.config.upstreamProbesEnabled && recordCounts.attemptedTargetCount > 0,
       plannedTargetCount: records.length,
-      attemptedTargetCount: records.filter((record) => record.attempted).length,
-      passedTargetCount: records.filter((record) => record.status === "passed-read").length,
-      skippedTargetCount: records.filter((record) => record.status === "skipped-closed-window").length,
-      failedTargetCount: records.filter((record) => record.status === "failed-read").length,
+      attemptedTargetCount: recordCounts.attemptedTargetCount,
+      passedTargetCount: recordCounts.passedTargetCount,
+      skippedTargetCount: recordCounts.skippedTargetCount,
+      failedTargetCount: recordCounts.failedTargetCount,
     },
     upstreamEvidence,
     records,
@@ -257,10 +270,10 @@ export async function loadThreeProjectRealReadRuntimeSmokeExecutionPacket(input:
       checkCount: countReportChecks(checks),
       passedCheckCount: countPassedReportChecks(checks),
       recordCount: records.length,
-      attemptedTargetCount: records.filter((record) => record.attempted).length,
-      passedTargetCount: records.filter((record) => record.status === "passed-read").length,
-      skippedTargetCount: records.filter((record) => record.status === "skipped-closed-window").length,
-      failedTargetCount: records.filter((record) => record.status === "failed-read").length,
+      attemptedTargetCount: recordCounts.attemptedTargetCount,
+      passedTargetCount: recordCounts.passedTargetCount,
+      skippedTargetCount: recordCounts.skippedTargetCount,
+      failedTargetCount: recordCounts.failedTargetCount,
       productionBlockerCount: productionBlockers.length,
       warningCount: warnings.length,
       recommendationCount: recommendations.length,
@@ -387,7 +400,7 @@ async function runTarget(
         return passedRecord(target, response.latencyMs, response.statusCode, summarizeJavaRehearsal(response));
       }
       case "mini-kv-smokejson": {
-        const result = await input.miniKv.execute("SMOKEJSON");
+        const result = await input.miniKv.execute(MINI_KV_RUNTIME_SMOKE_READ_COMMANDS[0]);
         return passedRecord(target, result.latencyMs, undefined, summarizeMiniKvJson(result.response));
       }
       case "mini-kv-infojson": {
@@ -487,11 +500,8 @@ function createChecks(
   sourcePreflight: ThreeProjectRealReadRuntimeSmokePreflightProfile,
   upstreamEvidence: ThreeProjectRealReadRuntimeSmokeExecutionPacketProfile["upstreamEvidence"],
   records: RuntimeSmokeExecutionRecord[],
+  recordCounts: RuntimeSmokeRecordCounts,
 ): ThreeProjectRealReadRuntimeSmokeExecutionPacketProfile["checks"] {
-  const javaRecords = records.filter((record) => record.project === "java");
-  const miniKvRecords = records.filter((record) => record.project === "mini-kv");
-  const httpRecords = records.filter((record) => record.protocol === "http");
-
   return {
     sourcePreflightReady: sourcePreflight.readyForThreeProjectRealReadRuntimeSmokePreflight,
     sourcePreflightDigestValid: /^[a-f0-9]{64}$/.test(sourcePreflight.runtimeWindow.preflightDigest),
@@ -500,11 +510,13 @@ function createChecks(
     miniKvV82HintAccepted: upstreamEvidence.miniKvV82.runtimeSmokeEvidenceVersion === "mini-kv-runtime-smoke-evidence.v7"
       && upstreamEvidence.miniKvV82.writeCommandsAllowed === false
       && upstreamEvidence.miniKvV82.autoStartAllowed === false,
-    readTargetsComplete: records.length === 8 && javaRecords.length === 2 && miniKvRecords.length === 4,
+    readTargetsComplete: records.length === 8 && recordCounts.javaRecordCount === 2 && recordCounts.miniKvRecordCount === 4,
     allRecordsReadOnly: records.every((record) => record.readOnly && !record.mutatesState),
-    noWriteHttpMethodsAttempted: httpRecords.every((record) => record.methodOrCommand === "GET"),
-    noForbiddenMiniKvCommandsAttempted: miniKvRecords.every((record) =>
-      ["SMOKEJSON", "INFOJSON", "STORAGEJSON", "HEALTH"].includes(record.methodOrCommand)
+    noWriteHttpMethodsAttempted: records.every((record) =>
+      record.protocol !== "http" || record.methodOrCommand === "GET"
+    ),
+    noForbiddenMiniKvCommandsAttempted: records.every((record) =>
+      record.project !== "mini-kv" || isMiniKvRuntimeSmokeReadCommand(record.methodOrCommand)
     ),
     upstreamActionsStillDisabled: config.upstreamActionsEnabled === false,
     closedWindowSkipsWithoutAttempt: config.upstreamProbesEnabled
@@ -558,7 +570,7 @@ function createMiniKvV82Reference(): MiniKvV82LiveReadSessionReference {
     projectVersion: "0.82.0",
     sessionIdEcho: "mini-kv-live-read-v82",
     readCommandListDigest: "fnv1a64:5bef33f2fbe65cc5",
-    readCommands: ["INFOJSON", "STORAGEJSON", "HEALTH", "STATSJSON"],
+    readCommands: MINI_KV_RUNTIME_SMOKE_READ_COMMANDS,
     writeCommandsAllowed: false,
     autoStartAllowed: false,
     restoreExecutionAllowed: false,
@@ -610,19 +622,57 @@ function collectProductionBlockers(
 function collectWarnings(
   config: AppConfig,
   packetState: ThreeProjectRealReadRuntimeSmokeExecutionPacketProfile["packetState"],
-  records: RuntimeSmokeExecutionRecord[],
+  recordCounts: RuntimeSmokeRecordCounts,
 ): RuntimeSmokeExecutionMessage[] {
-  const failedCount = records.filter((record) => record.status === "failed-read").length;
   return [
     {
       code: config.upstreamProbesEnabled ? "REAL_RUNTIME_SMOKE_ATTEMPTED" : "REAL_RUNTIME_SMOKE_SKIPPED_BY_CONFIG",
       severity: "warning",
       source: "three-project-real-read-runtime-smoke-execution-packet",
       message: config.upstreamProbesEnabled
-        ? `Packet state ${packetState}; failed target count=${failedCount}.`
+        ? `Packet state ${packetState}; failed target count=${recordCounts.failedTargetCount}.`
         : "UPSTREAM_PROBES_ENABLED=false; records are closed-window skips.",
     },
   ];
+}
+
+function countRuntimeSmokeRecords(records: RuntimeSmokeExecutionRecord[]): RuntimeSmokeRecordCounts {
+  const counts: RuntimeSmokeRecordCounts = {
+    attemptedTargetCount: 0,
+    passedTargetCount: 0,
+    skippedTargetCount: 0,
+    failedTargetCount: 0,
+    javaRecordCount: 0,
+    miniKvRecordCount: 0,
+    httpRecordCount: 0,
+  };
+
+  for (const record of records) {
+    if (record.attempted) {
+      counts.attemptedTargetCount += 1;
+    }
+    if (record.status === "passed-read") {
+      counts.passedTargetCount += 1;
+    } else if (record.status === "skipped-closed-window") {
+      counts.skippedTargetCount += 1;
+    } else if (record.status === "failed-read") {
+      counts.failedTargetCount += 1;
+    }
+    if (record.project === "java") {
+      counts.javaRecordCount += 1;
+    } else if (record.project === "mini-kv") {
+      counts.miniKvRecordCount += 1;
+    }
+    if (record.protocol === "http") {
+      counts.httpRecordCount += 1;
+    }
+  }
+
+  return counts;
+}
+
+function isMiniKvRuntimeSmokeReadCommand(command: string): boolean {
+  return (MINI_KV_RUNTIME_SMOKE_READ_COMMANDS as readonly string[]).includes(command);
 }
 
 function collectRecommendations(

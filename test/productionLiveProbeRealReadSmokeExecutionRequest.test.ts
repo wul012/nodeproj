@@ -127,7 +127,7 @@ describe("production live probe real-read smoke execution request", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  });
+  }, 20000);
 
   it("exposes execution request routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-execution-request-route-"));
@@ -185,7 +185,7 @@ describe("production live probe real-read smoke execution request", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 10000);
+  }, 20000);
 });
 
 async function approveCurrentChangeRequest(

@@ -95,6 +95,7 @@ describe("three-project real-read runtime smoke execution packet", () => {
           runtimeSmokeEvidenceVersion: "mini-kv-runtime-smoke-evidence.v7",
           sessionIdEcho: "mini-kv-live-read-v82",
           readCommandListDigest: "fnv1a64:5bef33f2fbe65cc5",
+          readCommands: ["SMOKEJSON", "INFOJSON", "STORAGEJSON", "HEALTH"],
           writeCommandsAllowed: false,
           autoStartAllowed: false,
         },

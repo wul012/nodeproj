@@ -14,6 +14,7 @@
 - 跨项目只读完成度核对步骤：检查对应项目 `git status` 是否干净、`git log` / tag 是否出现计划版本、计划要求的 sample/fixture/文档文件是否存在、关键字段是否匹配计划；不得构建、启动、测试或修改 Java / mini-kv
 - 如果只读核对确认 Java / mini-kv 计划版本已完成，则继续推进下一个 Node 版本；如果未完成或证据不足，则说明缺少哪项证据并停止
 - 每次推进 Node 自己的新版本前，必须先读取 `docs/plans/` 中最新计划文档，并按最新计划的版本范围、验证要求、截图规则、暂停条件执行
+- 计划粒度要按真实开发效率组织：能够安全并行、互不阻塞、且同属一个交付闭环的 Node / Java / mini-kv 版本，应写成“同轮推荐并行”或“推荐并行”，不要拆成让人误解为必须串行的多个步骤
 - 运行调试截图默认优先使用本机 Chrome / Chromium 可执行文件；不要默认触发 Playwright 浏览器下载。若当前机器未找到 Chrome / Chromium，可使用本机 Edge 兜底，并在归档说明中写明。
 - 同一条未完成开发主线不要创建互相重合的多个计划文件；当当前计划覆盖的版本做完后，下一阶段另起新的计划文件，并只在旧计划记录收口状态
 - v107 起运行调试截图和解释默认放在 `b/<版本>/图片` 与 `b/<版本>/解释`；v161 起切换到 `c/<版本>/图片` 与 `c/<版本>/解释`；`a/` 和 `b/` 保留历史归档
@@ -179,5 +180,5 @@ v209-managed-audit-dry-run-roadmap.md
  -> 已完成并收口；由 Node v209 managed audit persistence dry-run verification 衍生；Node v210、推荐并行 Java v75 + mini-kv v84、Node v211 managed audit identity approval provenance dry-run packet 已完成；由 v211-post-managed-audit-packet-roadmap.md 接续
 
 v211-post-managed-audit-packet-roadmap.md
- -> 当前唯一有效全局计划；由 Node v211 managed audit identity approval provenance dry-run packet 衍生；下一步是 Node v212 packet verification report，并推荐并行 Java v76 + mini-kv v85 补只读消费回执
+ -> 当前唯一有效全局计划；由 Node v211 managed audit identity approval provenance dry-run packet 衍生；Node v212 packet verification report 已完成，下一步推荐并行完成 Java v76 + mini-kv v85 只读消费回执，Node v213 等两边证据完成后再接
 ```

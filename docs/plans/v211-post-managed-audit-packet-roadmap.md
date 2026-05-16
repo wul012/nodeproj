@@ -2,7 +2,7 @@
 
 来源版本：Node v211 `managed audit identity approval provenance dry-run packet`。
 
-计划状态：当前唯一有效全局计划。v211 已经把 Node v210、Java v75、mini-kv v84 汇成一条本地 dry-run audit packet，并完成 append/query/digest/cleanup。下一阶段不能直接连真实 managed audit，应先补 packet verification、backup/restore drill 和 adapter 边界。
+计划状态：当前唯一有效全局计划。v211 已经把 Node v210、Java v75、mini-kv v84 汇成一条本地 dry-run audit packet，并完成 append/query/digest/cleanup。Node v212 已完成 packet verification report，并同步收掉 v205 runtime smoke 两个轻量质量优化。下一阶段不能直接连真实 managed audit，应等待 Java v76 + mini-kv v85 的只读消费回执，然后再补 backup/restore drill 和 adapter 边界。
 
 ## 阶段原则
 
@@ -26,13 +26,12 @@ readyForProductionWindow=false
 ## 推荐执行顺序
 
 ```text
-1. Node v212：managed audit packet verification report。
-   消费 Node v211 packet，验证 packet shape、digest linkage、identity/approval/provenance 字段和 cleanup evidence。只读报告，不再次扩展真实写入范围。本版同时做一组小型 Node 质量优化：修正 v205 `threeProjectRealReadRuntimeSmokeExecutionPacket` 中 mini-kv `readCommands` 与实际 `SMOKEJSON/INFOJSON/STORAGEJSON/HEALTH` 执行列表不一致的问题，并把 `records.filter(...)` 重复统计收敛为一次性 counts helper，供 `smokeSession`、`summary`、`createChecks`/相关判断复用。
+1. 同轮推荐并行：
+   - Node v212：已完成 managed audit packet verification report。消费 Node v211 packet，验证 packet shape、digest linkage、identity/approval/provenance 字段和 cleanup evidence。只读报告，不再次扩展真实写入范围。本版同时完成一组小型 Node 质量优化：修正 v205 `threeProjectRealReadRuntimeSmokeExecutionPacket` 中 mini-kv `readCommands` 与实际 `SMOKEJSON/INFOJSON/STORAGEJSON/HEALTH` 执行列表不一致的问题，并把 `records.filter(...)` 重复统计收敛为一次性 counts helper，供 `smokeSession`、`summary`、`createChecks`/相关判断复用。
+   - Java v76：待完成 approval handoff verification marker。只读说明 v75 handoff 如何被 Node v211 消费，不写业务状态。
+   - mini-kv v85：待完成 retention provenance replay marker。只读说明 v84 evidence 如何被 Node v211 消费，不执行 managed audit 写入。
 
-2. 推荐并行：Java v76 + mini-kv v85。
-   Java v76 可补 approval handoff verification marker，只读说明 v75 handoff 如何被 Node v211 消费。mini-kv v85 可补 retention provenance replay marker，只读说明 v84 evidence 如何被 Node v211 消费。两边都不写业务状态。
-
-3. Node v213：managed audit packet restore drill plan。
+2. Node v213：managed audit packet restore drill plan。
    消费 Node v212 和 Java v76 / mini-kv v85，生成本地 dry-run restore drill plan，只说明如何重建 packet evidence，不执行真实 restore、不连真实 managed audit。本版可继续做 evidence path normalization，把报告里的 `D:/...` 文档性 evidence hint 收敛为相对路径或 config 派生路径；若发现影响面过大，则拆到 v214。
 ```
 
@@ -52,8 +51,8 @@ Node v213 或 v214 视工作量推进：
 ## 可并行说明
 
 ```text
-Node v212 可以直接推进，因为它只依赖 Node v211。
-Java v76 + mini-kv v85 推荐与 Node v212 并行推进，给 Node v213 提供更稳的上游消费回执。
+Node v212 已完成，因为它只依赖 Node v211。
+Java v76 + mini-kv v85 推荐与 Node v212 同轮并行推进，当前作为 Node v213 的上游消费回执前置条件。
 Node v213 应等待 Java v76 + mini-kv v85 完成后再消费；如果两边未完成，应记录缺口并停止。
 ```
 

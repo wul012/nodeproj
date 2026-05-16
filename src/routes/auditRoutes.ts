@@ -56,6 +56,10 @@ import {
   loadManagedAuditIdentityApprovalProvenanceDryRunPacket,
   renderManagedAuditIdentityApprovalProvenanceDryRunPacketMarkdown,
 } from "../services/managedAuditIdentityApprovalProvenanceDryRunPacket.js";
+import {
+  loadManagedAuditIdentityApprovalProvenancePacketVerificationReport,
+  renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown,
+} from "../services/managedAuditIdentityApprovalProvenancePacketVerificationReport.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -362,6 +366,33 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditIdentityApprovalProvenanceDryRunPacketMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-identity-approval-provenance-packet-verification-report", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadManagedAuditIdentityApprovalProvenancePacketVerificationReport({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown(profile);
     }
 
     return profile;
