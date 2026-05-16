@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v224 Sandbox Adapter Dry-run Plan</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f6f8fb;
+      color: #172233;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #586879;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dce4ee;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf2f7;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #5a6878;
+    }
+    .ok {
+      color: #0b7652;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #9b3c30;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef3f8;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v224 Sandbox Adapter Dry-run Plan</h1>
+    <p class="subtitle">消费 Node v223，只定义 sandbox managed audit adapter dry-run 计划，不连接外部审计。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Plan State</h2>
+        <div class="metric"><span class="label">sandbox plan</span><span class="ok">ready</span></div>
+        <div class="metric"><span class="label">dry-run package</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">external connection</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Required Evidence</h2>
+        <div class="metric"><span class="label">owner artifact</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">credential handle</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">schema rehearsal</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">rollback path</span><span class="ok">required</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Hard Quality Gates</h2>
+        <div class="metric"><span class="label">Node service size</span><span><code>&lt; 800</code></span></div>
+        <div class="metric"><span class="label">route helper</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">Java builder/helper</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">mini-kv helper reuse</span><span class="ok">required</span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Next Parallel Step</h2>
+        <ul>
+          <li>推荐并行 Java v82 + mini-kv v91，二者都只做 sandbox 前 guard，不互相依赖。</li>
+          <li>Node v225 必须等两边 guard receipt 完成后再生成 sandbox dry-run package。</li>
+          <li>仍然不读取 credential value、不执行 SQL、不把 mini-kv 接成 managed audit storage backend。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
