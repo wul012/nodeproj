@@ -195,5 +195,8 @@ v219-post-implementation-precheck-roadmap.md
  -> 已完成并收口；由 Node v219 managed audit adapter implementation precheck packet 衍生；Node v220、推荐并行 Java v80 + mini-kv v89、Node v221 本地 adapter candidate dry-run 已完成；由 v221-post-local-adapter-candidate-roadmap.md 接续
 
 v221-post-local-adapter-candidate-roadmap.md
- -> 当前唯一有效全局计划；由 Node v221 managed audit local adapter candidate dry-run 衍生；Node v222 local adapter candidate verification report 已完成，下一步推荐并行 Java v81 + mini-kv v90 补真实 adapter 前的只读 migration/credential guard
+ -> 已完成并收口；由 Node v221 managed audit local adapter candidate dry-run 衍生；Node v222 local adapter candidate verification report、推荐并行 Java v81 + mini-kv v90、Node v223 external adapter connection readiness review 已完成；由 v223-post-external-adapter-readiness-roadmap.md 接续
+
+v223-post-external-adapter-readiness-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v223 managed audit external adapter connection readiness review 衍生；下一步先做 Node v224 sandbox adapter dry-run plan，再推荐并行 Java v82 + mini-kv v91
 ```

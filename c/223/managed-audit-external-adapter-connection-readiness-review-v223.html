@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v223 External Adapter Readiness Review</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f7f8fb;
+      color: #172233;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #586879;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dce4ee;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf2f7;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #5a6878;
+    }
+    .ok {
+      color: #0b7652;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #9b3c30;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef3f8;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v223 External Adapter Readiness</h1>
+    <p class="subtitle">消费 Node v222、Java v81、mini-kv v90，只做真实 managed audit adapter 连接前审查。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Review State</h2>
+        <div class="metric"><span class="label">readiness review</span><span class="ok">ready</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">managed audit connection</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">credential read</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Java v81 Guard</h2>
+        <div class="metric"><span class="label">owner approval</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">schema review</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">credential review</span><span class="ok">required</span></div>
+        <div class="metric"><span class="label">SQL migration</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>mini-kv v90 Guard</h2>
+        <div class="metric"><span class="label">external adapter backend</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">adapter participant</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">credential read</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">receipt</span><span><code>0dfb07cd2f8de289</code></span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Next Boundary</h2>
+        <ul>
+          <li>下一阶段只能先定义 sandbox external adapter dry-run plan，不读取生产 credential。</li>
+          <li>真实连接前必须有 owner approval、schema migration review、credential review。</li>
+          <li>mini-kv 继续只做 runtime evidence provider，不做 managed audit storage backend。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

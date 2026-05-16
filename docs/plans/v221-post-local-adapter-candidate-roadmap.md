@@ -2,7 +2,7 @@
 
 来源版本：Node v221 `managed audit local adapter candidate dry-run`。
 
-计划状态：当前唯一有效全局计划。v221 已消费 Node v220、Java v80、mini-kv v89，并完成本地 JSONL adapter candidate dry-run；Node v222 已完成 local adapter candidate verification report，只读验证 v221 archive / record shape / digest linkage / cleanup evidence，不重跑 v221 dry-run，也不新增写能力。下一步应推荐并行推进 Java v81 + mini-kv v90，再讨论 Node v223 的真实外部 adapter connection readiness review。
+计划状态：已完成并收口。v221 已消费 Node v220、Java v80、mini-kv v89，并完成本地 JSONL adapter candidate dry-run；Node v222 已完成 local adapter candidate verification report，只读验证 v221 archive / record shape / digest linkage / cleanup evidence，不重跑 v221 dry-run，也不新增写能力。Java v81 + mini-kv v90 已推荐并行完成真实外部 adapter 前的只读 guard。Node v223 已消费 Node v222、Java v81、mini-kv v90，形成真实外部 adapter connection readiness review；后续由 `v223-post-external-adapter-readiness-roadmap.md` 接续。
 
 ## 阶段原则
 
@@ -30,11 +30,11 @@ restoreExecutionAllowed=false
 1. Node v222：已完成 managed audit local adapter candidate verification report。
    消费 Node v221，验证 local candidate 的 record shape、digest linkage、cleanup evidence、Java v80 / mini-kv v89 guard linkage。仍不连接真实外部 managed audit，不新增写能力。
 
-2. 下一步推荐并行：Java v81 + mini-kv v90。
+2. 推荐并行：Java v81 + mini-kv v90，已完成。
    - Java v81：managed audit external adapter migration guard receipt。只读说明真实外部 adapter 前仍需要 owner approval、schema migration review、credential review；Java 不写 ledger、不执行 SQL。
    - mini-kv v90：managed audit external adapter non-participation receipt。只读说明真实外部 managed audit adapter 不以 mini-kv 为存储后端，mini-kv 只保留 runtime evidence provider 角色。
 
-3. Node v223：managed audit external adapter connection readiness review。
+3. Node v223：已完成 managed audit external adapter connection readiness review。
    消费 Node v222、Java v81、mini-kv v90，形成真实外部 adapter 连接前的 readiness review；不读取生产密钥、不连接真实数据库、不打开生产审计窗口。
 ```
 
@@ -42,8 +42,8 @@ restoreExecutionAllowed=false
 
 ```text
 Node v222 已完成 verification report，不应和真实外部连接 readiness 合并。
-Java v81 + mini-kv v90 推荐并行，因为二者都是只读 guard receipt，不互相依赖。
-Node v223 必须等 Java v81 + mini-kv v90 完成后再消费；若两边未完成，应记录缺口并停止。
+Java v81 + mini-kv v90 已推荐并行完成，因为二者都是只读 guard receipt，不互相依赖。
+Node v223 已等 Java v81 + mini-kv v90 完成后再消费；下一阶段不在本文件继续追加重合版本。
 ```
 
 ## 质量优化插队项
@@ -55,12 +55,12 @@ Node v222：
 - 当前 Node 质量趋势仍在上升，但还剩少量旧 audit 路由未迁移；后续 Node 版本若碰到 auditRoutes 中重复 querystring schema / format 分支，应优先迁移到 registerAuditJsonMarkdownRoute，不再复制 12 个近似路由模式。
 
 Java v81：
-- 继续控制 OpsEvidenceService 膨胀，若只是新增 guard receipt，优先放入已拆分的 receipt/digest/helper 结构。
-- OpsEvidenceService.java 已成为 Java 侧最大单文件之一；Java v81 若继续补 guard receipt，应优先考虑 builder / 子 service / receipt helper，避免继续追加布尔参数链和长构造器。
+- 已通过 builder / receipt helper 方式补 external adapter migration guard，避免继续把新 receipt builder 直接塞进 OpsEvidenceService。
+- 后续 Java 若继续补 sandbox adapter / credential review guard，应沿用 v81 的拆分方式。
 
 mini-kv v90：
-- 继续避免 command.cpp 膨胀；只读回执优先复用 runtime evidence helper，不碰 WAL/snapshot/restore 核心。
-- command.cpp 仍保持结构清晰但体积偏大；mini-kv v90 若新增只读 receipt，应避免扩大主 if-chain，优先考虑按命令类别拆 helper 或向 dispatch table 过渡。
+- 已补 external adapter non-participation receipt，并继续避免触碰 WAL/snapshot/restore 核心。
+- 后续 mini-kv 若继续补 sandbox read evidence，应保持 runtime evidence provider 角色，不做 external adapter storage backend。
 ```
 
 ## 暂停条件
@@ -76,5 +76,5 @@ mini-kv v90：
 ## 一句话结论
 
 ```text
-v221 已经证明本地 adapter candidate 可以 append/query/digest/cleanup，v222 已经只读验证这份证据；下一步推荐并行补 Java v81 + mini-kv v90 的真实外部连接前 guard，不能直接跳到生产审计连接。
+v221 已经证明本地 adapter candidate 可以 append/query/digest/cleanup，v222 已经只读验证这份证据；Java v81 + mini-kv v90 已补真实外部连接前 guard，v223 已形成 connection readiness review。下一阶段只能进入 sandbox adapter dry-run plan，不能直接跳到生产审计连接。
 ```
