@@ -276,3 +276,4 @@ release / deployment / rollback / restore 全部保持阻断
 - `218-managed-audit-restore-drill-archive-verification-v214.md`：Node v214 managed audit restore drill archive verification，验证 v213 HTML、截图、解释、代码讲解和计划证据完整性，继续阻断真实 managed audit、restore、Java 写入和 mini-kv restore。
 - `219-managed-audit-dry-run-adapter-candidate-v215.md`：Node v215 managed audit dry-run adapter candidate，消费 v214、Java v77、mini-kv v86，在 Node 本地 `.tmp` 写入并清理一条 JSONL adapter record，验证 append/query/digest/cleanup，仍不连接真实 managed audit。
 - `220-managed-audit-dry-run-adapter-archive-verification-v216.md`：Node v216 managed audit dry-run adapter archive verification，只读验证 v215 HTML、截图、解释、代码讲解和 append/query/digest/cleanup 证据，不复跑 v215 本地 dry-run adapter。
+- `226-managed-audit-local-adapter-candidate-verification-report-v222.md`：Node v222 managed audit local adapter candidate verification report，只读验证 v221 本地 adapter candidate 归档、digest、cleanup 和 Java v80 / mini-kv v89 guard linkage，不重跑 v221 dry-run、不新增 `.tmp` 写入。

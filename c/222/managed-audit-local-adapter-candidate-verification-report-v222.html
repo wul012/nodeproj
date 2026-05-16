@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v222 Managed Audit Local Adapter Verification</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f6f8fb;
+      color: #182536;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #5a6878;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d9e3ee;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf2f7;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #5a6878;
+    }
+    .ok {
+      color: #0b7652;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #9b3c30;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef3f8;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v222 Verification Report</h1>
+    <p class="subtitle">只读验证 v221 local adapter candidate 归档，不重跑 dry-run，不新增真实 managed audit 写入。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Report State</h2>
+        <div class="metric"><span class="label">verification</span><span class="ok">ready</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">source rerun</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">local write</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Archive Coverage</h2>
+        <div class="metric"><span class="label">archive files</span><span class="ok">6 checked</span></div>
+        <div class="metric"><span class="label">snippets</span><span class="ok">18 matched</span></div>
+        <div class="metric"><span class="label">screenshot</span><span class="ok">present</span></div>
+        <div class="metric"><span class="label">walkthrough</span><span class="ok">present</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Source Linkage</h2>
+        <div class="metric"><span class="label">Node</span><span>v221</span></div>
+        <div class="metric"><span class="label">Java</span><span>v80 guard</span></div>
+        <div class="metric"><span class="label">mini-kv</span><span>v89 guard</span></div>
+        <div class="metric"><span class="label">digest</span><span><code>76411286a0913dc8</code></span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Next Boundary</h2>
+        <ul>
+          <li>推荐并行 Java v81 + mini-kv v90，先补真实外部 adapter 前的只读 migration / credential guard。</li>
+          <li>Node v223 只能做 connection readiness review，不能读取生产密钥或连接真实外部 managed audit。</li>
+          <li>v222 不把 v221 的本地 JSONL dry-run 记录升级为生产审计记录。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
