@@ -13,6 +13,8 @@ Node v224 已完成 managed audit sandbox adapter dry-run plan，并已把质量
 
 下一步：
 推荐并行 Java v82 + mini-kv v91，只做 sandbox 前只读 guard。
+Java v82 必须同时完成质量优化：不要继续堆大 OpsEvidenceService，必须用 builder / helper / 子 service 拆分，禁止长布尔参数构造链。
+mini-kv v91 必须同时完成质量优化：不要继续膨胀 command.cpp 主 if-chain，必须复用 runtime evidence helper，不触碰 WAL / snapshot / restore 核心。
 两边完成后，Node 才能推进 v225 managed audit sandbox adapter dry-run package。
 
 不要按旧计划推进：

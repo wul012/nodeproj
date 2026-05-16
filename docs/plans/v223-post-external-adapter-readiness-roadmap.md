@@ -2,23 +2,25 @@
 
 来源版本：Node v223 `managed audit external adapter connection readiness review`。
 
-计划状态：当前唯一有效全局计划。v223 已消费 Node v222、Java v81、mini-kv v90，确认真实外部 managed audit adapter 连接前的 owner approval、schema migration review、credential review、mini-kv 非参与边界和生产阻断状态。Node v224 已完成 sandbox-only adapter dry-run plan，并把质量优化写成 profile 中的硬性 `qualityGates`。下一步推荐并行 Java v82 + mini-kv v91，只读补 sandbox 前 guard。
+计划状态：当前唯一有效全局计划。v223 已消费 Node v222、Java v81、mini-kv v90，确认真实外部 managed audit adapter 连接前的 owner approval、schema migration review、credential review、mini-kv 非参与边界和生产阻断状态。Node v224 已完成 sandbox-only adapter dry-run plan，并把质量优化写成 profile 中的硬性 `qualityGates`。下一步推荐并行 Java v82 + mini-kv v91，只读补 sandbox 前 guard，且两边必须把质量优化一起做掉：Java v82 拆 OpsEvidenceService / builder-helper 化，mini-kv v91 避免 command.cpp 继续膨胀并复用 runtime evidence helper。
 
 ## 给 Java / mini-kv / Node 窗口的当前任务
 
 ```text
 1. 推荐并行 Java v82 + mini-kv v91。
-   两边都只做 sandbox 前只读 guard，不互相依赖，可以一起推进。
+   两边都只做 sandbox 前只读 guard，不互相依赖，可以一起推进；同时必须执行下方质量优化，不能只补文档字段。
 
 2. Java v82 必须项：
    - 不允许继续把新 receipt 堆进 OpsEvidenceService。
    - 必须使用 builder / helper / 子 service 拆分。
    - 不允许长布尔参数构造链。
+   - 若只做 guard 文档但不处理上述结构问题，则 v82 不算完成。
 
 3. mini-kv v91 必须项：
    - 不允许继续膨胀 command.cpp 主 if-chain。
    - sandbox 只读 evidence 必须复用 runtime evidence helper。
    - 不触碰 WAL / snapshot / restore 核心。
+   - 若只做 receipt 文档但不处理上述结构问题，则 v91 不算完成。
 
 4. Node v225 只有在 Java v82 + mini-kv v91 都完成后才推进。
 ```
