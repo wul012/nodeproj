@@ -76,6 +76,10 @@ import {
   loadManagedAuditDryRunAdapterArchiveVerification,
   renderManagedAuditDryRunAdapterArchiveVerificationMarkdown,
 } from "../services/managedAuditDryRunAdapterArchiveVerification.js";
+import {
+  loadManagedAuditAdapterProductionHardeningReadinessGate,
+  renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown,
+} from "../services/managedAuditAdapterProductionHardeningReadinessGate.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -505,6 +509,29 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditDryRunAdapterArchiveVerificationMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = loadManagedAuditAdapterProductionHardeningReadinessGate({
+      config: deps.config,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown(profile);
     }
 
     return profile;

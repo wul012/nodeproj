@@ -186,5 +186,8 @@ v213-post-restore-drill-plan-roadmap.md
  -> 已完成并收口；由 Node v213 managed audit packet restore drill plan 衍生；Node v214 archive verification、推荐并行 Java v77 + mini-kv v86、Node v215 managed audit dry-run adapter candidate 已完成，下一阶段应另起 post-v215 计划
 
 v215-post-dry-run-adapter-roadmap.md
- -> 当前唯一有效全局计划；由 Node v215 managed audit dry-run adapter candidate 衍生；Node v216 archive verification 已完成，下一步推荐并行 Java v78 + mini-kv v87，为 Node v217 production-hardening readiness gate 提供只读硬门槛回执
+ -> 已完成并收口；由 Node v215 managed audit dry-run adapter candidate 衍生；Node v216 archive verification、推荐并行 Java v78 + mini-kv v87、Node v217 production-hardening readiness gate 已完成，由 v217-post-production-hardening-gate-roadmap.md 接续
+
+v217-post-production-hardening-gate-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v217 managed audit adapter production-hardening readiness gate 衍生；下一步 Node v218 合并处理 audit route registrar 与 managedAudit helper 质量收口，随后推荐并行 Java v79 + mini-kv v88，最后 Node v219 做真实 adapter wiring 前 implementation precheck
 ```

@@ -2,7 +2,7 @@
 
 来源版本：Node v215 `managed audit dry-run adapter candidate`。
 
-计划状态：当前唯一有效全局计划。v216 已经完成 v215 dry-run adapter candidate archive verification，但它仍然不是生产 managed audit adapter。下一阶段必须推荐并行完成 Java v78 + mini-kv v87 对后续真实 adapter 硬门槛的只读回执，最后由 Node 做真实 adapter 前的 readiness gate。
+计划状态：已完成并收口。v216 已完成 v215 dry-run adapter candidate archive verification；Java v78 + mini-kv v87 已推荐并行完成真实 adapter 前硬门槛只读回执；Node v217 已完成 managed audit adapter production-hardening readiness gate。下一阶段由 `v217-post-production-hardening-gate-roadmap.md` 接续。
 
 ## 阶段原则
 
@@ -34,7 +34,7 @@ restoreExecutionAllowed=false
    - Java v78：managed audit production adapter prerequisite receipt。只读说明真实 adapter 前必须具备 operator identity、approval decision source、ledger handoff、retention owner、failure handling 和 rollback review，但本版不创建真实 approval decision、不写 ledger、不执行 SQL。
    - mini-kv v87：managed audit adapter non-authoritative storage receipt。只读说明 mini-kv 不作为 managed audit store、不作为订单权威状态、不执行 restore/write/admin 命令，并提供 Node v217 可消费的 receipt digest。
 
-3. Node v217：managed audit adapter production-hardening readiness gate。
+3. Node v217：已完成 managed audit adapter production-hardening readiness gate。
    消费 Node v216、Java v78、mini-kv v87，汇总真实 adapter 前的硬门槛：外部审计存储配置、身份/审批/ledger 绑定、retention/recovery、failure taxonomy、operator runbook、cleanup 证据。仍然不连接真实 managed audit，也不打开生产窗口。
 ```
 
@@ -43,7 +43,7 @@ restoreExecutionAllowed=false
 ```text
 Node v216 已完成，因为它只依赖 Node v215。
 Java v78 + mini-kv v87 推荐与 Node v216 同轮并行推进，给 Node v217 提供真实 adapter 前置硬门槛回执。
-Node v217 必须等 Java v78 + mini-kv v87 完成后再消费；若两边未完成，应记录缺口并停止。
+Node v217 已在 Java v78 + mini-kv v87 完成后消费两边回执；下一阶段不在本文件继续追加重合版本。
 ```
 
 ## 质量优化插队项
@@ -53,10 +53,11 @@ Node v216 已完成：
 - 验证 v215 archive 包含 HTML、截图、解释、代码讲解和 plan 收口。
 - 验证 v215 local JSONL dry-run 的 append/query/digest/cleanup 证据被归档记录。
 
-Node v217 或后续视工作量做：
-- collectProductionBlockers 声明式 rules 重构，只有在不降低可读性时执行。
-- classifyError 增加 ECONNREFUSED / TIMEOUT / unknown network error 区分，必须基于现有 client 错误形状。
-- 提取 managed audit adapter report/digest helpers，避免真实 adapter readiness gate 文件过大。
+Node v217 已完成：
+- 消费 Node v216、Java v78、mini-kv v87，形成真实 adapter 前的 production-hardening readiness gate。
+- 明确 `readyForProductionAudit=false`、`connectsManagedAudit=false`、`executionAllowed=false`、`restoreExecutionAllowed=false`。
+
+后续质量优化已迁移到 `v217-post-production-hardening-gate-roadmap.md`，避免同一份计划继续重合扩展。
 ```
 
 ## 暂停条件
@@ -71,5 +72,5 @@ Node v217 或后续视工作量做：
 ## 一句话结论
 
 ```text
-v215 已经证明 Node 可以做本地 dry-run adapter candidate；下一步先把这份证据归档验证，再让 Java/mini-kv 给真实 adapter 前的硬门槛回执，最后由 Node 汇总 readiness gate。
+v215-v217 已完成本地 dry-run adapter candidate、归档验证、上游只读回执消费和真实 adapter 前 readiness gate；下一阶段转入质量收口与真实 adapter wiring 前的 implementation precheck。
 ```

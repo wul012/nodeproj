@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v217 Managed Audit Adapter Production-Hardening Readiness Gate</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #536071;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #d8dee9;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf0f5;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #596779;
+    }
+    .ok {
+      color: #0f7a4f;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #a43e2b;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef2f7;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v217 Production-Hardening Readiness Gate</h1>
+    <p class="subtitle">Managed audit adapter 前置硬门槛汇总：只读、禁写、禁真实连接。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Gate State</h2>
+        <div class="metric"><span class="label">state</span><span class="ok">ready-for-production-hardening-review</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">production window</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">execution allowed</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Consumed Evidence</h2>
+        <div class="metric"><span class="label">Node</span><span>v216 archive verification</span></div>
+        <div class="metric"><span class="label">Java</span><span>v78 prerequisite receipt</span></div>
+        <div class="metric"><span class="label">mini-kv</span><span>v87 non-authoritative receipt</span></div>
+        <div class="metric"><span class="label">mini-kv digest</span><span><code>111f0daf1283eab6</code></span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Boundary</h2>
+        <div class="metric"><span class="label">connects managed audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">Java writes</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">mini-kv writes</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">auto upstream start</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>What This Version Proves</h2>
+        <ul>
+          <li>Node can aggregate the dry-run adapter archive, Java production prerequisite receipt, and mini-kv non-authoritative storage receipt into one readiness gate.</li>
+          <li>The gate is ready for production-hardening review, while real production audit remains blocked.</li>
+          <li>The next stage should optimize audit route/helper structure before real adapter wiring.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
