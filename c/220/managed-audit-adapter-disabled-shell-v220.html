@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v220 Managed Audit Adapter Disabled Shell</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f4f7f9;
+      color: #172231;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 40px 28px 56px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 28px;
+      color: #596879;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dae3ec;
+      border-radius: 8px;
+      padding: 18px;
+    }
+    .panel h2 {
+      margin: 0 0 14px;
+      font-size: 18px;
+    }
+    .metric {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 7px 0;
+      border-top: 1px solid #edf2f6;
+      font-size: 14px;
+    }
+    .metric:first-of-type {
+      border-top: 0;
+    }
+    .label {
+      color: #5c6878;
+    }
+    .ok {
+      color: #0d7651;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #9a3b2f;
+      font-weight: 700;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 13px;
+      background: #eef3f7;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    ul {
+      margin: 0;
+      padding-left: 20px;
+    }
+    li {
+      margin: 7px 0;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v220 Disabled Adapter Shell</h1>
+    <p class="subtitle">真实 managed audit adapter 前的接口骨架：默认 disabled，只声明 local-dry-run 候选，不写入。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Shell State</h2>
+        <div class="metric"><span class="label">state</span><span class="ok">disabled-shell-ready</span></div>
+        <div class="metric"><span class="label">production audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">connects managed audit</span><span class="blocked">false</span></div>
+        <div class="metric"><span class="label">execution allowed</span><span class="blocked">false</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Adapter Surface</h2>
+        <div class="metric"><span class="label">append</span><span class="blocked">disabled</span></div>
+        <div class="metric"><span class="label">query</span><span class="blocked">disabled</span></div>
+        <div class="metric"><span class="label">digest</span><span class="ok">stable</span></div>
+        <div class="metric"><span class="label">health / describe</span><span class="ok">ready</span></div>
+      </article>
+
+      <article class="panel">
+        <h2>Selection</h2>
+        <div class="metric"><span class="label">default</span><span><code>disabled</code></span></div>
+        <div class="metric"><span class="label">selected</span><span><code>disabled</code></span></div>
+        <div class="metric"><span class="label">candidate</span><span><code>local-dry-run</code></span></div>
+        <div class="metric"><span class="label">external URL</span><span class="blocked">rejected</span></div>
+      </article>
+
+      <article class="panel wide">
+        <h2>What This Version Allows Next</h2>
+        <ul>
+          <li>Java v80 and mini-kv v89 can publish read-only guard receipts in parallel.</li>
+          <li>Node v221 can consume those receipts before local file/sqlite dry-run candidate work.</li>
+          <li>Production audit remains blocked until owner approval, migration review, and real adapter evidence exist.</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

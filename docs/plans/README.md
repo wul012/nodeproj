@@ -192,5 +192,5 @@ v217-post-production-hardening-gate-roadmap.md
  -> 已完成并收口；由 Node v217 managed audit adapter production-hardening readiness gate 衍生；Node v218、推荐并行 Java v79 + mini-kv v88、Node v219 implementation precheck packet 已完成，由 v219-post-implementation-precheck-roadmap.md 接续
 
 v219-post-implementation-precheck-roadmap.md
- -> 当前唯一有效全局计划；由 Node v219 managed audit adapter implementation precheck packet 衍生；下一步 Node v220 做 managed audit adapter interface + disabled shell，随后推荐并行 Java v80 + mini-kv v89，最后 Node v221 做本地 adapter candidate dry-run
+ -> 当前唯一有效全局计划；由 Node v219 managed audit adapter implementation precheck packet 衍生；Node v220 managed audit adapter interface + disabled shell 已完成；下一步推荐并行 Java v80 + mini-kv v89，只读 guard receipt 完成后 Node v221 做本地 adapter candidate dry-run
 ```

@@ -88,6 +88,10 @@ import {
   loadManagedAuditAdapterImplementationPrecheckPacket,
   renderManagedAuditAdapterImplementationPrecheckPacketMarkdown,
 } from "../services/managedAuditAdapterImplementationPrecheckPacket.js";
+import {
+  loadManagedAuditAdapterDisabledShell,
+  renderManagedAuditAdapterDisabledShellMarkdown,
+} from "../services/managedAuditAdapterDisabledShell.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -392,6 +396,10 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-adapter-implementation-precheck-packet", () => loadManagedAuditAdapterImplementationPrecheckPacket({
     config: deps.config,
   }), renderManagedAuditAdapterImplementationPrecheckPacketMarkdown);
+
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-adapter-disabled-shell", () => loadManagedAuditAdapterDisabledShell({
+    config: deps.config,
+  }), renderManagedAuditAdapterDisabledShellMarkdown);
 
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-compliance", () => createManagedAuditAdapterComplianceProfile(deps.config), renderManagedAuditAdapterComplianceMarkdown);
 
