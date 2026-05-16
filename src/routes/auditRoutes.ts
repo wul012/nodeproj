@@ -60,6 +60,10 @@ import {
   loadManagedAuditIdentityApprovalProvenancePacketVerificationReport,
   renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown,
 } from "../services/managedAuditIdentityApprovalProvenancePacketVerificationReport.js";
+import {
+  loadManagedAuditPacketRestoreDrillPlan,
+  renderManagedAuditPacketRestoreDrillPlanMarkdown,
+} from "../services/managedAuditPacketRestoreDrillPlan.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -393,6 +397,33 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-audit-packet-restore-drill-plan", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadManagedAuditPacketRestoreDrillPlan({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditPacketRestoreDrillPlanMarkdown(profile);
     }
 
     return profile;

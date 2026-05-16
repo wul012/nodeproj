@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v213 managed audit packet restore drill plan</title>
+  <style>
+    :root {
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      background: #f7f9fc;
+      color: #182235;
+    }
+    body {
+      margin: 0;
+      padding: 32px;
+    }
+    main {
+      max-width: 1160px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 32px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: #53647d;
+      line-height: 1.55;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid #dce4ef;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 8px 24px rgba(24, 34, 53, 0.06);
+    }
+    .wide {
+      grid-column: span 3;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+      letter-spacing: 0;
+    }
+    .status {
+      display: inline-flex;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #e7f6ef;
+      color: #146b45;
+      font-weight: 700;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .blocked {
+      background: #fff1e2;
+      color: #8a4a0f;
+    }
+    dl {
+      display: grid;
+      grid-template-columns: 180px 1fr;
+      gap: 8px 12px;
+      margin: 0;
+      font-size: 14px;
+    }
+    dt {
+      color: #64748b;
+    }
+    dd {
+      margin: 0;
+      font-family: Consolas, "Courier New", monospace;
+      overflow-wrap: anywhere;
+    }
+    ul {
+      margin: 0;
+      padding-left: 18px;
+      line-height: 1.7;
+      font-size: 14px;
+    }
+    .checks {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px 14px;
+      padding: 0;
+      list-style: none;
+    }
+    .checks li {
+      background: #f4f7fb;
+      border-radius: 6px;
+      padding: 8px 10px;
+      font-family: Consolas, "Courier New", monospace;
+      line-height: 1.35;
+    }
+    footer {
+      margin-top: 16px;
+      color: #64748b;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v213 managed audit packet restore drill plan</h1>
+    <p class="subtitle">消费 Node v212、Java v76、mini-kv v85 的只读证据，生成人工 dry-run 恢复演练计划；不执行 restore，不连接真实 managed audit，不启动上游。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Drill State</h2>
+        <div class="status">ready-for-manual-dry-run-plan</div>
+        <dl>
+          <dt>ready</dt><dd>true</dd>
+          <dt>production audit</dt><dd>false</dd>
+          <dt>restore execution</dt><dd>false</dd>
+          <dt>managed audit connect</dt><dd>false</dd>
+        </dl>
+      </article>
+
+      <article class="panel">
+        <h2>Source Chain</h2>
+        <dl>
+          <dt>packet</dt><dd>Node v211</dd>
+          <dt>verification</dt><dd>Node v212</dd>
+          <dt>Java receipt</dt><dd>Java v76</dd>
+          <dt>mini-kv receipt</dt><dd>mini-kv v85</dd>
+        </dl>
+      </article>
+
+      <article class="panel">
+        <h2>Normalized Evidence</h2>
+        <dl>
+          <dt>Node</dt><dd>c/211/, c/212/</dd>
+          <dt>Java</dt><dd>c/76/</dd>
+          <dt>mini-kv</dt><dd>c/85/</dd>
+          <dt>absolute paths</dt><dd>false</dd>
+        </dl>
+      </article>
+
+      <article class="panel wide">
+        <h2>Dry-run Steps</h2>
+        <ul>
+          <li>verify-node-v212-report：确认 packet verification report ready。</li>
+          <li>verify-java-v76-marker：确认 Java handoff marker 对齐 v211 packet。</li>
+          <li>verify-mini-kv-v85-marker：确认 v84 provenance digest 已被 v85 replay marker 回执。</li>
+          <li>reconstruct-packet-field-map：人工重建 packet 字段图，不 replay 到真实存储。</li>
+          <li>compare-digests：比对 packet/report/Java/mini-kv digest。</li>
+          <li>close-restore-drill：记录本版仍然没有 restore 或外部 audit 写入。</li>
+        </ul>
+      </article>
+
+      <article class="panel wide">
+        <h2>Checks</h2>
+        <ul class="checks">
+          <li>sourceVerificationReportReady=true</li>
+          <li>sourceCleanupEvidenceVerified=true</li>
+          <li>javaV76ReadyForNodeV213=true</li>
+          <li>javaV76NoWriteBoundary=true</li>
+          <li>miniKvV85ReplayMarkerAccepted=true</li>
+          <li>miniKvV85NoRestoreOrAuditWrite=true</li>
+          <li>evidenceHintsNormalized=true</li>
+          <li>restoreExecutionStillBlocked=true</li>
+        </ul>
+      </article>
+
+      <article class="panel wide">
+        <h2>Forbidden Operations</h2>
+        <p><span class="status blocked">production still blocked</span></p>
+        <ul>
+          <li>connect real managed audit adapter</li>
+          <li>replay v211 packet to production audit storage</li>
+          <li>create Java approval decision or write approval ledger</li>
+          <li>execute mini-kv LOAD / COMPACT / SETNXEX / RESTORE</li>
+          <li>start Java or mini-kv automatically from Node</li>
+          <li>enable UPSTREAM_ACTIONS_ENABLED</li>
+        </ul>
+      </article>
+    </section>
+
+    <footer>Generated for c/213 archive evidence. HTTP smoke passed on 127.0.0.1:4318 before this screenshot.</footer>
+  </main>
+</body>
+</html>
