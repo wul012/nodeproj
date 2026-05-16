@@ -44,6 +44,10 @@ import {
   loadManagedAuditPersistenceBoundaryCandidate,
   renderManagedAuditPersistenceBoundaryCandidateMarkdown,
 } from "../services/managedAuditPersistenceBoundaryCandidate.js";
+import {
+  loadManagedAuditPersistenceDryRunVerification,
+  renderManagedAuditPersistenceDryRunVerificationMarkdown,
+} from "../services/managedAuditPersistenceDryRunVerification.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -269,6 +273,33 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");
       return renderManagedAuditPersistenceBoundaryCandidateMarkdown(profile);
+    }
+
+    return profile;
+  });
+
+  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-persistence-dry-run-verification", {
+    schema: {
+      querystring: {
+        type: "object",
+        properties: {
+          format: { type: "string", enum: ["json", "markdown"] },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const profile = await loadManagedAuditPersistenceDryRunVerification({
+      config: deps.config,
+      runtime: deps.auditStoreRuntime,
+      auditLog: deps.auditLog,
+      orderPlatform: deps.orderPlatform,
+      miniKv: deps.miniKv,
+    });
+
+    if (request.query.format === "markdown") {
+      reply.type("text/markdown; charset=utf-8");
+      return renderManagedAuditPersistenceDryRunVerificationMarkdown(profile);
     }
 
     return profile;

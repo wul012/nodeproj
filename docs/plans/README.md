@@ -173,5 +173,8 @@ v207-post-hardening-triage-roadmap.md
  -> 已完成并收口；由 Node v207 post-real-read production hardening triage 衍生；Java v74 + mini-kv v83 已推荐并行完成，Node v208 managed audit persistence boundary candidate 已完成，由 v208-managed-audit-boundary-roadmap.md 接续
 
 v208-managed-audit-boundary-roadmap.md
- -> 当前唯一有效全局计划；由 Node v208 managed audit persistence boundary candidate 衍生；下一步是 Node v209 managed audit persistence dry-run verification，只写 Node 本地测试临时目录，不写 Java 或 mini-kv
+ -> 已完成并收口；由 Node v208 managed audit persistence boundary candidate 衍生；Node v209 managed audit persistence dry-run verification 已完成，只写 Node 本地测试临时目录，不写 Java 或 mini-kv；由 v209-managed-audit-dry-run-roadmap.md 接续
+
+v209-managed-audit-dry-run-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v209 managed audit persistence dry-run verification 衍生；下一步是 Node v210 operator identity + approval record binding contract，随后推荐并行 Java v75 + mini-kv v84，再由 Node v211 消费两边只读证据
 ```

@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v209 managed audit persistence dry-run verification</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #172033;
+      --muted: #5d6675;
+      --line: #cbd5e1;
+      --panel: #f8fafc;
+      --green: #0f766e;
+      --blue: #1d4ed8;
+      --red: #b91c1c;
+      --amber: #92400e;
+    }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--ink);
+      background: #ffffff;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px 28px 48px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 17px;
+      line-height: 1.55;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 22px;
+    }
+    .metric, .section {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 16px;
+    }
+    .metric strong {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 4px;
+    }
+    .metric span {
+      color: var(--muted);
+    }
+    .section {
+      margin-top: 14px;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 21px;
+    }
+    ul, ol {
+      margin: 0;
+      padding-left: 22px;
+    }
+    li {
+      margin: 8px 0;
+    }
+    code {
+      font-family: Consolas, "Courier New", monospace;
+      background: #e9eef5;
+      border-radius: 4px;
+      padding: 1px 5px;
+    }
+    .ok { color: var(--green); }
+    .next { color: var(--blue); }
+    .blocked { color: var(--red); }
+    .warn { color: var(--amber); }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v209 managed audit dry-run verification</h1>
+    <p class="subtitle">消费 Node v208 candidate，在 Node 本地 <code>.tmp</code> 临时目录实际完成一条 dry-run audit record 的 append / query / digest / cleanup，不写 Java、mini-kv 或真实外部审计系统。</p>
+
+    <section class="grid">
+      <div class="metric"><strong class="ok">verified</strong><span>verificationState</span></div>
+      <div class="metric"><strong>1</strong><span>JSONL record</span></div>
+      <div class="metric"><strong class="ok">true</strong><span>cleanup covered</span></div>
+      <div class="metric"><strong class="blocked">false</strong><span>production audit</span></div>
+    </section>
+
+    <section class="section">
+      <h2>Dry-run Flow</h2>
+      <ol>
+        <li>创建 <code>.tmp/managed-audit-v209-*</code> 临时目录。</li>
+        <li>写入 <code>audit-dry-run.jsonl</code>，只包含一条 <code>managed-audit-dry-run-record.v1</code>。</li>
+        <li>按 <code>managed-audit-dry-run-v209-request</code> 查询，命中 1 条。</li>
+        <li>验证 append 后 digest 改变，重复读取 digest 稳定。</li>
+        <li>响应前删除临时目录。</li>
+      </ol>
+    </section>
+
+    <section class="section">
+      <h2>Safety Boundary</h2>
+      <ul>
+        <li><code>javaWriteAllowed=false</code></li>
+        <li><code>miniKvWriteAllowed=false</code></li>
+        <li><code>externalAuditSystemAllowed=false</code></li>
+        <li><code>productionAuditRecordAllowed=false</code></li>
+      </ul>
+    </section>
+
+    <section class="section">
+      <h2>Next Plan</h2>
+      <ul>
+        <li class="next">Node v210：operator identity + approval record binding contract。</li>
+        <li class="next">推荐并行 Java v75 + mini-kv v84：补只读 handoff / provenance evidence。</li>
+        <li class="warn">Node v211 只有在两边证据完成后，才消费并生成带 identity / approval / provenance 的 dry-run packet。</li>
+      </ul>
+    </section>
+  </main>
+</body>
+</html>
