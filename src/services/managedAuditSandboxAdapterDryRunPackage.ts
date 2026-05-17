@@ -147,7 +147,7 @@ interface MiniKvSandboxAdapterGuardReference {
 
 interface SandboxAdapterDryRunPackagePlan {
   packageDigest: string;
-  evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v96";
+  evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v97";
   packageMode: "sandbox-dry-run-package-only";
   sandboxOnly: true;
   packageReadyButConnectionStillBlocked: true;
@@ -411,14 +411,14 @@ function createPackagePlan(
     "Java v82 sandbox adapter approval/schema guard receipt.",
     "Java v82 builder/helper quality gate evidence.",
     "mini-kv v91 sandbox adapter non-participation receipt.",
-    "mini-kv v92-v95 formatter and shared utility split quality chain, preserved by the current v96 runtime fixture.",
+      "mini-kv v92-v95 formatter and shared utility split quality chain, preserved by the current v97 runtime fixture.",
     "Sandbox credential handle name without credential value disclosure.",
     "Owner approval artifact requirement and schema rehearsal requirement.",
   ];
   const packageSteps = [
     "Verify Node v224 plan remains ready and read-only.",
     "Verify Java v82 guard keeps owner approval, schema rehearsal, and credential boundaries explicit.",
-    "Verify mini-kv current runtime fixture preserves v91-origin sandbox non-participation evidence through v96 while keeping the v95 digest chain visible.",
+      "Verify mini-kv current runtime fixture preserves v91-origin sandbox non-participation evidence through v97 while keeping the v95 digest chain visible.",
     "Assemble a sandbox-only package digest without contacting external managed audit.",
     "Keep future connection and schema migration blocked until a separate manual sandbox runbook exists.",
   ];
@@ -444,7 +444,7 @@ function createPackagePlan(
       packageSteps,
       forbiddenOperations,
     }),
-    evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v96",
+    evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v97",
     packageMode: "sandbox-dry-run-package-only",
     sandboxOnly: true,
     packageReadyButConnectionStillBlocked: true,
@@ -499,8 +499,8 @@ function createSnippetMatches(): PackageSnippetMatch[] {
     snippet("mini-kv-v93-split", MINI_KV_V93_WALKTHROUGH, "runtime evidence receipt formatter"),
     snippet("mini-kv-fixture-consumer", MINI_KV_RUNTIME_SMOKE, "\"consumer\":\"Node v225 managed audit sandbox adapter dry-run package\""),
     snippet("mini-kv-fixture-receipt", MINI_KV_RUNTIME_SMOKE, "\"managed_audit_sandbox_adapter_non_participation_receipt\""),
-    snippet("mini-kv-fixture-current-v96", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v96\""),
-    snippet("mini-kv-fixture-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:e3693d38283c37e2\""),
+    snippet("mini-kv-fixture-current-v97", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v97\""),
+    snippet("mini-kv-fixture-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:d71b79804d9cfd94\""),
     snippet("mini-kv-fixture-not-storage", MINI_KV_RUNTIME_SMOKE, "\"sandbox_adapter_storage_backend\":false"),
     snippet("mini-kv-fixture-no-credential", MINI_KV_RUNTIME_SMOKE, "\"credential_value_read_allowed\":false"),
     snippet("mini-kv-fixture-no-write", MINI_KV_RUNTIME_SMOKE, "\"sandbox_managed_audit_state_write_allowed\":false"),
@@ -575,7 +575,7 @@ function createMiniKvGuardReference(
       v93RuntimeEvidenceReceiptFormatterSplit: snippetMatched(snippets, "mini-kv-v93-split"),
       v94CommandFormatterSplit: snippetMatched(snippets, "mini-kv-v95-command-bounded")
         && JSON.stringify(evidence).includes("command response formatter module split"),
-      v95StringUtilsSharedSplit: ["v95", "v96"].includes(stringField(evidence, "release_version") ?? "")
+    v95StringUtilsSharedSplit: ["v95", "v96", "v97"].includes(stringField(evidence, "release_version") ?? "")
         && snippetMatched(snippets, "mini-kv-v95-string-utils"),
     },
   };
@@ -616,11 +616,11 @@ function createChecks(
       && !javaV82.javaSqlExecuted,
     miniKvRuntimeEvidencePresent: fileById(files, "mini-kv-runtime-smoke").exists
       && fileById(files, "mini-kv-verification-manifest").exists,
-    miniKvSandboxReceiptAccepted: miniKvGuard.currentReleaseVersion === "v96"
+    miniKvSandboxReceiptAccepted: miniKvGuard.currentReleaseVersion === "v97"
       && miniKvGuard.consumedReleaseVersion === "v90"
       && miniKvGuard.consumedReceiptDigest === "fnv1a64:0dfb07cd2f8de289"
-      && miniKvGuard.currentArtifactPathHint === "c/96/"
-      && miniKvGuard.receiptDigest === "fnv1a64:e3693d38283c37e2"
+      && miniKvGuard.currentArtifactPathHint === "c/97/"
+      && miniKvGuard.receiptDigest === "fnv1a64:d71b79804d9cfd94"
       && snippetMatched(snippets, "mini-kv-fixture-consumer"),
     miniKvNonParticipationBoundaryValid: miniKvGuard.readOnly
       && !miniKvGuard.executionAllowed
@@ -685,7 +685,7 @@ function collectWarnings(): SandboxAdapterDryRunPackageMessage[] {
       code: "MINIKV_CURRENT_FIXTURE_ADVANCED_TO_V96",
       severity: "warning",
       source: "mini-kv-sandbox-guard",
-      message: "mini-kv v91 evidence is consumed through the current v96 runtime smoke fixture, which preserves the v90-origin sandbox receipt and keeps the v95 shared string utility split evidence visible.",
+      message: "mini-kv v91 evidence is consumed through the current v97 runtime smoke fixture, which preserves the v90-origin sandbox receipt and keeps the v95 shared string utility split evidence visible.",
     },
   ];
 }

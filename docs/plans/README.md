@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v229-post-packet-verification-roadmap.md
+docs/plans/v231-post-preflight-verification-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -17,15 +17,18 @@ Node v228 已完成 manual sandbox connection operator packet，只生成 owner 
 Java v87 + mini-kv v96 已推荐并行完成。
 Node v229 已完成 manual sandbox connection packet verification，只验证 Node v228 packet 与两侧 marker 一致。
 Node v230 已完成 manual sandbox connection preflight gate，只新增 manual window flag 和连接前 gate，不打开连接。
+Java v88 + mini-kv v97 已推荐并行完成。
+Node v231 已完成 manual sandbox connection preflight verification，只验证 preflight 字段和 no-start guard 是否对齐，不打开连接。
 
 下一步：
-当前下一步是推荐并行 Java v88 + mini-kv v97。
-Java v88 + mini-kv v97 只做 read-only echo/guard marker；两边完成后，Node 才能推进 v231 preflight verification。
+当前下一步是推荐并行 Node v232 + Java v89 + mini-kv v98。
+Node v232 做 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合；Java v89 做 ContextHeaderField record 组合优化；mini-kv v98 做 WAL / no-WAL 重复分支 helper 收敛。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
 v225-post-sandbox-package-roadmap.md 已收口，只是历史计划。
 v227-post-evidence-checklist-roadmap.md 已收口，只是历史计划。
+v229-post-packet-verification-roadmap.md 已收口，只是历史计划。
 ```
 
 ## 当前硬性质量验收门槛
@@ -52,6 +55,11 @@ Java v88 / mini-kv v97 前置项：
 - Java v88 只做 preflight echo marker，不写 ledger、不执行 SQL。
 - mini-kv v97 只做 no-start guard receipt，不成为 audit storage backend、不读 credential、不写 managed audit state。
 - 两边未完成时，Node v231 必须停止。
+
+Node v232 / Java v89 / mini-kv v98 当前质量优化项：
+- Node v232 必须优先处理 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合，契约输出字段保持不变。
+- Java v89 优先处理 ContextHeaderField record 组合，降低 value/source 成对字段构造噪声。
+- mini-kv v98 优先处理 execute-with-wal helper，收敛 WAL / no-WAL 重复分支，行为保持不变。
 ```
 
 规则：
@@ -259,5 +267,8 @@ v227-post-evidence-checklist-roadmap.md
  -> 已完成并收口；由 Node v227 manual sandbox connection evidence checklist 衍生；Node v228、推荐并行 Java v87 + mini-kv v96、Node v229 packet verification 已完成；由 v229-post-packet-verification-roadmap.md 接续
 
 v229-post-packet-verification-roadmap.md
- -> 当前唯一有效全局计划；由 Node v229 manual sandbox connection packet verification 衍生；Node v230 manual sandbox connection preflight gate 已完成；下一步推荐并行 Java v88 + mini-kv v97，之后 Node v231 消费两边 marker
+ -> 已完成并收口；由 Node v229 manual sandbox connection packet verification 衍生；Node v230、推荐并行 Java v88 + mini-kv v97、Node v231 preflight verification 已完成；由 v231-post-preflight-verification-roadmap.md 接续
+
+v231-post-preflight-verification-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v231 manual sandbox connection preflight verification 衍生；下一步推荐并行 Node v232 + Java v89 + mini-kv v98，先做低风险质量优化，再推进 sandbox connection rehearsal review
 ```

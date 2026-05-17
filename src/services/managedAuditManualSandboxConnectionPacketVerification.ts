@@ -446,9 +446,9 @@ function createMiniKvV96Reference(
   return {
     ...reference,
     readyForNodeV229PacketVerification: reference.evidencePresent
-      && reference.projectVersion === "0.96.0"
-      && reference.releaseVersion === "v96"
-      && reference.markerDigest === "fnv1a64:b9fc556875ea625b"
+      && reference.projectVersion === "0.97.0"
+      && reference.releaseVersion === "v97"
+      && reference.markerDigest === "fnv1a64:fbad91e89da49997"
       && reference.consumedReceiptDigest === "fnv1a64:ceaed265f7f9560c"
       && reference.sourceOperatorPacketProfile === "managed-audit-manual-sandbox-connection-operator-packet.v1"
       && reference.packetMode === "manual-sandbox-connection-operator-packet-only"

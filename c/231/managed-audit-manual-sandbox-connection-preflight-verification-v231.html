@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v231 - Preflight Verification</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #18202a;
+      --muted: #51606f;
+      --line: #c8d4df;
+      --panel: #f4f7fa;
+      --ok: #167f58;
+      --warn: #8a5a00;
+      --block: #9b2424;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #ffffff;
+      color: var(--ink);
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 36px 28px 44px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 26px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 16px;
+      min-height: 130px;
+    }
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 14px;
+      font-size: 14px;
+    }
+    .value {
+      font-family: Consolas, monospace;
+      font-weight: 700;
+    }
+    .ok { color: var(--ok); }
+    .blocked { color: var(--block); }
+    .warn { color: var(--warn); }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    .flow {
+      display: grid;
+      grid-template-columns: 1fr 36px 1fr 36px 1fr;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .node {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      background: #fff;
+      min-height: 94px;
+    }
+    .arrow {
+      text-align: center;
+      font-size: 24px;
+      color: var(--muted);
+    }
+    ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+      line-height: 1.7;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #e9eef3;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    @media (max-width: 760px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      .flow {
+        grid-template-columns: 1fr;
+      }
+      .arrow {
+        transform: rotate(90deg);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v231: Manual Sandbox Connection Preflight Verification</h1>
+    <p class="subtitle">只读验证 Node v230 gate、Java v88 echo marker、mini-kv v97 no-start guard；不打开 managed audit 连接。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Verification State</h2>
+        <div class="kv">
+          <span>state</span><span class="value ok">ready</span>
+          <span>checks</span><span class="value ok">20 / 20</span>
+          <span>blockers</span><span class="value ok">0</span>
+          <span>warnings</span><span class="value warn">2</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Safety Boundary</h2>
+        <div class="kv">
+          <span>connection</span><span class="value blocked">false</span>
+          <span>credential read</span><span class="value blocked">false</span>
+          <span>schema migration</span><span class="value blocked">false</span>
+          <span>auto start</span><span class="value blocked">false</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Marker Span</h2>
+        <div class="kv">
+          <span>Node</span><span class="value">v230</span>
+          <span>Java</span><span class="value">v88</span>
+          <span>mini-kv</span><span class="value">v97</span>
+          <span>mode</span><span class="value">read-only</span>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Preflight Chain</h2>
+        <div class="flow">
+          <div class="node">
+            <strong>Node v230</strong>
+            <ul>
+              <li>preflight gate ready</li>
+              <li><code>ORDEROPS_MANAGED_AUDIT_MANUAL_SANDBOX_WINDOW_APPROVED</code></li>
+            </ul>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <strong>Java v88</strong>
+            <ul>
+              <li>preflight echo marker ready</li>
+              <li>no SQL / no ledger / no credential value</li>
+            </ul>
+          </div>
+          <div class="arrow">→</div>
+          <div class="node">
+            <strong>mini-kv v97</strong>
+            <ul>
+              <li>no-start guard receipt ready</li>
+              <li>Node / Java / mini-kv auto-start all false</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Next Plan</h2>
+        <ul>
+          <li>推荐并行 <code>Node v232 + Java v89 + mini-kv v98</code>。</li>
+          <li>Node v232 优先做 <code>ReadOnlyDryRunGuards</code> / <code>SandboxDryRunGuards</code> 类型聚合。</li>
+          <li>Java v89 和 mini-kv v98 分别做 ContextHeaderField 与 WAL/no-WAL helper 的低风险优化。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>
