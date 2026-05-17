@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v233 rehearsal packet review</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      color: #172033;
+      background: #f6f8fb;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    h2 {
+      margin: 28px 0 10px;
+      font-size: 20px;
+    }
+    .status {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin: 22px 0;
+    }
+    .tile {
+      background: #ffffff;
+      border: 1px solid #d8dee9;
+      border-radius: 8px;
+      padding: 14px;
+    }
+    .label {
+      color: #607086;
+      font-size: 13px;
+    }
+    .value {
+      margin-top: 8px;
+      font-family: Consolas, "SFMono-Regular", monospace;
+      font-size: 18px;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      background: #111827;
+      color: #e5e7eb;
+      border-radius: 8px;
+      padding: 18px;
+      overflow: auto;
+      line-height: 1.5;
+    }
+    .ok {
+      color: #047857;
+      font-weight: 700;
+    }
+    .blocked {
+      color: #b91c1c;
+      font-weight: 700;
+    }
+    ul {
+      line-height: 1.7;
+    }
+  </style>
+</head>
+<body>
+<main>
+  <h1>Node v233 rehearsal packet review</h1>
+  <p>Managed audit manual sandbox connection rehearsal packet review，消费 Node v232、Java v89、mini-kv v98 证据，但不打开连接。</p>
+
+  <section class="status">
+    <div class="tile">
+      <div class="label">reviewState</div>
+      <div class="value ok">manual-sandbox-connection-rehearsal-packet-review-ready</div>
+    </div>
+    <div class="tile">
+      <div class="label">ready</div>
+      <div class="value ok">true</div>
+    </div>
+    <div class="tile">
+      <div class="label">readyForConnection</div>
+      <div class="value blocked">false</div>
+    </div>
+    <div class="tile">
+      <div class="label">productionBlockerCount</div>
+      <div class="value">0</div>
+    </div>
+  </section>
+
+  <h2>Marker Span</h2>
+  <pre>Node v232 + Java v89 + mini-kv v98</pre>
+
+  <h2>边界</h2>
+  <ul>
+    <li>connectsManagedAudit=false</li>
+    <li>readsManagedAuditCredential=false</li>
+    <li>schemaMigrationExecuted=false</li>
+    <li>automaticUpstreamStart=false</li>
+    <li>executionAllowed=false</li>
+  </ul>
+
+  <h2>验证</h2>
+  <pre>npm run typecheck: passed
+npx vitest run managedAuditManualSandboxConnectionRehearsalPacketReview + preflight verification: 2 files / 6 tests passed
+npm test: 174 files / 589 tests passed
+npm run build: passed
+HTTP smoke: /health and v233 route returned 200</pre>
+</main>
+</body>
+</html>

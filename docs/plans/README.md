@@ -21,10 +21,12 @@ Java v88 + mini-kv v97 已推荐并行完成。
 Node v231 已完成 manual sandbox connection preflight verification，只验证 preflight 字段和 no-start guard 是否对齐，不打开连接。
 Node v232 已完成 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合，契约输出字段不变。
 Node 旧 managed-audit 沙箱链路已按 mini-kv current runtime fixture v98 对齐，同时保留历史 consumed digest / receipt 语义。
+Java v89 + mini-kv v98 已推荐并行完成。
+Node v233 已完成 manual sandbox connection rehearsal packet review，只读消费 Node v232 / Java v89 / mini-kv v98 证据，不打开连接。
 
 下一步：
-当前下一步是推荐并行 Java v89 + mini-kv v98；两边完成后 Node v233 消费优化证据。
-Java v89 做 ContextHeaderField record 组合优化；mini-kv v98 做 WAL / no-WAL 重复分支 helper 收敛。
+当前下一步是推荐并行 Java v90 + mini-kv v99；两边完成后 Node v234 做 blocked execution rehearsal。
+Java v90 做 context normalization / missing warning helper 收敛；mini-kv v99 继续 execute-with-wal helper 覆盖剩余低风险写命令或补齐回归测试。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -62,6 +64,11 @@ Node v232 / Java v89 / mini-kv v98 当前质量优化项：
 - Node v232 已处理 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合，契约输出字段保持不变。
 - Java v89 优先处理 ContextHeaderField record 组合，降低 value/source 成对字段构造噪声。
 - mini-kv v98 优先处理 execute-with-wal helper，收敛 WAL / no-WAL 重复分支，行为保持不变。
+
+Node v233 当前完成项：
+- 已新增 managed audit manual sandbox connection rehearsal packet review。
+- 已只读消费 Node v232 guard 类型聚合、Java v89 ContextHeaderField、mini-kv v98 execute_with_wal 证据。
+- 仍保持 readyForManagedAuditSandboxAdapterConnection=false、connectsManagedAudit=false、readsManagedAuditCredential=false、schemaMigrationExecuted=false、automaticUpstreamStart=false。
 ```
 
 规则：
