@@ -108,6 +108,10 @@ import {
   loadManagedAuditSandboxAdapterDryRunPlan,
   renderManagedAuditSandboxAdapterDryRunPlanMarkdown,
 } from "../services/managedAuditSandboxAdapterDryRunPlan.js";
+import {
+  loadManagedAuditSandboxAdapterDryRunPackage,
+  renderManagedAuditSandboxAdapterDryRunPackageMarkdown,
+} from "../services/managedAuditSandboxAdapterDryRunPackage.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -173,173 +177,40 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
 
   app.get("/api/v1/audit/summary", async () => deps.auditLog.summary());
 
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/store-profile", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createAuditStoreRuntimeProfile({
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/store-profile", () => createAuditStoreRuntimeProfile({
       currentEventCount: deps.auditLog.summary().total,
       runtime: deps.auditStoreRuntime,
-    });
+  }), renderAuditStoreRuntimeProfileMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderAuditStoreRuntimeProfileMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/store-config-profile", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createAuditStoreEnvConfigProfile({
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/store-config-profile", () => createAuditStoreEnvConfigProfile({
       auditStoreKind: deps.config.auditStoreKind,
       auditStorePath: deps.config.auditStorePath,
       auditStoreUrl: deps.config.auditStoreUrl,
-    });
+  }), renderAuditStoreEnvConfigProfileMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderAuditStoreEnvConfigProfileMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/file-restart-evidence", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const report = createFileAuditRestartEvidenceReport({
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/file-restart-evidence", () => createFileAuditRestartEvidenceReport({
       config: deps.config,
       runtime: deps.auditStoreRuntime,
-    });
+  }), renderFileAuditRestartEvidenceMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderFileAuditRestartEvidenceMarkdown(report);
-    }
-
-    return report;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/retention-integrity-evidence", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const report = createAuditRetentionIntegrityEvidence({
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/retention-integrity-evidence", () => createAuditRetentionIntegrityEvidence({
       config: deps.config,
       runtime: deps.auditStoreRuntime,
       auditLog: deps.auditLog,
-    });
+  }), renderAuditRetentionIntegrityEvidenceMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderAuditRetentionIntegrityEvidenceMarkdown(report);
-    }
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-store-contract", () => createManagedAuditStoreContractProfile(deps.config), renderManagedAuditStoreContractMarkdown);
 
-    return report;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-store-contract", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createManagedAuditStoreContractProfile(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditStoreContractMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-readiness-summary", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const summary = createManagedAuditReadinessSummary({
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-readiness-summary", () => createManagedAuditReadinessSummary({
       config: deps.config,
       runtime: deps.auditStoreRuntime,
       auditLog: deps.auditLog,
-    });
+  }), renderManagedAuditReadinessSummaryMarkdown);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditReadinessSummaryMarkdown(summary);
-    }
-
-    return summary;
-  });
-
-  app.get<{ Querystring: AuditStoreProfileQuery }>("/api/v1/audit/managed-adapter-boundary", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createManagedAuditAdapterBoundaryProfile({
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-boundary", () => createManagedAuditAdapterBoundaryProfile({
       config: deps.config,
       runtime: deps.auditStoreRuntime,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderManagedAuditAdapterBoundaryMarkdown(profile);
-    }
-
-    return profile;
-  });
+  }), renderManagedAuditAdapterBoundaryMarkdown);
 
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-persistence-boundary-candidate", () => loadManagedAuditPersistenceBoundaryCandidate({
     config: deps.config,
@@ -432,6 +303,10 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-sandbox-adapter-dry-run-plan", () => loadManagedAuditSandboxAdapterDryRunPlan({
     config: deps.config,
   }), renderManagedAuditSandboxAdapterDryRunPlanMarkdown);
+
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-sandbox-adapter-dry-run-package", () => loadManagedAuditSandboxAdapterDryRunPackage({
+    config: deps.config,
+  }), renderManagedAuditSandboxAdapterDryRunPackageMarkdown);
 
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-compliance", () => createManagedAuditAdapterComplianceProfile(deps.config), renderManagedAuditAdapterComplianceMarkdown);
 

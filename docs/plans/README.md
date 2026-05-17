@@ -6,19 +6,18 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v223-post-external-adapter-readiness-roadmap.md
+docs/plans/v225-post-sandbox-package-roadmap.md
 
 当前状态：
-Node v224 已完成 managed audit sandbox adapter dry-run plan，并已把质量优化写入 profile.qualityGates。
+Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
 
 下一步：
-推荐并行 Java v82 + mini-kv v91，只做 sandbox 前只读 guard。
-Java v82 必须同时完成质量优化：不要继续堆大 OpsEvidenceService，必须用 builder / helper / 子 service 拆分，禁止长布尔参数构造链。
-mini-kv v91 必须同时完成质量优化：不要继续膨胀 command.cpp 主 if-chain，必须复用 runtime evidence helper，不触碰 WAL / snapshot / restore 核心。
-两边完成后，Node 才能推进 v225 managed audit sandbox adapter dry-run package。
+Node v226：manual sandbox adapter connection runbook，只生成人工演练 runbook，不连接、不启动外部服务、不读取 credential value。
+之后推荐并行 Java v86 + mini-kv v95，只做 sandbox connection 前只读 guard。
+两边完成后，Node 才能推进 v227 manual sandbox connection evidence checklist。
 
 不要按旧计划推进：
-v221-post-local-adapter-candidate-roadmap.md 已收口，只是历史计划。
+v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
 ```
 
 ## 当前硬性质量验收门槛
@@ -34,8 +33,9 @@ mini-kv v91 必须项：
 - sandbox 只读 evidence 必须优先复用 runtime evidence helper。
 - 不允许触碰 WAL / snapshot / restore 核心，不允许把 mini-kv 接成 sandbox audit storage backend。
 
-Node v225 前置条件：
-- 必须先只读确认 Java v82 + mini-kv v91 已完成且证据匹配。
+Node v226 必须项：
+- 不允许新增手写 JSON/Markdown 路由样板；必须继续使用 registerAuditJsonMarkdownRoute。
+- 必须输出机器可读 checklist / forbiddenOperations / pauseConditions，不允许只写文档标题。
 - 不得读取 credential value，不得连接生产 managed audit，不得执行 SQL / ledger / mini-kv 写操作。
 ```
 
@@ -235,5 +235,8 @@ v221-post-local-adapter-candidate-roadmap.md
  -> 已完成并收口；由 Node v221 managed audit local adapter candidate dry-run 衍生；Node v222 local adapter candidate verification report、推荐并行 Java v81 + mini-kv v90、Node v223 external adapter connection readiness review 已完成；由 v223-post-external-adapter-readiness-roadmap.md 接续
 
 v223-post-external-adapter-readiness-roadmap.md
- -> 当前唯一有效全局计划；由 Node v223 managed audit external adapter connection readiness review 衍生；Node v224 sandbox adapter dry-run plan 已完成并把质量优化写入 profile qualityGates；下一步推荐并行 Java v82 + mini-kv v91，之后 Node v225 消费两边 guard
+ -> 已完成并收口；由 Node v223 managed audit external adapter connection readiness review 衍生；Node v224、推荐并行 Java v82 + mini-kv v91、Node v225 sandbox adapter dry-run package 已完成；由 v225-post-sandbox-package-roadmap.md 接续
+
+v225-post-sandbox-package-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v225 managed audit sandbox adapter dry-run package 衍生；下一步 Node v226 manual sandbox adapter connection runbook，之后推荐并行 Java v86 + mini-kv v95
 ```

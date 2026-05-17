@@ -2,12 +2,12 @@
 
 来源版本：Node v223 `managed audit external adapter connection readiness review`。
 
-计划状态：当前唯一有效全局计划。v223 已消费 Node v222、Java v81、mini-kv v90，确认真实外部 managed audit adapter 连接前的 owner approval、schema migration review、credential review、mini-kv 非参与边界和生产阻断状态。Node v224 已完成 sandbox-only adapter dry-run plan，并把质量优化写成 profile 中的硬性 `qualityGates`。下一步推荐并行 Java v82 + mini-kv v91，只读补 sandbox 前 guard，且两边必须把质量优化一起做掉：Java v82 拆 OpsEvidenceService / builder-helper 化，mini-kv v91 避免 command.cpp 继续膨胀并复用 runtime evidence helper。
+计划状态：已完成并收口。v223 已消费 Node v222、Java v81、mini-kv v90，确认真实外部 managed audit adapter 连接前的 owner approval、schema migration review、credential review、mini-kv 非参与边界和生产阻断状态。Node v224 已完成 sandbox-only adapter dry-run plan，并把质量优化写成 profile 中的硬性 `qualityGates`。Java v82 + mini-kv v91 已推荐并行完成，并且分别完成 Java builder/helper 拆分和 mini-kv runtime evidence helper/formatter 拆分。Node v225 已消费 Node v224、Java v82、mini-kv v91/v94，生成 sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。下一阶段由 `v225-post-sandbox-package-roadmap.md` 接续。
 
 ## 给 Java / mini-kv / Node 窗口的当前任务
 
 ```text
-1. 推荐并行 Java v82 + mini-kv v91。
+1. 推荐并行 Java v82 + mini-kv v91。（已完成）
    两边都只做 sandbox 前只读 guard，不互相依赖，可以一起推进；同时必须执行下方质量优化，不能只补文档字段。
 
 2. Java v82 必须项：
@@ -22,7 +22,7 @@
    - 不触碰 WAL / snapshot / restore 核心。
    - 若只做 receipt 文档但不处理上述结构问题，则 v91 不算完成。
 
-4. Node v225 只有在 Java v82 + mini-kv v91 都完成后才推进。
+4. Node v225 只有在 Java v82 + mini-kv v91 都完成后才推进。（已完成）
 ```
 
 ## 阶段原则
@@ -56,8 +56,8 @@ restoreExecutionAllowed=false
    - Java v82：sandbox adapter approval/schema rehearsal guard receipt。只读说明 Java 侧 sandbox adapter dry-run 前仍需要 owner approval artifact、schema migration rehearsal 和 no production credential；不写 ledger、不执行 SQL。
    - mini-kv v91：sandbox adapter runtime evidence non-participation receipt。只读说明 sandbox adapter dry-run 仍不以 mini-kv 为 storage backend，不读 credential，不写 managed audit state。
 
-3. Node v225：managed audit sandbox adapter dry-run package。
-   消费 Node v224、Java v82、mini-kv v91，生成 sandbox-only dry-run package；默认不启动外部服务、不读取真实 credential value、不打开生产审计窗口。
+3. Node v225：managed audit sandbox adapter dry-run package。（已完成）
+   消费 Node v224、Java v82、mini-kv v91/v94，生成 sandbox-only dry-run package；默认不启动外部服务、不读取真实 credential value、不打开生产审计窗口。
 ```
 
 ## 本阶段可合并/并行规则
@@ -65,7 +65,7 @@ restoreExecutionAllowed=false
 ```text
 Node v224 是 plan/profile，已完成；不能和 Node v225 dry-run package 合并。
 Java v82 + mini-kv v91 推荐并行，因为二者都是 sandbox 前只读 guard，不互相依赖。
-Node v225 必须等 Java v82 + mini-kv v91 完成后再消费；若两边未完成，应记录缺口并停止。
+Node v225 已等 Java v82 + mini-kv v91 完成后再消费；当前计划已收口，后续不得在本文件追加重合版本。
 ```
 
 ## 显式硬性质量验收门槛
@@ -103,5 +103,5 @@ mini-kv v91：
 ## 一句话结论
 
 ```text
-v224 已把 sandbox dry-run plan 和显式质量门槛收口；下一步推荐并行 Java v82 + mini-kv v91，仍不能直接连生产 managed audit。
+v225 已把 sandbox dry-run package 收口；下一阶段应先做 manual sandbox connection runbook，仍不能直接连生产 managed audit。
 ```
