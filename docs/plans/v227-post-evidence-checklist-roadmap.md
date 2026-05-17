@@ -2,7 +2,7 @@
 
 来源版本：Node v227 `managed audit manual sandbox connection evidence checklist`。
 
-计划状态：当前唯一有效全局计划。v227 已消费 Node v226、Java v86、mini-kv v95，生成人工 sandbox 连接前 evidence checklist。Node v228 已完成 manual sandbox connection operator packet。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
+计划状态：已完成并收口。v227 已消费 Node v226、Java v86、mini-kv v95，生成人工 sandbox 连接前 evidence checklist。Node v228 已完成 manual sandbox connection operator packet。Java v87 + mini-kv v96 已推荐并行完成。Node v229 已完成 manual sandbox connection packet verification。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
 
 ## 当前状态
 
@@ -32,10 +32,34 @@ Java v86：
 
 mini-kv v95：
 - string utils shared split 已完成
-- runtime smoke evidence 当前为 project_version=0.95.0 / release_version=v95
+- runtime smoke evidence 已推进到 project_version=0.96.0 / release_version=v96
 - sandbox_adapter_storage_backend=false
 - credential_value_read_allowed=false
 - sandbox_managed_audit_state_write_allowed=false
+
+Java v87：
+- sandbox connection operator handoff marker 已完成
+- 只读 echo Node v228 owner artifact / credential handle / schema rehearsal / rollback / timeout / abort marker
+- approvalLedgerWrittenByJava=false
+- sqlExecutedByJava=false
+- credentialValueReadByJava=false
+
+mini-kv v96：
+- sandbox connection receipt echo marker 已完成
+- 保留 v95 sandbox adapter receipt digest：fnv1a64:ceaed265f7f9560c
+- current artifact path hint=c/96/
+- connection_execution_allowed=false
+- credential_value_read_allowed=false
+- managed_audit_write_allowed=false
+
+Node v229：
+- manual sandbox connection packet verification ready
+- 消费 Node v228 + Java v87 + mini-kv v96
+- readyForManagedAuditSandboxAdapterConnection=false
+- connectsManagedAudit=false
+- readsManagedAuditCredential=false
+- schemaMigrationExecuted=false
+- automaticUpstreamStart=false
 ```
 
 ## 推荐执行顺序
@@ -44,12 +68,15 @@ mini-kv v95：
 1. 已完成：Node v228：manual sandbox connection operator packet。
    消费 v227 checklist，生成 operator packet：owner artifact id、credential handle name、schema rehearsal id、rollback path id、timeout budget、manual abort marker。仍不连接、不读 credential value、不启动外部服务。
 
-2. 当前下一步，推荐并行：Java v87 + mini-kv v96。
+2. 已完成，推荐并行：Java v87 + mini-kv v96。
    - Java v87：sandbox connection operator handoff marker，只读说明 Java 侧如何接收 Node v228 的 owner artifact / rehearsal id，不写 ledger、不执行 SQL。
    - mini-kv v96：sandbox connection receipt echo marker，只读说明 mini-kv 仍只提供 receipt echo，不成为 audit storage backend，不读 credential，不写 managed audit state。
 
-3. Node v229：manual sandbox connection packet verification。
+3. 已完成：Node v229：manual sandbox connection packet verification。
    消费 Node v228、Java v87、mini-kv v96，验证 operator packet 与两侧 handoff/receipt marker 是否一致；仍不打开连接。
+
+4. 下一阶段已另起：
+   docs/plans/v229-post-packet-verification-roadmap.md
 ```
 
 ## 合并/并行规则
@@ -57,7 +84,7 @@ mini-kv v95：
 ```text
 Node v228 是 operator packet，已完成；不应和 v229 verification 合并。
 Java v87 + mini-kv v96 推荐并行，因为二者都是只读 handoff/receipt marker，不互相依赖。
-Node v229 必须等 Java v87 + mini-kv v96 都完成后再消费。
+Node v229 已在 Java v87 + mini-kv v96 完成后消费。
 可安全并行、互不阻塞、且同属一个交付闭环的三项目版本，后续计划必须写成“推荐并行”，不要拆成容易误解的串行步骤。
 ```
 
@@ -92,5 +119,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v227 已完成人工 sandbox 连接前 evidence checklist，v228 已完成 operator packet；当前下一步推荐并行 Java v87 + mini-kv v96，仍不能打开真实连接。
+v227-v229 已完成 manual sandbox connection packet verification 阶段；下一阶段转入 post-v229 preflight gate，仍不能直接打开真实连接。
 ```

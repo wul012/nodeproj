@@ -121,6 +121,7 @@ interface MiniKvV95EvidenceReference {
   releaseVersion: string;
   currentArtifactPathHint: string;
   receiptDigest: string;
+  preservedV95ReceiptDigest: string;
   stringUtilsSharedSplit: boolean;
   commandCppUnderOneThousandLines: boolean;
   readOnly: boolean;
@@ -192,6 +193,7 @@ interface ManualSandboxEvidenceChecklistMessage {
 
 interface MiniKvRuntimeSmokeEvidence extends Record<string, unknown> {
   managed_audit_sandbox_adapter_non_participation_receipt?: Record<string, unknown>;
+  managed_audit_sandbox_connection_receipt_echo_marker?: Record<string, unknown>;
 }
 
 const JAVA_V86_RUNBOOK = "D:/javaproj/advanced-order-platform/c/86/\u89e3\u91ca/\u8bf4\u660e.md";
@@ -409,6 +411,7 @@ function createMiniKvV95Reference(
   evidence: MiniKvRuntimeSmokeEvidence,
 ): MiniKvV95EvidenceReference {
   const receipt = evidence.managed_audit_sandbox_adapter_non_participation_receipt ?? {};
+  const connectionMarker = evidence.managed_audit_sandbox_connection_receipt_echo_marker ?? {};
   const reference: MiniKvV95EvidenceReference = {
     sourceVersion: "mini-kv v95",
     headTag: "第九十五版字符串工具共享拆分",
@@ -424,6 +427,7 @@ function createMiniKvV95Reference(
     releaseVersion: stringField(evidence, "release_version") ?? "missing",
     currentArtifactPathHint: stringField(receipt, "current_artifact_path_hint") ?? "missing",
     receiptDigest: stringField(receipt, "receipt_digest") ?? "missing",
+    preservedV95ReceiptDigest: stringField(connectionMarker, "consumed_receipt_digest") ?? "missing",
     stringUtilsSharedSplit: snippetMatched(snippets, "mini-kv-v95-string-utils"),
     commandCppUnderOneThousandLines: snippetMatched(snippets, "mini-kv-v95-command-lines"),
     readOnly: booleanField(receipt, "read_only") ?? false,
@@ -436,10 +440,11 @@ function createMiniKvV95Reference(
   return {
     ...reference,
     readyForNodeV227EvidenceChecklist: reference.evidencePresent
-      && reference.projectVersion === "0.95.0"
-      && reference.releaseVersion === "v95"
-      && reference.currentArtifactPathHint === "c/95/"
-      && reference.receiptDigest === "fnv1a64:ceaed265f7f9560c"
+      && reference.projectVersion === "0.96.0"
+      && reference.releaseVersion === "v96"
+      && reference.currentArtifactPathHint === "c/96/"
+      && reference.receiptDigest === "fnv1a64:e3693d38283c37e2"
+      && reference.preservedV95ReceiptDigest === "fnv1a64:ceaed265f7f9560c"
       && reference.stringUtilsSharedSplit
       && reference.commandCppUnderOneThousandLines
       && reference.readOnly
@@ -516,10 +521,11 @@ function createChecks(
       && javaV86.noSqlBoundary
       && javaV86.noCredentialBoundary,
     miniKvV95EvidencePresent: miniKvV95.evidencePresent,
-    miniKvV95RuntimeFixtureAccepted: miniKvV95.projectVersion === "0.95.0"
-      && miniKvV95.releaseVersion === "v95"
-      && miniKvV95.currentArtifactPathHint === "c/95/"
-      && miniKvV95.receiptDigest === "fnv1a64:ceaed265f7f9560c",
+    miniKvV95RuntimeFixtureAccepted: miniKvV95.projectVersion === "0.96.0"
+      && miniKvV95.releaseVersion === "v96"
+      && miniKvV95.currentArtifactPathHint === "c/96/"
+      && miniKvV95.receiptDigest === "fnv1a64:e3693d38283c37e2"
+      && miniKvV95.preservedV95ReceiptDigest === "fnv1a64:ceaed265f7f9560c",
     miniKvV95SandboxNonStorageBoundaryAccepted: miniKvV95.readOnly
       && !miniKvV95.executionAllowed
       && !miniKvV95.sandboxAdapterStorageBackend
@@ -563,8 +569,8 @@ function createSnippetMatches(): ChecklistSnippetMatch[] {
     snippet("java-v86-no-credential", JAVA_V86_RUNBOOK, "no-credential flags"),
     snippet("mini-kv-v95-string-utils", MINI_KV_V95_WALKTHROUGH, "include/minikv/string_utils.hpp"),
     snippet("mini-kv-v95-command-lines", MINI_KV_V95_WALKTHROUGH, "`src/command.cpp` 557"),
-    snippet("mini-kv-v95-runtime-version", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v95\""),
-    snippet("mini-kv-v95-receipt-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:ceaed265f7f9560c\""),
+    snippet("mini-kv-v95-runtime-version", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v96\""),
+    snippet("mini-kv-v95-receipt-digest", MINI_KV_RUNTIME_SMOKE, "\"consumed_receipt_digest\":\"fnv1a64:ceaed265f7f9560c\""),
     snippet("mini-kv-v95-no-storage", MINI_KV_RUNTIME_SMOKE, "\"sandbox_adapter_storage_backend\":false"),
     snippet("mini-kv-v95-no-credential", MINI_KV_RUNTIME_SMOKE, "\"credential_value_read_allowed\":false"),
     snippet("mini-kv-v95-no-write", MINI_KV_RUNTIME_SMOKE, "\"sandbox_managed_audit_state_write_allowed\":false"),
@@ -579,7 +585,7 @@ function collectProductionBlockers(
   addBlocker(blockers, checks.javaV86EvidencePresent, "JAVA_V86_EVIDENCE_MISSING", "java-v86-evidence", "Java v86 runbook and walkthrough must be present.");
   addBlocker(blockers, checks.javaV86ContractPreservingRefactorAccepted, "JAVA_V86_REFACTOR_NOT_ACCEPTED", "java-v86-evidence", "Java v86 must prove contract-preserving flags refactor.");
   addBlocker(blockers, checks.miniKvV95EvidencePresent, "MINIKV_V95_EVIDENCE_MISSING", "mini-kv-v95-evidence", "mini-kv v95 evidence files must be present.");
-  addBlocker(blockers, checks.miniKvV95RuntimeFixtureAccepted, "MINIKV_V95_RUNTIME_FIXTURE_NOT_ACCEPTED", "mini-kv-v95-evidence", "mini-kv v95 runtime smoke fixture must expose v95 sandbox non-participation evidence.");
+  addBlocker(blockers, checks.miniKvV95RuntimeFixtureAccepted, "MINIKV_V95_RUNTIME_FIXTURE_NOT_ACCEPTED", "mini-kv-v95-evidence", "mini-kv current runtime smoke fixture must expose v96 evidence while preserving the v95 sandbox connection receipt digest.");
   addBlocker(blockers, checks.evidenceChecklistComplete, "EVIDENCE_CHECKLIST_INCOMPLETE", "managed-audit-manual-sandbox-connection-evidence-checklist", "All evidence checklist items must be verified.");
   addBlocker(blockers, checks.upstreamActionsStillDisabled, "UPSTREAM_ACTIONS_ENABLED", "runtime-config", "UPSTREAM_ACTIONS_ENABLED must remain false.");
   addBlocker(blockers, checks.productionAuditStillBlocked, "PRODUCTION_AUDIT_UNLOCKED", "managed-audit-manual-sandbox-connection-evidence-checklist", "v227 must not unlock production audit.");
