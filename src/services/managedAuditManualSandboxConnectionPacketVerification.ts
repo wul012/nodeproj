@@ -205,6 +205,11 @@ const ENDPOINTS = Object.freeze({
 });
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
+const MINI_KV_CURRENT_RELEASES_WITH_V96_MARKER = Object.freeze(["v98", "v99"]);
+const MINI_KV_V96_MARKER_DIGESTS = Object.freeze([
+  "fnv1a64:c88b0bf6b974ac6b",
+  "fnv1a64:0d5212cff01975af",
+]);
 
 export function loadManagedAuditManualSandboxConnectionPacketVerification(input: {
   config: AppConfig;
@@ -436,9 +441,9 @@ function createMiniKvV96Reference(
   return {
     ...reference,
     readyForNodeV229PacketVerification: reference.evidencePresent
-      && reference.projectVersion === "0.98.0"
-      && reference.releaseVersion === "v98"
-      && reference.markerDigest === "fnv1a64:c88b0bf6b974ac6b"
+      && /^0\.(?:98|99)\.0$/.test(reference.projectVersion)
+      && MINI_KV_CURRENT_RELEASES_WITH_V96_MARKER.includes(reference.releaseVersion)
+      && MINI_KV_V96_MARKER_DIGESTS.includes(reference.markerDigest)
       && reference.consumedReceiptDigest === "fnv1a64:ceaed265f7f9560c"
       && reference.sourceOperatorPacketProfile === "managed-audit-manual-sandbox-connection-operator-packet.v1"
       && reference.packetMode === "manual-sandbox-connection-operator-packet-only"

@@ -262,6 +262,11 @@ const ENDPOINTS = Object.freeze({
 });
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
+const MINI_KV_CURRENT_RELEASES_WITH_V98_HELPER = Object.freeze(["v98", "v99"]);
+const MINI_KV_V98_CONSUMERS = Object.freeze([
+  "Node v233 manual sandbox connection rehearsal packet review",
+  "Node v234 manual sandbox connection blocked execution rehearsal",
+]);
 
 export function loadManagedAuditManualSandboxConnectionRehearsalPacketReview(input: {
   config: AppConfig;
@@ -551,9 +556,9 @@ function createMiniKvV98Reference(
   return {
     ...reference,
     readyForNodeV233RehearsalPacketReview: reference.evidencePresent
-      && reference.projectVersion === "0.98.0"
-      && reference.releaseVersion === "v98"
-      && reference.consumerHint === "Node v233 manual sandbox connection rehearsal packet review"
+      && /^0\.(?:98|99)\.0$/.test(reference.projectVersion)
+      && MINI_KV_CURRENT_RELEASES_WITH_V98_HELPER.includes(reference.releaseVersion)
+      && MINI_KV_V98_CONSUMERS.includes(reference.consumerHint)
       && reference.writeWalHelper === "CommandProcessor::execute_with_wal"
       && ["SET", "SETNXEX", "DEL", "EXPIRE"].every((command) => reference.writeWalHelperScope.includes(command))
       && reference.writeWalHelperBehaviorPreserved
@@ -683,7 +688,7 @@ function createSnippetMatches(): RehearsalPacketReviewSnippetMatch[] {
     snippet("mini-kv-v98-helper", MINI_KV_V98_WALKTHROUGH, "CommandProcessor::execute_with_wal"),
     snippet("mini-kv-v98-scope", MINI_KV_V98_RUNBOOK, "`SET`、`SETNXEX`、`DEL`、`EXPIRE`"),
     snippet("mini-kv-v98-no-op-wal", MINI_KV_V98_RUNBOOK, "no-op miss 不写 WAL"),
-    snippet("mini-kv-v98-node-v233", MINI_KV_RUNTIME_SMOKE, "Node v233 manual sandbox connection rehearsal packet review"),
+    snippet("mini-kv-v98-node-v233", MINI_KV_RUNTIME_SMOKE, "Node v234 manual sandbox connection blocked execution rehearsal"),
     snippet("mini-kv-v98-read-only", MINI_KV_V98_RUNBOOK, "read_only=true"),
     snippet("mini-kv-v98-no-write", MINI_KV_V98_RUNBOOK, "write_commands_executed=false"),
   ];

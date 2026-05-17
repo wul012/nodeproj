@@ -2,7 +2,7 @@
 
 来源版本：Node v231 `managed audit manual sandbox connection preflight verification`。
 
-计划状态：当前唯一有效全局计划。Node v231 已消费 Node v230、Java v88、mini-kv v97，验证 preflight echo marker 与 no-start guard 一致。Node v232 已完成 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合优化。Java v89 + mini-kv v98 已完成推荐并行质量优化，Node v233 已消费两边证据生成 rehearsal packet review。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
+计划状态：已完成并收口。Node v231 已消费 Node v230、Java v88、mini-kv v97，验证 preflight echo marker 与 no-start guard 一致。Node v232 已完成 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合优化。Java v89 + mini-kv v98 已完成推荐并行质量优化，Node v233 已消费两边证据生成 rehearsal packet review。Java v90 + mini-kv v99 已推荐并行完成，Node v234 已完成 manual sandbox connection blocked execution rehearsal，并顺手修正 v223-v234 旧沙箱链路读取 mini-kv current runtime fixture v99 的滚动证据兼容。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
 
 ## 当前状态
 
@@ -32,6 +32,13 @@ Node v233：
 - 只读 review，不打开 managed audit 连接，不读取 credential value，不执行 schema migration
 - mini-kv smoke 执行结果按 verification manifest 的 commands.read_only_smoke 字段读取，避免误读 runtime fixture 顶层字段
 
+Node v234：
+- managed audit manual sandbox connection blocked execution rehearsal ready
+- markerSpan=Node v233 + Java v90 + mini-kv v99
+- 模拟 8 类危险动作阻断：连接、credential value、schema migration、managed audit write、auto-start、mini-kv write/restore、Java ledger/SQL、production window
+- actualExecutionAttemptCount=0，blockedAttemptCount=8
+- 同步修正 v223-v234 旧沙箱链路读取 mini-kv current runtime fixture v99 的断言：接受当前版本滚动，同时保留 v90/v95/v96/v97/v98 历史 consumed digest / receipt 语义
+
 Java v88：
 - sandbox connection preflight echo marker ready
 - 只读 echo preflight fields / manual window flag / credential handle / schema rehearsal / rollback / timeout / abort marker
@@ -52,6 +59,15 @@ mini-kv v98：
 - SET / SETNXEX / DEL / EXPIRE 的 WAL / no-WAL 重复分支已收敛
 - 行为保持不变，不触碰 snapshot / restore 核心
 - runtime smoke 仍保持 read_only=true、execution_allowed=false、restore_execution_allowed=false、order_authoritative=false
+
+Java v90：
+- ContextHeaderField normalization / missing warning helper 收敛已完成
+- 不引入 Lombok，不做全仓风格替换，不新增 approval 行为，不写 ledger，不执行 SQL
+
+mini-kv v99：
+- execute-with-wal helper 回归补强已完成
+- usage error 不写 WAL、missing / expired no-op 不写 WAL、append-before-mutation 顺序已补证据
+- runtime smoke current fixture 已滚到 0.99.0 / v99，供 Node v234 blocked execution rehearsal 消费
 ```
 
 ## 推荐执行顺序
@@ -65,12 +81,15 @@ mini-kv v98：
 2. Node v233 已完成：manual sandbox connection rehearsal packet review。
    消费 Node v232 类型聚合结果，并只读核对 Java v89 / mini-kv v98 是否完成优化证据；生成 rehearsal packet review，不打开 managed audit 连接，不读取 credential value。
 
-3. 下一步推荐并行：Java v90 + mini-kv v99。
+3. Java v90 + mini-kv v99 已推荐并行完成。
    - Java v90：context normalization / missing warning helper 收敛，不引入 Lombok，不做全仓风格替换。
    - mini-kv v99：继续 execute-with-wal helper 覆盖剩余低风险写命令或补齐回归测试；不做 dispatch table 大重构。
 
-4. Node v234：manual sandbox connection blocked execution rehearsal。
+4. Node v234 已完成：manual sandbox connection blocked execution rehearsal。
    消费 Node v233 + 两边优化证据，生成 blocked execution rehearsal，只验证所有危险动作仍被阻断。
+
+5. 下一阶段必须另起 post-v234 计划。
+   不要继续在本文件追加重合版本；后续应从 manual sandbox connection 的“真实连接前置条件”开始，而不是继续膨胀旧 review 包。
 ```
 
 ## 显式质量优化项
@@ -82,6 +101,7 @@ Node：
 - auditRoutes 继续使用 registerAuditJsonMarkdownRoute；配置数组化可以评估，但不能牺牲类型清晰度。
 - managedAudit* 服务文件接近 800 行时必须拆 helper，不继续堆单文件。
 - 旧链路读取 mini-kv current runtime fixture 时，必须验证“当前版本 + 历史 digest 保留”两层语义，不能只写死旧 release_version。
+- v234 已把 v223-v234 旧沙箱链路统一改为滚动读取 mini-kv v99 current fixture，同时保留历史 consumed digest / receipt 检查；后续不得重新写死 v98。
 
 Java：
 - v89-v90 优先优化 ContextHeaderField / normalization / missing warning helper。
@@ -100,7 +120,7 @@ mini-kv：
 ```text
 Node v232、Java v89、mini-kv v98 已按推荐并行完成，因为三者都是低风险内部优化，不互相依赖，也不改变跨项目契约。
 Java v90 + mini-kv v99 可推荐并行，因为二者都是各自内部的质量优化。
-Node v233 已完成；Node v234 必须等 Java v90 + mini-kv v99 完成或明确不需要两边新证据，否则只能记录缺口，不得假装两边证据 ready。
+Node v233 已完成；Node v234 已在 Java v90 + mini-kv v99 完成后执行并收口。
 能安全并行、互不阻塞、且同属一个交付闭环的三项目版本，必须写成“推荐并行”，不要拆成难懂的串行步骤。
 ```
 
@@ -116,5 +136,5 @@ Node v233 已完成；Node v234 必须等 Java v90 + mini-kv v99 完成或明确
 ## 一句话结论
 
 ```text
-v233 已完成 rehearsal packet review；下一轮推荐并行 Java v90 + mini-kv v99，随后 Node v234 做 blocked execution rehearsal。
+v234 已完成 blocked execution rehearsal；下一阶段另起 post-v234 计划，先做真实沙箱连接前置条件，不在本文件继续追加重合版本。
 ```

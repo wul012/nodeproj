@@ -140,6 +140,10 @@ import {
   loadManagedAuditManualSandboxConnectionRehearsalPacketReview,
   renderManagedAuditManualSandboxConnectionRehearsalPacketReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionRehearsalPacketReview.js";
+import {
+  loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal,
+  renderManagedAuditManualSandboxConnectionBlockedExecutionRehearsalMarkdown,
+} from "../services/managedAuditManualSandboxConnectionBlockedExecutionRehearsal.js";
 import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 
 interface AuditRouteDeps {
@@ -363,6 +367,10 @@ export async function registerAuditRoutes(app: FastifyInstance, deps: AuditRoute
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-manual-sandbox-connection-rehearsal-packet-review", () => loadManagedAuditManualSandboxConnectionRehearsalPacketReview({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionRehearsalPacketReviewMarkdown);
+
+  registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-audit-manual-sandbox-connection-blocked-execution-rehearsal", () => loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionBlockedExecutionRehearsalMarkdown);
 
   registerAuditJsonMarkdownRoute(app, "/api/v1/audit/managed-adapter-compliance", () => createManagedAuditAdapterComplianceProfile(deps.config), renderManagedAuditAdapterComplianceMarkdown);
 

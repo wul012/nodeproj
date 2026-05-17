@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v234 blocked execution rehearsal</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+        background: #f4f7f8;
+        color: #172026;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px;
+      }
+
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        margin: 0 0 28px;
+        color: #51626d;
+        font-size: 17px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+
+      .tile,
+      .panel {
+        background: #fff;
+        border: 1px solid #d8e0e4;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(21, 32, 38, 0.05);
+      }
+
+      .tile {
+        padding: 18px;
+      }
+
+      .tile span {
+        display: block;
+        color: #62727c;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 26px;
+      }
+
+      .ok {
+        color: #116b4f;
+      }
+
+      .blocked {
+        color: #9a4d00;
+      }
+
+      .panel {
+        padding: 22px;
+        margin-bottom: 18px;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #e4eaed;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: #52636d;
+        font-weight: 600;
+      }
+
+      code {
+        font-family: "Cascadia Code", Consolas, monospace;
+        background: #eef3f5;
+        border-radius: 5px;
+        padding: 2px 5px;
+      }
+
+      .list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 20px;
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .note {
+        margin: 0;
+        line-height: 1.65;
+        color: #31414a;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v234: blocked execution rehearsal</h1>
+      <p class="subtitle">Managed audit sandbox connection 前置安全演练，只模拟危险动作，不执行连接或写入。</p>
+
+      <section class="grid">
+        <div class="tile">
+          <span>Profile</span>
+          <strong class="ok">ready</strong>
+        </div>
+        <div class="tile">
+          <span>Simulated attempts</span>
+          <strong>8</strong>
+        </div>
+        <div class="tile">
+          <span>Blocked attempts</span>
+          <strong class="blocked">8</strong>
+        </div>
+        <div class="tile">
+          <span>Actual execution</span>
+          <strong class="ok">0</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>核心结论</h2>
+        <p class="note">
+          v234 消费 <code>Node v233</code>、<code>Java v90</code>、<code>mini-kv v99</code> 证据，
+          生成 <code>managed-audit-manual-sandbox-connection-blocked-execution-rehearsal.v1</code>。
+          结果为 ready，但 <code>readyForManagedAuditSandboxAdapterConnection=false</code>，
+          <code>connectsManagedAudit=false</code>，<code>readsManagedAuditCredential=false</code>。
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>危险动作阻断矩阵</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>动作</th>
+              <th>surface</th>
+              <th>执行结果</th>
+              <th>边界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>managed-audit-connect</td><td>node</td><td>blocked</td><td>no real connection</td></tr>
+            <tr><td>credential-value-read</td><td>node</td><td>blocked</td><td>credential handle only</td></tr>
+            <tr><td>schema-migration</td><td>node</td><td>blocked</td><td>no migration execution</td></tr>
+            <tr><td>managed-audit-state-write</td><td>node</td><td>blocked</td><td>no audit state write</td></tr>
+            <tr><td>upstream-service-auto-start</td><td>node</td><td>blocked</td><td>no Java / mini-kv auto-start</td></tr>
+            <tr><td>mini-kv-write-or-restore</td><td>mini-kv</td><td>blocked</td><td>no write / restore</td></tr>
+            <tr><td>java-ledger-or-sql</td><td>java</td><td>blocked</td><td>no ledger / SQL</td></tr>
+            <tr><td>production-window-open</td><td>production-window</td><td>blocked</td><td>no production window</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>验证</h2>
+        <ul class="list">
+          <li><code>npm run typecheck</code> 通过</li>
+          <li>聚焦链路测试：11 files / 33 tests 通过</li>
+          <li><code>npm run build</code> 通过</li>
+          <li>HTTP smoke：JSON 200，Markdown 200，health ok</li>
+          <li><code>UPSTREAM_ACTIONS_ENABLED=false</code></li>
+          <li>Node 临时服务已停止</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

@@ -194,6 +194,11 @@ const MINI_KV_V95_WALKTHROUGH =
   "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/151-version-95-string-utils-and-version-sweep.md";
 const MINI_KV_RUNTIME_SMOKE = "D:/C/mini-kv/fixtures/release/runtime-smoke-evidence.json";
 const MINI_KV_VERIFICATION_MANIFEST = "D:/C/mini-kv/fixtures/release/verification-manifest.json";
+const MINI_KV_CURRENT_RELEASES_WITH_V95_EVIDENCE = Object.freeze(["v98", "v99"]);
+const MINI_KV_SANDBOX_RECEIPT_DIGESTS = Object.freeze([
+  "fnv1a64:9e89d248ca215706",
+  "fnv1a64:e718f4de6ca49014",
+]);
 
 const ENDPOINTS = Object.freeze({
   manualSandboxConnectionEvidenceChecklistJson: "/api/v1/audit/managed-audit-manual-sandbox-connection-evidence-checklist",
@@ -430,10 +435,10 @@ function createMiniKvV95Reference(
   return {
     ...reference,
     readyForNodeV227EvidenceChecklist: reference.evidencePresent
-      && reference.projectVersion === "0.98.0"
-      && reference.releaseVersion === "v98"
-      && reference.currentArtifactPathHint === "c/98/"
-      && reference.receiptDigest === "fnv1a64:9e89d248ca215706"
+      && /^0\.(?:98|99)\.0$/.test(reference.projectVersion)
+      && MINI_KV_CURRENT_RELEASES_WITH_V95_EVIDENCE.includes(reference.releaseVersion)
+      && /^c\/(?:98|99)\/$/.test(reference.currentArtifactPathHint)
+      && MINI_KV_SANDBOX_RECEIPT_DIGESTS.includes(reference.receiptDigest)
       && reference.preservedV95ReceiptDigest === "fnv1a64:ceaed265f7f9560c"
       && reference.stringUtilsSharedSplit
       && reference.commandCppUnderOneThousandLines
@@ -511,10 +516,10 @@ function createChecks(
       && javaV86.noSqlBoundary
       && javaV86.noCredentialBoundary,
     miniKvV95EvidencePresent: miniKvV95.evidencePresent,
-    miniKvV95RuntimeFixtureAccepted: miniKvV95.projectVersion === "0.98.0"
-      && miniKvV95.releaseVersion === "v98"
-      && miniKvV95.currentArtifactPathHint === "c/98/"
-      && miniKvV95.receiptDigest === "fnv1a64:9e89d248ca215706"
+    miniKvV95RuntimeFixtureAccepted: /^0\.(?:98|99)\.0$/.test(miniKvV95.projectVersion)
+      && MINI_KV_CURRENT_RELEASES_WITH_V95_EVIDENCE.includes(miniKvV95.releaseVersion)
+      && /^c\/(?:98|99)\/$/.test(miniKvV95.currentArtifactPathHint)
+      && MINI_KV_SANDBOX_RECEIPT_DIGESTS.includes(miniKvV95.receiptDigest)
       && miniKvV95.preservedV95ReceiptDigest === "fnv1a64:ceaed265f7f9560c",
     miniKvV95SandboxNonStorageBoundaryAccepted: miniKvV95.readOnly
       && !miniKvV95.executionAllowed
@@ -559,7 +564,7 @@ function createSnippetMatches(): ChecklistSnippetMatch[] {
     snippet("java-v86-no-credential", JAVA_V86_RUNBOOK, "no-credential flags"),
     snippet("mini-kv-v95-string-utils", MINI_KV_V95_WALKTHROUGH, "include/minikv/string_utils.hpp"),
     snippet("mini-kv-v95-command-lines", MINI_KV_V95_WALKTHROUGH, "`src/command.cpp` 557"),
-    snippet("mini-kv-v95-runtime-version", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v98\""),
+    snippet("mini-kv-v95-runtime-version", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v99\""),
     snippet("mini-kv-v95-receipt-digest", MINI_KV_RUNTIME_SMOKE, "\"consumed_receipt_digest\":\"fnv1a64:ceaed265f7f9560c\""),
     snippet("mini-kv-v95-no-storage", MINI_KV_RUNTIME_SMOKE, "\"sandbox_adapter_storage_backend\":false"),
     snippet("mini-kv-v95-no-credential", MINI_KV_RUNTIME_SMOKE, "\"credential_value_read_allowed\":false"),
