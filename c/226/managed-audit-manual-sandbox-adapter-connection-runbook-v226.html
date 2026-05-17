@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Node v226 manual sandbox adapter connection runbook</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: #536079;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .tile {
+      background: #ffffff;
+      border: 1px solid #d9e1ef;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .label {
+      color: #667085;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+    .value {
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .ok {
+      color: #16794c;
+    }
+    .blocked {
+      color: #b42318;
+    }
+    section {
+      background: #ffffff;
+      border: 1px solid #d9e1ef;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+    }
+    ol, ul {
+      margin: 0;
+      padding-left: 24px;
+    }
+    li {
+      margin: 8px 0;
+      line-height: 1.45;
+    }
+    code {
+      background: #eef2f7;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v226：manual sandbox adapter connection runbook</h1>
+    <p class="subtitle">只生成手工 sandbox 连接演练 runbook；不连接 managed audit、不读取 credential value、不启动 Java / mini-kv / 外部审计服务。</p>
+
+    <div class="grid">
+      <div class="tile">
+        <div class="label">Runbook state</div>
+        <div class="value ok">ready</div>
+      </div>
+      <div class="tile">
+        <div class="label">Connection</div>
+        <div class="value blocked">blocked</div>
+      </div>
+      <div class="tile">
+        <div class="label">Credential value</div>
+        <div class="value blocked">forbidden</div>
+      </div>
+      <div class="tile">
+        <div class="label">Next global step</div>
+        <div class="value">Java v86 + mini-kv v95</div>
+      </div>
+    </div>
+
+    <section>
+      <h2>v226 交付内容</h2>
+      <ol>
+        <li>消费 Node v225 dry-run package digest，确认 <code>readyForManagedAuditSandboxAdapterConnection=false</code>。</li>
+        <li>输出 8 个 operator inputs：owner artifact、credential handle、schema rehearsal、rollback path、timeout budget 等。</li>
+        <li>输出机器可读 <code>checklist</code>、<code>forbiddenOperations</code>、<code>pauseConditions</code> 和 failure taxonomy。</li>
+        <li>新增 audit JSON/Markdown route，并继续使用 <code>registerAuditJsonMarkdownRoute</code>。</li>
+      </ol>
+    </section>
+
+    <div class="row">
+      <section>
+        <h2>禁止操作</h2>
+        <ul>
+          <li>读取、打印、记录或归档 credential value。</li>
+          <li>打开 external managed audit connection。</li>
+          <li>执行 schema migration SQL。</li>
+          <li>写 Java ledger / mini-kv managed audit state。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>暂停条件</h2>
+        <ul>
+          <li>缺少 owner approval artifact。</li>
+          <li>任何步骤要求 credential value。</li>
+          <li>需要 Node 自动启动 Java / mini-kv / audit 服务。</li>
+          <li>Java v86 或 mini-kv v95 guard 未完成时，不推进 Node v227。</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+</body>
+</html>
