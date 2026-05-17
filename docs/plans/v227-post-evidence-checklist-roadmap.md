@@ -2,7 +2,7 @@
 
 来源版本：Node v227 `managed audit manual sandbox connection evidence checklist`。
 
-计划状态：当前唯一有效全局计划。v227 已消费 Node v226、Java v86、mini-kv v95，生成人工 sandbox 连接前 evidence checklist。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
+计划状态：当前唯一有效全局计划。v227 已消费 Node v226、Java v86、mini-kv v95，生成人工 sandbox 连接前 evidence checklist。Node v228 已完成 manual sandbox connection operator packet。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
 
 ## 当前状态
 
@@ -10,6 +10,15 @@
 Node v227：
 - manual sandbox connection evidence checklist ready
 - evidenceSpan=Node v226 + Java v86 + mini-kv v95
+- readyForManagedAuditSandboxAdapterConnection=false
+- connectsManagedAudit=false
+- readsManagedAuditCredential=false
+- schemaMigrationExecuted=false
+- automaticUpstreamStart=false
+
+Node v228：
+- manual sandbox connection operator packet ready
+- owner artifact id / credential handle name / schema rehearsal id / rollback path id / timeout budget / manual abort marker 已结构化
 - readyForManagedAuditSandboxAdapterConnection=false
 - connectsManagedAudit=false
 - readsManagedAuditCredential=false
@@ -32,10 +41,10 @@ mini-kv v95：
 ## 推荐执行顺序
 
 ```text
-1. Node v228：manual sandbox connection operator packet。
+1. 已完成：Node v228：manual sandbox connection operator packet。
    消费 v227 checklist，生成 operator packet：owner artifact id、credential handle name、schema rehearsal id、rollback path id、timeout budget、manual abort marker。仍不连接、不读 credential value、不启动外部服务。
 
-2. 推荐并行：Java v87 + mini-kv v96。
+2. 当前下一步，推荐并行：Java v87 + mini-kv v96。
    - Java v87：sandbox connection operator handoff marker，只读说明 Java 侧如何接收 Node v228 的 owner artifact / rehearsal id，不写 ledger、不执行 SQL。
    - mini-kv v96：sandbox connection receipt echo marker，只读说明 mini-kv 仍只提供 receipt echo，不成为 audit storage backend，不读 credential，不写 managed audit state。
 
@@ -46,7 +55,7 @@ mini-kv v95：
 ## 合并/并行规则
 
 ```text
-Node v228 是 operator packet，不应和 v229 verification 合并。
+Node v228 是 operator packet，已完成；不应和 v229 verification 合并。
 Java v87 + mini-kv v96 推荐并行，因为二者都是只读 handoff/receipt marker，不互相依赖。
 Node v229 必须等 Java v87 + mini-kv v96 都完成后再消费。
 可安全并行、互不阻塞、且同属一个交付闭环的三项目版本，后续计划必须写成“推荐并行”，不要拆成容易误解的串行步骤。
@@ -83,5 +92,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v227 已完成人工 sandbox 连接前 evidence checklist；下一步 Node v228 只能做 operator packet，仍不能打开真实连接，随后推荐并行 Java v87 + mini-kv v96。
+v227 已完成人工 sandbox 连接前 evidence checklist，v228 已完成 operator packet；当前下一步推荐并行 Java v87 + mini-kv v96，仍不能打开真实连接。
 ```
