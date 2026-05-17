@@ -421,7 +421,7 @@ function createSnippetMatches(): ReadinessSnippetMatch[] {
     snippet("mini-kv-v90-no-credential", MINI_KV_V90_RUNBOOK, "credential_read_allowed=false"),
     snippet("mini-kv-v90-no-migration", MINI_KV_V90_RUNBOOK, "migration_execution_allowed=false"),
     snippet("mini-kv-v90-node-v223-fixture", MINI_KV_V90_RUNTIME_SMOKE, "Node v223 managed audit external adapter connection readiness review"),
-    snippet("mini-kv-v90-fixture-digest", MINI_KV_V90_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:a18c20d8ec601001\""),
+    snippet("mini-kv-v90-fixture-digest", MINI_KV_V90_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:3e58b413afa45391\""),
   ];
 }
 
@@ -448,7 +448,7 @@ function createChecks(
       && snippetMatched(snippets, "java-v81-no-sql"),
     miniKvV90RuntimeEvidencePresent: fileById(files, "mini-kv-v90-runtime-smoke").exists
       && fileById(files, "mini-kv-v90-verification-manifest").exists,
-    miniKvV90ReceiptAccepted: miniKvV90.receiptDigest === "fnv1a64:a18c20d8ec601001"
+    miniKvV90ReceiptAccepted: miniKvV90.receiptDigest === "fnv1a64:3e58b413afa45391"
       && miniKvV90.consumedReceiptDigest === "fnv1a64:76411286a0913dc8"
       && miniKvV90.consumedReleaseVersion === "v89"
       && snippetMatched(snippets, "mini-kv-v90-receipt"),

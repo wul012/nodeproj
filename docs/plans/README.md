@@ -6,18 +6,22 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v225-post-sandbox-package-roadmap.md
+docs/plans/v227-post-evidence-checklist-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
 Node v226 已完成 manual sandbox adapter connection runbook，只生成机器可读人工演练材料，不连接、不读取 credential value。
+Java v86 + mini-kv v95 已推荐并行完成。
+Node v227 已完成 manual sandbox connection evidence checklist，只验证材料完整性，不打开 managed audit 连接。
 
 下一步：
-当前下一步是推荐并行 Java v86 + mini-kv v95，只做 sandbox connection 前只读 guard。
-两边完成后，Node 才能推进 v227 manual sandbox connection evidence checklist；在此之前 Node 不抢跑 v227。
+当前下一步是 Node v228 manual sandbox connection operator packet。
+v228 只能消费 v227 checklist 生成 operator packet，仍不连接、不读取 credential value、不启动外部服务。
+v228 后推荐并行 Java v87 + mini-kv v96。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
+v225-post-sandbox-package-roadmap.md 已收口，只是历史计划。
 ```
 
 ## 当前硬性质量验收门槛
@@ -40,9 +44,11 @@ Node v226 已完成项：
 - 已输出机器可读 operatorInputs / checklist / forbiddenOperations / pauseConditions / failureTaxonomy。
 - 未读取 credential value，未连接 managed audit，未执行 SQL / ledger / mini-kv 写操作。
 
-Node v227 前置项：
-- 必须先只读确认 Java v86 + mini-kv v95 都已完成。
-- 未完成时收到“推进”也必须停止，不允许 Node 抢跑。
+Node v228 必须项：
+- 必须先读取 v227 checklist，不得跳过 operator packet 直接打开连接。
+- 只能输出 owner artifact id / credential handle name / schema rehearsal id / rollback path id / timeout budget / manual abort marker。
+- 不允许读取 credential value，不允许连接 managed audit，不允许启动 Java / mini-kv / audit 服务。
+- 仍必须使用 registerAuditJsonMarkdownRoute。
 ```
 
 规则：
@@ -244,5 +250,8 @@ v223-post-external-adapter-readiness-roadmap.md
  -> 已完成并收口；由 Node v223 managed audit external adapter connection readiness review 衍生；Node v224、推荐并行 Java v82 + mini-kv v91、Node v225 sandbox adapter dry-run package 已完成；由 v225-post-sandbox-package-roadmap.md 接续
 
 v225-post-sandbox-package-roadmap.md
- -> 当前唯一有效全局计划；由 Node v225 managed audit sandbox adapter dry-run package 衍生；Node v226 manual sandbox adapter connection runbook 已完成；下一步推荐并行 Java v86 + mini-kv v95，之后 Node v227 消费两边 guard
+ -> 已完成并收口；由 Node v225 managed audit sandbox adapter dry-run package 衍生；Node v226、推荐并行 Java v86 + mini-kv v95、Node v227 manual sandbox connection evidence checklist 已完成；由 v227-post-evidence-checklist-roadmap.md 接续
+
+v227-post-evidence-checklist-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v227 manual sandbox connection evidence checklist 衍生；下一步 Node v228 manual sandbox connection operator packet，之后推荐并行 Java v87 + mini-kv v96
 ```

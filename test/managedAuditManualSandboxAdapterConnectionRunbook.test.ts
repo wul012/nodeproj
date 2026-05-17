@@ -41,7 +41,7 @@ describe("managed audit manual sandbox adapter connection runbook", () => {
         readsManagedAuditCredential: false,
         schemaMigrationExecuted: false,
         packageForbiddenOperationCount: 8,
-        packageEvidenceFileCount: 9,
+        packageEvidenceFileCount: 10,
       },
       manualRunbook: {
         runbookMode: "manual-sandbox-connection-runbook-only",

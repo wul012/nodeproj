@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Node v227 manual sandbox connection evidence checklist</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      background: #f5f7fb;
+      color: #172033;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 32px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 34px;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: #536079;
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .tile {
+      background: #ffffff;
+      border: 1px solid #d9e1ef;
+      border-radius: 8px;
+      padding: 16px;
+    }
+    .label {
+      color: #667085;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+    }
+    .value {
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .ok {
+      color: #16794c;
+    }
+    .blocked {
+      color: #b42318;
+    }
+    section {
+      background: #ffffff;
+      border: 1px solid #d9e1ef;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+    h2 {
+      margin: 0 0 14px;
+      font-size: 22px;
+    }
+    ol, ul {
+      margin: 0;
+      padding-left: 24px;
+    }
+    li {
+      margin: 8px 0;
+      line-height: 1.45;
+    }
+    code {
+      background: #eef2f7;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .mono {
+      font-family: Consolas, "Courier New", monospace;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v227：manual sandbox connection evidence checklist</h1>
+    <p class="subtitle">消费 Node v226、Java v86、mini-kv v95 的只读证据；只验证材料完整性，不连接 managed audit，不读取 credential value。</p>
+
+    <div class="grid">
+      <div class="tile">
+        <div class="label">Checklist state</div>
+        <div class="value ok">ready</div>
+      </div>
+      <div class="tile">
+        <div class="label">Connection</div>
+        <div class="value blocked">blocked</div>
+      </div>
+      <div class="tile">
+        <div class="label">Credential value</div>
+        <div class="value blocked">forbidden</div>
+      </div>
+      <div class="tile">
+        <div class="label">Evidence span</div>
+        <div class="value">v226 + v86 + v95</div>
+      </div>
+    </div>
+
+    <section>
+      <h2>v227 交付内容</h2>
+      <ol>
+        <li>新增 <code>/api/v1/audit/managed-audit-manual-sandbox-connection-evidence-checklist</code> JSON/Markdown 路由。</li>
+        <li>消费 Node v226 runbook digest，确认连接仍是 <code>readyForManagedAuditSandboxAdapterConnection=false</code>。</li>
+        <li>只读消费 Java v86 归档，验证 response shape、schema version、no-ledger、no-SQL、no-credential 边界。</li>
+        <li>只读消费 mini-kv v95 runtime smoke evidence，验证 non-storage receipt 和 credential/write 禁止边界。</li>
+      </ol>
+    </section>
+
+    <div class="row">
+      <section>
+        <h2>Evidence checklist</h2>
+        <ul class="mono">
+          <li>node-v226-runbook-digest</li>
+          <li>node-v226-connection-blocked</li>
+          <li>java-v86-evidence-present</li>
+          <li>java-v86-contract-preserving</li>
+          <li>mini-kv-v95-evidence-present</li>
+          <li>mini-kv-v95-sandbox-non-storage</li>
+          <li>credential-handle-only</li>
+          <li>manual-window-only</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>继续阻断</h2>
+        <ul>
+          <li>不打开 external managed audit connection。</li>
+          <li>不读取、打印、记录或归档 credential value。</li>
+          <li>不执行 schema migration SQL。</li>
+          <li>不写 Java ledger / mini-kv managed audit state。</li>
+        </ul>
+      </section>
+    </div>
+
+    <section>
+      <h2>下一步</h2>
+      <p>v225 计划已收口，后续从 <code>docs/plans/v227-post-evidence-checklist-roadmap.md</code> 继续。Node v228 只能生成 manual sandbox connection operator packet，仍不能直接打开真实连接。</p>
+    </section>
+  </main>
+</body>
+</html>

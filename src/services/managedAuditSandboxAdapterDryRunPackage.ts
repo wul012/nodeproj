@@ -141,12 +141,13 @@ interface MiniKvSandboxAdapterGuardReference {
     v92ManagedAuditReceiptFormatterSplit: boolean;
     v93RuntimeEvidenceReceiptFormatterSplit: boolean;
     v94CommandFormatterSplit: boolean;
+    v95StringUtilsSharedSplit: boolean;
   };
 }
 
 interface SandboxAdapterDryRunPackagePlan {
   packageDigest: string;
-  evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v94";
+  evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v95";
   packageMode: "sandbox-dry-run-package-only";
   sandboxOnly: true;
   packageReadyButConnectionStillBlocked: true;
@@ -229,6 +230,8 @@ const MINI_KV_V92_WALKTHROUGH =
   "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/148-version-92-managed-audit-receipt-formatter-split.md";
 const MINI_KV_V93_WALKTHROUGH =
   "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/149-version-93-runtime-evidence-receipt-formatter-split.md";
+const MINI_KV_V95_WALKTHROUGH =
+  "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/151-version-95-string-utils-and-version-sweep.md";
 const MINI_KV_RUNTIME_SMOKE = "D:/C/mini-kv/fixtures/release/runtime-smoke-evidence.json";
 const MINI_KV_VERIFICATION_MANIFEST = "D:/C/mini-kv/fixtures/release/verification-manifest.json";
 
@@ -408,14 +411,14 @@ function createPackagePlan(
     "Java v82 sandbox adapter approval/schema guard receipt.",
     "Java v82 builder/helper quality gate evidence.",
     "mini-kv v91 sandbox adapter non-participation receipt.",
-    "mini-kv v92-v94 formatter split quality chain.",
+    "mini-kv v92-v95 formatter and shared utility split quality chain.",
     "Sandbox credential handle name without credential value disclosure.",
     "Owner approval artifact requirement and schema rehearsal requirement.",
   ];
   const packageSteps = [
     "Verify Node v224 plan remains ready and read-only.",
     "Verify Java v82 guard keeps owner approval, schema rehearsal, and credential boundaries explicit.",
-    "Verify mini-kv current runtime fixture preserves v91 sandbox non-participation evidence.",
+    "Verify mini-kv current runtime fixture preserves v91-origin sandbox non-participation evidence through v95.",
     "Assemble a sandbox-only package digest without contacting external managed audit.",
     "Keep future connection and schema migration blocked until a separate manual sandbox runbook exists.",
   ];
@@ -441,7 +444,7 @@ function createPackagePlan(
       packageSteps,
       forbiddenOperations,
     }),
-    evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v94",
+    evidenceSpan: "Node v224 + Java v82 + mini-kv v91/v95",
     packageMode: "sandbox-dry-run-package-only",
     sandboxOnly: true,
     packageReadyButConnectionStillBlocked: true,
@@ -472,6 +475,7 @@ function createEvidenceFiles(): PackageEvidenceFile[] {
     evidenceFile("mini-kv-v91-walkthrough", MINI_KV_V91_WALKTHROUGH),
     evidenceFile("mini-kv-v92-walkthrough", MINI_KV_V92_WALKTHROUGH),
     evidenceFile("mini-kv-v93-walkthrough", MINI_KV_V93_WALKTHROUGH),
+    evidenceFile("mini-kv-v95-walkthrough", MINI_KV_V95_WALKTHROUGH),
     evidenceFile("mini-kv-runtime-smoke", MINI_KV_RUNTIME_SMOKE),
     evidenceFile("mini-kv-verification-manifest", MINI_KV_VERIFICATION_MANIFEST),
   ];
@@ -495,10 +499,13 @@ function createSnippetMatches(): PackageSnippetMatch[] {
     snippet("mini-kv-v93-split", MINI_KV_V93_WALKTHROUGH, "runtime evidence receipt formatter"),
     snippet("mini-kv-fixture-consumer", MINI_KV_RUNTIME_SMOKE, "\"consumer_hint\":\"Node v225 managed audit sandbox adapter dry-run package\""),
     snippet("mini-kv-fixture-receipt", MINI_KV_RUNTIME_SMOKE, "\"managed_audit_sandbox_adapter_non_participation_receipt\""),
-    snippet("mini-kv-fixture-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:41e870043630f686\""),
+    snippet("mini-kv-fixture-current-v95", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v95\""),
+    snippet("mini-kv-fixture-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:ceaed265f7f9560c\""),
     snippet("mini-kv-fixture-not-storage", MINI_KV_RUNTIME_SMOKE, "\"sandbox_adapter_storage_backend\":false"),
     snippet("mini-kv-fixture-no-credential", MINI_KV_RUNTIME_SMOKE, "\"credential_value_read_allowed\":false"),
     snippet("mini-kv-fixture-no-write", MINI_KV_RUNTIME_SMOKE, "\"sandbox_managed_audit_state_write_allowed\":false"),
+    snippet("mini-kv-v95-string-utils", MINI_KV_V95_WALKTHROUGH, "include/minikv/string_utils.hpp"),
+    snippet("mini-kv-v95-command-bounded", MINI_KV_V95_WALKTHROUGH, "`src/command.cpp` 557"),
   ];
 }
 
@@ -566,7 +573,10 @@ function createMiniKvGuardReference(
       v91RuntimeEvidenceHelperUsed: snippetMatched(snippets, "mini-kv-v91-helper"),
       v92ManagedAuditReceiptFormatterSplit: snippetMatched(snippets, "mini-kv-v92-split"),
       v93RuntimeEvidenceReceiptFormatterSplit: snippetMatched(snippets, "mini-kv-v93-split"),
-      v94CommandFormatterSplit: stringField(evidence, "release_version") === "v94",
+      v94CommandFormatterSplit: snippetMatched(snippets, "mini-kv-v95-command-bounded")
+        && JSON.stringify(evidence).includes("command response formatter module split"),
+      v95StringUtilsSharedSplit: stringField(evidence, "release_version") === "v95"
+        && snippetMatched(snippets, "mini-kv-v95-string-utils"),
     },
   };
 }
@@ -606,10 +616,10 @@ function createChecks(
       && !javaV82.javaSqlExecuted,
     miniKvRuntimeEvidencePresent: fileById(files, "mini-kv-runtime-smoke").exists
       && fileById(files, "mini-kv-verification-manifest").exists,
-    miniKvSandboxReceiptAccepted: miniKvGuard.currentReleaseVersion === "v94"
+    miniKvSandboxReceiptAccepted: miniKvGuard.currentReleaseVersion === "v95"
       && miniKvGuard.consumedReleaseVersion === "v90"
       && miniKvGuard.consumedReceiptDigest === "fnv1a64:0dfb07cd2f8de289"
-      && miniKvGuard.receiptDigest === "fnv1a64:41e870043630f686"
+      && miniKvGuard.receiptDigest === "fnv1a64:ceaed265f7f9560c"
       && snippetMatched(snippets, "mini-kv-fixture-consumer"),
     miniKvNonParticipationBoundaryValid: miniKvGuard.readOnly
       && !miniKvGuard.executionAllowed
@@ -628,7 +638,8 @@ function createChecks(
     miniKvQualityChainAccepted: miniKvGuard.qualityChain.v91RuntimeEvidenceHelperUsed
       && miniKvGuard.qualityChain.v92ManagedAuditReceiptFormatterSplit
       && miniKvGuard.qualityChain.v93RuntimeEvidenceReceiptFormatterSplit
-      && miniKvGuard.qualityChain.v94CommandFormatterSplit,
+      && miniKvGuard.qualityChain.v94CommandFormatterSplit
+      && miniKvGuard.qualityChain.v95StringUtilsSharedSplit,
     packageEvidenceComplete: snippetMatched(snippets, "mini-kv-fixture-digest")
       && snippetMatched(snippets, "mini-kv-fixture-not-storage")
       && snippetMatched(snippets, "mini-kv-fixture-no-credential")
@@ -655,7 +666,7 @@ function collectProductionBlockers(
   addBlocker(blockers, checks.javaV82QualityGateAccepted, "JAVA_V82_QUALITY_GATE_NOT_ACCEPTED", "java-v82-sandbox-guard", "Java v82 must prove builder/helper split and grouped receipt fields.");
   addBlocker(blockers, checks.miniKvSandboxReceiptAccepted, "MINIKV_SANDBOX_RECEIPT_NOT_ACCEPTED", "mini-kv-sandbox-guard", "mini-kv current runtime evidence must preserve the v91 sandbox non-participation receipt for Node v225.");
   addBlocker(blockers, checks.miniKvNonParticipationBoundaryValid, "MINIKV_SANDBOX_BOUNDARY_INVALID", "mini-kv-sandbox-guard", "mini-kv must not be sandbox audit storage, read credentials, or write managed audit state.");
-  addBlocker(blockers, checks.miniKvQualityChainAccepted, "MINIKV_QUALITY_CHAIN_NOT_ACCEPTED", "mini-kv-sandbox-guard", "mini-kv v91-v94 quality split evidence must be present.");
+  addBlocker(blockers, checks.miniKvQualityChainAccepted, "MINIKV_QUALITY_CHAIN_NOT_ACCEPTED", "mini-kv-sandbox-guard", "mini-kv v91-v95 quality split evidence must be present.");
   addBlocker(blockers, checks.upstreamActionsStillDisabled, "UPSTREAM_ACTIONS_ENABLED", "runtime-config", "UPSTREAM_ACTIONS_ENABLED must remain false.");
   addBlocker(blockers, checks.productionAuditStillBlocked, "PRODUCTION_AUDIT_UNLOCKED", "managed-audit-sandbox-adapter-dry-run-package", "v225 must not unlock production audit.");
   return blockers;
@@ -670,10 +681,10 @@ function collectWarnings(): SandboxAdapterDryRunPackageMessage[] {
       message: "This package proves sandbox prerequisites only; it does not connect to external managed audit.",
     },
     {
-      code: "MINIKV_CURRENT_FIXTURE_ADVANCED_TO_V94",
+      code: "MINIKV_CURRENT_FIXTURE_ADVANCED_TO_V95",
       severity: "warning",
       source: "mini-kv-sandbox-guard",
-      message: "mini-kv v91 evidence is consumed through the current v94 runtime smoke fixture, which preserves the v91-origin sandbox receipt.",
+      message: "mini-kv v91 evidence is consumed through the current v95 runtime smoke fixture, which preserves the v90-origin sandbox receipt and keeps the v95 shared string utility split evidence.",
     },
   ];
 }

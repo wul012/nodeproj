@@ -2,7 +2,7 @@
 
 来源版本：Node v225 `managed audit sandbox adapter dry-run package`。
 
-计划状态：当前唯一有效全局计划。v225 已消费 Node v224、Java v82、mini-kv v91/v94，生成 sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。Node v226 已完成 manual sandbox adapter connection runbook。下一阶段不能由 Node 抢跑 v227，必须先推荐并行推进 Java v86 + mini-kv v95，只补 sandbox connection 前只读/禁写 guard。
+计划状态：已完成并收口。v225 已消费 Node v224、Java v82、mini-kv v91/v95，生成 sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。Node v226 已完成 manual sandbox adapter connection runbook。Java v86 + mini-kv v95 已推荐并行完成。Node v227 已消费 Node v226、Java v86、mini-kv v95，生成 manual sandbox connection evidence checklist。本计划不再追加新版本，后续由 `v227-post-evidence-checklist-roadmap.md` 接续。
 
 ## 当前状态
 
@@ -20,14 +20,34 @@ Java v82：
 - builder/helper 拆分已完成
 - OpsEvidenceService 不再继续堆 v82 细节
 
-mini-kv v91/v94：
+mini-kv v91/v95：
 - sandbox adapter non-participation receipt 已完成
-- runtime evidence helper / formatter 拆分链已完成
+- runtime evidence helper / formatter / string utils 拆分链已完成
 - mini-kv 仍不是 sandbox audit storage backend
 
 Node v226：
 - manual sandbox adapter connection runbook 已完成
 - 输出 operatorInputs / checklist / forbiddenOperations / pauseConditions / failureTaxonomy
+- readyForManagedAuditSandboxAdapterConnection=false
+- connectsManagedAudit=false
+- readsManagedAuditCredential=false
+- schemaMigrationExecuted=false
+
+Java v86：
+- release approval rehearsal boolean flags 已完成
+- response shape / schema version 不变
+- no-ledger-write / no-SQL / no-credential 边界已归档
+
+mini-kv v95：
+- string utils shared split 已完成
+- 当前 runtime smoke evidence 为 project_version=0.95.0 / release_version=v95
+- sandbox_adapter_storage_backend=false
+- credential_value_read_allowed=false
+- sandbox_managed_audit_state_write_allowed=false
+
+Node v227：
+- manual sandbox connection evidence checklist 已完成
+- evidence checklist 只验证材料完整性，不打开连接
 - readyForManagedAuditSandboxAdapterConnection=false
 - connectsManagedAudit=false
 - readsManagedAuditCredential=false
@@ -40,11 +60,11 @@ Node v226：
 1. 已完成：Node v226：manual sandbox adapter connection runbook。
    消费 Node v225，只生成人工 sandbox 连接演练 runbook。必须列出 operator 输入、credential handle、owner artifact、schema rehearsal、rollback path、超时/失败分类；仍不连接、不启动外部服务、不读取 credential value。
 
-2. 当前下一步，推荐并行：Java v86 + mini-kv v95。
+2. 已完成，推荐并行：Java v86 + mini-kv v95。
    - Java v86：sandbox connection rehearsal readiness receipt。只读说明 Java 侧若未来进入人工 sandbox 连接窗口，仍不写 ledger、不执行 SQL、不读取 credential value，并继续保持 builder/helper 拆分。
    - mini-kv v95：sandbox connection non-storage receipt。只读说明 mini-kv 即使在 sandbox connection rehearsal 里也不做 audit storage、不读 credential、不写 managed audit state；若继续优化，优先保持 command/formatter 拆分，不回灌 command.cpp。
 
-3. 等 Java v86 + mini-kv v95 都完成后再推进：Node v227：manual sandbox connection evidence checklist。
+3. 已完成：Node v227：manual sandbox connection evidence checklist。
    消费 Node v226、Java v86、mini-kv v95，生成 checklist 和 verification profile；仍不打开连接，只验证人工演练前材料是否齐。
 ```
 
@@ -53,7 +73,7 @@ Node v226：
 ```text
 Node v226 是 runbook，不应和 Node v227 checklist 合并；v226 已完成。
 Java v86 + mini-kv v95 推荐并行，因为二者都是只读 guard，不互相依赖；这两项可以同轮推进。
-Node v227 必须等 Java v86 + mini-kv v95 完成后再消费。
+Node v227 已等 Java v86 + mini-kv v95 完成后再消费。
 ```
 
 ## 硬性质量验收门槛
@@ -87,5 +107,5 @@ mini-kv v95：
 ## 一句话结论
 
 ```text
-v225 已具备 sandbox dry-run package，v226 已具备 manual sandbox connection runbook；当前下一步是推荐并行 Java v86 + mini-kv v95，只补只读 guard，不能跳到自动连接或生产审计。
+v225-v227 已完成 sandbox dry-run package、manual runbook、evidence checklist 三段闭环；后续进入 post-v227 计划，仍不能跳到自动连接或生产审计。
 ```
