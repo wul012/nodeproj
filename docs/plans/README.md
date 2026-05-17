@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v235-post-precondition-intake-roadmap.md
+docs/plans/v236-post-dry-run-envelope-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -27,10 +27,11 @@ Java v90 + mini-kv v99 已推荐并行完成。
 Node v234 已完成 manual sandbox connection blocked execution rehearsal，并修复 v223-v234 旧沙箱链路对 mini-kv current runtime fixture v99 的滚动证据消费。
 Java v91 + mini-kv v100 已推荐并行完成。
 Node v235 已完成 manual sandbox connection precondition intake，并把 v223-v235 旧沙箱链路继续扩展到 mini-kv current runtime fixture v100。
+Node v236 已完成 manual sandbox connection dry-run request envelope，只携带字段名和 marker，不读取 credential value、不打开连接。
 
 下一步：
-当前下一步是 Node v236：manual sandbox connection dry-run request envelope。
-Node v236 只生成 dry-run envelope，不打开连接、不读取 credential value、不执行 schema migration。
+当前下一步是推荐并行 Java v92 + mini-kv v101。
+Java v92 只读回显 Node v236 envelope 字段名；mini-kv v101 只做 no-start / no-write evidence follow-up。两边未完成时，Node v237 不应抢跑。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -39,6 +40,7 @@ v227-post-evidence-checklist-roadmap.md 已收口，只是历史计划。
 v229-post-packet-verification-roadmap.md 已收口，只是历史计划。
 v231-post-preflight-verification-roadmap.md 已收口，只是历史计划。
 v234-post-blocked-execution-rehearsal-roadmap.md 已收口，只是历史计划。
+v235-post-precondition-intake-roadmap.md 已收口，只是历史计划。
 ```
 
 ## 当前硬性质量验收门槛
@@ -87,6 +89,12 @@ Node v235 当前完成项：
 - 已消费 Node v234 + Java v91 + mini-kv v100，确认 6 类真实 sandbox connection 前置条件齐备。
 - handlesOnly=true；未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
 - 已将 v223-v235 旧沙箱链路继续扩展到 mini-kv current runtime fixture v100，同时保留历史 consumed digest / receipt 检查。
+
+Node v236 当前完成项：
+- 已新增 managed audit manual sandbox connection dry-run request envelope。
+- 已消费 Node v235 intake，生成 6 个 operatorReviewFields。
+- credentialHandleOnly=true、credentialValueIncluded=false、actualConnectionAttempted=false。
+- 未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
 ```
 
 规则：

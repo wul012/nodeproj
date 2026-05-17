@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v236 dry-run request envelope</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+        background: #f6f7f4;
+        color: #181f17;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px;
+      }
+
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        margin: 0 0 28px;
+        color: #5b6754;
+        font-size: 17px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+
+      .tile,
+      .panel {
+        background: #fff;
+        border: 1px solid #dfe5da;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(24, 31, 23, 0.05);
+      }
+
+      .tile {
+        padding: 18px;
+      }
+
+      .tile span {
+        display: block;
+        color: #68745f;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 26px;
+      }
+
+      .ok {
+        color: #11643f;
+      }
+
+      .blocked {
+        color: #964d00;
+      }
+
+      .panel {
+        padding: 22px;
+        margin-bottom: 18px;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #e6ebdf;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: #596451;
+        font-weight: 600;
+      }
+
+      code {
+        font-family: "Cascadia Code", Consolas, monospace;
+        background: #eef2ea;
+        border-radius: 5px;
+        padding: 2px 5px;
+      }
+
+      .list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 20px;
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .note {
+        margin: 0;
+        line-height: 1.65;
+        color: #354230;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v236: dry-run request envelope</h1>
+      <p class="subtitle">Managed audit sandbox connection 请求信封，只携带字段名和 marker，不打开连接。</p>
+
+      <section class="grid">
+        <div class="tile">
+          <span>Envelope</span>
+          <strong class="ok">ready</strong>
+        </div>
+        <div class="tile">
+          <span>Review fields</span>
+          <strong>6 / 6</strong>
+        </div>
+        <div class="tile">
+          <span>Credential value</span>
+          <strong class="ok">0</strong>
+        </div>
+        <div class="tile">
+          <span>Actual connection</span>
+          <strong class="blocked">0</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>核心结论</h2>
+        <p class="note">
+          v236 消费 <code>Node v235 precondition intake</code>，
+          生成 <code>managed-audit-manual-sandbox-connection-dry-run-request-envelope.v1</code>。
+          结果为 ready，但 <code>readyForManagedAuditSandboxAdapterConnection=false</code>，
+          <code>connectsManagedAudit=false</code>，<code>readsManagedAuditCredential=false</code>。
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>操作员 review 字段</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>字段</th>
+              <th>名称</th>
+              <th>值类型</th>
+              <th>边界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>owner-approval-artifact</td><td><code>ORDEROPS_MANAGED_AUDIT_OWNER_APPROVAL_ARTIFACT_ID</code></td><td>field-name-or-marker-id</td><td>不携带真实值</td></tr>
+            <tr><td>credential-handle-review</td><td><code>ORDEROPS_MANAGED_AUDIT_SANDBOX_CREDENTIAL_HANDLE</code></td><td>field-name-or-marker-id</td><td>不读取 credential value</td></tr>
+            <tr><td>schema-rehearsal-evidence</td><td><code>ORDEROPS_MANAGED_AUDIT_SCHEMA_REHEARSAL_ID</code></td><td>field-name-or-marker-id</td><td>不执行 migration</td></tr>
+            <tr><td>rollback-path</td><td><code>ORDEROPS_MANAGED_AUDIT_ROLLBACK_PATH_ID</code></td><td>field-name-or-marker-id</td><td>不触发 rollback</td></tr>
+            <tr><td>timeout-budget</td><td><code>timeoutBudgetMs</code></td><td>duration-budget-ms</td><td>15000ms 预算</td></tr>
+            <tr><td>manual-abort-marker</td><td><code>ORDEROPS_MANAGED_AUDIT_MANUAL_ABORT</code></td><td>field-name-or-marker-id</td><td>只记录中止 marker</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>执行边界</h2>
+        <p class="note">
+          <code>credentialValueIncluded=false</code>，
+          <code>actualConnectionAttempted=false</code>，
+          <code>schemaMigrationRequested=false</code>，
+          <code>managedAuditStateWriteRequested=false</code>，
+          <code>upstreamServiceAutoStartRequested=false</code>。
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>验证</h2>
+        <ul class="list">
+          <li><code>npm run typecheck</code> 通过</li>
+          <li>聚焦链路测试：2 files / 6 tests 通过</li>
+          <li><code>npm run build</code> 通过</li>
+          <li>HTTP smoke：JSON 200，Markdown 200，health ok</li>
+          <li><code>UPSTREAM_ACTIONS_ENABLED=false</code></li>
+          <li>Node 临时服务已停止</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>

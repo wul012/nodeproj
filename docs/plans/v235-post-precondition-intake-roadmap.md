@@ -2,7 +2,7 @@
 
 来源版本：Node v235 `managed audit manual sandbox connection precondition intake`。
 
-计划状态：当前唯一有效全局计划。Node v235 已消费 Node v234、Java v91、mini-kv v100，生成 manual sandbox connection precondition intake；只读确认 owner approval artifact、credential handle review、schema rehearsal evidence、rollback path、timeout budget、manual abort marker 六类前置条件齐备。v235 仍不打开 managed audit 连接，不读取 credential value，不执行 schema migration，不写 Java / mini-kv / audit 状态，不自动启动 Java / mini-kv。
+计划状态：已完成并收口。Node v235 已消费 Node v234、Java v91、mini-kv v100，生成 manual sandbox connection precondition intake；Node v236 已继续消费 v235 intake，生成 manual sandbox connection dry-run request envelope。下一阶段由 `v236-post-dry-run-envelope-roadmap.md` 接续。
 
 ## 当前状态
 
@@ -39,14 +39,14 @@ mini-kv v100：
 ## 推荐执行顺序
 
 ```text
-1. Node v236：manual sandbox connection dry-run request envelope。
-   消费 Node v235 intake，生成 dry-run request envelope；只放 owner artifact id field、credential handle name、schema rehearsal id、rollback path id、timeout budget、manual abort marker，不读取 credential value，不打开连接。
+1. Node v236：manual sandbox connection dry-run request envelope。已完成。
+   已消费 Node v235 intake，生成 dry-run request envelope；只放 owner artifact id field、credential handle name、schema rehearsal id、rollback path id、timeout budget、manual abort marker，不读取 credential value，不打开连接。
 
 2. 推荐并行：Java v92 + mini-kv v101。
    - Java v92：connection precondition echo verification，只读回显 Node v236 envelope 字段名，验证不含 credential value，不执行 SQL，不写 ledger。
    - mini-kv v101：runtime no-start / no-write evidence follow-up，继续证明 mini-kv 不是 audit storage backend，不被 Node 自动启动；可顺手把 v100 rolling guard 的 Node v236 consumer hint 固化。
 
-3. Node v237：manual sandbox connection readiness gate。
+3. Node v237：manual sandbox connection readiness gate。转入新计划。
    消费 Node v236 + Java v92 + mini-kv v101，判断是否具备“申请一次真实沙箱连接窗口”的材料；默认仍关闭，不执行真实连接。
 
 4. Node v238：manual sandbox connection operator window checklist。
@@ -83,5 +83,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v235 已把真实沙箱连接前置条件收成只读 intake；下一步 Node v236 只能做 dry-run request envelope，仍不能打开连接。
+v235 已把真实沙箱连接前置条件收成只读 intake；v236 已把它整理成 dry-run request envelope，下一步先推荐并行 Java v92 + mini-kv v101。
 ```
