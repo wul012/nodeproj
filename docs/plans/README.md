@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v234-post-blocked-execution-rehearsal-roadmap.md
+docs/plans/v235-post-precondition-intake-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -25,10 +25,12 @@ Java v89 + mini-kv v98 已推荐并行完成。
 Node v233 已完成 manual sandbox connection rehearsal packet review，只读消费 Node v232 / Java v89 / mini-kv v98 证据，不打开连接。
 Java v90 + mini-kv v99 已推荐并行完成。
 Node v234 已完成 manual sandbox connection blocked execution rehearsal，并修复 v223-v234 旧沙箱链路对 mini-kv current runtime fixture v99 的滚动证据消费。
+Java v91 + mini-kv v100 已推荐并行完成。
+Node v235 已完成 manual sandbox connection precondition intake，并把 v223-v235 旧沙箱链路继续扩展到 mini-kv current runtime fixture v100。
 
 下一步：
-当前下一步是推荐并行 Java v91 + mini-kv v100；两边完成后 Node v235 做 manual sandbox connection precondition intake。
-Java v91 做真实 sandbox connection 前置条件只读 receipt；mini-kv v100 做 current runtime fixture rolling evidence guard。
+当前下一步是 Node v236：manual sandbox connection dry-run request envelope。
+Node v236 只生成 dry-run envelope，不打开连接、不读取 credential value、不执行 schema migration。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -36,6 +38,7 @@ v225-post-sandbox-package-roadmap.md 已收口，只是历史计划。
 v227-post-evidence-checklist-roadmap.md 已收口，只是历史计划。
 v229-post-packet-verification-roadmap.md 已收口，只是历史计划。
 v231-post-preflight-verification-roadmap.md 已收口，只是历史计划。
+v234-post-blocked-execution-rehearsal-roadmap.md 已收口，只是历史计划。
 ```
 
 ## 当前硬性质量验收门槛
@@ -78,6 +81,12 @@ Node v234 当前完成项：
 - 已消费 Node v233 + Java v90 + mini-kv v99，模拟 8 类危险动作并全部阻断。
 - actualExecutionAttemptCount=0；未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
 - 已将 v223-v234 旧沙箱链路改为滚动读取 mini-kv current runtime fixture v99，同时保留历史 consumed digest / receipt 检查。
+
+Node v235 当前完成项：
+- 已新增 managed audit manual sandbox connection precondition intake。
+- 已消费 Node v234 + Java v91 + mini-kv v100，确认 6 类真实 sandbox connection 前置条件齐备。
+- handlesOnly=true；未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
+- 已将 v223-v235 旧沙箱链路继续扩展到 mini-kv current runtime fixture v100，同时保留历史 consumed digest / receipt 检查。
 ```
 
 规则：

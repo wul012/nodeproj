@@ -262,10 +262,11 @@ const ENDPOINTS = Object.freeze({
 });
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
-const MINI_KV_CURRENT_RELEASES_WITH_V98_HELPER = Object.freeze(["v98", "v99"]);
+const MINI_KV_CURRENT_RELEASES_WITH_V98_HELPER = Object.freeze(["v98", "v99", "v100"]);
 const MINI_KV_V98_CONSUMERS = Object.freeze([
   "Node v233 manual sandbox connection rehearsal packet review",
   "Node v234 manual sandbox connection blocked execution rehearsal",
+  "Node v235 manual sandbox connection precondition intake",
 ]);
 
 export function loadManagedAuditManualSandboxConnectionRehearsalPacketReview(input: {
@@ -556,7 +557,7 @@ function createMiniKvV98Reference(
   return {
     ...reference,
     readyForNodeV233RehearsalPacketReview: reference.evidencePresent
-      && /^0\.(?:98|99)\.0$/.test(reference.projectVersion)
+      && /^0\.(?:98|99|100)\.0$/.test(reference.projectVersion)
       && MINI_KV_CURRENT_RELEASES_WITH_V98_HELPER.includes(reference.releaseVersion)
       && MINI_KV_V98_CONSUMERS.includes(reference.consumerHint)
       && reference.writeWalHelper === "CommandProcessor::execute_with_wal"

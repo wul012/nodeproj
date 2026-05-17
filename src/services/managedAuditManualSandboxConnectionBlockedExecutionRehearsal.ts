@@ -537,9 +537,12 @@ function createMiniKvV99Reference(
   return {
     ...reference,
     readyForNodeV234BlockedExecutionRehearsal: reference.evidencePresent
-      && reference.projectVersion === "0.99.0"
-      && reference.releaseVersion === "v99"
-      && reference.consumerHint === "Node v234 manual sandbox connection blocked execution rehearsal"
+      && /^0\.(?:99|100)\.0$/.test(reference.projectVersion)
+      && ["v99", "v100"].includes(reference.releaseVersion)
+      && [
+        "Node v234 manual sandbox connection blocked execution rehearsal",
+        "Node v235 manual sandbox connection precondition intake",
+      ].includes(reference.consumerHint)
       && reference.writeWalHelper === "CommandProcessor::execute_with_wal"
       && ["SET", "SETNXEX", "DEL", "EXPIRE"].every((command) => reference.writeWalHelperScope.includes(command))
       && reference.writeWalHelperBehaviorPreserved

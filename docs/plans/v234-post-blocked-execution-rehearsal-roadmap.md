@@ -2,7 +2,7 @@
 
 来源版本：Node v234 `managed audit manual sandbox connection blocked execution rehearsal`。
 
-计划状态：当前唯一有效全局计划。Node v234 已消费 Node v233、Java v90、mini-kv v99，生成 blocked execution rehearsal；只模拟阻断矩阵，不打开 managed audit 连接，不读取 credential value，不执行 schema migration，不写 Java / mini-kv / audit 状态。同时 v234 已修复 v223-v234 旧沙箱链路对 mini-kv current runtime fixture v99 的滚动证据消费，后续不能再写死 v98。
+计划状态：已完成并收口。Node v234 已消费 Node v233、Java v90、mini-kv v99，生成 blocked execution rehearsal；只模拟阻断矩阵，不打开 managed audit 连接，不读取 credential value，不执行 schema migration，不写 Java / mini-kv / audit 状态。Java v91 + mini-kv v100 已推荐并行完成，Node v235 已完成 manual sandbox connection precondition intake，并把 v223-v235 旧沙箱链路继续扩展为可消费 mini-kv current runtime fixture v100 的滚动证据。下一阶段由 `v235-post-precondition-intake-roadmap.md` 接续。
 
 ## 当前状态
 
@@ -29,26 +29,50 @@ mini-kv v99：
 - execute_with_wal helper 回归补强已完成
 - runtime smoke current fixture=0.99.0 / v99
 - read_only=true、execution_allowed=false、restore_execution_allowed=false、order_authoritative=false
+
+Java v91：
+- release approval sandbox connection precondition receipt 已完成
+- owner approval artifact、credential handle review、schema rehearsal evidence、rollback path、timeout budget、manual abort marker 六类前置条件已只读列出
+- 不写 ledger，不执行 SQL，不读取 credential value，不打开 managed audit connection
+
+mini-kv v100：
+- current runtime fixture rolling evidence guard 已完成
+- current fixture 已滚到 0.100.0 / v100 / c/100/
+- historical consumed digest anchors 仍保持 v84-v90/v95/v96 稳定
+- read_only=true、execution_allowed=false、restore_execution_allowed=false、order_authoritative=false
+
+Node v235：
+- manual sandbox connection precondition intake ready
+- markerSpan=Node v234 + Java v91 + mini-kv v100
+- requiredPreconditionCount=6，documentedPreconditionCount=6
+- handlesOnly=true
+- actualConnectionAttempted=false
+- credentialValueRead=false
+- schemaMigrationExecuted=false
+- managedAuditStateWritten=false
+- upstreamServiceAutoStarted=false
+- miniKvExecutionPermissionInferred=false
+- 同步修正 v223-v235 旧沙箱链路读取 mini-kv current runtime fixture v100 的断言：接受当前版本滚动，同时保留历史 consumed digest / receipt 语义
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. 推荐并行：Java v91 + mini-kv v100。
+1. 推荐并行：Java v91 + mini-kv v100。已完成。
    - Java v91：release approval sandbox connection precondition receipt，只读列出真实 sandbox connection 前必须具备的 owner approval artifact、credential handle review、schema rehearsal evidence、rollback path、timeout budget；不写 ledger，不执行 SQL，不打开连接。
    - mini-kv v100：current runtime fixture rolling evidence guard，把 v99 current fixture 的 version / receipt / historical digest 保留规则固化成只读 sample 或测试；不做 command dispatch table 大重构，不触碰 WAL / snapshot / restore 行为。
 
-2. Node v235：manual sandbox connection precondition intake。
+2. Node v235：manual sandbox connection precondition intake。已完成。
    消费 Java v91 + mini-kv v100 的只读前置条件证据，生成 precondition intake；仍不打开 managed audit 连接，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv。
 
-3. Node v236：manual sandbox connection dry-run request envelope。
+3. Node v236：manual sandbox connection dry-run request envelope。转入新计划。
    生成真正连接前的人工作业 envelope：列出 owner artifact id、credential handle name、schema rehearsal id、rollback path id、timeout budget、abort marker，但 request 仍为 dry-run，不执行连接。
 
-4. 推荐并行：Java v92 + mini-kv v101。
+4. 推荐并行：Java v92 + mini-kv v101。转入新计划。
    - Java v92：connection precondition echo verification，只读回显 Node v236 envelope 字段名，验证不含 credential value。
    - mini-kv v101：runtime no-start / no-write evidence follow-up，继续证明 mini-kv 不是 audit storage backend，不被 Node 自动启动。
 
-5. Node v237：manual sandbox connection readiness gate。
+5. Node v237：manual sandbox connection readiness gate。转入新计划。
    消费 Node v236 + Java v92 + mini-kv v101，判断是否具备“申请一次真实沙箱连接窗口”的材料；默认仍关闭，不执行真实连接。
 ```
 
@@ -57,6 +81,7 @@ mini-kv v99：
 ```text
 Node：
 - 继续保留 v234 的 rolling fixture guard：读取 mini-kv current runtime fixture 时必须允许当前版本滚动，同时校验历史 consumed digest / receipt 没丢。
+- v235 已把 v223-v235 沙箱链路继续扩展到 mini-kv v100 current fixture；后续不得重新把测试或 service 写死在 v99。
 - managedAudit* 服务接近 800 行必须拆 helper；v234 新服务后续如果增长，优先拆 attempts / upstream evidence reader / markdown render。
 - auditRoutes 继续使用 registerAuditJsonMarkdownRoute；不要新增手写 JSON/Markdown 路由分支。
 - 后续不要再做单纯 summary 版本；每版必须形成一个可验证的小闭环。
@@ -82,5 +107,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v234 已证明危险动作全部阻断；下一阶段先补 Java v91 + mini-kv v100 的真实连接前置条件证据，再由 Node v235 做只读 intake。
+v235 已完成只读 precondition intake；下一阶段另起 post-v235 计划，先做 dry-run request envelope，不直接打开 managed audit sandbox connection。
 ```

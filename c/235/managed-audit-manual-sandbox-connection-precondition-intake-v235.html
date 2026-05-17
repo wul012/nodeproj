@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v235 precondition intake</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: "Segoe UI", "Microsoft YaHei", Arial, sans-serif;
+        background: #f5f7f4;
+        color: #172018;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px;
+      }
+
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        margin: 0 0 28px;
+        color: #566657;
+        font-size: 17px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+
+      .tile,
+      .panel {
+        background: #fff;
+        border: 1px solid #dbe4d8;
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(23, 32, 24, 0.05);
+      }
+
+      .tile {
+        padding: 18px;
+      }
+
+      .tile span {
+        display: block;
+        color: #62745f;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+
+      .tile strong {
+        display: block;
+        font-size: 26px;
+      }
+
+      .ok {
+        color: #12643f;
+      }
+
+      .blocked {
+        color: #934b00;
+      }
+
+      .panel {
+        padding: 22px;
+        margin-bottom: 18px;
+      }
+
+      h2 {
+        margin: 0 0 14px;
+        font-size: 20px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+      }
+
+      th,
+      td {
+        padding: 10px 12px;
+        border-bottom: 1px solid #e4ebe0;
+        text-align: left;
+        vertical-align: top;
+      }
+
+      th {
+        color: #52634f;
+        font-weight: 600;
+      }
+
+      code {
+        font-family: "Cascadia Code", Consolas, monospace;
+        background: #eef3eb;
+        border-radius: 5px;
+        padding: 2px 5px;
+      }
+
+      .list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 20px;
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      .note {
+        margin: 0;
+        line-height: 1.65;
+        color: #334331;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v235: precondition intake</h1>
+      <p class="subtitle">Managed audit sandbox connection 前置条件只读 intake，确认材料齐备但不打开连接。</p>
+
+      <section class="grid">
+        <div class="tile">
+          <span>Profile</span>
+          <strong class="ok">ready</strong>
+        </div>
+        <div class="tile">
+          <span>Preconditions</span>
+          <strong>6 / 6</strong>
+        </div>
+        <div class="tile">
+          <span>Handles only</span>
+          <strong class="ok">true</strong>
+        </div>
+        <div class="tile">
+          <span>Actual connection</span>
+          <strong class="blocked">0</strong>
+        </div>
+      </section>
+
+      <section class="panel">
+        <h2>核心结论</h2>
+        <p class="note">
+          v235 消费 <code>Node v234</code>、<code>Java v91</code>、<code>mini-kv v100</code> 证据，
+          生成 <code>managed-audit-manual-sandbox-connection-precondition-intake.v1</code>。
+          结果为 ready，但 <code>readyForManagedAuditSandboxAdapterConnection=false</code>，
+          <code>connectsManagedAudit=false</code>，<code>readsManagedAuditCredential=false</code>。
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>前置条件</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>条件</th>
+              <th>字段 / marker</th>
+              <th>来源</th>
+              <th>边界</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Owner approval artifact</td><td><code>ORDEROPS_MANAGED_AUDIT_OWNER_APPROVAL_ARTIFACT_ID</code></td><td>Java v91</td><td>只读 artifact id</td></tr>
+            <tr><td>Credential handle review</td><td><code>ORDEROPS_MANAGED_AUDIT_SANDBOX_CREDENTIAL_HANDLE</code></td><td>Java v91</td><td>不读取 credential value</td></tr>
+            <tr><td>Schema rehearsal evidence</td><td><code>ORDEROPS_MANAGED_AUDIT_SCHEMA_REHEARSAL_ID</code></td><td>Java v91</td><td>不执行 migration</td></tr>
+            <tr><td>Rollback path</td><td><code>ORDEROPS_MANAGED_AUDIT_ROLLBACK_PATH_ID</code></td><td>Java v91</td><td>不触发 rollback</td></tr>
+            <tr><td>Timeout budget</td><td><code>15000ms</code></td><td>Java v91</td><td>只记录预算</td></tr>
+            <tr><td>Manual abort marker</td><td><code>ORDEROPS_MANAGED_AUDIT_MANUAL_ABORT</code></td><td>Java v91</td><td>只记录中止条件</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section class="panel">
+        <h2>mini-kv v100 rolling guard</h2>
+        <p class="note">
+          v235 允许 mini-kv current runtime fixture 滚到 <code>0.100.0 / v100 / c/100/</code>，
+          同时保留 historical consumed digest / receipt / marker 检查。当前证据可滚，历史锚点不可漂移。
+        </p>
+      </section>
+
+      <section class="panel">
+        <h2>验证</h2>
+        <ul class="list">
+          <li><code>npm run typecheck</code> 通过</li>
+          <li>聚焦链路测试：8 files / 24 tests 通过</li>
+          <li><code>npm run build</code> 通过</li>
+          <li>HTTP smoke：JSON 200，Markdown 200，health ok</li>
+          <li><code>UPSTREAM_ACTIONS_ENABLED=false</code></li>
+          <li>Node 临时服务已停止</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
