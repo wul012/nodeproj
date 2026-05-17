@@ -11,26 +11,16 @@ import {
   loadManagedAuditManualSandboxConnectionEvidenceChecklist,
   type ManagedAuditManualSandboxConnectionEvidenceChecklistProfile,
 } from "./managedAuditManualSandboxConnectionEvidenceChecklist.js";
+import type { SandboxDryRunGuards } from "./managedAuditSandboxGuards.js";
 
-export interface ManagedAuditManualSandboxConnectionOperatorPacketProfile {
+export interface ManagedAuditManualSandboxConnectionOperatorPacketProfile extends SandboxDryRunGuards {
   service: "orderops-node";
   title: string;
   generatedAt: string;
   profileVersion: "managed-audit-manual-sandbox-connection-operator-packet.v1";
   packetState: "manual-sandbox-connection-operator-packet-ready" | "blocked";
   readyForManagedAuditManualSandboxConnectionOperatorPacket: boolean;
-  readyForManagedAuditSandboxAdapterConnection: false;
-  readyForProductionAudit: false;
-  readyForProductionWindow: false;
-  readyForProductionOperations: false;
   readOnlyPacket: true;
-  executionAllowed: false;
-  restoreExecutionAllowed: false;
-  connectsManagedAudit: false;
-  readsManagedAuditCredential: false;
-  storesManagedAuditCredential: false;
-  schemaMigrationExecuted: false;
-  automaticUpstreamStart: false;
   sourceNodeV227: {
     sourceVersion: "Node v227";
     profileVersion: ManagedAuditManualSandboxConnectionEvidenceChecklistProfile["profileVersion"];

@@ -2,7 +2,7 @@
 
 来源版本：Node v231 `managed audit manual sandbox connection preflight verification`。
 
-计划状态：当前唯一有效全局计划。Node v231 已消费 Node v230、Java v88、mini-kv v97，验证 preflight echo marker 与 no-start guard 一致。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
+计划状态：当前唯一有效全局计划。Node v231 已消费 Node v230、Java v88、mini-kv v97，验证 preflight echo marker 与 no-start guard 一致。Node v232 已完成 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合优化。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
 
 ## 当前状态
 
@@ -18,6 +18,13 @@ Node v231：
 - schemaMigrationExecuted=false
 - automaticUpstreamStart=false
 
+Node v232：
+- ReadOnlyDryRunGuards / SandboxDryRunGuards / LocalDryRunWriteGuard 已新增
+- v225-v231 沙箱链 profile 已继承共享 guard 类型
+- JSON contract 输出字段保持不变
+- 旧链路消费 mini-kv current runtime fixture 已按 v98 对齐，但历史 consumed digest / receipt 语义保留
+- 只做类型层质量优化，不新增连接、不读取 credential、不改 Java / mini-kv 行为
+
 Java v88：
 - sandbox connection preflight echo marker ready
 - 只读 echo preflight fields / manual window flag / credential handle / schema rehearsal / rollback / timeout / abort marker
@@ -32,7 +39,7 @@ mini-kv v97：
 ## 推荐执行顺序
 
 ```text
-1. 推荐并行：Node v232 + Java v89 + mini-kv v98。
+1. Node v232 已完成；Java v89 + mini-kv v98 仍推荐并行。
    - Node v232：提取 ReadOnlyDryRunGuards / SandboxDryRunGuards 类型聚合，用一个低风险类型优化收敛 v225-v231 沙箱链的 readOnly / executionAllowed / connectsManagedAudit / credential / schema / auto-start 字段；契约输出字段保持不变。
    - Java v89：ContextHeaderField record 组合优化，收敛 value/source 成对字段构造；不新增 approval 行为，不写 ledger，不执行 SQL。
    - mini-kv v98：execute-with-wal helper 第一版，收敛 SET / SETNXEX / DEL / EXPIRE 的 WAL / no-WAL 重复分支；行为不变，不触碰 snapshot / restore 核心。

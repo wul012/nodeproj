@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v232 - Sandbox Guard Type Aggregation</title>
+  <style>
+    :root {
+      --ink: #17212b;
+      --muted: #5f6f7c;
+      --line: #c9d6df;
+      --panel: #f5f8fb;
+      --ok: #13795b;
+      --warn: #8a5a00;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background: #fff;
+    }
+    main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 36px 28px 44px;
+    }
+    h1 {
+      margin: 0 0 10px;
+      font-size: 34px;
+      letter-spacing: 0;
+    }
+    .subtitle {
+      margin: 0 0 24px;
+      color: var(--muted);
+      font-size: 16px;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel);
+      padding: 16px;
+    }
+    .wide {
+      grid-column: 1 / -1;
+    }
+    h2 {
+      margin: 0 0 12px;
+      font-size: 18px;
+    }
+    .kv {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 9px 14px;
+      font-size: 14px;
+    }
+    .value {
+      font-family: Consolas, monospace;
+      font-weight: 700;
+    }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    .type-list {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .type {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 14px;
+      min-height: 116px;
+    }
+    ul {
+      margin: 8px 0 0 20px;
+      padding: 0;
+      line-height: 1.7;
+    }
+    code {
+      font-family: Consolas, monospace;
+      background: #e9eef3;
+      padding: 2px 5px;
+      border-radius: 4px;
+    }
+    @media (max-width: 760px) {
+      .grid,
+      .type-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v232: Sandbox Guard Type Aggregation</h1>
+    <p class="subtitle">把 v225-v231 沙箱链重复的 no-connection / no-credential / no-schema / no-auto-start 字段收敛到共享类型，运行时契约保持不变。</p>
+
+    <section class="grid">
+      <article class="panel">
+        <h2>Quality Result</h2>
+        <div class="kv">
+          <span>changed behavior</span><span class="value ok">false</span>
+          <span>contract fields kept</span><span class="value ok">true</span>
+          <span>profile interfaces migrated</span><span class="value ok">7</span>
+          <span>focused tests</span><span class="value ok">21 passed</span>
+        </div>
+      </article>
+
+      <article class="panel">
+        <h2>Safety Boundary</h2>
+        <div class="kv">
+          <span>managed audit connection</span><span class="value ok">blocked</span>
+          <span>credential value read</span><span class="value ok">blocked</span>
+          <span>schema migration</span><span class="value ok">blocked</span>
+          <span>automatic upstream start</span><span class="value ok">blocked</span>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Shared Types</h2>
+        <div class="type-list">
+          <div class="type">
+            <strong>ReadOnlyDryRunGuards</strong>
+            <ul>
+              <li><code>executionAllowed=false</code></li>
+              <li><code>readsManagedAuditCredential=false</code></li>
+              <li><code>schemaMigrationExecuted=false</code></li>
+            </ul>
+          </div>
+          <div class="type">
+            <strong>SandboxDryRunGuards</strong>
+            <ul>
+              <li>extends read-only guards</li>
+              <li><code>readyForManagedAuditSandboxAdapterConnection=false</code></li>
+              <li><code>connectsManagedAudit=false</code></li>
+            </ul>
+          </div>
+          <div class="type">
+            <strong>LocalDryRunWriteGuard</strong>
+            <ul>
+              <li><code>localDryRunWritePerformed=false</code></li>
+              <li>用于 v225 / v226</li>
+            </ul>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel wide">
+        <h2>Next Step</h2>
+        <ul>
+          <li>当前计划下一步是推荐并行 <code>Java v89 + mini-kv v98</code>。</li>
+          <li>两边完成后，Node v233 消费优化证据并做 manual sandbox connection rehearsal packet review。</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

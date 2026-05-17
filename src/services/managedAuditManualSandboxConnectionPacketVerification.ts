@@ -14,26 +14,16 @@ import {
   loadManagedAuditManualSandboxConnectionOperatorPacket,
   type ManagedAuditManualSandboxConnectionOperatorPacketProfile,
 } from "./managedAuditManualSandboxConnectionOperatorPacket.js";
+import type { SandboxDryRunGuards } from "./managedAuditSandboxGuards.js";
 
-export interface ManagedAuditManualSandboxConnectionPacketVerificationProfile {
+export interface ManagedAuditManualSandboxConnectionPacketVerificationProfile extends SandboxDryRunGuards {
   service: "orderops-node";
   title: string;
   generatedAt: string;
   profileVersion: "managed-audit-manual-sandbox-connection-packet-verification.v1";
   verificationState: "manual-sandbox-connection-packet-verification-ready" | "blocked";
   readyForManagedAuditManualSandboxConnectionPacketVerification: boolean;
-  readyForManagedAuditSandboxAdapterConnection: false;
-  readyForProductionAudit: false;
-  readyForProductionWindow: false;
-  readyForProductionOperations: false;
   readOnlyVerification: true;
-  executionAllowed: false;
-  restoreExecutionAllowed: false;
-  connectsManagedAudit: false;
-  readsManagedAuditCredential: false;
-  storesManagedAuditCredential: false;
-  schemaMigrationExecuted: false;
-  automaticUpstreamStart: false;
   sourceNodeV228: {
     sourceVersion: "Node v228";
     profileVersion: ManagedAuditManualSandboxConnectionOperatorPacketProfile["profileVersion"];
@@ -446,9 +436,9 @@ function createMiniKvV96Reference(
   return {
     ...reference,
     readyForNodeV229PacketVerification: reference.evidencePresent
-      && reference.projectVersion === "0.97.0"
-      && reference.releaseVersion === "v97"
-      && reference.markerDigest === "fnv1a64:fbad91e89da49997"
+      && reference.projectVersion === "0.98.0"
+      && reference.releaseVersion === "v98"
+      && reference.markerDigest === "fnv1a64:c88b0bf6b974ac6b"
       && reference.consumedReceiptDigest === "fnv1a64:ceaed265f7f9560c"
       && reference.sourceOperatorPacketProfile === "managed-audit-manual-sandbox-connection-operator-packet.v1"
       && reference.packetMode === "manual-sandbox-connection-operator-packet-only"

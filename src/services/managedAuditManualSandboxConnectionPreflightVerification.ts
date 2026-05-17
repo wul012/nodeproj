@@ -14,26 +14,16 @@ import {
   loadManagedAuditManualSandboxConnectionPreflightGate,
   type ManagedAuditManualSandboxConnectionPreflightGateProfile,
 } from "./managedAuditManualSandboxConnectionPreflightGate.js";
+import type { SandboxDryRunGuards } from "./managedAuditSandboxGuards.js";
 
-export interface ManagedAuditManualSandboxConnectionPreflightVerificationProfile {
+export interface ManagedAuditManualSandboxConnectionPreflightVerificationProfile extends SandboxDryRunGuards {
   service: "orderops-node";
   title: string;
   generatedAt: string;
   profileVersion: "managed-audit-manual-sandbox-connection-preflight-verification.v1";
   verificationState: "manual-sandbox-connection-preflight-verification-ready" | "blocked";
   readyForManagedAuditManualSandboxConnectionPreflightVerification: boolean;
-  readyForManagedAuditSandboxAdapterConnection: false;
-  readyForProductionAudit: false;
-  readyForProductionWindow: false;
-  readyForProductionOperations: false;
   readOnlyVerification: true;
-  executionAllowed: false;
-  restoreExecutionAllowed: false;
-  connectsManagedAudit: false;
-  readsManagedAuditCredential: false;
-  storesManagedAuditCredential: false;
-  schemaMigrationExecuted: false;
-  automaticUpstreamStart: false;
   sourceNodeV230: {
     sourceVersion: "Node v230";
     profileVersion: ManagedAuditManualSandboxConnectionPreflightGateProfile["profileVersion"];
@@ -461,12 +451,12 @@ function createMiniKvV97Reference(
   return {
     ...reference,
     readyForNodeV231PreflightVerification: reference.evidencePresent
-      && reference.projectVersion === "0.97.0"
-      && reference.releaseVersion === "v97"
-      && reference.consumer === "Node v231 manual sandbox connection preflight verification"
+      && reference.projectVersion === "0.98.0"
+      && reference.releaseVersion === "v98"
+      && ["Node v231 manual sandbox connection preflight verification", "Node v233 manual sandbox connection rehearsal packet review"].includes(reference.consumer)
       && reference.consumedReleaseVersion === "v96"
       && reference.consumedMarkerDigest === "fnv1a64:b9fc556875ea625b"
-      && reference.receiptDigest === "fnv1a64:9ff902c1a090c0b7"
+      && reference.receiptDigest === "fnv1a64:431780d3772a52a5"
       && reference.manualWindowFlagName === "ORDEROPS_MANAGED_AUDIT_MANUAL_SANDBOX_WINDOW_APPROVED"
       && reference.manualWindowMode === "manual-window-required-no-auto-start"
       && reference.timeoutBudgetMs === 15000
@@ -620,7 +610,7 @@ function createSnippetMatches(): PreflightVerificationSnippetMatch[] {
     snippet("mini-kv-v97-no-start-guard", MINI_KV_V97_WALKTHROUGH, "managed_audit_sandbox_connection_no_start_guard_receipt"),
     snippet("mini-kv-v97-consumed-v96", MINI_KV_V97_WALKTHROUGH, "consumed_release_version=\"v96\""),
     snippet("mini-kv-v97-consumed-digest", MINI_KV_V97_WALKTHROUGH, "fnv1a64:b9fc556875ea625b"),
-    snippet("mini-kv-v97-receipt-digest", MINI_KV_V97_WALKTHROUGH, "fnv1a64:9ff902c1a090c0b7"),
+    snippet("mini-kv-v97-receipt-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:431780d3772a52a5\""),
     snippet("mini-kv-v97-window-closed", MINI_KV_V97_WALKTHROUGH, "manual_window_open_by_default=false"),
     snippet("mini-kv-v97-node-autostart-blocked", MINI_KV_V97_WALKTHROUGH, "node_auto_start_allowed=false"),
     snippet("mini-kv-v97-java-autostart-blocked", MINI_KV_V97_WALKTHROUGH, "java_auto_start_allowed=false"),

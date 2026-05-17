@@ -11,26 +11,16 @@ import {
   loadManagedAuditManualSandboxConnectionPacketVerification,
   type ManagedAuditManualSandboxConnectionPacketVerificationProfile,
 } from "./managedAuditManualSandboxConnectionPacketVerification.js";
+import type { SandboxDryRunGuards } from "./managedAuditSandboxGuards.js";
 
-export interface ManagedAuditManualSandboxConnectionPreflightGateProfile {
+export interface ManagedAuditManualSandboxConnectionPreflightGateProfile extends SandboxDryRunGuards {
   service: "orderops-node";
   title: string;
   generatedAt: string;
   profileVersion: "managed-audit-manual-sandbox-connection-preflight-gate.v1";
   gateState: "manual-sandbox-connection-preflight-gate-ready" | "blocked";
   readyForManagedAuditManualSandboxConnectionPreflightGate: boolean;
-  readyForManagedAuditSandboxAdapterConnection: false;
-  readyForProductionAudit: false;
-  readyForProductionWindow: false;
-  readyForProductionOperations: false;
   readOnlyGate: true;
-  executionAllowed: false;
-  restoreExecutionAllowed: false;
-  connectsManagedAudit: false;
-  readsManagedAuditCredential: false;
-  storesManagedAuditCredential: false;
-  schemaMigrationExecuted: false;
-  automaticUpstreamStart: false;
   sourceNodeV229: {
     sourceVersion: "Node v229";
     profileVersion: ManagedAuditManualSandboxConnectionPacketVerificationProfile["profileVersion"];

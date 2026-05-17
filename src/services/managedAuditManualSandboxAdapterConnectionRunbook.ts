@@ -11,27 +11,19 @@ import {
   loadManagedAuditSandboxAdapterDryRunPackage,
   type ManagedAuditSandboxAdapterDryRunPackageProfile,
 } from "./managedAuditSandboxAdapterDryRunPackage.js";
+import type {
+  LocalDryRunWriteGuard,
+  SandboxDryRunGuards,
+} from "./managedAuditSandboxGuards.js";
 
-export interface ManagedAuditManualSandboxAdapterConnectionRunbookProfile {
+export interface ManagedAuditManualSandboxAdapterConnectionRunbookProfile extends SandboxDryRunGuards, LocalDryRunWriteGuard {
   service: "orderops-node";
   title: string;
   generatedAt: string;
   profileVersion: "managed-audit-manual-sandbox-adapter-connection-runbook.v1";
   runbookState: "manual-sandbox-connection-runbook-ready" | "blocked";
   readyForManagedAuditManualSandboxAdapterConnectionRunbook: boolean;
-  readyForManagedAuditSandboxAdapterConnection: false;
-  readyForProductionAudit: false;
-  readyForProductionWindow: false;
-  readyForProductionOperations: false;
   readOnlyRunbook: true;
-  executionAllowed: false;
-  restoreExecutionAllowed: false;
-  connectsManagedAudit: false;
-  readsManagedAuditCredential: false;
-  storesManagedAuditCredential: false;
-  schemaMigrationExecuted: false;
-  localDryRunWritePerformed: false;
-  automaticUpstreamStart: false;
   sourceNodeV225: {
     sourceVersion: "Node v225";
     profileVersion: ManagedAuditSandboxAdapterDryRunPackageProfile["profileVersion"];
