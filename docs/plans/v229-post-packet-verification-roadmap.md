@@ -2,7 +2,7 @@
 
 来源版本：Node v229 `managed audit manual sandbox connection packet verification`。
 
-计划状态：当前唯一有效全局计划。v229 已消费 Node v228、Java v87、mini-kv v96，验证 operator packet 与 Java handoff marker、mini-kv receipt echo marker 一致。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
+计划状态：当前唯一有效全局计划。v229 已消费 Node v228、Java v87、mini-kv v96，验证 operator packet 与 Java handoff marker、mini-kv receipt echo marker 一致。Node v230 已完成 manual sandbox connection preflight gate。当前仍未打开 managed audit 连接，未读取 credential value，未执行 schema migration，未写 Java / mini-kv / audit 状态。
 
 ## 当前状态
 
@@ -25,16 +25,26 @@ mini-kv v96：
 - sandbox connection receipt echo marker ready
 - 保留 v95 sandbox adapter receipt digest
 - 不连接 sandbox managed audit，不读取 credential value，不写 managed audit state
+
+Node v230：
+- manual sandbox connection preflight gate ready
+- 新增 manualWindowFlagName=ORDEROPS_MANAGED_AUDIT_MANUAL_SANDBOX_WINDOW_APPROVED
+- manualWindowOpenByDefault=false
+- readyForManagedAuditSandboxAdapterConnection=false
+- connectsManagedAudit=false
+- readsManagedAuditCredential=false
+- schemaMigrationExecuted=false
+- automaticUpstreamStart=false
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v230：manual sandbox connection preflight gate。
+1. 已完成：Node v230：manual sandbox connection preflight gate。
    消费 v229 verification，生成连接前 gate：owner approval artifact id、credential handle name、schema rehearsal id、rollback path id、timeout budget、manual abort marker、manual window flag。
    仍不连接、不读取 credential value、不启动上游、不执行 schema migration。
 
-2. 推荐并行：Java v88 + mini-kv v97。
+2. 当前下一步，推荐并行：Java v88 + mini-kv v97。
    - Java v88：manual sandbox connection preflight echo marker，只读声明 Java 侧需要哪些 preflight 字段，仍不写 ledger、不执行 SQL。
    - mini-kv v97：manual sandbox connection no-start guard receipt，只读声明 mini-kv 仍不会被 Node 自动启动，不参与连接，不读 credential。
 
@@ -45,7 +55,7 @@ mini-kv v96：
 ## 合并/并行规则
 
 ```text
-Node v230 是前置 gate，不应和 v231 verification 合并。
+Node v230 是前置 gate，已完成；不应和 v231 verification 合并。
 Java v88 + mini-kv v97 推荐并行，因为二者都是只读 echo/guard marker，不互相依赖。
 Node v231 必须等 Java v88 + mini-kv v97 都完成后再消费。
 能安全并行、互不阻塞、且同属一个交付闭环的三项目版本，必须写成“推荐并行”，不要拆成难懂的串行步骤。
@@ -84,5 +94,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v229 已完成 packet verification；下一步 Node v230 做连接前 preflight gate，但仍不能打开 managed audit 连接。
+v230 已完成连接前 preflight gate；当前下一步推荐并行 Java v88 + mini-kv v97，仍不能打开 managed audit 连接。
 ```
