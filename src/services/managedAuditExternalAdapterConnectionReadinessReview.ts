@@ -199,14 +199,21 @@ interface ReadinessReviewMessage {
   message: string;
 }
 
-const JAVA_V81_RUNBOOK = "D:/javaproj/advanced-order-platform/c/81/\u89e3\u91ca/\u8bf4\u660e.md";
-const JAVA_V81_WALKTHROUGH =
-  "D:/javaproj/advanced-order-platform/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/85-version-81-release-approval-managed-audit-external-adapter-migration-guard-receipt.md";
-const MINI_KV_V90_RUNBOOK = "D:/C/mini-kv/c/90/\u89e3\u91ca/\u8bf4\u660e.md";
-const MINI_KV_V90_WALKTHROUGH =
-  "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/146-version-90-external-adapter-non-participation-receipt.md";
-const MINI_KV_V90_RUNTIME_SMOKE = "D:/C/mini-kv/fixtures/release/runtime-smoke-evidence.json";
-const MINI_KV_V90_VERIFICATION_MANIFEST = "D:/C/mini-kv/fixtures/release/verification-manifest.json";
+const HISTORICAL_EVIDENCE_ROOT = path.join(
+  process.cwd(),
+  "fixtures",
+  "historical",
+  "managed-audit-external-adapter-readiness-review",
+);
+const JAVA_V81_RUNBOOK = path.join(HISTORICAL_EVIDENCE_ROOT, "java-v81-runbook.md");
+const JAVA_V81_WALKTHROUGH = path.join(HISTORICAL_EVIDENCE_ROOT, "java-v81-walkthrough.md");
+const MINI_KV_V90_RUNBOOK = path.join(HISTORICAL_EVIDENCE_ROOT, "mini-kv-v90-runbook.md");
+const MINI_KV_V90_WALKTHROUGH = path.join(HISTORICAL_EVIDENCE_ROOT, "mini-kv-v90-walkthrough.md");
+const MINI_KV_V90_RUNTIME_SMOKE = path.join(HISTORICAL_EVIDENCE_ROOT, "mini-kv-v90-runtime-smoke-evidence.json");
+const MINI_KV_V90_VERIFICATION_MANIFEST = path.join(
+  HISTORICAL_EVIDENCE_ROOT,
+  "mini-kv-v90-verification-manifest.json",
+);
 const MINI_KV_CURRENT_RELEASES_WITH_V90_RECEIPT = Object.freeze(["v98", "v99", "v100", "v101", "v102"]);
 const MINI_KV_V90_RECEIPT_DIGESTS = Object.freeze([
   "fnv1a64:36b65e9c69f03b49",

@@ -1,0 +1,6 @@
+# Java v81 historical code walkthrough
+
+ReleaseApprovalManagedAuditExternalAdapterMigrationGuardReceiptBuilder
+readyForNodeV223ExternalAdapterConnectionReadinessReview
+
+The historical receipt is read-only and keeps production audit disabled.

@@ -118,6 +118,7 @@ describe("managed audit external adapter connection readiness review", () => {
     expect(profile.sourceNodeV222.reportDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.connectionReadiness.readinessDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.archivedEvidence.files.every((file) => file.exists && file.sizeBytes > 0 && file.digest?.length === 64)).toBe(true);
+    expect(profile.archivedEvidence.files.every((file) => file.path.includes("fixtures"))).toBe(true);
     expect(profile.archivedEvidence.snippetMatches.every((snippet) => snippet.matched)).toBe(true);
   });
 

@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v242 Historical Evidence Fallback</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f7f8fa;
+        color: #1f2937;
+      }
+      main {
+        max-width: 1040px;
+        margin: 0 auto;
+        padding: 40px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 34px;
+      }
+      .lead {
+        margin: 0 0 28px;
+        color: #4b5563;
+        line-height: 1.7;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #d8dee8;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+        color: #111827;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v242：GitHub CI historical evidence fallback</h1>
+      <p class="lead">
+        本版修复旧 v223/v224 managed audit 计划链路在 GitHub runner 中找不到 sibling Java / mini-kv 工作区时误判 blocked 的问题。
+        修复后，历史只读证据由 Node 仓库内 fixture 提供，profile shape 和安全边界保持不变。
+      </p>
+      <div class="grid">
+        <section>
+          <h2>修复对象</h2>
+          <ul>
+            <li><code>managedAuditExternalAdapterConnectionReadinessReview</code></li>
+            <li><code>managedAuditSandboxAdapterDryRunPlan</code></li>
+            <li>GitHub CI 中的 v224 route test</li>
+          </ul>
+        </section>
+        <section>
+          <h2>证据来源</h2>
+          <ul>
+            <li><code>fixtures/historical/...</code></li>
+            <li>Java v81 guard snapshot</li>
+            <li>mini-kv v90 non-participation snapshot</li>
+          </ul>
+        </section>
+        <section>
+          <h2>安全边界</h2>
+          <ul>
+            <li>不连接 managed audit</li>
+            <li>不读取 credential value</li>
+            <li>不修改 Java / mini-kv</li>
+          </ul>
+        </section>
+        <section class="wide">
+          <h2>验证结果</h2>
+          <ul>
+            <li>旧失败用例：<code>managedAuditSandboxAdapterDryRunPlan.test.ts</code> 保持 ready</li>
+            <li>防回归：历史证据文件路径必须来自 Node 仓库 <code>fixtures</code></li>
+            <li>计划续写：v241 完成，v242 作为 CI 稳定性修错版插入当前计划</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

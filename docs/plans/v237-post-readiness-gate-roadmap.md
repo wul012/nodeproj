@@ -2,7 +2,7 @@
 
 来源版本：Node v237 `managed audit manual sandbox connection readiness gate`。
 
-计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；Java v93 + mini-kv v102 已完成只读回显 / no-start-no-write 证据；Node v239 已完成 operator window evidence verification。根据最新质量诊断，v240 插入 Node route registration table quality pass，先优化 `auditRoutes.ts` 重复注册和大文件问题。Java 已继续完成 v94-v97 优化收口，mini-kv 已继续完成 v103-v106 优化收口，当前对齐点推进到 Node v241：生成默认 disabled 的 manual sandbox connection dry-run command package。Java v94-v97 与 mini-kv v103-v106 仍是优化上下文，不是写权限、连接权限或生产窗口授权。
+计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；Java v93 + mini-kv v102 已完成只读回显 / no-start-no-write 证据；Node v239 已完成 operator window evidence verification。根据最新质量诊断，v240 插入 Node route registration table quality pass，先优化 `auditRoutes.ts` 重复注册和大文件问题。Java 已继续完成 v94-v97 优化收口，mini-kv 已继续完成 v103-v106 优化收口，Node v241 已完成默认 disabled 的 manual sandbox connection dry-run command package。当前插入 Node v242 修复 GitHub CI：把 v223/v224 历史计划链路所需 Java v81 / mini-kv v90 证据固化到 Node 仓库 fixtures，避免 CI runner 因没有 sibling 工作区而把旧 planState 误判为 blocked。Java v94-v97 与 mini-kv v103-v106 仍是优化上下文，不是写权限、连接权限或生产窗口授权。
 
 ## 当前状态
 
@@ -106,6 +106,13 @@ Node v241：
 - 只生成默认 disabled 的 dry-run command package
 - commandCount=6，全部 dryRunOnly=true、disabledByDefault=true、opensConnection=false、mutatesState=false
 - 不携带 credential value，不打开 managed audit sandbox connection，不执行 schema migration，不启动 Java / mini-kv
+
+Node v242：
+- historical managed audit external adapter readiness fixture fallback
+- 修复 GitHub CI 中 v224 sandbox adapter dry-run plan 因找不到 `D:/javaproj` 与 `D:/C/mini-kv` 历史证据而返回 blocked 的问题
+- 将 Java v81 / mini-kv v90 历史只读证据固化到 `fixtures/historical/managed-audit-external-adapter-readiness-review/`
+- 保持 v223/v224 profile shape、read-only / no-credential / no-connection / no-write 边界不变
+- 不修改 Java / mini-kv，不构建、不启动、不测试上游项目
 ```
 
 ## 推荐执行顺序
@@ -132,8 +139,11 @@ Node v241：
    - mini-kv v103-v106：围绕 current path hint / managed audit receipt implementation split / WAL auto compact gate / command dispatch table 做质量收口，外部行为不变。
    - 这组版本只作为 Node v241 的优化上下文，不提升为连接权限。
 
-6. Node v241：manual sandbox connection dry-run command package。当前推进。
+6. Node v241：manual sandbox connection dry-run command package。已完成。
    消费 Node v239 + Node v240 + Java v97 + mini-kv v106，生成默认 disabled 的 dry-run command package；命令包只能携带 handle / marker / timeout 审核语义，不携带 credential value，不打开 managed audit sandbox connection。
+
+7. Node v242：historical evidence fallback for GitHub CI。当前推进。
+   修复 v223/v224 旧计划链路对本机 sibling 项目路径的隐式依赖；旧链路使用 Node 仓库内 historical fixtures 复现 Java v81 / mini-kv v90 只读证据。该版本只做 CI 稳定性和计划续写，不新增 managed audit 执行能力。
 ```
 
 ## 显式质量优化项
@@ -150,6 +160,7 @@ Node：
 - v240 是优化版，不消耗 Java / mini-kv 新业务 evidence；等另外两个项目完成类似优化后，再重新对齐三方证据。
 - v241 已按新 route table 接入 dry-run command package route；继续保持 disabled-by-default，不新增手写 JSON/Markdown 路由样板。
 - v241 消费 Java v97 / mini-kv v106 时，只读取文档、源码锚点、tag/HEAD 状态和归档证据；不构建、不启动、不测试、不修改上游项目。
+- v242 修复旧 v223/v224 沙箱链路的 CI-only blocked：历史跨项目证据必须有 Node 仓库内 fallback fixture，避免 GitHub runner 依赖开发机绝对路径。
 
 Java：
 - v93 只做 operator checklist echo receipt，不回写 approval ledger，不执行 SQL，不读取 credential value。
@@ -174,5 +185,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v240 已完成 Node 路由注册表优化，Java v97 与 mini-kv v106 已完成各自优化收口；v241 进入默认 disabled 的 dry-run command package，对齐三方优化结果，但仍不能直接跳到真实连接。
+v240 已完成 Node 路由注册表优化，Java v97 与 mini-kv v106 已完成各自优化收口；v241 已完成默认 disabled 的 dry-run command package；v242 补齐 GitHub CI 可复现的历史证据 fallback，保证旧 v223/v224 计划链路不再依赖开发机路径，但仍不能直接跳到真实连接。
 ```
