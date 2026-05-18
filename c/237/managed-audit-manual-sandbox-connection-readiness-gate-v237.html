@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v237 managed audit manual sandbox connection readiness gate</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f6f8fb;
+        color: #18202f;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 42px 40px 56px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+      .subtitle {
+        margin: 0 0 30px;
+        color: #5d687a;
+        font-size: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: white;
+        border: 1px solid #dfe5ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .panel h2 {
+        margin: 0 0 14px;
+        font-size: 18px;
+      }
+      .metric {
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        font-size: 15px;
+      }
+      .metric span:first-child {
+        color: #5d687a;
+      }
+      .ok {
+        color: #0f7a4f;
+        font-weight: 700;
+      }
+      .blocked {
+        color: #9a5b00;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      code {
+        font-family: Consolas, monospace;
+        font-size: 14px;
+      }
+      .flow {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 12px;
+      }
+      .step {
+        border-left: 4px solid #4b79d8;
+        background: #f8fbff;
+        padding: 12px;
+        min-height: 96px;
+      }
+      .step strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v237 readiness gate</h1>
+      <p class="subtitle">manual sandbox connection materials are ready for an operator checklist, but the real connection stays closed.</p>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Gate</h2>
+          <div class="metric"><span>profile</span><code>readiness-gate.v1</code></div>
+          <div class="metric"><span>gateState</span><span class="ok">ready</span></div>
+          <div class="metric"><span>operator checklist</span><span class="ok">true</span></div>
+          <div class="metric"><span>adapter connection</span><span class="blocked">false</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Evidence</h2>
+          <div class="metric"><span>checks</span><span class="ok">21 / 21</span></div>
+          <div class="metric"><span>files</span><span>6</span></div>
+          <div class="metric"><span>snippets</span><span>18</span></div>
+          <div class="metric"><span>blockers</span><span class="ok">0</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Boundary</h2>
+          <div class="metric"><span>credential value</span><span class="blocked">not read</span></div>
+          <div class="metric"><span>schema migration</span><span class="blocked">not run</span></div>
+          <div class="metric"><span>audit write</span><span class="blocked">not written</span></div>
+          <div class="metric"><span>auto start</span><span class="blocked">disabled</span></div>
+        </article>
+
+        <article class="panel wide">
+          <h2>Three-project handoff</h2>
+          <div class="flow">
+            <div class="step">
+              <strong>Node v236</strong>
+              <code>dry-run request envelope</code><br />
+              6 operator review fields, handle-only, no credential value.
+            </div>
+            <div class="step">
+              <strong>Java v92</strong>
+              <code>echo receipt</code><br />
+              Echoes envelope fields without SQL, ledger, credential read, or connection.
+            </div>
+            <div class="step">
+              <strong>mini-kv v101</strong>
+              <code>no-start/no-write follow-up</code><br />
+              Runtime evidence remains read-only and non-authoritative.
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

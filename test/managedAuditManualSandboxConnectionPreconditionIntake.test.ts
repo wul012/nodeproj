@@ -7,7 +7,7 @@ import {
 } from "../src/services/managedAuditManualSandboxConnectionPreconditionIntake.js";
 
 describe("managed audit manual sandbox connection precondition intake", () => {
-  it("ingests Java v91 and mini-kv v100 preconditions without opening a connection", () => {
+  it("ingests Java v91 and the rolling mini-kv runtime guard without opening a connection", () => {
     const profile = loadManagedAuditManualSandboxConnectionPreconditionIntake({
       config: loadTestConfig(),
     });
@@ -66,11 +66,11 @@ describe("managed audit manual sandbox connection precondition intake", () => {
           headTag: "第一百版运行证据滚动守卫",
           evidencePresent: true,
           guardVersion: "mini-kv-current-runtime-fixture-rolling-guard.v1",
-          projectVersion: "0.100.0",
-          releaseVersion: "v100",
-          consumerHint: "Node v235 manual sandbox connection precondition intake",
-          currentArtifactPathHint: "c/100/",
-          currentLiveReadSessionEcho: "mini-kv-live-read-v100",
+          projectVersion: "0.101.0",
+          releaseVersion: "v101",
+          consumerHint: "Node v237 manual sandbox connection readiness gate",
+          currentArtifactPathHint: "c/101/",
+          currentLiveReadSessionEcho: "mini-kv-live-read-v101",
           readOnly: true,
           executionAllowed: false,
           restoreExecutionAllowed: false,

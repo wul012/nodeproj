@@ -472,7 +472,15 @@ function createMiniKvV100Reference(
     && historicalAnchors.every((entry) => booleanField(entry, "must_remain_stable") === true
       && typeof stringField(entry, "historical_digest") === "string"
       && typeof stringField(entry, "consumed_release_version") === "string");
-  const requiredChecksMentionNodeV235 = requiredChecks.some((check) => check.includes("Node v235"));
+  const requiredChecksMentionNodeV235 = requiredChecks.some((check) =>
+    check.includes("Node v235") || check.includes("Node v237"));
+  const guardStillCompatibleWithManualSandboxIntake =
+    (projectVersion === "0.100.0"
+      && releaseVersion === "v100"
+      && consumerHint === "Node v235 manual sandbox connection precondition intake")
+    || (projectVersion === "0.101.0"
+      && releaseVersion === "v101"
+      && consumerHint === "Node v237 manual sandbox connection readiness gate");
   const boundariesForbidExecution = boundaries.includes("no LOAD/COMPACT/RESTORE/SETNXEX execution")
     && boundaries.includes("no managed audit storage backend")
     && boundaries.includes("no credential value read")
@@ -505,9 +513,7 @@ function createMiniKvV100Reference(
     boundariesForbidExecution,
     readyForNodeV235Intake: evidencePresent
       && guardVersion === "mini-kv-current-runtime-fixture-rolling-guard.v1"
-      && projectVersion === "0.100.0"
-      && releaseVersion === "v100"
-      && consumerHint === "Node v235 manual sandbox connection precondition intake"
+      && guardStillCompatibleWithManualSandboxIntake
       && readOnly
       && !executionAllowed
       && !restoreExecutionAllowed

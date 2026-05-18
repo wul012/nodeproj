@@ -2,7 +2,7 @@
 
 来源版本：Node v236 `managed audit manual sandbox connection dry-run request envelope`。
 
-计划状态：当前唯一有效全局计划。Node v236 已消费 Node v235 precondition intake，生成 dry-run request envelope；只携带 owner approval artifact field、credential handle field、schema rehearsal id field、rollback path field、timeout budget、manual abort marker 六类人工 review 字段。v236 仍不打开 managed audit 连接，不读取 credential value，不执行 schema migration，不写 Java / mini-kv / audit 状态，不自动启动 Java / mini-kv。
+计划状态：已完成并收口。Node v236 已消费 Node v235 precondition intake，生成 dry-run request envelope；Java v92 + mini-kv v101 已推荐并行完成；Node v237 已完成 manual sandbox connection readiness gate。后续不在本文件继续追加，改由 `v237-post-readiness-gate-roadmap.md` 接续。
 
 ## 当前状态
 
@@ -72,8 +72,11 @@ mini-kv：
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
 - 任何版本要打开真实 sandbox connection，但缺少 Java v92 / mini-kv v101 对 v236 envelope 的只读回显证据。
 
-## 一句话结论
+## 收口结果
 
 ```text
-v236 已把连接前置条件整理成 dry-run request envelope；下一步先推荐并行 Java v92 + mini-kv v101，Node 不应直接抢跑真实连接。
+v236 已把连接前置条件整理成 dry-run request envelope；
+Java v92 + mini-kv v101 已补齐只读回显 / no-start no-write follow-up；
+Node v237 已消费三方证据并完成 readiness gate；
+下一阶段从 Node v238 operator window checklist 另起。
 ```

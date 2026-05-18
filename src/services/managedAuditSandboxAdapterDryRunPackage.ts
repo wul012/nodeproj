@@ -226,11 +226,12 @@ const MINI_KV_V95_WALKTHROUGH =
   "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/151-version-95-string-utils-and-version-sweep.md";
 const MINI_KV_RUNTIME_SMOKE = "D:/C/mini-kv/fixtures/release/runtime-smoke-evidence.json";
 const MINI_KV_VERIFICATION_MANIFEST = "D:/C/mini-kv/fixtures/release/verification-manifest.json";
-const MINI_KV_CURRENT_RELEASES_WITH_SANDBOX_RECEIPT = Object.freeze(["v98", "v99", "v100"]);
+const MINI_KV_CURRENT_RELEASES_WITH_SANDBOX_RECEIPT = Object.freeze(["v98", "v99", "v100", "v101"]);
 const MINI_KV_SANDBOX_RECEIPT_DIGESTS = Object.freeze([
   "fnv1a64:9e89d248ca215706",
   "fnv1a64:e718f4de6ca49014",
   "fnv1a64:3a5d3e7f4a3092f6",
+  "fnv1a64:eea9770f26d0bade",
 ]);
 
 const ENDPOINTS = Object.freeze({
@@ -497,8 +498,8 @@ function createSnippetMatches(): PackageSnippetMatch[] {
     snippet("mini-kv-v93-split", MINI_KV_V93_WALKTHROUGH, "runtime evidence receipt formatter"),
     snippet("mini-kv-fixture-consumer", MINI_KV_RUNTIME_SMOKE, "\"consumer\":\"Node v225 managed audit sandbox adapter dry-run package\""),
     snippet("mini-kv-fixture-receipt", MINI_KV_RUNTIME_SMOKE, "\"managed_audit_sandbox_adapter_non_participation_receipt\""),
-    snippet("mini-kv-fixture-current-v98", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v100\""),
-    snippet("mini-kv-fixture-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:3a5d3e7f4a3092f6\""),
+    snippet("mini-kv-fixture-current-v98", MINI_KV_RUNTIME_SMOKE, "\"release_version\":\"v101\""),
+    snippet("mini-kv-fixture-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:eea9770f26d0bade\""),
     snippet("mini-kv-fixture-not-storage", MINI_KV_RUNTIME_SMOKE, "\"sandbox_adapter_storage_backend\":false"),
     snippet("mini-kv-fixture-no-credential", MINI_KV_RUNTIME_SMOKE, "\"credential_value_read_allowed\":false"),
     snippet("mini-kv-fixture-no-write", MINI_KV_RUNTIME_SMOKE, "\"sandbox_managed_audit_state_write_allowed\":false"),
@@ -573,7 +574,7 @@ function createMiniKvGuardReference(
       v93RuntimeEvidenceReceiptFormatterSplit: snippetMatched(snippets, "mini-kv-v93-split"),
       v94CommandFormatterSplit: snippetMatched(snippets, "mini-kv-v95-command-bounded")
         && JSON.stringify(evidence).includes("command response formatter module split"),
-    v95StringUtilsSharedSplit: ["v95", "v96", "v97", "v98", "v99", "v100"].includes(stringField(evidence, "release_version") ?? "")
+    v95StringUtilsSharedSplit: ["v95", "v96", "v97", "v98", "v99", "v100", "v101"].includes(stringField(evidence, "release_version") ?? "")
         && snippetMatched(snippets, "mini-kv-v95-string-utils"),
     },
   };
@@ -617,7 +618,7 @@ function createChecks(
     miniKvSandboxReceiptAccepted: MINI_KV_CURRENT_RELEASES_WITH_SANDBOX_RECEIPT.includes(miniKvGuard.currentReleaseVersion)
       && miniKvGuard.consumedReleaseVersion === "v90"
       && miniKvGuard.consumedReceiptDigest === "fnv1a64:0dfb07cd2f8de289"
-      && /^c\/(?:98|99|100)\/$/.test(miniKvGuard.currentArtifactPathHint)
+      && /^c\/(?:98|99|100|101)\/$/.test(miniKvGuard.currentArtifactPathHint)
       && MINI_KV_SANDBOX_RECEIPT_DIGESTS.includes(miniKvGuard.receiptDigest)
       && snippetMatched(snippets, "mini-kv-fixture-consumer"),
     miniKvNonParticipationBoundaryValid: miniKvGuard.readOnly
