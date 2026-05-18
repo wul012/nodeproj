@@ -232,6 +232,23 @@ const ENDPOINTS = Object.freeze({
 });
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
+const ACCEPTED_MINI_KV_CURRENT_RUNTIME_GUARDS = Object.freeze([
+  {
+    projectVersion: "0.100.0",
+    releaseVersion: "v100",
+    consumerHint: "Node v235 manual sandbox connection precondition intake",
+  },
+  {
+    projectVersion: "0.101.0",
+    releaseVersion: "v101",
+    consumerHint: "Node v237 manual sandbox connection readiness gate",
+  },
+  {
+    projectVersion: "0.102.0",
+    releaseVersion: "v102",
+    consumerHint: "Node v239 manual sandbox connection operator window evidence verification",
+  },
+] as const);
 
 export function loadManagedAuditManualSandboxConnectionPreconditionIntake(input: {
   config: AppConfig;
@@ -473,14 +490,12 @@ function createMiniKvV100Reference(
       && typeof stringField(entry, "historical_digest") === "string"
       && typeof stringField(entry, "consumed_release_version") === "string");
   const requiredChecksMentionNodeV235 = requiredChecks.some((check) =>
-    check.includes("Node v235") || check.includes("Node v237"));
-  const guardStillCompatibleWithManualSandboxIntake =
-    (projectVersion === "0.100.0"
-      && releaseVersion === "v100"
-      && consumerHint === "Node v235 manual sandbox connection precondition intake")
-    || (projectVersion === "0.101.0"
-      && releaseVersion === "v101"
-      && consumerHint === "Node v237 manual sandbox connection readiness gate");
+    check.includes("Node v235") || check.includes("Node v237") || check.includes("Node v239"));
+  const guardStillCompatibleWithManualSandboxIntake = acceptedMiniKvCurrentRuntimeGuard({
+    projectVersion,
+    releaseVersion,
+    consumerHint,
+  });
   const boundariesForbidExecution = boundaries.includes("no LOAD/COMPACT/RESTORE/SETNXEX execution")
     && boundaries.includes("no managed audit storage backend")
     && boundaries.includes("no credential value read")
@@ -523,6 +538,17 @@ function createMiniKvV100Reference(
       && boundariesForbidExecution
       && snippetMatched(snippets, "mini-kv-v100-not-permission"),
   };
+}
+
+function acceptedMiniKvCurrentRuntimeGuard(input: {
+  projectVersion: string;
+  releaseVersion: string;
+  consumerHint: string;
+}): boolean {
+  return ACCEPTED_MINI_KV_CURRENT_RUNTIME_GUARDS.some((guard) =>
+    guard.projectVersion === input.projectVersion
+    && guard.releaseVersion === input.releaseVersion
+    && guard.consumerHint === input.consumerHint);
 }
 
 function createPreconditionIntake(

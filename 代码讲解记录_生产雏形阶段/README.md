@@ -15,6 +15,7 @@ D:\nodeproj\orderops-node\代码讲解记录_生产雏形阶段
 
 - `241-managed-audit-manual-sandbox-connection-readiness-gate-v237.md`: v237 消费 Node v236 dry-run envelope、Java v92 echo receipt、mini-kv v101 no-start/no-write follow-up，生成 readiness gate；只允许进入 operator window checklist，不打开 managed audit connection、不读取 credential value、不执行 schema migration、不启动 Java / mini-kv。
 - `242-managed-audit-manual-sandbox-connection-operator-window-checklist-v238.md`: v238 消费 Node v237 readiness gate，生成 3 个 approvalItems、8 个 checklistSteps、8 个 pauseConditions、6 个 forbiddenOperations；只进入 Java v93/mini-kv v102 回显准备，不打开 managed audit connection。
+- `243-managed-audit-manual-sandbox-connection-operator-window-evidence-verification-v239.md`: v239 消费 Node v238 operator window checklist、Java v93 echo receipt、mini-kv v102 no-start/no-write receipt，只做字段 / digest / counts 一致性验证；Java v94 和 mini-kv v103 被明确记为优化 follow-up，不升格为新前置条件。
 
 ## 写入规则
 
@@ -139,6 +140,9 @@ file audit restart evidence 与后续 managed audit store
 
 110-file-audit-restart-evidence-v106.md
  -> 第一百零六版 File audit restart evidence：验证 file audit runtime 的重启恢复证据，为生产审计迁移做前置证明
+
+243-managed-audit-manual-sandbox-connection-operator-window-evidence-verification-v239.md
+ -> 第二百三十九版 Managed audit manual sandbox connection operator window evidence verification：消费 Node v238 operator window checklist、Java v93 echo receipt、mini-kv v102 no-start/no-write receipt，只验证字段 / digest / counts 一致性；Java v94 和 mini-kv v103 只作为优化 follow-up，不升格为新依赖
 
 111-production-readiness-summary-v4-v107.md
  -> 第一百零七版 Production readiness summary v4：汇总 Java v48、mini-kv v57、Node v104-v106 的 auth/audit/recovery 证据，明确生产级仍被真实 auth、RBAC enforcement、managed audit store 阻塞

@@ -222,12 +222,13 @@ const ENDPOINTS = Object.freeze({
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
 const FNV1A64 = /^fnv1a64:[a-f0-9]{16}$/;
-const MINI_KV_CURRENT_RELEASES_WITH_V97_GUARD = Object.freeze(["v98", "v99", "v100", "v101"]);
+const MINI_KV_CURRENT_RELEASES_WITH_V97_GUARD = Object.freeze(["v98", "v99", "v100", "v101", "v102"]);
 const MINI_KV_V97_NO_START_GUARD_RECEIPT_DIGESTS = Object.freeze([
   "fnv1a64:431780d3772a52a5",
   "fnv1a64:1f09161efd809c33",
   "fnv1a64:5530a3cc527cd8eb",
   "fnv1a64:f5c9fa97c073ba43",
+  "fnv1a64:69e377d01f15fd57",
 ]);
 
 export function loadManagedAuditManualSandboxConnectionPreflightVerification(input: {
@@ -458,7 +459,7 @@ function createMiniKvV97Reference(
   return {
     ...reference,
     readyForNodeV231PreflightVerification: reference.evidencePresent
-      && /^0\.(?:98|99|100|101)\.0$/.test(reference.projectVersion)
+      && /^0\.(?:98|99|100|101|102)\.0$/.test(reference.projectVersion)
       && MINI_KV_CURRENT_RELEASES_WITH_V97_GUARD.includes(reference.releaseVersion)
       && [
         "Node v231 manual sandbox connection preflight verification",
@@ -623,7 +624,7 @@ function createSnippetMatches(): PreflightVerificationSnippetMatch[] {
     snippet("mini-kv-v97-no-start-guard", MINI_KV_V97_WALKTHROUGH, "managed_audit_sandbox_connection_no_start_guard_receipt"),
     snippet("mini-kv-v97-consumed-v96", MINI_KV_V97_WALKTHROUGH, "consumed_release_version=\"v96\""),
     snippet("mini-kv-v97-consumed-digest", MINI_KV_V97_WALKTHROUGH, "fnv1a64:b9fc556875ea625b"),
-    snippet("mini-kv-v97-receipt-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:f5c9fa97c073ba43\""),
+    snippet("mini-kv-v97-receipt-digest", MINI_KV_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:69e377d01f15fd57\""),
     snippet("mini-kv-v97-window-closed", MINI_KV_V97_WALKTHROUGH, "manual_window_open_by_default=false"),
     snippet("mini-kv-v97-node-autostart-blocked", MINI_KV_V97_WALKTHROUGH, "node_auto_start_allowed=false"),
     snippet("mini-kv-v97-java-autostart-blocked", MINI_KV_V97_WALKTHROUGH, "java_auto_start_allowed=false"),

@@ -226,6 +226,18 @@ const MINI_KV_V101_RUNBOOK = "D:/C/mini-kv/c/101/解释/说明.md";
 const MINI_KV_V101_WALKTHROUGH =
   "D:/C/mini-kv/代码讲解记录_生产雏形阶段/157-version-101-runtime-no-start-no-write-follow-up.md";
 const MINI_KV_V101_FOLLOW_UP = "D:/C/mini-kv/fixtures/release/runtime-no-start-no-write-follow-up.json";
+const ACCEPTED_MINI_KV_RUNTIME_NO_START_NO_WRITE_FOLLOW_UPS = Object.freeze([
+  {
+    projectVersion: "0.101.0",
+    releaseVersion: "v101",
+    consumerHint: "Node v237 manual sandbox connection readiness gate",
+  },
+  {
+    projectVersion: "0.102.0",
+    releaseVersion: "v102",
+    consumerHint: "Node v239 manual sandbox connection operator window evidence verification",
+  },
+]);
 
 const ENDPOINTS = Object.freeze({
   manualSandboxConnectionReadinessGateJson:
@@ -555,9 +567,7 @@ function createMiniKvV101Reference(
 
   reference.readyForNodeV237Gate = evidencePresent
     && reference.followUpVersion === "mini-kv-runtime-no-start-no-write-follow-up.v1"
-    && reference.projectVersion === "0.101.0"
-    && reference.releaseVersion === "v101"
-    && reference.consumerHint === "Node v237 manual sandbox connection readiness gate"
+    && acceptedMiniKvRuntimeNoStartNoWriteFollowUp(reference)
     && reference.sourceEnvelopeProducer === "Node v236 manual sandbox connection dry-run request envelope"
     && reference.operatorReviewFieldCount === 6
     && reference.credentialHandleOnly
@@ -591,6 +601,16 @@ function createMiniKvV101Reference(
     && reference.historicalReceiptAnchorsStable;
 
   return reference;
+}
+
+function acceptedMiniKvRuntimeNoStartNoWriteFollowUp(
+  reference: MiniKvV101RuntimeNoStartNoWriteFollowUpReference,
+): boolean {
+  return ACCEPTED_MINI_KV_RUNTIME_NO_START_NO_WRITE_FOLLOW_UPS.some((accepted) =>
+    reference.projectVersion === accepted.projectVersion
+    && reference.releaseVersion === accepted.releaseVersion
+    && reference.consumerHint === accepted.consumerHint
+  );
 }
 
 function createReadinessGate(

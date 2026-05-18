@@ -270,6 +270,28 @@ const ENDPOINTS = Object.freeze({
 });
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
+const ACCEPTED_MINI_KV_RUNTIME_SMOKE_WAL_REGRESSION_REFERENCES = Object.freeze([
+  {
+    projectVersion: "0.99.0",
+    releaseVersion: "v99",
+    consumerHint: "Node v234 manual sandbox connection blocked execution rehearsal",
+  },
+  {
+    projectVersion: "0.100.0",
+    releaseVersion: "v100",
+    consumerHint: "Node v235 manual sandbox connection precondition intake",
+  },
+  {
+    projectVersion: "0.101.0",
+    releaseVersion: "v101",
+    consumerHint: "Node v237 manual sandbox connection readiness gate",
+  },
+  {
+    projectVersion: "0.102.0",
+    releaseVersion: "v102",
+    consumerHint: "Node v239 manual sandbox connection operator window evidence verification",
+  },
+] as const);
 
 export function loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal(input: {
   config: AppConfig;
@@ -537,13 +559,7 @@ function createMiniKvV99Reference(
   return {
     ...reference,
     readyForNodeV234BlockedExecutionRehearsal: reference.evidencePresent
-      && /^0\.(?:99|100|101)\.0$/.test(reference.projectVersion)
-      && ["v99", "v100", "v101"].includes(reference.releaseVersion)
-      && [
-        "Node v234 manual sandbox connection blocked execution rehearsal",
-        "Node v235 manual sandbox connection precondition intake",
-        "Node v237 manual sandbox connection readiness gate",
-      ].includes(reference.consumerHint)
+      && acceptedMiniKvRuntimeSmokeWalRegressionReference(reference)
       && reference.writeWalHelper === "CommandProcessor::execute_with_wal"
       && ["SET", "SETNXEX", "DEL", "EXPIRE"].every((command) => reference.writeWalHelperScope.includes(command))
       && reference.writeWalHelperBehaviorPreserved
@@ -559,6 +575,17 @@ function createMiniKvV99Reference(
       && !reference.runtimeWriteObserved
       && !reference.writeCommandsExecuted,
   };
+}
+
+function acceptedMiniKvRuntimeSmokeWalRegressionReference(input: {
+  projectVersion: string;
+  releaseVersion: string;
+  consumerHint: string;
+}): boolean {
+  return ACCEPTED_MINI_KV_RUNTIME_SMOKE_WAL_REGRESSION_REFERENCES.some((reference) =>
+    reference.projectVersion === input.projectVersion
+    && reference.releaseVersion === input.releaseVersion
+    && reference.consumerHint === input.consumerHint);
 }
 
 function createBlockedExecutionAttempts(): BlockedExecutionAttempt[] {

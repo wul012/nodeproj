@@ -207,12 +207,20 @@ const MINI_KV_V90_WALKTHROUGH =
   "D:/C/mini-kv/\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb5/146-version-90-external-adapter-non-participation-receipt.md";
 const MINI_KV_V90_RUNTIME_SMOKE = "D:/C/mini-kv/fixtures/release/runtime-smoke-evidence.json";
 const MINI_KV_V90_VERIFICATION_MANIFEST = "D:/C/mini-kv/fixtures/release/verification-manifest.json";
-const MINI_KV_CURRENT_RELEASES_WITH_V90_RECEIPT = Object.freeze(["v98", "v99", "v100", "v101"]);
+const MINI_KV_CURRENT_RELEASES_WITH_V90_RECEIPT = Object.freeze(["v98", "v99", "v100", "v101", "v102"]);
 const MINI_KV_V90_RECEIPT_DIGESTS = Object.freeze([
   "fnv1a64:36b65e9c69f03b49",
   "fnv1a64:35fe7b1c42714d89",
   "fnv1a64:ad3c0d907eab57b3",
   "fnv1a64:a206a5701755d819",
+  "fnv1a64:9bacde73d6d07097",
+]);
+const MINI_KV_CURRENT_ARTIFACT_PATH_HINTS_WITH_V90_RECEIPT = Object.freeze([
+  "c/98/",
+  "c/99/",
+  "c/100/",
+  "c/101/",
+  "c/102/",
 ]);
 
 const ENDPOINTS = Object.freeze({
@@ -428,7 +436,7 @@ function createSnippetMatches(): ReadinessSnippetMatch[] {
     snippet("mini-kv-v90-no-credential", MINI_KV_V90_RUNBOOK, "credential_read_allowed=false"),
     snippet("mini-kv-v90-no-migration", MINI_KV_V90_RUNBOOK, "migration_execution_allowed=false"),
     snippet("mini-kv-v90-node-v223-fixture", MINI_KV_V90_RUNTIME_SMOKE, "Node v223 managed audit external adapter connection readiness review"),
-    snippet("mini-kv-v90-fixture-digest", MINI_KV_V90_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:a206a5701755d819\""),
+    snippet("mini-kv-v90-fixture-digest", MINI_KV_V90_RUNTIME_SMOKE, "\"receipt_digest\":\"fnv1a64:9bacde73d6d07097\""),
   ];
 }
 
@@ -455,9 +463,9 @@ function createChecks(
       && snippetMatched(snippets, "java-v81-no-sql"),
     miniKvV90RuntimeEvidencePresent: fileById(files, "mini-kv-v90-runtime-smoke").exists
       && fileById(files, "mini-kv-v90-verification-manifest").exists,
-    miniKvV90ReceiptAccepted: /^0\.(?:98|99|100|101)\.0$/.test(miniKvV90.projectVersion)
+    miniKvV90ReceiptAccepted: /^0\.(?:98|99|100|101|102)\.0$/.test(miniKvV90.projectVersion)
       && MINI_KV_CURRENT_RELEASES_WITH_V90_RECEIPT.includes(miniKvV90.currentReleaseVersion)
-      && /^c\/(?:98|99|100|101)\/$/.test(miniKvV90.currentArtifactPathHint)
+      && MINI_KV_CURRENT_ARTIFACT_PATH_HINTS_WITH_V90_RECEIPT.includes(miniKvV90.currentArtifactPathHint)
       && MINI_KV_V90_RECEIPT_DIGESTS.includes(miniKvV90.receiptDigest)
       && miniKvV90.consumedReceiptDigest === "fnv1a64:76411286a0913dc8"
       && miniKvV90.consumedReleaseVersion === "v89"

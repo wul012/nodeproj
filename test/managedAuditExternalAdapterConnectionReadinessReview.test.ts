@@ -54,12 +54,12 @@ describe("managed audit external adapter connection readiness review", () => {
         },
         miniKvV90: {
           sourceVersion: "mini-kv v90",
-          projectVersion: "0.101.0",
-          currentReleaseVersion: "v101",
-          receiptDigest: "fnv1a64:a206a5701755d819",
+          projectVersion: "0.102.0",
+          currentReleaseVersion: "v102",
+          receiptDigest: "fnv1a64:9bacde73d6d07097",
           consumedReceiptDigest: "fnv1a64:76411286a0913dc8",
           consumedReleaseVersion: "v89",
-          currentArtifactPathHint: "c/101/",
+          currentArtifactPathHint: "c/102/",
           externalAdapterStorageBackend: false,
           participatesInExternalAdapter: false,
           credentialReadAllowed: false,
@@ -161,7 +161,7 @@ describe("managed audit external adapter connection readiness review", () => {
         readsManagedAuditCredential: false,
         upstreamGuards: {
           miniKvV90: {
-            receiptDigest: "fnv1a64:a206a5701755d819",
+          receiptDigest: "fnv1a64:9bacde73d6d07097",
           },
         },
       });

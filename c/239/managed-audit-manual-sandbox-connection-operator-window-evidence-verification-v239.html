@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v239 managed audit operator window evidence verification</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f4f7fb;
+        color: #172033;
+      }
+      main {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 42px 40px 56px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+      .subtitle {
+        margin: 0 0 26px;
+        color: #5b6678;
+        font-size: 18px;
+      }
+      .note {
+        margin: 0 0 28px;
+        padding: 14px 16px;
+        background: #eef5ff;
+        border: 1px solid #cfdcf4;
+        border-radius: 8px;
+        color: #28406e;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #dfe5ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .panel h2 {
+        margin: 0 0 14px;
+        font-size: 18px;
+      }
+      .metric {
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        font-size: 15px;
+      }
+      .metric span:first-child {
+        color: #5b6678;
+      }
+      .ok {
+        color: #0f7a4f;
+        font-weight: 700;
+      }
+      .blocked {
+        color: #9a5b00;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .step {
+        background: #f8fbff;
+        border-left: 4px solid #4b79d8;
+        padding: 12px;
+        min-height: 94px;
+      }
+      .step strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+      code {
+        font-family: Consolas, monospace;
+        font-size: 14px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+      li {
+        margin: 8px 0;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v239 operator window evidence verification</h1>
+      <p class="subtitle">Node v238 checklist is verified against Java v93 and mini-kv v102; the sandbox connection remains closed.</p>
+      <div class="note">Java v94 / mini-kv v103 are optimization follow-ups only. They do not upgrade this version's dependency boundary.</div>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Verification</h2>
+          <div class="metric"><span>profile</span><code>evidence-verification.v1</code></div>
+          <div class="metric"><span>state</span><span class="ok">ready</span></div>
+          <div class="metric"><span>java echo</span><span class="ok">accepted</span></div>
+          <div class="metric"><span>mini-kv receipt</span><span class="ok">accepted</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Counts</h2>
+          <div class="metric"><span>approvals</span><span>3</span></div>
+          <div class="metric"><span>steps</span><span>8</span></div>
+          <div class="metric"><span>pause conditions</span><span>8</span></div>
+          <div class="metric"><span>forbidden ops</span><span>6</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Boundary</h2>
+          <div class="metric"><span>connection</span><span class="blocked">false</span></div>
+          <div class="metric"><span>credential value</span><span class="blocked">not read</span></div>
+          <div class="metric"><span>schema migration</span><span class="blocked">not run</span></div>
+          <div class="metric"><span>auto start</span><span class="blocked">disabled</span></div>
+        </article>
+
+        <article class="panel wide">
+          <h2>Verification Flow</h2>
+          <div class="steps">
+            <div class="step"><strong>1. Source</strong>Attach Node v238 checklist digest.</div>
+            <div class="step"><strong>2. Java</strong>Only echo checklist fields and readiness.</div>
+            <div class="step"><strong>3. mini-kv</strong>Only prove no-start / no-write receipt.</div>
+            <div class="step"><strong>4. Compare</strong>Match counts, fields, and digests.</div>
+            <div class="step"><strong>5. Block</strong>Keep managed audit connection closed.</div>
+            <div class="step"><strong>6. Optimize</strong>Record v94 / v103 as follow-up only.</div>
+            <div class="step"><strong>7. Archive</strong>Store HTML, screenshot, and explanation.</div>
+            <div class="step"><strong>8. Next</strong>v240 may build a disabled dry-run package.</div>
+          </div>
+        </article>
+
+        <article class="panel wide">
+          <h2>Key Result</h2>
+          <ul>
+            <li><strong class="ok">javaEchoAccepted=true</strong> and <strong class="ok">miniKvReceiptAccepted=true</strong></li>
+            <li><strong class="ok">checklistCountsAligned=true</strong> and <strong class="ok">boundaryFlagsAligned=true</strong></li>
+            <li><strong class="blocked">nodeV239BlocksRealConnection=true</strong></li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

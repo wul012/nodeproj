@@ -205,13 +205,20 @@ const ENDPOINTS = Object.freeze({
 });
 
 const SHA256_HEX = /^[a-f0-9]{64}$/;
-const MINI_KV_CURRENT_RELEASES_WITH_V96_MARKER = Object.freeze(["v98", "v99", "v100", "v101"]);
 const MINI_KV_V96_MARKER_DIGESTS = Object.freeze([
   "fnv1a64:c88b0bf6b974ac6b",
   "fnv1a64:0d5212cff01975af",
   "fnv1a64:a5ea80910cb99931",
   "fnv1a64:259cb68de0117847",
+  "fnv1a64:beb8dd6a0b102a11",
 ]);
+const ACCEPTED_MINI_KV_RECEIPT_ECHO_MARKER_REFERENCES = Object.freeze([
+  { projectVersion: "0.98.0", releaseVersion: "v98" },
+  { projectVersion: "0.99.0", releaseVersion: "v99" },
+  { projectVersion: "0.100.0", releaseVersion: "v100" },
+  { projectVersion: "0.101.0", releaseVersion: "v101" },
+  { projectVersion: "0.102.0", releaseVersion: "v102" },
+] as const);
 
 export function loadManagedAuditManualSandboxConnectionPacketVerification(input: {
   config: AppConfig;
@@ -443,8 +450,7 @@ function createMiniKvV96Reference(
   return {
     ...reference,
     readyForNodeV229PacketVerification: reference.evidencePresent
-      && /^0\.(?:98|99|100|101)\.0$/.test(reference.projectVersion)
-      && MINI_KV_CURRENT_RELEASES_WITH_V96_MARKER.includes(reference.releaseVersion)
+      && acceptedMiniKvReceiptEchoMarkerReference(reference)
       && MINI_KV_V96_MARKER_DIGESTS.includes(reference.markerDigest)
       && reference.consumedReceiptDigest === "fnv1a64:ceaed265f7f9560c"
       && reference.sourceOperatorPacketProfile === "managed-audit-manual-sandbox-connection-operator-packet.v1"
@@ -463,6 +469,15 @@ function createMiniKvV96Reference(
       && !reference.nodeAutoStartAllowed
       && !reference.restoreExecutionAllowed,
   };
+}
+
+function acceptedMiniKvReceiptEchoMarkerReference(input: {
+  projectVersion: string;
+  releaseVersion: string;
+}): boolean {
+  return ACCEPTED_MINI_KV_RECEIPT_ECHO_MARKER_REFERENCES.some((reference) =>
+    reference.projectVersion === input.projectVersion
+    && reference.releaseVersion === input.releaseVersion);
 }
 
 function createPacketVerification(
