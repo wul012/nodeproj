@@ -19,6 +19,18 @@ Node v246：
 - committed sibling evidence fixture 精确收录被 Node 读取的 Java / mini-kv 历史证据，不全量搬运上游仓库
 - `ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true` 可在本机模拟 GitHub runner
 - 业务能力不前进，不打开 managed audit connection，不启动、不修改 Java / mini-kv
+
+Java v99 + mini-kv v108：
+- 两边已完成并只读核对通过
+- Java v99 已提供 Node v245 precheck packet echo receipt，回显 7 个 precheck item、timeout、字段边界与 Java no-write/no-connection/no-credential 语义
+- mini-kv v108 已提供 manual sandbox precheck non-participation receipt，证明不 auto-start、不写 storage、不读 credential、不执行 restore/load/compact/SETNXEX、不成为 managed audit storage backend
+
+Node v247：
+- manual sandbox connection precheck upstream receipt verification 已完成
+- 只读消费 Node v245 + Java v99 + mini-kv v108
+- 已验证 precheck item count、operator field count/name、timeout policy、credential/connection/write/auto-start 边界一致
+- 由于 v246 被插入用于 GitHub CI fallback repair，Java v99 / mini-kv v108 中写给 Node v246 的 consumer hint 被 v247 明确接受为同一 precheck verification slot
+- 仍不读取 credential value，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv
 ```
 
 ## 推荐执行顺序
@@ -30,16 +42,17 @@ Node v246：
    - 增加 forced fallback 验证开关，确保本机也能模拟 CI 无 sibling workspace 的环境。
    - 这是 CI 稳定性修复，不替代 Java v99 + mini-kv v108，也不推进真实连接。
 
-2. 推荐并行：Java v99 + mini-kv v108。当前下一步。
+2. 推荐并行：Java v99 + mini-kv v108。已完成。
    - Java v99：manual sandbox connection precheck packet echo receipt，只读回显 Node v245 的 owner approval artifact、credential handle review、schema migration rehearsal id、operator window、rollback path、abort marker、timeout policy；不写 ledger、不执行 SQL、不打开 managed audit connection。
    - mini-kv v108：manual sandbox connection precheck non-participation receipt，只读证明 Node v245 precheck packet 不会让 mini-kv 自动启动、写 storage、读 credential、执行 restore/load/compact/SETNXEX，且不会成为 managed audit storage backend。
    - 两者可以并行推进，因为它们只读消费 Node v245 packet，不互相依赖，也不做真实连接。
 
-3. Node v247：manual sandbox connection precheck upstream receipt verification。
+3. Node v247：manual sandbox connection precheck upstream receipt verification。已完成。
    只读消费 Java v99 + mini-kv v108，验证 precheck item count、operator field names、credential/connection/write/auto-start 边界一致。
    如果两边未完成或证据不匹配，Node v247 必须停止，不得降级为部分 ready。
+   本版已额外把 Java v99 / mini-kv v108 的六个 v247 所需证据复制到 `fixtures/historical/sibling-workspaces/`，确保 GitHub runner 没有 sibling workspace 时仍可验证。
 
-4. Node v248：manual sandbox connection rehearsal guard。
+4. Node v248：manual sandbox connection rehearsal guard。当前下一步。
    在 v247 通过后，只生成人工 rehearsal guard：明确需要 owner approval artifact、credential handle review status、schema rehearsal approval、manual window open marker、rollback path、abort marker 与 timeout policy。
    仍不读取 credential value，不连接 managed audit，不执行 schema migration，不启动 Java / mini-kv。
 ```
@@ -49,8 +62,9 @@ Node v246：
 ```text
 Node：
 - v246 是 CI fallback repair，不新增路由、不推进业务连接能力。
-- v247 继续使用 `registerAuditJsonMarkdownRoute` 路由注册表。
-- v247 消费 Java / mini-kv 时，只读核对 tag、归档、sample/fixture、关键字段，不构建、不启动、不测试、不修改上游项目。
+- v247 已继续使用 `registerAuditJsonMarkdownRoute` 路由注册表。
+- v247 已只读核对 Java / mini-kv 的 tag、归档、fixture、关键字段；没有构建、启动、测试、修改上游项目。
+- v247 已补 committed sibling evidence fallback，避免 GitHub runner 因缺少 `D:/javaproj` 或 `D:/C/mini-kv` 而 blocked。
 - v248 只能做 rehearsal guard，不允许偷偷加入真实连接 client。
 
 Java：
@@ -69,10 +83,10 @@ mini-kv：
 - 需要 Node 自动启动 Java、mini-kv 或外部审计服务。
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
-- Java v99 / mini-kv v108 未完成时，Node v247 必须停止。
+- v247 已完成；若 v248 需要读取 credential value、打开 connection、执行 schema migration 或启动上游，必须暂停。
 
 ## 一句话结论
 
 ```text
-v245 已把真实 sandbox connection 前的 precheck packet 生成完；v246 先修复 GitHub CI 历史证据 fallback；下一阶段让 Java v99 + mini-kv v108 并行只读回显/非参与，再由 Node v247/v248 做 receipt verification 与 rehearsal guard，仍不打开真实 managed audit connection。
+v245 已把真实 sandbox connection 前的 precheck packet 生成完；v246 修复 GitHub CI 历史证据 fallback；Java v99 + mini-kv v108 已完成只读回显/非参与；Node v247 已完成 receipt verification；下一步 Node v248 做 rehearsal guard，仍不打开真实 managed audit connection。
 ```

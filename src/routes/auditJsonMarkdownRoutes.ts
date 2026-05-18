@@ -119,6 +119,10 @@ import {
   renderManagedAuditManualSandboxConnectionPrecheckPacketMarkdown,
 } from "../services/managedAuditManualSandboxConnectionPrecheckPacket.js";
 import {
+  loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification,
+  renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown,
+} from "../services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
+import {
   loadManagedAuditManualSandboxConnectionPreconditionIntake,
   renderManagedAuditManualSandboxConnectionPreconditionIntakeMarkdown,
 } from "../services/managedAuditManualSandboxConnectionPreconditionIntake.js";
@@ -390,6 +394,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-packet", (deps) => loadManagedAuditManualSandboxConnectionPrecheckPacket({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionPrecheckPacketMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-upstream-receipt-verification", (deps) => loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

@@ -42,10 +42,12 @@ Java v98 + mini-kv v107 已推荐并行完成；Java 只读回显 command packag
 Node v244 已完成 manual sandbox dry-run command upstream echo verification；只读验证 Node v243 + Java v98 + mini-kv v107 的 command count、disabled/dry-run、credential/connection/write/auto-start 边界一致。
 Node v245 已完成 sandbox connection precheck packet；生成 owner approval artifact、credential handle review、schema migration rehearsal id、operator window、rollback path、abort marker、timeout policy，仍不打开真实 managed audit connection。
 Node v246 已完成 GitHub CI historical sibling evidence fallback repair；旧 managed-audit sandbox 链路不再依赖开发机 `D:/javaproj` 与 `D:/C/mini-kv`，forced fallback 聚焦测试已覆盖 GitHub runner 语义。
+Java v99 + mini-kv v108 已推荐并行完成；Java 只读回显 Node v245 precheck packet，mini-kv 只读证明 precheck packet 不会导致 auto-start / write / credential read / restore / storage backend。
+Node v247 已完成 manual sandbox connection precheck upstream receipt verification；只读消费 Node v245 + Java v99 + mini-kv v108，验证 precheck item count、operator field count/name、timeout policy、credential/connection/write/auto-start 边界一致，并补齐 v247 所需 committed sibling evidence fallback。
 
 下一步：
-当前下一步是推荐并行 Java v99 + mini-kv v108。
-Java v99 只读回显 Node v245 precheck packet；mini-kv v108 只读证明 precheck packet 不会导致 auto-start / write / credential read / restore / storage backend。两边完成前，Node v247 必须停止，不得抢跑。
+当前下一步是 Node v248。
+Node v248 只做 manual sandbox connection rehearsal guard：明确 owner approval artifact、credential handle review status、schema rehearsal approval、manual window open marker、rollback path、abort marker 与 timeout policy。仍不读取 credential value，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

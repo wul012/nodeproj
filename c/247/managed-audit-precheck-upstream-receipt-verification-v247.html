@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v247 precheck upstream receipt verification</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        background: #f6f8fb;
+        color: #18202b;
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 36px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 28px;
+        color: #4a5567;
+        font-size: 16px;
+        line-height: 1.65;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #d9e0ea;
+        border-radius: 8px;
+        padding: 18px;
+        min-height: 170px;
+      }
+      .panel h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      .ok {
+        color: #106b43;
+        font-weight: 700;
+      }
+      .blocked {
+        color: #8a4a00;
+        font-weight: 700;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      code {
+        background: #eef2f7;
+        padding: 2px 5px;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v247 precheck upstream receipt verification</h1>
+      <p class="subtitle">
+        只读消费 Node v245、Java v99、mini-kv v108 的 precheck 证据；验证三方边界一致，但仍不打开 managed audit sandbox connection。
+      </p>
+      <section class="grid">
+        <article class="panel">
+          <h2>Node v245</h2>
+          <ul>
+            <li><span class="ok">precheck packet ready</span></li>
+            <li>7 个 precheck items</li>
+            <li>6 个 operator fields</li>
+            <li><code>executionAllowed=false</code></li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2>Java v99</h2>
+          <ul>
+            <li><span class="ok">echo receipt ready</span></li>
+            <li>schema v23</li>
+            <li>no credential read</li>
+            <li>no SQL / ledger write</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2>mini-kv v108</h2>
+          <ul>
+            <li><span class="ok">non-participation ready</span></li>
+            <li>no auto-start</li>
+            <li>no storage write</li>
+            <li>not audit backend</li>
+          </ul>
+        </article>
+        <article class="panel wide">
+          <h2>Verification result</h2>
+          <ul>
+            <li><span class="ok">precheck item count aligned</span></li>
+            <li><span class="ok">operator field count and names aligned</span></li>
+            <li><span class="ok">credential / connection / write / auto-start boundaries closed</span></li>
+            <li><span class="blocked">readyForManagedAuditSandboxAdapterConnection=false</span></li>
+            <li>Next: Node v248 manual sandbox connection rehearsal guard</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
