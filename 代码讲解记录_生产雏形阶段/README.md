@@ -17,6 +17,7 @@ D:\nodeproj\orderops-node\代码讲解记录_生产雏形阶段
 - `242-managed-audit-manual-sandbox-connection-operator-window-checklist-v238.md`: v238 消费 Node v237 readiness gate，生成 3 个 approvalItems、8 个 checklistSteps、8 个 pauseConditions、6 个 forbiddenOperations；只进入 Java v93/mini-kv v102 回显准备，不打开 managed audit connection。
 - `243-managed-audit-manual-sandbox-connection-operator-window-evidence-verification-v239.md`: v239 消费 Node v238 operator window checklist、Java v93 echo receipt、mini-kv v102 no-start/no-write receipt，只做字段 / digest / counts 一致性验证；Java v94 和 mini-kv v103 被明确记为优化 follow-up，不升格为新前置条件。
 - `244-managed-audit-route-registration-table-quality-pass-v240.md`: v240 根据质量诊断插入优化版，把 auditRoutes.ts 中 40+ 个 JSON/Markdown route 注册拆成配置表、共享注册器和共享类型；只做 Node 结构优化，不新增 Java / mini-kv 业务证据依赖。
+- `245-managed-audit-manual-sandbox-connection-dry-run-command-package-v241.md`: v241 消费 Node v239、Node v240、Java v97、mini-kv v106，生成默认 disabled 的 manual sandbox connection dry-run command package；只做 operator review 材料，不打开连接、不读 credential value、不执行 schema migration。
 
 ## 写入规则
 

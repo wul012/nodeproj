@@ -34,10 +34,12 @@ Node v238 已完成 manual sandbox connection operator window checklist；approv
 Java v93 + mini-kv v102 已推荐并行完成，Java v94 / mini-kv v103 为优化 follow-up，不作为 Node v239 的新业务依赖。
 Node v239 已完成 manual sandbox connection operator window evidence verification；消费 Node v238 + Java v93 + mini-kv v102，javaEchoAccepted=true、miniKvReceiptAccepted=true、checklistCountsAligned=true、boundaryFlagsAligned=true，仍不打开连接。
 Node v240 已完成 route registration table quality pass；把 auditRoutes.ts 从 457 行降到 29 行，JSON/Markdown route 表拆到独立模块，只做质量优化，不新增业务 evidence 依赖。
+Java v94-v97 与 mini-kv v103-v106 已完成各自优化收口，并已作为 Node v241 的质量上下文完成只读对齐。
+Node v241 正在推进 manual sandbox connection dry-run command package；消费 Node v239 + Node v240 + Java v97 + mini-kv v106，只生成默认 disabled 的 dry-run command package，不携带 credential value、不打开 managed audit sandbox connection。
 
 下一步：
-当前下一步是等待 Java / mini-kv 完成各自优化后重新对齐，再进入 Node v241 或后续版本。
-原 Node v240 manual sandbox connection dry-run command package 已顺延；后续命令包必须默认 disabled，只携带 handle / marker / timeout，不携带 credential value，不打开 managed audit sandbox connection。
+当前下一步是完成 Node v241 的验证、归档、截图、提交与 tag。
+v241 命令包必须默认 disabled，只携带 handle / marker / timeout 审核语义，不携带 credential value，不打开 managed audit sandbox connection。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
