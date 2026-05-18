@@ -41,3 +41,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/251/`：manual sandbox connection decision record，记录七个决策字段、八个 no-go 条件和继续阻断真实连接的验证。
 - `c/252/`：disabled adapter client precheck，记录 required env handles、opt-in gate、failure taxonomy、dry-run response shape 和不连接真实 managed audit 的验证。
 - `c/253/`：test-only adapter shell contract，记录 fake in-memory transport、request/response shape、failure mapping、guard conditions 和不发真实 external request 的验证。
+- `c/254/`：disabled adapter client upstream echo verification，记录 Node v252/v253、Java v102、mini-kv v111 的三方只读对齐，以及继续阻断真实 managed audit connection 的验证。

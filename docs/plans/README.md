@@ -56,7 +56,9 @@ Node v250 已完成 manual sandbox connection rehearsal guard / three-project al
 Node v251 已完成 manual sandbox connection decision record：把 owner approval artifact、credential handle review、schema rehearsal approval、manual window marker、rollback path、abort marker、timeout policy 写成可审查的人工决策记录，并列出八个 no-go 条件；仍不读取 credential value、不打开 connection、不执行 schema migration、不启动 Java / mini-kv。
 Node v252 已完成 disabled adapter client precheck：只定义 client boundary、required env handles、failure taxonomy、dry-run response shape 和 opt-in gate，不读取 credential value、不发真实外部请求、不连接 managed audit。
 Node v253 已完成 test-only adapter shell contract：只定义 fake in-memory transport、request/response shape、failure mapping、guard conditions 和 fake transport probe，不读取 credential value、不请求真实 external endpoint。
-下一步：推荐并行 Java v102 + mini-kv v111 做只读 echo / non-participation；两边完成后再由 Node v254 做三方 verification。
+Java v102 + mini-kv v111 已推荐并行完成：Java 只读回显 disabled adapter client precheck，mini-kv 只读证明 non-participation / no-start / no-write / no-credential。
+Node v254 已完成 disabled adapter client upstream echo verification：消费 Node v252/v253、Java v102、mini-kv v111，验证 env handle、failure taxonomy、fake transport shape 和 no credential/no connection/no write/no auto-start 边界一致，并拆出 v254 types / renderer 降低新 service 膨胀。
+下一步：Node v255 fake transport adapter dry-run verification packet。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -382,5 +384,5 @@ v245-post-sandbox-precheck-roadmap.md
  -> 已完成并收口；由 Node v245 sandbox connection precheck packet 衍生；Node v246-v252 已完成，由 v252-post-disabled-adapter-client-precheck-roadmap.md 接续
 
 v252-post-disabled-adapter-client-precheck-roadmap.md
- -> 当前唯一有效全局计划；由 Node v252 disabled adapter client precheck 衍生；Node v253 已完成 test-only adapter shell contract，下一步推荐并行 Java v102 + mini-kv v111，只读回显/非参与后由 Node v254 做三方验证
+ -> 当前唯一有效全局计划；由 Node v252 disabled adapter client precheck 衍生；Node v253、推荐并行 Java v102 + mini-kv v111、Node v254 三方验证已完成，下一步是 Node v255 fake transport adapter dry-run verification packet
 ```

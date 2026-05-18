@@ -30,6 +30,18 @@ Node v253：
 - fakeTransportOnly=true，realClientImplemented=false，realTransportAllowed=false
 - externalRequestSent=false，credentialValueRead=false，productionRecordWritten=false
 - 仍不读取 credential value，不请求真实 external endpoint，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv
+
+推荐并行 Java v102 + mini-kv v111：
+- 已完成。
+- Java v102 已只读回显 disabled adapter client precheck echo receipt，确认 env handle、failure taxonomy、dry-run response 和 no-go 条件，不写 ledger、不执行 SQL、不打开 managed audit connection。
+- mini-kv v111 已输出 disabled adapter client non-participation receipt，确认 Node v252 / v253 不会导致 auto-start、storage write、credential read、restore/load/compact/SETNXEX，也不会成为 managed audit storage backend。
+
+Node v254：
+- disabled adapter client upstream echo verification 已完成。
+- 已只读消费 Node v252、Node v253、Java v102、mini-kv v111，并验证 envHandleCount=5、failureClassCount=6、dryRunResponseFieldCount=10、fake transport shape 与 no credential/no connection/no write/no auto-start 边界一致。
+- 已补 Java v102 / mini-kv v111 historical fixture fallback，GitHub runner 不依赖本机 `D:/javaproj` 或 `D:/C/mini-kv`。
+- 同步做轻量质量优化：将 v254 types 与 Markdown renderer 从主 service 拆出，避免新 service 单文件继续膨胀。
+- 仍不读取 credential value，不请求真实 external endpoint，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
 ```
 
 ## 推荐执行顺序
@@ -41,17 +53,17 @@ Node v253：
    - 允许在单元测试里用 fake transport 验证 shape，但不读取 credential value、不请求真实 external endpoint、不连接 managed audit。
    - 如果需要真实 endpoint、生产 IdP、真实 credential value、schema migration 或上游 auto-start，必须暂停。
 
-2. 推荐并行：Java v102 + mini-kv v111。
+2. 推荐并行：Java v102 + mini-kv v111。已完成。
    - Java v102：disabled adapter client precheck echo receipt，只读回显 Node v252 的 env handle、opt-in gate、failure taxonomy 和 no-go 条件；不写 approval ledger、不执行 SQL、不打开 managed audit connection。
    - mini-kv v111：disabled adapter client non-participation receipt，只读证明 Node v252 / v253 不会让 mini-kv 自动启动、写 storage、读取 credential、执行 restore/load/compact/SETNXEX，也不会成为 managed audit storage backend。
    - 两者可以并行推进，因为它们只读消费 Node v252 / v253 的边界，不互相依赖，也不做真实连接。
 
-3. Node v254：disabled adapter client upstream echo verification。
+3. Node v254：disabled adapter client upstream echo verification。已完成。
    - 只读消费 Java v102 + mini-kv v111。
    - 验证 env handle count、failure taxonomy count、credential/connection/schema/auto-start 边界一致。
    - 如果两边未完成或字段不一致，Node v254 必须停止，不得降级为部分 ready。
 
-4. Node v255：fake transport adapter dry-run verification packet。
+4. Node v255：fake transport adapter dry-run verification packet。下一步。
    - 仅在 Node v253 和 Node v254 都 ready 后推进。
    - 只能验证 fake transport adapter 的 dry-run request/response、timeout budget、failure mapping 和 cleanup。
    - 不打开真实 managed audit connection，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv。
@@ -64,6 +76,7 @@ Node：
 - v253 不得把 fake transport shell 膨胀成真实 client；真实 transport 必须等 owner approval、credential value 读取授权、schema rehearsal 和 manual window 都有明确版本证据后再单独计划。
 - v253 已完成 test-only adapter shell contract，真实连接能力仍未打开；下一步应优先让 Java v102 + mini-kv v111 回显/非参与，而不是 Node 抢跑 v254。
 - v253 / v255 如果新增 service，优先保持小闭环；若文件接近 700 行，应拆 profile types、builder、renderer 或 route registration helper。
+- v254 已按该规则拆出 `managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationTypes.ts` 与 `managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationRenderer.ts`，后续 v255 不要重新膨胀为单个 700+ 行 service。
 - 新增 audit route 必须继续使用 `auditJsonMarkdownRoutes` + `registerAuditJsonMarkdownRoute` 体系，不回到手写 JSON/Markdown 双路由。
 - 若继续出现 managed-audit sandbox profile 大字段集合，应复用已有 guard/type 聚合，不重复粘贴 70+ 字段 interface。
 
@@ -91,5 +104,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v252 已把真实 adapter client 前的 disabled precheck 写清楚；Node v253 已完成 test-only adapter shell contract。下一步推荐并行 Java v102 + mini-kv v111 回显/非参与，之后由 Node v254 做三方 echo verification。仍然不打开真实 managed audit connection。
+v252 已把真实 adapter client 前的 disabled precheck 写清楚；Node v253 已完成 test-only adapter shell contract；Java v102 + mini-kv v111 已完成只读回显/非参与；Node v254 已完成三方 echo verification。下一步进入 Node v255 fake transport adapter dry-run verification packet，仍然不打开真实 managed audit connection。
 ```

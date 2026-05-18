@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v254 disabled adapter client upstream echo verification</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #17202a;
+        background: #f6f8fb;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 40px 28px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 33px;
+        letter-spacing: 0;
+      }
+      .sub {
+        margin: 0 0 26px;
+        color: #56657a;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        padding: 15px;
+      }
+      .label {
+        font-size: 12px;
+        color: #607086;
+        margin-bottom: 8px;
+      }
+      .value {
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .ok {
+        color: #0f766e;
+      }
+      .blocked {
+        color: #b42318;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #e6edf3;
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 14px;
+      }
+      th {
+        background: #edf2f7;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+      }
+      .note {
+        margin-top: 22px;
+        border: 1px solid #bae6fd;
+        background: #f0f9ff;
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v254 disabled adapter client upstream echo verification</h1>
+      <p class="sub">只读消费 Java v102 与 mini-kv v111，验证 disabled adapter client 边界一致。</p>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="label">Verification</div>
+          <div class="value ok">ready</div>
+        </div>
+        <div class="panel">
+          <div class="label">Java v102 echo</div>
+          <div class="value ok">accepted</div>
+        </div>
+        <div class="panel">
+          <div class="label">mini-kv v111 receipt</div>
+          <div class="value ok">accepted</div>
+        </div>
+        <div class="panel">
+          <div class="label">Real connection</div>
+          <div class="value blocked">blocked</div>
+        </div>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>v254 verification</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Env handles</td>
+            <td><code>requiredEnvHandleCount=5</code> across Node / Java / mini-kv</td>
+            <td class="ok">aligned</td>
+          </tr>
+          <tr>
+            <td>Failure taxonomy</td>
+            <td><code>failureClassCount=6</code> across disabled client and fake shell</td>
+            <td class="ok">aligned</td>
+          </tr>
+          <tr>
+            <td>Fake transport shape</td>
+            <td>8 request fields, 9 response fields, 6 mappings, 7 guards</td>
+            <td class="ok">verified</td>
+          </tr>
+          <tr>
+            <td>Credential boundary</td>
+            <td>handle only, no credential value read or accepted</td>
+            <td class="ok">closed</td>
+          </tr>
+          <tr>
+            <td>Connection / write / auto-start</td>
+            <td>no external request, no schema migration, no ledger write, no service start</td>
+            <td class="ok">blocked</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        下一步是 Node v255 fake transport adapter dry-run verification packet；仍不读取 credential value，不请求真实 external endpoint。
+      </div>
+    </main>
+  </body>
+</html>
