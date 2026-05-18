@@ -237,6 +237,11 @@ const ACCEPTED_MINI_KV_RUNTIME_NO_START_NO_WRITE_FOLLOW_UPS = Object.freeze([
     releaseVersion: "v102",
     consumerHint: "Node v239 manual sandbox connection operator window evidence verification",
   },
+  {
+    projectVersion: "0.102.0",
+    releaseVersion: "v102",
+    consumerHint: "Node v244 manual sandbox dry-run command upstream echo verification",
+  },
 ]);
 
 const ENDPOINTS = Object.freeze({

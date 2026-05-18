@@ -72,7 +72,7 @@ describe("managed audit manual sandbox connection rehearsal packet review", () =
           evidencePresent: true,
           projectVersion: "0.102.0",
           releaseVersion: "v102",
-          consumerHint: "Node v239 manual sandbox connection operator window evidence verification",
+          consumerHint: "Node v244 manual sandbox dry-run command upstream echo verification",
           writeWalHelper: "CommandProcessor::execute_with_wal",
           writeWalHelperBehaviorPreserved: true,
           readOnly: true,

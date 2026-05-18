@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v243 Command Package Verification</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f7f8fa;
+        color: #1f2937;
+      }
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 40px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 34px;
+      }
+      .lead {
+        margin: 0 0 28px;
+        color: #4b5563;
+        line-height: 1.7;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #d8dee8;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v243：command package verification report</h1>
+      <p class="lead">
+        本版只读验证 Node v241 disabled dry-run command package 与 Node v242 historical fallback，
+        确认命令包仍保持 disabled-by-default、无 credential value、无连接、无写入，并把下一步交给 Java v98 + mini-kv v107 并行回显。
+      </p>
+      <div class="grid">
+        <section>
+          <h2>消费来源</h2>
+          <ul>
+            <li>Node v241 command package</li>
+            <li>Node v242 historical fixture fallback</li>
+            <li>Java v97 / mini-kv v106 质量上下文</li>
+          </ul>
+        </section>
+        <section>
+          <h2>验证重点</h2>
+          <ul>
+            <li><code>commandCount=6</code></li>
+            <li><code>disabledByDefault=true</code></li>
+            <li><code>ciFallbackAccepted=true</code></li>
+          </ul>
+        </section>
+        <section>
+          <h2>安全边界</h2>
+          <ul>
+            <li>不读取 credential value</li>
+            <li>不打开 managed audit connection</li>
+            <li>不修改 Java / mini-kv</li>
+          </ul>
+        </section>
+        <section class="wide">
+          <h2>下一步</h2>
+          <ul>
+            <li>推荐并行 Java v98 + mini-kv v107</li>
+            <li>Node v244 必须等待两边 echo / non-participation receipt 完成</li>
+            <li>仍不能直接进入真实 sandbox connection</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

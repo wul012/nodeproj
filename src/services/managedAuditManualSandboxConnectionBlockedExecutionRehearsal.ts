@@ -291,6 +291,11 @@ const ACCEPTED_MINI_KV_RUNTIME_SMOKE_WAL_REGRESSION_REFERENCES = Object.freeze([
     releaseVersion: "v102",
     consumerHint: "Node v239 manual sandbox connection operator window evidence verification",
   },
+  {
+    projectVersion: "0.102.0",
+    releaseVersion: "v102",
+    consumerHint: "Node v244 manual sandbox dry-run command upstream echo verification",
+  },
 ] as const);
 
 export function loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal(input: {

@@ -84,7 +84,7 @@ interface RouteRegistrationTableQualityPassMessage {
   message: string;
 }
 
-const ROUTE_REGISTRATION_TABLE_COUNT = 41;
+const ROUTE_REGISTRATION_TABLE_COUNT = 42;
 const ENDPOINTS = Object.freeze({
   routeRegistrationTableQualityPassJson: "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
   routeRegistrationTableQualityPassMarkdown:

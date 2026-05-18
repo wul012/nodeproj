@@ -87,6 +87,10 @@ import {
   renderManagedAuditManualSandboxConnectionDryRunCommandPackageMarkdown,
 } from "../services/managedAuditManualSandboxConnectionDryRunCommandPackage.js";
 import {
+  loadManagedAuditManualSandboxConnectionDryRunCommandPackageVerificationReport,
+  renderManagedAuditManualSandboxConnectionDryRunCommandPackageVerificationReportMarkdown,
+} from "../services/managedAuditManualSandboxConnectionDryRunCommandPackageVerificationReport.js";
+import {
   loadManagedAuditManualSandboxConnectionEvidenceChecklist,
   renderManagedAuditManualSandboxConnectionEvidenceChecklistMarkdown,
 } from "../services/managedAuditManualSandboxConnectionEvidenceChecklist.js";
@@ -366,6 +370,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-dry-run-command-package", (deps) => loadManagedAuditManualSandboxConnectionDryRunCommandPackage({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionDryRunCommandPackageMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-dry-run-command-package-verification-report", (deps) => loadManagedAuditManualSandboxConnectionDryRunCommandPackageVerificationReport({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionDryRunCommandPackageVerificationReportMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

@@ -39,7 +39,7 @@ describe("managed audit route registration table quality pass", () => {
         directRegisterAuditJsonMarkdownRouteCallsBefore: 41,
         directRegisterAuditJsonMarkdownRouteCallsAfter: 1,
         registrationTableAdded: true,
-        registrationTableRouteCount: 41,
+        registrationTableRouteCount: 42,
         registerAuditRoutesLoopCount: 1,
       },
       checks: {
@@ -56,7 +56,7 @@ describe("managed audit route registration table quality pass", () => {
         readyForManagedAuditRouteRegistrationTableQualityPass: true,
       },
       summary: {
-        routeRegistrationCount: 41,
+        routeRegistrationCount: 42,
         removedDirectRegistrationCallCount: 40,
         productionBlockerCount: 0,
         warningCount: 1,
