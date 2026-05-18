@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v248 code health pass</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        background: #f7f9fc;
+        color: #17202c;
+      }
+      main {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 36px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 28px;
+        color: #4c596a;
+        line-height: 1.65;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #dbe3ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+      .ok {
+        color: #116b45;
+        font-weight: 700;
+      }
+      .warn {
+        color: #8a5600;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      code {
+        background: #eef2f7;
+        border-radius: 4px;
+        padding: 2px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v248 managed-audit sandbox code health pass</h1>
+      <p class="subtitle">
+        质量优化版：先固定 v247 的回归测试、fallback、路由注册和安全边界，再进入后续 rehearsal guard。
+      </p>
+      <section class="grid">
+        <article class="panel">
+          <h2>v247 Regression</h2>
+          <ul>
+            <li><span class="ok">fallback test present</span></li>
+            <li><span class="ok">blocked config test present</span></li>
+            <li><span class="ok">JSON/Markdown route test present</span></li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2>Safety Boundaries</h2>
+          <ul>
+            <li><span class="ok">no real connection client</span></li>
+            <li><span class="ok">no credential value read</span></li>
+            <li><span class="ok">no schema migration</span></li>
+            <li><span class="ok">no auto-start</span></li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2>Current Batch</h2>
+          <ul>
+            <li>Node v248 done first</li>
+            <li>Java v100 can proceed in parallel</li>
+            <li>mini-kv v109 can proceed in parallel</li>
+          </ul>
+        </article>
+        <article class="panel wide">
+          <h2>Split Acceptance Checklist</h2>
+          <ul>
+            <li><code>statusRoutes.ts</code>: split route groups, keep paths and response shapes</li>
+            <li><code>dashboard.ts</code>: split managed-audit panels, keep DOM ids and API calls</li>
+            <li><code>opsPromotionArchiveRenderers.ts</code>: split archive/report/verification renderers, keep digest shape</li>
+            <li><span class="warn">Node v249 waits for Java v100 + mini-kv v109 quality batch alignment</span></li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

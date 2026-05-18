@@ -46,11 +46,11 @@ Java v99 + mini-kv v108 已推荐并行完成；Java 只读回显 Node v245 prec
 Node v247 已完成 manual sandbox connection precheck upstream receipt verification；只读消费 Node v245 + Java v99 + mini-kv v108，验证 precheck item count、operator field count/name、timeout policy、credential/connection/write/auto-start 边界一致，并补齐 v247 所需 committed sibling evidence fallback。
 
 下一步：
-当前下一步是推荐并行质量优化批次：Node v248 + Java v100 + mini-kv v109。
-Node v248 先做 managed-audit sandbox code health pass：补 v247 verification service 边界/回归测试，写清 `statusRoutes.ts` / `dashboard.ts` / `opsPromotionArchiveRenderers.ts` 拆分验收清单，不新增真实连接 client。
+当前批次是推荐并行质量优化：Node v248 + Java v100 + mini-kv v109。
+Node v248 已完成 managed-audit sandbox code health pass：补 v247 verification service 边界/回归测试，写清 `statusRoutes.ts` / `dashboard.ts` / `opsPromotionArchiveRenderers.ts` 拆分验收清单，不新增真实连接 client。
 Java v100 建议补 GitHub Actions Maven compile/test 基线，并记录 `ReleaseApprovalRehearsalResponse.java` / `OpsEvidenceService.java` 大文件拆分目标，不改业务语义。
 mini-kv v109 建议做轻量 CI/benchmark/evidence guard 或低风险测试，不触碰 WAL/snapshot/restore 核心，不做分片/复制/集群。
-三项可以并行推进；完成后再进入 Node v249 manual sandbox connection rehearsal guard。
+Java v100 + mini-kv v109 可以继续并行推进；完成后再进入 Node v249 manual sandbox connection rehearsal guard。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

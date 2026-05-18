@@ -171,6 +171,10 @@ import {
   renderManagedAuditRouteRegistrationTableQualityPassMarkdown,
 } from "../services/managedAuditRouteRegistrationTableQualityPass.js";
 import {
+  loadManagedAuditSandboxCodeHealthPass,
+  renderManagedAuditSandboxCodeHealthPassMarkdown,
+} from "../services/managedAuditSandboxCodeHealthPass.js";
+import {
   loadManagedAuditSandboxAdapterDryRunPackage,
   renderManagedAuditSandboxAdapterDryRunPackageMarkdown,
 } from "../services/managedAuditSandboxAdapterDryRunPackage.js";
@@ -398,6 +402,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-upstream-receipt-verification", (deps) => loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-sandbox-code-health-pass", (deps) => loadManagedAuditSandboxCodeHealthPass({
+    config: deps.config,
+  }), renderManagedAuditSandboxCodeHealthPassMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

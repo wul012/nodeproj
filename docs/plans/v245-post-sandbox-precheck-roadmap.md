@@ -52,13 +52,13 @@ Node v247：
    如果两边未完成或证据不匹配，Node v247 必须停止，不得降级为部分 ready。
    本版已额外把 Java v99 / mini-kv v108 的六个 v247 所需证据复制到 `fixtures/historical/sibling-workspaces/`，确保 GitHub runner 没有 sibling workspace 时仍可验证。
 
-4. 推荐并行质量优化批次：Node v248 + Java v100 + mini-kv v109。当前下一步，先优化再继续 rehearsal guard。
-   - Node v248：managed-audit sandbox code health pass。先不推进真实连接，优先处理 Node 自身债务：为 v247 service 增加边界/回归测试、减少新增大 service 后的维护风险，并建立下一步拆 `statusRoutes.ts` / `dashboard.ts` / `opsPromotionArchiveRenderers.ts` 的验收清单。
+4. 推荐并行质量优化批次：Node v248 + Java v100 + mini-kv v109。当前批次，先优化再继续 rehearsal guard。
+   - Node v248：managed-audit sandbox code health pass。已完成。先不推进真实连接，优先处理 Node 自身债务：为 v247 service 增加边界/回归测试、减少新增大 service 后的维护风险，并建立下一步拆 `statusRoutes.ts` / `dashboard.ts` / `opsPromotionArchiveRenderers.ts` 的验收清单。
    - Java v100：CI bootstrap + large-file guard。补 `.github/workflows` Maven compile/test 基线，并把 `ReleaseApprovalRehearsalResponse.java` / `OpsEvidenceService.java` 的后续拆分目标写入 Java 自己的版本归档；不改业务语义、不写 ledger、不执行 SQL。
    - mini-kv v109：CI/benchmark evidence guard。保持当前单机 KV 语义，只增强 CI/benchmark/evidence 可读性或轻量测试；不触碰 WAL/snapshot/restore 核心，不引入分片、复制或 managed audit storage backend。
    - 这三项可以并行推进：Node 只改控制面质量与测试，Java 只补 CI 和拆分计划，mini-kv 只补低风险质量证据，彼此不互相阻塞，也都不打开真实 managed audit connection。
 
-5. Node v249：manual sandbox connection rehearsal guard。
+5. Node v249：manual sandbox connection rehearsal guard。等待 Java v100 + mini-kv v109 完成后推进。
    在 v247 通过后，只生成人工 rehearsal guard：明确需要 owner approval artifact、credential handle review status、schema rehearsal approval、manual window open marker、rollback path、abort marker 与 timeout policy。
    仍不读取 credential value，不连接 managed audit，不执行 schema migration，不启动 Java / mini-kv。若 Node v248 / Java v100 / mini-kv v109 的质量优化未完成，Node v249 可以暂停或只做只读 readiness review，不得抢跑真实连接。
 ```
@@ -71,8 +71,8 @@ Node：
 - v247 已继续使用 `registerAuditJsonMarkdownRoute` 路由注册表。
 - v247 已只读核对 Java / mini-kv 的 tag、归档、fixture、关键字段；没有构建、启动、测试、修改上游项目。
 - v247 已补 committed sibling evidence fallback，避免 GitHub runner 因缺少 `D:/javaproj` 或 `D:/C/mini-kv` 而 blocked。
-- v248 改为质量优化版，先补 v247 verification service 的边界测试、route/fallback 回归说明和大文件拆分验收清单；不新增真实连接 client。
-- Node 大文件当前只读观察：`statusRoutes.ts` 约 2525 行、`dashboard.ts` 约 2214 行、`opsPromotionArchiveRenderers.ts` 约 2115 行、v247 service 约 951 行。v248 不要求一次拆完，但必须把后续拆分目标写清楚，并避免再新增同类 1000+ 行 service。
+- v248 已改为质量优化版，新增 managed-audit sandbox code health pass，自动核对 v247 fallback / blocked config / JSON-Markdown route 回归测试、route table 注册和无真实连接 client。
+- Node 大文件当前只读观察已固化进 v248 profile：`statusRoutes.ts`、`dashboard.ts`、`opsPromotionArchiveRenderers.ts`、v247 service。v248 不拆大文件，但给出 Node v250+ / v251+ / v252+ 的拆分验收清单，并避免再新增同类 1000+ 行 service。
 
 Java：
 - v99 优先用 builder/helper 承载 precheck echo receipt，不把字段继续堆进 OpsEvidenceService 主类。
