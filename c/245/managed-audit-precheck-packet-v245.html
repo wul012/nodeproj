@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v245 Managed Audit Precheck Packet</title>
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+        background: #f6f7f8;
+        color: #172026;
+      }
+
+      body {
+        margin: 0;
+        padding: 32px;
+      }
+
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-size: 32px;
+        letter-spacing: 0;
+      }
+
+      .subhead {
+        margin: 0 0 28px;
+        color: #56636d;
+        font-size: 16px;
+      }
+
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+      }
+
+      section {
+        background: #ffffff;
+        border: 1px solid #d9dee3;
+        border-radius: 8px;
+        padding: 18px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 17px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 7px 0;
+      }
+
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #eaf7ef;
+        color: #17643a;
+        font-weight: 700;
+      }
+
+      .status::before {
+        content: "";
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #21a366;
+      }
+
+      .wide {
+        grid-column: 1 / -1;
+      }
+
+      code {
+        font-family: "JetBrains Mono", Consolas, monospace;
+        font-size: 0.95em;
+        background: #eef1f4;
+        border-radius: 4px;
+        padding: 2px 5px;
+      }
+
+      .checks {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px 20px;
+        padding-left: 0;
+        list-style: none;
+      }
+
+      .checks li::before {
+        content: "PASS";
+        display: inline-block;
+        margin-right: 8px;
+        color: #17643a;
+        font-weight: 800;
+        font-size: 12px;
+      }
+
+      @media (max-width: 820px) {
+        body {
+          padding: 18px;
+        }
+
+        .grid {
+          grid-template-columns: 1fr;
+        }
+
+        .checks {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v245 Managed Audit Precheck Packet</h1>
+      <p class="subhead">Sandbox connection 前置材料包：只生成人工审核字段，不读取凭证值，不打开连接。</p>
+
+      <div class="grid">
+        <section>
+          <h2>Version State</h2>
+          <p><span class="status">precheck packet ready</span></p>
+          <ul>
+            <li><code>profileVersion</code>: managed-audit-manual-sandbox-connection-precheck-packet.v1</li>
+            <li><code>precheckItemCount</code>: 7</li>
+            <li><code>requiredOperatorFieldCount</code>: 6</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Source</h2>
+          <ul>
+            <li>Consumes Node v244 upstream echo verification.</li>
+            <li>Requires command, credential, connection, write, and auto-start boundaries aligned.</li>
+            <li>Does not bypass v243/v244 evidence.</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Boundary</h2>
+          <ul>
+            <li><code>connectsManagedAudit=false</code></li>
+            <li><code>readsManagedAuditCredential=false</code></li>
+            <li><code>schemaMigrationExecuted=false</code></li>
+            <li><code>automaticUpstreamStart=false</code></li>
+          </ul>
+        </section>
+
+        <section class="wide">
+          <h2>Precheck Packet Fields</h2>
+          <ul class="checks">
+            <li>Owner approval artifact id</li>
+            <li>Credential handle review</li>
+            <li>Schema migration rehearsal id</li>
+            <li>Manual operator window</li>
+            <li>Rollback path id</li>
+            <li>Manual abort marker</li>
+            <li>Timeout budget policy</li>
+            <li>No credential value included</li>
+          </ul>
+        </section>
+
+        <section class="wide">
+          <h2>Next Plan</h2>
+          <p>
+            下一步不是 Node 抢跑真实连接，而是推荐并行 Java v99 + mini-kv v108：
+            Java 只读回显 precheck packet，mini-kv 只读证明 non-participation。
+            两边完成后，Node v246 再做 upstream receipt verification。
+          </p>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>

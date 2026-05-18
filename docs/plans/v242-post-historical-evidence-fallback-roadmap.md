@@ -2,7 +2,7 @@
 
 来源版本：Node v242 `historical evidence fallback for GitHub CI`。
 
-计划状态：当前唯一有效全局计划。上一份 `docs/plans/v237-post-readiness-gate-roadmap.md` 已覆盖 Node v238-v242、Java v93-v97、mini-kv v102-v106，并已收口；后续不再向旧计划追加重合版本。v242 已把 v223/v224 历史链路所需 Java v81 / mini-kv v90 证据固化到 Node 仓库内 fixtures，GitHub CI 不再依赖开发机 `D:/javaproj` 或 `D:/C/mini-kv` 路径。Node v243 已完成 command package verification report。Java v98 + mini-kv v107 已完成只读 echo / non-participation receipt，Node v244 已完成 upstream echo verification。当前下一步是 Node v245 sandbox connection precheck packet，仍不打开真实 managed audit connection。
+计划状态：已完成并收口。上一份 `docs/plans/v237-post-readiness-gate-roadmap.md` 已覆盖 Node v238-v242、Java v93-v97、mini-kv v102-v106，并已收口；后续不再向旧计划追加重合版本。v242 已把 v223/v224 历史链路所需 Java v81 / mini-kv v90 证据固化到 Node 仓库内 fixtures，GitHub CI 不再依赖开发机 `D:/javaproj` 或 `D:/C/mini-kv` 路径。Node v243 已完成 command package verification report。Java v98 + mini-kv v107 已完成只读 echo / non-participation receipt。Node v244 已完成 upstream echo verification。Node v245 已完成 sandbox connection precheck packet。本阶段由 `docs/plans/v245-post-sandbox-precheck-roadmap.md` 接续。
 
 ## 当前对齐状态
 
@@ -46,6 +46,12 @@ Node v244：
 - 只读消费 Node v243 + Java v98 + mini-kv v107
 - 验证 commandCount=6、disabledByDefault、dryRunOnly、credential/connection/write/auto-start 边界三方一致
 - 不打开 managed audit connection，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv
+
+Node v245：
+- sandbox connection precheck packet 已完成
+- 消费 Node v244 upstream echo verification
+- 生成 owner approval artifact、credential handle review、schema migration rehearsal id、operator window、rollback path、abort marker、timeout policy
+- 不打开 managed audit connection，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv
 ```
 
 ## 推荐执行顺序
@@ -64,7 +70,7 @@ Node v244：
    只读消费 Java v98 + mini-kv v107 回执，验证三方对 command package 的字段、digest、禁用状态和 no-write / no-start 边界一致。
    如果两边未完成或证据不匹配，Node v244 必须停止，不得降级为“部分 ready”。
 
-4. Node v245：sandbox connection precheck packet。当前下一步。
+4. Node v245：sandbox connection precheck packet。已完成。
    在 v244 三方 echo 通过后，生成下一步真实 sandbox connection 前的 precheck packet：owner approval artifact、credential handle review、schema migration rehearsal id、operator window、rollback path、abort marker、timeout policy。
    仍不连接 managed audit，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv。
 ```
@@ -95,10 +101,10 @@ mini-kv：
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
 - Java v98 / mini-kv v107 未完成时，Node v244 必须停止。当前已完成。
-- Node v244 未完成或 upstream echo verification 不一致时，Node v245 必须停止。
+- Node v244 未完成或 upstream echo verification 不一致时，Node v245 必须停止。当前已完成。
 
 ## 一句话结论
 
 ```text
-v237 计划已收口；Node v243-v244 已完成 command package 自检与 upstream echo verification；当前下一步是 Node v245 sandbox connection precheck packet，仍不打开真实 managed audit connection。
+v237 计划已收口；Node v243-v245 已完成 command package 自检、upstream echo verification 与 sandbox connection precheck packet；本计划收口，后续由 `v245-post-sandbox-precheck-roadmap.md` 接续，仍不打开真实 managed audit connection。
 ```
