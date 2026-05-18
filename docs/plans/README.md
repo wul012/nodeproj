@@ -53,7 +53,8 @@ Node v249 已完成 Dependabot/security maintenance：覆盖 npm + GitHub Action
 Java v101 已完成 Dependabot/security maintenance：Maven + GitHub Actions，配置位于 Java git 根 `D:\javaproj\.github\dependabot.yml`，不改 release approval 业务语义。
 mini-kv v110 已完成 Dependabot/security maintenance：覆盖 GitHub Actions，并用 CTest 守住不引入 npm/Maven/pip/cargo/Docker 等生态。
 Node v250 已完成 manual sandbox connection rehearsal guard / three-project alignment：消费 Node v247-v249、Java v101、mini-kv v110，形成连接前人工守卫，仍不打开真实 managed audit connection。
-下一步：在本计划上继续推进，不另起重复计划。推荐先由 Node v251 做 manual sandbox connection decision record：把 owner approval artifact、credential handle review、schema rehearsal approval、manual window marker、rollback path、abort marker、timeout policy 写成可审查的人工决策记录；仍不读取 credential value、不打开 connection、不执行 schema migration、不启动 Java / mini-kv。
+Node v251 已完成 manual sandbox connection decision record：把 owner approval artifact、credential handle review、schema rehearsal approval、manual window marker、rollback path、abort marker、timeout policy 写成可审查的人工决策记录，并列出八个 no-go 条件；仍不读取 credential value、不打开 connection、不执行 schema migration、不启动 Java / mini-kv。
+下一步：在本计划上继续推进，不另起重复计划。Node v252 可以做 disabled adapter client precheck：只定义 client boundary、required env handles、failure taxonomy 和 opt-in gate，不读取 credential value、不发真实外部请求、不连接 managed audit。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

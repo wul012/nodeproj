@@ -70,10 +70,15 @@ Node v247：
    - 修正 Node historicalEvidenceResolver 的 Java root-level `.github` fallback，避免 CI 无 sibling workspace 时读不到 `D:\javaproj\.github` 证据。
    - 仍不读取 credential value，不连接 managed audit，不执行 schema migration，不启动 Java / mini-kv。
 
-7. Node v251：manual sandbox connection decision record。
+7. Node v251：manual sandbox connection decision record。已完成。
    - 在 v250 guard ready 后，生成一份人工连接决策记录：记录 owner、credential handle review status、schema rehearsal id、manual window id、rollback path、abort marker、timeout policy、security maintenance digest 和 explicit no-go 条件。
    - 仍不打开真实 managed audit connection，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv。
-   - 如果 v251 发现需要真实 credential、生产 IdP、生产数据库、真实 schema migration 或自动启动上游，必须暂停并另写决策计划。
+   - 已列出八个 no-go 条件：credential value、schema migration、upstream auto-start、approval ledger write、mini-kv storage backend、owner artifact missing、rollback/abort missing、timeout missing，任一触发都必须 pause-and-do-not-connect。
+
+8. Node v252：disabled adapter client precheck。
+   - 在 v251 decision record ready 后，只定义 disabled adapter client 的边界：required env handles、failure taxonomy、opt-in gate、dry-run response shape 和 no-go 条件复用。
+   - 仍不读取 credential value，不发真实外部请求，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
+   - 如果 v252 需要真实 credential、生产 IdP、生产数据库、真实 external endpoint 或自动启动上游，必须暂停。
 ```
 
 ## 显式质量优化项
@@ -91,6 +96,7 @@ Node：
 - v250 已完成 manual sandbox connection rehearsal guard，继续使用 `auditJsonMarkdownRoutes` route table，并只读消费 Node v247/v248/v249、Java v101、mini-kv v110 证据。
 - v250 已修正 Java root-level `.github` historical fallback；这是三项目对齐必要修正，不代表 Node 可以修改 Java 仓库。
 - v251 应做人工连接决策记录，不得直接跳到真实 adapter client。
+- v251 已完成人工连接决策记录，明确七个决策字段和八个 no-go 条件；下一步 v252 只能做 disabled adapter client precheck，不得加入真实网络调用。
 
 Java：
 - v99 优先用 builder/helper 承载 precheck echo receipt，不把字段继续堆进 OpsEvidenceService 主类。
@@ -120,9 +126,10 @@ mini-kv：
 - Java v100 / mini-kv v109 与 Node v248 可以并行；但如果任一项目的优化发现会改变 precheck receipt 语义，Node v249 必须暂停重新对齐。
 - Node v249 / Java v101 / mini-kv v110 只能做 Dependabot/security maintenance；如果需要升级依赖本身或修改业务代码，必须拆成后续版本。
 - Node v251 只能做 manual connection decision record；如果需要真实连接 client、credential value、生产 IdP、schema migration 或自动启动上游，必须暂停。
+- Node v252 只能做 disabled adapter client precheck；如果需要真实 external endpoint、credential value、生产 IdP、schema migration、approval ledger write 或自动启动上游，必须暂停。
 
 ## 一句话结论
 
 ```text
-v245 已把真实 sandbox connection 前的 precheck packet 生成完；v246 修复 GitHub CI 历史证据 fallback；Java v99 + mini-kv v108 已完成只读回显/非参与；Node v247 已完成 receipt verification；Node v248 + Java v100 + mini-kv v109 质量优化批次已收口；Node v249 + Java v101 + mini-kv v110 Dependabot/security maintenance 已收口；Node v250 已完成三项目对齐与 rehearsal guard。下一步 Node v251 应做 manual sandbox connection decision record，仍不打开真实 managed audit connection。
+v245 已把真实 sandbox connection 前的 precheck packet 生成完；v246 修复 GitHub CI 历史证据 fallback；Java v99 + mini-kv v108 已完成只读回显/非参与；Node v247 已完成 receipt verification；Node v248 + Java v100 + mini-kv v109 质量优化批次已收口；Node v249 + Java v101 + mini-kv v110 Dependabot/security maintenance 已收口；Node v250 已完成三项目对齐与 rehearsal guard；Node v251 已完成 manual sandbox connection decision record。下一步 Node v252 可做 disabled adapter client precheck，仍不打开真实 managed audit connection。
 ```

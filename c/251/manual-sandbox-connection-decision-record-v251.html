@@ -1,0 +1,62 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Node v251 manual sandbox connection decision record</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, 'Microsoft YaHei', sans-serif; }
+    body { margin: 0; background: #f7f8fb; color: #172033; }
+    main { max-width: 1120px; margin: 0 auto; padding: 42px 34px 56px; }
+    h1 { font-size: 34px; margin: 0 0 10px; letter-spacing: 0; }
+    .sub { font-size: 16px; color: #576274; margin-bottom: 28px; }
+    .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-bottom: 22px; }
+    .panel { background: #fff; border: 1px solid #d9dfe8; border-radius: 8px; padding: 18px; box-shadow: 0 1px 2px rgba(13,31,56,.05); }
+    .panel h2 { margin: 0 0 12px; font-size: 17px; }
+    .status { display: inline-block; padding: 5px 9px; border-radius: 999px; background: #e9f7ef; color: #126c34; font-weight: 700; font-size: 13px; }
+    .blocked { background: #fff0f0; color: #9a1f1f; }
+    ul { margin: 10px 0 0; padding-left: 20px; line-height: 1.7; }
+    code { background: #eef2f7; border-radius: 5px; padding: 2px 5px; font-family: Consolas, monospace; }
+    .wide { grid-column: 1 / -1; }
+    .matrix { display: grid; grid-template-columns: 220px 1fr 170px; border: 1px solid #d9dfe8; border-radius: 8px; overflow: hidden; background: #fff; }
+    .matrix div { padding: 11px 12px; border-right: 1px solid #d9dfe8; border-bottom: 1px solid #d9dfe8; }
+    .matrix div:nth-child(3n) { border-right: none; }
+    .matrix div:nth-last-child(-n + 3) { border-bottom: none; }
+    .head { background: #eef2f7; font-weight: 700; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v251 manual sandbox connection decision record</h1>
+    <div class="sub">人工连接决策记录已生成；真实 managed audit connection 仍保持关闭。</div>
+    <section class="grid">
+      <div class="panel">
+        <h2>Decision state</h2>
+        <span class="status">ready</span>
+        <ul><li><code>decisionRecord</code>: ready</li><li><code>connection</code>: false</li><li><code>credentialValue</code>: false</li></ul>
+      </div>
+      <div class="panel">
+        <h2>Required fields</h2>
+        <ul><li>Owner approval artifact</li><li>Credential handle review</li><li>Schema rehearsal approval</li><li>Rollback / abort / timeout</li></ul>
+      </div>
+      <div class="panel">
+        <h2>Still blocked</h2>
+        <span class="status blocked">no execution</span>
+        <ul><li>No schema migration</li><li>No approval ledger write</li><li>No Java / mini-kv auto-start</li></ul>
+      </div>
+    </section>
+    <section class="panel wide">
+      <h2>No-go conditions</h2>
+      <div class="matrix">
+        <div class="head">Code</div><div class="head">Condition</div><div class="head">Action</div>
+        <div>CREDENTIAL_VALUE_REQUIRED</div><div>Node would need to read or store a credential value.</div><div>pause</div>
+        <div>SCHEMA_MIGRATION_REQUIRED</div><div>Connection work requires schema migration SQL.</div><div>pause</div>
+        <div>UPSTREAM_AUTO_START_REQUIRED</div><div>Node must start Java, mini-kv, or external audit service.</div><div>pause</div>
+        <div>APPROVAL_LEDGER_WRITE_REQUIRED</div><div>Flow requires writing approval ledger or managed audit state.</div><div>pause</div>
+        <div>MINI_KV_STORAGE_BACKEND_REQUIRED</div><div>mini-kv would become managed audit storage backend.</div><div>pause</div>
+        <div>ROLLBACK_OR_ABORT_MISSING</div><div>Rollback path or abort marker is missing.</div><div>pause</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
