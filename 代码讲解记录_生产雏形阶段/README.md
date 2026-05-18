@@ -14,6 +14,7 @@ D:\nodeproj\orderops-node\代码讲解记录_生产雏形阶段
 ## 最新记录
 
 - `241-managed-audit-manual-sandbox-connection-readiness-gate-v237.md`: v237 消费 Node v236 dry-run envelope、Java v92 echo receipt、mini-kv v101 no-start/no-write follow-up，生成 readiness gate；只允许进入 operator window checklist，不打开 managed audit connection、不读取 credential value、不执行 schema migration、不启动 Java / mini-kv。
+- `242-managed-audit-manual-sandbox-connection-operator-window-checklist-v238.md`: v238 消费 Node v237 readiness gate，生成 3 个 approvalItems、8 个 checklistSteps、8 个 pauseConditions、6 个 forbiddenOperations；只进入 Java v93/mini-kv v102 回显准备，不打开 managed audit connection。
 
 ## 写入规则
 

@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v238 managed audit operator window checklist</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f6f8fb;
+        color: #172033;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 42px 40px 56px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+      .subtitle {
+        margin: 0 0 30px;
+        color: #5b6678;
+        font-size: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #dfe5ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .panel h2 {
+        margin: 0 0 14px;
+        font-size: 18px;
+      }
+      .metric {
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        font-size: 15px;
+      }
+      .metric span:first-child {
+        color: #5b6678;
+      }
+      .ok {
+        color: #0f7a4f;
+        font-weight: 700;
+      }
+      .blocked {
+        color: #9a5b00;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .step {
+        background: #f8fbff;
+        border-left: 4px solid #4b79d8;
+        padding: 12px;
+        min-height: 92px;
+      }
+      .step strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+      code {
+        font-family: Consolas, monospace;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v238 operator window checklist</h1>
+      <p class="subtitle">manual window evidence is organized for review; the sandbox connection remains closed.</p>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Checklist</h2>
+          <div class="metric"><span>profile</span><code>operator-window-checklist.v1</code></div>
+          <div class="metric"><span>state</span><span class="ok">ready</span></div>
+          <div class="metric"><span>Java v93 echo</span><span class="ok">ready</span></div>
+          <div class="metric"><span>adapter connection</span><span class="blocked">false</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Counts</h2>
+          <div class="metric"><span>approvals</span><span>3</span></div>
+          <div class="metric"><span>steps</span><span>8</span></div>
+          <div class="metric"><span>pause conditions</span><span>8</span></div>
+          <div class="metric"><span>forbidden ops</span><span>6</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Boundary</h2>
+          <div class="metric"><span>credential value</span><span class="blocked">not read</span></div>
+          <div class="metric"><span>schema migration</span><span class="blocked">not run</span></div>
+          <div class="metric"><span>audit write</span><span class="blocked">not written</span></div>
+          <div class="metric"><span>auto start</span><span class="blocked">disabled</span></div>
+        </article>
+
+        <article class="panel wide">
+          <h2>Window checklist flow</h2>
+          <div class="steps">
+            <div class="step"><strong>1. Gate</strong>Attach Node v237 digest.</div>
+            <div class="step"><strong>2. Approval</strong>Owner artifact id only.</div>
+            <div class="step"><strong>3. Credential</strong>Handle field only.</div>
+            <div class="step"><strong>4. Schema</strong>Review id, no SQL execution.</div>
+            <div class="step"><strong>5. Rollback</strong>Reviewed rollback path id.</div>
+            <div class="step"><strong>6. Timeout</strong>Budget remains 15000 ms.</div>
+            <div class="step"><strong>7. Abort</strong>Manual abort marker exists.</div>
+            <div class="step"><strong>8. Stop Gate</strong>Stop on secret or write request.</div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

@@ -2,7 +2,7 @@
 
 来源版本：Node v237 `managed audit manual sandbox connection readiness gate`。
 
-计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”，但仍不打开 managed audit sandbox connection，不读取 credential value，不执行 schema migration，不写 audit state，不自动启动 Java / mini-kv。
+计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；本计划继续承载 v239-v240，不因单版完成另起重复计划。
 
 ## 当前状态
 
@@ -32,16 +32,30 @@ mini-kv v101：
 - execution_allowed=false
 - node/java/mini-kv auto-start 全部 false
 - managed audit store / storage write / credential read / restore 全部 false
+
+Node v238：
+- managed-audit-manual-sandbox-connection-operator-window-checklist.v1
+- checklistState=manual-sandbox-connection-operator-window-checklist-ready
+- approvalItemCount=3
+- checklistStepCount=8
+- pauseConditionCount=8
+- forbiddenOperationCount=6
+- readyForJavaV93EchoReceipt=true
+- readyForManagedAuditSandboxAdapterConnection=false
+- credentialValueRead=false
+- actualConnectionAttempted=false
+- schemaMigrationRequested=false
+- upstreamServiceAutoStartRequested=false
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v238：manual sandbox connection operator window checklist。
+1. Node v238：manual sandbox connection operator window checklist。已完成。
    消费 Node v237 readiness gate，生成 operator checklist：审批人、窗口开始/结束、credential handle、schema rehearsal id、rollback path、timeout、manual abort marker、暂停条件。
    仍不打开连接，不读取 credential value，不执行 schema migration，不写 managed audit state。
 
-2. 推荐并行：Java v93 + mini-kv v102。
+2. 下一步推荐并行：Java v93 + mini-kv v102。
    - Java v93：operator window checklist echo receipt，只读回显 Node v238 checklist 字段，不写 ledger、不执行 SQL、不打开连接。
    - mini-kv v102：operator window no-start/no-write receipt，只证明窗口材料不会让 mini-kv 自动启动、写 storage、执行 restore 或读 credential。
 
@@ -57,10 +71,10 @@ mini-kv v101：
 
 ```text
 Node：
-- v238 不要继续膨胀旧 readiness gate；只新增 operator checklist 小闭环。
+- v238 已完成 operator checklist 小闭环，没有继续膨胀旧 readiness gate。
 - v237 已把“source material readiness”和“当前 UPSTREAM_ACTIONS_ENABLED 阻塞”拆开，后续版本继续保持这个模式：材料可读不等于运行开关打开。
 - 继续使用 registerAuditJsonMarkdownRoute，不新增手写 JSON/Markdown 路由分支。
-- 若 v238/v239 需要消费 rolling mini-kv evidence，优先抽 shared rolling evidence consumer helper，不要在每个 service 里重复维护 current release / digest / consumer list。
+- 若 v239 需要消费 rolling mini-kv evidence，优先抽 shared rolling evidence consumer helper，不要在每个 service 里重复维护 current release / digest / consumer list。
 
 Java：
 - v93 只做 operator checklist echo receipt，不回写 approval ledger，不执行 SQL，不读取 credential value。
@@ -83,5 +97,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v237 只证明材料已经能进入人工 operator window checklist；下一步先做 Node v238 checklist，再让 Java v93 + mini-kv v102 并行回显和守边界，不能直接跳到真实连接。
+v238 已把人工 operator window checklist 固化为 Node 证据；下一步推荐并行 Java v93 + mini-kv v102 回显和守边界，不能直接跳到真实连接。
 ```

@@ -30,10 +30,11 @@ Node v235 已完成 manual sandbox connection precondition intake，并把 v223-
 Node v236 已完成 manual sandbox connection dry-run request envelope，只携带字段名和 marker，不读取 credential value、不打开连接。
 Java v92 + mini-kv v101 已推荐并行完成。
 Node v237 已完成 manual sandbox connection readiness gate，消费 Node v236 + Java v92 + mini-kv v101；readyForOperatorWindowChecklist=true，但 readyForManagedAuditSandboxAdapterConnection=false。
+Node v238 已完成 manual sandbox connection operator window checklist；approvalItemCount=3、checklistStepCount=8、pauseConditionCount=8、forbiddenOperationCount=6，仍不打开连接。
 
 下一步：
-当前下一步是 Node v238：manual sandbox connection operator window checklist。
-v238 只生成人工窗口 checklist，不打开 managed audit sandbox connection，不读取 credential value，不执行 schema migration，不自动启动 Java / mini-kv。
+当前下一步是推荐并行 Java v93 + mini-kv v102。
+Java v93 只读回显 Node v238 checklist 字段；mini-kv v102 只做 operator window no-start / no-write receipt。两边未完成时，Node v239 不应抢跑。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -104,6 +105,12 @@ Node v237 当前完成项：
 - 已消费 Node v236 dry-run envelope、Java v92 echo receipt、mini-kv v101 no-start/no-write follow-up。
 - readyForOperatorWindowChecklist=true，但 readyForManagedAuditSandboxAdapterConnection=false。
 - 已区分 source material readiness 与当前 UPSTREAM_ACTIONS_ENABLED runtime blocker。
+- 未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
+
+Node v238 当前完成项：
+- 已新增 managed audit manual sandbox connection operator window checklist。
+- 已消费 Node v237 readiness gate，生成 3 个 approvalItems、8 个 checklistSteps、8 个 pauseConditions、6 个 forbiddenOperations。
+- readyForJavaV93EchoReceipt=true，但 readyForManagedAuditSandboxAdapterConnection=false。
 - 未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
 ```
 
@@ -327,5 +334,5 @@ v236-post-dry-run-envelope-roadmap.md
  -> 已完成并收口；由 Node v236 dry-run request envelope 衍生；Java v92 + mini-kv v101 已推荐并行完成，Node v237 readiness gate 已完成，并由 v237-post-readiness-gate-roadmap.md 接续
 
 v237-post-readiness-gate-roadmap.md
- -> 当前唯一有效全局计划；由 Node v237 readiness gate 衍生；下一步是 Node v238 manual sandbox connection operator window checklist，之后推荐并行 Java v93 + mini-kv v102
+ -> 当前唯一有效全局计划；由 Node v237 readiness gate 衍生；Node v238 operator window checklist 已完成，下一步推荐并行 Java v93 + mini-kv v102，之后 Node v239 消费两边回显证据
 ```
