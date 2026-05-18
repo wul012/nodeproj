@@ -2,7 +2,7 @@
 
 来源版本：Node v237 `managed audit manual sandbox connection readiness gate`。
 
-计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；Java v93 + mini-kv v102 已完成只读回显 / no-start-no-write 证据；Node v239 已完成 operator window evidence verification。根据最新质量诊断，v240 插入 Node route registration table quality pass，先优化 `auditRoutes.ts` 重复注册和大文件问题。Java 已继续完成 v94-v97 优化收口，mini-kv 已继续完成 v103-v106 优化收口，Node v241 已完成默认 disabled 的 manual sandbox connection dry-run command package。当前插入 Node v242 修复 GitHub CI：把 v223/v224 历史计划链路所需 Java v81 / mini-kv v90 证据固化到 Node 仓库 fixtures，避免 CI runner 因没有 sibling 工作区而把旧 planState 误判为 blocked。Java v94-v97 与 mini-kv v103-v106 仍是优化上下文，不是写权限、连接权限或生产窗口授权。
+计划状态：已完成并收口。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；Java v93 + mini-kv v102 已完成只读回显 / no-start-no-write 证据；Node v239 已完成 operator window evidence verification。根据最新质量诊断，v240 插入 Node route registration table quality pass，先优化 `auditRoutes.ts` 重复注册和大文件问题。Java 已继续完成 v94-v97 优化收口，mini-kv 已继续完成 v103-v106 优化收口，Node v241 已完成默认 disabled 的 manual sandbox connection dry-run command package。Node v242 已修复 GitHub CI：把 v223/v224 历史计划链路所需 Java v81 / mini-kv v90 证据固化到 Node 仓库 fixtures，避免 CI runner 因没有 sibling 工作区而把旧 planState 误判为 blocked。后续由 `v242-post-historical-evidence-fallback-roadmap.md` 接续，不再向本文件追加重合版本。
 
 ## 当前状态
 
@@ -142,7 +142,7 @@ Node v242：
 6. Node v241：manual sandbox connection dry-run command package。已完成。
    消费 Node v239 + Node v240 + Java v97 + mini-kv v106，生成默认 disabled 的 dry-run command package；命令包只能携带 handle / marker / timeout 审核语义，不携带 credential value，不打开 managed audit sandbox connection。
 
-7. Node v242：historical evidence fallback for GitHub CI。当前推进。
+7. Node v242：historical evidence fallback for GitHub CI。已完成。
    修复 v223/v224 旧计划链路对本机 sibling 项目路径的隐式依赖；旧链路使用 Node 仓库内 historical fixtures 复现 Java v81 / mini-kv v90 只读证据。该版本只做 CI 稳定性和计划续写，不新增 managed audit 执行能力。
 ```
 

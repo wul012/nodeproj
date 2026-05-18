@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v237-post-readiness-gate-roadmap.md
+docs/plans/v242-post-historical-evidence-fallback-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -36,11 +36,11 @@ Node v239 已完成 manual sandbox connection operator window evidence verificat
 Node v240 已完成 route registration table quality pass；把 auditRoutes.ts 从 457 行降到 29 行，JSON/Markdown route 表拆到独立模块，只做质量优化，不新增业务 evidence 依赖。
 Java v94-v97 与 mini-kv v103-v106 已完成各自优化收口，并已作为 Node v241 的质量上下文完成只读对齐。
 Node v241 已完成 manual sandbox connection dry-run command package；消费 Node v239 + Node v240 + Java v97 + mini-kv v106，只生成默认 disabled 的 dry-run command package，不携带 credential value、不打开 managed audit sandbox connection。
-Node v242 正在推进 historical evidence fallback for GitHub CI；修复 v223/v224 旧计划链路依赖开发机 `D:/javaproj` 与 `D:/C/mini-kv` 历史文件导致 CI 返回 blocked 的问题。
+Node v242 已完成 historical evidence fallback for GitHub CI；修复 v223/v224 旧计划链路依赖开发机 `D:/javaproj` 与 `D:/C/mini-kv` 历史文件导致 CI 返回 blocked 的问题。
 
 下一步：
-当前下一步是完成 Node v242 的修复、验证、归档、提交与 tag。
-v242 必须保持 v223/v224 profile shape 不变，只把历史只读证据固化为 Node 仓库内 fixture；不得修改 Java / mini-kv，不得打开 managed audit connection。
+当前下一步是 Node v243 manual sandbox dry-run command package verification report。
+v243 必须消费 Node v241 command package 与 Node v242 historical fixture fallback，验证 command shape、disabled-by-default、no credential value、no connection、no mutation、route registration 与 archive evidence；不得修改 Java / mini-kv，不得打开 managed audit connection。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -51,6 +51,7 @@ v231-post-preflight-verification-roadmap.md 已收口，只是历史计划。
 v234-post-blocked-execution-rehearsal-roadmap.md 已收口，只是历史计划。
 v235-post-precondition-intake-roadmap.md 已收口，只是历史计划。
 v236-post-dry-run-envelope-roadmap.md 已收口，只是历史计划。
+v237-post-readiness-gate-roadmap.md 已收口，只是历史计划。
 ```
 
 ## 当前硬性质量验收门槛
@@ -267,7 +268,7 @@ v166-post-rollback-window-roadmap.md
  -> 已完成并收口；Java v59 + mini-kv v68 已推荐并行完成，Node v168 已消费两边 secret/digest evidence，Node v169 已完成 post-v166 readiness summary
 
 v169-post-production-environment-preflight-roadmap.md
- -> 当前唯一有效全局计划；由 Node v169 post-v166 readiness summary 衍生，Node v170 已插入 report shared helpers hardening 维护重构，Java v60 + mini-kv v69、Java v61 + mini-kv v70 均已推荐并行完成，Node v171-v173 已消费并形成 release window readiness packet；下一步需另起新计划，不在本文件继续追加重合版本
+ -> 已完成并收口；由 Node v169 post-v166 readiness summary 衍生，Node v170 已插入 report shared helpers hardening 维护重构，Java v60 + mini-kv v69、Java v61 + mini-kv v70 均已推荐并行完成，Node v171-v173 已消费并形成 release window readiness packet；由 v173-post-release-window-readiness-roadmap.md 接续
 
 v173-post-release-window-readiness-roadmap.md
  -> 已完成并收口；由 Node v173 release window readiness packet 衍生，Node v174 production release dry-run envelope、推荐并行 Java v62 + mini-kv v71、Node v175 release handoff readiness review、Node v176 CI evidence hardening packet 已完成，由 v176-post-ci-evidence-hardening-roadmap.md 接续
@@ -354,5 +355,8 @@ v236-post-dry-run-envelope-roadmap.md
  -> 已完成并收口；由 Node v236 dry-run request envelope 衍生；Java v92 + mini-kv v101 已推荐并行完成，Node v237 readiness gate 已完成，并由 v237-post-readiness-gate-roadmap.md 接续
 
 v237-post-readiness-gate-roadmap.md
- -> 当前唯一有效全局计划；由 Node v237 readiness gate 衍生；Node v238 operator window checklist、推荐并行 Java v93 + mini-kv v102、Node v239 operator window evidence verification、Node v240 route registration table quality pass 已完成；下一步等待 Java / mini-kv 优化完成后重新对齐，再恢复 disabled dry-run command package 主线
+ -> 已完成并收口；由 Node v237 readiness gate 衍生；Node v238 operator window checklist、推荐并行 Java v93 + mini-kv v102、Node v239 operator window evidence verification、Node v240 route registration table quality pass、推荐并行 Java v94-v97 + mini-kv v103-v106、Node v241 dry-run command package、Node v242 historical evidence fallback 已完成；由 v242-post-historical-evidence-fallback-roadmap.md 接续
+
+v242-post-historical-evidence-fallback-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v242 historical evidence fallback 衍生；下一步 Node v243 command package verification report，然后推荐并行 Java v98 + mini-kv v107，再由 Node v244/v245 做 upstream echo verification 与 sandbox connection precheck
 ```
