@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v253 test-only adapter shell contract</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #17202a;
+        background: #f6f8fb;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 28px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .sub {
+        margin: 0 0 26px;
+        color: #56657a;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        padding: 15px;
+      }
+      .label {
+        font-size: 12px;
+        color: #607086;
+        margin-bottom: 8px;
+      }
+      .value {
+        font-size: 20px;
+        font-weight: 700;
+      }
+      .ok {
+        color: #0f766e;
+      }
+      .blocked {
+        color: #b42318;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #e6edf3;
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 14px;
+      }
+      th {
+        background: #edf2f7;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+      }
+      .note {
+        margin-top: 22px;
+        border: 1px solid #bae6fd;
+        background: #f0f9ff;
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v253 test-only adapter shell contract</h1>
+      <p class="sub">只定义 fake transport shell 契约，不实现真实 managed audit client。</p>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="label">Shell contract</div>
+          <div class="value ok">ready</div>
+        </div>
+        <div class="panel">
+          <div class="label">Transport</div>
+          <div class="value ok">fake only</div>
+        </div>
+        <div class="panel">
+          <div class="label">External request</div>
+          <div class="value blocked">false</div>
+        </div>
+        <div class="panel">
+          <div class="label">Credential value</div>
+          <div class="value blocked">false</div>
+        </div>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>v253 contract</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Shell mode</td>
+            <td><code>test-only-fake-transport-contract</code></td>
+            <td class="ok">declared</td>
+          </tr>
+          <tr>
+            <td>Request shape</td>
+            <td>credential handle + endpoint handle only, no value, no raw URL</td>
+            <td class="ok">handle-only</td>
+          </tr>
+          <tr>
+            <td>Response shape</td>
+            <td>fake transport response, no real connection side effects</td>
+            <td class="ok">verified</td>
+          </tr>
+          <tr>
+            <td>Failure mapping</td>
+            <td>6 v252 failure classes mapped to test-only shell failures</td>
+            <td class="ok">covered</td>
+          </tr>
+          <tr>
+            <td>Fake probe</td>
+            <td>accepted by fake in-memory transport, zero external calls</td>
+            <td class="ok">safe</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        下一步按计划推荐并行 Java v102 + mini-kv v111，先做只读 echo / non-participation，再由 Node v254 验证三方一致性。
+      </div>
+    </main>
+  </body>
+</html>

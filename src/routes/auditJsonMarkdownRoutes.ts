@@ -131,6 +131,10 @@ import {
   renderManagedAuditManualSandboxConnectionDisabledAdapterClientPrecheckMarkdown,
 } from "../services/managedAuditManualSandboxConnectionDisabledAdapterClientPrecheck.js";
 import {
+  loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract,
+  renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown,
+} from "../services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.js";
+import {
   loadManagedAuditManualSandboxConnectionRehearsalGuard,
   renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown,
 } from "../services/managedAuditManualSandboxConnectionRehearsalGuard.js";
@@ -430,6 +434,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-disabled-adapter-client-precheck", (deps) => loadManagedAuditManualSandboxConnectionDisabledAdapterClientPrecheck({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionDisabledAdapterClientPrecheckMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-test-only-adapter-shell-contract", (deps) => loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

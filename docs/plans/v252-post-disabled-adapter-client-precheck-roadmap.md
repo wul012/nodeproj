@@ -23,12 +23,19 @@ Node v252：
 - adapter client 仍是 not-implemented
 - clientMayBeInstantiated=false，externalRequestMayBeSent=false，credentialValueMayBeLoaded=false
 - 仍不读取 credential value，不发真实外部请求，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv
+
+Node v253：
+- test-only adapter shell contract 已完成
+- 只定义 fake in-memory transport、request/response shape、failure mapping、guard conditions 和 fake transport probe
+- fakeTransportOnly=true，realClientImplemented=false，realTransportAllowed=false
+- externalRequestSent=false，credentialValueRead=false，productionRecordWritten=false
+- 仍不读取 credential value，不请求真实 external endpoint，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v253：test-only adapter shell contract。
+1. Node v253：test-only adapter shell contract。已完成。
    - 消费 Node v252 disabled adapter client precheck。
    - 只定义 fake transport / test-only adapter shell 的接口、输入输出 shape、失败分类映射和 guard 条件。
    - 允许在单元测试里用 fake transport 验证 shape，但不读取 credential value、不请求真实 external endpoint、不连接 managed audit。
@@ -55,6 +62,7 @@ Node v252：
 ```text
 Node：
 - v253 不得把 fake transport shell 膨胀成真实 client；真实 transport 必须等 owner approval、credential value 读取授权、schema rehearsal 和 manual window 都有明确版本证据后再单独计划。
+- v253 已完成 test-only adapter shell contract，真实连接能力仍未打开；下一步应优先让 Java v102 + mini-kv v111 回显/非参与，而不是 Node 抢跑 v254。
 - v253 / v255 如果新增 service，优先保持小闭环；若文件接近 700 行，应拆 profile types、builder、renderer 或 route registration helper。
 - 新增 audit route 必须继续使用 `auditJsonMarkdownRoutes` + `registerAuditJsonMarkdownRoute` 体系，不回到手写 JSON/Markdown 双路由。
 - 若继续出现 managed-audit sandbox profile 大字段集合，应复用已有 guard/type 聚合，不重复粘贴 70+ 字段 interface。
@@ -83,5 +91,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v252 已把真实 adapter client 前的 disabled precheck 写清楚；下一阶段先做 Node v253 test-only adapter shell contract，再推荐并行 Java v102 + mini-kv v111 回显/非参与，之后由 Node v254 做三方 echo verification。仍然不打开真实 managed audit connection。
+v252 已把真实 adapter client 前的 disabled precheck 写清楚；Node v253 已完成 test-only adapter shell contract。下一步推荐并行 Java v102 + mini-kv v111 回显/非参与，之后由 Node v254 做三方 echo verification。仍然不打开真实 managed audit connection。
 ```
