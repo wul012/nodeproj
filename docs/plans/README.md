@@ -38,10 +38,12 @@ Java v94-v97 与 mini-kv v103-v106 已完成各自优化收口，并已作为 No
 Node v241 已完成 manual sandbox connection dry-run command package；消费 Node v239 + Node v240 + Java v97 + mini-kv v106，只生成默认 disabled 的 dry-run command package，不携带 credential value、不打开 managed audit sandbox connection。
 Node v242 已完成 historical evidence fallback for GitHub CI；修复 v223/v224 旧计划链路依赖开发机 `D:/javaproj` 与 `D:/C/mini-kv` 历史文件导致 CI 返回 blocked 的问题。
 Node v243 已完成 manual sandbox dry-run command package verification report；只读验证 v241 command package 与 v242 CI-stable fallback，没有打开 managed audit connection。
+Java v98 + mini-kv v107 已推荐并行完成；Java 只读回显 command package，mini-kv 只读证明 non-participation / no-start / no-write。
+Node v244 已完成 manual sandbox dry-run command upstream echo verification；只读验证 Node v243 + Java v98 + mini-kv v107 的 command count、disabled/dry-run、credential/connection/write/auto-start 边界一致。
 
 下一步：
-当前下一步是推荐并行 Java v98 + mini-kv v107。
-Java v98 只读回显 Node v241 command package；mini-kv v107 只读证明 non-participation / no-start / no-write。两边完成前，Node v244 必须停止，不得抢跑。
+当前下一步是 Node v245 sandbox connection precheck packet。
+v245 只能生成 owner approval artifact、credential handle review、schema migration rehearsal id、operator window、rollback path、abort marker、timeout policy 等 precheck 材料；仍不打开真实 managed audit connection。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -359,5 +361,5 @@ v237-post-readiness-gate-roadmap.md
  -> 已完成并收口；由 Node v237 readiness gate 衍生；Node v238 operator window checklist、推荐并行 Java v93 + mini-kv v102、Node v239 operator window evidence verification、Node v240 route registration table quality pass、推荐并行 Java v94-v97 + mini-kv v103-v106、Node v241 dry-run command package、Node v242 historical evidence fallback 已完成；由 v242-post-historical-evidence-fallback-roadmap.md 接续
 
 v242-post-historical-evidence-fallback-roadmap.md
- -> 当前唯一有效全局计划；由 Node v242 historical evidence fallback 衍生；Node v243 command package verification report 已完成；当前下一步推荐并行 Java v98 + mini-kv v107，再由 Node v244/v245 做 upstream echo verification 与 sandbox connection precheck
+ -> 当前唯一有效全局计划；由 Node v242 historical evidence fallback 衍生；Node v243 command package verification report、Java v98 + mini-kv v107、Node v244 upstream echo verification 已完成；当前下一步 Node v245 sandbox connection precheck packet
 ```

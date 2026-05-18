@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v244 Upstream Echo Verification</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f6f8fb;
+        color: #172033;
+      }
+      main {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 40px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 34px;
+      }
+      .lead {
+        margin: 0 0 28px;
+        color: #4b5563;
+        line-height: 1.7;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      section {
+        background: #fff;
+        border: 1px solid #d7dee8;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.8;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 14px;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v244：upstream echo verification</h1>
+      <p class="lead">
+        本版只读消费 Node v243、Java v98 和 mini-kv v107，确认三方对 command package 的
+        command count、disabled/dry-run、credential、connection、write 和 auto-start 边界一致。
+      </p>
+      <div class="grid">
+        <section>
+          <h2>三方来源</h2>
+          <ul>
+            <li>Node v243 verification report</li>
+            <li>Java v98 echo receipt</li>
+            <li>mini-kv v107 non-participation receipt</li>
+          </ul>
+        </section>
+        <section>
+          <h2>对齐结果</h2>
+          <ul>
+            <li><code>commandCount=6</code></li>
+            <li><code>disabledByDefault=true</code></li>
+            <li><code>dryRunOnly=true</code></li>
+          </ul>
+        </section>
+        <section>
+          <h2>硬边界</h2>
+          <ul>
+            <li>credential value 未读取</li>
+            <li>managed audit connection 未打开</li>
+            <li>storage / ledger / SQL 未写入</li>
+          </ul>
+        </section>
+        <section class="wide">
+          <h2>下一步</h2>
+          <ul>
+            <li>Node v245 只能生成 sandbox connection precheck packet</li>
+            <li>v245 仍不读取 credential value、不执行 schema migration</li>
+            <li>仍不自动启动 Java / mini-kv / managed audit 服务</li>
+          </ul>
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
