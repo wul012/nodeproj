@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v240 route registration table quality pass</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", Arial, sans-serif;
+        background: #f5f7fb;
+        color: #172033;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 42px 40px 56px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+      .subtitle {
+        margin: 0 0 28px;
+        color: #5b6678;
+        font-size: 18px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #dfe5ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .panel h2 {
+        margin: 0 0 14px;
+        font-size: 18px;
+      }
+      .metric {
+        margin: 8px 0;
+        display: flex;
+        justify-content: space-between;
+        gap: 18px;
+        font-size: 15px;
+      }
+      .metric span:first-child {
+        color: #5b6678;
+      }
+      .ok {
+        color: #0f7a4f;
+        font-weight: 700;
+      }
+      .blocked {
+        color: #9a5b00;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px;
+      }
+      .step {
+        background: #f8fbff;
+        border-left: 4px solid #4b79d8;
+        padding: 12px;
+        min-height: 92px;
+      }
+      .step strong {
+        display: block;
+        margin-bottom: 8px;
+      }
+      code {
+        font-family: Consolas, monospace;
+        font-size: 14px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v240 route registration table quality pass</h1>
+      <p class="subtitle">auditRoutes becomes a thin entrypoint; JSON/Markdown route registrations move to a table.</p>
+
+      <section class="grid">
+        <article class="panel">
+          <h2>Quality</h2>
+          <div class="metric"><span>profile</span><code>route-table-quality.v1</code></div>
+          <div class="metric"><span>state</span><span class="ok">verified</span></div>
+          <div class="metric"><span>production audit</span><span class="blocked">false</span></div>
+          <div class="metric"><span>managed connection</span><span class="blocked">false</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Shape</h2>
+          <div class="metric"><span>auditRoutes</span><span>457 -> 29</span></div>
+          <div class="metric"><span>route table</span><span>41 routes</span></div>
+          <div class="metric"><span>direct calls</span><span>41 -> 1</span></div>
+          <div class="metric"><span>API shape</span><span class="ok">preserved</span></div>
+        </article>
+
+        <article class="panel">
+          <h2>Boundary</h2>
+          <div class="metric"><span>Java changed</span><span class="blocked">false</span></div>
+          <div class="metric"><span>mini-kv changed</span><span class="blocked">false</span></div>
+          <div class="metric"><span>credential value</span><span class="blocked">not read</span></div>
+          <div class="metric"><span>upstream start</span><span class="blocked">disabled</span></div>
+        </article>
+
+        <article class="panel wide">
+          <h2>Refactor Layout</h2>
+          <div class="steps">
+            <div class="step"><strong>1. auditRoutes</strong>Events, summary, and table registration only.</div>
+            <div class="step"><strong>2. route table</strong>All JSON/Markdown profile paths in one module.</div>
+            <div class="step"><strong>3. registrar</strong>Shared format handling remains centralized.</div>
+            <div class="step"><strong>4. types</strong>Audit deps and query types are reusable.</div>
+            <div class="step"><strong>5. quality profile</strong>Records line count and call reduction.</div>
+            <div class="step"><strong>6. tests</strong>New and representative old routes remain green.</div>
+            <div class="step"><strong>7. no execution</strong>No adapter connection is opened.</div>
+            <div class="step"><strong>8. align later</strong>Wait for Java / mini-kv optimization, then realign.</div>
+          </div>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>

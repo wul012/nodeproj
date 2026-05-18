@@ -2,7 +2,7 @@
 
 来源版本：Node v237 `managed audit manual sandbox connection readiness gate`。
 
-计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；Java v93 + mini-kv v102 已完成只读回显 / no-start-no-write 证据；Node v239 已完成 operator window evidence verification。本计划继续承载 v240，不因单版完成另起重复计划。Java v94 与 mini-kv v103 只是优化 follow-up，不是 v239 的新业务前置条件。
+计划状态：当前唯一有效全局计划。Node v237 已消费 Node v236 dry-run request envelope、Java v92 echo receipt、mini-kv v101 runtime no-start/no-write follow-up，确认材料已经可以进入“人工 operator window checklist”。Node v238 已完成 operator window checklist；Java v93 + mini-kv v102 已完成只读回显 / no-start-no-write 证据；Node v239 已完成 operator window evidence verification。根据最新质量诊断，v240 插入 Node route registration table quality pass，先优化 `auditRoutes.ts` 重复注册和大文件问题；原 manual sandbox connection dry-run command package 顺延到优化对齐后再做。Java v94 与 mini-kv v103 只是优化 follow-up，不是 v239 的新业务前置条件。
 
 ## 当前状态
 
@@ -76,6 +76,16 @@ Node v239：
 - boundaryFlagsAligned=true
 - nodeV239BlocksRealConnection=true
 - Java v94 / mini-kv v103 仅记录为优化 follow-up，不作为新业务依赖
+
+Node v240：
+- managed-audit-route-registration-table-quality-pass.v1
+- qualityPassState=verified-quality-pass
+- auditRoutes.ts 从 457 行降到 29 行
+- JSON/Markdown route 注册表拆到 src/routes/auditJsonMarkdownRoutes.ts
+- 共享注册器拆到 src/routes/auditJsonMarkdownRouteRegistrar.ts
+- 共享依赖类型拆到 src/routes/auditRouteTypes.ts
+- direct registerAuditJsonMarkdownRoute 调用收敛到共享注册器 1 处
+- 只做质量优化，不新增业务证据依赖，不打开 managed audit connection
 ```
 
 ## 推荐执行顺序
@@ -94,8 +104,11 @@ Node v239：
    消费 Node v238 + Java v93 + mini-kv v102，验证三方对 operator checklist 的字段、digest、no-write/no-start 边界一致。
    只做 verification，不做真实 sandbox connection；如果 v239 检测到 v94 / v103 的优化证据存在，也只会记录为 follow-up，不会提升为新前置条件。
 
-4. 下一步 Node v240：manual sandbox connection dry-run command package。
-   只有在 v239 通过后，生成一份仍默认 disabled 的 dry-run command package；命令包只能携带 handle / marker / timeout，不携带 credential value。
+4. Node v240：route registration table quality pass。已完成。
+   根据质量诊断插入维护优化，拆分 auditRoutes 重复注册和大文件问题；只改路由组织结构，不改 API path、profile shape、Java/mini-kv 依赖，也不打开 managed audit connection。
+
+5. 后续 Node v241 或优化对齐后：manual sandbox connection dry-run command package。
+   需要等 Java / mini-kv 同步完成各自优化后重新对齐，再生成默认 disabled 的 dry-run command package；命令包只能携带 handle / marker / timeout，不携带 credential value。
 ```
 
 ## 显式质量优化项
@@ -108,6 +121,8 @@ Node：
 - 若 v239 需要消费 rolling mini-kv evidence，优先抽 shared rolling evidence consumer helper，不要在每个 service 里重复维护 current release / digest / consumer list。
 - 对于只读优化版本（例如 Java v94、mini-kv v103），Node 只记录其“优化 follow-up”属性，不把它们重新写成 v239 的业务前置条件。
 - v239 已把历史 v223-v238 沙箱链路对 mini-kv current runtime fixture 的 accepted evidence 扩展到 v102，避免 rolling current fixture 造成旧链路 false block；后续若继续滚动，应优先抽共享 consumer helper。
+- v240 已把 auditRoutes 里的 40+ 个 JSON/Markdown route 注册拆成配置表 + 共享注册器 + 共享类型；后续新增 audit profile 必须优先加到 `src/routes/auditJsonMarkdownRoutes.ts`，不要重新把注册样板塞回 `auditRoutes.ts`。
+- v240 是优化版，不消耗 Java / mini-kv 新业务 evidence；等另外两个项目完成类似优化后，再重新对齐三方证据。
 
 Java：
 - v93 只做 operator checklist echo receipt，不回写 approval ledger，不执行 SQL，不读取 credential value。
@@ -130,5 +145,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v239 已把 Node v238 + Java v93 + mini-kv v102 的人工窗口证据验证完成；下一步 Node v240 只能生成默认 disabled 的 dry-run command package，仍不能直接跳到真实连接。
+v240 已先完成 Node 路由注册表优化；下一步应等待 Java / mini-kv 各自优化完成后重新对齐，再继续默认 disabled 的 dry-run command package，仍不能直接跳到真实连接。
 ```

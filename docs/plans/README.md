@@ -33,10 +33,11 @@ Node v237 已完成 manual sandbox connection readiness gate，消费 Node v236 
 Node v238 已完成 manual sandbox connection operator window checklist；approvalItemCount=3、checklistStepCount=8、pauseConditionCount=8、forbiddenOperationCount=6，仍不打开连接。
 Java v93 + mini-kv v102 已推荐并行完成，Java v94 / mini-kv v103 为优化 follow-up，不作为 Node v239 的新业务依赖。
 Node v239 已完成 manual sandbox connection operator window evidence verification；消费 Node v238 + Java v93 + mini-kv v102，javaEchoAccepted=true、miniKvReceiptAccepted=true、checklistCountsAligned=true、boundaryFlagsAligned=true，仍不打开连接。
+Node v240 已完成 route registration table quality pass；把 auditRoutes.ts 从 457 行降到 29 行，JSON/Markdown route 表拆到独立模块，只做质量优化，不新增业务 evidence 依赖。
 
 下一步：
-当前下一步是 Node v240。
-Node v240 只能生成 manual sandbox connection dry-run command package；命令包必须默认 disabled，只携带 handle / marker / timeout，不携带 credential value，不打开 managed audit sandbox connection。
+当前下一步是等待 Java / mini-kv 完成各自优化后重新对齐，再进入 Node v241 或后续版本。
+原 Node v240 manual sandbox connection dry-run command package 已顺延；后续命令包必须默认 disabled，只携带 handle / marker / timeout，不携带 credential value，不打开 managed audit sandbox connection。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -121,6 +122,13 @@ Node v239 当前完成项：
 - javaEchoAccepted=true、miniKvReceiptAccepted=true、checklistCountsAligned=true、boundaryFlagsAligned=true。
 - Java v94 / mini-kv v103 只作为优化 follow-up 记录，不升格为 v239 新依赖。
 - 未连接 managed audit，未读取 credential value，未执行 schema migration，未启动 Java / mini-kv。
+
+Node v240 当前完成项：
+- 已新增 managed audit route registration table quality pass。
+- 已把 auditRoutes.ts 中 40+ 个 JSON/Markdown route 注册拆到 `src/routes/auditJsonMarkdownRoutes.ts`。
+- 已把共享注册器拆到 `src/routes/auditJsonMarkdownRouteRegistrar.ts`，共享依赖类型拆到 `src/routes/auditRouteTypes.ts`。
+- auditRoutes.ts 从 457 行降到 29 行；API path / response shape 保持不变。
+- 只做 Node 质量优化，不新增 Java / mini-kv 业务 evidence 依赖，不打开 managed audit connection。
 ```
 
 规则：
@@ -343,5 +351,5 @@ v236-post-dry-run-envelope-roadmap.md
  -> 已完成并收口；由 Node v236 dry-run request envelope 衍生；Java v92 + mini-kv v101 已推荐并行完成，Node v237 readiness gate 已完成，并由 v237-post-readiness-gate-roadmap.md 接续
 
 v237-post-readiness-gate-roadmap.md
- -> 当前唯一有效全局计划；由 Node v237 readiness gate 衍生；Node v238 operator window checklist、推荐并行 Java v93 + mini-kv v102、Node v239 operator window evidence verification 已完成；下一步 Node v240 生成默认 disabled 的 dry-run command package
+ -> 当前唯一有效全局计划；由 Node v237 readiness gate 衍生；Node v238 operator window checklist、推荐并行 Java v93 + mini-kv v102、Node v239 operator window evidence verification、Node v240 route registration table quality pass 已完成；下一步等待 Java / mini-kv 优化完成后重新对齐，再恢复 disabled dry-run command package 主线
 ```

@@ -16,6 +16,7 @@ D:\nodeproj\orderops-node\代码讲解记录_生产雏形阶段
 - `241-managed-audit-manual-sandbox-connection-readiness-gate-v237.md`: v237 消费 Node v236 dry-run envelope、Java v92 echo receipt、mini-kv v101 no-start/no-write follow-up，生成 readiness gate；只允许进入 operator window checklist，不打开 managed audit connection、不读取 credential value、不执行 schema migration、不启动 Java / mini-kv。
 - `242-managed-audit-manual-sandbox-connection-operator-window-checklist-v238.md`: v238 消费 Node v237 readiness gate，生成 3 个 approvalItems、8 个 checklistSteps、8 个 pauseConditions、6 个 forbiddenOperations；只进入 Java v93/mini-kv v102 回显准备，不打开 managed audit connection。
 - `243-managed-audit-manual-sandbox-connection-operator-window-evidence-verification-v239.md`: v239 消费 Node v238 operator window checklist、Java v93 echo receipt、mini-kv v102 no-start/no-write receipt，只做字段 / digest / counts 一致性验证；Java v94 和 mini-kv v103 被明确记为优化 follow-up，不升格为新前置条件。
+- `244-managed-audit-route-registration-table-quality-pass-v240.md`: v240 根据质量诊断插入优化版，把 auditRoutes.ts 中 40+ 个 JSON/Markdown route 注册拆成配置表、共享注册器和共享类型；只做 Node 结构优化，不新增 Java / mini-kv 业务证据依赖。
 
 ## 写入规则
 
@@ -143,6 +144,9 @@ file audit restart evidence 与后续 managed audit store
 
 243-managed-audit-manual-sandbox-connection-operator-window-evidence-verification-v239.md
  -> 第二百三十九版 Managed audit manual sandbox connection operator window evidence verification：消费 Node v238 operator window checklist、Java v93 echo receipt、mini-kv v102 no-start/no-write receipt，只验证字段 / digest / counts 一致性；Java v94 和 mini-kv v103 只作为优化 follow-up，不升格为新依赖
+
+244-managed-audit-route-registration-table-quality-pass-v240.md
+ -> 第二百四十版 Managed audit route registration table quality pass：把 auditRoutes.ts 里的 JSON/Markdown route 重复注册拆成配置表 + 共享注册器 + 共享类型，主路由入口从 457 行降到 29 行；不改变 API path、不改变 response shape、不新增上游执行能力
 
 111-production-readiness-summary-v4-v107.md
  -> 第一百零七版 Production readiness summary v4：汇总 Java v48、mini-kv v57、Node v104-v106 的 auth/audit/recovery 证据，明确生产级仍被真实 auth、RBAC enforcement、managed audit store 阻塞
