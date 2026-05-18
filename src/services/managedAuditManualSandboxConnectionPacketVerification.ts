@@ -1,7 +1,11 @@
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
 
 import type { AppConfig } from "../config.js";
+import {
+  historicalEvidenceExists as existsSync,
+  readHistoricalEvidenceFile as readFileSync,
+  statHistoricalEvidence as statSync,
+} from "./historicalEvidenceResolver.js";
 import {
   countPassedReportChecks,
   countReportChecks,

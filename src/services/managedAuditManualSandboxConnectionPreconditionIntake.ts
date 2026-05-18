@@ -1,7 +1,11 @@
 import { createHash } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
 
 import type { AppConfig } from "../config.js";
+import {
+  historicalEvidenceExists as existsSync,
+  readHistoricalEvidenceFile as readFileSync,
+  statHistoricalEvidence as statSync,
+} from "./historicalEvidenceResolver.js";
 import {
   countPassedReportChecks,
   countReportChecks,
@@ -252,6 +256,11 @@ const ACCEPTED_MINI_KV_CURRENT_RUNTIME_GUARDS = Object.freeze([
     projectVersion: "0.102.0",
     releaseVersion: "v102",
     consumerHint: "Node v244 manual sandbox dry-run command upstream echo verification",
+  },
+  {
+    projectVersion: "0.102.0",
+    releaseVersion: "v102",
+    consumerHint: "Node v246 manual sandbox connection precheck upstream receipt verification",
   },
 ] as const);
 

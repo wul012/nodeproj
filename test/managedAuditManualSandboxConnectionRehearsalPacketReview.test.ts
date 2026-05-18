@@ -72,7 +72,9 @@ describe("managed audit manual sandbox connection rehearsal packet review", () =
           evidencePresent: true,
           projectVersion: "0.102.0",
           releaseVersion: "v102",
-          consumerHint: "Node v244 manual sandbox dry-run command upstream echo verification",
+          consumerHint: expect.stringMatching(
+            /^Node v(244 manual sandbox dry-run command upstream echo verification|246 manual sandbox connection precheck upstream receipt verification)$/,
+          ),
           writeWalHelper: "CommandProcessor::execute_with_wal",
           writeWalHelperBehaviorPreserved: true,
           readOnly: true,

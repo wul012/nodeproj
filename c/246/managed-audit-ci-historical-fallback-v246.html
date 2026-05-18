@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v246 - GitHub CI Historical Evidence Fallback</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        background: #f5f7fb;
+        color: #172033;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 40px 28px 56px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+      }
+      .subtitle {
+        margin: 0 0 28px;
+        color: #546179;
+        font-size: 16px;
+      }
+      section {
+        margin-top: 18px;
+        padding: 22px;
+        border: 1px solid #d9e0ec;
+        border-radius: 8px;
+        background: white;
+      }
+      h2 {
+        margin: 0 0 14px;
+        font-size: 20px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 22px;
+        line-height: 1.75;
+      }
+      code {
+        padding: 2px 5px;
+        border-radius: 4px;
+        background: #eef2f8;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+      .metric {
+        padding: 16px;
+        border: 1px solid #dfe6f1;
+        border-radius: 8px;
+        background: #fbfcff;
+      }
+      .metric strong {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 24px;
+      }
+      @media (max-width: 760px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v246: CI Historical Evidence Fallback</h1>
+      <p class="subtitle">由 GitHub CI 红灯衍生的稳定性修复版，不推进真实 managed audit connection。</p>
+
+      <section>
+        <h2>修复目标</h2>
+        <ul>
+          <li>旧 managed-audit sandbox 链路不再依赖本机 <code>D:/javaproj</code> 和 <code>D:/C/mini-kv</code>。</li>
+          <li>只归档 Node 实际读取的 60 个 Java / mini-kv 历史 evidence 文件，避免全量搬运上游仓库。</li>
+          <li>增加 <code>ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true</code>，本机可模拟 GitHub runner。</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>验证摘要</h2>
+        <div class="grid">
+          <div class="metric"><strong>60</strong>committed sibling evidence files</div>
+          <div class="metric"><strong>804.5 KB</strong>historical fixture size</div>
+          <div class="metric"><strong>56 / 56</strong>forced-fallback focused tests passed</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>安全边界</h2>
+        <ul>
+          <li>未启动、构建、测试或修改 Java / mini-kv。</li>
+          <li>未打开 managed audit connection，未读取 credential value。</li>
+          <li>原计划业务顺延：Java v99 + mini-kv v108 之后，Node v247 再做 receipt verification。</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
