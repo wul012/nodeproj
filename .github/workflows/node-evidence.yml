@@ -3,6 +3,7 @@ name: Node Evidence
 on:
   pull_request:
     paths:
+      - ".github/dependabot.yml"
       - ".github/workflows/node-evidence.yml"
       - "package.json"
       - "package-lock.json"
@@ -13,6 +14,7 @@ on:
     branches:
       - master
     paths:
+      - ".github/dependabot.yml"
       - ".github/workflows/node-evidence.yml"
       - "package.json"
       - "package-lock.json"

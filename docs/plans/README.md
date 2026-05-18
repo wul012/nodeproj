@@ -46,11 +46,13 @@ Java v99 + mini-kv v108 已推荐并行完成；Java 只读回显 Node v245 prec
 Node v247 已完成 manual sandbox connection precheck upstream receipt verification；只读消费 Node v245 + Java v99 + mini-kv v108，验证 precheck item count、operator field count/name、timeout policy、credential/connection/write/auto-start 边界一致，并补齐 v247 所需 committed sibling evidence fallback。
 
 下一步：
-当前批次是推荐并行质量优化：Node v248 + Java v100 + mini-kv v109。
+当前批次是推荐并行安全维护：Node v249 + Java v101 + mini-kv v110。
 Node v248 已完成 managed-audit sandbox code health pass：补 v247 verification service 边界/回归测试，写清 `statusRoutes.ts` / `dashboard.ts` / `opsPromotionArchiveRenderers.ts` 拆分验收清单，不新增真实连接 client。
-Java v100 建议补 GitHub Actions Maven compile/test 基线，并记录 `ReleaseApprovalRehearsalResponse.java` / `OpsEvidenceService.java` 大文件拆分目标，不改业务语义。
-mini-kv v109 建议做轻量 CI/benchmark/evidence guard 或低风险测试，不触碰 WAL/snapshot/restore 核心，不做分片/复制/集群。
-Java v100 + mini-kv v109 可以继续并行推进；完成后再进入 Node v249 manual sandbox connection rehearsal guard。
+Java v100 已完成 CI bootstrap；mini-kv v109 已完成 benchmark evidence guard。
+Node v249 已完成 Dependabot/security maintenance：覆盖 npm + GitHub Actions，周更分组，忽略 semver-major 自动升级，并让 Node Evidence workflow 监听 `.github/dependabot.yml`。
+Java v101 建议并行补 Dependabot：Maven + GitHub Actions。
+mini-kv v110 建议并行补 Dependabot：先覆盖 GitHub Actions，后续有 C++ 包管理器再扩展。
+三项完成后再进入 Node v250 manual sandbox connection rehearsal guard / three-project alignment。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

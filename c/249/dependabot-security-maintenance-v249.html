@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v249 Dependabot security maintenance</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+        background: #f7f9fc;
+        color: #17202c;
+      }
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 36px 32px;
+      }
+      h1 {
+        margin: 0 0 12px;
+        font-size: 32px;
+        letter-spacing: 0;
+      }
+      .subtitle {
+        margin: 0 0 28px;
+        color: #4c596a;
+        line-height: 1.65;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #dbe3ee;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+      ul {
+        margin: 0;
+        padding-left: 20px;
+        line-height: 1.7;
+      }
+      .ok {
+        color: #116b45;
+        font-weight: 700;
+      }
+      .wide {
+        grid-column: 1 / -1;
+      }
+      code {
+        background: #eef2f7;
+        border-radius: 4px;
+        padding: 2px 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v249 Dependabot security maintenance</h1>
+      <p class="subtitle">
+        安全维护版：为 Node 仓库启用 npm 和 GitHub Actions 自动依赖提醒，不升级依赖、不改变业务语义。
+      </p>
+      <section class="grid">
+        <article class="panel">
+          <h2>npm</h2>
+          <ul>
+            <li><span class="ok">weekly schedule</span></li>
+            <li>production group</li>
+            <li>development group</li>
+            <li>minor / patch only</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2>GitHub Actions</h2>
+          <ul>
+            <li><span class="ok">weekly schedule</span></li>
+            <li>single actions group</li>
+            <li>open PR limit</li>
+          </ul>
+        </article>
+        <article class="panel">
+          <h2>CI Guard</h2>
+          <ul>
+            <li><span class="ok">workflow watches dependabot.yml</span></li>
+            <li>typecheck</li>
+            <li>test</li>
+            <li>build</li>
+          </ul>
+        </article>
+        <article class="panel wide">
+          <h2>Three-project batch</h2>
+          <ul>
+            <li><code>Node v249</code>: npm + GitHub Actions Dependabot</li>
+            <li><code>Java v101</code>: Maven + GitHub Actions Dependabot</li>
+            <li><code>mini-kv v110</code>: GitHub Actions Dependabot</li>
+            <li>Then Node v250 can do three-project alignment / rehearsal guard</li>
+          </ul>
+        </article>
+      </section>
+    </main>
+  </body>
+</html>
