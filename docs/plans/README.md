@@ -46,8 +46,11 @@ Java v99 + mini-kv v108 已推荐并行完成；Java 只读回显 Node v245 prec
 Node v247 已完成 manual sandbox connection precheck upstream receipt verification；只读消费 Node v245 + Java v99 + mini-kv v108，验证 precheck item count、operator field count/name、timeout policy、credential/connection/write/auto-start 边界一致，并补齐 v247 所需 committed sibling evidence fallback。
 
 下一步：
-当前下一步是 Node v248。
-Node v248 只做 manual sandbox connection rehearsal guard：明确 owner approval artifact、credential handle review status、schema rehearsal approval、manual window open marker、rollback path、abort marker 与 timeout policy。仍不读取 credential value，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
+当前下一步是推荐并行质量优化批次：Node v248 + Java v100 + mini-kv v109。
+Node v248 先做 managed-audit sandbox code health pass：补 v247 verification service 边界/回归测试，写清 `statusRoutes.ts` / `dashboard.ts` / `opsPromotionArchiveRenderers.ts` 拆分验收清单，不新增真实连接 client。
+Java v100 建议补 GitHub Actions Maven compile/test 基线，并记录 `ReleaseApprovalRehearsalResponse.java` / `OpsEvidenceService.java` 大文件拆分目标，不改业务语义。
+mini-kv v109 建议做轻量 CI/benchmark/evidence guard 或低风险测试，不触碰 WAL/snapshot/restore 核心，不做分片/复制/集群。
+三项可以并行推进；完成后再进入 Node v249 manual sandbox connection rehearsal guard。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -369,5 +372,5 @@ v242-post-historical-evidence-fallback-roadmap.md
  -> 已完成并收口；由 Node v242 historical evidence fallback 衍生；Node v243 command package verification report、Java v98 + mini-kv v107、Node v244 upstream echo verification、Node v245 sandbox connection precheck packet 已完成；由 v245-post-sandbox-precheck-roadmap.md 接续
 
 v245-post-sandbox-precheck-roadmap.md
- -> 当前唯一有效全局计划；由 Node v245 sandbox connection precheck packet 衍生；Node v246 已插入 GitHub CI historical sibling evidence fallback repair；当前下一步推荐并行 Java v99 + mini-kv v108，再由 Node v247/v248 做 precheck receipt verification 与 rehearsal guard
+ -> 当前唯一有效全局计划；由 Node v245 sandbox connection precheck packet 衍生；Node v246 已插入 GitHub CI historical sibling evidence fallback repair；Java v99 + mini-kv v108 与 Node v247 已完成；当前下一步推荐并行 Node v248 + Java v100 + mini-kv v109 质量优化批次，完成后再由 Node v249 做 rehearsal guard
 ```
