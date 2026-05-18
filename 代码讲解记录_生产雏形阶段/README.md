@@ -300,3 +300,4 @@ release / deployment / rollback / restore 全部保持阻断
 - `253-dependabot-security-maintenance-v249.md`：Node v249 Dependabot/security maintenance，覆盖 npm + GitHub Actions，周更、minor/patch 分组、semver-major 不自动升级，并让 Node Evidence workflow 监听 `.github/dependabot.yml`。
 - `254-manual-sandbox-connection-rehearsal-guard-v250.md`：Node v250 manual sandbox connection rehearsal guard，消费 Node v247-v249、Java v101、mini-kv v110，形成三项目连接前人工守卫，但仍不打开 managed audit connection。
 - `255-manual-sandbox-connection-decision-record-v251.md`：Node v251 manual sandbox connection decision record，消费 v250 guard，固化七个连接前人工决策字段和八个 no-go 条件，仍不读取 credential value、不打开真实连接。
+- `256-disabled-adapter-client-precheck-v252.md`：Node v252 disabled adapter client precheck，消费 v251 decision record，固化 required env handles、opt-in gate、failure taxonomy 和 dry-run response shape，仍不实例化 client、不发真实请求、不读取 credential value。

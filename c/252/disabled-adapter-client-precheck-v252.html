@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v252 disabled adapter client precheck</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #17202a;
+        background: #f7f9fb;
+      }
+      main {
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 40px 28px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        letter-spacing: 0;
+      }
+      .sub {
+        margin: 0 0 28px;
+        color: #586575;
+        font-size: 16px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .panel {
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        background: #fff;
+        padding: 16px;
+      }
+      .label {
+        color: #607086;
+        font-size: 13px;
+        margin-bottom: 8px;
+      }
+      .value {
+        font-size: 22px;
+        font-weight: 700;
+      }
+      .ok {
+        color: #0f766e;
+      }
+      .blocked {
+        color: #b42318;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        text-align: left;
+        border-bottom: 1px solid #e5ebf1;
+        padding: 12px 14px;
+        font-size: 14px;
+      }
+      th {
+        background: #edf2f7;
+        color: #2f3c4d;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+      }
+      .note {
+        margin-top: 22px;
+        background: #fff7ed;
+        border: 1px solid #fed7aa;
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v252 disabled adapter client precheck</h1>
+      <p class="sub">将真实 managed audit adapter client 之前的禁用态边界固化为可验证 profile。</p>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="label">Precheck state</div>
+          <div class="value ok">ready</div>
+        </div>
+        <div class="panel">
+          <div class="label">Managed audit connection</div>
+          <div class="value blocked">blocked</div>
+        </div>
+        <div class="panel">
+          <div class="label">Credential value read</div>
+          <div class="value blocked">false</div>
+        </div>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>v252 contract</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Env handles</td>
+            <td><code>ORDEROPS_MANAGED_AUDIT_*_HANDLE</code> names only, no values</td>
+            <td class="ok">declared</td>
+          </tr>
+          <tr>
+            <td>Opt-in gate</td>
+            <td><code>ORDEROPS_MANAGED_AUDIT_ADAPTER_CLIENT_ENABLED=false</code> by default</td>
+            <td class="ok">disabled</td>
+          </tr>
+          <tr>
+            <td>Failure taxonomy</td>
+            <td>6 failure classes including <code>CREDENTIAL_VALUE_REQUESTED</code></td>
+            <td class="ok">locked</td>
+          </tr>
+          <tr>
+            <td>Dry-run shape</td>
+            <td>10 fields, all real action flags remain false</td>
+            <td class="ok">verified</td>
+          </tr>
+          <tr>
+            <td>Real client</td>
+            <td>not implemented, not instantiated, no external request</td>
+            <td class="blocked">blocked</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        v252 收口 v245 衍生计划。下一阶段进入 v252 衍生计划，先做 test-only adapter shell contract，不直接打开真实连接。
+      </div>
+    </main>
+  </body>
+</html>

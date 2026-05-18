@@ -39,3 +39,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/249/`：Dependabot security maintenance，记录 npm + GitHub Actions 自动依赖维护配置、测试和安全边界。
 - `c/250/`：manual sandbox connection rehearsal guard，记录三项目安全维护批次对齐后的连接前人工守卫。
 - `c/251/`：manual sandbox connection decision record，记录七个决策字段、八个 no-go 条件和继续阻断真实连接的验证。
+- `c/252/`：disabled adapter client precheck，记录 required env handles、opt-in gate、failure taxonomy、dry-run response shape 和不连接真实 managed audit 的验证。

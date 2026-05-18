@@ -2,7 +2,7 @@
 
 来源版本：Node v245 `sandbox connection precheck packet`。
 
-计划状态：当前唯一有效全局计划。上一份 `docs/plans/v242-post-historical-evidence-fallback-roadmap.md` 已完成 Node v243、推荐并行 Java v98 + mini-kv v107、Node v244、Node v245，并已收口；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。上一份 `docs/plans/v242-post-historical-evidence-fallback-roadmap.md` 已完成 Node v243、推荐并行 Java v98 + mini-kv v107、Node v244、Node v245，并已收口；本计划已完成 Node v246-v252，后续由 `docs/plans/v252-post-disabled-adapter-client-precheck-roadmap.md` 接续，不再向本计划追加重合版本。
 
 ## 当前对齐状态
 
@@ -31,6 +31,12 @@ Node v247：
 - 已验证 precheck item count、operator field count/name、timeout policy、credential/connection/write/auto-start 边界一致
 - 由于 v246 被插入用于 GitHub CI fallback repair，Java v99 / mini-kv v108 中写给 Node v246 的 consumer hint 被 v247 明确接受为同一 precheck verification slot
 - 仍不读取 credential value，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv
+
+Node v252：
+- disabled adapter client precheck 已完成
+- 已定义 required env handles、opt-in gate、failure taxonomy、dry-run response shape 和复用 v251 no-go 条件
+- adapter client 仍是 not-implemented，clientMayBeInstantiated=false，externalRequestMayBeSent=false，credentialValueMayBeLoaded=false
+- 仍不读取 credential value，不发真实外部请求，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv
 ```
 
 ## 推荐执行顺序
@@ -75,10 +81,11 @@ Node v247：
    - 仍不打开真实 managed audit connection，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv。
    - 已列出八个 no-go 条件：credential value、schema migration、upstream auto-start、approval ledger write、mini-kv storage backend、owner artifact missing、rollback/abort missing、timeout missing，任一触发都必须 pause-and-do-not-connect。
 
-8. Node v252：disabled adapter client precheck。
+8. Node v252：disabled adapter client precheck。已完成，本计划收口。
    - 在 v251 decision record ready 后，只定义 disabled adapter client 的边界：required env handles、failure taxonomy、opt-in gate、dry-run response shape 和 no-go 条件复用。
    - 仍不读取 credential value，不发真实外部请求，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
    - 如果 v252 需要真实 credential、生产 IdP、生产数据库、真实 external endpoint 或自动启动上游，必须暂停。
+   - 后续版本进入 `docs/plans/v252-post-disabled-adapter-client-precheck-roadmap.md`，不再继续往本计划追加。
 ```
 
 ## 显式质量优化项
@@ -97,6 +104,7 @@ Node：
 - v250 已修正 Java root-level `.github` historical fallback；这是三项目对齐必要修正，不代表 Node 可以修改 Java 仓库。
 - v251 应做人工连接决策记录，不得直接跳到真实 adapter client。
 - v251 已完成人工连接决策记录，明确七个决策字段和八个 no-go 条件；下一步 v252 只能做 disabled adapter client precheck，不得加入真实网络调用。
+- v252 已完成 disabled adapter client precheck；下一阶段若要继续靠近真实 adapter，只能先做 fake transport / test-only shell / 上游 echo，不得直接写真实连接 client。
 
 Java：
 - v99 优先用 builder/helper 承载 precheck echo receipt，不把字段继续堆进 OpsEvidenceService 主类。
@@ -131,5 +139,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v245 已把真实 sandbox connection 前的 precheck packet 生成完；v246 修复 GitHub CI 历史证据 fallback；Java v99 + mini-kv v108 已完成只读回显/非参与；Node v247 已完成 receipt verification；Node v248 + Java v100 + mini-kv v109 质量优化批次已收口；Node v249 + Java v101 + mini-kv v110 Dependabot/security maintenance 已收口；Node v250 已完成三项目对齐与 rehearsal guard；Node v251 已完成 manual sandbox connection decision record。下一步 Node v252 可做 disabled adapter client precheck，仍不打开真实 managed audit connection。
+v245 已把真实 sandbox connection 前的 precheck packet 生成完；v246 修复 GitHub CI 历史证据 fallback；Java v99 + mini-kv v108 已完成只读回显/非参与；Node v247 已完成 receipt verification；Node v248 + Java v100 + mini-kv v109 质量优化批次已收口；Node v249 + Java v101 + mini-kv v110 Dependabot/security maintenance 已收口；Node v250 已完成三项目对齐与 rehearsal guard；Node v251 已完成 manual sandbox connection decision record；Node v252 已完成 disabled adapter client precheck。本计划收口，下一阶段由 v252 衍生计划接续，仍不打开真实 managed audit connection。
 ```
