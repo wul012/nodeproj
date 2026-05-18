@@ -12,6 +12,10 @@ const FALLBACK_MAPPINGS = Object.freeze([
     fallbackRoot: "",
   },
   {
+    prefix: "D:/javaproj/",
+    fallbackRoot: "fixtures/historical/sibling-workspaces/javaproj/",
+  },
+  {
     prefix: "D:/javaproj/advanced-order-platform/",
     fallbackRoot: "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/",
   },

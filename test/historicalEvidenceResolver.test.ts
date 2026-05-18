@@ -28,6 +28,17 @@ describe("historicalEvidenceResolver", () => {
     expect(historicalEvidenceExists("D:/javaproj/advanced-order-platform/c/82/解释/说明.md")).toBe(true);
   });
 
+  it("resolves root-level Java repository evidence through the committed fixture fallback", () => {
+    process.env[FORCE_FALLBACK_ENV] = "true";
+
+    const resolvedPath = resolveHistoricalEvidencePath("D:/javaproj/.github/dependabot.yml");
+
+    expect(resolvedPath.replace(/\\/g, "/")).toContain(
+      "fixtures/historical/sibling-workspaces/javaproj/.github/dependabot.yml",
+    );
+    expect(historicalEvidenceExists("D:/javaproj/.github/dependabot.yml")).toBe(true);
+  });
+
   it("resolves sibling mini-kv evidence through the committed fixture fallback", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
 

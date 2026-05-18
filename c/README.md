@@ -32,3 +32,9 @@ b/ 保留 v107-v160 的历史运行调试归档。
 截图默认使用本机 Chrome / Chromium。
 不自动启动 Java 或 mini-kv，除非当前版本计划和用户授权明确要求。
 ```
+
+## 最近归档
+
+- `c/248/`：managed-audit sandbox code health pass，记录 v247 fallback、route table 和大文件拆分 checklist。
+- `c/249/`：Dependabot security maintenance，记录 npm + GitHub Actions 自动依赖维护配置、测试和安全边界。
+- `c/250/`：manual sandbox connection rehearsal guard，记录三项目安全维护批次对齐后的连接前人工守卫。

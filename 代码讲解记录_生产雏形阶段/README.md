@@ -296,3 +296,6 @@ release / deployment / rollback / restore 全部保持阻断
 - `229-managed-audit-sandbox-adapter-dry-run-package-v225.md`：Node v225 managed audit sandbox adapter dry-run package，消费 v224、Java v82、mini-kv v95 当前证据，生成 sandbox adapter dry-run package，并完成 auditRoutes 旧路由迁移收敛。
 - `230-managed-audit-manual-sandbox-adapter-connection-runbook-v226.md`：Node v226 manual sandbox adapter connection runbook，消费 v225 package，输出 operatorInputs、checklist、forbiddenOperations、pauseConditions 和 failureTaxonomy，仍不连接 managed audit。
 - `231-managed-audit-manual-sandbox-connection-evidence-checklist-v227.md`：Node v227 manual sandbox connection evidence checklist，消费 Node v226、Java v86、mini-kv v95，只验证人工 sandbox 连接前材料完整性，继续阻断真实连接、credential value、schema migration 和状态写入。
+- `252-managed-audit-sandbox-code-health-pass-v248.md`：Node v248 managed-audit sandbox code health pass，消费 v247 receipt verification，把 fallback、route table、no-real-client 和大文件拆分 checklist 固化为质量 profile。
+- `253-dependabot-security-maintenance-v249.md`：Node v249 Dependabot/security maintenance，覆盖 npm + GitHub Actions，周更、minor/patch 分组、semver-major 不自动升级，并让 Node Evidence workflow 监听 `.github/dependabot.yml`。
+- `254-manual-sandbox-connection-rehearsal-guard-v250.md`：Node v250 manual sandbox connection rehearsal guard，消费 Node v247-v249、Java v101、mini-kv v110，形成三项目连接前人工守卫，但仍不打开 managed audit connection。

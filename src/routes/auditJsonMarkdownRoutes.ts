@@ -123,6 +123,10 @@ import {
   renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
 import {
+  loadManagedAuditManualSandboxConnectionRehearsalGuard,
+  renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown,
+} from "../services/managedAuditManualSandboxConnectionRehearsalGuard.js";
+import {
   loadManagedAuditManualSandboxConnectionPreconditionIntake,
   renderManagedAuditManualSandboxConnectionPreconditionIntakeMarkdown,
 } from "../services/managedAuditManualSandboxConnectionPreconditionIntake.js";
@@ -406,6 +410,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-sandbox-code-health-pass", (deps) => loadManagedAuditSandboxCodeHealthPass({
     config: deps.config,
   }), renderManagedAuditSandboxCodeHealthPassMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-rehearsal-guard", (deps) => loadManagedAuditManualSandboxConnectionRehearsalGuard({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",
