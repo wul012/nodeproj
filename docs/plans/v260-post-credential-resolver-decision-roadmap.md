@@ -2,7 +2,7 @@
 
 来源版本：Node v260 `sandbox endpoint credential resolver decision record`。
 
-计划状态：当前唯一有效全局计划。上一份 `docs/plans/v257-post-fake-transport-upstream-echo-roadmap.md` 已完成 Node v258、推荐并行 Java v104 + mini-kv v113、Node v259、Node v260，并已收口；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。上一份 `docs/plans/v257-post-fake-transport-upstream-echo-roadmap.md` 已完成 Node v258、推荐并行 Java v104 + mini-kv v113、Node v259、Node v260，并已收口；本计划已完成 Java v105 + mini-kv v114、Node v261、Node v262、Java v106 + mini-kv v115、Node v263。后续由 `docs/plans/v263-post-disabled-resolver-echo-roadmap.md` 接续，不再向本计划追加重合版本。
 
 ## 当前对齐状态
 
@@ -51,7 +51,20 @@ Node v262：
 - requiredEnvHandleCount=6、optInGateCount=2、failureClassCount=7、dryRunResponseFieldCount=12、inheritedNoGoConditionCount=9
 - resolverImplementationStatus=not-implemented、secretProviderImplementationStatus=not-implemented
 - resolverClientInstantiated=false、secretProviderInstantiated=false、credentialValueRead=false、credentialValueLoaded=false、rawEndpointUrlParsed=false、externalRequestSent=false、connectsManagedAudit=false
-- 下一步必须先推荐并行 Java v106 + mini-kv v115；完成前 Node v263 停止
+- 已要求先推荐并行 Java v106 + mini-kv v115，完成后再推进 Node v263；该前置已满足
+
+推荐并行 Java v106 + mini-kv v115：
+- 已完成
+- Java v106 只读回显 Node v262 disabled precheck 的 env handles、failure taxonomy、dry-run shape 和 no-go 条件
+- mini-kv v115 只读证明 disabled resolver precheck non-participation、no-start、no-write、no-credential、no-raw-endpoint、no-restore/load/compact/SETNXEX
+
+Node v263：
+- disabled credential resolver upstream echo verification 已完成
+- sourceNodeV262Ready=true、javaV106EchoReady=true、miniKvV115NonParticipationReady=true
+- disabledPrecheckAligned=true、requiredEnvHandlesAligned=true、optInGatesAligned=true、failureTaxonomyAligned=true、dryRunResponseShapeAligned=true、inheritedNoGoConditionsAligned=true、sourceNodeV261Aligned=true
+- credentialBoundaryAligned=true、rawEndpointBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
+- 本版补 Java v106 / mini-kv v115 committed historical fallback，并抽出 shared historical evidence helper
+- 真实 managed audit connection 仍未打开
 ```
 
 ## 推荐执行顺序
@@ -72,14 +85,16 @@ Node v262：
    - 只能是 disabled / dry-run / no secret provider instantiated。
    - 不读取 credential value，不解析 raw endpoint URL，不发真实 external request，不执行 schema migration。
 
-4. 推荐并行：Java v106 + mini-kv v115。`下一步`
+4. 推荐并行：Java v106 + mini-kv v115。`已完成`
    - Java v106：disabled resolver precheck echo marker，只读回显 Node v262 的 env handles、failure taxonomy、dry-run shape 和 no-go 条件。
    - mini-kv v115：disabled resolver precheck non-participation receipt，继续证明 no-start、no-write、no-credential、no-raw-endpoint、no-restore/load/compact/SETNXEX。
    - 两者可以并行推进；完成前 Node 不推进 v263。
 
-5. Node v263：disabled credential resolver upstream echo verification。
+5. Node v263：disabled credential resolver upstream echo verification。`已完成`
    - 消费 Java v106 + mini-kv v115，验证 disabled resolver precheck 的三方一致性。
-   - 若验证通过，后续计划再决定是否进入 test-only resolver shell contract。
+   - 已补 committed historical fixture fallback，确保 GitHub runner 不依赖本机 sibling workspace。
+   - 已抽出 `historicalEvidenceReportUtils.ts`，后续 evidence reader 不再复制本地 helper。
+   - 本计划收口；后续由 `docs/plans/v263-post-disabled-resolver-echo-roadmap.md` 决定是否进入 test-only resolver shell contract。
 ```
 
 ## 显式质量优化项
@@ -119,5 +134,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v260 已把 sandbox endpoint 后续推进到 credential resolver 的人工决策记录；下一阶段先由 Java v105 + mini-kv v114 并行只读回显/非参与，再由 Node v261 做三方验证，仍不读取 credential value、不解析 raw endpoint URL、不打开真实 managed audit connection。
+v260 已把 sandbox endpoint 后续推进到 credential resolver 的人工决策记录；本计划已完成 Java v105 + mini-kv v114、Node v261、Node v262、Java v106 + mini-kv v115 和 Node v263。disabled resolver precheck 的三方一致性已收口，下一阶段由 v263 衍生计划接续，仍不读取 credential value、不解析 raw endpoint URL、不打开真实 managed audit connection。
 ```
