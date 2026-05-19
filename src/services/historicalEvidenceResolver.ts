@@ -48,7 +48,11 @@ export function readHistoricalEvidenceFile(inputPath: string): Buffer;
 export function readHistoricalEvidenceFile(inputPath: string, encoding: BufferEncoding): string;
 export function readHistoricalEvidenceFile(inputPath: string, encoding?: BufferEncoding): Buffer | string {
   const resolvedPath = resolveHistoricalEvidencePath(inputPath);
-  return encoding ? readFileSync(resolvedPath, encoding) : readFileSync(resolvedPath);
+  if (!encoding) {
+    return readFileSync(resolvedPath);
+  }
+  const content = readFileSync(resolvedPath, encoding);
+  return encoding === "utf8" && content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
 }
 
 export function statHistoricalEvidence(inputPath: string): Stats {

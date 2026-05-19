@@ -14,6 +14,7 @@ import {
   renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import { parseJsonEvidence } from "./jsonEvidenceUtils.js";
 import {
   loadManagedAuditSandboxAdapterDryRunPlan,
   type ManagedAuditSandboxAdapterDryRunPlanProfile,
@@ -726,7 +727,7 @@ function readMiniKvRuntimeSmokeEvidence(): MiniKvRuntimeSmokeEvidence {
   if (!existsSync(MINI_KV_RUNTIME_SMOKE)) {
     return {};
   }
-  return JSON.parse(readFileSync(MINI_KV_RUNTIME_SMOKE, "utf8")) as MiniKvRuntimeSmokeEvidence;
+  return parseJsonEvidence(readFileSync(MINI_KV_RUNTIME_SMOKE, "utf8")) as MiniKvRuntimeSmokeEvidence;
 }
 
 function evidenceFile(id: string, filePath: string): PackageEvidenceFile {

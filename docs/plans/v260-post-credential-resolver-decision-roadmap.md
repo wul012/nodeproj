@@ -30,22 +30,36 @@ Node v260：
 - requiredDecisionFieldCount=8、explicitNoGoConditionCount=9
 - credentialValueRead=false、credentialValueLoaded=false、rawEndpointUrlParsed=false、externalRequestSent=false
 - 真实 managed audit connection 仍未打开
+
+推荐并行 Java v105 + mini-kv v114：
+- 已完成
+- Java v105 只读回显 Node v260 的 endpoint handle、credential handle、resolver policy handle、approval marker、operator identity、approval correlation、redaction policy、fallback / rotation plan handle
+- mini-kv v114 只读证明 credential resolver non-participation、no secret provider、no credential read/load/store、no raw endpoint、no external request、no schema migration、no auto-start、no write、no restore/load/compact/SETNXEX、not managed audit storage backend
+
+Node v261：
+- credential resolver upstream echo verification 已完成
+- sourceNodeV260Ready=true、javaV105EchoReady=true、miniKvV114NonParticipationReady=true
+- decisionRecordAligned=true、requiredDecisionFieldsAligned=true、explicitNoGoConditionsAligned=true
+- resolverPolicyAligned=true、approvalMarkerAligned=true、operatorIdentityAligned=true、approvalCorrelationAligned=true
+- credentialBoundaryAligned=true、rawEndpointBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
+- 本版补 committed historical fixture fallback，并修复 UTF-8 BOM evidence JSON 读取
+- 真实 managed audit connection 仍未打开
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. 推荐并行：Java v105 + mini-kv v114。`下一步`
+1. 推荐并行：Java v105 + mini-kv v114。`已完成`
    - Java v105：credential resolver decision echo marker，只读回显 Node v260 的 endpoint handle、credential handle、resolver policy handle、approval marker、operator identity、approval correlation、redaction policy、fallback / rotation plan handle。
    - mini-kv v114：credential resolver non-participation receipt，只读证明 Node v260 不会导致 credential value read/load/store、raw endpoint parse、external request、schema migration、auto-start、storage write、restore/load/compact/SETNXEX，也不让 mini-kv 成为 managed audit storage backend。
    - 两者可以并行推进，因为只读消费 Node v260，不互相依赖，也不做真实连接。
 
-2. Node v261：credential resolver upstream echo verification。
+2. Node v261：credential resolver upstream echo verification。`已完成`
    - 仅在 Java v105 + mini-kv v114 完成后推进。
    - 消费两边只读 echo / non-participation，验证 resolver policy handle、approval marker、operator identity、approval correlation、redaction/no-side-effect 边界一致。
    - 若两边任一未完成或字段不一致，Node v261 必须停止。
 
-3. Node v262：disabled credential resolver precheck。
+3. Node v262：disabled credential resolver precheck。`下一步`
    - 消费 Node v261，定义未来 resolver client 之前的 disabled precheck：required env handles、opt-in gate、failure taxonomy、dry-run response shape。
    - 只能是 disabled / dry-run / no secret provider instantiated。
    - 不读取 credential value，不解析 raw endpoint URL，不发真实 external request，不执行 schema migration。
