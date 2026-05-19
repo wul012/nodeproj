@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v255 fake transport adapter dry-run verification packet</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #17202a;
+        background: #f6f8fb;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 40px 28px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 33px;
+        letter-spacing: 0;
+      }
+      .sub {
+        margin: 0 0 26px;
+        color: #56657a;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        padding: 15px;
+      }
+      .label {
+        font-size: 12px;
+        color: #607086;
+        margin-bottom: 8px;
+      }
+      .value {
+        font-size: 19px;
+        font-weight: 700;
+      }
+      .ok {
+        color: #0f766e;
+      }
+      .blocked {
+        color: #b42318;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border: 1px solid #d8e0e8;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #e6edf3;
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 14px;
+      }
+      th {
+        background: #edf2f7;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+      }
+      .note {
+        margin-top: 22px;
+        border: 1px solid #bae6fd;
+        background: #f0f9ff;
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v255 fake transport adapter dry-run verification packet</h1>
+      <p class="sub">消费 Node v253 / v254，验证 fake transport dry-run packet，不打开真实 managed audit connection。</p>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="label">Packet</div>
+          <div class="value ok">ready</div>
+        </div>
+        <div class="panel">
+          <div class="label">Transport</div>
+          <div class="value ok">fake only</div>
+        </div>
+        <div class="panel">
+          <div class="label">Timeout budget</div>
+          <div class="value ok">15000ms</div>
+        </div>
+        <div class="panel">
+          <div class="label">Real connection</div>
+          <div class="value blocked">blocked</div>
+        </div>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Area</th>
+            <th>v255 packet</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Request</td>
+            <td>credential handle + endpoint handle only, no value, no raw URL</td>
+            <td class="ok">safe</td>
+          </tr>
+          <tr>
+            <td>Response</td>
+            <td><code>TEST_ONLY_FAKE_TRANSPORT_DRY_RUN</code>, no real side effects</td>
+            <td class="ok">verified</td>
+          </tr>
+          <tr>
+            <td>Failure mapping</td>
+            <td>6 source failures mapped, non-retryable, credential request still blocked</td>
+            <td class="ok">covered</td>
+          </tr>
+          <tr>
+            <td>Cleanup</td>
+            <td>in-memory only, no temporary directory or file created</td>
+            <td class="ok">clean</td>
+          </tr>
+          <tr>
+            <td>Boundaries</td>
+            <td>no credential read, no external request, no schema migration, no Java / mini-kv start</td>
+            <td class="ok">closed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        v255 收口 v252 衍生计划；真实 endpoint、credential resolver 或 schema migration rehearsal 必须另起新计划。
+      </div>
+    </main>
+  </body>
+</html>

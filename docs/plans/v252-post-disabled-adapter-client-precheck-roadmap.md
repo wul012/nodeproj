@@ -2,7 +2,7 @@
 
 来源版本：Node v252 `disabled adapter client precheck`。
 
-计划状态：当前唯一有效全局计划。上一份 `docs/plans/v245-post-sandbox-precheck-roadmap.md` 已完成 Node v246-v252，并已收口；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。上一份 `docs/plans/v245-post-sandbox-precheck-roadmap.md` 已完成 Node v246-v252，并已收口；本计划已完成 Node v253、推荐并行 Java v102 + mini-kv v111、Node v254、Node v255。后续由 `docs/plans/v255-post-fake-transport-dry-run-roadmap.md` 接续，不再向本计划追加重合版本。
 
 ## 当前对齐状态
 
@@ -42,6 +42,12 @@ Node v254：
 - 已补 Java v102 / mini-kv v111 historical fixture fallback，GitHub runner 不依赖本机 `D:/javaproj` 或 `D:/C/mini-kv`。
 - 同步做轻量质量优化：将 v254 types 与 Markdown renderer 从主 service 拆出，避免新 service 单文件继续膨胀。
 - 仍不读取 credential value，不请求真实 external endpoint，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
+
+Node v255：
+- fake transport adapter dry-run verification packet 已完成。
+- 已消费 Node v253 shell contract 与 Node v254 upstream echo verification，验证 request/response shape、timeoutBudgetMs=15000、failureMappingCount=6、cleanupArtifactCount=0。
+- packet 只在内存中生成，temporaryDirectoryCreated=false，temporaryFileCreated=false，cleanupVerified=true。
+- 仍不读取 credential value，不请求真实 external endpoint，不打开 managed audit connection，不执行 schema migration，不启动 Java / mini-kv。
 ```
 
 ## 推荐执行顺序
@@ -63,7 +69,7 @@ Node v254：
    - 验证 env handle count、failure taxonomy count、credential/connection/schema/auto-start 边界一致。
    - 如果两边未完成或字段不一致，Node v254 必须停止，不得降级为部分 ready。
 
-4. Node v255：fake transport adapter dry-run verification packet。下一步。
+4. Node v255：fake transport adapter dry-run verification packet。已完成。
    - 仅在 Node v253 和 Node v254 都 ready 后推进。
    - 只能验证 fake transport adapter 的 dry-run request/response、timeout budget、failure mapping 和 cleanup。
    - 不打开真实 managed audit connection，不读取 credential value，不执行 schema migration，不启动 Java / mini-kv。
@@ -77,6 +83,7 @@ Node：
 - v253 已完成 test-only adapter shell contract，真实连接能力仍未打开；下一步应优先让 Java v102 + mini-kv v111 回显/非参与，而不是 Node 抢跑 v254。
 - v253 / v255 如果新增 service，优先保持小闭环；若文件接近 700 行，应拆 profile types、builder、renderer 或 route registration helper。
 - v254 已按该规则拆出 `managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationTypes.ts` 与 `managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationRenderer.ts`，后续 v255 不要重新膨胀为单个 700+ 行 service。
+- v255 已从一开始拆出 `managedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacketTypes.ts` 与 `managedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacketRenderer.ts`，没有新增 700+ 行单 service。
 - 新增 audit route 必须继续使用 `auditJsonMarkdownRoutes` + `registerAuditJsonMarkdownRoute` 体系，不回到手写 JSON/Markdown 双路由。
 - 若继续出现 managed-audit sandbox profile 大字段集合，应复用已有 guard/type 聚合，不重复粘贴 70+ 字段 interface。
 
@@ -104,5 +111,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v252 已把真实 adapter client 前的 disabled precheck 写清楚；Node v253 已完成 test-only adapter shell contract；Java v102 + mini-kv v111 已完成只读回显/非参与；Node v254 已完成三方 echo verification。下一步进入 Node v255 fake transport adapter dry-run verification packet，仍然不打开真实 managed audit connection。
+v252 已把真实 adapter client 前的 disabled precheck 写清楚；Node v253 已完成 test-only adapter shell contract；Java v102 + mini-kv v111 已完成只读回显/非参与；Node v254 已完成三方 echo verification；Node v255 已完成 fake transport adapter dry-run verification packet。本计划收口，后续由 v255 衍生计划接续，仍然不打开真实 managed audit connection。
 ```
