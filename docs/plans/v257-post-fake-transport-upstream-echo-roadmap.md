@@ -28,18 +28,26 @@ Node v257：
 - requestShapeAligned=true、responseShapeAligned=true、timeoutBoundaryAligned=true、failureMappingAligned=true、cleanupBoundaryAligned=true
 - credentialBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
 - 真实 managed audit connection 仍未打开
+
+Node v258：
+- sandbox endpoint handle preflight review 已完成
+- endpointHandle=ORDEROPS_MANAGED_AUDIT_SANDBOX_ENDPOINT_HANDLE
+- credentialHandle=ORDEROPS_MANAGED_AUDIT_SANDBOX_CREDENTIAL_HANDLE
+- networkAllowlistReviewReady=true、tlsPolicyReviewReady=true、redactionPolicyReady=true、operatorWindowReviewReady=true
+- rawEndpointUrlParsed=false、credentialValueRead=false、externalRequestSent=false、schemaMigrationExecuted=false
+- 计划下一步仍是推荐并行 Java v104 + mini-kv v113，Node v259 不抢跑
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v258：sandbox endpoint handle preflight review。
+1. Node v258：sandbox endpoint handle preflight review。`已完成`
    - 消费 Node v257 三方 echo verification。
    - 只定义真实 sandbox endpoint 进入前的 handle-only review：endpoint handle、credential handle、owner approval artifact、network allowlist review、TLS policy review、redaction policy、operator window。
    - 不读取 credential value，不解析 raw endpoint URL，不发真实 HTTP 请求，不执行 schema migration。
    - 这是从 fake transport 走向真实 endpoint 的前置 review，不是连接实现。
 
-2. 推荐并行：Java v104 + mini-kv v113。
+2. 推荐并行：Java v104 + mini-kv v113。`下一步`
    - Java v104：sandbox endpoint handle preflight echo marker，只读回显 Node v258 的 endpoint/credential handle review、network/TLS/redaction/operator window 边界；不写 ledger、不执行 SQL、不打开 managed audit connection。
    - mini-kv v113：sandbox endpoint handle non-participation receipt，只读证明 Node v258 不触发 mini-kv auto-start、storage write、credential read、external request、restore/load/compact/SETNXEX，也不让 mini-kv 成为 managed audit storage backend。
    - 两者可以并行推进，因为只读消费 Node v258，不互相依赖，也不做真实连接。

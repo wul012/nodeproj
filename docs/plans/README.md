@@ -62,7 +62,8 @@ Node v255 已完成 fake transport adapter dry-run verification packet：消费 
 Node v256 已完成 fake transport packet archive verification：只读验证 v255 HTML、截图、解释、代码讲解、route digest、cleanup evidence 和 active plan 片段，不重新执行 fake transport 行为。
 Java v103 + mini-kv v112 已推荐并行完成。
 Node v257 已完成 fake transport packet upstream echo verification：消费 Node v255/v256、Java v103、mini-kv v112，验证 request/response/timeout/failure/cleanup/side-effect 边界三方一致。
-下一步：Node v258 sandbox endpoint handle preflight review；只做 endpoint/credential handle、network/TLS/redaction/operator-window 前置 review，不读取 credential value、不解析 raw endpoint URL、不发真实 HTTP 请求。
+Node v258 已完成 sandbox endpoint handle preflight review：只做 endpoint/credential handle、network/TLS/redaction/operator-window 前置 review，不读取 credential value、不解析 raw endpoint URL、不发真实 HTTP 请求。
+下一步：推荐并行 Java v104 + mini-kv v113；Java 只读回显 Node v258 handle review，mini-kv 只读证明 non-participation。两边完成前 Node v259 不推进。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

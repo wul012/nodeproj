@@ -45,3 +45,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/255/`：fake transport adapter dry-run verification packet，记录 request/response、timeout budget、failure mapping、cleanup 和继续阻断真实 managed audit connection 的验证。
 - `c/256/`：fake transport packet archive verification，记录 v255 HTML、截图、解释、代码讲解、route digest、cleanup evidence 和 active plan 片段验证。
 - `c/257/`：fake transport packet upstream echo verification，记录 Node v255/v256、Java v103、mini-kv v112 的三方 request/response/timeout/cleanup/side-effect 边界对齐。
+- `c/258/`：sandbox endpoint handle preflight review，记录 endpoint handle、credential handle、network/TLS/redaction/operator window review，以及继续阻断真实 managed audit connection 的验证。
