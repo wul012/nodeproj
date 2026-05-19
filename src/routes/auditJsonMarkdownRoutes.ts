@@ -171,6 +171,10 @@ import {
   renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification.js";
 import {
+  loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContract,
+  renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContractMarkdown,
+} from "../services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContract.js";
+import {
   loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract,
   renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown,
 } from "../services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.js";
@@ -518,6 +522,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-disabled-precheck-upstream-echo-verification", (deps) => loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract", (deps) => loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContract({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContractMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

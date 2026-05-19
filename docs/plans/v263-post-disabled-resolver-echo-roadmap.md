@@ -37,12 +37,19 @@ Node v263：
 - disabledPrecheckAligned=true、requiredEnvHandlesAligned=true、optInGatesAligned=true、failureTaxonomyAligned=true、dryRunResponseShapeAligned=true、inheritedNoGoConditionsAligned=true
 - credentialBoundaryAligned=true、rawEndpointBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
 - 补齐 Java v106 / mini-kv v115 committed historical fallback，并抽出 shared historical evidence helper
+
+Node v264：
+- credential resolver test-only shell contract 已完成
+- 消费 Node v263，定义 fake in-memory resolver shell 的 request / response / failure mapping / guard / fake resolver probe
+- request 只接受 credential handle、endpoint handle、resolver policy handle、approval marker 和 approval correlation，不接受 credential value 或 raw endpoint URL
+- response 明确 resolverClientInstantiated=false、secretProviderInstantiated=false、credentialValueRead=false、rawEndpointUrlParsed=false、externalRequestSent=false、connectsManagedAudit=false、schemaMigrationExecuted=false
+- 不实例化真实 secret provider，不发真实 external request，不打开 managed audit connection
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v264：credential resolver test-only shell contract。
+1. Node v264：credential resolver test-only shell contract。`已完成`
    - 消费 Node v263。
    - 只定义 test-only fake resolver shell 的 request / response / guard / failure mapping。
    - resolver input 只能携带 credential handle、endpoint handle、policy handle、approval marker，不允许 credential value 或 raw endpoint URL。

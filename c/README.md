@@ -51,3 +51,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/261/`：sandbox endpoint credential resolver upstream echo verification，记录 Node v260、Java v105、mini-kv v114 的 resolver policy / approval / decision fields / no-go conditions / no-side-effect 三方对齐，以及 UTF-8 BOM evidence 读取修复。
 - `c/262/`：sandbox endpoint credential resolver disabled precheck，记录 6 个 env handles、2 个 opt-in gates、7 个 failure classes、12 个 dry-run fields，以及继续阻断 resolver client / secret provider / external request 的验证。
 - `c/263/`：sandbox endpoint credential resolver disabled precheck upstream echo verification，记录 Node v262、Java v106、mini-kv v115 的 disabled precheck 三方对齐、historical fallback 和 shared evidence helper 优化。
+- `c/264/`：sandbox endpoint credential resolver test-only shell contract，记录 fake in-memory resolver shell 的 handle-only request、fake-only response、failure mapping、guard conditions 和 no-side-effect probe。
