@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Node v259 sandbox endpoint handle upstream echo verification</title>
+<style>
+  body { margin: 0; font-family: Arial, "Microsoft YaHei", sans-serif; color: #17202a; background: #f7f8fb; }
+  main { max-width: 1040px; margin: 0 auto; padding: 36px 28px 44px; }
+  h1 { font-size: 30px; margin: 0 0 8px; }
+  .subtitle { color: #566573; margin-bottom: 28px; }
+  .panel { background: #fff; border: 1px solid #d8dee9; border-radius: 8px; padding: 22px; margin-bottom: 18px; }
+  .grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .card { border: 1px solid #e1e6ef; border-radius: 8px; padding: 14px; background: #fbfcff; }
+  .label { font-size: 12px; color: #697386; text-transform: uppercase; }
+  .value { font-size: 17px; margin-top: 6px; font-weight: 700; overflow-wrap: anywhere; }
+  table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  td { border-top: 1px solid #e5eaf2; padding: 9px 8px; font-size: 14px; }
+  td:first-child { color: #566573; width: 38%; }
+  .ok { color: #116329; }
+  .blocked { color: #8a1f11; }
+  code { background: #eef2f7; padding: 2px 5px; border-radius: 4px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>Node v259 sandbox endpoint handle upstream echo verification</h1>
+  <div class="subtitle">Node v258 + Java v104 + mini-kv v113 read-only upstream evidence aligned; managed audit connection remains closed.</div>
+  <section class="panel">
+    <div class="grid">
+      <div class="card"><div class="label">State</div><div class="value ok">sandbox-endpoint-handle-upstream-echo-verification-ready</div></div>
+      <div class="card"><div class="label">Checks</div><div class="value">19/19</div></div>
+      <div class="card"><div class="label">Evidence</div><div class="value">6 files / 39 snippets</div></div>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>Upstream evidence</h2>
+    <div class="grid">
+      <div class="card"><div class="label">Node v258</div><div class="value ok">true</div></div>
+      <div class="card"><div class="label">Java v104</div><div class="value ok">true</div></div>
+      <div class="card"><div class="label">mini-kv v113</div><div class="value ok">true</div></div>
+    </div>
+  </section>
+  <section class="panel">
+    <h2>Alignment result</h2>
+    <table><tr><td><code>verificationState</code></td><td>sandbox-endpoint-handle-upstream-echo-verification-ready</td></tr><tr><td><code>ready</code></td><td>true</td></tr><tr><td><code>sourceNodeV258Ready</code></td><td>true</td></tr><tr><td><code>javaV104Ready</code></td><td>true</td></tr><tr><td><code>miniKvV113Ready</code></td><td>true</td></tr><tr><td><code>endpointHandleAligned</code></td><td>true</td></tr><tr><td><code>credentialHandleAligned</code></td><td>true</td></tr><tr><td><code>policyReviewsAligned</code></td><td>true</td></tr><tr><td><code>rawEndpointBoundaryAligned</code></td><td>true</td></tr><tr><td><code>connectionBoundaryAligned</code></td><td>true</td></tr><tr><td><code>writeBoundaryAligned</code></td><td>true</td></tr><tr><td><code>autoStartBoundaryAligned</code></td><td>true</td></tr><tr><td><code>checkCount</code></td><td>19/19</td></tr><tr><td><code>evidenceFileCount</code></td><td>6</td></tr><tr><td><code>matchedSnippetCount</code></td><td>39</td></tr></table>
+  </section>
+  <section class="panel">
+    <h2>Safety boundary</h2>
+    <p><code>executionAllowed=false</code>, <code>connectsManagedAudit=false</code>, <code>readsManagedAuditCredential=false</code>, <code>schemaMigrationExecuted=false</code>, <code>automaticUpstreamStart=false</code>.</p>
+    <p>Next step is Node v260 credential resolver decision record. It may only record a manual decision and must not read credential values.</p>
+  </section>
+</main>
+</body>
+</html>

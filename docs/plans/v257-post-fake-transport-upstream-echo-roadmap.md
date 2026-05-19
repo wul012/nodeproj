@@ -35,7 +35,19 @@ Node v258：
 - credentialHandle=ORDEROPS_MANAGED_AUDIT_SANDBOX_CREDENTIAL_HANDLE
 - networkAllowlistReviewReady=true、tlsPolicyReviewReady=true、redactionPolicyReady=true、operatorWindowReviewReady=true
 - rawEndpointUrlParsed=false、credentialValueRead=false、externalRequestSent=false、schemaMigrationExecuted=false
-- 计划下一步仍是推荐并行 Java v104 + mini-kv v113，Node v259 不抢跑
+
+推荐并行 Java v104 + mini-kv v113：
+- 已完成
+- Java v104 只读回显 Node v258 的 endpoint/credential handle review、network/TLS/redaction/operator window 边界
+- mini-kv v113 只读证明 non-participation、no auto-start、no storage write、no credential read、no raw endpoint parse、no restore/load/compact/SETNXEX
+
+Node v259：
+- sandbox endpoint handle upstream echo verification 已完成
+- sourceNodeV258Ready=true、javaV104Ready=true、miniKvV113Ready=true
+- endpointHandleAligned=true、credentialHandleAligned=true、reviewCountsAligned=true、policyReviewsAligned=true
+- rawEndpointBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
+- evidenceFileCount=6、matchedSnippetCount=39、checkCount=19、passedCheckCount=19
+- 真实 managed audit connection 仍未打开
 ```
 
 ## 推荐执行顺序
@@ -47,17 +59,17 @@ Node v258：
    - 不读取 credential value，不解析 raw endpoint URL，不发真实 HTTP 请求，不执行 schema migration。
    - 这是从 fake transport 走向真实 endpoint 的前置 review，不是连接实现。
 
-2. 推荐并行：Java v104 + mini-kv v113。`下一步`
+2. 推荐并行：Java v104 + mini-kv v113。`已完成`
    - Java v104：sandbox endpoint handle preflight echo marker，只读回显 Node v258 的 endpoint/credential handle review、network/TLS/redaction/operator window 边界；不写 ledger、不执行 SQL、不打开 managed audit connection。
    - mini-kv v113：sandbox endpoint handle non-participation receipt，只读证明 Node v258 不触发 mini-kv auto-start、storage write、credential read、external request、restore/load/compact/SETNXEX，也不让 mini-kv 成为 managed audit storage backend。
    - 两者可以并行推进，因为只读消费 Node v258，不互相依赖，也不做真实连接。
 
-3. Node v259：sandbox endpoint handle upstream echo verification。
+3. Node v259：sandbox endpoint handle upstream echo verification。`已完成`
    - 仅在 Java v104 + mini-kv v113 完成后推进。
    - 消费两边只读 echo / non-participation，验证 endpoint handle、credential handle、network/TLS/redaction/operator-window/no-side-effect 边界一致。
    - 若两边任一未完成或字段不一致，Node v259 必须停止。
 
-4. Node v260：sandbox endpoint credential resolver decision record。
+4. Node v260：sandbox endpoint credential resolver decision record。`下一步`
    - 消费 Node v259，生成人工决策记录，明确哪些条件满足后才允许进入 credential resolver rehearsal。
    - 仍然只记录 credential handle / resolver policy / approval marker，不读取 credential value。
    - 如果 v260 需要真实 credential、raw endpoint URL 或外部网络连接，必须暂停并另起新计划。
@@ -93,11 +105,11 @@ mini-kv：
 - 需要 Node 向真实 managed audit endpoint 发 HTTP/TCP 请求。
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
-- Java v104 / mini-kv v113 未完成时，Node v259 必须停止。
+- Java v104 / mini-kv v113 未完成时，Node v259 必须停止。`已满足`
 - 任一版本从 endpoint handle review 变成真实 external endpoint request，必须暂停并另起计划。
 
 ## 一句话结论
 
 ```text
-v255-v257 已把 fake transport dry-run packet 收口为三项目一致性证据；下一阶段从 Node v258 开始只做 sandbox endpoint handle preflight review，仍不读取 credential value、不解析 raw endpoint URL、不打开真实 managed audit connection。
+v255-v259 已把 fake transport dry-run packet 推进到 sandbox endpoint handle 三项目 upstream echo verification；下一步 Node v260 只能写 credential resolver decision record，仍不读取 credential value、不解析 raw endpoint URL、不打开真实 managed audit connection。
 ```

@@ -151,6 +151,10 @@ import {
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
 import {
+  loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown,
+} from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.js";
+import {
   loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract,
   renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown,
 } from "../services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.js";
@@ -478,6 +482,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-preflight-review", (deps) => loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-upstream-echo-verification", (deps) => loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",
