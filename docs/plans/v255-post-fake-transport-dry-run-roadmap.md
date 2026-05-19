@@ -33,6 +33,12 @@ Node v255：
 - response 只表达 fake transport result，不声明真实 connection side effect
 - timeoutBudgetMs=15000，budgetSpent=false，timerStarted=false
 - cleanup 证明 inMemoryOnly=true、temporaryDirectoryCreated=false、temporaryFileCreated=false、cleanupArtifactCount=0
+
+Node v256：
+- fake transport packet archive verification 已完成
+- 已验证 v255 HTML、截图、解释、代码讲解、route response、packet/request/response digest 与 cleanup evidence
+- archiveVerificationRerunsFakeTransportBehavior=false，不重新执行 fake transport 行为，不创建 `.tmp` dry-run 目录
+- 下一步按本计划推荐并行 Java v103 + mini-kv v112，Node v257 必须等待两边完成
 ```
 
 ## 推荐执行顺序
@@ -42,6 +48,7 @@ Node v255：
    - 消费 Node v255 的 HTML、截图、解释、代码讲解、route response 和 cleanup 证据。
    - 只做归档完整性与 packet digest 验证，不重新推进 fake transport 行为。
    - 如果 v255 归档缺截图、解释、代码讲解、route 或 cleanup evidence，v256 必须 blocked。
+   - 状态：已完成。
 
 2. 推荐并行：Java v103 + mini-kv v112。
    - Java v103：fake transport dry-run packet echo marker，只读回显 Node v255 packet 的 request/response/timeout/cleanup 边界；不写 ledger、不执行 SQL、不打开 managed audit connection。
