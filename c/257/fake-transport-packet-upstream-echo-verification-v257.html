@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v257 fake transport packet upstream echo verification</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        color: #17202a;
+        background: #f7f8fb;
+      }
+      main {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 40px 28px;
+      }
+      h1 {
+        margin: 0 0 10px;
+        font-size: 32px;
+        letter-spacing: 0;
+      }
+      .sub {
+        margin: 0 0 24px;
+        color: #5b6b7e;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 22px;
+      }
+      .panel {
+        background: #fff;
+        border: 1px solid #dae3ec;
+        border-radius: 8px;
+        padding: 15px;
+      }
+      .label {
+        font-size: 12px;
+        color: #617086;
+        margin-bottom: 8px;
+      }
+      .value {
+        font-size: 18px;
+        font-weight: 700;
+      }
+      .ok {
+        color: #0f766e;
+      }
+      .blocked {
+        color: #b42318;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #fff;
+        border: 1px solid #dae3ec;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+      th,
+      td {
+        border-bottom: 1px solid #e8eef4;
+        padding: 12px 14px;
+        text-align: left;
+        font-size: 14px;
+      }
+      th {
+        background: #eef3f8;
+      }
+      code {
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+      }
+      .note {
+        margin-top: 22px;
+        border: 1px solid #bae6fd;
+        background: #f0f9ff;
+        border-radius: 8px;
+        padding: 14px 16px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v257 fake transport packet upstream echo verification</h1>
+      <p class="sub">消费 Node v255/v256、Java v103 和 mini-kv v112，只读验证 request / response / timeout / cleanup / side-effect boundary 三方一致。</p>
+
+      <section class="grid">
+        <div class="panel">
+          <div class="label">Verification</div>
+          <div class="value ok">ready</div>
+        </div>
+        <div class="panel">
+          <div class="label">Java echo</div>
+          <div class="value ok">v103</div>
+        </div>
+        <div class="panel">
+          <div class="label">mini-kv receipt</div>
+          <div class="value ok">v112</div>
+        </div>
+        <div class="panel">
+          <div class="label">Real connection</div>
+          <div class="value blocked">blocked</div>
+        </div>
+      </section>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Boundary</th>
+            <th>Verified alignment</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Request</td>
+            <td>shape count 8, handle-only, no credential value, no raw endpoint URL, no secrets</td>
+            <td class="ok">aligned</td>
+          </tr>
+          <tr>
+            <td>Response</td>
+            <td>shape count 9, <code>TEST_ONLY_FAKE_TRANSPORT_DRY_RUN</code>, no external request or credential read</td>
+            <td class="ok">aligned</td>
+          </tr>
+          <tr>
+            <td>Timeout + failure</td>
+            <td>timeoutBudgetMs=15000 and mappedFailureCount=6 across Node / Java / mini-kv</td>
+            <td class="ok">aligned</td>
+          </tr>
+          <tr>
+            <td>Cleanup</td>
+            <td>cleanupArtifactCount=0, no temporary directory/file, archive no-rerun remains false</td>
+            <td class="ok">clean</td>
+          </tr>
+          <tr>
+            <td>Side effects</td>
+            <td>no managed audit connection, no schema migration, no storage write, no auto-start</td>
+            <td class="ok">closed</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="note">
+        v257 收口 v255 衍生计划；进入真实 endpoint、credential resolver 或 schema migration rehearsal 前，必须另起新计划。
+      </div>
+    </main>
+  </body>
+</html>

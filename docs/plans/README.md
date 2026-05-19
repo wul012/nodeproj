@@ -60,7 +60,9 @@ Java v102 + mini-kv v111 已推荐并行完成：Java 只读回显 disabled adap
 Node v254 已完成 disabled adapter client upstream echo verification：消费 Node v252/v253、Java v102、mini-kv v111，验证 env handle、failure taxonomy、fake transport shape 和 no credential/no connection/no write/no auto-start 边界一致，并拆出 v254 types / renderer 降低新 service 膨胀。
 Node v255 已完成 fake transport adapter dry-run verification packet：消费 Node v253/v254，验证 request/response shape、timeoutBudgetMs=15000、failureMappingCount=6、cleanupArtifactCount=0，并从一开始拆出 v255 types / renderer，仍不打开真实 managed audit connection。
 Node v256 已完成 fake transport packet archive verification：只读验证 v255 HTML、截图、解释、代码讲解、route digest、cleanup evidence 和 active plan 片段，不重新执行 fake transport 行为。
-下一步：推荐并行 Java v103 + mini-kv v112；两边完成后再由 Node v257 做 fake transport packet upstream echo verification。
+Java v103 + mini-kv v112 已推荐并行完成。
+Node v257 已完成 fake transport packet upstream echo verification：消费 Node v255/v256、Java v103、mini-kv v112，验证 request/response/timeout/failure/cleanup/side-effect 边界三方一致。
+下一步：当前计划执行版本已完成，应另起 post-v257 新计划，再决定是否进入真实 endpoint、credential resolver 或 schema migration rehearsal 前置阶段。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -390,5 +392,5 @@ v252-post-disabled-adapter-client-precheck-roadmap.md
  -> 已完成并收口；由 Node v252 disabled adapter client precheck 衍生；Node v253、推荐并行 Java v102 + mini-kv v111、Node v254 三方验证、Node v255 fake transport dry-run packet 已完成，由 v255-post-fake-transport-dry-run-roadmap.md 接续
 
 v255-post-fake-transport-dry-run-roadmap.md
- -> 当前唯一有效全局计划；由 Node v255 fake transport adapter dry-run verification packet 衍生；Node v256 fake transport packet archive verification 已完成；下一步推荐并行 Java v103 + mini-kv v112，再由 Node v257 做三方 echo verification
+ -> 已完成并收口；由 Node v255 fake transport adapter dry-run verification packet 衍生；Node v256、推荐并行 Java v103 + mini-kv v112、Node v257 fake transport packet upstream echo verification 均已完成，下一阶段应另起 post-v257 计划
 ```

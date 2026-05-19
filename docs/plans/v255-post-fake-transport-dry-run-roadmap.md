@@ -39,6 +39,18 @@ Node v256：
 - 已验证 v255 HTML、截图、解释、代码讲解、route response、packet/request/response digest 与 cleanup evidence
 - archiveVerificationRerunsFakeTransportBehavior=false，不重新执行 fake transport 行为，不创建 `.tmp` dry-run 目录
 - 下一步按本计划推荐并行 Java v103 + mini-kv v112，Node v257 必须等待两边完成
+
+推荐并行 Java v103 + mini-kv v112：
+- 已完成。
+- Java v103 只读回显 Node v255/v256 的 fake transport packet / archive verification 边界，不写 ledger、不执行 SQL、不打开 managed audit connection。
+- mini-kv v112 只读证明 non-participation、no auto-start、no storage write、no credential read、no restore/load/compact/SETNXEX、不成为 managed audit storage backend。
+
+Node v257：
+- fake transport packet upstream echo verification 已完成
+- 已消费 Node v255/v256、Java v103、mini-kv v112
+- requestShapeAligned=true、responseShapeAligned=true、timeoutBoundaryAligned=true、failureMappingAligned=true、cleanupBoundaryAligned=true
+- credentialBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
+- 仍不打开真实 managed audit connection，不读取 credential value，不执行 schema migration
 ```
 
 ## 推荐执行顺序
@@ -54,11 +66,13 @@ Node v256：
    - Java v103：fake transport dry-run packet echo marker，只读回显 Node v255 packet 的 request/response/timeout/cleanup 边界；不写 ledger、不执行 SQL、不打开 managed audit connection。
    - mini-kv v112：fake transport dry-run packet non-participation receipt，只读证明 Node v255 不触发 mini-kv auto-start、storage write、credential read、restore/load/compact/SETNXEX，也不让 mini-kv 成为 managed audit storage backend。
    - 两者可以并行推进，因为只读消费 Node v255 的 packet，不互相依赖，也不做真实连接。
+   - 状态：已完成。
 
 3. Node v257：fake transport packet upstream echo verification。
    - 仅在 Java v103 + mini-kv v112 完成后推进。
    - 消费两边只读 echo / non-participation，验证 request/response/timeout/cleanup/side-effect boundary 一致。
    - 若两边任一未完成或字段不一致，Node v257 必须停止。
+   - 状态：已完成。
 ```
 
 ## 显式质量优化项
@@ -95,5 +109,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v255 已把 fake transport dry-run packet 收口为可验证证据；下一步先由 Node v256 做归档验证，再推荐并行 Java v103 + mini-kv v112 只读回显/非参与，最后由 Node v257 做三方 upstream echo verification。仍然不打开真实 managed audit connection。
+v255-v257 已把 fake transport dry-run packet 收口为三项目一致性证据：Node v255 packet、Node v256 archive verification、Java v103 echo marker、mini-kv v112 non-participation receipt 和 Node v257 upstream echo verification 均已完成。后续若要进入真实 endpoint、credential resolver 或 schema migration rehearsal，必须另起新计划。仍然不打开真实 managed audit connection。
 ```
