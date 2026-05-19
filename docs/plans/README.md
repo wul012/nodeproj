@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v255-post-fake-transport-dry-run-roadmap.md
+docs/plans/v257-post-fake-transport-upstream-echo-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -62,7 +62,7 @@ Node v255 已完成 fake transport adapter dry-run verification packet：消费 
 Node v256 已完成 fake transport packet archive verification：只读验证 v255 HTML、截图、解释、代码讲解、route digest、cleanup evidence 和 active plan 片段，不重新执行 fake transport 行为。
 Java v103 + mini-kv v112 已推荐并行完成。
 Node v257 已完成 fake transport packet upstream echo verification：消费 Node v255/v256、Java v103、mini-kv v112，验证 request/response/timeout/failure/cleanup/side-effect 边界三方一致。
-下一步：当前计划执行版本已完成，应另起 post-v257 新计划，再决定是否进入真实 endpoint、credential resolver 或 schema migration rehearsal 前置阶段。
+下一步：Node v258 sandbox endpoint handle preflight review；只做 endpoint/credential handle、network/TLS/redaction/operator-window 前置 review，不读取 credential value、不解析 raw endpoint URL、不发真实 HTTP 请求。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -393,4 +393,7 @@ v252-post-disabled-adapter-client-precheck-roadmap.md
 
 v255-post-fake-transport-dry-run-roadmap.md
  -> 已完成并收口；由 Node v255 fake transport adapter dry-run verification packet 衍生；Node v256、推荐并行 Java v103 + mini-kv v112、Node v257 fake transport packet upstream echo verification 均已完成，下一阶段应另起 post-v257 计划
+
+v257-post-fake-transport-upstream-echo-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v257 fake transport packet upstream echo verification 衍生；下一步是 Node v258 sandbox endpoint handle preflight review，然后推荐并行 Java v104 + mini-kv v113，再由 Node v259 做 endpoint handle upstream echo verification
 ```
