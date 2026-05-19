@@ -411,5 +411,8 @@ v260-post-credential-resolver-decision-roadmap.md
  -> 已完成并收口；由 Node v260 sandbox endpoint credential resolver decision record 衍生；Java v105 + mini-kv v114、Node v261、Node v262、Java v106 + mini-kv v115、Node v263 均已完成，由 v263-post-disabled-resolver-echo-roadmap.md 接续
 
 v263-post-disabled-resolver-echo-roadmap.md
- -> 当前唯一有效全局计划；由 Node v263 disabled resolver precheck upstream echo verification 衍生；Node v264 credential resolver test-only shell contract、推荐并行 Java v107 + mini-kv v116、Java v108/v109 优化上下文、Node v265 test-only resolver shell upstream echo verification 已完成；下一步 Node v266 archive verification
+ -> 已完成并收口；由 Node v263 disabled resolver precheck upstream echo verification 衍生；Node v264 credential resolver test-only shell contract、推荐并行 Java v107 + mini-kv v116、Java v108/v109 优化上下文、Node v265 test-only resolver shell upstream echo verification、Node v266 archive verification 已完成；由 v266-post-fake-shell-archive-roadmap.md 接续
+
+v266-post-fake-shell-archive-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v266 credential resolver fake-shell archive verification 衍生；下一步推荐并行 Java v110 + mini-kv v117，只读消费 Node v266
 ```

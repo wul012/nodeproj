@@ -61,6 +61,12 @@ Node v265：
 - 消费 Node v264 + Java v107 + mini-kv v116，验证 request / response / failure mapping / guard / fake probe / no-side-effect 边界一致
 - 同步展示 Java v109 records split 已完成，但明确它是优化上下文，不改变 v265 的硬门槛
 - 继续保持 credentialResolverExecutionAllowed=false、resolverClientInstantiated=false、secretProviderInstantiated=false、credentialValueRead=false、rawEndpointUrlParsed=false、externalRequestSent=false、connectsManagedAudit=false
+
+Node v266：
+- credential resolver fake-shell archive verification 已完成
+- 只读验证 Node v264 / v265 的 HTML、截图、解释、代码讲解、route digest、active plan 片段
+- 不重新执行 fake resolver shell，不接入真实 secret provider，不打开真实 managed audit connection
+- 本计划到此收口；后续由 `docs/plans/v266-post-fake-shell-archive-roadmap.md` 接续
 ```
 
 ## 推荐执行顺序
@@ -84,7 +90,7 @@ Node v265：
    - Java v109 records split 可作为结构优化上下文展示，但不作为 v265 的硬前置。
    - 若两边任一未完成或字段不一致，Node v265 必须停止。
 
-4. Node v266：credential resolver fake-shell archive verification。
+4. Node v266：credential resolver fake-shell archive verification。`已完成`
    - 只读验证 Node v264 / v265 的 HTML、截图、解释、代码讲解、route digest、historical fallback 和 active plan 片段。
    - 不重新执行 fake resolver shell，不接入真实 secret provider，不打开真实 managed audit connection。
 ```
