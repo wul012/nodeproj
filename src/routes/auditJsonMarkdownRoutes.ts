@@ -155,6 +155,10 @@ import {
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.js";
 import {
+  loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecord,
+  renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecordMarkdown,
+} from "../services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecord.js";
+import {
   loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract,
   renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown,
 } from "../services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.js";
@@ -486,6 +490,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-upstream-echo-verification", (deps) => loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-decision-record", (deps) => loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecord({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecordMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

@@ -2,7 +2,7 @@
 
 来源版本：Node v257 `fake transport packet upstream echo verification`。
 
-计划状态：当前唯一有效全局计划。上一份 `docs/plans/v255-post-fake-transport-dry-run-roadmap.md` 已完成 Node v256、推荐并行 Java v103 + mini-kv v112、Node v257，并已收口；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。上一份 `docs/plans/v255-post-fake-transport-dry-run-roadmap.md` 已完成 Node v256、推荐并行 Java v103 + mini-kv v112、Node v257，并已收口；本计划已完成 Node v258、推荐并行 Java v104 + mini-kv v113、Node v259、Node v260。后续由 `docs/plans/v260-post-credential-resolver-decision-roadmap.md` 接续，不再向本计划追加重合版本。
 
 ## 当前对齐状态
 
@@ -48,6 +48,14 @@ Node v259：
 - rawEndpointBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
 - evidenceFileCount=6、matchedSnippetCount=39、checkCount=19、passedCheckCount=19
 - 真实 managed audit connection 仍未打开
+
+Node v260：
+- sandbox endpoint credential resolver decision record 已完成
+- resolverMode=policy-record-only-no-value-read
+- resolverCandidateImplementation=not-implemented
+- requiredDecisionFieldCount=8、explicitNoGoConditionCount=9
+- credentialValueRead=false、credentialValueLoaded=false、rawEndpointUrlParsed=false、externalRequestSent=false
+- 真实 managed audit connection 仍未打开
 ```
 
 ## 推荐执行顺序
@@ -69,10 +77,14 @@ Node v259：
    - 消费两边只读 echo / non-participation，验证 endpoint handle、credential handle、network/TLS/redaction/operator-window/no-side-effect 边界一致。
    - 若两边任一未完成或字段不一致，Node v259 必须停止。
 
-4. Node v260：sandbox endpoint credential resolver decision record。`下一步`
+4. Node v260：sandbox endpoint credential resolver decision record。`已完成`
    - 消费 Node v259，生成人工决策记录，明确哪些条件满足后才允许进入 credential resolver rehearsal。
    - 仍然只记录 credential handle / resolver policy / approval marker，不读取 credential value。
    - 如果 v260 需要真实 credential、raw endpoint URL 或外部网络连接，必须暂停并另起新计划。
+
+5. 后续计划。
+   - 本计划到 v260 收口。
+   - 后续由 `docs/plans/v260-post-credential-resolver-decision-roadmap.md` 接续。
 ```
 
 ## 显式质量优化项
@@ -111,5 +123,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v255-v259 已把 fake transport dry-run packet 推进到 sandbox endpoint handle 三项目 upstream echo verification；下一步 Node v260 只能写 credential resolver decision record，仍不读取 credential value、不解析 raw endpoint URL、不打开真实 managed audit connection。
+v255-v260 已把 fake transport dry-run packet 推进到 sandbox endpoint handle 三项目 upstream echo verification，并完成 credential resolver decision record。本计划收口，后续由 v260 衍生计划接续，仍不读取 credential value、不解析 raw endpoint URL、不打开真实 managed audit connection。
 ```
