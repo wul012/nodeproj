@@ -44,6 +44,14 @@ Node v261：
 - credentialBoundaryAligned=true、rawEndpointBoundaryAligned=true、connectionBoundaryAligned=true、writeBoundaryAligned=true、autoStartBoundaryAligned=true
 - 本版补 committed historical fixture fallback，并修复 UTF-8 BOM evidence JSON 读取
 - 真实 managed audit connection 仍未打开
+
+Node v262：
+- disabled credential resolver precheck 已完成
+- sourceNodeV261Ready=true
+- requiredEnvHandleCount=6、optInGateCount=2、failureClassCount=7、dryRunResponseFieldCount=12、inheritedNoGoConditionCount=9
+- resolverImplementationStatus=not-implemented、secretProviderImplementationStatus=not-implemented
+- resolverClientInstantiated=false、secretProviderInstantiated=false、credentialValueRead=false、credentialValueLoaded=false、rawEndpointUrlParsed=false、externalRequestSent=false、connectsManagedAudit=false
+- 下一步必须先推荐并行 Java v106 + mini-kv v115；完成前 Node v263 停止
 ```
 
 ## 推荐执行顺序
@@ -59,12 +67,12 @@ Node v261：
    - 消费两边只读 echo / non-participation，验证 resolver policy handle、approval marker、operator identity、approval correlation、redaction/no-side-effect 边界一致。
    - 若两边任一未完成或字段不一致，Node v261 必须停止。
 
-3. Node v262：disabled credential resolver precheck。`下一步`
+3. Node v262：disabled credential resolver precheck。`已完成`
    - 消费 Node v261，定义未来 resolver client 之前的 disabled precheck：required env handles、opt-in gate、failure taxonomy、dry-run response shape。
    - 只能是 disabled / dry-run / no secret provider instantiated。
    - 不读取 credential value，不解析 raw endpoint URL，不发真实 external request，不执行 schema migration。
 
-4. 推荐并行：Java v106 + mini-kv v115。
+4. 推荐并行：Java v106 + mini-kv v115。`下一步`
    - Java v106：disabled resolver precheck echo marker，只读回显 Node v262 的 env handles、failure taxonomy、dry-run shape 和 no-go 条件。
    - mini-kv v115：disabled resolver precheck non-participation receipt，继续证明 no-start、no-write、no-credential、no-raw-endpoint、no-restore/load/compact/SETNXEX。
    - 两者可以并行推进；完成前 Node 不推进 v263。

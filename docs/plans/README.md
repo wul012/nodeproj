@@ -68,7 +68,8 @@ Node v259 已完成 sandbox endpoint handle upstream echo verification：消费 
 Node v260 已完成 sandbox endpoint credential resolver decision record：只记录 credential handle / resolver policy handle / approval marker / operator identity / approval correlation / redaction / fallback rotation plan，不读取 credential value、不解析 raw endpoint URL、不打开真实外部连接。
 Java v105 + mini-kv v114 已推荐并行完成：Java 只读回显 Node v260 credential resolver decision record，mini-kv 只读证明 credential resolver non-participation。
 Node v261 已完成 credential resolver upstream echo verification：消费 Node v260、Java v105、mini-kv v114，验证 resolver policy、approval marker、operator identity/correlation、decision fields、no-go conditions 和 no-side-effect 边界一致；真实 managed audit connection 仍未打开。
-下一步：Node v262 disabled credential resolver precheck，只能定义 required env handles、opt-in gate、failure taxonomy、dry-run response shape，不读取 credential value、不解析 raw endpoint URL、不发真实 external request。
+Node v262 已完成 disabled credential resolver precheck：消费 Node v261，定义 6 个 env handles、2 个 opt-in gates、7 个 failure classes、12 个 dry-run response fields；不实例化 resolver client / secret provider，不读取 credential value、不解析 raw endpoint URL、不发真实 external request。
+下一步：推荐并行 Java v106 + mini-kv v115；两边完成前 Node 不推进 v263。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -404,5 +405,5 @@ v257-post-fake-transport-upstream-echo-roadmap.md
  -> 已完成并收口；由 Node v257 fake transport packet upstream echo verification 衍生；Node v258、推荐并行 Java v104 + mini-kv v113、Node v259、Node v260 已完成；由 v260-post-credential-resolver-decision-roadmap.md 接续
 
 v260-post-credential-resolver-decision-roadmap.md
- -> 当前唯一有效全局计划；由 Node v260 sandbox endpoint credential resolver decision record 衍生；Java v105 + mini-kv v114、Node v261 已完成，下一步是 Node v262 disabled credential resolver precheck
+ -> 当前唯一有效全局计划；由 Node v260 sandbox endpoint credential resolver decision record 衍生；Java v105 + mini-kv v114、Node v261、Node v262 已完成，下一步是推荐并行 Java v106 + mini-kv v115
 ```
