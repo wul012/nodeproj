@@ -44,6 +44,23 @@ Node v264：
 - request 只接受 credential handle、endpoint handle、resolver policy handle、approval marker 和 approval correlation，不接受 credential value 或 raw endpoint URL
 - response 明确 resolverClientInstantiated=false、secretProviderInstantiated=false、credentialValueRead=false、rawEndpointUrlParsed=false、externalRequestSent=false、connectsManagedAudit=false、schemaMigrationExecuted=false
 - 不实例化真实 secret provider，不发真实 external request，不打开 managed audit connection
+
+Java v107 + mini-kv v116：
+- 已推荐并行完成
+- Java v107 只读回显 Node v264 test-only fake resolver shell contract
+- mini-kv v116 只读证明 test-only resolver shell non-participation，不执行 resolver、credential、raw endpoint、external request、storage write、LOAD/COMPACT/RESTORE/SETNXEX
+
+Java v108 + v109：
+- 已作为优化批完成
+- v108 收敛 echo marker support 重复样板
+- v109 拆分 release approval rehearsal response records
+- 这两版作为 Node v265 / v266 可参考的结构优化上下文，不作为 v265 readiness 的硬前置
+
+Node v265：
+- test-only resolver shell upstream echo verification 已完成
+- 消费 Node v264 + Java v107 + mini-kv v116，验证 request / response / failure mapping / guard / fake probe / no-side-effect 边界一致
+- 同步展示 Java v109 records split 已完成，但明确它是优化上下文，不改变 v265 的硬门槛
+- 继续保持 credentialResolverExecutionAllowed=false、resolverClientInstantiated=false、secretProviderInstantiated=false、credentialValueRead=false、rawEndpointUrlParsed=false、externalRequestSent=false、connectsManagedAudit=false
 ```
 
 ## 推荐执行顺序
@@ -59,10 +76,12 @@ Node v264：
    - Java v107：test-only resolver shell contract echo marker，只读回显 Node v264 的 fake-only request / response / failure mapping 和 no-side-effect boundary。
    - mini-kv v116：test-only resolver shell non-participation receipt，继续证明 mini-kv 不参与 resolver、secret provider、credential value、raw endpoint、external request、storage write、LOAD/COMPACT/RESTORE/SETNXEX。
    - 两者可以并行，因为只读消费 Node v264，不互相依赖，也不做真实连接。
+   - Java v108 + v109 属于后续优化收口：v108 只收敛 echo marker support 重复样板，v109 只拆分 response records 壳；这两版可以作为并行优化批，不作为 Node v265 的硬前置。
 
-3. Node v265：test-only resolver shell upstream echo verification。
+3. Node v265：test-only resolver shell upstream echo verification。`已完成`
    - 仅在 Java v107 + mini-kv v116 完成后推进。
    - 消费两边 echo / non-participation，验证 test-only resolver shell 的 request / response / failure mapping / no-side-effect 边界一致。
+   - Java v109 records split 可作为结构优化上下文展示，但不作为 v265 的硬前置。
    - 若两边任一未完成或字段不一致，Node v265 必须停止。
 
 4. Node v266：credential resolver fake-shell archive verification。
@@ -84,6 +103,7 @@ Java：
 - v107 只做 echo marker，不把新字段堆回 `OpsEvidenceService`。
 - 若新增 builder，沿用 v94-v106 的 builder/helper/records 拆分方式。
 - 不写 approval ledger，不执行 SQL，不读取 credential value，不打开 managed audit connection。
+- v108/v109 仅是优化收口：v108 收敛 echo marker support 重复样板，v109 把 rehearsal response nested records 拆到独立壳；这两版可与 Node v265/v266 并行，不作为 v265 的硬门槛。
 
 mini-kv：
 - v116 只做 non-participation receipt，不触碰 WAL/snapshot/restore 核心语义。
