@@ -18,7 +18,8 @@ Node v276：statusRoutes security split quality pass 已完成。
 Node v277：statusRoutes deployment + connection readiness split quality pass 已完成。
 Node v278：statusRoutes production readiness summary split quality pass 已完成。
 Node v279：statusRoutes rollback readiness split quality pass 已完成。
-下一步：若继续 Node 质量线，优先拆 live-probe route group；不要和 credential resolver 业务能力混成一版。
+Node v280：statusRoutes live-probe split quality pass 已完成。
+下一步：若继续 Node 质量线，优先判断是否还需要拆 remaining real-read window route group；不要和 credential resolver 业务能力混成一版。
 ```
 
 旧 `docs/plans/` 保留为历史目录；后续新计划优先写入本目录。

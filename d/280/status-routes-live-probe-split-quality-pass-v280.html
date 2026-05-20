@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <title>Node v280 statusRoutes live-probe split quality pass</title>
+    <style>
+      body {
+        margin: 0;
+        font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+        background: #f6f8fb;
+        color: #172033;
+      }
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 40px 28px;
+      }
+      h1 {
+        margin: 0 0 16px;
+        font-size: 34px;
+      }
+      .subtitle {
+        margin-bottom: 28px;
+        color: #526070;
+        font-size: 17px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 14px;
+        margin-bottom: 26px;
+      }
+      .metric {
+        background: #ffffff;
+        border: 1px solid #d9e1ea;
+        border-radius: 8px;
+        padding: 18px;
+      }
+      .metric strong {
+        display: block;
+        font-size: 28px;
+        margin-bottom: 8px;
+      }
+      .panel {
+        background: #ffffff;
+        border: 1px solid #d9e1ea;
+        border-radius: 8px;
+        padding: 22px;
+        margin-bottom: 18px;
+      }
+      pre {
+        margin: 0;
+        padding: 16px;
+        overflow: auto;
+        border-radius: 8px;
+        background: #111827;
+        color: #e5eef9;
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      .ok {
+        color: #137a49;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v280 statusRoutes live-probe split quality pass</h1>
+      <div class="subtitle">23 条 live-probe / real-read smoke 只读路由迁入独立模块，主路由文件降到约 896 行。</div>
+      <section class="grid">
+        <div class="metric"><strong>67</strong>累计迁移路由</div>
+        <div class="metric"><strong>23</strong>本版迁移路由</div>
+        <div class="metric"><strong>896</strong>statusRoutes.ts 行数</div>
+        <div class="metric"><strong class="ok">false</strong>executionAllowed</div>
+      </section>
+      <section class="panel">
+        <h2>新增模块</h2>
+        <pre>src/routes/statusLiveProbeRoutes.ts
+
+registerStatusLiveProbeRoutes(app, deps)
+statusJsonMarkdownRoute(...)
+
+保持 API path / response shape 不变。</pre>
+      </section>
+      <section class="panel">
+        <h2>验证入口</h2>
+        <pre>GET /api/v1/status-routes/split-quality-pass
+GET /api/v1/production/live-probe-readiness-contract
+GET /api/v1/production/live-probe-real-read-smoke-readiness-switch</pre>
+      </section>
+      <section class="panel">
+        <h2>安全边界</h2>
+        <pre>featureBehaviorChanged=false
+realResolverImplementationAllowed=false
+connectsManagedAudit=false
+executionAllowed=false
+Node 不启动 Java / mini-kv，不执行真实上游写操作。</pre>
+      </section>
+    </main>
+  </body>
+</html>

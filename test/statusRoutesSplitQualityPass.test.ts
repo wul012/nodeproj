@@ -5,7 +5,7 @@ import { loadConfig } from "../src/config.js";
 import { loadStatusRoutesSplitQualityPass } from "../src/services/statusRoutesSplitQualityPass.js";
 
 describe("status routes split quality pass", () => {
-  it("records the v279 rollback route split without enabling behavior", () => {
+  it("records the v280 live-probe route split without enabling behavior", () => {
     const profile = loadStatusRoutesSplitQualityPass();
 
     expect(profile).toMatchObject({
@@ -17,7 +17,7 @@ describe("status routes split quality pass", () => {
       realResolverImplementationAllowed: false,
       connectsManagedAudit: false,
       executionAllowed: false,
-      sourceVersion: "Node v279",
+      sourceVersion: "Node v280",
       splitScope: {
         sourceFile: "src/routes/statusRoutes.ts",
         previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
@@ -26,12 +26,13 @@ describe("status routes split quality pass", () => {
         deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts",
         readinessSummaryExtractedRouteModule: "src/routes/statusReadinessSummaryRoutes.ts",
         rollbackExtractedRouteModule: "src/routes/statusRollbackRoutes.ts",
+        liveProbeExtractedRouteModule: "src/routes/statusLiveProbeRoutes.ts",
         extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
         extractedTypesModule: "src/routes/statusRouteTypes.ts",
-        migratedRouteCount: 44,
-        latestMigratedRouteCount: 4,
-        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, and rollback readiness",
-        nextSplitCandidate: "live-probe route group",
+        migratedRouteCount: 67,
+        latestMigratedRouteCount: 23,
+        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, rollback readiness, and live-probe readiness",
+        nextSplitCandidate: "remaining real-read window route group",
       },
       checks: {
         upstreamFixtureRoutesExtracted: true,
@@ -39,6 +40,7 @@ describe("status routes split quality pass", () => {
         deploymentRoutesExtracted: true,
         readinessSummaryRoutesExtracted: true,
         rollbackRoutesExtracted: true,
+        liveProbeRoutesExtracted: true,
         jsonMarkdownHelperExtracted: true,
         statusRouteTypesExtracted: true,
         migratedRouteCountExpected: true,
@@ -50,10 +52,10 @@ describe("status routes split quality pass", () => {
         readyForStatusRoutesSplitQualityPass: true,
       },
       summary: {
-        checkCount: 14,
-        passedCheckCount: 14,
-        migratedRouteCount: 44,
-        preservedApiPathCount: 44,
+        checkCount: 15,
+        passedCheckCount: 15,
+        migratedRouteCount: 67,
+        preservedApiPathCount: 67,
         productionBlockerCount: 0,
         warningCount: 1,
         recommendationCount: 1,
@@ -105,6 +107,29 @@ describe("status routes split quality pass", () => {
       "/api/v1/production/rollback-window-readiness-checklist",
       "/api/v1/production/rollback-execution-preflight-contract",
       "/api/v1/deployment/rollback-runbook",
+      "/api/v1/production/live-probe-readiness-contract",
+      "/api/v1/production/live-probe-smoke-harness",
+      "/api/v1/production/live-probe-evidence-archive",
+      "/api/v1/production/live-probe-evidence-archive/verification",
+      "/api/v1/production/live-probe-evidence-archive/bundle",
+      "/api/v1/production/live-probe-handoff-checklist",
+      "/api/v1/production/live-probe-real-read-smoke-readiness-switch",
+      "/api/v1/production/live-probe-real-read-smoke-archive-adapter",
+      "/api/v1/production/live-probe-real-read-smoke-execution-request",
+      "/api/v1/production/live-probe-real-read-smoke-result-importer",
+      "/api/v1/production/live-probe-real-read-smoke-release-evidence-gate",
+      "/api/v1/production/live-probe-real-read-smoke-dry-run-command-package",
+      "/api/v1/production/live-probe-real-read-smoke-evidence-capture",
+      "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification",
+      "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-archive",
+      "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-archive-verification",
+      "/api/v1/production/live-probe-real-read-smoke-operator-runbook",
+      "/api/v1/production/live-probe-real-read-smoke-operator-runbook-verification",
+      "/api/v1/production/live-probe-real-read-smoke-read-only-window-readiness-packet",
+      "/api/v1/production/live-probe-real-read-smoke-read-only-window-live-capture",
+      "/api/v1/production/live-probe-real-read-smoke-read-only-window-capture-archive",
+      "/api/v1/production/live-probe-real-read-smoke-read-only-window-capture-archive-verification",
+      "/api/v1/production/live-probe-real-read-smoke-read-only-window-capture-release-evidence-review",
     ]);
   });
 
@@ -172,19 +197,36 @@ describe("status routes split quality pass", () => {
         method: "GET",
         url: "/api/v1/production/rollback-window-readiness-checklist?format=markdown",
       });
+      const liveProbeJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/live-probe-readiness-contract",
+      });
+      const liveProbeMarkdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/live-probe-readiness-contract?format=markdown",
+      });
+      const realReadSmokeJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/live-probe-real-read-smoke-readiness-switch",
+      });
+      const realReadSmokeMarkdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/live-probe-real-read-smoke-readiness-switch?format=markdown",
+      });
 
       expect(qualityJson.statusCode).toBe(200);
       expect(qualityJson.json()).toMatchObject({
         qualityPassState: "status-routes-split-quality-pass-ready",
         splitScope: {
-          migratedRouteCount: 44,
-          latestMigratedRouteCount: 4,
+          migratedRouteCount: 67,
+          latestMigratedRouteCount: 23,
         },
         checks: {
           securityRoutesExtracted: true,
           deploymentRoutesExtracted: true,
           readinessSummaryRoutesExtracted: true,
           rollbackRoutesExtracted: true,
+          liveProbeRoutesExtracted: true,
           apiPathsPreserved: true,
           noFeatureBehaviorChange: true,
         },
@@ -246,6 +288,24 @@ describe("status routes split quality pass", () => {
       expect(rollbackMarkdown.statusCode).toBe(200);
       expect(rollbackMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(rollbackMarkdown.body).toContain("# Rollback window readiness checklist");
+
+      expect(liveProbeJson.statusCode).toBe(200);
+      expect(liveProbeJson.json()).toMatchObject({
+        service: "orderops-node",
+        profileVersion: "production-live-probe-readiness-contract.v1",
+      });
+      expect(liveProbeMarkdown.statusCode).toBe(200);
+      expect(liveProbeMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(liveProbeMarkdown.body).toContain("# Production live probe readiness contract");
+
+      expect(realReadSmokeJson.statusCode).toBe(200);
+      expect(realReadSmokeJson.json()).toMatchObject({
+        service: "orderops-node",
+        profileVersion: "production-live-probe-real-read-smoke-readiness-switch.v1",
+      });
+      expect(realReadSmokeMarkdown.statusCode).toBe(200);
+      expect(realReadSmokeMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(realReadSmokeMarkdown.body).toContain("# Production live probe real-read smoke readiness switch");
     } finally {
       await app.close();
     }

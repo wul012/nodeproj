@@ -79,7 +79,7 @@ describe("managed audit sandbox code health pass", () => {
       "src/services/opsPromotionArchiveRenderers.ts",
       "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.ts",
     ]);
-    expect(profile.largeFileInventory[0]?.lineCount).toBeGreaterThan(
+    expect(profile.largeFileInventory[0]?.lineCount).toBeLessThanOrEqual(
       profile.largeFileInventory[0]?.targetMaxLineCount ?? 1200,
     );
     expect(profile.splitAcceptanceChecklist.map((item) => item.id)).toEqual([

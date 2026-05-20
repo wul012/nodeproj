@@ -17,7 +17,7 @@ export interface StatusRoutesSplitQualityPassProfile {
   realResolverImplementationAllowed: false;
   connectsManagedAudit: false;
   executionAllowed: false;
-  sourceVersion: "Node v279";
+  sourceVersion: "Node v280";
   splitScope: {
     sourceFile: "src/routes/statusRoutes.ts";
     previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts";
@@ -26,13 +26,14 @@ export interface StatusRoutesSplitQualityPassProfile {
     deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts";
     readinessSummaryExtractedRouteModule: "src/routes/statusReadinessSummaryRoutes.ts";
     rollbackExtractedRouteModule: "src/routes/statusRollbackRoutes.ts";
+    liveProbeExtractedRouteModule: "src/routes/statusLiveProbeRoutes.ts";
     extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts";
     extractedTypesModule: "src/routes/statusRouteTypes.ts";
-    migratedRouteCount: 44;
-    latestMigratedRouteCount: 4;
-    migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, and rollback readiness";
+    migratedRouteCount: 67;
+    latestMigratedRouteCount: 23;
+    migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, rollback readiness, and live-probe readiness";
     apiPathsPreserved: string[];
-    nextSplitCandidate: "live-probe route group";
+    nextSplitCandidate: "remaining real-read window route group";
   };
   qualityDigest: string;
   checks: {
@@ -41,6 +42,7 @@ export interface StatusRoutesSplitQualityPassProfile {
     deploymentRoutesExtracted: boolean;
     readinessSummaryRoutesExtracted: boolean;
     rollbackRoutesExtracted: boolean;
+    liveProbeRoutesExtracted: boolean;
     jsonMarkdownHelperExtracted: boolean;
     statusRouteTypesExtracted: boolean;
     migratedRouteCountExpected: boolean;
@@ -123,6 +125,29 @@ const PRESERVED_API_PATHS = [
   "/api/v1/production/rollback-window-readiness-checklist",
   "/api/v1/production/rollback-execution-preflight-contract",
   "/api/v1/deployment/rollback-runbook",
+  "/api/v1/production/live-probe-readiness-contract",
+  "/api/v1/production/live-probe-smoke-harness",
+  "/api/v1/production/live-probe-evidence-archive",
+  "/api/v1/production/live-probe-evidence-archive/verification",
+  "/api/v1/production/live-probe-evidence-archive/bundle",
+  "/api/v1/production/live-probe-handoff-checklist",
+  "/api/v1/production/live-probe-real-read-smoke-readiness-switch",
+  "/api/v1/production/live-probe-real-read-smoke-archive-adapter",
+  "/api/v1/production/live-probe-real-read-smoke-execution-request",
+  "/api/v1/production/live-probe-real-read-smoke-result-importer",
+  "/api/v1/production/live-probe-real-read-smoke-release-evidence-gate",
+  "/api/v1/production/live-probe-real-read-smoke-dry-run-command-package",
+  "/api/v1/production/live-probe-real-read-smoke-evidence-capture",
+  "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification",
+  "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-archive",
+  "/api/v1/production/live-probe-real-read-smoke-production-pass-evidence-archive-verification",
+  "/api/v1/production/live-probe-real-read-smoke-operator-runbook",
+  "/api/v1/production/live-probe-real-read-smoke-operator-runbook-verification",
+  "/api/v1/production/live-probe-real-read-smoke-read-only-window-readiness-packet",
+  "/api/v1/production/live-probe-real-read-smoke-read-only-window-live-capture",
+  "/api/v1/production/live-probe-real-read-smoke-read-only-window-capture-archive",
+  "/api/v1/production/live-probe-real-read-smoke-read-only-window-capture-archive-verification",
+  "/api/v1/production/live-probe-real-read-smoke-read-only-window-capture-release-evidence-review",
 ] as const;
 
 export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPassProfile {
@@ -134,13 +159,14 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts",
     readinessSummaryExtractedRouteModule: "src/routes/statusReadinessSummaryRoutes.ts",
     rollbackExtractedRouteModule: "src/routes/statusRollbackRoutes.ts",
+    liveProbeExtractedRouteModule: "src/routes/statusLiveProbeRoutes.ts",
     extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
     extractedTypesModule: "src/routes/statusRouteTypes.ts",
     migratedRouteCount: PRESERVED_API_PATHS.length,
-    latestMigratedRouteCount: 4,
-    migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, and rollback readiness",
+    latestMigratedRouteCount: 23,
+    migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, rollback readiness, and live-probe readiness",
     apiPathsPreserved: [...PRESERVED_API_PATHS],
-    nextSplitCandidate: "live-probe route group",
+    nextSplitCandidate: "remaining real-read window route group",
   };
   const checks = {
     upstreamFixtureRoutesExtracted: true,
@@ -148,11 +174,12 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     deploymentRoutesExtracted: true,
     readinessSummaryRoutesExtracted: true,
     rollbackRoutesExtracted: true,
+    liveProbeRoutesExtracted: true,
     jsonMarkdownHelperExtracted: true,
     statusRouteTypesExtracted: true,
-    migratedRouteCountExpected: splitScope.migratedRouteCount === 44,
-    latestMigratedRouteCountExpected: splitScope.latestMigratedRouteCount === 4,
-    apiPathsPreserved: splitScope.apiPathsPreserved.length === 44,
+    migratedRouteCountExpected: splitScope.migratedRouteCount === 67,
+    latestMigratedRouteCountExpected: splitScope.latestMigratedRouteCount === 23,
+    apiPathsPreserved: splitScope.apiPathsPreserved.length === 67,
     noFeatureBehaviorChange: true,
     noRealResolverImplementation: true,
     noManagedAuditConnection: true,
@@ -180,7 +207,7 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     realResolverImplementationAllowed: false,
     connectsManagedAudit: false,
     executionAllowed: false,
-    sourceVersion: "Node v279",
+    sourceVersion: "Node v280",
     splitScope,
     qualityDigest: sha256StableJson({
       profileVersion: "status-routes-split-quality-pass.v1",
@@ -207,8 +234,8 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     },
     nextActions: [
       "Keep Node v271 as a route quality branch; do not add real resolver behavior here.",
-      "Keep Node v279 as the fifth statusRoutes split quality pass; do not add real resolver behavior here.",
-      "Prefer the live-probe route group as the next split candidate if statusRoutes remains above the target.",
+      "Keep Node v280 as the sixth statusRoutes split quality pass; do not add real resolver behavior here.",
+      "Prefer the remaining real-read window route group as the next split candidate if statusRoutes remains above the target.",
       "Do not mix future statusRoutes quality passes with credential resolver business evidence versions.",
     ],
   };
@@ -293,6 +320,11 @@ function collectProductionBlockers(
       message: "The rollback readiness route group must be moved out of statusRoutes.ts.",
     },
     {
+      condition: checks.liveProbeRoutesExtracted,
+      code: "LIVE_PROBE_ROUTES_NOT_EXTRACTED",
+      message: "The live-probe route group must be moved out of statusRoutes.ts.",
+    },
+    {
       condition: checks.jsonMarkdownHelperExtracted,
       code: "STATUS_JSON_MARKDOWN_HELPER_NOT_EXTRACTED",
       message: "The status JSON/Markdown helper must be extracted for reuse.",
@@ -320,7 +352,7 @@ function collectWarnings(): StatusRoutesSplitQualityPassMessage[] {
       code: "PARTIAL_STATUS_ROUTES_SPLIT",
       severity: "warning",
       source: "status-routes-split-quality-pass",
-      message: "This is the fifth focused statusRoutes split; live-probe routes are still a future split candidate.",
+      message: "This is the sixth focused statusRoutes split; some real-read window routes still remain in statusRoutes.ts.",
     },
   ];
 }
@@ -331,7 +363,7 @@ function collectRecommendations(): StatusRoutesSplitQualityPassMessage[] {
       code: "KEEP_V272_BLOCKED_UNTIL_UPSTREAM_ECHOES",
       severity: "recommendation",
       source: "status-routes-split-quality-pass",
-      message: "After v279, continue splitting only stable route groups and keep API paths and response shapes unchanged.",
+      message: "After v280, continue splitting only stable route groups and keep API paths and response shapes unchanged.",
     },
   ];
 }
