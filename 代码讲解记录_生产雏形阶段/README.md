@@ -321,3 +321,4 @@ release / deployment / rollback / restore 全部保持阻断
 ## v269 补充记录
 
 - `273-credential-resolver-blocked-decision-upstream-echo-verification-v269.md`：Node v269 credential resolver blocked-decision upstream echo verification，消费 Node v268、Java v111、mini-kv v118，验证 blocked decision / counts / missing requirements / no-side-effect 边界三方一致，同时继续阻断真实 resolver 和 managed audit connection。
+- `274-credential-resolver-pre-implementation-plan-intake-v270.md`：Node v270 credential resolver pre-implementation plan intake，消费 Node v269，把 v268 的 10 个 missing requirement 转成 10 个 defined-for-review boundary，并说明为什么本版仍不实现 resolver、不读取 credential value、不解析 raw endpoint、不打开 managed audit connection。

@@ -21,6 +21,7 @@ Node v269：blocked-decision upstream echo verification 已完成，三方 block
    - 只生成 plan intake，不实现真实 resolver。
    - 明确 credential handle、endpoint handle、disabled secret-provider stub、operator approval、rollback、redaction、external request simulation、schema migration policy、audit ledger write policy。
    - 如果 10 个边界不能一次写清楚，继续 blocked，不进入实现。
+   - 已完成：Node v270 已把 v268 的 10 个 missing requirement 转成 10 个 defined-for-review boundary，`planIntakeState=credential-resolver-pre-implementation-plan-intake-ready`，但仍保持 `realResolverImplementationAllowed=false`、`connectsManagedAudit=false`、`credentialValueRead=false`、`rawEndpointUrlParsed=false`、`externalRequestSent=false`。
 
 2. Node v271：statusRoutes split pre-quality branch。
    - 质量优化分支，不新增真实 resolver 能力。
@@ -72,5 +73,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v269 已经把 blocked decision 三方回显验证收口；下一步先做 Node v270 的 pre-implementation plan intake，再把 Node v271 作为质量分支拆 statusRoutes，之后才让 Java v112 + mini-kv v119 并行回显 v270。
+v270 已经把 credential resolver pre-implementation 的 10 个边界写成可审查 plan intake；下一步是 Node v271 质量分支拆 statusRoutes，之后 Java v112 + mini-kv v119 推荐并行回显 v270。
 ```

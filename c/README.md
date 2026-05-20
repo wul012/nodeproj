@@ -60,3 +60,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 ## v269 补充记录
 
 - `c/269/`：credential resolver blocked-decision upstream echo verification，记录 Node v268、Java v111、mini-kv v118 的 blocked decision、counts、missing requirements 和 no-side-effect 边界三方对齐；真实 resolver、credential value、raw endpoint、managed audit connection 和写操作仍关闭。
+- `c/270/`：credential resolver pre-implementation plan intake，记录 10 个 defined-for-review boundary、plan digest、intake digest 和继续阻断真实 resolver / secret provider runtime / credential value / raw endpoint / external request / schema migration / ledger write 的验证。
