@@ -433,7 +433,7 @@ v269-post-blocked-decision-upstream-echo-roadmap.md
  -> 已完成并收口；Node v270 plan intake、Node v271 quality pass、推荐并行 Java v112 + mini-kv v119、Node v272 upstream echo verification 已完成，由 v272-post-plan-intake-echo-roadmap.md 接续
 
 v272-post-plan-intake-echo-roadmap.md
- -> 当前唯一有效全局计划；由 Node v272 plan-intake upstream echo verification 衍生；下一步 Node v273 disabled implementation candidate review，然后推荐并行 Java v113 + mini-kv v120
+ -> 当前唯一有效全局计划；由 Node v272 plan-intake upstream echo verification 衍生；Node v273 disabled implementation candidate review 已完成；下一步推荐并行 Java v113 + mini-kv v120
 ```
 
 ## v269 计划接续状态
@@ -445,6 +445,7 @@ Node v270 已完成 credential resolver pre-implementation plan intake，把 10 
 Node v271 已完成 statusRoutes 第一刀质量拆分，迁移 10 条 upstream fixture route，保持 API path / response shape 不变。
 Java v112 + mini-kv v119 已完成，只读回显 Node v270。
 Node v272 已完成 pre-implementation intake upstream echo verification，三方 plan-intake 证据已对齐。
+Node v273 已完成 disabled implementation candidate review，10 个边界被分类为 4 个 disabled-candidate-ready 和 6 个 approval-required；真实 resolver / credential value / raw endpoint / managed audit connection 仍关闭。
 当前唯一有效全局计划：docs/plans/v272-post-plan-intake-echo-roadmap.md
-下一步：Node v273 disabled implementation candidate review；之后推荐并行 Java v113 + mini-kv v120。
+下一步：推荐并行 Java v113 + mini-kv v120；Node v274 必须等两边完成后再做上游回显验证。
 ```

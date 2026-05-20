@@ -12,22 +12,25 @@ Node v271：statusRoutes split quality pass 已完成，API path / response shap
 Java v112：只读 echo receipt 已完成，不读取 credential value、不写 ledger、不执行 SQL、不打开 managed audit connection。
 mini-kv v119：只读 non-participation receipt 已完成，不实现 resolver、不实例化 resolver client / secret provider、不读 credential、不写 storage、不执行 LOAD/COMPACT/RESTORE/SETNXEX。
 Node v272：pre-implementation intake upstream echo verification 已完成，三方 planIntakeState、counts、boundary codes、requirement codes 和 no-side-effect 边界对齐。
+Node v273：credential resolver disabled implementation candidate review 已完成；只定义 disabled interface candidate / fake wiring review，不实现真实 resolver。
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v273：credential resolver disabled implementation candidate review。
+1. Node v273：credential resolver disabled implementation candidate review。已完成。
    - 消费 Node v272。
    - 只定义 disabled resolver interface candidate 和 fake wiring review。
    - 不实例化真实 secret provider，不读取 credential value，不解析 raw endpoint，不发送 external request。
    - 重点检查 v272 的 10 个边界中，哪些可以进入 disabled candidate，哪些必须继续留在后续审批。
+   - 本版必须同步落地 Node 质量约束：service/types/renderer/test 分拆、route 走 auditJsonMarkdownRoutes、不得新增手写 JSON/Markdown 样板。
 
-2. 推荐并行：Java v113 + mini-kv v120。
+2. 推荐并行：Java v113 + mini-kv v120。当前下一步。
 
    Java v113：只读回显 Node v273 disabled implementation candidate review。
    - 只说明 Java 是否理解 disabled candidate 的接口边界。
    - 不写 approval ledger，不执行 SQL，不打开 managed audit connection。
+   - 同版必须显式处理 Java echo 反向膨胀风险：不要再复制 600-800 行 echo support；优先把 `ReleaseApprovalEchoMarkerSupport` 升级为可复用 echo workflow template，或在 v113 文档中写明下一版必须升级。
 
    mini-kv v120：只读 non-participation receipt。
    - 只证明 mini-kv 不参与 resolver interface、secret provider、credential value、raw endpoint、transport、audit/order 权威状态。
@@ -50,9 +53,15 @@ Node：
 - v273 若新增 service/types/renderer/test，继续从一开始拆分类型和 renderer，避免单文件继续膨胀。
 - route 继续放入 auditJsonMarkdownRoutes，不新增手写 JSON/Markdown route 样板。
 - 如果 v273 出现重复的 Java/mini-kv evidence 引用逻辑，记录 shared upstream echo helper 候选，但不要和 v273 业务闭环混成大重构。
+- Node Strangler 第二步：`statusRoutes.ts` 仍约 2000 行，下一次 Node 质量版优先继续拆，只迁移一组稳定只读路由，保持 API path / response shape 不变。
+- Node 大文件第二战场：`dashboard.ts` 约 2093 行，后续 1-2 个质量版应拆出 dashboard renderer / data sections / route wiring，不和 credential resolver 业务闭环混成一版。
 
 Java：
 - Java v113 若推进，继续沿用 support / builder / records 拆分，不把新 receipt 堆回 OpsEvidenceService。
+- Java v113 优先处理 echo factory 升级：`ReleaseApprovalEchoMarkerSupport` 当前过轻，不能继续让每个新 echo 场景新增 600-800 行 support；推荐抽出 100-200 行标准 echo workflow template。
+- Java Strangler 第二步：`ReleaseApprovalRehearsalResponseRecords.java` 约 1741 行，后续应按 echo 类型拆 10-15 个 records 文件。
+- Java `ReleaseApprovalVerificationHintBuilder.java` 约 860 行，作为中优先级拆分项保留。
+- Java CI jacoco gate 仍未落地，作为中优先级工程化补强项保留。
 - 不写 approval ledger，不执行 SQL，不读取 credential value，不打开 managed audit connection。
 
 mini-kv：
