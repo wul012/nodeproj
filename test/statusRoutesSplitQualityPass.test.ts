@@ -5,7 +5,7 @@ import { loadConfig } from "../src/config.js";
 import { loadStatusRoutesSplitQualityPass } from "../src/services/statusRoutesSplitQualityPass.js";
 
 describe("status routes split quality pass", () => {
-  it("records the v277 deployment and connection route split without enabling behavior", () => {
+  it("records the v278 readiness summary route split without enabling behavior", () => {
     const profile = loadStatusRoutesSplitQualityPass();
 
     expect(profile).toMatchObject({
@@ -17,24 +17,26 @@ describe("status routes split quality pass", () => {
       realResolverImplementationAllowed: false,
       connectsManagedAudit: false,
       executionAllowed: false,
-      sourceVersion: "Node v277",
+      sourceVersion: "Node v278",
       splitScope: {
         sourceFile: "src/routes/statusRoutes.ts",
         previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
         extractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
         latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts",
         deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts",
+        readinessSummaryExtractedRouteModule: "src/routes/statusReadinessSummaryRoutes.ts",
         extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
         extractedTypesModule: "src/routes/statusRouteTypes.ts",
-        migratedRouteCount: 27,
-        latestMigratedRouteCount: 7,
-        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, and connection readiness",
-        nextSplitCandidate: "rollback runbook and production readiness summary routes",
+        migratedRouteCount: 40,
+        latestMigratedRouteCount: 13,
+        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, and production readiness summary",
+        nextSplitCandidate: "rollback runbook and live-probe route groups",
       },
       checks: {
         upstreamFixtureRoutesExtracted: true,
         securityRoutesExtracted: true,
         deploymentRoutesExtracted: true,
+        readinessSummaryRoutesExtracted: true,
         jsonMarkdownHelperExtracted: true,
         statusRouteTypesExtracted: true,
         migratedRouteCountExpected: true,
@@ -46,10 +48,10 @@ describe("status routes split quality pass", () => {
         readyForStatusRoutesSplitQualityPass: true,
       },
       summary: {
-        checkCount: 12,
-        passedCheckCount: 12,
-        migratedRouteCount: 27,
-        preservedApiPathCount: 27,
+        checkCount: 13,
+        passedCheckCount: 13,
+        migratedRouteCount: 40,
+        preservedApiPathCount: 40,
         productionBlockerCount: 0,
         warningCount: 1,
         recommendationCount: 1,
@@ -84,6 +86,19 @@ describe("status routes split quality pass", () => {
       "/api/v1/production/connection-implementation-precheck",
       "/api/v1/production/connection-dry-run-change-request",
       "/api/v1/production/connection-archive-verification",
+      "/api/v1/production/readiness-summary",
+      "/api/v1/production/readiness-summary-v2",
+      "/api/v1/production/readiness-summary-v3",
+      "/api/v1/production/readiness-summary-v4",
+      "/api/v1/production/readiness-summary-v5",
+      "/api/v1/production/readiness-summary-v6",
+      "/api/v1/production/readiness-summary-v7",
+      "/api/v1/production/readiness-summary-v8",
+      "/api/v1/production/readiness-summary-v9",
+      "/api/v1/production/readiness-summary-v10",
+      "/api/v1/production/readiness-summary-v11",
+      "/api/v1/production/readiness-summary-v12",
+      "/api/v1/production/readiness-summary-v13",
     ]);
   });
 
@@ -135,17 +150,26 @@ describe("status routes split quality pass", () => {
         method: "GET",
         url: "/api/v1/production/connection-config-contract?format=markdown",
       });
+      const readinessJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/readiness-summary",
+      });
+      const readinessMarkdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/readiness-summary?format=markdown",
+      });
 
       expect(qualityJson.statusCode).toBe(200);
       expect(qualityJson.json()).toMatchObject({
         qualityPassState: "status-routes-split-quality-pass-ready",
         splitScope: {
-          migratedRouteCount: 27,
-          latestMigratedRouteCount: 7,
+          migratedRouteCount: 40,
+          latestMigratedRouteCount: 13,
         },
         checks: {
           securityRoutesExtracted: true,
           deploymentRoutesExtracted: true,
+          readinessSummaryRoutesExtracted: true,
           apiPathsPreserved: true,
           noFeatureBehaviorChange: true,
         },
@@ -189,6 +213,15 @@ describe("status routes split quality pass", () => {
       expect(connectionMarkdown.statusCode).toBe(200);
       expect(connectionMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(connectionMarkdown.body).toContain("# Production connection config contract");
+
+      expect(readinessJson.statusCode).toBe(200);
+      expect(readinessJson.json()).toMatchObject({
+        service: "orderops-node",
+        indexVersion: "production-readiness-summary-index.v1",
+      });
+      expect(readinessMarkdown.statusCode).toBe(200);
+      expect(readinessMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(readinessMarkdown.body).toContain("# Production readiness summary");
     } finally {
       await app.close();
     }
