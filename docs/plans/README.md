@@ -80,8 +80,9 @@ Node v268 已完成 credential resolver production readiness decision gate，并
 Java v111 + mini-kv v118 已推荐并行完成，只读回显 Node v268 blocked decision。
 Node v269 已完成 blocked-decision upstream echo verification，三方 blocked decision、counts、missing requirements 和 no-side-effect 边界对齐。
 Node v270 已完成 credential resolver pre-implementation plan intake，把 v268 的 10 个 missing requirement 转成 10 个 defined-for-review boundary；真实 resolver、credential value、raw endpoint、managed audit connection、schema migration、ledger write 和 auto-start 仍全部关闭。
+Node v271 已完成 statusRoutes split quality pass，抽出 status route types、JSON/Markdown helper 和 upstream fixture route module，迁移 10 条只读 upstream fixture / production evidence intake 路由，API path / response shape 保持不变。
 当前唯一有效全局计划：`docs/plans/v269-post-blocked-decision-upstream-echo-roadmap.md`。
-下一步：推荐三项并行：Node v271 statusRoutes split pre-quality branch + Java v112 回显 Node v270 + mini-kv v119 non-participation receipt。Node v272 必须等 Java v112 + mini-kv v119 完成后再推进。
+下一步：等待/推进 Java v112 + mini-kv v119 回显 Node v270；Node v272 必须等 Java v112 + mini-kv v119 完成后再推进。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -433,6 +434,7 @@ v266-post-fake-shell-archive-roadmap.md
 Java v111 + mini-kv v118 已推荐并行完成，只读回显 Node v268 blocked decision。
 Node v269 已完成 blocked-decision upstream echo verification，三方 blocked decision、counts、missing requirements 和 no-side-effect 边界对齐。
 Node v270 已完成 credential resolver pre-implementation plan intake，把 10 个真实 resolver 前置边界写成可审查计划。
+Node v271 已完成 statusRoutes 第一刀质量拆分，迁移 10 条 upstream fixture route，保持 API path / response shape 不变。
 当前唯一有效全局计划：docs/plans/v269-post-blocked-decision-upstream-echo-roadmap.md
-下一步：推荐三项并行：Node v271 做 statusRoutes split pre-quality branch，同时 Java v112 + mini-kv v119 回显 Node v270；Node v272 等两边完成后再做上游回显验证。
+下一步：Java v112 + mini-kv v119 回显 Node v270；Node v272 等两边完成后再做上游回显验证。
 ```

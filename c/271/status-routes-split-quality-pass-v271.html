@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v271 Status Routes Split Quality Pass</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111827;
+        --muted: #5b6472;
+        --line: #d7dde7;
+        --panel: #f7f9fc;
+        --accent: #2563eb;
+        --safe: #0f766e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #fff;
+        color: var(--ink);
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+      }
+
+      main {
+        max-width: 1160px;
+        margin: 0 auto;
+        padding: 38px 28px 54px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 34px;
+        line-height: 1.2;
+      }
+
+      .subtitle {
+        margin: 0 0 26px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+
+      .metric,
+      .section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .metric {
+        padding: 16px;
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .value {
+        margin-top: 8px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .section {
+        padding: 18px;
+        margin-top: 16px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 20px;
+      }
+
+      .badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: #dbeafe;
+        color: var(--accent);
+        font-weight: 700;
+        font-size: 13px;
+      }
+
+      .safe {
+        background: #ccfbf1;
+        color: var(--safe);
+      }
+
+      .paths {
+        columns: 2;
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .paths li {
+        break-inside: avoid;
+        margin-bottom: 8px;
+        font-family: Consolas, "Courier New", monospace;
+        font-size: 13px;
+      }
+
+      code {
+        font-family: Consolas, "Courier New", monospace;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v271 Status Routes Split Quality Pass</h1>
+      <p class="subtitle">质量分支：把 upstream fixture / production evidence intake 路由从 statusRoutes.ts 拆出，保持 API path 和 response shape 不变。</p>
+
+      <div class="metrics">
+        <div class="metric">
+          <div class="label">Quality state</div>
+          <div class="value">ready</div>
+        </div>
+        <div class="metric">
+          <div class="label">Migrated routes</div>
+          <div class="value">10</div>
+        </div>
+        <div class="metric">
+          <div class="label">Feature behavior</div>
+          <div class="value">unchanged</div>
+        </div>
+        <div class="metric">
+          <div class="label">Real resolver</div>
+          <div class="value">blocked</div>
+        </div>
+      </div>
+
+      <section class="section">
+        <h2>拆分产物</h2>
+        <p><span class="badge">src/routes/statusUpstreamFixtureRoutes.ts</span></p>
+        <p><span class="badge">src/routes/statusJsonMarkdownRoute.ts</span></p>
+        <p><span class="badge">src/routes/statusRouteTypes.ts</span></p>
+        <p><span class="badge safe">/api/v1/status-routes/split-quality-pass</span></p>
+      </section>
+
+      <section class="section">
+        <h2>保留的 API Paths</h2>
+        <ul class="paths">
+          <li>/api/v1/upstreams/production-evidence-intake</li>
+          <li>/api/v1/upstream-contract-fixtures</li>
+          <li>/api/v1/upstream-contract-fixtures/drift-diagnostics</li>
+          <li>/api/v1/upstream-contract-fixtures/archive-snapshot</li>
+          <li>/api/v1/upstream-contract-fixtures/scenario-matrix</li>
+          <li>/api/v1/upstream-contract-fixtures/scenario-matrix/verification</li>
+          <li>/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle</li>
+          <li>/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification</li>
+          <li>/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-index</li>
+          <li>/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>安全边界</h2>
+        <p><code>featureBehaviorChanged=false</code></p>
+        <p><code>realResolverImplementationAllowed=false</code></p>
+        <p><code>connectsManagedAudit=false</code></p>
+        <p><code>executionAllowed=false</code></p>
+      </section>
+    </main>
+  </body>
+</html>

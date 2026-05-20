@@ -1,10 +1,5 @@
 import type { FastifyInstance } from "fastify";
 
-import type { MiniKvClient } from "../clients/miniKvClient.js";
-import type { OrderPlatformClient } from "../clients/orderPlatformClient.js";
-import type { AppConfig } from "../config.js";
-import type { AuditLog } from "../services/auditLog.js";
-import type { AuditStoreRuntimeDescription } from "../services/auditStoreFactory.js";
 import { OpsSnapshotService } from "../services/opsSnapshotService.js";
 import {
   ProductionConnectionDryRunApprovalLedger,
@@ -12,7 +7,18 @@ import {
   renderProductionConnectionDryRunApprovalLedgerMarkdown,
   renderProductionConnectionDryRunApprovalMarkdown,
 } from "../services/productionConnectionDryRunApprovalLedger.js";
-import type { ProductionConnectionDryRunApprovalDecision } from "../services/productionConnectionDryRunApprovalLedger.js";
+import type {
+  CreateProductionConnectionApprovalBody,
+  FixtureReportQuery,
+  ProductionConnectionApprovalParams,
+  ProductionConnectionApprovalQuery,
+  StatusRouteDeps,
+} from "./statusRouteTypes.js";
+import {
+  fixtureReportQuerySchema,
+  registerJsonMarkdownReportRoute,
+} from "./statusJsonMarkdownRoute.js";
+import { registerStatusUpstreamFixtureRoutes } from "./statusUpstreamFixtureRoutes.js";
 import {
   createCiEvidenceCommandProfile,
   renderCiEvidenceCommandProfileMarkdown,
@@ -393,107 +399,11 @@ import {
   loadWorkflowEvidenceVerification,
   renderWorkflowEvidenceVerificationMarkdown,
 } from "../services/workflowEvidenceVerification.js";
+import {
+  loadStatusRoutesSplitQualityPass,
+  renderStatusRoutesSplitQualityPassMarkdown,
+} from "../services/statusRoutesSplitQualityPass.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
-import {
-  loadUpstreamContractFixtureReport,
-  renderUpstreamContractFixtureReportMarkdown,
-} from "../services/upstreamContractFixtures.js";
-import {
-  loadUpstreamContractFixtureDriftDiagnostics,
-  renderUpstreamContractFixtureDriftDiagnosticsMarkdown,
-} from "../services/upstreamContractFixtureDrift.js";
-import {
-  loadUpstreamContractFixtureArchiveSnapshot,
-  renderUpstreamContractFixtureArchiveSnapshotMarkdown,
-} from "../services/upstreamContractFixtureArchive.js";
-import {
-  loadUpstreamContractFixtureScenarioMatrix,
-  renderUpstreamContractFixtureScenarioMatrixMarkdown,
-} from "../services/upstreamContractFixtureScenarioMatrix.js";
-import {
-  loadUpstreamContractFixtureScenarioMatrixVerification,
-  renderUpstreamContractFixtureScenarioMatrixVerificationMarkdown,
-} from "../services/upstreamContractFixtureScenarioMatrixVerification.js";
-import {
-  loadUpstreamContractFixtureScenarioVerificationArchiveBundle,
-  renderUpstreamContractFixtureScenarioVerificationArchiveBundleMarkdown,
-} from "../services/upstreamContractFixtureScenarioVerificationArchiveBundle.js";
-import {
-  loadUpstreamContractFixtureScenarioVerificationArchiveBundleVerification,
-  renderUpstreamContractFixtureScenarioVerificationArchiveBundleVerificationMarkdown,
-} from "../services/upstreamContractFixtureScenarioVerificationArchiveBundleVerification.js";
-import {
-  loadUpstreamContractFixtureScenarioReleaseEvidenceIndex,
-  renderUpstreamContractFixtureScenarioReleaseEvidenceIndexMarkdown,
-} from "../services/upstreamContractFixtureScenarioReleaseEvidenceIndex.js";
-import {
-  loadUpstreamContractFixtureScenarioReleaseEvidenceReadinessGate,
-  renderUpstreamContractFixtureScenarioReleaseEvidenceReadinessGateMarkdown,
-} from "../services/upstreamContractFixtureScenarioReleaseEvidenceReadinessGate.js";
-import {
-  loadUpstreamProductionEvidenceIntake,
-  renderUpstreamProductionEvidenceIntakeMarkdown,
-} from "../services/upstreamProductionEvidenceIntake.js";
-
-interface StatusRouteDeps {
-  config: AppConfig;
-  snapshots: OpsSnapshotService;
-  orderPlatform: OrderPlatformClient;
-  miniKv: MiniKvClient;
-  auditLog: AuditLog;
-  auditStoreRuntime: AuditStoreRuntimeDescription;
-  productionConnectionDryRunApprovals: ProductionConnectionDryRunApprovalLedger;
-}
-
-interface FixtureReportQuery {
-  format?: "json" | "markdown";
-}
-
-interface ProductionConnectionApprovalQuery {
-  format?: "json" | "markdown";
-  limit?: number;
-}
-
-interface ProductionConnectionApprovalParams {
-  approvalId: string;
-}
-
-interface CreateProductionConnectionApprovalBody {
-  decision: ProductionConnectionDryRunApprovalDecision;
-  reviewer: string;
-  reason?: string;
-  changeRequestDigest: string;
-}
-
-const fixtureReportQuerySchema = {
-  type: "object",
-  properties: {
-    format: { type: "string", enum: ["json", "markdown"] },
-  },
-  additionalProperties: false,
-} as const;
-
-function registerJsonMarkdownReportRoute<TProfile>(
-  app: FastifyInstance,
-  path: string,
-  loadProfile: () => Promise<TProfile>,
-  renderMarkdown: (profile: TProfile) => string,
-): void {
-  app.get<{ Querystring: FixtureReportQuery }>(path, {
-    schema: {
-      querystring: fixtureReportQuerySchema,
-    },
-  }, async (request, reply) => {
-    const profile = await loadProfile();
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderMarkdown(profile);
-    }
-
-    return profile;
-  });
-}
 
 export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRouteDeps): Promise<void> {
   app.get("/health", async () => ({
@@ -511,215 +421,14 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     return createUpstreamOverview(deps.config, snapshot);
   });
 
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstreams/production-evidence-intake", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const intake = await loadUpstreamProductionEvidenceIntake(deps.config);
+  registerStatusUpstreamFixtureRoutes(app, deps);
 
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamProductionEvidenceIntakeMarkdown(intake);
-    }
-
-    return intake;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const report = await loadUpstreamContractFixtureReport(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureReportMarkdown(report);
-    }
-
-    return report;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/drift-diagnostics", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const diagnostics = await loadUpstreamContractFixtureDriftDiagnostics(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureDriftDiagnosticsMarkdown(diagnostics);
-    }
-
-    return diagnostics;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/archive-snapshot", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const snapshot = await loadUpstreamContractFixtureArchiveSnapshot(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureArchiveSnapshotMarkdown(snapshot);
-    }
-
-    return snapshot;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const matrix = await loadUpstreamContractFixtureScenarioMatrix(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureScenarioMatrixMarkdown(matrix);
-    }
-
-    return matrix;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const verification = await loadUpstreamContractFixtureScenarioMatrixVerification(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureScenarioMatrixVerificationMarkdown(verification);
-    }
-
-    return verification;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const bundle = await loadUpstreamContractFixtureScenarioVerificationArchiveBundle(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureScenarioVerificationArchiveBundleMarkdown(bundle);
-    }
-
-    return bundle;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const verification = await loadUpstreamContractFixtureScenarioVerificationArchiveBundleVerification(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureScenarioVerificationArchiveBundleVerificationMarkdown(verification);
-    }
-
-    return verification;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-index", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const index = await loadUpstreamContractFixtureScenarioReleaseEvidenceIndex(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureScenarioReleaseEvidenceIndexMarkdown(index);
-    }
-
-    return index;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const gate = await loadUpstreamContractFixtureScenarioReleaseEvidenceReadinessGate(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderUpstreamContractFixtureScenarioReleaseEvidenceReadinessGateMarkdown(gate);
-    }
-
-    return gate;
-  });
+  registerJsonMarkdownReportRoute(
+    app,
+    "/api/v1/status-routes/split-quality-pass",
+    () => Promise.resolve(loadStatusRoutesSplitQualityPass()),
+    renderStatusRoutesSplitQualityPassMarkdown,
+  );
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/evidence-command-profile", {
     schema: {

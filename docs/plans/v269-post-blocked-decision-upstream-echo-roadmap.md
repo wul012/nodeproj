@@ -30,6 +30,7 @@ Node v269：blocked-decision upstream echo verification 已完成，三方 block
    - 优先拆 `src/routes/statusRoutes.ts` 的 route group/helper。
    - 保持 API path / response shape 不变。
    - 同时记录后续 echo factory / shared evidence alignment helper 的候选点，但不在 v271 做大重构。
+   - 已完成：Node v271 已抽出 `src/routes/statusRouteTypes.ts`、`src/routes/statusJsonMarkdownRoute.ts`、`src/routes/statusUpstreamFixtureRoutes.ts`，迁移 10 条 upstream fixture / production evidence intake 只读路由，并新增 `/api/v1/status-routes/split-quality-pass` 质量证据；API path / response shape 保持不变。
 
    Java v112：只读回显 Node v270 pre-implementation plan intake。
    - 重点验证 Java 仍不读取 credential value、不写 ledger、不执行 SQL、不打开 managed audit connection。
@@ -83,5 +84,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v270 已经把 credential resolver pre-implementation 的 10 个边界写成可审查 plan intake；下一轮推荐三项并行：Node v271 做 statusRoutes 质量分支，同时 Java v112 + mini-kv v119 回显 v270；Node v272 必须等两边回显完成后再推进。
+v271 已完成 statusRoutes 第一刀质量拆分；现在不能抢跑 Node v272，下一步等待/推进 Java v112 + mini-kv v119 回显 Node v270，二者完成后 Node v272 再做上游回显验证。
 ```
