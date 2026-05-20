@@ -49,6 +49,7 @@ Node v269：blocked-decision upstream echo verification 已完成，三方 block
    - 仅在 Java v112 + mini-kv v119 完成后推进。
    - 验证 Node v270 的 10 个边界被两边一致理解。
    - 仍不实现真实 resolver，不读取 credential value，不解析 raw endpoint，不打开 managed audit connection。
+   - 已完成：Node v272 已消费 Node v270、Java v112、mini-kv v119，验证 plan intake state、26/26 checks、10 个 boundary code、10 个 requirement code、plan/intake digest、credential/raw endpoint/resolver/connection/write/auto-start 边界全部对齐；本版仍保持 `realResolverImplementationAllowed=false`、`connectsManagedAudit=false`、`credentialValueRead=false`、`rawEndpointUrlParsed=false`、`externalRequestSent=false`。
 ```
 
 ## 显式质量优化项
@@ -84,5 +85,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v271 已完成 statusRoutes 第一刀质量拆分；现在不能抢跑 Node v272，下一步等待/推进 Java v112 + mini-kv v119 回显 Node v270，二者完成后 Node v272 再做上游回显验证。
+本计划已收口：Node v270 plan intake、推荐三项并行 Node v271 + Java v112 + mini-kv v119、Node v272 upstream echo verification 均已完成。后续不再向本计划追加重合版本，由 docs/plans/v272-post-plan-intake-echo-roadmap.md 接续。
 ```

@@ -62,3 +62,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/269/`：credential resolver blocked-decision upstream echo verification，记录 Node v268、Java v111、mini-kv v118 的 blocked decision、counts、missing requirements 和 no-side-effect 边界三方对齐；真实 resolver、credential value、raw endpoint、managed audit connection 和写操作仍关闭。
 - `c/270/`：credential resolver pre-implementation plan intake，记录 10 个 defined-for-review boundary、plan digest、intake digest 和继续阻断真实 resolver / secret provider runtime / credential value / raw endpoint / external request / schema migration / ledger write 的验证。
 - `c/271/`：statusRoutes split quality pass，记录 `statusRoutes.ts` 第一刀拆分、10 条 upstream fixture / production evidence intake 只读路由迁移，以及 API path / response shape 保持不变的验证。
+- `c/272/`：credential resolver pre-implementation plan intake upstream echo verification，记录 Node v270、Java v112、mini-kv v119 的 plan-intake state、counts、boundary codes、requirement codes 和 no-side-effect 边界三方对齐。

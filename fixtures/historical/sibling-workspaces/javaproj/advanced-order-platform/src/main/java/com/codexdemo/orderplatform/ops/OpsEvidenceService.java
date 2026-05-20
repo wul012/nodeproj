@@ -130,6 +130,10 @@ public class OpsEvidenceService {
             RELEASE_APPROVAL_REHEARSAL_MANAGED_AUDIT_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_ECHO_RECEIPT_VERSION =
                     "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-production-readiness-blocked-decision-echo-receipt.v1";
 
+    static final String
+            RELEASE_APPROVAL_REHEARSAL_MANAGED_AUDIT_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_ECHO_RECEIPT_VERSION =
+                    "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-pre-implementation-plan-intake-echo-receipt.v1";
+
     static final String RELEASE_APPROVAL_REHEARSAL_APPROVAL_RECORD_HANDOFF_SCHEMA_VERSION =
             "java-release-approval-rehearsal-response-schema.v9";
 
@@ -216,6 +220,10 @@ public class OpsEvidenceService {
             RELEASE_APPROVAL_REHEARSAL_MANAGED_AUDIT_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_ECHO_RECEIPT_SCHEMA_VERSION =
                     "java-release-approval-rehearsal-response-schema.v31";
 
+    static final String
+            RELEASE_APPROVAL_REHEARSAL_MANAGED_AUDIT_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_ECHO_RECEIPT_SCHEMA_VERSION =
+                    "java-release-approval-rehearsal-response-schema.v32";
+
     static final String RELEASE_APPROVAL_REHEARSAL_FAILURE_TAXONOMY_VERSION =
             "java-release-approval-rehearsal-failure-taxonomy.v1";
 
@@ -223,7 +231,7 @@ public class OpsEvidenceService {
             "java-release-approval-rehearsal-verification-hint.v1";
 
     static final String RELEASE_APPROVAL_REHEARSAL_RESPONSE_SCHEMA_VERSION =
-            "java-release-approval-rehearsal-response-schema.v31";
+            "java-release-approval-rehearsal-response-schema.v32";
 
     static final String NODE_V211_MANAGED_AUDIT_PROFILE_VERSION =
             "managed-audit-identity-approval-provenance-dry-run-packet.v1";
@@ -618,6 +626,36 @@ public class OpsEvidenceService {
 
     static final String NODE_V268_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_DECISION_GATE_STATE =
             "blocked";
+
+    static final String NODE_V269_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_UPSTREAM_ECHO_VERIFICATION_VERSION =
+            "Node v269";
+
+    static final String NODE_V269_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_UPSTREAM_ECHO_VERIFICATION_PROFILE =
+            "managed-audit-manual-sandbox-connection-credential-resolver-production-readiness-blocked-decision-upstream-echo-verification.v1";
+
+    static final String NODE_V269_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_UPSTREAM_ECHO_VERIFICATION_ENDPOINT =
+            "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-production-readiness-blocked-decision-upstream-echo-verification";
+
+    static final String NODE_V269_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_UPSTREAM_ECHO_VERIFICATION_MARKDOWN_ENDPOINT =
+            "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-production-readiness-blocked-decision-upstream-echo-verification?format=markdown";
+
+    static final String NODE_V269_CREDENTIAL_RESOLVER_PRODUCTION_READINESS_BLOCKED_DECISION_UPSTREAM_ECHO_VERIFICATION_STATE =
+            "credential-resolver-production-readiness-blocked-decision-upstream-echo-verification-ready";
+
+    static final String NODE_V270_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_VERSION =
+            "Node v270";
+
+    static final String NODE_V270_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_PROFILE =
+            "managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake.v1";
+
+    static final String NODE_V270_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_ENDPOINT =
+            "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake";
+
+    static final String NODE_V270_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_MARKDOWN_ENDPOINT =
+            "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake?format=markdown";
+
+    static final String NODE_V270_CREDENTIAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_INTAKE_STATE =
+            "credential-resolver-pre-implementation-plan-intake-ready";
 
     static final String NODE_V210_APPROVAL_BINDING_CONTRACT_VERSION =
             "managed-audit-identity-approval-binding-contract.v1";
