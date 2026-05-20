@@ -117,4 +117,13 @@ describe("dashboardHtml", () => {
     expect(html).toContain("function renderScenarioArchiveVerification");
     expect(html).toContain("refreshScenarioArchiveVerification");
   });
+
+  it("keeps the dashboard entrypoint as a small shell around split assets", () => {
+    const html = dashboardHtml();
+
+    expect(html).toContain("<style>");
+    expect(html).toContain("<main class=\"shell\">");
+    expect(html).toContain("<script>");
+    expect(html).toContain("const $ = (id) => document.getElementById(id);");
+  });
 });
