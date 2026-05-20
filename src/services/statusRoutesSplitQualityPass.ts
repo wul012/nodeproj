@@ -17,23 +17,28 @@ export interface StatusRoutesSplitQualityPassProfile {
   realResolverImplementationAllowed: false;
   connectsManagedAudit: false;
   executionAllowed: false;
-  sourceVersion: "Node v271";
+  sourceVersion: "Node v276";
   splitScope: {
     sourceFile: "src/routes/statusRoutes.ts";
+    previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts";
     extractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts";
+    latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts";
     extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts";
     extractedTypesModule: "src/routes/statusRouteTypes.ts";
-    migratedRouteCount: 10;
-    migratedRouteGroup: "upstream fixture and production evidence intake";
+    migratedRouteCount: 20;
+    latestMigratedRouteCount: 10;
+    migratedRouteGroup: "upstream fixture, production evidence intake, and security readiness";
     apiPathsPreserved: string[];
-    nextSplitCandidate: "production readiness summary routes";
+    nextSplitCandidate: "deployment and production readiness summary routes";
   };
   qualityDigest: string;
   checks: {
     upstreamFixtureRoutesExtracted: boolean;
+    securityRoutesExtracted: boolean;
     jsonMarkdownHelperExtracted: boolean;
     statusRouteTypesExtracted: boolean;
     migratedRouteCountExpected: boolean;
+    latestMigratedRouteCountExpected: boolean;
     apiPathsPreserved: boolean;
     noFeatureBehaviorChange: boolean;
     noRealResolverImplementation: boolean;
@@ -78,25 +83,40 @@ const PRESERVED_API_PATHS = [
   "/api/v1/upstream-contract-fixtures/scenario-matrix/verification/archive-bundle/verification",
   "/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-index",
   "/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate",
+  "/api/v1/security/access-control-readiness",
+  "/api/v1/security/access-policy",
+  "/api/v1/security/access-guard-readiness",
+  "/api/v1/security/auth-enforcement-rehearsal",
+  "/api/v1/security/operator-identity-contract",
+  "/api/v1/security/signed-auth-token-contract",
+  "/api/v1/security/verified-identity-audit-binding",
+  "/api/v1/security/idp-verifier-boundary",
+  "/api/v1/security/jwks-verifier-fixture-rehearsal",
+  "/api/v1/security/jwks-cache-contract",
 ] as const;
 
 export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPassProfile {
   const splitScope: StatusRoutesSplitQualityPassProfile["splitScope"] = {
     sourceFile: "src/routes/statusRoutes.ts",
+    previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
     extractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
+    latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts",
     extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
     extractedTypesModule: "src/routes/statusRouteTypes.ts",
     migratedRouteCount: PRESERVED_API_PATHS.length,
-    migratedRouteGroup: "upstream fixture and production evidence intake",
+    latestMigratedRouteCount: 10,
+    migratedRouteGroup: "upstream fixture, production evidence intake, and security readiness",
     apiPathsPreserved: [...PRESERVED_API_PATHS],
-    nextSplitCandidate: "production readiness summary routes",
+    nextSplitCandidate: "deployment and production readiness summary routes",
   };
   const checks = {
     upstreamFixtureRoutesExtracted: true,
+    securityRoutesExtracted: true,
     jsonMarkdownHelperExtracted: true,
     statusRouteTypesExtracted: true,
-    migratedRouteCountExpected: splitScope.migratedRouteCount === 10,
-    apiPathsPreserved: splitScope.apiPathsPreserved.length === 10,
+    migratedRouteCountExpected: splitScope.migratedRouteCount === 20,
+    latestMigratedRouteCountExpected: splitScope.latestMigratedRouteCount === 10,
+    apiPathsPreserved: splitScope.apiPathsPreserved.length === 20,
     noFeatureBehaviorChange: true,
     noRealResolverImplementation: true,
     noManagedAuditConnection: true,
@@ -124,7 +144,7 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     realResolverImplementationAllowed: false,
     connectsManagedAudit: false,
     executionAllowed: false,
-    sourceVersion: "Node v271",
+    sourceVersion: "Node v276",
     splitScope,
     qualityDigest: sha256StableJson({
       profileVersion: "status-routes-split-quality-pass.v1",
@@ -151,8 +171,9 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     },
     nextActions: [
       "Keep Node v271 as a route quality branch; do not add real resolver behavior here.",
-      "Let Java v112 and mini-kv v119 continue in parallel because they only consume Node v270 evidence.",
-      "Do not run Node v272 until Java v112 and mini-kv v119 are complete.",
+      "Keep Node v276 as the second statusRoutes split quality pass; do not add real resolver behavior here.",
+      "Prefer deployment and production readiness summary route groups as the next split candidates.",
+      "Do not mix future statusRoutes quality passes with credential resolver business evidence versions.",
     ],
   };
 }
@@ -216,6 +237,11 @@ function collectProductionBlockers(
       message: "The upstream fixture route group must be moved out of statusRoutes.ts.",
     },
     {
+      condition: checks.securityRoutesExtracted,
+      code: "SECURITY_ROUTES_NOT_EXTRACTED",
+      message: "The security readiness route group must be moved out of statusRoutes.ts.",
+    },
+    {
       condition: checks.jsonMarkdownHelperExtracted,
       code: "STATUS_JSON_MARKDOWN_HELPER_NOT_EXTRACTED",
       message: "The status JSON/Markdown helper must be extracted for reuse.",
@@ -243,7 +269,7 @@ function collectWarnings(): StatusRoutesSplitQualityPassMessage[] {
       code: "PARTIAL_STATUS_ROUTES_SPLIT",
       severity: "warning",
       source: "status-routes-split-quality-pass",
-      message: "This is the first focused statusRoutes split; production readiness summary routes are still a future split candidate.",
+      message: "This is the second focused statusRoutes split; deployment and production readiness summary routes are still future split candidates.",
     },
   ];
 }
@@ -254,7 +280,7 @@ function collectRecommendations(): StatusRoutesSplitQualityPassMessage[] {
       code: "KEEP_V272_BLOCKED_UNTIL_UPSTREAM_ECHOES",
       severity: "recommendation",
       source: "status-routes-split-quality-pass",
-      message: "After v271, wait for Java v112 and mini-kv v119 before running Node v272.",
+      message: "After v276, continue splitting only stable route groups and keep API paths and response shapes unchanged.",
     },
   ];
 }

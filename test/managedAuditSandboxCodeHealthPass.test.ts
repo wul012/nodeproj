@@ -79,7 +79,9 @@ describe("managed audit sandbox code health pass", () => {
       "src/services/opsPromotionArchiveRenderers.ts",
       "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.ts",
     ]);
-    expect(profile.largeFileInventory[0]?.lineCount).toBeGreaterThan(2000);
+    expect(profile.largeFileInventory[0]?.lineCount).toBeGreaterThan(
+      profile.largeFileInventory[0]?.targetMaxLineCount ?? 1200,
+    );
     expect(profile.splitAcceptanceChecklist.map((item) => item.id)).toEqual([
       "split-status-routes-by-domain",
       "split-dashboard-managed-audit-panels",
