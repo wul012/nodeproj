@@ -29,10 +29,11 @@ If already in final cleanup, only do safe cleanup: stop processes started this t
 
 Before advancing a Node version:
 
-- Read the latest valid plan in `docs/plans/`.
+- Read the latest valid plan in `docs/plans/` or `docs/plans2/`.
 - Follow the latest plan's version order, validation requirements, screenshot/archive rules, and pause conditions.
 - If the next planned step is Java or mini-kv, do only a read-only completion check. Continue Node only if the required Java / mini-kv evidence is already complete or the user explicitly changes the order.
 - Avoid overlapping or conflicting plan files. When a plan is complete, start a new plan file for the next phase instead of appending duplicate future versions.
+- For new successor plans after this rule, prefer `docs/plans2/` and keep `docs/plans/` as historical plan storage.
 
 Current cross-project framing:
 
@@ -54,8 +55,8 @@ For each completed Node version:
 - Run `npm test`.
 - Run `npm run build`.
 - Create runtime/debug evidence when applicable.
-- Archive screenshot and explanation under `c/<version>/图片` and `c/<version>/解释`.
-- Write code walkthrough notes under `代码讲解记录_生产雏形阶段/`.
+- Archive screenshot and explanation under `d/<version>/图片` and `d/<version>/解释`.
+- Write code walkthrough notes under the current code-walkthrough sibling directory, such as `代码讲解记录_生产雏形阶段2/`, keeping the previous document style and naming.
 - Update or create the appropriate plan document when the version changes future order.
 - Commit, tag as `v<version>`, and push.
 
@@ -65,9 +66,13 @@ If any of these steps cannot be done, state the reason clearly.
 
 - Since v161, use `c/<version>/图片` and `c/<version>/解释` for screenshots and explanations.
 - Keep `a/` and `b/` as historical archive directories.
+- Starting with the next new Node version after this rule, use `d/<version>/图片` and `d/<version>/解释` for screenshots and explanations. Keep `c/` as historical archive storage.
+- Starting with the next new Node version after this rule, use `代码讲解记录_生产雏形阶段2/` for code walkthrough notes. Keep `代码讲解记录_生产雏形阶段/` as historical walkthrough storage.
+- Starting with the next successor plan after this rule, use `docs/plans2/` for new plan files. Keep `docs/plans/` as historical plan storage and only edit it when needed for indexes or corrections.
 - Prefer local Chrome for browser screenshots. If Chrome is not available, use local Edge as fallback and mention it in the archive notes.
 - Do not download Playwright browsers by default.
 - Do not claim joint runtime testing unless Node actually consumes Java / mini-kv evidence through executable tests or a single cross-project readiness command.
+- For documentation-heavy folders, when a same-level directory becomes crowded, create a sibling directory for continued documentation writes and keep the same document style/naming. This rule applies to documentation only, not source code.
 
 ## Cleanup Gate
 

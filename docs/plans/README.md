@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v274-post-disabled-candidate-echo-roadmap.md
+docs/plans2/v274-post-disabled-candidate-echo-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -87,8 +87,9 @@ Node v273 已完成 credential resolver disabled implementation candidate review
 Java v113 + mini-kv v120 已推荐并行完成，只读回显 Node v273 disabled candidate review。
 Java v114 已自发完成 verification hint catalog split，作为质量上下文记录，不作为 Node 硬前置。
 Node v274 已完成 disabled candidate upstream echo verification，三方 counts、boundary scopes、interface shape、fake wiring 和 no-side-effect 边界对齐。
-当前唯一有效全局计划：`docs/plans/v274-post-disabled-candidate-echo-roadmap.md`。
-下一步：推荐并行 Java v115 + mini-kv v121；Node v275 必须等两边完成后再做 approval-required boundary upstream echo verification。
+当前唯一有效全局计划已迁移到新同级目录：`docs/plans2/v274-post-disabled-candidate-echo-roadmap.md`。
+Java v115 + mini-kv v121 已推荐并行完成；Node v275 已完成 approval-required boundary upstream echo verification。
+下一步：Node v276 做 statusRoutes split quality pass 第二步。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

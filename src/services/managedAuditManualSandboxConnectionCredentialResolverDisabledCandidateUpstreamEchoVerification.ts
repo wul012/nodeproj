@@ -46,15 +46,15 @@ const JAVA_V113_RUNBOOK = "D:/javaproj/advanced-order-platform/c/113/解释/说�
 const JAVA_V113_WALKTHROUGH =
   "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段/116-version-113-sandbox-endpoint-credential-resolver-disabled-implementation-candidate-echo-receipt.md";
 const JAVA_V113_BUILDER =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalManagedAuditSandboxEndpointCredentialResolverDisabledImplementationCandidateEchoReceiptBuilder.java";
+  "D:/javaproj/advanced-order-platform/v113-snapshot/EchoReceiptBuilder.java";
 const JAVA_V113_SUPPORT =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverDisabledImplementationCandidateEchoSupport.java";
+  "D:/javaproj/advanced-order-platform/v113-snapshot/EchoSupport.java";
 const JAVA_V113_RECORDS =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverDisabledImplementationCandidateEchoRecords.java";
+  "D:/javaproj/advanced-order-platform/v113-snapshot/EchoRecords.java";
 const JAVA_V113_ECHO_MARKER_SUPPORT =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalEchoMarkerSupport.java";
+  "D:/javaproj/advanced-order-platform/v113-snapshot/EchoMarkerSupport.java";
 const JAVA_V113_EVIDENCE_SERVICE =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/OpsEvidenceService.java";
+  "D:/javaproj/advanced-order-platform/v113-snapshot/OpsEvidenceService.java";
 
 const MINI_KV_V120_RECEIPT =
   "D:/C/mini-kv/fixtures/release/credential-resolver-disabled-implementation-candidate-non-participation-receipt.json";
@@ -321,6 +321,7 @@ function createJavaV113Reference(): JavaV113DisabledImplementationCandidateEchoR
     snippet("java-v113-receipt-version", JAVA_V113_EVIDENCE_SERVICE, "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-disabled-implementation-candidate-echo-receipt.v1"),
     snippet("java-v113-profile", JAVA_V113_EVIDENCE_SERVICE, "managed-audit-manual-sandbox-connection-credential-resolver-disabled-implementation-candidate-review.v1"),
     snippet("java-v113-echo-mode", JAVA_V113_SUPPORT, "java-v113-credential-resolver-disabled-implementation-candidate-echo-receipt-only"),
+    snippet("java-v115-echo-mode", JAVA_V113_SUPPORT, "java-v115-credential-resolver-approval-required-boundary-echo-refinement-only"),
     snippet("java-v113-review-state", JAVA_V113_SUPPORT, "credential-resolver-disabled-implementation-candidate-review-ready"),
     snippet("java-v113-check-count", JAVA_V113_SUPPORT, "static final int CHECK_COUNT = 21"),
     snippet("java-v113-passed-count", JAVA_V113_SUPPORT, "static final int PASSED_CHECK_COUNT = 21"),
@@ -352,7 +353,10 @@ function createJavaV113Reference(): JavaV113DisabledImplementationCandidateEchoR
     snippet("java-v113-workflow-template-doc", JAVA_V113_WALKTHROUGH, "echo workflow template"),
   ];
   const evidencePresent = evidenceFiles.every((file) => file.exists);
-  const verificationDocumented = expectedSnippets.every((snippetMatch) => snippetMatch.matched);
+  const verificationDocumented = expectedSnippets
+    .filter((snippetMatch) => snippetMatch.id !== "java-v113-echo-mode" && snippetMatch.id !== "java-v115-echo-mode")
+    .every((snippetMatch) => snippetMatch.matched)
+    && (snippetMatched(expectedSnippets, "java-v113-echo-mode") || snippetMatched(expectedSnippets, "java-v115-echo-mode"));
 
   const reference: JavaV113DisabledImplementationCandidateEchoReceiptReference = {
     sourceVersion: "Java v113",
@@ -365,7 +369,9 @@ function createJavaV113Reference(): JavaV113DisabledImplementationCandidateEchoR
       "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-disabled-implementation-candidate-echo-receipt.v1",
     echoMode: snippetMatched(expectedSnippets, "java-v113-echo-mode")
       ? "java-v113-credential-resolver-disabled-implementation-candidate-echo-receipt-only"
-      : "missing",
+      : snippetMatched(expectedSnippets, "java-v115-echo-mode")
+        ? "java-v115-credential-resolver-approval-required-boundary-echo-refinement-only"
+        : "missing",
     consumedNodeVersion: snippetMatched(expectedSnippets, "java-v113-runbook-node-v273") ? "Node v273" : "missing",
     consumedNodeProfile: snippetMatched(expectedSnippets, "java-v113-profile")
       ? "managed-audit-manual-sandbox-connection-credential-resolver-disabled-implementation-candidate-review.v1"
@@ -426,6 +432,7 @@ function createJavaV113Reference(): JavaV113DisabledImplementationCandidateEchoR
     && reference.verificationDocumented
     && reference.consumedNodeVersion === "Node v273"
     && reference.nextNodeConsumerVersion === "Node v274"
+    && reference.echoMode !== "missing"
     && reference.reviewState === "credential-resolver-disabled-implementation-candidate-review-ready"
     && reference.boundaryCodesEchoed
     && reference.requirementCodesEchoed
