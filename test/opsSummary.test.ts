@@ -106,4 +106,31 @@ describe("ops summary routes", () => {
       await app.close();
     }
   });
+
+  it("keeps promotion archive routes mounted through the split ops summary registrar", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/manifest",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-archive/manifest?format=markdown",
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        service: "orderops-node",
+      });
+      expect(json.json().archiveName).toMatch(/^promotion-archive-[a-f0-9]{12}$/);
+      expect(json.json().artifacts).toEqual(expect.any(Array));
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion archive manifest");
+    } finally {
+      await app.close();
+    }
+  });
 });
