@@ -2,7 +2,7 @@
 
 来源版本：Node v280 `statusRoutes live-probe split quality pass`。
 
-计划状态：当前唯一有效全局计划。上一份 `docs/plans2/v274-post-disabled-candidate-echo-roadmap.md` 已完成 Java v115、mini-kv v121、Node v275-v280，并已收口；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。当前唯一有效全局计划已切换到 `docs/plans2/v282-post-upstream-echo-verification-roadmap.md`；后续不再向本计划追加重合版本。
 
 ## 当前对齐状态
 

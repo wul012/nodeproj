@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v280-post-status-routes-quality-roadmap.md
+docs/plans2/v282-post-upstream-echo-verification-roadmap.md
 ```
 
 ## 当前状态
@@ -22,8 +22,9 @@ Node v280：statusRoutes live-probe split quality pass 已完成。
 Node v281：credential resolver approval-required implementation readiness review 已完成。
 Java v116 + mini-kv v122：已推荐并行完成，只读回显 Node v281。
 Node v282：approval-required implementation readiness upstream echo verification 已完成。
-statusRoutes 质量线已收口，不再继续拆 remaining real-read window route group。
-下一步：Node v283 managed audit resolver implementation plan draft；仍只写计划，不实现真实 adapter / HTTP / credential read。
+Java v117-v120：已完成测试拆分优化，当前到 v120 且工作区干净。
+mini-kv v123-v125：已完成 SMOKEJSON / formatter / receipt split 优化，当前到 v125 且工作区干净。
+下一步：Node v283 managed audit resolver implementation plan draft；随后推荐并行 Java v121 + mini-kv v126，再由 Node v284 对齐验证。
 ```
 
 旧 `docs/plans/` 保留为历史目录；后续新计划优先写入本目录。
