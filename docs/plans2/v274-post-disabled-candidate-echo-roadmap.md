@@ -2,7 +2,7 @@
 
 来源版本：Node v274 `credential resolver disabled candidate upstream echo verification`。
 
-计划状态：当前唯一有效全局计划。v272 衍生计划已完成 Node v273、Java v113、mini-kv v120、Node v274；本计划已完成 Java v115、mini-kv v121、Node v275、Node v276、Node v277、Node v278、Node v279、Node v280；后续不再向旧计划追加重合版本。
+计划状态：已完成并收口。v272 衍生计划已完成 Node v273、Java v113、mini-kv v120、Node v274；本计划已完成 Java v115、mini-kv v121、Node v275、Node v276、Node v277、Node v278、Node v279、Node v280；后续不再向本计划追加新版本。下一阶段由 `docs/plans2/v280-post-status-routes-quality-roadmap.md` 接续。
 
 ## 当前对齐状态
 
@@ -68,10 +68,10 @@ Node v280：statusRoutes live-probe split quality pass 已完成；23 条 live-p
    - 已迁移 23 条 `/api/v1/production/live-probe*` 只读 JSON/Markdown route。
    - 保持 API path / response shape 不变。
 
-8. 后续候选：Node v281 statusRoutes split quality pass 第七步。
-   - 若继续 Node 质量线，先评估 remaining real-read window route group 是否仍值得拆。
-   - 不迁移包含 POST、本地 ledger 写入或审批状态变更的 route，除非单独作为 ledger route 拆分版。
-   - 不和 credential resolver 业务能力混成一版。
+8. 不再执行：Node v281 statusRoutes split quality pass 第七步。
+   - v280 后 `statusRoutes.ts` 已降到约 896 行，低于 1200 行目标。
+   - remaining real-read window route group 暂不拆，避免过度碎片化。
+   - 下一阶段回到 credential resolver / managed audit 主流程。
 ```
 
 ## 显式质量优化项
@@ -84,7 +84,7 @@ Node：
 - Node Strangler 第三步：v277 已把 `statusRoutes.ts` 降到约 1619 行；下一步如继续拆，优先选择 rollback runbook / production readiness summary，不要混入业务功能。
 - Node Strangler 第四步：v278 已把 `statusRoutes.ts` 降到约 1295 行；下一步如继续拆，优先选择 rollback runbook / live-probe route group。
 - Node Strangler 第五步：v279 已把 `statusRoutes.ts` 降到约 1245 行；下一步如继续拆，优先选择 live-probe route group。
-- Node Strangler 第六步：v280 已把 `statusRoutes.ts` 降到约 896 行；后续再拆前先判断收益，优先只拆 remaining real-read window route group，不再为了版本号拆过小 route。
+- Node Strangler 第六步：v280 已把 `statusRoutes.ts` 降到约 896 行；本轮 route 拆分质量线停止，不再继续拆 remaining real-read window route group，除非后续真实改动再次导致主文件明显膨胀。
 - Node 大文件第二战场：`dashboard.ts` 约 2093 行，后续质量版再拆，不和 v275 业务验证混在一版。
 - 文档写入规则：从 v275 起，运行截图和解释写入 `d/<版本>/`，代码讲解写入 `代码讲解记录_生产雏形阶段2/`，新计划继续写入 `docs/plans2/`。
 
@@ -109,10 +109,10 @@ mini-kv：
 - 需要 Node 向真实 managed audit endpoint 发 HTTP/TCP 请求。
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
-- v281 若需要修改 Java、mini-kv、打开真实 resolver、读取 credential value 或执行真实上游请求，必须停止并重新出计划。
+- 下一阶段若需要修改 Java、mini-kv、打开真实 resolver、读取 credential value 或执行真实上游请求，必须在新计划中显式写清依赖和暂停条件。
 
 ## 一句话结论
 
 ```text
-v274 后的 Java v115 + mini-kv v121 + Node v275 已完成，只读 approval-required boundary 证据已对齐；Node v276-v280 已完成 security、deployment + connection readiness、production readiness summary、rollback readiness、live-probe 路由拆分；下一步仍不是打开真实 resolver，而是先判断是否继续拆 remaining real-read window route group。
+v274 后的 Java v115 + mini-kv v121 + Node v275 已完成，只读 approval-required boundary 证据已对齐；Node v276-v280 已完成 security、deployment + connection readiness、production readiness summary、rollback readiness、live-probe 路由拆分；本计划收口，下一步由 v280 衍生计划回到 credential resolver / managed audit 主流程。
 ```
