@@ -9,13 +9,14 @@
 ```text
 Node v275：approval-required boundary upstream echo verification 已完成；6 个 approval-required boundary 已在 Java v115 / mini-kv v121 上只读对齐。
 Node v276-v280：statusRoutes 质量线已完成；security、deployment/connection、readiness summary、rollback、live-probe 路由已拆分。
+Node v281：credential resolver approval-required implementation readiness review 已完成；已输出 6 个 boundary、18 个 required artifact、Java v116 / mini-kv v122 并行回显指引。
 statusRoutes.ts：约 896 行，已低于 1200 行目标；不再继续拆 remaining real-read window route group。
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. Node v281：credential resolver approval-required implementation readiness review。
+1. Node v281：credential resolver approval-required implementation readiness review。已完成。
    - 回到主流程，不再做 route split。
    - 消费 Node v275 的 6 个 approval-required boundary 结论。
    - 输出每个 boundary 从“只读解释”进入“可实现前置”的缺口清单。

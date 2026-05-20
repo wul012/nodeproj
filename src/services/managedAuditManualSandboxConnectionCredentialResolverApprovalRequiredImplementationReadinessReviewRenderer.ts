@@ -1,0 +1,81 @@
+import {
+  renderEntries,
+  renderList,
+  renderMessages,
+} from "./liveProbeReportUtils.js";
+import type {
+  ApprovalRequiredImplementationBoundaryReadiness,
+  ManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReviewProfile,
+} from "./managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReviewTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReviewMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReviewProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver approval-required implementation readiness review",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Review state: ${profile.reviewState}`,
+    `- Ready for implementation readiness review: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReview}`,
+    `- Ready for Java v116 + mini-kv v122 echo: ${profile.readyForJavaV116MiniKvV122Echo}`,
+    `- Ready for managed audit resolver implementation: ${profile.readyForManagedAuditResolverImplementation}`,
+    `- Real resolver implementation allowed: ${profile.realResolverImplementationAllowed}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    "",
+    "## Source Node v275",
+    "",
+    ...renderEntries(profile.sourceNodeV275),
+    "",
+    "## Readiness Review",
+    "",
+    ...renderEntries(profile.readinessReview),
+    "",
+    "## Boundary Readiness",
+    "",
+    ...renderList(profile.boundaryReadiness.map(formatBoundaryReadiness), "No boundary readiness items."),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No approval-required implementation readiness blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No approval-required implementation readiness warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No approval-required implementation readiness recommendations."),
+    "",
+    "## Evidence Endpoints",
+    "",
+    ...renderEntries(profile.evidenceEndpoints),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function formatBoundaryReadiness(boundary: ApprovalRequiredImplementationBoundaryReadiness): string {
+  return [
+    `${boundary.code}: ${boundary.readinessState}`,
+    `owner=${boundary.owner}`,
+    `requirement=${boundary.requirementFromV268}`,
+    `requiredArtifacts=${boundary.requiredArtifacts.join(" | ")}`,
+    `javaV116=${boundary.javaV116EchoHint}`,
+    `miniKvV122=${boundary.miniKvV122ReceiptHint}`,
+    `nodeV282=${boundary.nodeV282VerificationHint}`,
+    `readyForRuntimeImplementation=${boundary.readyForRuntimeImplementation}`,
+  ].join("; ");
+}
