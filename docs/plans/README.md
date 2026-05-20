@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans/v272-post-plan-intake-echo-roadmap.md
+docs/plans/v274-post-disabled-candidate-echo-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。
@@ -83,8 +83,12 @@ Node v270 已完成 credential resolver pre-implementation plan intake，把 v26
 Node v271 已完成 statusRoutes split quality pass，抽出 status route types、JSON/Markdown helper 和 upstream fixture route module，迁移 10 条只读 upstream fixture / production evidence intake 路由，API path / response shape 保持不变。
 Java v112 + mini-kv v119 已推荐并行完成，只读回显 Node v270 plan intake。
 Node v272 已完成 pre-implementation plan intake upstream echo verification，三方 planIntakeState、counts、boundary codes、requirement codes 和 no-side-effect 边界对齐。
-当前唯一有效全局计划：`docs/plans/v272-post-plan-intake-echo-roadmap.md`。
-下一步：Node v273 credential resolver disabled implementation candidate review；之后推荐并行 Java v113 + mini-kv v120，Node v274 等两边完成后再做上游回显验证。
+Node v273 已完成 credential resolver disabled implementation candidate review，10 个 boundary 分类为 4 个 disabled-candidate-ready 和 6 个 approval-required。
+Java v113 + mini-kv v120 已推荐并行完成，只读回显 Node v273 disabled candidate review。
+Java v114 已自发完成 verification hint catalog split，作为质量上下文记录，不作为 Node 硬前置。
+Node v274 已完成 disabled candidate upstream echo verification，三方 counts、boundary scopes、interface shape、fake wiring 和 no-side-effect 边界对齐。
+当前唯一有效全局计划：`docs/plans/v274-post-disabled-candidate-echo-roadmap.md`。
+下一步：推荐并行 Java v115 + mini-kv v121；Node v275 必须等两边完成后再做 approval-required boundary upstream echo verification。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。
@@ -433,7 +437,10 @@ v269-post-blocked-decision-upstream-echo-roadmap.md
  -> 已完成并收口；Node v270 plan intake、Node v271 quality pass、推荐并行 Java v112 + mini-kv v119、Node v272 upstream echo verification 已完成，由 v272-post-plan-intake-echo-roadmap.md 接续
 
 v272-post-plan-intake-echo-roadmap.md
- -> 当前唯一有效全局计划；由 Node v272 plan-intake upstream echo verification 衍生；Node v273 disabled implementation candidate review 已完成；下一步推荐并行 Java v113 + mini-kv v120
+ -> 已完成并收口；由 Node v272 plan-intake upstream echo verification 衍生；Node v273 disabled implementation candidate review、推荐并行 Java v113 + mini-kv v120、Node v274 disabled candidate upstream echo verification 均已完成；由 v274-post-disabled-candidate-echo-roadmap.md 接续
+
+v274-post-disabled-candidate-echo-roadmap.md
+ -> 当前唯一有效全局计划；由 Node v274 disabled candidate upstream echo verification 衍生；下一步推荐并行 Java v115 + mini-kv v121，随后 Node v275 消费两侧 approval-required boundary 证据
 ```
 
 ## v269 计划接续状态
@@ -446,6 +453,9 @@ Node v271 已完成 statusRoutes 第一刀质量拆分，迁移 10 条 upstream 
 Java v112 + mini-kv v119 已完成，只读回显 Node v270。
 Node v272 已完成 pre-implementation intake upstream echo verification，三方 plan-intake 证据已对齐。
 Node v273 已完成 disabled implementation candidate review，10 个边界被分类为 4 个 disabled-candidate-ready 和 6 个 approval-required；真实 resolver / credential value / raw endpoint / managed audit connection 仍关闭。
-当前唯一有效全局计划：docs/plans/v272-post-plan-intake-echo-roadmap.md
-下一步：推荐并行 Java v113 + mini-kv v120；Node v274 必须等两边完成后再做上游回显验证。
+Java v113 + mini-kv v120 已完成，只读回显 Node v273。
+Java v114 已完成 verification hint catalog split，作为质量上下文记录。
+Node v274 已完成 disabled candidate upstream echo verification，三方 candidate counts、boundary scopes、interface shape、fake wiring 和 no-side-effect 边界已对齐。
+当前唯一有效全局计划：docs/plans/v274-post-disabled-candidate-echo-roadmap.md
+下一步：推荐并行 Java v115 + mini-kv v121；Node v275 必须等两边完成后再做 approval-required boundary 上游回显验证。
 ```
