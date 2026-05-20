@@ -14,6 +14,7 @@
 285-credential-resolver-approval-required-implementation-readiness-review-v281.md
 286-credential-resolver-approval-required-implementation-readiness-upstream-echo-verification-v282.md
 287-ops-summary-promotion-archive-route-split-v283-quality.md
+288-credential-resolver-implementation-plan-draft-v283.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

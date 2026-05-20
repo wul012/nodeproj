@@ -11,6 +11,7 @@ Node v282：已完成 approval-required implementation readiness upstream echo v
 Node v283 前置质量拆分：dashboard.ts strangler 第一步已完成；入口降为 23 行，样式 / markup / browser script 已拆到独立模块，不改变 UI 行为。
 Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts 已拆成 base / handoff / release-deployment renderer 模块，原文件保留 36 行 barrel 导出。
 Node v283 前置质量拆分收口：opsSummaryRoutes.ts 已把 promotion archive 路由迁入 opsPromotionArchiveRoutes.ts；主入口降到约 315 行，archive 子路由约 455 行，不改变 API 路径。
+Node v283：managed audit resolver implementation plan draft 已完成；生成 7 个接口边界、Java v121 / mini-kv v126 并行 echo 要求和 Node v284 / v285 后续门禁，仍不实现真实 resolver。
 Java v116：已完成 approval-required implementation readiness echo。
 Java v117-v120：已自发完成测试拆分优化；当前 HEAD/tag 为 v120订单平台ops-evidence-service-test-suite-split，工作区干净。
 mini-kv v122：已完成 approval-required implementation non-participation readiness receipt。
@@ -38,12 +39,13 @@ mini-kv v123-v125：已自发完成 SMOKEJSON / formatter / receipt split 优化
    - 路由路径、返回结构和 markdown 输出保持不变，并新增挂载回归测试。
    - 当前不继续拆 315/455 行级别文件，避免为了拆分而碎片化。
 
-4. Node v283：managed audit resolver implementation plan draft。
+4. Node v283：managed audit resolver implementation plan draft。已完成。
    - 只写实现计划草案，不写真实 resolver / adapter。
    - 明确接口边界、config handle、credential handle、endpoint handle、approval artifact、failure taxonomy、rollback guard、test-only fake harness。
    - 消费 Node v282 的三方 echo verification，并把 Java v117-v120、mini-kv v123-v125 的优化状态记录为“已完成但不改变主流程边界”。
    - 必须继续验证 forced historical fixture fallback。
    - 不发 HTTP/TCP，不读取 credential value，不解析 raw endpoint URL，不实例化 secret provider 或 resolver client。
+   - 输出推荐并行 Java v121 + mini-kv v126；Node v284 必须等两边 echo 完成后再推进。
 
 5. 推荐并行：Java v121 + mini-kv v126。
    Java v121：resolver implementation plan echo。
@@ -106,5 +108,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Java v117-v120 和 mini-kv v123-v125 又完成了各自优化；Node 已先做 dashboard.ts、opsPromotionArchiveRenderers.ts、opsSummaryRoutes.ts 前置质量拆分。下一步停止继续拆分，回到 Node v283 implementation plan draft，随后推荐并行 Java v121 + mini-kv v126，再由 Node v284 做三方 plan echo verification。
+v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Java v117-v120 和 mini-kv v123-v125 又完成了各自优化；Node 已先做 dashboard.ts、opsPromotionArchiveRenderers.ts、opsSummaryRoutes.ts 前置质量拆分，并完成 Node v283 implementation plan draft。下一步不是 Node v284 抢跑，而是推荐并行 Java v121 + mini-kv v126，再由 Node v284 做三方 plan echo verification。
 ```

@@ -25,9 +25,10 @@ Node v282：approval-required implementation readiness upstream echo verificatio
 Node v283 前置质量拆分：dashboard.ts strangler 第一步已完成。
 Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts strangler 第一步已完成。
 Node v283 前置质量拆分收口：opsSummaryRoutes.ts promotion archive 子路由拆分已完成；短期停止继续拆分，回到主流程。
+Node v283：managed audit resolver implementation plan draft 已完成。
 Java v117-v120：已完成测试拆分优化，当前到 v120 且工作区干净。
 mini-kv v123-v125：已完成 SMOKEJSON / formatter / receipt split 优化，当前到 v125 且工作区干净。
-下一步：Node v283 managed audit resolver implementation plan draft；随后推荐并行 Java v121 + mini-kv v126，再由 Node v284 对齐验证。
+下一步：推荐并行 Java v121 + mini-kv v126；两边完成后再由 Node v284 对齐验证。
 ```
 
 旧 `docs/plans/` 保留为历史目录；后续新计划优先写入本目录。
