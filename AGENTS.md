@@ -74,6 +74,18 @@ If any of these steps cannot be done, state the reason clearly.
 - Do not claim joint runtime testing unless Node actually consumes Java / mini-kv evidence through executable tests or a single cross-project readiness command.
 - For documentation-heavy folders, when a same-level directory becomes crowded, create a sibling directory for continued documentation writes and keep the same document style/naming. This rule applies to documentation only, not source code.
 
+## Historical Evidence And Smoke Lessons
+
+Reusable lessons from v275 and later cross-project evidence work:
+
+- Never overwrite shared historical fallback source files when copying newer Java / mini-kv evidence for a later Node version. If two Node versions need different upstream snapshots, create versioned snapshot directories such as `v113-snapshot/` and `v115-snapshot/`, then point `historicalEvidenceResolver.ts` at those explicit snapshots.
+- After adding new historical fallback paths, rerun the previous-version focused test together with the new-version focused test. This catches accidental fixture pollution before full test runs.
+- Prefer structured JSON parsing for committed upstream receipts when the upstream file is JSON; use snippet checks only for source/document evidence that has no stable JSON shape.
+- When `ACCESS_GUARD_ENFORCEMENT_ENABLED=true`, HTTP smoke must include the same operator headers used by route tests, including `/health`. A failed readiness probe may be an access-guard 401/403 rather than a server startup failure.
+- If an HTTP smoke command times out or fails during startup, check for lingering `node dist/server.js` processes by command line and stop only the process started for the current task. Do not kill unrelated Node processes.
+- Before pushing, inspect `git remote -v`; this repository may use a remote name such as `nodeproj` instead of `origin`.
+- In PowerShell commands, avoid Bash-style `&&`; use separate tool calls or PowerShell-native command sequencing.
+
 ## Cleanup Gate
 
 Before the final response for any task, perform a cleanup pass for files and processes created during that task.
