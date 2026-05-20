@@ -17,24 +17,26 @@ export interface StatusRoutesSplitQualityPassProfile {
   realResolverImplementationAllowed: false;
   connectsManagedAudit: false;
   executionAllowed: false;
-  sourceVersion: "Node v276";
+  sourceVersion: "Node v277";
   splitScope: {
     sourceFile: "src/routes/statusRoutes.ts";
     previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts";
     extractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts";
     latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts";
+    deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts";
     extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts";
     extractedTypesModule: "src/routes/statusRouteTypes.ts";
-    migratedRouteCount: 20;
-    latestMigratedRouteCount: 10;
-    migratedRouteGroup: "upstream fixture, production evidence intake, and security readiness";
+    migratedRouteCount: 27;
+    latestMigratedRouteCount: 7;
+    migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, and connection readiness";
     apiPathsPreserved: string[];
-    nextSplitCandidate: "deployment and production readiness summary routes";
+    nextSplitCandidate: "rollback runbook and production readiness summary routes";
   };
   qualityDigest: string;
   checks: {
     upstreamFixtureRoutesExtracted: boolean;
     securityRoutesExtracted: boolean;
+    deploymentRoutesExtracted: boolean;
     jsonMarkdownHelperExtracted: boolean;
     statusRouteTypesExtracted: boolean;
     migratedRouteCountExpected: boolean;
@@ -93,6 +95,13 @@ const PRESERVED_API_PATHS = [
   "/api/v1/security/idp-verifier-boundary",
   "/api/v1/security/jwks-verifier-fixture-rehearsal",
   "/api/v1/security/jwks-cache-contract",
+  "/api/v1/deployment/safety-profile",
+  "/api/v1/deployment/environment-readiness",
+  "/api/v1/production/connection-config-contract",
+  "/api/v1/production/connection-failure-mode-rehearsal",
+  "/api/v1/production/connection-implementation-precheck",
+  "/api/v1/production/connection-dry-run-change-request",
+  "/api/v1/production/connection-archive-verification",
 ] as const;
 
 export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPassProfile {
@@ -101,22 +110,24 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
     extractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
     latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts",
+    deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts",
     extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
     extractedTypesModule: "src/routes/statusRouteTypes.ts",
     migratedRouteCount: PRESERVED_API_PATHS.length,
-    latestMigratedRouteCount: 10,
-    migratedRouteGroup: "upstream fixture, production evidence intake, and security readiness",
+    latestMigratedRouteCount: 7,
+    migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, and connection readiness",
     apiPathsPreserved: [...PRESERVED_API_PATHS],
-    nextSplitCandidate: "deployment and production readiness summary routes",
+    nextSplitCandidate: "rollback runbook and production readiness summary routes",
   };
   const checks = {
     upstreamFixtureRoutesExtracted: true,
     securityRoutesExtracted: true,
+    deploymentRoutesExtracted: true,
     jsonMarkdownHelperExtracted: true,
     statusRouteTypesExtracted: true,
-    migratedRouteCountExpected: splitScope.migratedRouteCount === 20,
-    latestMigratedRouteCountExpected: splitScope.latestMigratedRouteCount === 10,
-    apiPathsPreserved: splitScope.apiPathsPreserved.length === 20,
+    migratedRouteCountExpected: splitScope.migratedRouteCount === 27,
+    latestMigratedRouteCountExpected: splitScope.latestMigratedRouteCount === 7,
+    apiPathsPreserved: splitScope.apiPathsPreserved.length === 27,
     noFeatureBehaviorChange: true,
     noRealResolverImplementation: true,
     noManagedAuditConnection: true,
@@ -144,7 +155,7 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     realResolverImplementationAllowed: false,
     connectsManagedAudit: false,
     executionAllowed: false,
-    sourceVersion: "Node v276",
+    sourceVersion: "Node v277",
     splitScope,
     qualityDigest: sha256StableJson({
       profileVersion: "status-routes-split-quality-pass.v1",
@@ -171,8 +182,8 @@ export function loadStatusRoutesSplitQualityPass(): StatusRoutesSplitQualityPass
     },
     nextActions: [
       "Keep Node v271 as a route quality branch; do not add real resolver behavior here.",
-      "Keep Node v276 as the second statusRoutes split quality pass; do not add real resolver behavior here.",
-      "Prefer deployment and production readiness summary route groups as the next split candidates.",
+      "Keep Node v277 as the third statusRoutes split quality pass; do not add real resolver behavior here.",
+      "Prefer rollback runbook and production readiness summary route groups as the next split candidates.",
       "Do not mix future statusRoutes quality passes with credential resolver business evidence versions.",
     ],
   };
@@ -242,6 +253,11 @@ function collectProductionBlockers(
       message: "The security readiness route group must be moved out of statusRoutes.ts.",
     },
     {
+      condition: checks.deploymentRoutesExtracted,
+      code: "DEPLOYMENT_ROUTES_NOT_EXTRACTED",
+      message: "The deployment and connection readiness route group must be moved out of statusRoutes.ts.",
+    },
+    {
       condition: checks.jsonMarkdownHelperExtracted,
       code: "STATUS_JSON_MARKDOWN_HELPER_NOT_EXTRACTED",
       message: "The status JSON/Markdown helper must be extracted for reuse.",
@@ -269,7 +285,7 @@ function collectWarnings(): StatusRoutesSplitQualityPassMessage[] {
       code: "PARTIAL_STATUS_ROUTES_SPLIT",
       severity: "warning",
       source: "status-routes-split-quality-pass",
-      message: "This is the second focused statusRoutes split; deployment and production readiness summary routes are still future split candidates.",
+      message: "This is the third focused statusRoutes split; rollback runbook and production readiness summary routes are still future split candidates.",
     },
   ];
 }
@@ -280,7 +296,7 @@ function collectRecommendations(): StatusRoutesSplitQualityPassMessage[] {
       code: "KEEP_V272_BLOCKED_UNTIL_UPSTREAM_ECHOES",
       severity: "recommendation",
       source: "status-routes-split-quality-pass",
-      message: "After v276, continue splitting only stable route groups and keep API paths and response shapes unchanged.",
+      message: "After v277, continue splitting only stable route groups and keep API paths and response shapes unchanged.",
     },
   ];
 }

@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Node v277 Status Routes Deployment Split Quality Pass</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #111827;
+        --muted: #5b6472;
+        --line: #d9e0ea;
+        --panel: #f6f8fb;
+        --accent: #0f766e;
+        --warn: #92400e;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background: #fff;
+        color: var(--ink);
+        font-family: Arial, "Microsoft YaHei", sans-serif;
+      }
+
+      main {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 38px 28px 54px;
+      }
+
+      h1 {
+        margin: 0 0 10px;
+        font-size: 32px;
+        line-height: 1.24;
+      }
+
+      .subtitle {
+        margin: 0 0 24px;
+        color: var(--muted);
+        font-size: 16px;
+      }
+
+      .metrics {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 14px;
+        margin-bottom: 18px;
+      }
+
+      .metric,
+      .section {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--panel);
+      }
+
+      .metric {
+        padding: 15px;
+      }
+
+      .label {
+        color: var(--muted);
+        font-size: 13px;
+      }
+
+      .value {
+        margin-top: 8px;
+        font-size: 24px;
+        font-weight: 700;
+      }
+
+      .section {
+        padding: 18px;
+        margin-top: 16px;
+      }
+
+      h2 {
+        margin: 0 0 12px;
+        font-size: 19px;
+      }
+
+      ul {
+        margin: 0;
+        padding-left: 20px;
+      }
+
+      li {
+        margin: 7px 0;
+      }
+
+      code {
+        font-family: Consolas, "Cascadia Mono", monospace;
+        background: #e8edf5;
+        border-radius: 5px;
+        padding: 2px 5px;
+      }
+
+      .ok {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .blocked {
+        color: var(--warn);
+        font-weight: 700;
+      }
+
+      @media (max-width: 760px) {
+        .metrics {
+          grid-template-columns: 1fr;
+        }
+
+        main {
+          padding: 26px 18px 42px;
+        }
+
+        h1 {
+          font-size: 26px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Node v277 statusRoutes deployment split quality pass</h1>
+      <p class="subtitle">Extracts deployment and connection readiness routes while preserving API paths and response shapes.</p>
+
+      <section class="metrics">
+        <div class="metric">
+          <div class="label">Quality state</div>
+          <div class="value ok">ready</div>
+        </div>
+        <div class="metric">
+          <div class="label">Total migrated routes</div>
+          <div class="value">27</div>
+        </div>
+        <div class="metric">
+          <div class="label">v277 migrated routes</div>
+          <div class="value">7</div>
+        </div>
+        <div class="metric">
+          <div class="label">statusRoutes.ts</div>
+          <div class="value blocked">1619 lines</div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2>Extracted module</h2>
+        <p><code>src/routes/statusDeploymentRoutes.ts</code> now owns deployment safety, environment readiness, and production connection readiness report routes. Approval ledger mutation routes stay in <code>statusRoutes.ts</code> for now.</p>
+      </section>
+
+      <section class="section">
+        <h2>Migrated routes</h2>
+        <ul>
+          <li><code>/api/v1/deployment/safety-profile</code></li>
+          <li><code>/api/v1/deployment/environment-readiness</code></li>
+          <li><code>/api/v1/production/connection-config-contract</code></li>
+          <li><code>/api/v1/production/connection-failure-mode-rehearsal</code></li>
+          <li><code>/api/v1/production/connection-implementation-precheck</code></li>
+          <li><code>/api/v1/production/connection-dry-run-change-request</code></li>
+          <li><code>/api/v1/production/connection-archive-verification</code></li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2>Next split candidate</h2>
+        <p>The file is still larger than the 1200-line target. The next high-value split should be rollback runbook or production readiness summary routes, not another mixed business feature.</p>
+      </section>
+    </main>
+  </body>
+</html>

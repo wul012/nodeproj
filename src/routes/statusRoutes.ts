@@ -32,34 +32,6 @@ import {
   renderCiOperatorIdentityEvidencePacketMarkdown,
 } from "../services/ciOperatorIdentityEvidencePacket.js";
 import {
-  createDeploymentSafetyProfile,
-  renderDeploymentSafetyProfileMarkdown,
-} from "../services/deploymentSafetyProfile.js";
-import {
-  createDeploymentEnvironmentReadinessGate,
-  renderDeploymentEnvironmentReadinessMarkdown,
-} from "../services/deploymentEnvironmentReadiness.js";
-import {
-  createProductionConnectionConfigContractProfile,
-  renderProductionConnectionConfigContractMarkdown,
-} from "../services/productionConnectionConfigContract.js";
-import {
-  createProductionConnectionFailureModeRehearsalProfile,
-  renderProductionConnectionFailureModeRehearsalMarkdown,
-} from "../services/productionConnectionFailureModeRehearsal.js";
-import {
-  loadProductionConnectionImplementationPrecheck,
-  renderProductionConnectionImplementationPrecheckMarkdown,
-} from "../services/productionConnectionImplementationPrecheck.js";
-import {
-  loadProductionConnectionDryRunChangeRequest,
-  renderProductionConnectionDryRunChangeRequestMarkdown,
-} from "../services/productionConnectionDryRunChangeRequest.js";
-import {
-  loadProductionConnectionArchiveVerification,
-  renderProductionConnectionArchiveVerificationMarkdown,
-} from "../services/productionConnectionArchiveVerification.js";
-import {
   loadRollbackEvidenceRunbook,
   renderRollbackEvidenceRunbookMarkdown,
 } from "../services/rollbackEvidenceRunbook.js";
@@ -364,6 +336,7 @@ import {
   renderStatusRoutesSplitQualityPassMarkdown,
 } from "../services/statusRoutesSplitQualityPass.js";
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
+import { registerStatusDeploymentRoutes } from "./statusDeploymentRoutes.js";
 import { registerStatusSecurityRoutes } from "./statusSecurityRoutes.js";
 
 export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRouteDeps): Promise<void> {
@@ -435,6 +408,7 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
   });
 
   registerStatusSecurityRoutes(app, deps);
+  registerStatusDeploymentRoutes(app, deps);
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/workflow-evidence-verification", {
     schema: {
@@ -455,140 +429,6 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return verification;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/safety-profile", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createDeploymentSafetyProfile(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderDeploymentSafetyProfileMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/environment-readiness", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const gate = createDeploymentEnvironmentReadinessGate(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderDeploymentEnvironmentReadinessMarkdown(gate);
-    }
-
-    return gate;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-config-contract", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createProductionConnectionConfigContractProfile(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionConnectionConfigContractMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-failure-mode-rehearsal", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = createProductionConnectionFailureModeRehearsalProfile(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionConnectionFailureModeRehearsalMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-implementation-precheck", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionConnectionImplementationPrecheck({
-      config: deps.config,
-      auditLog: deps.auditLog,
-      auditStoreRuntime: deps.auditStoreRuntime,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionConnectionImplementationPrecheckMarkdown(profile);
-    }
-
-    return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-dry-run-change-request", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionConnectionDryRunChangeRequest({
-      config: deps.config,
-      auditLog: deps.auditLog,
-      auditStoreRuntime: deps.auditStoreRuntime,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionConnectionDryRunChangeRequestMarkdown(profile);
-    }
-
-    return profile;
   });
 
   app.get<{ Querystring: ProductionConnectionApprovalQuery }>("/api/v1/production/connection-dry-run-approvals", {
@@ -685,32 +525,6 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
 
     reply.code(201);
     return approval;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/connection-archive-verification", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const profile = await loadProductionConnectionArchiveVerification({
-      config: deps.config,
-      auditLog: deps.auditLog,
-      auditStoreRuntime: deps.auditStoreRuntime,
-      productionConnectionDryRunApprovals: deps.productionConnectionDryRunApprovals,
-    });
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderProductionConnectionArchiveVerificationMarkdown(profile);
-    }
-
-    return profile;
   });
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/production/live-probe-readiness-contract", {

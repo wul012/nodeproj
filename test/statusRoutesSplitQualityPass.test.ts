@@ -5,7 +5,7 @@ import { loadConfig } from "../src/config.js";
 import { loadStatusRoutesSplitQualityPass } from "../src/services/statusRoutesSplitQualityPass.js";
 
 describe("status routes split quality pass", () => {
-  it("records the v276 security route split without enabling behavior", () => {
+  it("records the v277 deployment and connection route split without enabling behavior", () => {
     const profile = loadStatusRoutesSplitQualityPass();
 
     expect(profile).toMatchObject({
@@ -17,22 +17,24 @@ describe("status routes split quality pass", () => {
       realResolverImplementationAllowed: false,
       connectsManagedAudit: false,
       executionAllowed: false,
-      sourceVersion: "Node v276",
+      sourceVersion: "Node v277",
       splitScope: {
         sourceFile: "src/routes/statusRoutes.ts",
         previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
         extractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
         latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts",
+        deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts",
         extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
         extractedTypesModule: "src/routes/statusRouteTypes.ts",
-        migratedRouteCount: 20,
-        latestMigratedRouteCount: 10,
-        migratedRouteGroup: "upstream fixture, production evidence intake, and security readiness",
-        nextSplitCandidate: "deployment and production readiness summary routes",
+        migratedRouteCount: 27,
+        latestMigratedRouteCount: 7,
+        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, and connection readiness",
+        nextSplitCandidate: "rollback runbook and production readiness summary routes",
       },
       checks: {
         upstreamFixtureRoutesExtracted: true,
         securityRoutesExtracted: true,
+        deploymentRoutesExtracted: true,
         jsonMarkdownHelperExtracted: true,
         statusRouteTypesExtracted: true,
         migratedRouteCountExpected: true,
@@ -44,10 +46,10 @@ describe("status routes split quality pass", () => {
         readyForStatusRoutesSplitQualityPass: true,
       },
       summary: {
-        checkCount: 11,
-        passedCheckCount: 11,
-        migratedRouteCount: 20,
-        preservedApiPathCount: 20,
+        checkCount: 12,
+        passedCheckCount: 12,
+        migratedRouteCount: 27,
+        preservedApiPathCount: 27,
         productionBlockerCount: 0,
         warningCount: 1,
         recommendationCount: 1,
@@ -75,6 +77,13 @@ describe("status routes split quality pass", () => {
       "/api/v1/security/idp-verifier-boundary",
       "/api/v1/security/jwks-verifier-fixture-rehearsal",
       "/api/v1/security/jwks-cache-contract",
+      "/api/v1/deployment/safety-profile",
+      "/api/v1/deployment/environment-readiness",
+      "/api/v1/production/connection-config-contract",
+      "/api/v1/production/connection-failure-mode-rehearsal",
+      "/api/v1/production/connection-implementation-precheck",
+      "/api/v1/production/connection-dry-run-change-request",
+      "/api/v1/production/connection-archive-verification",
     ]);
   });
 
@@ -110,16 +119,33 @@ describe("status routes split quality pass", () => {
         method: "GET",
         url: "/api/v1/security/jwks-cache-contract?format=markdown",
       });
+      const deploymentJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/deployment/safety-profile",
+      });
+      const deploymentMarkdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/deployment/safety-profile?format=markdown",
+      });
+      const connectionJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/connection-config-contract",
+      });
+      const connectionMarkdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/connection-config-contract?format=markdown",
+      });
 
       expect(qualityJson.statusCode).toBe(200);
       expect(qualityJson.json()).toMatchObject({
         qualityPassState: "status-routes-split-quality-pass-ready",
         splitScope: {
-          migratedRouteCount: 20,
-          latestMigratedRouteCount: 10,
+          migratedRouteCount: 27,
+          latestMigratedRouteCount: 7,
         },
         checks: {
           securityRoutesExtracted: true,
+          deploymentRoutesExtracted: true,
           apiPathsPreserved: true,
           noFeatureBehaviorChange: true,
         },
@@ -145,6 +171,24 @@ describe("status routes split quality pass", () => {
       expect(securityMarkdown.statusCode).toBe(200);
       expect(securityMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(securityMarkdown.body).toContain("# JWKS cache contract");
+
+      expect(deploymentJson.statusCode).toBe(200);
+      expect(deploymentJson.json()).toMatchObject({
+        service: "orderops-node",
+        profileVersion: "deployment-safety-profile.v1",
+      });
+      expect(deploymentMarkdown.statusCode).toBe(200);
+      expect(deploymentMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(deploymentMarkdown.body).toContain("# Deployment safety profile");
+
+      expect(connectionJson.statusCode).toBe(200);
+      expect(connectionJson.json()).toMatchObject({
+        service: "orderops-node",
+        profileVersion: "production-connection-config-contract.v1",
+      });
+      expect(connectionMarkdown.statusCode).toBe(200);
+      expect(connectionMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(connectionMarkdown.body).toContain("# Production connection config contract");
     } finally {
       await app.close();
     }
