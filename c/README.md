@@ -55,3 +55,4 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/265/`：sandbox endpoint credential resolver test-only shell upstream echo verification，记录 Node v264、Java v107、mini-kv v116 的 request / response / failure mapping / guard / fake probe 三方对齐，并把 Java v109 records split 作为非硬前置优化上下文。
 - `c/266/`：credential resolver fake-shell archive verification，记录 Node v264/v265 HTML、截图、解释、代码讲解、route response 和 active plan 片段的只读归档验证；不重新执行 fake resolver shell。
 - `c/267/`：credential resolver fake-shell archive upstream echo verification，记录 Node v266、Java v110、mini-kv v117 的 archive count / snippet count / no-rerun / no credential / no resolver / no connection / no write / no auto-start 三方对齐。
+- `c/268/`：credential resolver production readiness decision gate，记录 Node v267 source chain ready，但真实 resolver pre-implementation 因 10 个硬边界缺失继续 blocked。

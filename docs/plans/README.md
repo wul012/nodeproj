@@ -76,8 +76,9 @@ Java v107 + mini-kv v116 已推荐并行完成。
 Node v265 已完成 test-only resolver shell upstream echo verification。
 Node v266 已完成 credential resolver fake-shell archive verification，并收口 v263 衍生计划。
 Java v110 + mini-kv v117 已推荐并行完成，只读回显 Node v266 归档证据。
-Node v267 已完成 credential resolver fake-shell archive upstream echo verification，并补齐 Java v110 / mini-kv v117 historical fallback。
-下一步：Node v268 credential resolver production readiness decision gate；默认仍应 blocked，不实现真实 resolver client / secret provider，不读取 credential value，不解析 raw endpoint URL，不发送 external request。
+Node v268 已完成 credential resolver production readiness decision gate，并明确 readinessDecision=blocked。
+当前唯一有效全局计划：`docs/plans/v268-post-production-readiness-decision-roadmap.md`。
+下一步：推荐并行 Java v111 + mini-kv v118，只读回显 Node v268 blocked decision；两边完成后 Node v269 再做 blocked-decision upstream echo verification。
 
 不要按旧计划推进：
 v223-post-external-adapter-readiness-roadmap.md 已收口，只是历史计划。

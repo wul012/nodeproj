@@ -43,6 +43,12 @@ Node v267：
 - 消费 Node v266、Java v110、mini-kv v117，验证 archive counts、snippet counts、no-rerun、credential、raw endpoint、resolver、connection、write 和 auto-start 边界一致
 - 已补齐 Java v110 / mini-kv v117 committed historical fallback，保证 GitHub runner 没有 sibling workspaces 时仍可验证
 - 仍不实现真实 resolver client / secret provider，不读取 credential value，不解析 raw endpoint URL，不发送 external request
+
+Node v268：
+- credential resolver production readiness decision gate 已完成
+- 消费 Node v267，输出 readinessDecision=blocked
+- 记录进入真实 resolver pre-implementation 前必须补齐的 10 个硬边界
+- 本计划到 v268 收口；后续转入 docs/plans/v268-post-production-readiness-decision-roadmap.md
 ```
 
 ## 推荐执行顺序
@@ -58,7 +64,7 @@ Node v267：
    - 消费两边对 Node v266 archive verification 的 echo / non-participation，验证归档证据链被上游一致理解。
    - 不重新执行 fake resolver shell，不打开真实 resolver client、secret provider 或 managed audit connection。
 
-3. Node v268：credential resolver production readiness decision gate。
+3. Node v268：credential resolver production readiness decision gate。（已完成）
    - 消费 Node v267，做下一阶段决策门禁。
    - 输出是否允许进入“真实 sandbox credential resolver pre-implementation plan”的条件清单。
    - 默认结论仍应是 blocked，除非有新计划明确 credential handle、endpoint handle、secret provider stub、operator approval 和 rollback boundary。
@@ -101,5 +107,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v266 已把 credential resolver fake-shell 的 Node 归档证据收口；下一阶段应先让 Java v110 + mini-kv v117 并行只读回显这份归档，再由 Node v267 做三方归档 echo verification，仍不得进入真实 resolver 实现。
+v266-v268 已完成 fake-shell archive、三方 archive echo verification 和生产就绪 blocked decision gate；本计划已收口，后续转入 v268 衍生计划，仍不得进入真实 resolver 实现。
 ```
