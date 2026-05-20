@@ -32,10 +32,6 @@ import {
   renderCiOperatorIdentityEvidencePacketMarkdown,
 } from "../services/ciOperatorIdentityEvidencePacket.js";
 import {
-  loadRollbackEvidenceRunbook,
-  renderRollbackEvidenceRunbookMarkdown,
-} from "../services/rollbackEvidenceRunbook.js";
-import {
   createProductionLiveProbeReadinessContract,
   renderProductionLiveProbeReadinessContractMarkdown,
 } from "../services/productionLiveProbeReadinessContract.js";
@@ -140,21 +136,9 @@ import {
   renderCrossProjectReleaseVerificationIntakeGateMarkdown,
 } from "../services/crossProjectReleaseVerificationIntakeGate.js";
 import {
-  loadReleaseRollbackReadinessRunbook,
-  renderReleaseRollbackReadinessRunbookMarkdown,
-} from "../services/releaseRollbackReadinessRunbook.js";
-import {
   loadCrossProjectReleaseBundleGate,
   renderCrossProjectReleaseBundleGateMarkdown,
 } from "../services/crossProjectReleaseBundleGate.js";
-import {
-  loadRollbackWindowReadinessChecklist,
-  renderRollbackWindowReadinessChecklistMarkdown,
-} from "../services/rollbackWindowReadinessChecklist.js";
-import {
-  loadRollbackExecutionPreflightContract,
-  renderRollbackExecutionPreflightContractMarkdown,
-} from "../services/rollbackExecutionPreflightContract.js";
 import {
   loadProductionEnvironmentPreflightChecklist,
   renderProductionEnvironmentPreflightChecklistMarkdown,
@@ -286,6 +270,7 @@ import {
 import { createUpstreamOverview } from "../services/upstreamOverview.js";
 import { registerStatusDeploymentRoutes } from "./statusDeploymentRoutes.js";
 import { registerStatusReadinessSummaryRoutes } from "./statusReadinessSummaryRoutes.js";
+import { registerStatusRollbackRoutes } from "./statusRollbackRoutes.js";
 import { registerStatusSecurityRoutes } from "./statusSecurityRoutes.js";
 
 export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRouteDeps): Promise<void> {
@@ -359,6 +344,7 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
   registerStatusSecurityRoutes(app, deps);
   registerStatusDeploymentRoutes(app, deps);
   registerStatusReadinessSummaryRoutes(app, deps);
+  registerStatusRollbackRoutes(app, deps);
 
   app.get<{ Querystring: FixtureReportQuery }>("/api/v1/ci/workflow-evidence-verification", {
     schema: {
@@ -1169,30 +1155,9 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
 
   registerJsonMarkdownReportRoute(
     app,
-    "/api/v1/production/release-rollback-readiness-runbook",
-    () => Promise.resolve(loadReleaseRollbackReadinessRunbook(deps.config)),
-    renderReleaseRollbackReadinessRunbookMarkdown,
-  );
-
-  registerJsonMarkdownReportRoute(
-    app,
     "/api/v1/production/cross-project-release-bundle-gate",
     () => Promise.resolve(loadCrossProjectReleaseBundleGate(deps.config)),
     renderCrossProjectReleaseBundleGateMarkdown,
-  );
-
-  registerJsonMarkdownReportRoute(
-    app,
-    "/api/v1/production/rollback-window-readiness-checklist",
-    () => Promise.resolve(loadRollbackWindowReadinessChecklist(deps.config)),
-    renderRollbackWindowReadinessChecklistMarkdown,
-  );
-
-  registerJsonMarkdownReportRoute(
-    app,
-    "/api/v1/production/rollback-execution-preflight-contract",
-    () => Promise.resolve(loadRollbackExecutionPreflightContract(deps.config)),
-    renderRollbackExecutionPreflightContractMarkdown,
   );
 
   registerJsonMarkdownReportRoute(
@@ -1332,27 +1297,6 @@ export async function registerStatusRoutes(app: FastifyInstance, deps: StatusRou
     }
 
     return profile;
-  });
-
-  app.get<{ Querystring: FixtureReportQuery }>("/api/v1/deployment/rollback-runbook", {
-    schema: {
-      querystring: {
-        type: "object",
-        properties: {
-          format: { type: "string", enum: ["json", "markdown"] },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const runbook = await loadRollbackEvidenceRunbook(deps.config);
-
-    if (request.query.format === "markdown") {
-      reply.type("text/markdown; charset=utf-8");
-      return renderRollbackEvidenceRunbookMarkdown(runbook);
-    }
-
-    return runbook;
   });
 
   app.get("/api/v1/runtime/config", async () => ({

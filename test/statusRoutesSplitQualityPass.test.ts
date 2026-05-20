@@ -5,7 +5,7 @@ import { loadConfig } from "../src/config.js";
 import { loadStatusRoutesSplitQualityPass } from "../src/services/statusRoutesSplitQualityPass.js";
 
 describe("status routes split quality pass", () => {
-  it("records the v278 readiness summary route split without enabling behavior", () => {
+  it("records the v279 rollback route split without enabling behavior", () => {
     const profile = loadStatusRoutesSplitQualityPass();
 
     expect(profile).toMatchObject({
@@ -17,7 +17,7 @@ describe("status routes split quality pass", () => {
       realResolverImplementationAllowed: false,
       connectsManagedAudit: false,
       executionAllowed: false,
-      sourceVersion: "Node v278",
+      sourceVersion: "Node v279",
       splitScope: {
         sourceFile: "src/routes/statusRoutes.ts",
         previousExtractedRouteModule: "src/routes/statusUpstreamFixtureRoutes.ts",
@@ -25,18 +25,20 @@ describe("status routes split quality pass", () => {
         latestExtractedRouteModule: "src/routes/statusSecurityRoutes.ts",
         deploymentExtractedRouteModule: "src/routes/statusDeploymentRoutes.ts",
         readinessSummaryExtractedRouteModule: "src/routes/statusReadinessSummaryRoutes.ts",
+        rollbackExtractedRouteModule: "src/routes/statusRollbackRoutes.ts",
         extractedHelperModule: "src/routes/statusJsonMarkdownRoute.ts",
         extractedTypesModule: "src/routes/statusRouteTypes.ts",
-        migratedRouteCount: 40,
-        latestMigratedRouteCount: 13,
-        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, and production readiness summary",
-        nextSplitCandidate: "rollback runbook and live-probe route groups",
+        migratedRouteCount: 44,
+        latestMigratedRouteCount: 4,
+        migratedRouteGroup: "upstream fixture, production evidence intake, security readiness, deployment readiness, connection readiness, production readiness summary, and rollback readiness",
+        nextSplitCandidate: "live-probe route group",
       },
       checks: {
         upstreamFixtureRoutesExtracted: true,
         securityRoutesExtracted: true,
         deploymentRoutesExtracted: true,
         readinessSummaryRoutesExtracted: true,
+        rollbackRoutesExtracted: true,
         jsonMarkdownHelperExtracted: true,
         statusRouteTypesExtracted: true,
         migratedRouteCountExpected: true,
@@ -48,10 +50,10 @@ describe("status routes split quality pass", () => {
         readyForStatusRoutesSplitQualityPass: true,
       },
       summary: {
-        checkCount: 13,
-        passedCheckCount: 13,
-        migratedRouteCount: 40,
-        preservedApiPathCount: 40,
+        checkCount: 14,
+        passedCheckCount: 14,
+        migratedRouteCount: 44,
+        preservedApiPathCount: 44,
         productionBlockerCount: 0,
         warningCount: 1,
         recommendationCount: 1,
@@ -99,6 +101,10 @@ describe("status routes split quality pass", () => {
       "/api/v1/production/readiness-summary-v11",
       "/api/v1/production/readiness-summary-v12",
       "/api/v1/production/readiness-summary-v13",
+      "/api/v1/production/release-rollback-readiness-runbook",
+      "/api/v1/production/rollback-window-readiness-checklist",
+      "/api/v1/production/rollback-execution-preflight-contract",
+      "/api/v1/deployment/rollback-runbook",
     ]);
   });
 
@@ -158,18 +164,27 @@ describe("status routes split quality pass", () => {
         method: "GET",
         url: "/api/v1/production/readiness-summary?format=markdown",
       });
+      const rollbackJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/rollback-window-readiness-checklist",
+      });
+      const rollbackMarkdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/production/rollback-window-readiness-checklist?format=markdown",
+      });
 
       expect(qualityJson.statusCode).toBe(200);
       expect(qualityJson.json()).toMatchObject({
         qualityPassState: "status-routes-split-quality-pass-ready",
         splitScope: {
-          migratedRouteCount: 40,
-          latestMigratedRouteCount: 13,
+          migratedRouteCount: 44,
+          latestMigratedRouteCount: 4,
         },
         checks: {
           securityRoutesExtracted: true,
           deploymentRoutesExtracted: true,
           readinessSummaryRoutesExtracted: true,
+          rollbackRoutesExtracted: true,
           apiPathsPreserved: true,
           noFeatureBehaviorChange: true,
         },
@@ -222,6 +237,15 @@ describe("status routes split quality pass", () => {
       expect(readinessMarkdown.statusCode).toBe(200);
       expect(readinessMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(readinessMarkdown.body).toContain("# Production readiness summary");
+
+      expect(rollbackJson.statusCode).toBe(200);
+      expect(rollbackJson.json()).toMatchObject({
+        service: "orderops-node",
+        profileVersion: "rollback-window-readiness-checklist.v1",
+      });
+      expect(rollbackMarkdown.statusCode).toBe(200);
+      expect(rollbackMarkdown.headers["content-type"]).toContain("text/markdown");
+      expect(rollbackMarkdown.body).toContain("# Rollback window readiness checklist");
     } finally {
       await app.close();
     }
