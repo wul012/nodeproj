@@ -80,6 +80,8 @@ Node：
 - dashboard.ts strangler 第一步已完成；后续若继续拆 UI，应按面板组继续拆 `dashboardMarkup.ts` / `dashboardClientScript.ts`，不要把入口文件重新写胖。
 - opsPromotionArchiveRenderers.ts strangler 第一步已完成；后续若继续拆 renderer，应优先拆 `opsPromotionArchiveReleaseDeploymentRenderers.ts`，不要把 barrel 文件重新写胖。
 - opsSummaryRoutes.ts promotion archive 拆分已完成；短期停止继续拆 315/455 行级别文件，下一步回到 v283 主流程。
+- 当前只剩两个 1500+ TypeScript 文件：`src/services/opsPromotionArchiveBundleTypes.ts`（约 1822 行）和 `src/services/opsPromotionArchiveDeploymentBuilders.ts`（约 1564 行）。这两项是后续 Node 独立质量版候选，不阻塞 Java v121 + mini-kv v126，也不要塞进 Node v284 echo verification。
+- 若后续安排 Node 质量版，优先把 `opsPromotionArchiveBundleTypes.ts` 按 archive / digest / verification / deployment / handoff 类型族拆成同目录 barrel + 子类型文件；再视情况把 `opsPromotionArchiveDeploymentBuilders.ts` 按 deployment artifact builder / evidence mapper / markdown source builder 拆分。目标是降低单文件认知负担，不改变导出类型名和运行时 JSON shape。
 - v283 新 service 必须继续拆成 types / renderer / service / test，避免 700+ 行单文件反向膨胀。
 - 新增历史证据消费时，同版补 forced historical fixture fallback 测试；不能只依赖 loadConfig。
 - HTTP smoke 若 blocked，先 dump false checks / evidencePresent / verificationDocumented，再改代码。
@@ -88,10 +90,17 @@ Node：
 Java：
 - Java v117-v120 的测试拆分优化已完成，后续继续沿用小范围 strangler 模式。
 - 若 Java v121 执行，只做 plan echo + 必要小优化，不新增 600-800 行 echo support。
+- Java 当前存在 `OpsEvidenceServiceReleaseApprovalRehearsalOverviewTests.java` 约 2806 行，是后续 Java 独立质量版高优先级候选；建议按 release approval overview 场景拆成多个测试类，保留公共 fixture/helper，避免单个 OverviewTests 继续承载所有回归。
+- Java 当前多组 `ReleaseApprovalSandboxEndpointCredentialResolver*EchoSupport.java`（约 357-678 行）已经形成相似 echo support 模式；后续建议做 catalog 化，把 source profile、check id、boundary code、required artifact、blocked side-effect 等常量归入共享 catalog/template，具体 echo support 只保留差异化字段，避免每个新 echo 场景复制 600+ 行。
+- Java v121 与 mini-kv v126 仍可推荐并行；Java 的 OverviewTests 拆分和 echo support catalog 化可作为 Java 自己的后续质量优化，不要求 Node 先完成，也不影响 mini-kv。
 
 mini-kv：
 - mini-kv v123-v125 的拆分优化已完成，后续继续保持 non-participation receipt 轻量化。
 - 若 mini-kv v126 执行，只做 plan non-participation receipt + 必要小优化，不触碰 WAL/snapshot/restore 核心语义。
+
+可并行优化说明：
+- Node 的两个 1500+ 文件拆分、Java OverviewTests 拆分、Java echo support catalog 化属于不同仓库/不同职责域，可以与 mini-kv v126 non-participation receipt 并行安排。
+- 但 Node v284 仍必须等待 Java v121 + mini-kv v126 的只读 echo/receipt 完成后再做三方 verification，不因质量拆分抢跑主流程。
 ```
 
 ## 暂停条件
