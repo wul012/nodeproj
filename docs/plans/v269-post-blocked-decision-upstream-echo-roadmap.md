@@ -23,18 +23,28 @@ Node v269：blocked-decision upstream echo verification 已完成，三方 block
    - 如果 10 个边界不能一次写清楚，继续 blocked，不进入实现。
    - 已完成：Node v270 已把 v268 的 10 个 missing requirement 转成 10 个 defined-for-review boundary，`planIntakeState=credential-resolver-pre-implementation-plan-intake-ready`，但仍保持 `realResolverImplementationAllowed=false`、`connectsManagedAudit=false`、`credentialValueRead=false`、`rawEndpointUrlParsed=false`、`externalRequestSent=false`。
 
-2. Node v271：statusRoutes split pre-quality branch。
+2. 推荐三项并行：Node v271 + Java v112 + mini-kv v119。
+
+   Node v271：statusRoutes split pre-quality branch。
    - 质量优化分支，不新增真实 resolver 能力。
    - 优先拆 `src/routes/statusRoutes.ts` 的 route group/helper。
    - 保持 API path / response shape 不变。
    - 同时记录后续 echo factory / shared evidence alignment helper 的候选点，但不在 v271 做大重构。
 
-3. 推荐并行：Java v112 + mini-kv v119。
-   - Java v112：只读回显 Node v270 pre-implementation plan intake，重点验证 Java 仍不读取 credential value、不写 ledger、不执行 SQL。
-   - mini-kv v119：只读 non-participation receipt，证明 mini-kv 不承载 resolver secret、endpoint、external request 或 audit/order 权威状态。
-   - 两边可以并行，因为都只消费 Node v270，不互相依赖。
+   Java v112：只读回显 Node v270 pre-implementation plan intake。
+   - 重点验证 Java 仍不读取 credential value、不写 ledger、不执行 SQL、不打开 managed audit connection。
+   - 只消费 Node v270 evidence，不依赖 Node v271，因此可与 Node v271 同时推进。
 
-4. Node v272：pre-implementation intake upstream echo verification。
+   mini-kv v119：只读 non-participation receipt。
+   - 证明 mini-kv 不承载 resolver secret、endpoint、external request 或 audit/order 权威状态。
+   - 只消费 Node v270 evidence，不依赖 Node v271 或 Java v112，因此可与两者同时推进。
+
+   并行理由：
+   - Node v271 是 route/code quality 分支，要求 API path / response shape 不变。
+   - Java v112 与 mini-kv v119 只回显 Node v270，不消费 Node v271。
+   - 三者写入不同仓库 / 不同职责域，不会互相卡住。
+
+3. Node v272：pre-implementation intake upstream echo verification。
    - 仅在 Java v112 + mini-kv v119 完成后推进。
    - 验证 Node v270 的 10 个边界被两边一致理解。
    - 仍不实现真实 resolver，不读取 credential value，不解析 raw endpoint，不打开 managed audit connection。
@@ -73,5 +83,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v270 已经把 credential resolver pre-implementation 的 10 个边界写成可审查 plan intake；下一步是 Node v271 质量分支拆 statusRoutes，之后 Java v112 + mini-kv v119 推荐并行回显 v270。
+v270 已经把 credential resolver pre-implementation 的 10 个边界写成可审查 plan intake；下一轮推荐三项并行：Node v271 做 statusRoutes 质量分支，同时 Java v112 + mini-kv v119 回显 v270；Node v272 必须等两边回显完成后再推进。
 ```
