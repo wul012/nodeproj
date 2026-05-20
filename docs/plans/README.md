@@ -423,3 +423,12 @@ v263-post-disabled-resolver-echo-roadmap.md
 v266-post-fake-shell-archive-roadmap.md
  -> 当前唯一有效全局计划；由 Node v266 credential resolver fake-shell archive verification 衍生；下一步推荐并行 Java v110 + mini-kv v117，只读消费 Node v266
 ```
+
+## v269 计划接续状态
+
+```text
+Java v111 + mini-kv v118 已推荐并行完成，只读回显 Node v268 blocked decision。
+Node v269 已完成 blocked-decision upstream echo verification，三方 blocked decision、counts、missing requirements 和 no-side-effect 边界对齐。
+当前唯一有效全局计划：docs/plans/v269-post-blocked-decision-upstream-echo-roadmap.md
+下一步：Node v270 做 credential resolver pre-implementation plan intake；Node v271 再做 statusRoutes split pre-quality branch。
+```

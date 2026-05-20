@@ -83,3 +83,12 @@ mini-kv：
 ```text
 v268 已把生产就绪决策明确为 blocked；下一阶段应先让 Java v111 + mini-kv v118 并行只读回显这个 blocked decision，再由 Node v269 做三方 blocked-decision echo verification，仍不得进入真实 resolver 实现。
 ```
+
+## 收口状态
+
+```text
+Java v111：已完成 blocked-decision echo receipt。
+mini-kv v118：已完成 blocked-decision non-participation receipt。
+Node v269：已完成 blocked-decision upstream echo verification。
+本计划已收口；后续从 docs/plans/v269-post-blocked-decision-upstream-echo-roadmap.md 继续。
+```

@@ -317,3 +317,7 @@ release / deployment / rollback / restore 全部保持阻断
 - `270-credential-resolver-fake-shell-archive-verification-v266.md`：Node v266 credential resolver fake-shell archive verification，只读验证 v264/v265 HTML、截图、解释、代码讲解、route response 和 active plan 片段；本计划收口后由 v266 衍生计划接续。
 - `271-credential-resolver-fake-shell-archive-upstream-echo-verification-v267.md`：Node v267 credential resolver fake-shell archive upstream echo verification，消费 Node v266、Java v110、mini-kv v117，只读验证归档证据链三方一致，并继续阻断真实 resolver / secret provider / credential value / raw endpoint / external request。
 - `272-credential-resolver-production-readiness-decision-gate-v268.md`：Node v268 credential resolver production readiness decision gate，消费 Node v267，明确生产就绪决策 blocked，并列出真实 resolver pre-implementation 前必须补齐的 10 个硬边界。
+
+## v269 补充记录
+
+- `273-credential-resolver-blocked-decision-upstream-echo-verification-v269.md`：Node v269 credential resolver blocked-decision upstream echo verification，消费 Node v268、Java v111、mini-kv v118，验证 blocked decision / counts / missing requirements / no-side-effect 边界三方一致，同时继续阻断真实 resolver 和 managed audit connection。

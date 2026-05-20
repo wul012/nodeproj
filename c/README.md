@@ -56,3 +56,7 @@ b/ 保留 v107-v160 的历史运行调试归档。
 - `c/266/`：credential resolver fake-shell archive verification，记录 Node v264/v265 HTML、截图、解释、代码讲解、route response 和 active plan 片段的只读归档验证；不重新执行 fake resolver shell。
 - `c/267/`：credential resolver fake-shell archive upstream echo verification，记录 Node v266、Java v110、mini-kv v117 的 archive count / snippet count / no-rerun / no credential / no resolver / no connection / no write / no auto-start 三方对齐。
 - `c/268/`：credential resolver production readiness decision gate，记录 Node v267 source chain ready，但真实 resolver pre-implementation 因 10 个硬边界缺失继续 blocked。
+
+## v269 补充记录
+
+- `c/269/`：credential resolver blocked-decision upstream echo verification，记录 Node v268、Java v111、mini-kv v118 的 blocked decision、counts、missing requirements 和 no-side-effect 边界三方对齐；真实 resolver、credential value、raw endpoint、managed audit connection 和写操作仍关闭。
