@@ -12,6 +12,7 @@
 283-status-routes-rollback-split-quality-pass-v279.md
 284-status-routes-live-probe-split-quality-pass-v280.md
 285-credential-resolver-approval-required-implementation-readiness-review-v281.md
+286-credential-resolver-approval-required-implementation-readiness-upstream-echo-verification-v282.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

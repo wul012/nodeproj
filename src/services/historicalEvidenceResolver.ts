@@ -20,6 +20,11 @@ const FALLBACK_MAPPINGS = Object.freeze([
     fallbackRoot: "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/v115-snapshot/",
   },
   {
+    prefix: "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalManagedAuditSandboxEndpointCredentialResolverApprovalRequiredImplementationReadinessEchoReceiptBuilder.java",
+    fallbackRoot:
+      "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/v116-snapshot/ImplementationReadinessEchoReceiptBuilder.java",
+  },
+  {
     prefix: "D:/javaproj/",
     fallbackRoot: "fixtures/historical/sibling-workspaces/javaproj/",
   },

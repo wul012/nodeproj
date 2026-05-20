@@ -10,6 +10,8 @@
 Node v275：approval-required boundary upstream echo verification 已完成；6 个 approval-required boundary 已在 Java v115 / mini-kv v121 上只读对齐。
 Node v276-v280：statusRoutes 质量线已完成；security、deployment/connection、readiness summary、rollback、live-probe 路由已拆分。
 Node v281：credential resolver approval-required implementation readiness review 已完成；已输出 6 个 boundary、18 个 required artifact、Java v116 / mini-kv v122 并行回显指引。
+Java v116 + mini-kv v122：已完成；两边只读回显 Node v281，不写 ledger、不执行 SQL、不接 resolver、不参与 credential/storage backend。
+Node v282：approval-required implementation readiness upstream echo verification 已完成；23 个检查通过，三方边界和 artifact 对齐，真实 resolver 仍关闭。
 statusRoutes.ts：约 896 行，已低于 1200 行目标；不再继续拆 remaining real-read window route group。
 ```
 
@@ -37,12 +39,12 @@ statusRoutes.ts：约 896 行，已低于 1200 行目标；不再继续拆 remai
    - Java v116 和 mini-kv v122 都只消费 Node v281 的只读 readiness review。
    - 两边写入不同仓库、不同职责域，不互相依赖。
 
-3. Node v282：approval-required implementation readiness upstream echo verification。
+3. Node v282：approval-required implementation readiness upstream echo verification。已完成。
    - 消费 Java v116 + mini-kv v122。
    - 验证三方对 6 个 approval-required boundary 的 readiness / blocked / non-participation 语义一致。
    - 仍不打开真实 resolver，不读取 credential value，不解析 raw endpoint URL。
 
-4. Node v283：managed audit resolver implementation plan draft。
+4. Node v283：managed audit resolver implementation plan draft。下一步。
    - 只生成 implementation plan draft：接口边界、config handles、approval artifacts、failure taxonomy、rollback guard、test-only fake harness。
    - 不写真实 adapter，不发真实 HTTP/TCP，不读取 credential value。
 ```
@@ -80,4 +82,5 @@ mini-kv：
 
 ```text
 v280 后 statusRoutes 拆分质量线收口；下一步回到 credential resolver / managed audit 主流程，先做 Node v281 的 approval-required implementation readiness review，再推荐并行 Java v116 + mini-kv v122，最后由 Node v282 做三方 echo verification。
+本计划的 v281-v282 主流程已完成；下一步若继续推进，应先做 Node v283 managed audit resolver implementation plan draft，仍不写真实 adapter、不发真实 HTTP/TCP、不读取 credential value。
 ```
