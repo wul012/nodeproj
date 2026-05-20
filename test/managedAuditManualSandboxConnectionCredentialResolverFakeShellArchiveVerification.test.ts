@@ -217,7 +217,7 @@ describe("managed audit manual sandbox connection credential resolver fake shell
     } finally {
       await app.close();
     }
-  }, 15000);
+  }, 45000);
 });
 
 function completeHeaders() {

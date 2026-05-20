@@ -32,17 +32,28 @@ Node v266：
 - credential resolver fake-shell archive verification 已完成
 - 归档验证 v264/v265 HTML、截图、解释、代码讲解、route response 和计划片段
 - 本阶段没有打开真实 credential resolver、secret provider、raw endpoint、external request 或 managed audit connection
+
+Java v110 + mini-kv v117：
+- 已推荐并行完成
+- Java v110 只读回显 Node v266 fake-shell archive verification
+- mini-kv v117 只读证明 fake-shell archive non-participation，不读取 archive files，不重跑 fake shell，不成为 managed audit storage backend
+
+Node v267：
+- credential resolver fake-shell archive upstream echo verification 已完成
+- 消费 Node v266、Java v110、mini-kv v117，验证 archive counts、snippet counts、no-rerun、credential、raw endpoint、resolver、connection、write 和 auto-start 边界一致
+- 已补齐 Java v110 / mini-kv v117 committed historical fallback，保证 GitHub runner 没有 sibling workspaces 时仍可验证
+- 仍不实现真实 resolver client / secret provider，不读取 credential value，不解析 raw endpoint URL，不发送 external request
 ```
 
 ## 推荐执行顺序
 
 ```text
-1. 推荐并行：Java v110 + mini-kv v117。
+1. 推荐并行：Java v110 + mini-kv v117。（已完成）
    - Java v110：credential resolver fake-shell archive echo receipt，只读引用 Node v266，证明 Java 侧仍不写 ledger、不执行 SQL、不读取 credential value、不打开 managed audit connection。
    - mini-kv v117：credential resolver fake-shell archive non-participation receipt，只读引用 Node v266，证明 mini-kv 仍不参与 resolver、secret provider、credential value、raw endpoint、external request、storage write、LOAD/COMPACT/RESTORE/SETNXEX。
    - 两者可以并行，因为都只读消费 Node v266，不互相依赖，也不做真实连接。
 
-2. Node v267：credential resolver fake-shell archive upstream echo verification。
+2. Node v267：credential resolver fake-shell archive upstream echo verification。（已完成）
    - 仅在 Java v110 + mini-kv v117 完成后推进。
    - 消费两边对 Node v266 archive verification 的 echo / non-participation，验证归档证据链被上游一致理解。
    - 不重新执行 fake resolver shell，不打开真实 resolver client、secret provider 或 managed audit connection。
@@ -51,6 +62,7 @@ Node v266：
    - 消费 Node v267，做下一阶段决策门禁。
    - 输出是否允许进入“真实 sandbox credential resolver pre-implementation plan”的条件清单。
    - 默认结论仍应是 blocked，除非有新计划明确 credential handle、endpoint handle、secret provider stub、operator approval 和 rollback boundary。
+   - v268 完成后本计划收口；若要进入真实 resolver pre-implementation，需要另起新计划，不在本计划继续追加重合版本。
 ```
 
 ## 显式质量优化项
