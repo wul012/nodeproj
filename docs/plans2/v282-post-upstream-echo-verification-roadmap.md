@@ -9,6 +9,7 @@
 ```text
 Node v282：已完成 approval-required implementation readiness upstream echo verification；23/23 检查通过，强制 historical fixture fallback 已覆盖。
 Node v283 前置质量拆分：dashboard.ts strangler 第一步已完成；入口降为 23 行，样式 / markup / browser script 已拆到独立模块，不改变 UI 行为。
+Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts 已拆成 base / handoff / release-deployment renderer 模块，原文件保留 36 行 barrel 导出。
 Java v116：已完成 approval-required implementation readiness echo。
 Java v117-v120：已自发完成测试拆分优化；当前 HEAD/tag 为 v120订单平台ops-evidence-service-test-suite-split，工作区干净。
 mini-kv v122：已完成 approval-required implementation non-participation readiness receipt。
@@ -25,14 +26,19 @@ mini-kv v123-v125：已自发完成 SMOKEJSON / formatter / receipt split 优化
    - `src/ui/dashboardStyles.ts`、`src/ui/dashboardMarkup.ts`、`src/ui/dashboardClientScript.ts` 分别承载 CSS、HTML 主体、浏览器脚本。
    - 这是 v283 功能版之前的维护性前置，不占用 Java / mini-kv 主流程。
 
-2. Node v283：managed audit resolver implementation plan draft。
+2. Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts strangler 第一步。已完成。
+   - 只拆 markdown renderer 聚合，不改变 archive / handoff / release-deployment 输出内容。
+   - `src/services/opsPromotionArchiveRenderers.ts` 保留为 barrel re-export，不改既有导入方。
+   - `src/services/opsPromotionArchiveBaseRenderers.ts`、`src/services/opsPromotionArchiveHandoffRenderers.ts`、`src/services/opsPromotionArchiveReleaseDeploymentRenderers.ts` 分别承载基础归档、交接链、发布部署链 renderer。
+
+3. Node v283：managed audit resolver implementation plan draft。
    - 只写实现计划草案，不写真实 resolver / adapter。
    - 明确接口边界、config handle、credential handle、endpoint handle、approval artifact、failure taxonomy、rollback guard、test-only fake harness。
    - 消费 Node v282 的三方 echo verification，并把 Java v117-v120、mini-kv v123-v125 的优化状态记录为“已完成但不改变主流程边界”。
    - 必须继续验证 forced historical fixture fallback。
    - 不发 HTTP/TCP，不读取 credential value，不解析 raw endpoint URL，不实例化 secret provider 或 resolver client。
 
-3. 推荐并行：Java v121 + mini-kv v126。
+4. 推荐并行：Java v121 + mini-kv v126。
    Java v121：resolver implementation plan echo。
    - 只读回显 Node v283 的 plan draft。
    - 说明 Java 侧后续若进入实现，需要哪些 operator approval / schema rehearsal / ledger policy artifact。
@@ -47,12 +53,12 @@ mini-kv v123-v125：已自发完成 SMOKEJSON / formatter / receipt split 优化
    - 两边写入不同仓库、不同职责域，不互相依赖。
    - 这两版可以在 Node v283 完成后并行推进，不需要 Node 抢跑。
 
-4. Node v284：resolver implementation plan upstream echo verification。
+5. Node v284：resolver implementation plan upstream echo verification。
    - 只消费 Java v121 + mini-kv v126 的只读回显。
    - 验证三方对 implementation plan 的禁止动作、artifact 缺口、fake harness 边界一致。
    - 仍不实现真实 resolver，不建立真实连接。
 
-5. Node v285：test-only fake resolver harness precheck。
+6. Node v285：test-only fake resolver harness precheck。
    - 只允许 test-only fake harness precheck。
    - fake harness 不能读取 credential value，不能解析 raw endpoint，不能连接外部 managed audit。
    - 输出后续 Java / mini-kv 是否需要只读 echo 的判断；如果需要，应写成推荐并行，不拆成模糊的“或”。
@@ -63,6 +69,7 @@ mini-kv v123-v125：已自发完成 SMOKEJSON / formatter / receipt split 优化
 ```text
 Node：
 - dashboard.ts strangler 第一步已完成；后续若继续拆 UI，应按面板组继续拆 `dashboardMarkup.ts` / `dashboardClientScript.ts`，不要把入口文件重新写胖。
+- opsPromotionArchiveRenderers.ts strangler 第一步已完成；后续若继续拆 renderer，应优先拆 `opsPromotionArchiveReleaseDeploymentRenderers.ts`，不要把 barrel 文件重新写胖。
 - v283 新 service 必须继续拆成 types / renderer / service / test，避免 700+ 行单文件反向膨胀。
 - 新增历史证据消费时，同版补 forced historical fixture fallback 测试；不能只依赖 loadConfig。
 - HTTP smoke 若 blocked，先 dump false checks / evidencePresent / verificationDocumented，再改代码。
@@ -91,5 +98,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Java v117-v120 和 mini-kv v123-v125 又完成了各自优化；Node 已先做 dashboard.ts 前置质量拆分。下一步继续 Node v283 implementation plan draft，随后推荐并行 Java v121 + mini-kv v126，再由 Node v284 做三方 plan echo verification。
+v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Java v117-v120 和 mini-kv v123-v125 又完成了各自优化；Node 已先做 dashboard.ts 与 opsPromotionArchiveRenderers.ts 前置质量拆分。下一步继续 Node v283 implementation plan draft，随后推荐并行 Java v121 + mini-kv v126，再由 Node v284 做三方 plan echo verification。
 ```

@@ -4,6 +4,9 @@ import {
   createOpsPromotionArchiveBundle,
   createOpsPromotionArchiveManifest,
   createOpsPromotionArchiveVerification,
+  renderOpsPromotionArchiveManifestMarkdown,
+  renderOpsPromotionArchiveMarkdown,
+  renderOpsPromotionArchiveVerificationMarkdown,
   type OpsPromotionArchiveManifest,
 } from "../src/services/opsPromotionArchiveBundle.js";
 import type { OpsPromotionDecisionLedgerIntegrity } from "../src/services/opsPromotionDecision.js";
@@ -130,6 +133,16 @@ describe("ops promotion archive bundle boundary checks", () => {
       nextActionsMatch: false,
     });
     expect(verification.nextActions).toEqual(["Regenerate the archive manifest before trusting this archive fingerprint."]);
+  });
+
+  it("keeps archive renderer barrel exports stable after renderer split", () => {
+    const bundle = createOpsPromotionArchiveBundle({ integrity: createEmptyIntegrity() });
+    const manifest = createOpsPromotionArchiveManifest(bundle);
+    const verification = createOpsPromotionArchiveVerification({ bundle, manifest });
+
+    expect(renderOpsPromotionArchiveMarkdown(bundle)).toContain("# Promotion archive bundle");
+    expect(renderOpsPromotionArchiveManifestMarkdown(manifest)).toContain("# Promotion archive manifest");
+    expect(renderOpsPromotionArchiveVerificationMarkdown(verification)).toContain("# Promotion archive verification");
   });
 });
 
