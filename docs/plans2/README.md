@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v299-post-runtime-shell-candidate-gate-decision-roadmap.md
+docs/plans2/v300-post-runtime-shell-decision-record-upstream-echo-roadmap.md
 ```
 
 ## 当前状态
@@ -37,7 +37,10 @@ Node v297：disabled runtime shell implementation candidate gate 已完成；下
 Java v134：runtime shell candidate gate echo 已完成；只读回显 Node v297 blocked candidate gate。
 mini-kv v131：runtime shell candidate gate non-participation receipt 已完成；只读确认 mini-kv 不参与 runtime shell candidate。
 Node v298：runtime shell candidate gate upstream echo verification 已完成；已消费 Java v134 + mini-kv v131，三方 blocked gate 对齐。
-Node v299：runtime shell candidate gate decision record 进行中/待收口；只记录 blocked decision，不新增 runtime implementation。
+Node v299：runtime shell candidate gate decision record 已完成；只记录 blocked decision，不新增 runtime implementation。
+Java v135：runtime shell decision record echo 已完成；只读回显 Node v299 blocked decision record。
+mini-kv v132：runtime shell decision record non-participation receipt 已完成；只确认 mini-kv 不参与 runtime shell implementation/invocation。
+Node v300：runtime shell decision record upstream echo verification 已完成；已消费 Node v299 + Java v135 + mini-kv v132，三方 blocked decision record 已对齐。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -60,9 +63,12 @@ Node v296：disabled runtime shell upstream echo verification。已完成。
 Node v297：disabled runtime shell implementation candidate gate。已完成。
 推荐并行：Java v134 + mini-kv v131。已完成。
 Node v298：runtime shell candidate gate upstream echo verification。已完成。
-Node v299：runtime shell candidate gate decision record。当前版本。
-推荐并行：Java v135 + mini-kv v132。必须等待 Node v299 完成。
-Node v300：runtime shell decision record upstream echo verification；必须等待 Java v135 + mini-kv v132 完成。
+Node v299：runtime shell candidate gate decision record。已完成。
+推荐并行：Java v135 + mini-kv v132。已完成。
+Node v300：runtime shell decision record upstream echo verification。已完成。
+Node v301：post-decision continuation plan intake。当前版本；不能直接实现 runtime shell。
+推荐并行：Java v136 + mini-kv v133。必须等待 Node v301 完成。
+Node v302：post-decision plan intake upstream echo verification；必须等待 Java v136 + mini-kv v133 完成。
 ```
 
 ## 质量收口
@@ -83,8 +89,10 @@ Node v300：runtime shell decision record upstream echo verification；必须等
 - Node v296 已完成，依赖的是 Java v133 + mini-kv v130，不能抢跑 runtime shell implementation。
 - Node v297 已完成 implementation candidate gate；仍默认 blocked。
 - Node v298 已完成；依赖的是 Java v134 + mini-kv v131，仍默认 blocked。
-- Node v299 只允许记录 blocked decision，不允许 runtime implementation。
-- Node v300 必须等待 Java v135 + mini-kv v132 完成。
+- Node v299 已完成，只允许记录 blocked decision，不允许 runtime implementation。
+- Node v300 已完成，依赖的是 Java v135 + mini-kv v132。
+- Node v301 只能做 post-decision continuation plan intake，不允许直接实现 runtime shell。
+- Node v302 必须等待 Java v136 + mini-kv v133 完成。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/；一个计划版本做完后另起续写，不要无限追加。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。

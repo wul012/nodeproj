@@ -70,6 +70,8 @@ If any of these steps cannot be done, state the reason clearly.
 - Starting with the next new Node version after this rule, use `代码讲解记录_生产雏形阶段2/` for code walkthrough notes. Keep `代码讲解记录_生产雏形阶段/` as historical walkthrough storage.
 - Starting with the next successor plan after this rule, use `docs/plans2/` for new plan files. Keep `docs/plans/` as historical plan storage and only edit it when needed for indexes or corrections.
 - Prefer local Chrome for browser screenshots. If Chrome is not available, use local Edge as fallback and mention it in the archive notes.
+- For browser/page verification, first use `tool_search` to discover available MCP browser tools. The Playwright MCP is usable for HTTP navigation, snapshots, resizing, and screenshots; prefer it when the target page can be reached directly.
+- Known Playwright MCP limits from v300: it blocks `file://` URLs, and the currently exposed tools do not provide custom HTTP header injection. If a route requires headers or the target is a local archive HTML file, use local Chrome headless as a fallback and record the reason in the archive explanation.
 - Do not download Playwright browsers by default.
 - Do not claim joint runtime testing unless Node actually consumes Java / mini-kv evidence through executable tests or a single cross-project readiness command.
 - For documentation-heavy folders, when a same-level directory becomes crowded, create a sibling directory for continued documentation writes and keep the same document style/naming. This rule applies to documentation only, not source code.
