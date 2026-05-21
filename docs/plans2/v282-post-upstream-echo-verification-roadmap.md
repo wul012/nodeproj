@@ -13,6 +13,7 @@ Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts 已拆成 base
 Node v283 前置质量拆分收口：opsSummaryRoutes.ts 已把 promotion archive 路由迁入 opsPromotionArchiveRoutes.ts；主入口降到约 315 行，archive 子路由约 455 行，不改变 API 路径。
 Node v283：managed audit resolver implementation plan draft 已完成；生成 7 个接口边界、Java v121 / mini-kv v126 并行 echo 要求和后续门禁，仍不实现真实 resolver。
 Node v284 质量优化：opsPromotionArchiveBundleTypes.ts 类型族拆分已完成；原文件保留 4 行 barrel，类型族拆到 core / handoff / release / deployment。
+Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分已完成；原文件保留 2 行 barrel，deployment builder / digest payload 分层。
 Java v116：已完成 approval-required implementation readiness echo。
 Java v117-v121：已完成测试拆分优化、OverviewTests 拆分、echo support catalog 化和 implementation plan echo；当前 HEAD/tag 为 `v121订单平台implementation-plan-echo-and-overview-split`，工作区干净，可作为 Node 后续输入。
 mini-kv v122：已完成 approval-required implementation non-participation readiness receipt。
@@ -71,7 +72,7 @@ mini-kv v123-v126：已自发完成 SMOKEJSON / formatter / receipt split 优化
    - 保留原文件为 barrel re-export，确保既有导入路径、导出类型名、JSON shape 和运行时行为不变。
    - 只做类型拆分和聚合测试，不新增 managed audit 功能。
 
-7. Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分。
+7. Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分。已完成。
    - 若 v284 后仍适合继续还债，则把 `src/services/opsPromotionArchiveDeploymentBuilders.ts` 按 deployment artifact builder / evidence mapper / markdown source builder 拆分。
    - 保持现有 builder 函数名和输出结构不变。
    - Java 已收口；若 Node v284 后技术债已可接受，也可以跳过或推迟本项，直接回到三方验证。
@@ -96,7 +97,7 @@ Node：
 - opsPromotionArchiveRenderers.ts strangler 第一步已完成；后续若继续拆 renderer，应优先拆 `opsPromotionArchiveReleaseDeploymentRenderers.ts`，不要把 barrel 文件重新写胖。
 - opsSummaryRoutes.ts promotion archive 拆分已完成；短期停止继续拆 315/455 行级别文件，下一步回到 v283 主流程。
 - `src/services/opsPromotionArchiveBundleTypes.ts` 已完成类型族拆分，原文件保留 4 行 barrel，最大子类型文件约 716 行。
-- 当前剩余重点大文件是 `src/services/opsPromotionArchiveDeploymentBuilders.ts`（约 1564 行），已安排为 Node v285 质量优化候选，不阻塞已完成的 Java v121 / mini-kv v126，也不改变功能主线边界。
+- `src/services/opsPromotionArchiveDeploymentBuilders.ts` 已完成 builder 拆分，原文件保留 2 行 barrel，最大子文件约 733 行。
 - v283 新 service 必须继续拆成 types / renderer / service / test，避免 700+ 行单文件反向膨胀。
 - 新增历史证据消费时，同版补 forced historical fixture fallback 测试；不能只依赖 loadConfig。
 - HTTP smoke 若 blocked，先 dump false checks / evidencePresent / verificationDocumented，再改代码。
@@ -114,8 +115,8 @@ mini-kv：
 
 可并行优化说明：
 - Node 的两个 1500+ 文件拆分、Java OverviewTests 拆分、Java echo support catalog 化属于不同仓库/不同职责域，可以并行安排。
-- Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净；Node 可先做 v284/v285 质量优化，也可在 v284 后直接进入 v286。
-- 三方 verification 顺延到 Node v286，是为了先处理 Node 自身剩余大文件质量债，而不是因为上游未完成。
+- Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净；Node v284/v285 质量优化也已完成。
+- 下一步进入 Node v286 三方 plan echo verification。
 ```
 
 ## 暂停条件
@@ -132,5 +133,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Node 已完成 v283 implementation plan draft；Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净。下一步 Node 可先做 v284/v285 质量优化，随后由 Node v286 做三方 plan echo verification。
+v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Node 已完成 v283 implementation plan draft 和 v284/v285 质量优化；Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净。下一步由 Node v286 做三方 plan echo verification。
 ```
