@@ -47,7 +47,11 @@ Node v294：disabled runtime shell pre-plan intake。
 - Node v290 仍要拆成 types / renderer / service / test，避免新建 700+ 行 service。
 - Node v290 已完成，后续只读引用其 route preflight 结果即可。
 - 消费历史版本时优先使用 sibling receipt 中固化的 source snapshot，避免后续代码重算旧 gate 造成 digest 漂移。
+- Node v293 起新增 echo/governance 链必须先写必要性证明：解决哪个 blocker、谁消费、为什么不能复用已有 report、何时停止继续延伸。
+- Node v293 起单版/单提交目标小于 3000 changed lines；超过时拆版本或拆提交，避免一版混入功能、重构、文档、截图。
+- Node 后续 echo 段优先 catalog 化，借鉴 Java v126/v130 模式，避免第 8、9 段 echo 复制成 3000 行级别。
 - Java v127-v130 优先做质量止血和 catalog 延伸，不做真实 fake harness。
+- Java 后续 echo builder 可继续 catalog/template 化，把剩余 600+ builder 收进统一模式。
 - mini-kv v128 只做 non-participation receipt，不执行 LOAD/COMPACT/RESTORE/SETNXEX。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/；一个计划版本做完后另起续写，不要无限追加。
