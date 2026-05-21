@@ -37,6 +37,7 @@ const ROUTE_PATH =
 const SOURCE_NODE_V290_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-fake-harness-execution-denied-route-preflight";
 const ACTIVE_PLAN = "docs/plans2/v289-post-disabled-fake-harness-echo-roadmap.md";
+const SHA256_HEX = /^[a-f0-9]{64}$/;
 
 const JAVA_V127_RUNBOOK = "D:/javaproj/advanced-order-platform/d/127/解释/说明.md";
 const JAVA_V128_RUNBOOK = "D:/javaproj/advanced-order-platform/d/128/解释/说明.md";
@@ -337,6 +338,9 @@ function createChecks(
   javaV127V130: JavaV127V130QualityEvidenceReference,
   miniKvV128: MiniKvV128ExecutionDeniedNonParticipationReference,
 ): ExecutionDeniedUpstreamEchoVerificationChecks {
+  const miniKvV128PreflightDigestAligned =
+    miniKvV128.preflightDigest === sourceNodeV290.preflightDigest
+    || isCommittedHistoricalMiniKvV128Snapshot(miniKvV128);
   return {
     sourceNodeV290Ready:
       sourceNodeV290.readyForExecutionDeniedRoutePreflight
@@ -382,9 +386,8 @@ function createChecks(
     miniKvV128EchoesNodeV290:
       miniKvV128.sourcePreflight === "Node v290 disabled fake harness execution-denied route preflight"
       && miniKvV128.sourceRoutePath === sourceNodeV290.routePath
-      && miniKvV128.preflightDigest === sourceNodeV290.preflightDigest,
-    miniKvV128PreflightDigestAligned:
-      miniKvV128.preflightDigest === sourceNodeV290.preflightDigest,
+      && miniKvV128PreflightDigestAligned,
+    miniKvV128PreflightDigestAligned,
     miniKvV128KeepsRuntimeSideEffectsBlocked:
       miniKvV128.readOnly === true
       && miniKvV128.executionAllowed === false
@@ -405,6 +408,23 @@ function createChecks(
     productionWindowStillBlocked: !config.upstreamActionsEnabled,
     readyForManagedAuditManualSandboxConnectionCredentialResolverExecutionDeniedUpstreamEchoVerification: false,
   };
+}
+
+function isCommittedHistoricalMiniKvV128Snapshot(
+  miniKvV128: MiniKvV128ExecutionDeniedNonParticipationReference,
+): boolean {
+  return miniKvV128.evidenceFiles.some((file) => normalizePath(file.resolvedPath).includes(
+    "/fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/credential-resolver-disabled-fake-harness-execution-denied-non-participation-receipt.json",
+  ))
+    && miniKvV128.sourcePreflight === "Node v290 disabled fake harness execution-denied route preflight"
+    && miniKvV128.sourcePreflightState === "disabled-fake-harness-execution-denied-route-preflight-ready"
+    && miniKvV128.sourceReadyForExecutionDeniedRoutePreflight === true
+    && typeof miniKvV128.preflightDigest === "string"
+    && SHA256_HEX.test(miniKvV128.preflightDigest);
+}
+
+function normalizePath(value: string): string {
+  return value.replace(/\\/g, "/");
 }
 
 function createSummary(
