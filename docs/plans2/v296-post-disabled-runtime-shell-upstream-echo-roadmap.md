@@ -19,7 +19,7 @@ Node v296：已消费 Node v295 + Java v133 + mini-kv v130，完成 disabled run
 ## 推荐执行顺序
 
 ```text
-1. Node v297：disabled runtime shell implementation candidate gate。
+1. Node v297：disabled runtime shell implementation candidate gate。已完成。
    - 消费 Node v296 的 echo verification。
    - 只判断候选门槛：专用 disabled-by-default flag、operator approval、abort semantics、no-network tests、historical fallback evidence 是否齐全。
    - 仍默认 blocked；不能实现 runtime shell，不能实例化 provider/client，不能读取 credential，不能解析 raw endpoint，不发 HTTP/TCP。
@@ -40,7 +40,7 @@ Node v296：已消费 Node v295 + Java v133 + mini-kv v130，完成 disabled run
 
 ```text
 Node：
-- v297 继续使用 types / renderer / service / test 四件套。
+- v297 已完成，继续使用 types / renderer / service / test 四件套。
 - 继续避免单版新增 3000+ changed lines；若候选门槛字段过多，拆成 gate profile 与 route/render/test 两段。
 - 新增 candidate gate 必须写必要性证明：blocker、consumer、为什么不能复用 v296、停止条件。
 - 继续优先消费 v296 profile 的 digest/state/summary，不复制 Java/mini-kv 长文本。
@@ -57,7 +57,7 @@ mini-kv：
 并行规则：
 - 同一项目内部版本必须串行。
 - Java v134 与 mini-kv v131 互不依赖，推荐并行。
-- Node v297 在 Java v134/mini-kv v131 之前，Node v298 必须等待 Java v134 + mini-kv v131 完成。
+- Node v297 已完成；Node v298 必须等待 Java v134 + mini-kv v131 完成。
 ```
 
 ## 暂停条件
@@ -71,11 +71,11 @@ mini-kv：
 - 需要 Node 向真实 managed audit endpoint 发 HTTP/TCP 请求。
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
-- Node v296 未完成时，Node v297 必须停止。
+- Node v297 未完成时，Node v298 必须停止。
 - Java v134 或 mini-kv v131 未完成时，Node v298 必须停止。
 
 ## 一句话结论
 
 ```text
-v296 已完成三方 upstream echo verification：下一步 Node v297 只能做 runtime shell implementation candidate gate，仍默认 blocked；随后推荐并行 Java v134 + mini-kv v131，再由 Node v298 消费。
+v296 已完成三方 upstream echo verification，v297 已完成 runtime shell implementation candidate gate review：下一步推荐并行 Java v134 + mini-kv v131，再由 Node v298 消费。
 ```

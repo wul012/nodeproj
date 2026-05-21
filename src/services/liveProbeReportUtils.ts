@@ -36,7 +36,7 @@ export function renderEntries(record: object): string[] {
   return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
 }
 
-export function renderList(items: string[], emptyText: string): string[] {
+export function renderList(items: readonly string[], emptyText: string): string[] {
   return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
 }
 
