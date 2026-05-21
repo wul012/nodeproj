@@ -51,10 +51,11 @@ mini-kv v127：disabled fake harness non-participation receipt 已完成。
    - 不打开 fake harness runtime，不实现 resolver client，不连接 managed audit。
    - 本版实际结果：mini-kv v128 receipt 已与 Node v290 preflight digest 对齐，Java v127-v130 质量证据已冻结；`javaExecutionDeniedEchoPresent=false`，因此最终 readiness 仍为 false。
 
-7. Node v292：credential resolver fake harness readiness decision record。
+7. Node v292：credential resolver fake harness readiness decision record。已完成。
    - 汇总 v287-v291，判断是否可以进入“disabled runtime shell”规划。
    - 这是决策记录，不是 runtime 实现。
    - 若仍缺 Java/mini-kv 证据，则停，不抢跑。
+   - 本版实际结果：decision record 可归档，但 readiness decision 仍为 blocked；缺口是 Java direct execution-denied echo。
 ```
 
 ## 显式质量优化项
@@ -95,5 +96,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v289-v291 已把 disabled fake harness contract、execution-denied route preflight、Java v127-v130 质量证据、mini-kv v128 非参与 receipt 串起来；当前仍不能进入 runtime，下一步是 Node v292 做 readiness decision record，明确是否需要先让 Java 补 direct execution-denied echo。
+v289-v292 已完成：disabled fake harness contract、execution-denied route preflight、Java v127-v130 质量证据、mini-kv v128 非参与 receipt、Node v291 blocked verification、Node v292 blocked readiness decision record 均已归档。本计划收口，后续由 `docs/plans2/v292-post-fake-harness-readiness-decision-roadmap.md` 继续。
 ```
