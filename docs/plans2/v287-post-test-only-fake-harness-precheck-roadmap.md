@@ -22,12 +22,15 @@ mini-kv v126：implementation plan non-participation receipt 已完成。
    - 继续保持 credential handle / endpoint handle 边界，不读 credential value，不解析 raw endpoint。
    - 如果这版还需要引用上游证据，只能继续只读。
 
-2. Java v122：Integration Tests 第 1 连拆。
-   - Java 单项目版本按原子顺序推进，不写 Java v122 + v123 并行。
-   - 保留共享 fixture / helper，不把 harness 再写胖。
+2. 推荐并行：Java v122 + mini-kv v127。
+   - Java v122：Integration Tests 第 1 连拆。
+   - mini-kv v127：disabled fake harness non-participation receipt。
+   - 并行理由：两边写入不同仓库；Java 做测试拆分，mini-kv 做只读非参与回执，互不依赖。
+   - 若任一侧需要真实 credential、raw endpoint、写命令或外部连接，则停止并拆回串行确认。
 
 3. Java v123：Integration Tests 第 2 连拆。
-   - 接续 v122，只做同一测试域的下一段拆分。
+   - 接续 Java v122；Java 单项目版本按原子顺序推进，不写 Java v123 + v124 并行。
+   - 保留共享 fixture / helper，不把 harness 再写胖。
 
 4. Java v124：Integration Tests 第 3 连拆。
    - 继续顺序拆，避免同一仓库同一测试基座并行冲突。
@@ -39,11 +42,7 @@ mini-kv v126：implementation plan non-participation receipt 已完成。
    - 抽共享 catalog / template，统一 echo support、boundary code、required artifact、blocked side-effect。
    - 只做止血型重构，不改业务语义，不引入新的大文件。
 
-7. mini-kv v127：disabled fake harness non-participation receipt。
-   - 不能缺 mini-kv 对齐；只读证明 mini-kv 仍不参与 fake harness、credential resolver、managed audit storage backend。
-   - 不执行 LOAD / COMPACT / SETNXEX / RESTORE，不做写命令。
-
-8. Node v289：disabled fake harness contract upstream echo verification。
+7. Node v289：disabled fake harness contract upstream echo verification。
    - 消费 Java v122-v126 的只读结果，验证 disabled fake harness contract 是否仍保持关闭状态。
    - 同时消费 mini-kv v127 non-participation receipt，避免三项目对齐少一侧。
    - 仍不读取 credential value，不建立真实连接，不写 ledger。
@@ -64,6 +63,11 @@ Java：
 mini-kv：
 - mini-kv v127 需要作为三项目对齐的一侧输入；只做 non-participation / read-only receipt。
 - 不能因为 Java 侧质量拆分较多就漏掉 mini-kv 对齐。
+
+并行规则：
+- 同一项目内部版本必须串行。
+- 跨项目且写入不同仓库、职责域互不依赖时，可以写“推荐并行”。
+- 当前明确可并行的是 Java v122 + mini-kv v127；Java v123-v126 仍是 Java 内部串行。
 ```
 
 ## 暂停条件
