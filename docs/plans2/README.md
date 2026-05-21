@@ -5,34 +5,36 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v282-post-upstream-echo-verification-roadmap.md
+docs/plans2/v287-post-test-only-fake-harness-precheck-roadmap.md
 ```
 
 ## 当前状态
 
 ```text
-Node v274：disabled candidate upstream echo verification 已完成。
-Java v115 + mini-kv v121：已推荐并行完成，只读强化 approval-required boundary 证据。
-Node v275：approval-required boundary upstream echo verification 已完成。
-Node v276：statusRoutes security split quality pass 已完成。
-Node v277：statusRoutes deployment + connection readiness split quality pass 已完成。
-Node v278：statusRoutes production readiness summary split quality pass 已完成。
-Node v279：statusRoutes rollback readiness split quality pass 已完成。
-Node v280：statusRoutes live-probe split quality pass 已完成。
-Node v281：credential resolver approval-required implementation readiness review 已完成。
-Java v116 + mini-kv v122：已推荐并行完成，只读回显 Node v281。
-Node v282：approval-required implementation readiness upstream echo verification 已完成。
-Node v283 前置质量拆分：dashboard.ts strangler 第一步已完成。
-Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts strangler 第一步已完成。
-Node v283 前置质量拆分收口：opsSummaryRoutes.ts promotion archive 子路由拆分已完成；短期停止继续拆分，回到主流程。
-Node v283：managed audit resolver implementation plan draft 已完成。
-Node v284 质量优化：opsPromotionArchiveBundleTypes.ts 类型族拆分已完成；原文件保留 4 行 barrel，类型族拆到 core / handoff / release / deployment。
-Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分已完成；原文件保留 2 行 barrel，deployment builder / digest payload 分层。
-Java v117-v121：已完成测试拆分优化、implementation-plan echo 和 overview split；HEAD/tag 为 `v121订单平台implementation-plan-echo-and-overview-split`。
-mini-kv v123-v126：已完成 SMOKEJSON / formatter / receipt split 优化，并完成 resolver implementation plan non-participation receipt。
-Node v286：resolver implementation plan upstream echo verification 已完成；已消费 Java v121 + mini-kv v126，并补 historical fixture fallback。
-已补充后续质量候选：Node 剩余两个 1500+ TS 文件、Java OverviewTests 拆分收口、Java echo support catalog 化；这些可作为各自独立质量版。
-下一步：Node v287 做 test-only fake resolver harness precheck；仍不读取 credential value、不解析 raw endpoint、不连接 managed audit。
+Node v287：test-only fake resolver harness precheck 已完成，只做边界预检，不做真实 fake harness 执行。
+Node v288：disabled fake harness contract 待推进。
+Java v121：implementation plan echo 已完成。
+mini-kv v126：implementation plan non-participation receipt 已完成。
+三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
-旧 `docs/plans/` 保留为历史目录；后续新计划优先写入本目录。
+## 推荐顺序
+
+```text
+Java v122：Integration Tests 第 1 连拆。
+Java v123：Integration Tests 第 2 连拆。
+Java v124：Integration Tests 第 3 连拆。
+Java v125：Integration Tests 第 4 连拆。
+Java v126：EvidenceService catalog 化止血。
+Node v289：disabled fake harness contract upstream echo verification，消费 Java v122-v126 之后再推进。
+```
+
+## 质量收口
+
+```text
+- Node v287 必须保持 precheck only，不把 fake harness 变成可运行入口。
+- Java integration tests 的 4 连拆要保留共享 fixture / helper，不要把 harness 再写胖。
+- Java EvidenceService catalog 化只抽共享 catalog/template，不要制造新的大文件。
+- 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/。
+- 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
+```
