@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v295-post-disabled-runtime-shell-design-review-roadmap.md
+docs/plans2/v296-post-disabled-runtime-shell-upstream-echo-roadmap.md
 ```
 
 ## 当前状态
@@ -29,6 +29,10 @@ mini-kv v129：receipt verification/retention check 已完成；可供 Node v293
 Node v293：fake harness readiness blocked decision upstream echo verification 已完成；三方 blocked decision 已对齐，但 runtime shell 仍未解锁。
 Node v294：disabled runtime shell pre-plan intake 已完成；只定义边界，不实现 runtime。
 Node v295：disabled runtime shell design review 已完成；结论是先推荐并行 Java v132 + mini-kv v130，再由 Node v296 消费。
+Java v132：质量优化已完成，不是 disabled runtime shell handoff echo。
+Java v133：disabled runtime shell handoff echo 已完成，是 Node v296 的实际 Java 上游证据。
+mini-kv v130：disabled runtime shell non-participation receipt 已完成。
+Node v296：disabled runtime shell upstream echo verification 已完成；已修正 Java v132/v133 计划偏差，下一步是 Node v297 candidate gate。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -46,8 +50,11 @@ mini-kv v129：receipt verification/retention 收口。已完成。
 Node v293：fake harness readiness blocked decision upstream echo verification。已完成。
 Node v294：disabled runtime shell pre-plan intake。已完成。
 Node v295：disabled runtime shell design review。已完成。
-推荐并行：Java v132 + mini-kv v130。
-Node v296：disabled runtime shell upstream echo verification；必须等待 Java v132 + mini-kv v130 完成。
+推荐并行：Java v133 + mini-kv v130。已完成；原计划 Java v132 已修正为 Java v133。
+Node v296：disabled runtime shell upstream echo verification。已完成。
+Node v297：disabled runtime shell implementation candidate gate；仍默认 blocked，不实现 runtime。
+推荐并行：Java v134 + mini-kv v131；必须等待 Node v297。
+Node v298：runtime shell candidate gate upstream echo verification；必须等待 Java v134 + mini-kv v131 完成。
 ```
 
 ## 质量收口
@@ -64,8 +71,9 @@ Node v296：disabled runtime shell upstream echo verification；必须等待 Jav
 - mini-kv v128 只做 non-participation receipt，不执行 LOAD/COMPACT/RESTORE/SETNXEX。
 - mini-kv v129 已完成 receipt verification/retention；后续 Node 只读消费，不要求 mini-kv 继续加写能力。
 - Node v294 已完成：disabled runtime shell pre-plan intake，只做边界和计划，不实现 runtime。
-- Node v295 已完成 design review；下一步明确推荐并行 Java v132 + mini-kv v130。
-- Node v296 依赖 Java v132 + mini-kv v130，不能抢跑 runtime shell implementation。
+- Node v295 已完成 design review；原推荐 Java v132 已修正为 Java v133。
+- Node v296 已完成，依赖的是 Java v133 + mini-kv v130，不能抢跑 runtime shell implementation。
+- Node v297 只能做 implementation candidate gate，仍默认 blocked。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/；一个计划版本做完后另起续写，不要无限追加。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
