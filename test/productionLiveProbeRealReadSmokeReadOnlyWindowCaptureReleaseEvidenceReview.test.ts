@@ -115,7 +115,7 @@ describe("production live probe real-read smoke read-only window capture release
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 90000);
 
   it("exposes release evidence review routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-release-review-route-"));

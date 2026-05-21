@@ -39,10 +39,23 @@ const FALLBACK_MAPPINGS = Object.freeze([
 ]);
 
 export function resolveHistoricalEvidencePath(inputPath: string): string {
-  if (process.env[FORCE_FALLBACK_ENV] !== "true" && existsSync(inputPath)) {
+  const fallbackPath = mappedHistoricalEvidencePath(inputPath);
+  if (process.env[FORCE_FALLBACK_ENV] === "true") {
+    return fallbackPath ?? inputPath;
+  }
+
+  if (fallbackPath && existsSync(fallbackPath)) {
+    return fallbackPath;
+  }
+
+  if (existsSync(inputPath)) {
     return inputPath;
   }
 
+  return fallbackPath ?? inputPath;
+}
+
+function mappedHistoricalEvidencePath(inputPath: string): string | null {
   const normalizedPath = inputPath.replace(/\\/g, "/");
   for (const mapping of FALLBACK_MAPPINGS) {
     if (normalizedPath.startsWith(mapping.prefix)) {
@@ -50,7 +63,7 @@ export function resolveHistoricalEvidencePath(inputPath: string): string {
     }
   }
 
-  return inputPath;
+  return null;
 }
 
 export function historicalEvidenceExists(inputPath: string): boolean {

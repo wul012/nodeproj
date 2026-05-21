@@ -20,6 +20,7 @@
 291-credential-resolver-implementation-plan-upstream-echo-verification-v286.md
 292-credential-resolver-test-only-fake-harness-precheck-v287.md
 293-credential-resolver-disabled-fake-harness-contract-v288.md
+294-credential-resolver-disabled-fake-harness-contract-upstream-echo-verification-v289.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

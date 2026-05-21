@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v287-post-test-only-fake-harness-precheck-roadmap.md
+docs/plans2/v289-post-disabled-fake-harness-echo-roadmap.md
 ```
 
 ## 当前状态
@@ -13,28 +13,30 @@ docs/plans2/v287-post-test-only-fake-harness-precheck-roadmap.md
 ```text
 Node v287：test-only fake resolver harness precheck 已完成，只做边界预检，不做真实 fake harness 执行。
 Node v288：disabled fake harness contract 已完成；只定义合同，不提供可执行 fake harness runtime。
+Node v289：disabled fake harness contract upstream echo verification 已完成；已消费 Java v122-v126 + mini-kv v127。
 Java v121：implementation plan echo 已完成。
 mini-kv v126：implementation plan non-participation receipt 已完成。
+Java v122-v126：Integration Tests 四连拆 + EvidenceService catalog 化止血已完成。
+mini-kv v127：disabled fake harness non-participation receipt 已完成。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
 ## 推荐顺序与并行点
 
 ```text
-推荐并行：Java v122 + mini-kv v127。
-Java v123：Integration Tests 第 2 连拆，接续 Java v122。
-Java v124：Integration Tests 第 3 连拆，接续 Java v123。
-Java v125：Integration Tests 第 4 连拆，接续 Java v124。
-Java v126：EvidenceService catalog 化止血。
-Node v289：disabled fake harness contract upstream echo verification，消费 Java v122-v126 + mini-kv v127 之后再推进。
+Node v290：disabled fake harness execution-denied route preflight。
+推荐并行：Java v127 + mini-kv v128。
+Node v291：execution-denied upstream echo verification，消费 Java v127 + mini-kv v128 后再推进。
+Node v292：credential resolver fake harness readiness decision record。
 ```
 
 ## 质量收口
 
 ```text
-- Node v288 已完成 disabled fake harness contract；后续 Node v289 必须等 Java v122 + mini-kv v127 完成后再推进。
-- Java integration tests 的 4 连拆要保留共享 fixture / helper，不要把 harness 再写胖。
-- Java EvidenceService catalog 化只抽共享 catalog/template，不要制造新的大文件。
+- Node v290 仍要拆成 types / renderer / service / test，避免新建 700+ 行 service。
+- 消费历史版本时优先使用 sibling receipt 中固化的 source snapshot，避免后续代码重算旧 gate 造成 digest 漂移。
+- Java v127 若推进，只做只读 echo，不做真实 fake harness；继续沿用 v126 catalog。
+- mini-kv v128 只做 non-participation receipt，不执行 LOAD/COMPACT/RESTORE/SETNXEX。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。

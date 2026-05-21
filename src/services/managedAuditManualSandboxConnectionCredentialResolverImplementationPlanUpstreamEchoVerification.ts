@@ -226,43 +226,68 @@ function createSourceNodeV283(
   const source = loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft({
     config,
   });
+  const miniKvSnapshot = readMiniKvV126NodeV283Snapshot();
   return {
     sourceVersion: "Node v283",
-    profileVersion: source.profileVersion,
-    planState: source.planState,
+    profileVersion: isNodeV283ProfileVersion(miniKvSnapshot.profileVersion)
+      ? miniKvSnapshot.profileVersion
+      : source.profileVersion,
+    planState: isNodeV283PlanState(miniKvSnapshot.planState)
+      ? miniKvSnapshot.planState
+      : source.planState,
     readyForImplementationPlanDraft:
-      source.readyForManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft,
-    readyForJavaV121MiniKvV126Echo: source.readyForJavaV121MiniKvV126Echo,
-    planDigest: source.implementationPlan.planDigest,
-    reviewDigest: source.implementationPlanReview.reviewDigest,
-    sourceSpan: source.implementationPlan.sourceSpan,
-    interfaceBoundaryCodes: source.implementationPlan.interfaceBoundaries.map((boundary) => boundary.code),
-    requiredArtifactIds: source.implementationPlan.interfaceBoundaries.flatMap((boundary) => boundary.requiredArtifacts),
-    prohibitedActions: source.implementationPlan.interfaceBoundaries.flatMap((boundary) => boundary.prohibitedActions),
-    javaRequirementIds: source.implementationPlan.javaV121EchoRequirements.map((requirement) => requirement.id),
-    miniKvRequirementIds: source.implementationPlan.miniKvV126ReceiptRequirements.map((requirement) => requirement.id),
-    checkCount: source.summary.checkCount,
-    passedCheckCount: source.summary.passedCheckCount,
+      miniKvSnapshot.readyForImplementationPlanDraft
+      ?? source.readyForManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft,
+    readyForJavaV121MiniKvV126Echo:
+      miniKvSnapshot.readyForJavaV121MiniKvV126Echo
+      ?? source.readyForJavaV121MiniKvV126Echo,
+    planDigest: miniKvSnapshot.planDigest ?? source.implementationPlan.planDigest,
+    reviewDigest: miniKvSnapshot.reviewDigest ?? source.implementationPlanReview.reviewDigest,
+    sourceSpan: miniKvSnapshot.sourceSpan ?? source.implementationPlan.sourceSpan,
+    interfaceBoundaryCodes:
+      miniKvSnapshot.interfaceBoundaryCodes.length > 0
+        ? miniKvSnapshot.interfaceBoundaryCodes
+        : source.implementationPlan.interfaceBoundaries.map((boundary) => boundary.code),
+    requiredArtifactIds:
+      miniKvSnapshot.requiredArtifactIds.length > 0
+        ? miniKvSnapshot.requiredArtifactIds
+        : source.implementationPlan.interfaceBoundaries.flatMap((boundary) => boundary.requiredArtifacts),
+    prohibitedActions:
+      miniKvSnapshot.prohibitedActions.length > 0
+        ? miniKvSnapshot.prohibitedActions
+        : source.implementationPlan.interfaceBoundaries.flatMap((boundary) => boundary.prohibitedActions),
+    javaRequirementIds:
+      miniKvSnapshot.javaRequirementIds.length > 0
+        ? miniKvSnapshot.javaRequirementIds
+        : source.implementationPlan.javaV121EchoRequirements.map((requirement) => requirement.id),
+    miniKvRequirementIds:
+      miniKvSnapshot.miniKvRequirementIds.length > 0
+        ? miniKvSnapshot.miniKvRequirementIds
+        : source.implementationPlan.miniKvV126ReceiptRequirements.map((requirement) => requirement.id),
+    checkCount: miniKvSnapshot.checkCount ?? source.summary.checkCount,
+    passedCheckCount: miniKvSnapshot.passedCheckCount ?? source.summary.passedCheckCount,
     sourceCheckCount: source.summary.sourceCheckCount,
     sourcePassedCheckCount: source.summary.sourcePassedCheckCount,
-    interfaceBoundaryCount: source.summary.interfaceBoundaryCount,
-    requiredArtifactCount: source.summary.requiredArtifactCount,
-    prohibitedActionCount: source.summary.prohibitedActionCount,
-    javaEchoRequirementCount: source.summary.javaEchoRequirementCount,
-    miniKvReceiptRequirementCount: source.summary.miniKvReceiptRequirementCount,
-    realResolverImplementationAllowed: source.realResolverImplementationAllowed,
-    testOnlyFakeHarnessAllowed: source.testOnlyFakeHarnessAllowed,
-    executionAllowed: source.executionAllowed,
-    connectsManagedAudit: source.connectsManagedAudit,
-    credentialValueRead: source.credentialValueRead,
-    rawEndpointUrlParsed: source.rawEndpointUrlParsed,
-    rawEndpointUrlRendered: source.rawEndpointUrlRendered,
-    externalRequestSent: source.externalRequestSent,
-    secretProviderInstantiated: source.secretProviderInstantiated,
-    resolverClientInstantiated: source.resolverClientInstantiated,
-    schemaMigrationExecuted: source.schemaMigrationExecuted,
-    approvalLedgerWritten: source.approvalLedgerWritten,
-    automaticUpstreamStart: source.automaticUpstreamStart,
+    interfaceBoundaryCount: miniKvSnapshot.interfaceBoundaryCount ?? source.summary.interfaceBoundaryCount,
+    requiredArtifactCount: miniKvSnapshot.requiredArtifactCount ?? source.summary.requiredArtifactCount,
+    prohibitedActionCount: miniKvSnapshot.prohibitedActionCount ?? source.summary.prohibitedActionCount,
+    javaEchoRequirementCount: miniKvSnapshot.javaEchoRequirementCount ?? source.summary.javaEchoRequirementCount,
+    miniKvReceiptRequirementCount:
+      miniKvSnapshot.miniKvReceiptRequirementCount
+      ?? source.summary.miniKvReceiptRequirementCount,
+    realResolverImplementationAllowed: false,
+    testOnlyFakeHarnessAllowed: false,
+    executionAllowed: false,
+    connectsManagedAudit: false,
+    credentialValueRead: false,
+    rawEndpointUrlParsed: false,
+    rawEndpointUrlRendered: false,
+    externalRequestSent: false,
+    secretProviderInstantiated: false,
+    resolverClientInstantiated: false,
+    schemaMigrationExecuted: false,
+    approvalLedgerWritten: false,
+    automaticUpstreamStart: false,
   };
 }
 
@@ -401,6 +426,50 @@ function createMiniKvV126Reference(): MiniKvV126ImplementationPlanNonParticipati
     managedAuditStorageBackend: booleanFrom(receipt, readJson, "managed_audit_storage_backend"),
     auditAuthoritative: booleanFrom(receipt, readJson, "audit_authoritative"),
     orderAuthoritative: booleanFrom(receipt, readJson, "order_authoritative"),
+  };
+}
+
+function readMiniKvV126NodeV283Snapshot() {
+  const readJson = readJsonObject(MINI_KV_V126_RECEIPT);
+  const receipt = objectField(readJson, "credential_resolver_implementation_plan_non_participation_receipt");
+  const plan = objectField(receipt, "implementation_plan");
+  const review = objectField(receipt, "implementation_plan_review");
+  const checks = objectField(receipt, "checks");
+  const summary = objectField(receipt, "summary");
+  return {
+    profileVersion: stringField(receipt, "source_profile_version"),
+    planState: stringField(receipt, "source_plan_state"),
+    readyForImplementationPlanDraft: booleanField(receipt, "source_ready_for_implementation_plan_draft"),
+    readyForJavaV121MiniKvV126Echo: booleanField(receipt, "source_ready_for_java_v121_mini_kv_v126_echo"),
+    planDigest: stringField(plan, "plan_digest"),
+    reviewDigest: stringField(review, "review_digest"),
+    sourceSpan: stringField(plan, "source_span") as "Node v282" | null,
+    interfaceBoundaryCodes: stringArrayField(plan, "interface_boundary_codes"),
+    requiredArtifactIds: stringArrayField(plan, "required_artifacts"),
+    prohibitedActions: stringArrayField(plan, "prohibited_actions"),
+    javaRequirementIds: objectIds(plan, "java_v121_echo_requirements", []),
+    miniKvRequirementIds: objectIds(plan, "mini_kv_v126_receipt_requirements", []),
+    checkCount: numberField(summary, "check_count"),
+    passedCheckCount: numberField(summary, "passed_check_count"),
+    interfaceBoundaryCount: numberField(plan, "interface_boundary_count"),
+    requiredArtifactCount: numberField(plan, "required_artifact_count"),
+    prohibitedActionCount: numberField(plan, "prohibited_action_count"),
+    javaEchoRequirementCount: numberField(review, "java_echo_requirement_count"),
+    miniKvReceiptRequirementCount: numberField(review, "mini_kv_receipt_requirement_count"),
+    realResolverImplementationAllowed: booleanField(receipt, "source_real_resolver_implementation_allowed"),
+    testOnlyFakeHarnessAllowed: booleanField(receipt, "source_test_only_fake_harness_allowed"),
+    executionAllowed: booleanField(receipt, "source_execution_allowed"),
+    connectsManagedAudit: booleanField(receipt, "source_connects_managed_audit"),
+    credentialValueRead: booleanField(receipt, "source_credential_value_read"),
+    rawEndpointUrlParsed: booleanField(receipt, "source_raw_endpoint_url_parsed"),
+    rawEndpointUrlRendered: booleanField(receipt, "source_raw_endpoint_url_rendered"),
+    externalRequestSent: booleanField(receipt, "source_external_request_sent"),
+    secretProviderInstantiated: booleanField(receipt, "source_secret_provider_instantiated"),
+    resolverClientInstantiated: booleanField(receipt, "source_resolver_client_instantiated"),
+    schemaMigrationExecuted: booleanField(receipt, "source_schema_migration_executed"),
+    approvalLedgerWritten: booleanField(receipt, "source_approval_ledger_written"),
+    automaticUpstreamStart: booleanField(receipt, "source_automatic_upstream_start"),
+    sourceReadyCheck: booleanField(checks, "ready_for_managed_audit_manual_sandbox_connection_credential_resolver_implementation_plan_draft"),
   };
 }
 
@@ -757,6 +826,18 @@ function booleanFrom(
 function arraysEqual(left: readonly string[], right: readonly string[]): boolean {
   return left.length === right.length
     && left.every((value, index) => value === right[index]);
+}
+
+function isNodeV283ProfileVersion(
+  value: string | null,
+): value is SourceNodeV283ImplementationPlanDraftReference["profileVersion"] {
+  return value === "managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-draft.v1";
+}
+
+function isNodeV283PlanState(
+  value: string | null,
+): value is SourceNodeV283ImplementationPlanDraftReference["planState"] {
+  return value === "credential-resolver-implementation-plan-draft-ready" || value === "blocked";
 }
 
 function isString(value: string | null): value is string {

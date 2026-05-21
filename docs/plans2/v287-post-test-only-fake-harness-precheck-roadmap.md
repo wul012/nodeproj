@@ -43,8 +43,10 @@ mini-kv v126：implementation plan non-participation receipt 已完成。
    - 只做止血型重构，不改业务语义，不引入新的大文件。
 
 7. Node v289：disabled fake harness contract upstream echo verification。
-   - 消费 Java v122-v126 的只读结果，验证 disabled fake harness contract 是否仍保持关闭状态。
-   - 同时消费 mini-kv v127 non-participation receipt，避免三项目对齐少一侧。
+   - 已完成。
+   - 已消费 Java v122-v126 的只读结果，验证 disabled fake harness contract 仍保持关闭状态。
+   - 已消费 mini-kv v127 non-participation receipt，避免三项目对齐少一侧。
+   - 已补 forced historical fixture fallback，确保 GitHub runner 没有本机兄弟仓库时仍能验证。
    - 仍不读取 credential value，不建立真实连接，不写 ledger。
 ```
 
@@ -84,5 +86,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v287 已把 test-only fake harness 的边界预检闭环；Node v288 已完成 disabled fake harness contract。下一步推荐并行 Java v122 + mini-kv v127，之后 Java v123-v126 串行止血，Node v289 再消费 Java v122-v126 + mini-kv v127 做下一轮对齐。
+v287 已把 test-only fake harness 的边界预检闭环；Node v288 已完成 disabled fake harness contract；Java v122-v126 与 mini-kv v127 已完成；Node v289 已完成三项目只读 upstream echo verification。下一步转入 `docs/plans2/v289-post-disabled-fake-harness-echo-roadmap.md`，不再向本文件追加重合版本。
 ```
