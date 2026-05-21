@@ -9,6 +9,9 @@
 ```text
 Node v289：disabled fake harness contract upstream echo verification 已完成；只读消费 Node v288 + Java v122-v126 + mini-kv v127。
 Node v290：disabled fake harness execution-denied route preflight 已完成；只读消费 Node v289，不打开 fake harness runtime。
+Java v127-v130：LiveAggregationIntegrationTests 二拆、ResponseRecords 二拆、OverviewTests 二拆、echo catalog 延伸均已完成，是质量证据，不是 execution-denied echo。
+mini-kv v128：execution-denied non-participation receipt 已完成；只读回显 Node v290 preflight，不执行 fake harness、不读 credential、不解析 endpoint、不写存储或恢复命令。
+Node v291：execution-denied upstream echo verification 已完成；已消费 Node v290 + Java v127-v130 + mini-kv v128，结论按设计保持 blocked，因为 Java 仍缺 direct execution-denied echo。
 Node v288：disabled fake harness contract 已完成；只定义合同，不提供可执行 fake harness runtime。
 Java v122-v125：Integration Tests 四连拆已完成。
 Java v126：EvidenceService catalog 化止血已完成。
@@ -43,9 +46,10 @@ mini-kv v127：disabled fake harness non-participation receipt 已完成。
    - `VerificationHintBuilder` 只监控，除非继续反向膨胀才拆。
    - Java CI + jacoco gate 作为中期质量项，排在上述大文件止血之后。
 
-6. Node v291：execution-denied upstream echo verification。
+6. Node v291：execution-denied upstream echo verification。已完成。
    - 消费 mini-kv v128，并消费 Java v127-v130 的质量证据；若 Java 仍缺 execution-denied echo，则先生成“Java echo missing / quality evidence present”的 blocked verification，不抢跑真实 fake harness。
    - 不打开 fake harness runtime，不实现 resolver client，不连接 managed audit。
+   - 本版实际结果：mini-kv v128 receipt 已与 Node v290 preflight digest 对齐，Java v127-v130 质量证据已冻结；`javaExecutionDeniedEchoPresent=false`，因此最终 readiness 仍为 false。
 
 7. Node v292：credential resolver fake harness readiness decision record。
    - 汇总 v287-v291，判断是否可以进入“disabled runtime shell”规划。
@@ -91,5 +95,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v289 已确认 disabled fake harness contract 在 Node / Java / mini-kv 三侧只读对齐；Node v290 已完成 execution-denied preflight，下一步推荐并行 Java v127 质量止血 + mini-kv v128 非参与 receipt，随后 Java v128-v130 串行处理剩余 Java 大文件/catalog 债，最后 Node v291 消费两侧证据。
+v289-v291 已把 disabled fake harness contract、execution-denied route preflight、Java v127-v130 质量证据、mini-kv v128 非参与 receipt 串起来；当前仍不能进入 runtime，下一步是 Node v292 做 readiness decision record，明确是否需要先让 Java 补 direct execution-denied echo。
 ```

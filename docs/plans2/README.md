@@ -15,6 +15,9 @@ Node v287：test-only fake resolver harness precheck 已完成，只做边界预
 Node v288：disabled fake harness contract 已完成；只定义合同，不提供可执行 fake harness runtime。
 Node v289：disabled fake harness contract upstream echo verification 已完成；已消费 Java v122-v126 + mini-kv v127。
 Node v290：disabled fake harness execution-denied route preflight 已完成；已消费 Node v289。
+Java v127-v130：质量止血队列已完成；这是 Java 结构/测试/catalog 证据，不是 execution-denied echo。
+mini-kv v128：execution-denied non-participation receipt 已完成；只读回显 Node v290 preflight。
+Node v291：execution-denied upstream echo verification 已完成；已消费 Node v290 + Java v127-v130 + mini-kv v128，因 Java 缺 direct execution-denied echo 而按设计 blocked。
 Java v121：implementation plan echo 已完成。
 mini-kv v126：implementation plan non-participation receipt 已完成。
 Java v122-v126：Integration Tests 四连拆 + EvidenceService catalog 化止血已完成。
@@ -27,10 +30,10 @@ mini-kv v127：disabled fake harness non-participation receipt 已完成。
 ```text
 Node v290：disabled fake harness execution-denied route preflight。已完成。
 推荐并行：Java v127 + mini-kv v128。
-Java v128：ResponseRecords 二拆。
-Java v129：OverviewTests 二拆。
-Java v130：echo catalog 延伸。
-Node v291：execution-denied upstream echo verification，消费 Java v127-v130 + mini-kv v128 后再推进。
+Java v128：ResponseRecords 二拆。已完成。
+Java v129：OverviewTests 二拆。已完成。
+Java v130：echo catalog 延伸。已完成。
+Node v291：execution-denied upstream echo verification。已完成，blocked 是预期结果。
 Node v292：credential resolver fake harness readiness decision record。
 ```
 

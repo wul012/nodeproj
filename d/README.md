@@ -7,6 +7,7 @@
 ```text
 275：credential resolver approval-required boundary upstream echo verification
 290：credential resolver disabled fake harness execution-denied route preflight
+291：credential resolver execution-denied upstream echo verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
