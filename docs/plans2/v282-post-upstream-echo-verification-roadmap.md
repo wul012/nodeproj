@@ -14,6 +14,7 @@ Node v283 前置质量拆分收口：opsSummaryRoutes.ts 已把 promotion archiv
 Node v283：managed audit resolver implementation plan draft 已完成；生成 7 个接口边界、Java v121 / mini-kv v126 并行 echo 要求和后续门禁，仍不实现真实 resolver。
 Node v284 质量优化：opsPromotionArchiveBundleTypes.ts 类型族拆分已完成；原文件保留 4 行 barrel，类型族拆到 core / handoff / release / deployment。
 Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分已完成；原文件保留 2 行 barrel，deployment builder / digest payload 分层。
+Node v286：resolver implementation plan upstream echo verification 已完成；已消费 Java v121 + mini-kv v126，只读验证 Node v283 planDigest/reviewDigest、边界、artifact、禁止动作和 side-effect 关闭状态，并记录原 Node v284 gate 被 Node v286 执行的版本偏移。
 Java v116：已完成 approval-required implementation readiness echo。
 Java v117-v121：已完成测试拆分优化、OverviewTests 拆分、echo support catalog 化和 implementation plan echo；当前 HEAD/tag 为 `v121订单平台implementation-plan-echo-and-overview-split`，工作区干净，可作为 Node 后续输入。
 mini-kv v122：已完成 approval-required implementation non-participation readiness receipt。
@@ -77,11 +78,13 @@ mini-kv v123-v126：已自发完成 SMOKEJSON / formatter / receipt split 优化
    - 保持现有 builder 函数名和输出结构不变。
    - Java 已收口；若 Node v284 后技术债已可接受，也可以跳过或推迟本项，直接回到三方验证。
 
-8. Node v286：resolver implementation plan upstream echo verification。
+8. Node v286：resolver implementation plan upstream echo verification。已完成。
    - 只消费 Java v121 + mini-kv v126 的只读回显。
    - 验证三方对 implementation plan 的禁止动作、artifact 缺口、fake harness 边界一致。
    - 仍不实现真实 resolver，不建立真实连接。
    - 前置条件已满足：Java v121 已提交/tag/工作区干净，mini-kv v126 已完成且工作区干净。
+   - 已补 forced historical fixture fallback：GitHub runner 无 sibling workspace 时仍可读 frozen evidence。
+   - 已记录版本偏移：Java/mini-kv 原写给 Node v284 gate，实际由 Node v286 消费。
 
 9. Node v287：test-only fake resolver harness precheck。
    - 只允许 test-only fake harness precheck。
@@ -116,7 +119,7 @@ mini-kv：
 可并行优化说明：
 - Node 的两个 1500+ 文件拆分、Java OverviewTests 拆分、Java echo support catalog 化属于不同仓库/不同职责域，可以并行安排。
 - Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净；Node v284/v285 质量优化也已完成。
-- 下一步进入 Node v286 三方 plan echo verification。
+- Node v286 三方 plan echo verification 已完成；下一步进入 Node v287 test-only fake resolver harness precheck。
 ```
 
 ## 暂停条件
@@ -133,5 +136,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Node 已完成 v283 implementation plan draft 和 v284/v285 质量优化；Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净。下一步由 Node v286 做三方 plan echo verification。
+v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Node 已完成 v283 implementation plan draft、v284/v285 质量优化和 v286 三方 plan echo verification；Java v121 与 mini-kv v126 均已完成、提交、tag、工作区干净。下一步由 Node v287 做 test-only fake resolver harness precheck，仍不读取 credential value、不解析 raw endpoint、不连接 managed audit。
 ```

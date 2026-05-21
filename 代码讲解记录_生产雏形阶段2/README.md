@@ -17,6 +17,7 @@
 288-credential-resolver-implementation-plan-draft-v283.md
 289-ops-promotion-archive-bundle-types-split-v284.md
 290-ops-promotion-archive-deployment-builders-split-v285.md
+291-credential-resolver-implementation-plan-upstream-echo-verification-v286.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

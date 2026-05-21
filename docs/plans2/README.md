@@ -30,8 +30,9 @@ Node v284 质量优化：opsPromotionArchiveBundleTypes.ts 类型族拆分已完
 Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分已完成；原文件保留 2 行 barrel，deployment builder / digest payload 分层。
 Java v117-v121：已完成测试拆分优化、implementation-plan echo 和 overview split；HEAD/tag 为 `v121订单平台implementation-plan-echo-and-overview-split`。
 mini-kv v123-v126：已完成 SMOKEJSON / formatter / receipt split 优化，并完成 resolver implementation plan non-participation receipt。
+Node v286：resolver implementation plan upstream echo verification 已完成；已消费 Java v121 + mini-kv v126，并补 historical fixture fallback。
 已补充后续质量候选：Node 剩余两个 1500+ TS 文件、Java OverviewTests 拆分收口、Java echo support catalog 化；这些可作为各自独立质量版。
-下一步：Node v286 做三方 plan echo verification，消费 Java v121 + mini-kv v126。
+下一步：Node v287 做 test-only fake resolver harness precheck；仍不读取 credential value、不解析 raw endpoint、不连接 managed audit。
 ```
 
 旧 `docs/plans/` 保留为历史目录；后续新计划优先写入本目录。
