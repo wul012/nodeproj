@@ -19,6 +19,7 @@ Java 侧这轮质量优化已完成；后续 Node 不再等待 Java 的这轮止
 Java v131：direct execution-denied echo receipt 已完成；补齐 Node v292 记录的 Java direct echo 缺口，但不打开 fake harness runtime。
 mini-kv v129：receipt verification/retention check 已完成；只读保留 v128 receipt 并声明可供 Node v293 消费。
 Node v293：fake harness readiness blocked decision upstream echo verification 已完成；三方 blocked decision 已对齐，runtime shell 仍不解锁。
+Node v294：disabled runtime shell pre-plan intake 已完成；只定义 shell 命名、边界、开关策略、测试策略和暂停条件，不实现 runtime。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -57,9 +58,15 @@ Java 可借鉴：
    - 本版未实例化 provider/client、未读取 credential、未解析 raw endpoint、未发送 HTTP/TCP、未写 ledger/schema、未自动启动上游。
 
 3. Node v294：disabled runtime shell pre-plan intake。
+   - 已完成。
    - 只有在 Node v293 三方 blocked decision 对齐后推进。
    - 仍不实现 runtime，只列 runtime shell 前置边界、命名、开关、测试策略和暂停条件。
    - 继续使用小文件四件套；如果预估超过 3000 changed lines，先拆 catalog/helper，再写 intake report。
+
+4. Node v295：disabled runtime shell design review 或 upstream echo。
+   - 只能消费 Node v294，不得直接实现 runtime shell。
+   - 若需要 Java / mini-kv 回显，则另起 Java v132 + mini-kv v130，并写成推荐并行。
+   - 若不需要跨项目回显，则保持 Node-only design review，小版本推进。
 ```
 
 ## 显式质量优化项
@@ -74,6 +81,8 @@ Node：
 - v293 起 echo 段优先 catalog 化，借鉴 Java v126/v130 的 catalog 模式，避免第 8、9 段 echo 复制成 3000 行级别。
 - v294 不得直接实现 fake harness runtime；只做 disabled runtime shell pre-plan intake。
 - v294 必须继续证明 runtime、credential、endpoint、network、ledger、schema、auto-start 七类边界仍关闭。
+- v295 不得跳过 design review 直接创建 runtime shell class / provider / client。
+- v295 如果需要跨项目对齐，只允许推荐并行 Java v132 + mini-kv v130；同一项目内部仍串行。
 
 Java：
 - Java 这轮质量优化已完成；后续若再做 catalog/template 收口，另起 Java 新版本，不要回流到 Node v293。
@@ -85,7 +94,7 @@ mini-kv：
 并行规则：
 - 同一项目内部版本必须串行。
 - Java 这轮质量优化已完成；后续若再做 catalog/template 收口，另起 Java 新版本，不再作为 Node v293 的阻塞项。
-- Node v293 已完成；下一步是 Node v294，当前不需要并行启动 Java 或 mini-kv。
+- Node v294 已完成；下一步默认是 Node v295 design review。只有计划明确需要外部 echo 时，才推荐并行 Java v132 + mini-kv v130。
 ```
 
 ## 暂停条件
@@ -103,5 +112,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v293 已完成三方 blocked decision upstream echo verification：Java direct echo 缺口已由 Java v131 补齐，mini-kv v129 receipt retention 可被 Node 历史 fixture 复现；下一步只能进入 Node v294 disabled runtime shell pre-plan intake，仍不能直接实现 runtime。
+v294 已完成 disabled runtime shell pre-plan intake：Node 现在可以做 design review，但仍不能直接实现 runtime；下一步是 Node v295 design review，或在需要跨项目确认时推荐并行 Java v132 + mini-kv v130。
 ```
