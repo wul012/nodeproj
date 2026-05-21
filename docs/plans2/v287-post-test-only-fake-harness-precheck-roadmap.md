@@ -17,10 +17,10 @@ mini-kv v126：implementation plan non-participation receipt 已完成。
 ## 推荐执行顺序
 
 ```text
-1. Node v288：disabled fake harness contract。
+1. Node v288：disabled fake harness contract。已完成。
    - 只定义 disabled fake harness 的合同，不把它变成可运行入口。
    - 继续保持 credential handle / endpoint handle 边界，不读 credential value，不解析 raw endpoint。
-   - 如果这版还需要引用上游证据，只能继续只读。
+   - 已输出 Java v122 + mini-kv v127 推荐并行要求；Node v289 必须等待两侧证据。
 
 2. 推荐并行：Java v122 + mini-kv v127。
    - Java v122：Integration Tests 第 1 连拆。
@@ -52,8 +52,8 @@ mini-kv v126：implementation plan non-participation receipt 已完成。
 
 ```text
 Node：
-- v287 已经是 precheck only；后续 v288 若继续推进，仍要守住 fake harness 不可运行。
-- 如果 v289 需要跨项目证据，先消费 Java v122-v126 的只读输入，再推进。
+- v288 已完成 disabled fake harness contract；仍没有可执行 fake harness runtime。
+- Node v289 必须先消费 Java v122-v126 与 mini-kv v127 的只读输入，再推进。
 
 Java：
 - Integration Tests 4 连拆应按 v122 -> v125 顺序推进；单项目版本是原子，不写同一项目内部并行。
@@ -84,5 +84,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v287 已把 test-only fake harness 的边界预检闭环；下一波重点转到 Java Integration Tests 4 连拆 + Java EvidenceService catalog 化止血，mini-kv v127 补 non-participation receipt，Node 先做 v288 disabled fake harness contract，再消费 Java v122-v126 + mini-kv v127 做下一轮对齐。
+v287 已把 test-only fake harness 的边界预检闭环；Node v288 已完成 disabled fake harness contract。下一步推荐并行 Java v122 + mini-kv v127，之后 Java v123-v126 串行止血，Node v289 再消费 Java v122-v126 + mini-kv v127 做下一轮对齐。
 ```

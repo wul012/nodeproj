@@ -203,6 +203,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContract,
+  renderManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContract.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview,
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
@@ -646,6 +650,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-test-only-fake-harness-precheck", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-fake-harness-contract", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContract({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",
