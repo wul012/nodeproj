@@ -67,8 +67,9 @@ Node v299：runtime shell candidate gate decision record。已完成。
 推荐并行：Java v135 + mini-kv v132。已完成。
 Node v300：runtime shell decision record upstream echo verification。已完成。
 Node v301：post-decision continuation plan intake。已完成；只做继续 blocked planning 的必要性证明，不实现 runtime shell。
-推荐并行：Java v136 + mini-kv v133。当前下一步；两边互不依赖，可以并行推进。
-Node v302：post-decision plan intake upstream echo verification；必须等待 Java v136 + mini-kv v133 完成。
+推荐并行：Java v136 + mini-kv v133。当前上游并行 lane；两边互不依赖，可以并行推进。
+Node v302：echo segment catalog quality pass。已完成；只做 Node 质量优化，不消费两边新证据。
+Node v303：post-decision plan intake upstream echo verification；必须等待 Java v136 + mini-kv v133 和 Node v302 完成。
 ```
 
 ## 质量收口
@@ -92,8 +93,11 @@ Node v302：post-decision plan intake upstream echo verification；必须等待 
 - Node v299 已完成，只允许记录 blocked decision，不允许 runtime implementation。
 - Node v300 已完成，依赖的是 Java v135 + mini-kv v132。
 - Node v301 已完成 post-decision continuation plan intake，没有实现 runtime shell。
-- 推荐并行：Java v136 + mini-kv v133。当前下一步，必须先于 Node v302。
-- Node v302 必须等待 Java v136 + mini-kv v133 完成。
+- 推荐并行：Java v136 + mini-kv v133。当前上游并行 lane。
+- Node v302 已完成 echo segment catalog quality pass，没有消费 Java v136 / mini-kv v133。
+- Node v303 必须等待 Java v136 + mini-kv v133 和 Node v302 完成。
+- Java 后续质量优化可采纳当前短板：OpsEvidenceService catalog/service 化、VerificationHintBuilder 二次拆分；同一 Java 项目内部仍串行。
+- Node v302 已把 post-decision continuation options / necessity proof catalog 化；后续继续复用 catalog，避免第 9、10 段复制。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/；一个计划版本做完后另起续写，不要无限追加。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。

@@ -2,15 +2,17 @@ import type { AppConfig } from "../config.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  createRuntimeShellPostDecisionContinuationNecessityProof,
+  createRuntimeShellPostDecisionContinuationPlanIntake,
+} from "./managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalog.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellDecisionRecordUpstreamEchoVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverRuntimeShellDecisionRecordUpstreamEchoVerification.js";
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntakeProfile,
   RuntimeShellPostDecisionContinuationNecessityProof,
-  RuntimeShellPostDecisionContinuationOption,
   RuntimeShellPostDecisionContinuationPlanIntake,
   RuntimeShellPostDecisionContinuationPlanIntakeChecks,
   RuntimeShellPostDecisionContinuationPlanIntakeMessage,
@@ -35,7 +37,10 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
 }): ManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntakeProfile {
   const sourceNodeV300 = createSourceNodeV300(input.config);
   const continuationPlanIntake = createContinuationPlanIntake();
-  const necessityProof = createNecessityProof(continuationPlanIntake);
+  const necessityProof = createRuntimeShellPostDecisionContinuationNecessityProof({
+    profileVersion: PROFILE_VERSION,
+    intakeDigest: continuationPlanIntake.intakeDigest,
+  });
   const checks = createChecks(input.config, sourceNodeV300, continuationPlanIntake, necessityProof);
   checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake =
     Object.entries(checks)
@@ -72,6 +77,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
     readyForParallelJavaV136MiniKvV133EchoRequest:
       checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake,
     readyForNodeV302PostDecisionPlanIntakeUpstreamEchoVerification: false,
+    readyForNodeV303PostDecisionPlanIntakeUpstreamEchoVerification: false,
     readyForDisabledRuntimeShellImplementation: false,
     readyForDisabledRuntimeShellInvocation: false,
     readyForManagedAuditResolverImplementation: false,
@@ -118,7 +124,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
     },
     nextActions: [
       "Archive Node v301 as the post-decision continuation plan intake, not a runtime shell implementation.",
-      "Ask Java v136 and mini-kv v133 to echo this intake in parallel before Node v302 verifies upstream alignment.",
+      "Ask Java v136 and mini-kv v133 to echo this intake in parallel before Node v303 verifies upstream alignment.",
       "Keep credential values, raw endpoint URLs, provider clients, external requests, managed audit connections, schema migration, ledger writes, LOAD/COMPACT/RESTORE/SETNXEX, and auto-start blocked.",
     ],
   };
@@ -186,103 +192,7 @@ function createSourceNodeV300(
 }
 
 function createContinuationPlanIntake(): RuntimeShellPostDecisionContinuationPlanIntake {
-  const continuationOptions = createContinuationOptions();
-  const record = {
-    intakeMode: "runtime-shell-post-decision-continuation-plan-intake-only" as const,
-    sourceSpan: "Node v300" as const,
-    selectedContinuationDecision: "continue-blocked-planning" as const,
-    decisionOptionCount: continuationOptions.length,
-    selectedDecisionOptionCount: continuationOptions.filter((option) => option.status === "selected").length,
-    rejectedRuntimeImplementationOptionCount: continuationOptions.filter((option) =>
-      option.code === "IMPLEMENT_RUNTIME_SHELL_NOW" && option.status === "rejected").length,
-    nextJavaEchoVersion: "Java v136" as const,
-    nextMiniKvReceiptVersion: "mini-kv v133" as const,
-    nextNodeVerificationVersion: "Node v302" as const,
-    runtimeShellImplementationAllowed: false as const,
-    runtimeShellInvocationAllowed: false as const,
-    credentialValueReadAllowed: false as const,
-    rawEndpointUrlParseAllowed: false as const,
-    providerClientInstantiationAllowed: false as const,
-    externalRequestAllowed: false as const,
-    schemaMigrationAllowed: false as const,
-    approvalLedgerWriteAllowed: false as const,
-    automaticUpstreamStartAllowed: false as const,
-    continuationOptions,
-  };
-
-  return {
-    intakeDigest: sha256StableJson({
-      profileVersion: PROFILE_VERSION,
-      record,
-    }),
-    ...record,
-  };
-}
-
-function createContinuationOptions(): RuntimeShellPostDecisionContinuationOption[] {
-  return [
-    {
-      code: "CONTINUE_BLOCKED_PLANNING",
-      title: "Continue blocked planning",
-      status: "selected",
-      rationale: "v300 proved upstream agreement on the blocked decision, so the next safe step is read-only echo of this continuation intake.",
-      allowedActions: ["write-v301-intake", "request-java-v136-echo", "request-mini-kv-v133-non-participation"],
-      prohibitedActions: ["implement-runtime-shell", "invoke-runtime-shell", "open-managed-audit-connection"],
-    },
-    {
-      code: "PAUSE_RUNTIME_SHELL_CHAIN",
-      title: "Pause runtime shell chain",
-      status: "documented-alternative",
-      rationale: "This remains valid if the next echo would not be consumed, but v302 has a narrow consumer for Java v136 and mini-kv v133.",
-      allowedActions: ["archive-v301-as-paused", "return-to-quality-work"],
-      prohibitedActions: ["treat-pause-as-production-approval"],
-    },
-    {
-      code: "REQUIRE_EXPLICIT_APPROVAL_PREREQUISITES",
-      title: "Require explicit approval prerequisites",
-      status: "documented-alternative",
-      rationale: "Future approval prerequisites can be proposed, but v301 has no credential, endpoint, provider, or operator-window approval to unlock runtime.",
-      allowedActions: ["list-approval-prerequisites", "keep-prerequisites-read-only"],
-      prohibitedActions: ["read-credential-value", "parse-raw-endpoint-url", "instantiate-provider-client"],
-    },
-    {
-      code: "IMPLEMENT_RUNTIME_SHELL_NOW",
-      title: "Implement runtime shell now",
-      status: "rejected",
-      rationale: "v300 aligned a blocked decision record only; it did not approve implementation, invocation, network, credential, or write boundaries.",
-      allowedActions: [],
-      prohibitedActions: ["implement-runtime-shell", "invoke-runtime-shell", "send-external-request", "write-ledger-or-schema"],
-    },
-  ];
-}
-
-function createNecessityProof(
-  continuationPlanIntake: RuntimeShellPostDecisionContinuationPlanIntake,
-): RuntimeShellPostDecisionContinuationNecessityProof {
-  const proof = {
-    blockerResolved:
-      "v300 verified Java v135 and mini-kv v132 agreement with the blocked decision record, but it did not decide the post-decision continuation path.",
-    consumer:
-      "Java v136 and mini-kv v133 consume v301 as read-only echoes; Node v302 consumes both echoes to verify post-decision plan alignment.",
-    whyV300CannotBeReused:
-      "v300 is an upstream echo verification for Node v299; it lacks a selected continuation option, v136/v133 handoff target, and explicit stop condition for the post-decision chain.",
-    existingReportReuseDecision:
-      "Reuse v300 only as source evidence; v301 is the minimal intake layer that records continuation, pause, and approval-prerequisite alternatives.",
-    stopCondition:
-      "Stop immediately if the next step requires credential values, raw endpoint URLs, provider/client instantiation, HTTP/TCP, runtime shell implementation or invocation, ledger/schema writes, or automatic upstream start.",
-    growthControl:
-      "After Node v302 verifies Java v136 and mini-kv v133, do not add another echo stage unless a new blocker and downstream consumer are named in the active plan.",
-  };
-
-  return {
-    proofDigest: sha256StableJson({
-      profileVersion: PROFILE_VERSION,
-      intakeDigest: continuationPlanIntake.intakeDigest,
-      proof,
-    }),
-    ...proof,
-    proofComplete: Object.values(proof).every((value) => value.length > 0),
-  };
+  return createRuntimeShellPostDecisionContinuationPlanIntake(PROFILE_VERSION);
 }
 
 function createChecks(
@@ -330,7 +240,10 @@ function createChecks(
       && continuationPlanIntake.runtimeShellImplementationAllowed === false
       && continuationPlanIntake.runtimeShellInvocationAllowed === false,
     necessityProofHasBlocker: necessityProof.blockerResolved.includes("v300"),
-    necessityProofHasConsumer: necessityProof.consumer.includes("Java v136") && necessityProof.consumer.includes("mini-kv v133"),
+    necessityProofHasConsumer:
+      necessityProof.consumer.includes("Java v136")
+      && necessityProof.consumer.includes("mini-kv v133")
+      && necessityProof.consumer.includes("Node v303"),
     necessityProofExplainsV300ReuseBoundary: necessityProof.whyV300CannotBeReused.includes("v300"),
     necessityProofDefinesStopCondition: necessityProof.stopCondition.includes("credential values"),
     necessityProofComplete: necessityProof.proofComplete,
@@ -441,13 +354,13 @@ function collectRecommendations(): RuntimeShellPostDecisionContinuationPlanIntak
       code: "REQUEST_PARALLEL_JAVA_MINI_KV_ECHO",
       severity: "recommendation",
       source: "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-plan-intake",
-      message: "After v301, ask Java v136 and mini-kv v133 to echo this intake in parallel before Node v302.",
+      message: "After v301, ask Java v136 and mini-kv v133 to echo this intake in parallel before Node v303.",
     },
     {
-      code: "STOP_CHAIN_AFTER_V302_WITHOUT_NEW_BLOCKER",
+      code: "STOP_CHAIN_AFTER_V303_WITHOUT_NEW_BLOCKER",
       severity: "recommendation",
       source: "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-plan-intake",
-      message: "After Node v302, do not add another echo stage unless a new blocker and consumer are named.",
+      message: "After Node v303, do not add another echo stage unless a new blocker and consumer are named.",
     },
   ];
 }

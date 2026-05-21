@@ -19,7 +19,7 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverRunti
     `- Plan intake state: ${profile.planIntakeState}`,
     `- Ready for v301 plan intake: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake}`,
     `- Ready for Java v136 + mini-kv v133: ${profile.readyForParallelJavaV136MiniKvV133EchoRequest}`,
-    `- Ready for Node v302: ${profile.readyForNodeV302PostDecisionPlanIntakeUpstreamEchoVerification}`,
+    `- Ready for Node v303: ${profile.readyForNodeV303PostDecisionPlanIntakeUpstreamEchoVerification}`,
     `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
     `- Runtime shell invocation allowed: ${profile.runtimeShellInvocationAllowed}`,
     `- Execution allowed: ${profile.executionAllowed}`,
@@ -45,6 +45,8 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverRunti
       nextJavaEchoVersion: profile.continuationPlanIntake.nextJavaEchoVersion,
       nextMiniKvReceiptVersion:
         profile.continuationPlanIntake.nextMiniKvReceiptVersion,
+      legacyNextNodeVerificationVersion:
+        profile.continuationPlanIntake.legacyNextNodeVerificationVersion,
       nextNodeVerificationVersion:
         profile.continuationPlanIntake.nextNodeVerificationVersion,
       runtimeShellImplementationAllowed:

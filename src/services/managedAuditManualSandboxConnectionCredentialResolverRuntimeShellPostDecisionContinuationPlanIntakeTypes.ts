@@ -14,6 +14,7 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverRuntimeShe
   consumesNodeV300RuntimeShellDecisionRecordUpstreamEchoVerification: true;
   readyForParallelJavaV136MiniKvV133EchoRequest: boolean;
   readyForNodeV302PostDecisionPlanIntakeUpstreamEchoVerification: false;
+  readyForNodeV303PostDecisionPlanIntakeUpstreamEchoVerification: false;
   readyForDisabledRuntimeShellImplementation: false;
   readyForDisabledRuntimeShellInvocation: false;
   readyForManagedAuditResolverImplementation: false;
@@ -111,15 +112,17 @@ export interface SourceNodeV300RuntimeShellDecisionRecordUpstreamEchoVerificatio
 
 export interface RuntimeShellPostDecisionContinuationPlanIntake {
   intakeDigest: string;
+  catalogVersion: "runtime-shell-post-decision-continuation-catalog.v1";
   intakeMode: "runtime-shell-post-decision-continuation-plan-intake-only";
   sourceSpan: "Node v300";
   selectedContinuationDecision: "continue-blocked-planning";
   decisionOptionCount: number;
   selectedDecisionOptionCount: number;
   rejectedRuntimeImplementationOptionCount: number;
+  legacyNextNodeVerificationVersion: "Node v302";
   nextJavaEchoVersion: "Java v136";
   nextMiniKvReceiptVersion: "mini-kv v133";
-  nextNodeVerificationVersion: "Node v302";
+  nextNodeVerificationVersion: "Node v303";
   runtimeShellImplementationAllowed: false;
   runtimeShellInvocationAllowed: false;
   credentialValueReadAllowed: false;

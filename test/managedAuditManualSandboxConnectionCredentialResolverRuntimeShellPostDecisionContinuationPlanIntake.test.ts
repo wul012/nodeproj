@@ -25,6 +25,7 @@ describe("managed audit manual sandbox connection credential resolver runtime sh
       consumesNodeV300RuntimeShellDecisionRecordUpstreamEchoVerification: true,
       readyForParallelJavaV136MiniKvV133EchoRequest: true,
       readyForNodeV302PostDecisionPlanIntakeUpstreamEchoVerification: false,
+      readyForNodeV303PostDecisionPlanIntakeUpstreamEchoVerification: false,
       readyForDisabledRuntimeShellImplementation: false,
       readyForDisabledRuntimeShellInvocation: false,
       readyForManagedAuditResolverImplementation: false,
@@ -85,9 +86,11 @@ describe("managed audit manual sandbox connection credential resolver runtime sh
         decisionOptionCount: 4,
         selectedDecisionOptionCount: 1,
         rejectedRuntimeImplementationOptionCount: 1,
+        catalogVersion: "runtime-shell-post-decision-continuation-catalog.v1",
+        legacyNextNodeVerificationVersion: "Node v302",
         nextJavaEchoVersion: "Java v136",
         nextMiniKvReceiptVersion: "mini-kv v133",
-        nextNodeVerificationVersion: "Node v302",
+        nextNodeVerificationVersion: "Node v303",
         runtimeShellImplementationAllowed: false,
         runtimeShellInvocationAllowed: false,
         credentialValueReadAllowed: false,
@@ -144,6 +147,7 @@ describe("managed audit manual sandbox connection credential resolver runtime sh
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
     expect(profile.necessityProof.consumer).toContain("Java v136");
     expect(profile.necessityProof.consumer).toContain("mini-kv v133");
+    expect(profile.necessityProof.consumer).toContain("Node v303");
     expect(profile.necessityProof.whyV300CannotBeReused).toContain("selected continuation option");
     expect(profile.necessityProof.stopCondition).toContain("HTTP/TCP");
     expect(profile.continuationPlanIntake.continuationOptions.map((option) => option.code)).toEqual([
@@ -196,6 +200,7 @@ describe("managed audit manual sandbox connection credential resolver runtime sh
         planIntakeState: "runtime-shell-post-decision-continuation-plan-intake-ready",
         readyForParallelJavaV136MiniKvV133EchoRequest: true,
         readyForNodeV302PostDecisionPlanIntakeUpstreamEchoVerification: false,
+        readyForNodeV303PostDecisionPlanIntakeUpstreamEchoVerification: false,
         sourceNodeV300: {
           verificationState: "runtime-shell-decision-record-upstream-echo-verification-ready",
           implementationStillBlocked: true,
@@ -204,6 +209,7 @@ describe("managed audit manual sandbox connection credential resolver runtime sh
           selectedContinuationDecision: "continue-blocked-planning",
           nextJavaEchoVersion: "Java v136",
           nextMiniKvReceiptVersion: "mini-kv v133",
+          nextNodeVerificationVersion: "Node v303",
         },
       });
       expect(markdown.statusCode).toBe(200);
