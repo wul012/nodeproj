@@ -30,7 +30,7 @@ export function evidenceFile(id: string, filePath: string): HistoricalEvidenceFi
   if (!historicalEvidenceExists(filePath)) {
     return { id, path: filePath, resolvedPath, exists: false, sizeBytes: 0, digest: null };
   }
-  const content = readHistoricalEvidenceFile(filePath);
+  const content = normalizeHistoricalEvidenceText(readHistoricalEvidenceFile(filePath, "utf8"));
   return {
     id,
     path: filePath,
@@ -43,7 +43,9 @@ export function evidenceFile(id: string, filePath: string): HistoricalEvidenceFi
 
 export function snippet(id: string, filePath: string, expectedText: string): HistoricalSnippetMatch {
   const resolvedPath = resolveHistoricalEvidencePath(filePath);
-  const content = historicalEvidenceExists(filePath) ? readHistoricalEvidenceFile(filePath, "utf8") : "";
+  const content = historicalEvidenceExists(filePath)
+    ? normalizeHistoricalEvidenceText(readHistoricalEvidenceFile(filePath, "utf8"))
+    : "";
   return {
     id,
     path: filePath,
@@ -101,4 +103,8 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 function isNonNullString(value: unknown): value is string {
   return typeof value === "string";
+}
+
+function normalizeHistoricalEvidenceText(value: string): string {
+  return value.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
 }

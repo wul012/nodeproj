@@ -176,7 +176,7 @@ describe("managed audit manual sandbox connection credential resolver execution-
     expect(profile.upstreamEvidence.javaV127V130.evidenceDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.upstreamEvidence.miniKvV128.receiptDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.echoVerification.verificationDigest).toMatch(/^[a-f0-9]{64}$/);
-    expect(profile.upstreamEvidence.miniKvV128.preflightDigest).toBe(profile.sourceNodeV290.preflightDigest);
+    expect(profile.echoVerification.miniKvPreflightDigestAligned).toBe(true);
     expect(profile.productionBlockers.map((blocker) => blocker.code)).toContain("JAVA_EXECUTION_DENIED_ECHO_MISSING");
     expect(profile.warnings.map((warning) => warning.code)).toContain("NODE_V291_IS_VERIFICATION_ONLY");
   });
@@ -195,13 +195,13 @@ describe("managed audit manual sandbox connection credential resolver execution-
       expect(profile.upstreamEvidence.javaV127V130.verificationDocumented).toBe(true);
       expect(profile.upstreamEvidence.miniKvV128.evidencePresent).toBe(true);
       expect(profile.upstreamEvidence.miniKvV128.verificationDocumented).toBe(true);
-      expect(profile.upstreamEvidence.javaV127V130.evidenceFiles.map((file) => file.resolvedPath)).toEqual(
+      expect(profile.upstreamEvidence.javaV127V130.evidenceFiles.map((file) => normalizePath(file.resolvedPath))).toEqual(
         expect.arrayContaining([
-          expect.stringContaining("fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\d\\129\\解释\\说明.md"),
+          expect.stringContaining("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/d/129/解释/说明.md"),
         ]),
       );
-      expect(profile.upstreamEvidence.miniKvV128.evidenceFiles[0]?.resolvedPath).toContain(
-        "fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-disabled-fake-harness-execution-denied-non-participation-receipt.json",
+      expect(normalizePath(profile.upstreamEvidence.miniKvV128.evidenceFiles[0]?.resolvedPath ?? "")).toContain(
+        "fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/credential-resolver-disabled-fake-harness-execution-denied-non-participation-receipt.json",
       );
     } finally {
       if (previous === undefined) {
@@ -276,4 +276,8 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     ORDEROPS_IDP_JWKS_URL: "https://idp.example/.well-known/jwks.json",
     ...overrides,
   });
+}
+
+function normalizePath(value: string): string {
+  return value.replace(/\\/g, "/");
 }
