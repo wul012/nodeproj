@@ -11,11 +11,11 @@ Node v282：已完成 approval-required implementation readiness upstream echo v
 Node v283 前置质量拆分：dashboard.ts strangler 第一步已完成；入口降为 23 行，样式 / markup / browser script 已拆到独立模块，不改变 UI 行为。
 Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts 已拆成 base / handoff / release-deployment renderer 模块，原文件保留 36 行 barrel 导出。
 Node v283 前置质量拆分收口：opsSummaryRoutes.ts 已把 promotion archive 路由迁入 opsPromotionArchiveRoutes.ts；主入口降到约 315 行，archive 子路由约 455 行，不改变 API 路径。
-Node v283：managed audit resolver implementation plan draft 已完成；生成 7 个接口边界、Java v121 / mini-kv v126 并行 echo 要求和 Node v284 / v285 后续门禁，仍不实现真实 resolver。
+Node v283：managed audit resolver implementation plan draft 已完成；生成 7 个接口边界、Java v121 / mini-kv v126 并行 echo 要求和后续门禁，仍不实现真实 resolver。
 Java v116：已完成 approval-required implementation readiness echo。
-Java v117-v120：已自发完成测试拆分优化；当前 HEAD/tag 为 v120订单平台ops-evidence-service-test-suite-split，工作区干净。
+Java v117-v120：已提交完成测试拆分优化；本地可见 Java 后续质量优化、OverviewTests 拆分、echo support catalog 化和 implementation plan echo 代码已有完成痕迹，但仍未提交/tag，Node 暂不把它作为最终 v121 证据消费。
 mini-kv v122：已完成 approval-required implementation non-participation readiness receipt。
-mini-kv v123-v125：已自发完成 SMOKEJSON / formatter / receipt split 优化；当前 HEAD/tag 为 第一百二十五版测试解析器壳回执拆分，工作区干净。
+mini-kv v123-v126：已自发完成 SMOKEJSON / formatter / receipt split 优化，并完成 resolver implementation plan non-participation receipt；当前 HEAD/tag 为 第一百二十六版实现计划非参与回执。
 三项目当前都不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -47,27 +47,41 @@ mini-kv v123-v125：已自发完成 SMOKEJSON / formatter / receipt split 优化
    - 不发 HTTP/TCP，不读取 credential value，不解析 raw endpoint URL，不实例化 secret provider 或 resolver client。
    - 输出推荐并行 Java v121 + mini-kv v126；Node v284 必须等两边 echo 完成后再推进。
 
-5. 推荐并行：Java v121 + mini-kv v126。
+5. 已启动/完成的并行段：Java v121 侧质量优化与 echo 收口 + mini-kv v126。
    Java v121：resolver implementation plan echo。
    - 只读回显 Node v283 的 plan draft。
    - 说明 Java 侧后续若进入实现，需要哪些 operator approval / schema rehearsal / ledger policy artifact。
-   - 可继续小范围测试/record 拆分优化，但不能写 ledger、不能执行 SQL、不能打开 managed audit connection。
+   - Java 本地可见 OverviewTests 拆分、echo support catalog 化和 plan echo 相关改动已推进，但 Node 必须等 Java 提交/tag/工作区干净后再消费。
+   - 可继续小范围测试/record/catalog 拆分优化，但不能写 ledger、不能执行 SQL、不能打开 managed audit connection。
 
    mini-kv v126：resolver implementation plan non-participation receipt。
    - 只读证明 mini-kv 仍不参与 credential resolver、secret provider、managed audit storage backend。
    - 可继续小范围 formatter / receipt / test helper 拆分优化，但不能执行 LOAD / COMPACT / RESTORE / SETNXEX / 写命令。
+   - 已完成，可作为后续 Node 验证输入；若 Java 尚未收口，mini-kv 不需要等待 Node。
 
    并行理由：
    - Java v121 和 mini-kv v126 都只消费 Node v283 的计划草案。
    - 两边写入不同仓库、不同职责域，不互相依赖。
    - 这两版可以在 Node v283 完成后并行推进，不需要 Node 抢跑。
 
-6. Node v284：resolver implementation plan upstream echo verification。
+6. Node v284 质量优化：opsPromotionArchiveBundleTypes.ts 类型族拆分。
+   - 在 Java 尚未收口时，Node 不抢跑三方 verification，先处理自身剩余大文件技术债。
+   - 把 `src/services/opsPromotionArchiveBundleTypes.ts` 按 archive / digest / verification / deployment / handoff 等类型族拆成子文件。
+   - 保留原文件为 barrel re-export，确保既有导入路径、导出类型名、JSON shape 和运行时行为不变。
+   - 只做类型拆分和聚合测试，不新增 managed audit 功能。
+
+7. Node v285 质量优化：opsPromotionArchiveDeploymentBuilders.ts builder 拆分。
+   - 若 v284 后仍适合继续还债，则把 `src/services/opsPromotionArchiveDeploymentBuilders.ts` 按 deployment artifact builder / evidence mapper / markdown source builder 拆分。
+   - 保持现有 builder 函数名和输出结构不变。
+   - 若 Java 已收口且 Node 技术债已可接受，也可以跳过或推迟本项，直接回到三方验证。
+
+8. Node v286：resolver implementation plan upstream echo verification。
    - 只消费 Java v121 + mini-kv v126 的只读回显。
    - 验证三方对 implementation plan 的禁止动作、artifact 缺口、fake harness 边界一致。
    - 仍不实现真实 resolver，不建立真实连接。
+   - 前置条件：Java v121 已提交/tag/工作区干净，mini-kv v126 已完成且工作区干净。
 
-7. Node v285：test-only fake resolver harness precheck。
+9. Node v287：test-only fake resolver harness precheck。
    - 只允许 test-only fake harness precheck。
    - fake harness 不能读取 credential value，不能解析 raw endpoint，不能连接外部 managed audit。
    - 输出后续 Java / mini-kv 是否需要只读 echo 的判断；如果需要，应写成推荐并行，不拆成模糊的“或”。
@@ -80,27 +94,28 @@ Node：
 - dashboard.ts strangler 第一步已完成；后续若继续拆 UI，应按面板组继续拆 `dashboardMarkup.ts` / `dashboardClientScript.ts`，不要把入口文件重新写胖。
 - opsPromotionArchiveRenderers.ts strangler 第一步已完成；后续若继续拆 renderer，应优先拆 `opsPromotionArchiveReleaseDeploymentRenderers.ts`，不要把 barrel 文件重新写胖。
 - opsSummaryRoutes.ts promotion archive 拆分已完成；短期停止继续拆 315/455 行级别文件，下一步回到 v283 主流程。
-- 当前只剩两个 1500+ TypeScript 文件：`src/services/opsPromotionArchiveBundleTypes.ts`（约 1822 行）和 `src/services/opsPromotionArchiveDeploymentBuilders.ts`（约 1564 行）。这两项是后续 Node 独立质量版候选，不阻塞 Java v121 + mini-kv v126，也不要塞进 Node v284 echo verification。
-- 若后续安排 Node 质量版，优先把 `opsPromotionArchiveBundleTypes.ts` 按 archive / digest / verification / deployment / handoff 类型族拆成同目录 barrel + 子类型文件；再视情况把 `opsPromotionArchiveDeploymentBuilders.ts` 按 deployment artifact builder / evidence mapper / markdown source builder 拆分。目标是降低单文件认知负担，不改变导出类型名和运行时 JSON shape。
+- 当前只剩两个 1500+ TypeScript 文件：`src/services/opsPromotionArchiveBundleTypes.ts`（约 1822 行）和 `src/services/opsPromotionArchiveDeploymentBuilders.ts`（约 1564 行）。这两项已安排为 Node v284/v285 质量优化候选，不阻塞 Java 继续收口，也不改变功能主线边界。
+- Node v284 优先把 `opsPromotionArchiveBundleTypes.ts` 按 archive / digest / verification / deployment / handoff 类型族拆成同目录 barrel + 子类型文件；Node v285 再视 Java 收口情况拆 `opsPromotionArchiveDeploymentBuilders.ts`。目标是降低单文件认知负担，不改变导出类型名和运行时 JSON shape。
 - v283 新 service 必须继续拆成 types / renderer / service / test，避免 700+ 行单文件反向膨胀。
 - 新增历史证据消费时，同版补 forced historical fixture fallback 测试；不能只依赖 loadConfig。
 - HTTP smoke 若 blocked，先 dump false checks / evidencePresent / verificationDocumented，再改代码。
 - statusRoutes 质量线已达标，短期不继续拆；dashboard.ts 可作为后续独立质量版，不要混进 v283-v285 主流程。
 
 Java：
-- Java v117-v120 的测试拆分优化已完成，后续继续沿用小范围 strangler 模式。
-- 若 Java v121 执行，只做 plan echo + 必要小优化，不新增 600-800 行 echo support。
-- Java 当前存在 `OpsEvidenceServiceReleaseApprovalRehearsalOverviewTests.java` 约 2806 行，是后续 Java 独立质量版高优先级候选；建议按 release approval overview 场景拆成多个测试类，保留公共 fixture/helper，避免单个 OverviewTests 继续承载所有回归。
-- Java 当前多组 `ReleaseApprovalSandboxEndpointCredentialResolver*EchoSupport.java`（约 357-678 行）已经形成相似 echo support 模式；后续建议做 catalog 化，把 source profile、check id、boundary code、required artifact、blocked side-effect 等常量归入共享 catalog/template，具体 echo support 只保留差异化字段，避免每个新 echo 场景复制 600+ 行。
-- Java v121 与 mini-kv v126 仍可推荐并行；Java 的 OverviewTests 拆分和 echo support catalog 化可作为 Java 自己的后续质量优化，不要求 Node 先完成，也不影响 mini-kv。
+- Java v117-v120 的测试拆分优化已提交完成，后续继续沿用小范围 strangler 模式。
+- Java 本地可见 OverviewTests 拆分、echo support catalog 化和 implementation plan echo 相关改动已有完成痕迹，但仍未提交/tag；Node 只能记录方向，不能把它视作可消费的 v121 最终证据。
+- Java 当前 `OpsEvidenceServiceReleaseApprovalRehearsalOverviewTests.java` 已从约 2806 行降到约 1666 行，并新增多个 overview 测试类；后续仍建议继续按 release approval overview 场景拆分，保留公共 fixture/helper，避免单个 OverviewTests 继续承载所有回归。
+- Java 当前多组 `ReleaseApprovalSandboxEndpointCredentialResolver*EchoSupport.java`（约 357-678 行）仍有相似 echo support 模式；catalog 化方向合理，把 source profile、check id、boundary code、required artifact、blocked side-effect 等常量归入共享 catalog/template，具体 echo support 只保留差异化字段。
+- Java v121 收口后应明确 tag 和证据路径；Node v286 才消费 Java v121 + mini-kv v126。
 
 mini-kv：
-- mini-kv v123-v125 的拆分优化已完成，后续继续保持 non-participation receipt 轻量化。
-- 若 mini-kv v126 执行，只做 plan non-participation receipt + 必要小优化，不触碰 WAL/snapshot/restore 核心语义。
+- mini-kv v123-v126 的拆分优化与 resolver implementation plan non-participation receipt 已完成，后续继续保持 non-participation receipt 轻量化。
+- mini-kv v126 可作为后续 Node v286 的一侧输入；当前无需因为 Java 未收口而重做。
 
 可并行优化说明：
-- Node 的两个 1500+ 文件拆分、Java OverviewTests 拆分、Java echo support catalog 化属于不同仓库/不同职责域，可以与 mini-kv v126 non-participation receipt 并行安排。
-- 但 Node v284 仍必须等待 Java v121 + mini-kv v126 的只读 echo/receipt 完成后再做三方 verification，不因质量拆分抢跑主流程。
+- Node 的两个 1500+ 文件拆分、Java OverviewTests 拆分、Java echo support catalog 化属于不同仓库/不同职责域，可以并行安排。
+- mini-kv v126 已完成；Java 仍在收口时，Node 可先做 v284/v285 质量优化。
+- 但三方 verification 顺延到 Node v286，且必须等待 Java v121 + mini-kv v126 的只读 echo/receipt 均完成、提交、tag、工作区干净后再执行。
 ```
 
 ## 暂停条件
@@ -117,5 +132,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Java v117-v120 和 mini-kv v123-v125 又完成了各自优化；Node 已先做 dashboard.ts、opsPromotionArchiveRenderers.ts、opsSummaryRoutes.ts 前置质量拆分，并完成 Node v283 implementation plan draft。下一步不是 Node v284 抢跑，而是推荐并行 Java v121 + mini-kv v126，再由 Node v284 做三方 plan echo verification。
+v282 已把 Node v281、Java v116、mini-kv v122 的 approval-required implementation readiness 证据闭环；Node 已完成 v283 implementation plan draft；mini-kv v126 已完成 non-participation receipt；Java 本地可见 v121/质量优化内容但未提交/tag。下一步 Node 不抢跑三方验证，先做 v284/v285 质量优化，等 Java v121 提交/tag/工作区干净后再由 Node v286 做三方 plan echo verification。
 ```
