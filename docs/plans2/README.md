@@ -23,6 +23,10 @@ Java v121：implementation plan echo 已完成。
 mini-kv v126：implementation plan non-participation receipt 已完成。
 Java v122-v126：Integration Tests 四连拆 + EvidenceService catalog 化止血已完成。
 mini-kv v127：disabled fake harness non-participation receipt 已完成。
+Java 这轮质量优化已完成，后续 Node 不再等待这轮止血/收口落地，只消费已归档的 Java 质量证据。
+Java v131：direct execution-denied echo receipt 已完成；补齐 Node v292 记录的 Java direct echo 缺口。
+mini-kv v129：receipt verification/retention check 已完成；可供 Node v293 消费。
+Node v293：fake harness readiness blocked decision upstream echo verification 已完成；三方 blocked decision 已对齐，但 runtime shell 仍未解锁。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -30,14 +34,14 @@ mini-kv v127：disabled fake harness non-participation receipt 已完成。
 
 ```text
 Node v290：disabled fake harness execution-denied route preflight。已完成。
-推荐并行：Java v127 + mini-kv v128。
+Java 侧质量优化已完成，mini-kv v128 作为已完成历史证据继续保留。
 Java v128：ResponseRecords 二拆。已完成。
 Java v129：OverviewTests 二拆。已完成。
 Java v130：echo catalog 延伸。已完成。
 Node v291：execution-denied upstream echo verification。已完成，blocked 是预期结果。
 Node v292：credential resolver fake harness readiness decision record。已完成，旧计划收口。
-推荐并行：Java v131 + mini-kv v129。
-Node v293：fake harness readiness blocked decision upstream echo verification。
+mini-kv v129：receipt verification/retention 收口。已完成。
+Node v293：fake harness readiness blocked decision upstream echo verification。已完成。
 Node v294：disabled runtime shell pre-plan intake。
 ```
 
@@ -53,6 +57,8 @@ Node v294：disabled runtime shell pre-plan intake。
 - Java v127-v130 优先做质量止血和 catalog 延伸，不做真实 fake harness。
 - Java 后续 echo builder 可继续 catalog/template 化，把剩余 600+ builder 收进统一模式。
 - mini-kv v128 只做 non-participation receipt，不执行 LOAD/COMPACT/RESTORE/SETNXEX。
+- mini-kv v129 已完成 receipt verification/retention；后续 Node 只读消费，不要求 mini-kv 继续加写能力。
+- Node v294 是下一步：disabled runtime shell pre-plan intake，只做边界和计划，不实现 runtime。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/；一个计划版本做完后另起续写，不要无限追加。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
