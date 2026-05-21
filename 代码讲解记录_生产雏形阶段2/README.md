@@ -21,6 +21,7 @@
 292-credential-resolver-test-only-fake-harness-precheck-v287.md
 293-credential-resolver-disabled-fake-harness-contract-v288.md
 294-credential-resolver-disabled-fake-harness-contract-upstream-echo-verification-v289.md
+295-credential-resolver-disabled-fake-harness-execution-denied-route-preflight-v290.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

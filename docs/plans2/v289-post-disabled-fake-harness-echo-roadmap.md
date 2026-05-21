@@ -8,6 +8,7 @@
 
 ```text
 Node v289：disabled fake harness contract upstream echo verification 已完成；只读消费 Node v288 + Java v122-v126 + mini-kv v127。
+Node v290：disabled fake harness execution-denied route preflight 已完成；只读消费 Node v289，不打开 fake harness runtime。
 Node v288：disabled fake harness contract 已完成；只定义合同，不提供可执行 fake harness runtime。
 Java v122-v125：Integration Tests 四连拆已完成。
 Java v126：EvidenceService catalog 化止血已完成。
@@ -18,22 +19,35 @@ mini-kv v127：disabled fake harness non-participation receipt 已完成。
 ## 推荐执行顺序
 
 ```text
-1. Node v290：disabled fake harness execution-denied route preflight。
+1. Node v290：disabled fake harness execution-denied route preflight。已完成。
    - 在 Node 内新增一个“执行被拒绝”的只读 preflight / report，不实现 fake harness runtime。
    - 只输出为什么不能执行：缺少真实 approval gate、credential value 禁止、raw endpoint 禁止、provider/client 禁止、HTTP/TCP 禁止、ledger/schema 禁止。
    - 继续消费 v289 的 echo verification，不启动或修改 Java / mini-kv。
 
 2. 推荐并行：Java v127 + mini-kv v128。
-   - Java v127：只读 echo Node v290 execution-denied preflight，不执行 fake harness，不写 ledger，不执行 SQL。
+   - Java v127：LiveAggregationIntegrationTests 二次拆分，继续 v122 未完全收口的测试大文件质量债；不执行 fake harness，不写 ledger，不执行 SQL。
    - mini-kv v128：execution-denied non-participation receipt，证明 mini-kv 不执行 fake harness、不读 credential、不解析 endpoint、不写存储或恢复命令。
-   - 并行理由：两边写入不同仓库；Java 做业务侧只读 echo，mini-kv 做基础设施侧非参与 receipt，互不依赖。
+   - 并行理由：两边写入不同仓库；Java 做测试结构质量优化，mini-kv 做基础设施侧非参与 receipt，互不依赖。
    - 若任一侧需要真实 credential、raw endpoint、HTTP/TCP、写命令或外部连接，则停止并拆回串行确认。
 
-3. Node v291：execution-denied upstream echo verification。
-   - 消费 Java v127 + mini-kv v128，验证 v290 的执行拒绝边界被两侧接受。
+3. Java v128：ReleaseApprovalRehearsalResponseRecords 第二步拆分。
+   - 目标是把仍偏大的 ResponseRecords 按 echo / boundary / marker 类型继续 Strangler Fig 拆分。
+   - 只做结构优化，不改变 JSON/record contract，不新增真实运行时。
+
+4. Java v129：OverviewTests 二次拆分。
+   - 接续 Java v121 后仍偏大的 overview 测试，按只读 overview、evidence、validation 边界继续拆。
+   - 只拆测试，不改生产行为。
+
+5. Java v130：echo catalog 延伸。
+   - 把 v126 stopgap 推进成更完整的 catalog/template，优先消化 `ImplementationPlanEchoReceiptBuilder` 这类新模板重复。
+   - `VerificationHintBuilder` 只监控，除非继续反向膨胀才拆。
+   - Java CI + jacoco gate 作为中期质量项，排在上述大文件止血之后。
+
+6. Node v291：execution-denied upstream echo verification。
+   - 消费 mini-kv v128，并消费 Java v127-v130 的质量证据；若 Java 仍缺 execution-denied echo，则先生成“Java echo missing / quality evidence present”的 blocked verification，不抢跑真实 fake harness。
    - 不打开 fake harness runtime，不实现 resolver client，不连接 managed audit。
 
-4. Node v292：credential resolver fake harness readiness decision record。
+7. Node v292：credential resolver fake harness readiness decision record。
    - 汇总 v287-v291，判断是否可以进入“disabled runtime shell”规划。
    - 这是决策记录，不是 runtime 实现。
    - 若仍缺 Java/mini-kv 证据，则停，不抢跑。
@@ -48,8 +62,11 @@ Node：
 - route 注册继续使用 auditJsonMarkdownRoute，不新增重复 querystring/markdown 分支。
 
 Java：
-- Java v127 若推进，只做只读 echo，不做真实 fake harness。
-- 继续沿用 v126 catalog 止血成果，不把 echo support 再写回 600+ 行。
+- Java v127-v130 优先做质量止血：LiveAggregationIntegrationTests 二拆、ResponseRecords 二拆、OverviewTests 二拆、echo catalog 延伸。
+- Java 单项目版本必须串行；不要把多个大文件拆分塞进同一版。
+- `VerificationHintBuilder` 当前只列为监控项；`ImplementationPlanEchoReceiptBuilder` 先评估能否复用/接入 catalog。
+- Java CI + jacoco gate 合理，但排在大文件止血之后。
+- 所有 Java 优化仍不做真实 fake harness，不读 credential value，不解析 raw endpoint，不写 ledger，不执行 SQL。
 
 mini-kv：
 - mini-kv v128 只做 non-participation receipt，不执行 LOAD/COMPACT/RESTORE/SETNXEX，不承担 audit/order 权威存储。
@@ -57,7 +74,7 @@ mini-kv：
 并行规则：
 - 同一项目内部版本必须串行。
 - 跨项目且写入不同仓库、职责域互不依赖时，可以写“推荐并行”。
-- 当前明确可并行的是 Java v127 + mini-kv v128；Node v291 必须等两侧完成后再消费。
+- 当前明确可并行的是 Java v127 + mini-kv v128；Java v128-v130 是 Java 内部串行；Node v291 必须等 mini-kv v128 与 Java 当前质量队列状态明确后再消费。
 ```
 
 ## 暂停条件
@@ -74,5 +91,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v289 已确认 disabled fake harness contract 在 Node / Java / mini-kv 三侧只读对齐；下一步先由 Node v290 做 execution-denied preflight，再推荐并行 Java v127 + mini-kv v128 回声，最后 Node v291 消费两侧证据。
+v289 已确认 disabled fake harness contract 在 Node / Java / mini-kv 三侧只读对齐；Node v290 已完成 execution-denied preflight，下一步推荐并行 Java v127 质量止血 + mini-kv v128 非参与 receipt，随后 Java v128-v130 串行处理剩余 Java 大文件/catalog 债，最后 Node v291 消费两侧证据。
 ```
