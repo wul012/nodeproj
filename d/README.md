@@ -9,6 +9,7 @@
 290：credential resolver disabled fake harness execution-denied route preflight
 291：credential resolver execution-denied upstream echo verification
 292：credential resolver fake harness readiness decision record
+299：credential resolver runtime shell candidate gate decision record
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

@@ -24,6 +24,13 @@
 295-credential-resolver-disabled-fake-harness-execution-denied-route-preflight-v290.md
 296-credential-resolver-execution-denied-upstream-echo-verification-v291.md
 297-credential-resolver-fake-harness-readiness-decision-record-v292.md
+298-credential-resolver-fake-harness-readiness-blocked-decision-upstream-echo-verification-v293.md
+299-credential-resolver-disabled-runtime-shell-pre-plan-intake-v294.md
+300-credential-resolver-disabled-runtime-shell-design-review-v295.md
+301-credential-resolver-disabled-runtime-shell-upstream-echo-verification-v296.md
+302-credential-resolver-disabled-runtime-shell-implementation-candidate-gate-v297.md
+303-credential-resolver-runtime-shell-candidate-gate-upstream-echo-verification-v298.md
+304-credential-resolver-runtime-shell-candidate-gate-decision-record-v299.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

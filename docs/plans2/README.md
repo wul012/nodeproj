@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v298-post-runtime-shell-candidate-gate-upstream-echo-roadmap.md
+docs/plans2/v299-post-runtime-shell-candidate-gate-decision-roadmap.md
 ```
 
 ## 当前状态
@@ -37,6 +37,7 @@ Node v297：disabled runtime shell implementation candidate gate 已完成；下
 Java v134：runtime shell candidate gate echo 已完成；只读回显 Node v297 blocked candidate gate。
 mini-kv v131：runtime shell candidate gate non-participation receipt 已完成；只读确认 mini-kv 不参与 runtime shell candidate。
 Node v298：runtime shell candidate gate upstream echo verification 已完成；已消费 Java v134 + mini-kv v131，三方 blocked gate 对齐。
+Node v299：runtime shell candidate gate decision record 进行中/待收口；只记录 blocked decision，不新增 runtime implementation。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -59,7 +60,7 @@ Node v296：disabled runtime shell upstream echo verification。已完成。
 Node v297：disabled runtime shell implementation candidate gate。已完成。
 推荐并行：Java v134 + mini-kv v131。已完成。
 Node v298：runtime shell candidate gate upstream echo verification。已完成。
-Node v299：runtime shell candidate gate decision record。下一步。
+Node v299：runtime shell candidate gate decision record。当前版本。
 推荐并行：Java v135 + mini-kv v132。必须等待 Node v299 完成。
 Node v300：runtime shell decision record upstream echo verification；必须等待 Java v135 + mini-kv v132 完成。
 ```
