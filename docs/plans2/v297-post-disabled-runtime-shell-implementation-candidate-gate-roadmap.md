@@ -2,13 +2,16 @@
 
 来源版本：Node v297 `credential resolver disabled runtime shell implementation candidate gate`。
 
-计划状态：当前有效全局计划。上一份 `docs/plans2/v296-post-disabled-runtime-shell-upstream-echo-roadmap.md` 已完成 Node v297；后续不再向旧计划追加重合版本。
+计划状态：已完成。当前有效全局计划已续写到 `docs/plans2/v298-post-runtime-shell-candidate-gate-upstream-echo-roadmap.md`；后续不再向本计划追加重合版本。
 
 ## 当前对齐状态
 
 ```text
 Node v296：disabled runtime shell upstream echo verification 已完成；已消费 Node v295 + Java v133 + mini-kv v130。
 Node v297：disabled runtime shell implementation candidate gate 已完成；只做候选门禁评审，仍默认 blocked。
+Java v134：runtime shell candidate gate echo 已完成。
+mini-kv v131：runtime shell candidate gate non-participation receipt 已完成。
+Node v298：runtime shell candidate gate upstream echo verification 已完成。
 
 v297 的五个候选门槛已经固化：
 - DEDICATED_DISABLED_BY_DEFAULT_FLAG
@@ -29,12 +32,12 @@ v297 的五个候选门槛已经固化：
    - mini-kv v131：runtime shell candidate gate non-participation receipt。
      只确认 mini-kv 不参与 runtime shell candidate；不执行 LOAD/COMPACT/RESTORE/SETNXEX，不承载 audit/order 权威状态。
 
-2. Node v298：runtime shell candidate gate upstream echo verification。
+2. Node v298：runtime shell candidate gate upstream echo verification。已完成。
    - 必须等待 Java v134 + mini-kv v131 完成后再推进。
    - 消费两边 echo，验证三方对 v297 五个候选门槛和 blocked decision 一致。
    - 仍不做 runtime implementation，不实例化 provider/client，不读取 credential，不解析 raw endpoint，不发 HTTP/TCP。
 
-3. Node v299：runtime shell candidate gate decision record。
+3. Node v299：runtime shell candidate gate decision record。已续写到新计划。
    - 只能在 Node v298 完成后考虑。
    - 记录是否仍 blocked，还是进入更严格的 implementation pre-design；默认仍应 blocked，除非出现新的明确审批证据。
 ```
