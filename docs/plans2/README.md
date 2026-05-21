@@ -26,10 +26,11 @@ Node v283 前置质量拆分：dashboard.ts strangler 第一步已完成。
 Node v283 前置质量拆分续：opsPromotionArchiveRenderers.ts strangler 第一步已完成。
 Node v283 前置质量拆分收口：opsSummaryRoutes.ts promotion archive 子路由拆分已完成；短期停止继续拆分，回到主流程。
 Node v283：managed audit resolver implementation plan draft 已完成。
+Node v284 质量优化：opsPromotionArchiveBundleTypes.ts 类型族拆分已完成；原文件保留 4 行 barrel，类型族拆到 core / handoff / release / deployment。
 Java v117-v121：已完成测试拆分优化、implementation-plan echo 和 overview split；HEAD/tag 为 `v121订单平台implementation-plan-echo-and-overview-split`。
 mini-kv v123-v126：已完成 SMOKEJSON / formatter / receipt split 优化，并完成 resolver implementation plan non-participation receipt。
 已补充后续质量候选：Node 剩余两个 1500+ TS 文件、Java OverviewTests 拆分收口、Java echo support catalog 化；这些可作为各自独立质量版。
-下一步：Node 可先做 1-2 版质量优化；Java v121 和 mini-kv v126 均已可消费，质量优化完成后由 Node v286 做三方对齐验证。
+下一步：继续 Node v285 质量优化，拆分 `opsPromotionArchiveDeploymentBuilders.ts`；质量优化完成后由 Node v286 做三方对齐验证。
 ```
 
 旧 `docs/plans/` 保留为历史目录；后续新计划优先写入本目录。
