@@ -10,6 +10,10 @@
 291：credential resolver execution-denied upstream echo verification
 292：credential resolver fake harness readiness decision record
 299：credential resolver runtime shell candidate gate decision record
+300：credential resolver runtime shell decision record upstream echo verification
+301：credential resolver runtime shell post-decision continuation plan intake
+302：credential resolver runtime shell post-decision continuation catalog quality pass
+303：credential resolver runtime shell post-decision plan intake upstream echo verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

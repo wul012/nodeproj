@@ -1,0 +1,554 @@
+{
+  "service": "orderops-node",
+  "title": "Managed audit manual sandbox connection credential resolver runtime shell post-decision plan intake upstream echo verification",
+  "generatedAt": "2026-05-22T00:03:57.525Z",
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification.v1",
+  "verificationState": "runtime-shell-post-decision-plan-intake-upstream-echo-verification-ready",
+  "readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification": true,
+  "readOnlyUpstreamEchoVerification": true,
+  "runtimeShellPostDecisionPlanIntakeUpstreamEchoVerificationOnly": true,
+  "consumesNodeV301PostDecisionContinuationPlanIntake": true,
+  "consumesNodeV302PostDecisionContinuationCatalogQualityPass": true,
+  "consumesJavaV136PostDecisionPlanIntakeEcho": true,
+  "consumesMiniKvV133PostDecisionPlanIntakeNonParticipationReceipt": true,
+  "legacyNodeV302ConsumerMarkerAccepted": true,
+  "activeNodeVerificationVersion": "Node v303",
+  "readyForPostDecisionRuntimeShellChainStopDecision": true,
+  "readyForDisabledRuntimeShellImplementation": false,
+  "readyForDisabledRuntimeShellInvocation": false,
+  "readyForManagedAuditResolverImplementation": false,
+  "readyForManagedAuditSandboxAdapterConnection": false,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "runtimeShellImplemented": false,
+  "runtimeShellEnabled": false,
+  "runtimeShellInvocationAllowed": false,
+  "realResolverImplementationAllowed": false,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "readsManagedAuditCredential": false,
+  "storesManagedAuditCredential": false,
+  "credentialValueRead": false,
+  "credentialValueProvided": false,
+  "rawEndpointUrlParsed": false,
+  "rawEndpointUrlRendered": false,
+  "externalRequestSent": false,
+  "secretProviderInstantiated": false,
+  "resolverClientInstantiated": false,
+  "fakeSecretProviderInstantiated": false,
+  "fakeResolverClientInstantiated": false,
+  "schemaMigrationExecuted": false,
+  "approvalLedgerWritten": false,
+  "automaticUpstreamStart": false,
+  "sourceNodeV301": {
+    "sourceVersion": "Node v301",
+    "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-plan-intake.v1",
+    "planIntakeState": "runtime-shell-post-decision-continuation-plan-intake-ready",
+    "readyForPlanIntake": true,
+    "readOnlyPlanIntake": true,
+    "intakeDigest": "1a42d9b0aab11c97a6551e29924d0af691377a4c3e708381ccfa69604fd93459",
+    "selectedContinuationDecision": "continue-blocked-planning",
+    "legacyNextNodeVerificationVersion": "Node v302",
+    "nextNodeVerificationVersion": "Node v303",
+    "nextJavaEchoVersion": "Java v136",
+    "nextMiniKvReceiptVersion": "mini-kv v133",
+    "proofComplete": true,
+    "checkCount": 25,
+    "passedCheckCount": 25,
+    "productionBlockerCount": 0,
+    "runtimeShellImplemented": false,
+    "runtimeShellInvocationAllowed": false,
+    "executionAllowed": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "externalRequestSent": false,
+    "schemaMigrationExecuted": false,
+    "approvalLedgerWritten": false,
+    "automaticUpstreamStart": false
+  },
+  "sourceNodeV302": {
+    "sourceVersion": "Node v302",
+    "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-catalog-quality-pass.v1",
+    "qualityPassState": "runtime-shell-post-decision-continuation-catalog-quality-pass-ready",
+    "readyForCatalogQualityPass": true,
+    "activeNodeVerificationTarget": "Node v303",
+    "consumesNodeV301PostDecisionContinuationPlanIntake": true,
+    "consumesJavaV136PostDecisionPlanIntakeEcho": false,
+    "consumesMiniKvV133PostDecisionPlanIntakeReceipt": false,
+    "checkCount": 19,
+    "passedCheckCount": 19,
+    "productionBlockerCount": 0,
+    "runtimeShellImplemented": false,
+    "runtimeShellInvocationAllowed": false,
+    "executionAllowed": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "externalRequestSent": false,
+    "schemaMigrationExecuted": false,
+    "approvalLedgerWritten": false,
+    "automaticUpstreamStart": false
+  },
+  "upstreamEvidence": {
+    "javaV136": {
+      "sourceVersion": "Java v136",
+      "receiptVersion": "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-runtime-shell-post-decision-plan-intake-echo-receipt.v1",
+      "echoMode": "java-v136-credential-resolver-runtime-shell-post-decision-plan-intake-echo-only",
+      "sourceSpan": "Node v301",
+      "legacyNextNodeVersion": "Node v302",
+      "evidenceFiles": [
+        {
+          "id": "java-v136-support",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoSupport.java",
+          "exists": true,
+          "sizeBytes": 25880,
+          "digest": "3f311d1c50719aea0526c2bde83e8c4f43c6d0dec8a53002a63d5ff164594be6"
+        },
+        {
+          "id": "java-v136-test",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "exists": true,
+          "sizeBytes": 20209,
+          "digest": "e9007c5319b2a5e8ec6e11ea47ae2ce4f3f5bff7beba1edf2cb4f27dbe869add"
+        },
+        {
+          "id": "java-v136-walkthrough",
+          "path": "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/138-version-136-runtime-shell-post-decision-plan-intake-echo.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\代码讲解记录_生产雏形阶段_续\\138-version-136-runtime-shell-post-decision-plan-intake-echo.md",
+          "exists": true,
+          "sizeBytes": 3846,
+          "digest": "cd67f1ec4bd00280f10afad7878b50d879560f87c473c0e3ff14cf932f527e37"
+        }
+      ],
+      "expectedSnippets": [
+        {
+          "id": "java-v136-version",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoSupport.java",
+          "expectedText": "java-v136-credential-resolver-runtime-shell-post-decision-plan-intake-echo-only",
+          "matched": true
+        },
+        {
+          "id": "java-v136-source-node",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "sourceSpan()).isEqualTo(\"Node v301\")",
+          "matched": true
+        },
+        {
+          "id": "java-v136-profile",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification.v1",
+          "matched": true
+        },
+        {
+          "id": "java-v136-legacy-node-v302",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "nextNodePostDecisionPlanIntakeUpstreamEchoVerificationVersion()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-ready",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "readyForNodeV302PostDecisionPlanIntakeUpstreamEchoVerification()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-selected",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "\"continue-blocked-planning\"",
+          "matched": true
+        },
+        {
+          "id": "java-v136-options",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "decisionOptionCount()).isEqualTo(4)",
+          "matched": true
+        },
+        {
+          "id": "java-v136-proof",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "necessityProof().proofComplete()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-rejected",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "runtimeImplementationOptionRejected()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-runtime",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noRuntimeImplementationEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-invocation",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noRuntimeInvocationEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-credential",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noCredentialReadEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-endpoint",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noRawEndpointParseEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-provider",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noProviderClientInstantiationEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-external",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noExternalRequestEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-write",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noWriteOrMigrationEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-no-autostart",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+          "expectedText": "noAutoStartBoundaryEchoed()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v136-walkthrough",
+          "path": "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/138-version-136-runtime-shell-post-decision-plan-intake-echo.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\代码讲解记录_生产雏形阶段_续\\138-version-136-runtime-shell-post-decision-plan-intake-echo.md",
+          "expectedText": "只读 echo",
+          "matched": true
+        }
+      ],
+      "evidencePresent": true,
+      "verificationDocumented": true,
+      "legacyReadyForNodeV302": true,
+      "echoesNodeV301PlanIntake": true,
+      "selectedContinuationDecisionEchoed": true,
+      "continuationOptionsEchoed": true,
+      "necessityProofEchoed": true,
+      "runtimeImplementationRejectedEchoed": true,
+      "noRuntimeImplementationEchoed": true,
+      "noRuntimeInvocationEchoed": true,
+      "noCredentialReadEchoed": true,
+      "noRawEndpointParseEchoed": true,
+      "noProviderClientInstantiationEchoed": true,
+      "noExternalRequestEchoed": true,
+      "noWriteOrMigrationEchoed": true,
+      "noAutoStartBoundaryEchoed": true,
+      "sideEffectBoundariesClosed": true
+    },
+    "miniKvV133": {
+      "sourceVersion": "mini-kv v133",
+      "receiptVersion": "mini-kv-credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.v1",
+      "releaseVersion": "v133",
+      "consumerHint": "Node v302 runtime shell post-decision plan intake upstream echo verification",
+      "receiptDigest": "fnv1a64:d2739fd08da1653e",
+      "evidenceFiles": [
+        {
+          "id": "mini-kv-v133-receipt",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "exists": true,
+          "sizeBytes": 14921,
+          "digest": "d25d538197043159ae74a314d26d2842f4832bba521239985121e0030a1544a6"
+        },
+        {
+          "id": "mini-kv-v133-explanation",
+          "path": "D:/C/mini-kv/d/133/解释/说明.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\d\\133\\解释\\说明.md",
+          "exists": true,
+          "sizeBytes": 3971,
+          "digest": "64ee1a4daf27229922b239f552a002b84ab9b0b3963e10eb68ec85d4f8f4be7f"
+        },
+        {
+          "id": "mini-kv-v133-walkthrough",
+          "path": "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/189-version-133-credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\代码讲解记录_生产雏形阶段_第二册\\189-version-133-credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.md",
+          "exists": true,
+          "sizeBytes": 4685,
+          "digest": "d2f4b6ee60ab4d4dd76114c76ea26d5795fd4b5c3f039d0fbebc65206adc2370"
+        }
+      ],
+      "expectedSnippets": [
+        {
+          "id": "mini-kv-v133-node-v302",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "Node v302 runtime shell post-decision plan intake upstream echo verification",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-node-v301",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "Node v301 credential resolver runtime shell post-decision continuation plan intake",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-version",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"release_version\":\"v133\"",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-state",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"plan_intake_state\":\"runtime-shell-post-decision-continuation-plan-intake-ready\"",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-selected",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"selected_continuation_decision\":\"continue-blocked-planning\"",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-receipt-only",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"runtime_shell_post_decision_plan_intake_non_participation_receipt_only\":true",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-ready",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"ready_for_node_v302_post_decision_plan_intake_upstream_echo_verification\":true",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-runtime",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"runtime_shell_implemented\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-invocation",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"runtime_shell_invocation_allowed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-credential",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"credential_value_read\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-endpoint",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"raw_endpoint_url_parsed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-external",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"external_request_sent\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-ledger",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"approval_ledger_written\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-restore",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"load_restore_compact_executed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-no-setnxex",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+          "expectedText": "\"setnxex_execution_allowed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-explanation",
+          "path": "D:/C/mini-kv/d/133/解释/说明.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\d\\133\\解释\\说明.md",
+          "expectedText": "CHECKJSON SMOKEJSON",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v133-walkthrough",
+          "path": "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/189-version-133-credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\代码讲解记录_生产雏形阶段_第二册\\189-version-133-credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.md",
+          "expectedText": "Node v302",
+          "matched": true
+        }
+      ],
+      "evidencePresent": true,
+      "verificationDocumented": true,
+      "legacyReadyForNodeV302": true,
+      "echoesNodeV301PlanIntake": true,
+      "planIntakeState": "runtime-shell-post-decision-continuation-plan-intake-ready",
+      "selectedContinuationDecision": "continue-blocked-planning",
+      "nonParticipationReceiptOnly": true,
+      "runtimeShellImplemented": false,
+      "runtimeShellInvocationAllowed": false,
+      "executionAllowed": false,
+      "connectsManagedAudit": false,
+      "credentialValueRead": false,
+      "rawEndpointUrlParsed": false,
+      "externalRequestSent": false,
+      "schemaMigrationExecuted": false,
+      "approvalLedgerWritten": false,
+      "automaticUpstreamStart": false,
+      "loadRestoreCompactExecuted": false,
+      "setnxexExecutionAllowed": false,
+      "auditAuthoritative": false,
+      "orderAuthoritative": false,
+      "sideEffectBoundariesClosed": true
+    }
+  },
+  "echoVerification": {
+    "verificationDigest": "9a2f807d01e34c632ee02ac40db98f5a217a7f186d6305c6b97309a6a7d257df",
+    "verificationMode": "runtime-shell-post-decision-plan-intake-upstream-echo-verification-only",
+    "sourceSpan": "Node v301 + Node v302 + Java v136 + mini-kv v133",
+    "sourceNodeV301Ready": true,
+    "sourceNodeV302QualityPassReady": true,
+    "javaV136EchoReady": true,
+    "miniKvV133ReceiptReady": true,
+    "upstreamEchoAligned": true,
+    "legacyNodeV302MarkersAccepted": true,
+    "activeNodeV303TargetConfirmed": true,
+    "sideEffectBoundariesAligned": true,
+    "implementationStillBlocked": true
+  },
+  "checks": {
+    "sourceNodeV301Ready": true,
+    "sourceNodeV301UsesActiveNodeV303Target": true,
+    "sourceNodeV301KeepsRuntimeBlocked": true,
+    "sourceNodeV301KeepsSideEffectsClosed": true,
+    "sourceNodeV302QualityPassReady": true,
+    "sourceNodeV302ConfirmsActiveNodeV303Target": true,
+    "sourceNodeV302DidNotConsumeUpstreamEchoes": true,
+    "javaV136EvidencePresent": true,
+    "javaV136LegacyReadyForNodeV302": true,
+    "javaV136EchoesNodeV301": true,
+    "javaV136KeepsRuntimeBlocked": true,
+    "miniKvV133EvidencePresent": true,
+    "miniKvV133LegacyReadyForNodeV302": true,
+    "miniKvV133EchoesNodeV301": true,
+    "miniKvV133KeepsRuntimeBlocked": true,
+    "upstreamEchoesAligned": true,
+    "legacyNodeV302ConsumerMarkersAccepted": true,
+    "activeNodeV303VerificationTargetConfirmed": true,
+    "upstreamProbesStillDisabled": true,
+    "upstreamActionsStillDisabled": true,
+    "productionAuditStillBlocked": true,
+    "productionWindowStillBlocked": true,
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification": true
+  },
+  "summary": {
+    "checkCount": 23,
+    "passedCheckCount": 23,
+    "sourceNodeV301CheckCount": 25,
+    "sourceNodeV301PassedCheckCount": 25,
+    "sourceNodeV302CheckCount": 19,
+    "sourceNodeV302PassedCheckCount": 19,
+    "javaEvidenceFileCount": 3,
+    "javaMatchedSnippetCount": 18,
+    "miniKvEvidenceFileCount": 3,
+    "miniKvMatchedSnippetCount": 17,
+    "productionBlockerCount": 0,
+    "warningCount": 2,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "LEGACY_NODE_V302_MARKER_ACCEPTED_FOR_V303",
+      "severity": "warning",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification",
+      "message": "Java v136 and mini-kv v133 were originally written for Node v302, but Node v302 became a quality pass; v303 accepts those markers as historical compatibility evidence only."
+    },
+    {
+      "code": "UPSTREAM_ECHO_READY_DOES_NOT_AUTHORIZE_RUNTIME",
+      "severity": "warning",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification",
+      "message": "v303 aligns the post-decision plan intake echoes only; it does not approve or implement a runtime shell."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "CLOSE_V300_DERIVED_PLAN",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification",
+      "message": "Close the v300-derived plan after v303 because its planned versions have all been consumed."
+    },
+    {
+      "code": "STOP_OR_NAME_NEW_BLOCKER_BEFORE_NEXT_ECHO",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification",
+      "message": "Do not add another runtime-shell echo unless the next plan names a new blocker, consumer, and stop condition."
+    }
+  ],
+  "evidenceEndpoints": {
+    "runtimeShellPostDecisionPlanIntakeUpstreamEchoVerificationJson": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification",
+    "runtimeShellPostDecisionPlanIntakeUpstreamEchoVerificationMarkdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification?format=markdown",
+    "sourceNodeV301Json": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-plan-intake",
+    "sourceNodeV301Markdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-plan-intake?format=markdown",
+    "sourceNodeV302Json": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-catalog-quality-pass",
+    "sourceNodeV302Markdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-catalog-quality-pass?format=markdown",
+    "javaV136Support": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoSupport.java",
+    "javaV136Test": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceCredentialResolverRuntimeShellPostDecisionPlanIntakeEchoTests.java",
+    "javaV136Walkthrough": "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/138-version-136-runtime-shell-post-decision-plan-intake-echo.md",
+    "miniKvV133Receipt": "D:/C/mini-kv/fixtures/release/credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.json",
+    "miniKvV133Explanation": "D:/C/mini-kv/d/133/解释/说明.md",
+    "miniKvV133Walkthrough": "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/189-version-133-credential-resolver-runtime-shell-post-decision-plan-intake-non-participation-receipt.md",
+    "closedPlan": "docs/plans2/v300-post-runtime-shell-decision-record-upstream-echo-roadmap.md",
+    "nextPlan": "docs/plans2/v303-post-decision-plan-intake-upstream-echo-roadmap.md"
+  },
+  "nextActions": [
+    "Archive Node v303 as the read-only upstream echo verification for Java v136 and mini-kv v133.",
+    "Close the v300-derived plan and continue with a new plan only if it names a real blocker, consumer, and stop condition.",
+    "Keep runtime shell implementation, invocation, credential values, raw endpoint URL parsing, provider/client instantiation, external requests, ledger/schema writes, LOAD/COMPACT/RESTORE/SETNXEX, and auto-start blocked."
+  ]
+}

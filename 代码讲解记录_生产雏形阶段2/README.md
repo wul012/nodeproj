@@ -31,6 +31,10 @@
 302-credential-resolver-disabled-runtime-shell-implementation-candidate-gate-v297.md
 303-credential-resolver-runtime-shell-candidate-gate-upstream-echo-verification-v298.md
 304-credential-resolver-runtime-shell-candidate-gate-decision-record-v299.md
+305-credential-resolver-runtime-shell-decision-record-upstream-echo-verification-v300.md
+306-credential-resolver-runtime-shell-post-decision-continuation-plan-intake-v301.md
+307-credential-resolver-runtime-shell-post-decision-continuation-catalog-quality-pass-v302.md
+308-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification-v303.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

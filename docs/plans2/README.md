@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v300-post-runtime-shell-decision-record-upstream-echo-roadmap.md
+docs/plans2/v303-post-decision-plan-intake-upstream-echo-roadmap.md
 ```
 
 ## 当前状态
@@ -41,6 +41,11 @@ Node v299：runtime shell candidate gate decision record 已完成；只记录 b
 Java v135：runtime shell decision record echo 已完成；只读回显 Node v299 blocked decision record。
 mini-kv v132：runtime shell decision record non-participation receipt 已完成；只确认 mini-kv 不参与 runtime shell implementation/invocation。
 Node v300：runtime shell decision record upstream echo verification 已完成；已消费 Node v299 + Java v135 + mini-kv v132，三方 blocked decision record 已对齐。
+Node v301：post-decision continuation plan intake 已完成；只做继续 blocked planning 的必要性证明，不实现 runtime shell。
+Java v136：post-decision plan intake echo 已完成；只读回显 Node v301，保留 legacy Node v302 consumer marker。
+mini-kv v133：post-decision plan intake non-participation receipt 已完成；只确认 mini-kv 不参与 runtime shell implementation/invocation。
+Node v302：echo segment catalog quality pass 已完成；只做 Node 质量优化，不消费两边新证据。
+Node v303：post-decision plan intake upstream echo verification 已完成；已消费 Node v301 + Node v302 + Java v136 + mini-kv v133。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -67,9 +72,11 @@ Node v299：runtime shell candidate gate decision record。已完成。
 推荐并行：Java v135 + mini-kv v132。已完成。
 Node v300：runtime shell decision record upstream echo verification。已完成。
 Node v301：post-decision continuation plan intake。已完成；只做继续 blocked planning 的必要性证明，不实现 runtime shell。
-推荐并行：Java v136 + mini-kv v133。当前上游并行 lane；两边互不依赖，可以并行推进。
+推荐并行：Java v136 + mini-kv v133。已完成；两边互不依赖，可以并行推进。
 Node v302：echo segment catalog quality pass。已完成；只做 Node 质量优化，不消费两边新证据。
-Node v303：post-decision plan intake upstream echo verification；必须等待 Java v136 + mini-kv v133 和 Node v302 完成。
+Node v303：post-decision plan intake upstream echo verification。已完成；已等待 Java v136 + mini-kv v133 和 Node v302 完成。
+Node v304：runtime shell chain stop-or-prerequisite decision record；下一步 Node 串行版本，默认仍 blocked，不实现 runtime shell。
+推荐并行：Java v141 + mini-kv v134。仅当 Node v304 明确请求上游只读确认时推进。
 ```
 
 ## 质量收口
@@ -96,6 +103,8 @@ Node v303：post-decision plan intake upstream echo verification；必须等待 
 - 推荐并行：Java v136 + mini-kv v133。当前上游并行 lane。
 - Node v302 已完成 echo segment catalog quality pass，没有消费 Java v136 / mini-kv v133。
 - Node v303 必须等待 Java v136 + mini-kv v133 和 Node v302 完成。
+- Node v303 已完成，当前有效计划切换到 docs/plans2/v303-post-decision-plan-intake-upstream-echo-roadmap.md。
+- Node v304 必须先做 stop-or-prerequisite decision，不要继续无理由堆 echo。
 - Java 后续质量优化可采纳当前短板：OpsEvidenceService catalog/service 化、VerificationHintBuilder 二次拆分；同一 Java 项目内部仍串行。
 - Node v302 已把 post-decision continuation options / necessity proof catalog 化；后续继续复用 catalog，避免第 9、10 段复制。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。

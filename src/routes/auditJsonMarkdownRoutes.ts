@@ -263,6 +263,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPassMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerificationMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview,
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
@@ -766,6 +770,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-continuation-catalog-quality-pass", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPassMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerificationMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

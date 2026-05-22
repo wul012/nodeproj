@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>Node v303 post-decision plan intake upstream echo verification</title>
+<style>
+:root { color-scheme: light; font-family: Arial, "Microsoft YaHei", sans-serif; }
+body { margin: 0; background: #f6f7f8; color: #172026; }
+main { max-width: 1180px; margin: 0 auto; padding: 36px 28px 48px; }
+h1 { font-size: 30px; margin: 0 0 10px; }
+.subtitle { color: #53616d; margin-bottom: 24px; }
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.card { background: white; border: 1px solid #dde3ea; border-radius: 8px; padding: 18px; }
+.card h2 { font-size: 16px; margin: 0 0 12px; }
+.big { font-size: 24px; font-weight: 700; line-height: 1.25; }
+.ok { color: #0f7b4f; }
+ul { margin: 8px 0 0; padding-left: 20px; }
+li { margin: 6px 0; }
+code { background: #eef2f6; padding: 2px 5px; border-radius: 4px; }
+footer { margin-top: 18px; color: #53616d; font-size: 13px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Node v303: post-decision plan intake upstream echo verification</h1>
+<div class="subtitle">?? Node v301 + Node v302 + Java v136 + mini-kv v133???????? v301 plan intake ?????</div>
+<section class="grid">
+  <article class="card"><h2>Verification state</h2><div class="big ok">runtime-shell-post-decision-plan-intake-upstream-echo-verification-ready</div><ul><li>checks: 23/23</li><li>blockers: 0</li></ul></article>
+  <article class="card"><h2>Upstream evidence</h2><ul><li>Java v136: true</li><li>mini-kv v133: true</li><li>legacy Node v302 marker: true</li></ul></article>
+  <article class="card"><h2>Runtime boundary</h2><ul><li>runtime shell implemented: false</li><li>credential value read: false</li><li>external request sent: false</li></ul></article>
+</section>
+<section class="card" style="margin-top:16px">
+<h2>Next action</h2>
+<ul><li>Archive Node v303 as the read-only upstream echo verification for Java v136 and mini-kv v133.</li><li>Close the v300-derived plan and continue with a new plan only if it names a real blocker, consumer, and stop condition.</li><li>Keep runtime shell implementation, invocation, credential values, raw endpoint URL parsing, provider/client instantiation, external requests, ledger/schema writes, LOAD/COMPACT/RESTORE/SETNXEX, and auto-start blocked.</li></ul>
+</section>
+<footer>HTTP smoke: JSON 200, Markdown 200. Digest: <code>9a2f807d01e34c632ee02ac40db98f5a217a7f186d6305c6b97309a6a7d257df</code></footer>
+</main>
+</body>
+</html>
