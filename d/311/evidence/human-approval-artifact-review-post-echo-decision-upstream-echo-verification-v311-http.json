@@ -1,0 +1,686 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Managed audit manual sandbox connection credential resolver human approval artifact review post-echo decision upstream echo verification",
+    "generatedAt":  "2026-05-22T10:29:07.872Z",
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification.v1",
+    "verificationState":  "human-approval-artifact-review-post-echo-decision-upstream-echo-verification-ready",
+    "runtimeShellChainDecision":  "require-explicit-approval-prerequisites-before-runtime-shell",
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification":  true,
+    "readOnlyUpstreamEchoVerification":  true,
+    "humanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationOnly":  true,
+    "consumesNodeV310HumanApprovalArtifactReviewPostEchoDecisionGate":  true,
+    "consumesJavaV144HumanApprovalArtifactReviewPostEchoDecisionGateEcho":  true,
+    "consumesMiniKvV137HumanApprovalArtifactReviewPostEchoDecisionGateNonParticipationReceipt":  true,
+    "activeNodeVerificationVersion":  "Node v311",
+    "readyForDisabledRuntimeShellImplementation":  false,
+    "readyForDisabledRuntimeShellInvocation":  false,
+    "readyForManagedAuditResolverImplementation":  false,
+    "readyForManagedAuditSandboxAdapterConnection":  false,
+    "readyForProductionAudit":  false,
+    "readyForProductionWindow":  false,
+    "readyForProductionOperations":  false,
+    "runtimeShellImplemented":  false,
+    "runtimeShellEnabled":  false,
+    "runtimeShellInvocationAllowed":  false,
+    "realResolverImplementationAllowed":  false,
+    "executionAllowed":  false,
+    "connectsManagedAudit":  false,
+    "readsManagedAuditCredential":  false,
+    "storesManagedAuditCredential":  false,
+    "credentialValueRead":  false,
+    "credentialValueProvided":  false,
+    "rawEndpointUrlParsed":  false,
+    "rawEndpointUrlRendered":  false,
+    "externalRequestSent":  false,
+    "secretProviderInstantiated":  false,
+    "resolverClientInstantiated":  false,
+    "fakeSecretProviderInstantiated":  false,
+    "fakeResolverClientInstantiated":  false,
+    "schemaMigrationExecuted":  false,
+    "approvalLedgerWritten":  false,
+    "automaticUpstreamStart":  false,
+    "sourceNodeV310":  {
+                           "sourceVersion":  "Node v310",
+                           "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate.v1",
+                           "decisionGateState":  "human-approval-artifact-review-post-echo-decision-gate-ready",
+                           "readyForHumanApprovalArtifactReviewPostEchoDecisionGate":  true,
+                           "readOnlyDecisionGate":  true,
+                           "decisionDigest":  "91c0927b63fee6dd0fb44e27cd82c7f700ceeeb4cef750606777bd4d3436102c",
+                           "sourceSpan":  "Node v308 + Java v143 + mini-kv v136 + Node v309",
+                           "decision":  "continue-only-as-blocked-post-echo-prerequisite-review",
+                           "selectedPath":  "request-read-only-upstream-decision-echo-before-any-runtime-shell",
+                           "allowsParallelJavaV144MiniKvV137EchoRequest":  true,
+                           "allowsNodeV311BeforeUpstreamEcho":  false,
+                           "prerequisiteCount":  6,
+                           "missingPrerequisiteCount":  6,
+                           "noGoConditionCount":  9,
+                           "sourceChecks":  {
+                                                "sourceNodeV309Loaded":  true,
+                                                "sourceNodeV309Ready":  true,
+                                                "sourceNodeV309UpstreamEchoAligned":  true,
+                                                "sourceNodeV309KeepsRuntimeBlocked":  true,
+                                                "sourceNodeV309KeepsSideEffectsClosed":  true,
+                                                "decisionSelectsPostEchoPrerequisiteGate":  true,
+                                                "decisionGateBlocksRuntimeShell":  true,
+                                                "decisionGateStillReadOnly":  true,
+                                                "postEchoPrerequisitesDocumented":  true,
+                                                "missingPrerequisitesBlockImplementation":  true,
+                                                "necessityProofComplete":  true,
+                                                "parallelJavaV144MiniKvV137EchoRecommended":  true,
+                                                "upstreamProbesStillDisabled":  true,
+                                                "upstreamActionsStillDisabled":  true,
+                                                "productionAuditStillBlocked":  true,
+                                                "productionWindowStillBlocked":  true,
+                                                "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate":  true
+                                            },
+                           "sourceSummary":  {
+                                                 "checkCount":  17,
+                                                 "passedCheckCount":  17,
+                                                 "sourceCheckCount":  23,
+                                                 "sourcePassedCheckCount":  23,
+                                                 "sourceProductionBlockerCount":  0,
+                                                 "sourceWarningCount":  1,
+                                                 "sourceRecommendationCount":  2,
+                                                 "requiredFieldCount":  9,
+                                                 "prohibitedFieldCount":  9,
+                                                 "rejectionReasonCount":  13,
+                                                 "missingFieldCheckCount":  9,
+                                                 "noGoBoundaryCount":  12,
+                                                 "upstreamEchoRequestCount":  2,
+                                                 "prerequisiteCount":  6,
+                                                 "missingPrerequisiteCount":  6,
+                                                 "noGoConditionCount":  9,
+                                                 "productionBlockerCount":  0,
+                                                 "warningCount":  1,
+                                                 "recommendationCount":  2
+                                             },
+                           "runtimeShellImplemented":  false,
+                           "runtimeShellInvocationAllowed":  false,
+                           "executionAllowed":  false,
+                           "connectsManagedAudit":  false,
+                           "credentialValueRead":  false,
+                           "rawEndpointUrlParsed":  false,
+                           "externalRequestSent":  false,
+                           "schemaMigrationExecuted":  false,
+                           "approvalLedgerWritten":  false,
+                           "automaticUpstreamStart":  false
+                       },
+    "upstreamEvidence":  {
+                             "javaV144":  {
+                                              "sourceVersion":  "Java v144",
+                                              "receiptVersion":  "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-human-approval-artifact-review-post-echo-decision-gate-echo-receipt.v1",
+                                              "echoMode":  "java-v144-human-approval-artifact-review-post-echo-decision-gate-echo-only",
+                                              "sourceSpan":  "Node v310",
+                                              "nextNodeVersion":  "Node v311",
+                                              "expectedProfileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification.v1",
+                                              "evidenceFiles":  [
+                                                                    {
+                                                                        "id":  "java-v144-support",
+                                                                        "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                        "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                        "exists":  true,
+                                                                        "sizeBytes":  35413,
+                                                                        "digest":  "8f32a0707bdc75a048731f30c660325c736a5e4c08fea8723d030ffa5554e7f9"
+                                                                    },
+                                                                    {
+                                                                        "id":  "java-v144-test",
+                                                                        "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                        "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                        "exists":  true,
+                                                                        "sizeBytes":  14514,
+                                                                        "digest":  "dd358f41918d9eb72ffb50666e0b688ffbf0a164e731a89146a093b5b7551a10"
+                                                                    },
+                                                                    {
+                                                                        "id":  "java-v144-explanation",
+                                                                        "path":  "D:/javaproj/advanced-order-platform/d/144/解释/说明.md",
+                                                                        "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\d\\144\\解释\\说明.md",
+                                                                        "exists":  true,
+                                                                        "sizeBytes":  1200,
+                                                                        "digest":  "8ddfb36bb68b4970990a661c9fcaf51f5b2ff9046718cee0f31a1429c0dd87de"
+                                                                    },
+                                                                    {
+                                                                        "id":  "java-v144-walkthrough",
+                                                                        "path":  "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/146-version-144-human-approval-post-echo-decision-gate-echo.md",
+                                                                        "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\代码讲解记录_生产雏形阶段_续\\146-version-144-human-approval-post-echo-decision-gate-echo.md",
+                                                                        "exists":  true,
+                                                                        "sizeBytes":  5051,
+                                                                        "digest":  "39563547919dbaeef1e982ffa11138cd0f457f14997138eee906bc1a629a0005"
+                                                                    }
+                                                                ],
+                                              "expectedSnippets":  [
+                                                                       {
+                                                                           "id":  "java-v144-version",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "java-v144-human-approval-artifact-review-post-echo-decision-gate-echo-only",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-node-v310",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  ".isEqualTo(\"Node v310\")",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-node-v311",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  ".isEqualTo(\"Node v311\")",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-upstream-profile",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification.v1",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-source-profile",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate.v1",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-source-route",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-source-state",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "human-approval-artifact-review-post-echo-decision-gate-ready",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-ready",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "readyForNodeV311PostEchoDecisionUpstreamEchoVerification()).isTrue()",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-source-span",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "\"Node v308 + Java v143 + mini-kv v136 + Node v309\"",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-prerequisite-count",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "prerequisiteCount()).isEqualTo(6)",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-missing-count",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "missingPrerequisiteCount()).isEqualTo(6)",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-go-count",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "noGoConditionCount()).isEqualTo(9)",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-parallel",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  "allowsParallelJavaV144MiniKvV137EchoRequest()).isTrue()",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-consumer",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                                                                           "expectedText":  ".isEqualTo(\"Java v144 and mini-kv v137, then Node v311\")",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-runtime",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noRuntimeImplementationEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-invocation",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noRuntimeInvocationEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-credential",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noCredentialReadEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-endpoint",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noRawEndpointParseEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-provider",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noProviderClientInstantiationEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-external",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noExternalRequestEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-write",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noWriteOrMigrationEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-minikv",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noMiniKvWriteOrAuthorityEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-no-autostart",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                                                                           "expectedText":  "noAutoStartBoundaryEchoed",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-explanation",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/d/144/解释/说明.md",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\d\\144\\解释\\说明.md",
+                                                                           "expectedText":  "Java v144 adds the read-only echo for the Node v310 human approval artifact review post-echo decision gate.",
+                                                                           "matched":  true
+                                                                       },
+                                                                       {
+                                                                           "id":  "java-v144-walkthrough",
+                                                                           "path":  "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/146-version-144-human-approval-post-echo-decision-gate-echo.md",
+                                                                           "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\代码讲解记录_生产雏形阶段_续\\146-version-144-human-approval-post-echo-decision-gate-echo.md",
+                                                                           "expectedText":  "It consumes the Node v310 human approval artifact review post-echo decision gate",
+                                                                           "matched":  true
+                                                                       }
+                                                                   ],
+                                              "evidencePresent":  true,
+                                              "verificationDocumented":  true,
+                                              "echoesNodeV310DecisionGate":  true,
+                                              "readyForNodeV311":  true,
+                                              "decisionGateContractEchoed":  true,
+                                              "prerequisiteCountEchoed":  true,
+                                              "missingPrerequisiteCountEchoed":  true,
+                                              "noGoConditionCountEchoed":  true,
+                                              "necessityProofEchoed":  true,
+                                              "parallelEchoRequestEchoed":  true,
+                                              "noRuntimeImplementationEchoed":  true,
+                                              "noRuntimeInvocationEchoed":  true,
+                                              "noCredentialReadEchoed":  true,
+                                              "noRawEndpointParseEchoed":  true,
+                                              "noProviderClientInstantiationEchoed":  true,
+                                              "noExternalRequestEchoed":  true,
+                                              "noWriteOrMigrationEchoed":  true,
+                                              "noMiniKvWriteOrAuthorityEchoed":  true,
+                                              "noAutoStartBoundaryEchoed":  true,
+                                              "sideEffectBoundariesClosed":  true
+                                          },
+                             "miniKvV137":  {
+                                                "sourceVersion":  "mini-kv v137",
+                                                "receiptVersion":  "mini-kv-credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.v1",
+                                                "releaseVersion":  "v137",
+                                                "consumerHint":  "Node v311 human approval artifact review post-echo decision upstream echo verification",
+                                                "receiptDigest":  "fnv1a64:ab2ef6306f362184",
+                                                "evidenceFiles":  [
+                                                                      {
+                                                                          "id":  "mini-kv-v137-receipt",
+                                                                          "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                          "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                          "exists":  true,
+                                                                          "sizeBytes":  18624,
+                                                                          "digest":  "3fb82cbcacba1df4c7471cb186d91784c85915f862ef6e46dff9cccbd84bee63"
+                                                                      },
+                                                                      {
+                                                                          "id":  "mini-kv-v137-explanation",
+                                                                          "path":  "D:/C/mini-kv/d/137/解释/说明.md",
+                                                                          "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\d\\137\\解释\\说明.md",
+                                                                          "exists":  true,
+                                                                          "sizeBytes":  3091,
+                                                                          "digest":  "9e43296b0cc864657871038e7c8251da72615dd180c70ac7c4029d9341c19ab3"
+                                                                      },
+                                                                      {
+                                                                          "id":  "mini-kv-v137-walkthrough",
+                                                                          "path":  "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/193-version-137-credential-resolver-human-approval-post-echo-decision-gate-non-participation-receipt.md",
+                                                                          "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\代码讲解记录_生产雏形阶段_第二册\\193-version-137-credential-resolver-human-approval-post-echo-decision-gate-non-participation-receipt.md",
+                                                                          "exists":  true,
+                                                                          "sizeBytes":  5590,
+                                                                          "digest":  "16a38b927bddc1b1fc742029cbcc4164b41dbea9aed6bcb20c8a55b96548a4ce"
+                                                                      }
+                                                                  ],
+                                                "expectedSnippets":  [
+                                                                         {
+                                                                             "id":  "mini-kv-v137-version",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"release_version\":\"v137\"",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-node-v310",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"source_version\":\"Node v310\"",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-node-v311",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "Node v311 human approval artifact review post-echo decision upstream echo verification",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-source-profile",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate.v1",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-source-state",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "human-approval-artifact-review-post-echo-decision-gate-ready",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-source-digest",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "91c0927b63fee6dd0fb44e27cd82c7f700ceeeb4cef750606777bd4d3436102c",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-ready",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"ready_for_node_v311_human_approval_artifact_review_post_echo_decision_upstream_echo_verification\":true",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-before-upstream",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"ready_for_node_v311_before_upstream_echo\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-prerequisite-count",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"prerequisite_count\":6",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-missing-count",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"missing_prerequisite_count\":6",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-go-count",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"no_go_condition_count\":9",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-read-only",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"read_only\":true",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-execution",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"execution_allowed\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-credential",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"credential_value_read\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-endpoint",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"raw_endpoint_url_parsed\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-external",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"external_request_sent\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-ledger",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"approval_ledger_written\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-schema",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"schema_migration_executed\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-admin",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"load_restore_compact_executed\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-setnxex",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"setnxex_execution_allowed\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-authority",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"audit_authoritative\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-no-autostart",
+                                                                             "path":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                                                                             "expectedText":  "\"automatic_upstream_start\":false",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-explanation",
+                                                                             "path":  "D:/C/mini-kv/d/137/解释/说明.md",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\d\\137\\解释\\说明.md",
+                                                                             "expectedText":  "SMOKEJSON` 暴露 `credential_resolver_human_approval_artifact_review_post_echo_decision_gate_non_participation_receipt",
+                                                                             "matched":  true
+                                                                         },
+                                                                         {
+                                                                             "id":  "mini-kv-v137-walkthrough",
+                                                                             "path":  "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/193-version-137-credential-resolver-human-approval-post-echo-decision-gate-non-participation-receipt.md",
+                                                                             "resolvedPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\代码讲解记录_生产雏形阶段_第二册\\193-version-137-credential-resolver-human-approval-post-echo-decision-gate-non-participation-receipt.md",
+                                                                             "expectedText":  "ready_for_node_v311_human_approval_artifact_review_post_echo_decision_upstream_echo_verification=true",
+                                                                             "matched":  true
+                                                                         }
+                                                                     ],
+                                                "evidencePresent":  true,
+                                                "verificationDocumented":  true,
+                                                "echoesNodeV310DecisionGate":  true,
+                                                "readyForNodeV311":  true,
+                                                "sourceNodeV310ProfileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate.v1",
+                                                "sourceNodeV310DecisionGateState":  "human-approval-artifact-review-post-echo-decision-gate-ready",
+                                                "sourceNodeV310DecisionDigest":  "91c0927b63fee6dd0fb44e27cd82c7f700ceeeb4cef750606777bd4d3436102c",
+                                                "prerequisiteCount":  6,
+                                                "missingPrerequisiteCount":  6,
+                                                "noGoConditionCount":  9,
+                                                "checkCount":  17,
+                                                "passedCheckCount":  17,
+                                                "readOnlyDecisionGate":  true,
+                                                "consumesNodeV310HumanApprovalArtifactReviewPostEchoDecisionGate":  true,
+                                                "consumesNodeV309HumanApprovalArtifactReviewUpstreamEchoVerification":  true,
+                                                "readyForNodeV311BeforeUpstreamEcho":  false,
+                                                "runtimeShellImplemented":  false,
+                                                "runtimeShellInvocationAllowed":  false,
+                                                "executionAllowed":  false,
+                                                "connectsManagedAudit":  false,
+                                                "credentialValueRead":  false,
+                                                "credentialValueAccepted":  false,
+                                                "rawEndpointUrlParsed":  false,
+                                                "rawEndpointUrlAccepted":  false,
+                                                "externalRequestSent":  false,
+                                                "secretProviderInstantiated":  false,
+                                                "resolverClientInstantiated":  false,
+                                                "fakeSecretProviderInstantiated":  false,
+                                                "fakeResolverClientInstantiated":  false,
+                                                "schemaMigrationExecuted":  false,
+                                                "approvalLedgerWritten":  false,
+                                                "automaticUpstreamStart":  false,
+                                                "loadRestoreCompactExecuted":  false,
+                                                "setnxexExecutionAllowed":  false,
+                                                "auditAuthoritative":  false,
+                                                "orderAuthoritative":  false,
+                                                "sideEffectBoundariesClosed":  true
+                                            }
+                         },
+    "echoVerification":  {
+                             "verificationDigest":  "8292327cdb44e1d37ead67ff5a0444c08625860c62a3648846801a84f5a6f194",
+                             "verificationMode":  "human-approval-artifact-review-post-echo-decision-upstream-echo-verification-only",
+                             "sourceSpan":  "Node v310 + Java v144 + mini-kv v137",
+                             "sourceNodeV310Ready":  true,
+                             "javaV144EchoReady":  true,
+                             "miniKvV137ReceiptReady":  true,
+                             "upstreamEchoAligned":  true,
+                             "decisionGateContractAligned":  true,
+                             "sideEffectBoundariesAligned":  true,
+                             "implementationStillBlocked":  true
+                         },
+    "checks":  {
+                   "sourceNodeV310Ready":  true,
+                   "sourceNodeV310RequestsParallelEcho":  true,
+                   "sourceNodeV310DecisionGateComplete":  true,
+                   "sourceNodeV310KeepsRuntimeBlocked":  true,
+                   "sourceNodeV310KeepsSideEffectsClosed":  true,
+                   "javaV144EvidencePresent":  true,
+                   "javaV144EchoesNodeV310DecisionGate":  true,
+                   "javaV144ReadyForNodeV311":  true,
+                   "javaV144DecisionGateContractEchoed":  true,
+                   "javaV144KeepsRuntimeBlocked":  true,
+                   "miniKvV137EvidencePresent":  true,
+                   "miniKvV137EchoesNodeV310DecisionGate":  true,
+                   "miniKvV137ReadyForNodeV311":  true,
+                   "miniKvV137DecisionGateContractEchoed":  true,
+                   "miniKvV137KeepsRuntimeBlocked":  true,
+                   "upstreamEchoesAligned":  true,
+                   "decisionGateContractAligned":  true,
+                   "sideEffectBoundariesAligned":  true,
+                   "upstreamProbesStillDisabled":  true,
+                   "upstreamActionsStillDisabled":  true,
+                   "productionAuditStillBlocked":  true,
+                   "productionWindowStillBlocked":  true,
+                   "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification":  true
+               },
+    "summary":  {
+                    "checkCount":  23,
+                    "passedCheckCount":  23,
+                    "sourceNodeV310CheckCount":  17,
+                    "sourceNodeV310PassedCheckCount":  17,
+                    "javaEvidenceFileCount":  4,
+                    "javaMatchedSnippetCount":  25,
+                    "miniKvEvidenceFileCount":  3,
+                    "miniKvMatchedSnippetCount":  24,
+                    "prerequisiteCount":  6,
+                    "missingPrerequisiteCount":  6,
+                    "noGoConditionCount":  9,
+                    "productionBlockerCount":  0,
+                    "warningCount":  1,
+                    "recommendationCount":  2
+                },
+    "productionBlockers":  [
+
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "POST_ECHO_DECISION_ECHO_DOES_NOT_AUTHORIZE_RUNTIME",
+                         "severity":  "warning",
+                         "source":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification",
+                         "message":  "v311 proves Java v144 and mini-kv v137 echoed the Node v310 decision gate; it still does not approve or implement a runtime shell."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "PLAN_NEXT_STEP_AS_STOP_OR_NEW_PREREQUISITE_DECISION",
+                                "severity":  "recommendation",
+                                "source":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification",
+                                "message":  "The next Node plan should either stop this governance chain or name a new concrete missing prerequisite before adding another echo."
+                            },
+                            {
+                                "code":  "KEEP_RUNTIME_SHELL_BLOCKED_AFTER_V311",
+                                "severity":  "recommendation",
+                                "source":  "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification",
+                                "message":  "Do not convert upstream echo alignment into implementation permission; keep credential, endpoint, provider/client, network, ledger, schema, mini-kv write/admin, and auto-start boundaries closed."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "humanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationJson":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification",
+                              "humanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationMarkdown":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification?format=markdown",
+                              "sourceNodeV310Json":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate",
+                              "sourceNodeV310Markdown":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate?format=markdown",
+                              "javaV144Support":  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateEchoSupport.java",
+                              "javaV144Test":  "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPostEchoDecisionGateEchoTests.java",
+                              "javaV144Explanation":  "D:/javaproj/advanced-order-platform/d/144/解释/说明.md",
+                              "javaV144Walkthrough":  "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/146-version-144-human-approval-post-echo-decision-gate-echo.md",
+                              "miniKvV137Receipt":  "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-post-echo-decision-gate-non-participation-receipt.json",
+                              "miniKvV137Explanation":  "D:/C/mini-kv/d/137/解释/说明.md",
+                              "miniKvV137Walkthrough":  "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/193-version-137-credential-resolver-human-approval-post-echo-decision-gate-non-participation-receipt.md",
+                              "activePlan":  "docs/plans2/v309-post-human-approval-artifact-review-upstream-echo-roadmap.md"
+                          },
+    "nextActions":  [
+                        "Archive Node v311 as the post-echo decision upstream echo verification that consumes Node v310, Java v144, and mini-kv v137.",
+                        "Keep disabled runtime shell implementation and invocation blocked after v311; this version only proves the post-echo decision gate was echoed upstream.",
+                        "The next plan must decide whether to stop this governance chain or name a new concrete missing prerequisite before any further Node-only step."
+                    ]
+}
