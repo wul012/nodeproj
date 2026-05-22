@@ -52,18 +52,30 @@ Node：
 - 单版/单提交目标小于 3000 changed lines；超过时拆版本或拆提交。
 - 继续冻结最小必要 historical sibling evidence，保证 GitHub runner fallback。
 - 运行截图、解释写入 d/<版本>/；代码讲解写入 代码讲解记录_生产雏形阶段2/。
+- 后续 Node echo/catalog 质量优化要写成显式目标，不要只写“可优化”：
+  - Node echo catalog 化全面落地：继续把第 9、10 段以后 echo/decision 的重复块收进 catalog/template。
+  - 新增 echo/decision 版本必须先复用现有 catalog；只有差异字段进入 service。
+  - 若发现某个新 service 接近 700+ 行，先拆 catalog/helper，再继续功能版本。
 
 Java：
 - Java v144 已被 Node v310 明确请求；只做只读 echo，可顺手延续 catalog/template 化，但不要把大型质量重构和 echo 混成不可审计版本。
+- Java 后续质量优化参考项必须明确列出，不能只写泛化描述：
+  - OpsEvidenceService.java 继续 service/catalog 化，防止反向膨胀。
+  - ResponseRecords.java 继续拆分，避免长期停留在 1200+ 行级别。
+  - FailedEventMessageService.java 可按职责拆分，目标是降低单文件维护压力。
+  - Java CI 补 jacoco gate 是中优先级工程化项，可在专门 Java 质量版本推进。
+  - 以上优化属于 Java 项目内部串行事项，不能和同一个 Java 原子版本并行；若 Java v144 正在做 echo，则质量优化放到 Java 后续版本。
 
 mini-kv：
 - mini-kv v137 已被 Node v310 明确请求；只做只读 non-participation receipt，不新增写命令，不做恢复/compact，不承载权威状态。
+- 当前截图建议未点名 mini-kv 新质量短板；mini-kv 后续仍维持低风险小步优化，若新增质量项必须写清楚文件、风险和是否影响 Node 消费证据。
 
 并行规则：
 - 同一项目内部版本必须串行。
 - Node v310 已完成。
 - Java v144 与 mini-kv v137 已被 Node v310 请求，互不依赖，推荐并行。
 - Node v311 必须等待 Java v144 + mini-kv v137 完成，不能抢跑。
+- 质量优化并行只允许跨项目并行，例如 Java 质量版本可以与 mini-kv 独立版本并行；同一个 Java 仓库内部不能把 v144 echo 和质量拆分当作并行任务。
 ```
 
 ## 暂停条件
