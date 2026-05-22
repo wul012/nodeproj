@@ -1,0 +1,322 @@
+{
+  "service": "orderops-node",
+  "title": "Managed audit manual sandbox connection credential resolver human approval artifact review post-echo decision gate",
+  "generatedAt": "2026-05-22T05:50:29.501Z",
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate.v1",
+  "decisionGateState": "human-approval-artifact-review-post-echo-decision-gate-ready",
+  "runtimeShellChainDecision": "require-explicit-approval-prerequisites-before-runtime-shell",
+  "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate": true,
+  "readOnlyDecisionGate": true,
+  "humanApprovalArtifactReviewPostEchoDecisionGateOnly": true,
+  "consumesNodeV309HumanApprovalArtifactReviewUpstreamEchoVerification": true,
+  "readyForParallelJavaV144MiniKvV137EchoRequest": true,
+  "readyForNodeV311PostEchoDecisionUpstreamEchoVerification": false,
+  "readyForDisabledRuntimeShellImplementation": false,
+  "readyForDisabledRuntimeShellInvocation": false,
+  "readyForManagedAuditResolverImplementation": false,
+  "readyForManagedAuditSandboxAdapterConnection": false,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "runtimeShellImplemented": false,
+  "runtimeShellEnabled": false,
+  "runtimeShellInvocationAllowed": false,
+  "realResolverImplementationAllowed": false,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "readsManagedAuditCredential": false,
+  "storesManagedAuditCredential": false,
+  "credentialValueRead": false,
+  "credentialValueProvided": false,
+  "rawEndpointUrlParsed": false,
+  "rawEndpointUrlRendered": false,
+  "externalRequestSent": false,
+  "secretProviderInstantiated": false,
+  "resolverClientInstantiated": false,
+  "fakeSecretProviderInstantiated": false,
+  "fakeResolverClientInstantiated": false,
+  "schemaMigrationExecuted": false,
+  "approvalLedgerWritten": false,
+  "automaticUpstreamStart": false,
+  "sourceNodeV309": {
+    "sourceVersion": "Node v309",
+    "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification.v1",
+    "verificationState": "human-approval-artifact-review-upstream-echo-verification-ready",
+    "readyForHumanApprovalArtifactReviewUpstreamEchoVerification": true,
+    "readOnlyUpstreamEchoVerification": true,
+    "activeNodeVerificationVersion": "Node v309",
+    "verificationDigest": "b306972aeab587fff6905759ad0fa2968af235cb13f09063c1c6c3af14e7913d",
+    "verificationMode": "human-approval-artifact-review-upstream-echo-verification-only",
+    "sourceSpan": "Node v308 + Java v143 + mini-kv v136",
+    "sourceNodeV308Ready": true,
+    "javaV143EchoReady": true,
+    "miniKvV136ReceiptReady": true,
+    "upstreamEchoAligned": true,
+    "reviewPacketContractAligned": true,
+    "sideEffectBoundariesAligned": true,
+    "implementationStillBlocked": true,
+    "sourceNodeV308ReviewPacketDigest": "b0dda954c509337c96a645c177be521d0a200d8f8e6d52081ed8c0df9a43ccf3",
+    "sourceNodeV308RequiredFieldCount": 9,
+    "sourceNodeV308ProhibitedFieldCount": 9,
+    "sourceNodeV308RejectionReasonCount": 13,
+    "sourceNodeV308MissingFieldCheckCount": 9,
+    "sourceNodeV308NoGoBoundaryCount": 12,
+    "sourceNodeV308UpstreamEchoRequestCount": 2,
+    "sourceChecks": {
+      "sourceNodeV308Ready": true,
+      "sourceNodeV308RequestsParallelEcho": true,
+      "sourceNodeV308ReviewPacketContractComplete": true,
+      "sourceNodeV308KeepsRuntimeBlocked": true,
+      "sourceNodeV308KeepsSideEffectsClosed": true,
+      "javaV143EvidencePresent": true,
+      "javaV143EchoesNodeV308Packet": true,
+      "javaV143ReadyForNodeV309": true,
+      "javaV143ReviewPacketContractEchoed": true,
+      "javaV143KeepsRuntimeBlocked": true,
+      "miniKvV136EvidencePresent": true,
+      "miniKvV136EchoesNodeV308Packet": true,
+      "miniKvV136ReadyForNodeV309": true,
+      "miniKvV136ReviewPacketContractEchoed": true,
+      "miniKvV136KeepsRuntimeBlocked": true,
+      "upstreamEchoesAligned": true,
+      "reviewPacketContractAligned": true,
+      "sideEffectBoundariesAligned": true,
+      "upstreamProbesStillDisabled": true,
+      "upstreamActionsStillDisabled": true,
+      "productionAuditStillBlocked": true,
+      "productionWindowStillBlocked": true,
+      "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification": true
+    },
+    "sourceSummary": {
+      "checkCount": 23,
+      "passedCheckCount": 23,
+      "sourceNodeV308CheckCount": 18,
+      "sourceNodeV308PassedCheckCount": 18,
+      "javaEvidenceFileCount": 4,
+      "javaMatchedSnippetCount": 27,
+      "miniKvEvidenceFileCount": 3,
+      "miniKvMatchedSnippetCount": 25,
+      "requiredFieldCount": 9,
+      "prohibitedFieldCount": 9,
+      "rejectionReasonCount": 13,
+      "missingFieldCheckCount": 9,
+      "noGoBoundaryCount": 12,
+      "upstreamEchoRequestCount": 2,
+      "productionBlockerCount": 0,
+      "warningCount": 1,
+      "recommendationCount": 2
+    },
+    "runtimeShellImplemented": false,
+    "runtimeShellInvocationAllowed": false,
+    "executionAllowed": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "externalRequestSent": false,
+    "schemaMigrationExecuted": false,
+    "approvalLedgerWritten": false,
+    "automaticUpstreamStart": false
+  },
+  "decisionGate": {
+    "decisionDigest": "91c0927b63fee6dd0fb44e27cd82c7f700ceeeb4cef750606777bd4d3436102c",
+    "gateMode": "human-approval-artifact-review-post-echo-decision-gate-only",
+    "decisionScope": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review",
+    "sourceSpan": "Node v308 + Java v143 + mini-kv v136 + Node v309",
+    "decision": "continue-only-as-blocked-post-echo-prerequisite-review",
+    "decisionReason": "Node v309 aligned Java v143 and mini-kv v136 with the Node v308 review packet, but it did not provide a signed artifact instance, credential-handle approval, endpoint allowlist approval, no-network safety evidence, abort semantics, or upstream echo of this decision gate.",
+    "selectedPath": "request-read-only-upstream-decision-echo-before-any-runtime-shell",
+    "allowsParallelJavaV144MiniKvV137EchoRequest": true,
+    "allowsNodeV311BeforeUpstreamEcho": false,
+    "allowsDisabledRuntimeShellImplementation": false,
+    "allowsDisabledRuntimeShellInvocation": false,
+    "allowsRealResolverImplementation": false,
+    "allowsSecretProviderInstantiation": false,
+    "allowsResolverClientInstantiation": false,
+    "allowsCredentialValueRead": false,
+    "allowsRawEndpointUrlParse": false,
+    "allowsExternalRequest": false,
+    "allowsManagedAuditConnection": false,
+    "allowsSchemaMigration": false,
+    "allowsApprovalLedgerWrite": false,
+    "allowsAutomaticUpstreamStart": false,
+    "prerequisiteCount": 6,
+    "missingPrerequisiteCount": 6,
+    "noGoConditionCount": 9,
+    "requiredPrerequisites": [
+      {
+        "id": "signed-human-approval-artifact",
+        "label": "Signed human approval artifact instance",
+        "currentEvidence": "missing: v308 defined the review packet shape, but no signed artifact instance is present",
+        "status": "documented-missing",
+        "requiredBeforeRuntimeShell": true
+      },
+      {
+        "id": "credential-handle-approval",
+        "label": "Credential handle approval attestation",
+        "currentEvidence": "missing: credential handle review status is contract-only; no approval attestation is present",
+        "status": "documented-missing",
+        "requiredBeforeRuntimeShell": true
+      },
+      {
+        "id": "endpoint-handle-allowlist-approval",
+        "label": "Endpoint handle allowlist approval",
+        "currentEvidence": "missing: endpoint handle allowlist review remains a required artifact field",
+        "status": "documented-missing",
+        "requiredBeforeRuntimeShell": true
+      },
+      {
+        "id": "no-network-safety-fixture",
+        "label": "No-network safety fixture",
+        "currentEvidence": "missing: no fixture proves the future runtime path refuses HTTP/TCP before approval",
+        "status": "documented-missing",
+        "requiredBeforeRuntimeShell": true
+      },
+      {
+        "id": "abort-rollback-semantics",
+        "label": "Manual abort and rollback semantics",
+        "currentEvidence": "missing: abort and rollback semantics have not been rehearsed for a runtime shell path",
+        "status": "documented-missing",
+        "requiredBeforeRuntimeShell": true
+      },
+      {
+        "id": "java-mini-kv-decision-echo",
+        "label": "Java v144 + mini-kv v137 decision echo",
+        "currentEvidence": "missing: upstreams have not echoed the v310 post-echo decision gate yet",
+        "status": "documented-missing",
+        "requiredBeforeRuntimeShell": true
+      }
+    ],
+    "explicitNoGoConditions": [
+      {
+        "code": "RUNTIME_SHELL_IMPLEMENTATION_REQUESTED",
+        "condition": "Any next step asks Node to implement runtime shell code.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "RUNTIME_SHELL_INVOCATION_REQUESTED",
+        "condition": "Any next step asks Node to invoke a runtime shell.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "CREDENTIAL_VALUE_READ_REQUESTED",
+        "condition": "Any next step asks Node, Java, or mini-kv to read credential values.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "RAW_ENDPOINT_URL_PARSE_REQUESTED",
+        "condition": "Any next step asks Node to parse or render a raw endpoint URL.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "PROVIDER_CLIENT_INSTANTIATION_REQUESTED",
+        "condition": "Any next step asks Node to instantiate providers or resolver clients.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "EXTERNAL_REQUEST_REQUESTED",
+        "condition": "Any next step asks Node to send HTTP/TCP to managed audit.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "LEDGER_OR_SCHEMA_WRITE_REQUESTED",
+        "condition": "Any next step asks Java or Node to write ledger/schema state.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "MINIKV_WRITE_OR_AUTHORITY_REQUESTED",
+        "condition": "Any next step asks mini-kv to run LOAD/COMPACT/RESTORE/SETNXEX or become authority.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      },
+      {
+        "code": "AUTOMATIC_UPSTREAM_START_REQUESTED",
+        "condition": "Any next step asks Node to automatically start Java, mini-kv, or external audit services.",
+        "action": "pause-and-do-not-implement-runtime-shell"
+      }
+    ],
+    "necessityProof": {
+      "blockerResolved": "v309 aligned the Java v143 and mini-kv v136 echoes, but it did not decide whether post-echo work may continue or which approval prerequisites remain missing.",
+      "consumer": "Java v144 and mini-kv v137, then Node v311",
+      "whyV309CannotBeReused": "v309 is an upstream echo verification only; it proves alignment but does not publish a decision gate that upstreams can echo before any later runtime-shell discussion.",
+      "existingReportReuseDecision": "Reuse v309 as source evidence, but create v310 as the minimal decision layer that names the still-missing post-echo prerequisites.",
+      "stopCondition": "Stop immediately if the next step requires credential values, raw endpoint URLs, provider/client instantiation, HTTP/TCP, runtime shell implementation or invocation, ledger/schema writes, mini-kv write/admin commands, authority state, or automatic upstream start.",
+      "proofComplete": true
+    }
+  },
+  "checks": {
+    "sourceNodeV309Loaded": true,
+    "sourceNodeV309Ready": true,
+    "sourceNodeV309UpstreamEchoAligned": true,
+    "sourceNodeV309KeepsRuntimeBlocked": true,
+    "sourceNodeV309KeepsSideEffectsClosed": true,
+    "decisionSelectsPostEchoPrerequisiteGate": true,
+    "decisionGateBlocksRuntimeShell": true,
+    "decisionGateStillReadOnly": true,
+    "postEchoPrerequisitesDocumented": true,
+    "missingPrerequisitesBlockImplementation": true,
+    "necessityProofComplete": true,
+    "parallelJavaV144MiniKvV137EchoRecommended": true,
+    "upstreamProbesStillDisabled": true,
+    "upstreamActionsStillDisabled": true,
+    "productionAuditStillBlocked": true,
+    "productionWindowStillBlocked": true,
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate": true
+  },
+  "summary": {
+    "checkCount": 17,
+    "passedCheckCount": 17,
+    "sourceCheckCount": 23,
+    "sourcePassedCheckCount": 23,
+    "sourceProductionBlockerCount": 0,
+    "sourceWarningCount": 1,
+    "sourceRecommendationCount": 2,
+    "requiredFieldCount": 9,
+    "prohibitedFieldCount": 9,
+    "rejectionReasonCount": 13,
+    "missingFieldCheckCount": 9,
+    "noGoBoundaryCount": 12,
+    "upstreamEchoRequestCount": 2,
+    "prerequisiteCount": 6,
+    "missingPrerequisiteCount": 6,
+    "noGoConditionCount": 9,
+    "productionBlockerCount": 0,
+    "warningCount": 1,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "POST_ECHO_DECISION_DOES_NOT_AUTHORIZE_RUNTIME",
+      "severity": "warning",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate",
+      "message": "v310 documents missing post-echo prerequisites and recommends upstream echo only; it does not approve runtime shell implementation."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "RUN_JAVA_V144_AND_MINIKV_V137_IN_PARALLEL",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate",
+      "message": "If the chain continues, run Java v144 and mini-kv v137 in parallel as read-only echoes of this decision gate."
+    },
+    {
+      "code": "KEEP_RUNTIME_SHELL_BLOCKED",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate",
+      "message": "Keep runtime shell implementation blocked until a signed artifact instance and no-network safety evidence exist."
+    }
+  ],
+  "evidenceEndpoints": {
+    "humanApprovalArtifactReviewPostEchoDecisionGateJson": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate",
+    "humanApprovalArtifactReviewPostEchoDecisionGateMarkdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-gate?format=markdown",
+    "sourceNodeV309Json": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification",
+    "sourceNodeV309Markdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification?format=markdown",
+    "activePlan": "docs/plans2/v309-post-human-approval-artifact-review-upstream-echo-roadmap.md",
+    "recommendedParallelJavaV144": "Java v144 human approval artifact review post-echo decision gate echo",
+    "recommendedParallelMiniKvV137": "mini-kv v137 human approval artifact review post-echo decision gate non-participation receipt"
+  },
+  "nextActions": [
+    "Archive Node v310 as a post-echo decision gate, not as runtime shell approval.",
+    "If the chain continues, run Java v144 and mini-kv v137 in parallel as read-only echoes of this decision gate before Node v311.",
+    "Keep credential values, raw endpoint URLs, provider clients, HTTP/TCP, managed audit connections, schema migration, ledger writes, LOAD/COMPACT/RESTORE/SETNXEX, authority state, and auto-start blocked."
+  ]
+}
