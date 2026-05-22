@@ -1,0 +1,1 @@
+- generic [ref=e2]: "{\"error\":\"ACCESS_GUARD_UNAUTHENTICATED\",\"message\":\"Operator identity is required by access guard rehearsal enforcement.\",\"details\":{\"authMode\":\"rehearsal\",\"enforcement\":\"rehearsal\",\"policyId\":\"audit-read\",\"routeGroup\":\"audit\",\"requiredRole\":\"auditor\",\"matchedRoles\":[],\"reason\":\"missing_identity\"}}"
