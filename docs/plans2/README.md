@@ -46,6 +46,7 @@ Java v136：post-decision plan intake echo 已完成；只读回显 Node v301，
 mini-kv v133：post-decision plan intake non-participation receipt 已完成；只确认 mini-kv 不参与 runtime shell implementation/invocation。
 Node v302：echo segment catalog quality pass 已完成；只做 Node 质量优化，不消费两边新证据。
 Node v303：post-decision plan intake upstream echo verification 已完成；已消费 Node v301 + Node v302 + Java v136 + mini-kv v133。
+Node v304：runtime shell chain stop-or-prerequisite decision record 已完成；显式审批前置仍缺失，继续 blocked，不实现 runtime shell。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -75,8 +76,8 @@ Node v301：post-decision continuation plan intake。已完成；只做继续 bl
 推荐并行：Java v136 + mini-kv v133。已完成；两边互不依赖，可以并行推进。
 Node v302：echo segment catalog quality pass。已完成；只做 Node 质量优化，不消费两边新证据。
 Node v303：post-decision plan intake upstream echo verification。已完成；已等待 Java v136 + mini-kv v133 和 Node v302 完成。
-Node v304：runtime shell chain stop-or-prerequisite decision record；下一步 Node 串行版本，默认仍 blocked，不实现 runtime shell。
-推荐并行：Java v141 + mini-kv v134。仅当 Node v304 明确请求上游只读确认时推进。
+Node v304：runtime shell chain stop-or-prerequisite decision record。已完成；默认仍 blocked，不实现 runtime shell。
+推荐并行：Java v141 + mini-kv v134。Node v304 已明确请求上游只读确认；两边互不依赖，可以并行推进。
 ```
 
 ## 质量收口
@@ -104,7 +105,7 @@ Node v304：runtime shell chain stop-or-prerequisite decision record；下一步
 - Node v302 已完成 echo segment catalog quality pass，没有消费 Java v136 / mini-kv v133。
 - Node v303 必须等待 Java v136 + mini-kv v133 和 Node v302 完成。
 - Node v303 已完成，当前有效计划切换到 docs/plans2/v303-post-decision-plan-intake-upstream-echo-roadmap.md。
-- Node v304 必须先做 stop-or-prerequisite decision，不要继续无理由堆 echo。
+- Node v304 已完成 stop-or-prerequisite decision；下一步是推荐并行 Java v141 + mini-kv v134。
 - Java 后续质量优化可采纳当前短板：OpsEvidenceService catalog/service 化、VerificationHintBuilder 二次拆分；同一 Java 项目内部仍串行。
 - Node v302 已把 post-decision continuation options / necessity proof catalog 化；后续继续复用 catalog，避免第 9、10 段复制。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。

@@ -26,13 +26,14 @@ Node v303：post-decision plan intake upstream echo verification 已完成；三
    - 仍不做 runtime shell implementation，不实例化 provider/client，不读取 credential，不解析 raw endpoint，不发 HTTP/TCP。
 
 2. Node v304：runtime shell chain stop-or-prerequisite decision record。
+   - 已完成。
    - 这是 Node 串行版本，不能和 Node v303 并行。
    - 目标不是继续加 echo，而是把链条收束为二选一判断：暂停 runtime shell chain，或列出后续必须补齐的显式审批前置。
    - 必须写明：继续推进会解决哪个 blocker、谁消费、为什么不能复用 v303、何时停止。
    - 默认仍选择 blocked / no runtime implementation。
 
 3. 推荐并行：Java v141 + mini-kv v134。
-   - 只有当 Node v304 明确需要上游只读确认时才推进。
+   - Node v304 已明确需要上游只读确认；当前可以并行推进。
    - Java v141：只读 echo Node v304 的 stop/prerequisite decision；不写 ledger、不执行 SQL、不调用外部 managed audit。
    - mini-kv v134：只读 non-participation receipt；不执行 LOAD、COMPACT、RESTORE、SETNXEX，不承载 audit/order 权威状态。
    - 两者互不依赖，可以并行。
@@ -48,18 +49,18 @@ Node v303：post-decision plan intake upstream echo verification 已完成；三
 ```text
 Node：
 - v303 已完成三方 echo verification；不要再无理由新增第 4 层 echo。
-- v304 必须是收束/决策版本，不是又一个常规 summary。
+- v304 已完成收束/决策版本，不是常规 summary，也没有实现 runtime shell。
 - 新 service 继续拆成 types / renderer / service / test；若单文件明显膨胀，先拆分再新增功能。
 - 单版/单提交目标小于 3000 changed lines；超过时拆版本或拆提交。
 - 历史上游证据继续冻结最小必要文件，保证 GitHub runner fallback。
 
 Java：
 - Java v136 已完成；v137-v140 是质量优化，不是新的 runtime shell 上游依赖。
-- 若 Node v304 需要 Java v141，Java 只做只读 echo；可顺手延续 catalog/template 化，但不要把大型重构和 echo 混成一个不可审计版本。
+- Node v304 已请求 Java v141；Java 只做只读 echo，可顺手延续 catalog/template 化，但不要把大型重构和 echo 混成一个不可审计版本。
 
 mini-kv：
 - mini-kv v133 已完成；当前仍是 evidence provider / non-participation receipt，不成为 runtime shell 或 audit storage。
-- 若 Node v304 需要 mini-kv v134，mini-kv 只做只读 non-participation receipt；不新增写命令，不做恢复/compact，不承载权威状态。
+- Node v304 已请求 mini-kv v134；mini-kv 只做只读 non-participation receipt；不新增写命令，不做恢复/compact，不承载权威状态。
 
 并行规则：
 - 同一项目内部版本必须串行。
@@ -78,10 +79,10 @@ mini-kv：
 - 需要 Node 向真实 managed audit endpoint 发 HTTP/TCP 请求。
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
-- Node v304 若无法说明新 blocker、consumer、停止条件，必须停止 runtime shell 链而不是继续堆 echo。
+- Node v304 已说明新 blocker、consumer、停止条件；Java v141 / mini-kv v134 未完成时，Node v305 必须停止。
 
 ## 一句话结论
 
 ```text
-v303 已完成 post-decision plan intake 三方对齐；下一步不是继续堆 echo，而是 Node v304 做 stop-or-prerequisite decision record，把 runtime shell 链条收束到明确决策。
+v303 已完成 post-decision plan intake 三方对齐；v304 已做 stop-or-prerequisite decision record，把 runtime shell 链条收束为“显式审批前置未满足，继续 blocked”。下一步推荐并行 Java v141 + mini-kv v134，只读回显 v304。
 ```
