@@ -39,9 +39,11 @@ Node v303：post-decision plan intake upstream echo verification 已完成；三
    - 两者互不依赖，可以并行。
 
 4. Node v305：stop/prerequisite upstream echo verification。
+   - 已完成。
    - 只有 Java v141 + mini-kv v134 都完成后才推进。
    - 消费两边只读 echo，确认三方对 runtime shell chain 是否停止或转入审批前置的一致性。
    - 不实现 runtime shell。
+   - 本计划到 v305 收口，后续版本另起计划，不在本文件继续追加重合版本。
 ```
 
 ## 显式质量优化项
@@ -80,9 +82,10 @@ mini-kv：
 - 需要 Java 写 approval ledger、执行 SQL、deployment 或 rollback。
 - 需要 mini-kv 执行 LOAD、COMPACT、SETNXEX、RESTORE 或承载 audit/order 权威状态。
 - Node v304 已说明新 blocker、consumer、停止条件；Java v141 / mini-kv v134 未完成时，Node v305 必须停止。
+- Node v305 已完成 Java v141 + mini-kv v134 上游 echo verification；本计划不再追加新版本。
 
 ## 一句话结论
 
 ```text
-v303 已完成 post-decision plan intake 三方对齐；v304 已做 stop-or-prerequisite decision record，把 runtime shell 链条收束为“显式审批前置未满足，继续 blocked”。下一步推荐并行 Java v141 + mini-kv v134，只读回显 v304。
+v303 已完成 post-decision plan intake 三方对齐；v304 已做 stop-or-prerequisite decision record，把 runtime shell 链条收束为“显式审批前置未满足，继续 blocked”；Java v141 + mini-kv v134 已并行完成只读回显；Node v305 已完成三方 echo verification。本计划收口。
 ```
