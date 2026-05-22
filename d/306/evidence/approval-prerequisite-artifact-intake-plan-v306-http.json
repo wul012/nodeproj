@@ -1,0 +1,431 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Managed audit manual sandbox connection credential resolver approval prerequisite artifact intake plan",
+    "generatedAt":  "2026-05-22T01:50:27.692Z",
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-intake-plan.v1",
+    "planState":  "approval-prerequisite-artifact-intake-plan-ready",
+    "runtimeShellChainDecision":  "require-explicit-approval-prerequisites-before-runtime-shell",
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactIntakePlan":  true,
+    "approvalPrerequisiteArtifactIntakePlanOnly":  true,
+    "readOnlyArtifactContract":  true,
+    "consumesNodeV305StopPrerequisiteUpstreamEchoVerification":  true,
+    "sourceNodeVerificationVersion":  "Node v305",
+    "nextJavaVersion":  "Java v142",
+    "nextMiniKvVersion":  "mini-kv v135",
+    "nextNodeVerificationVersion":  "Node v307",
+    "readyForParallelJavaV142MiniKvV135Echo":  true,
+    "readyForNodeV307BeforeUpstreamEcho":  false,
+    "readyForDisabledRuntimeShellImplementation":  false,
+    "readyForDisabledRuntimeShellInvocation":  false,
+    "readyForManagedAuditResolverImplementation":  false,
+    "readyForManagedAuditSandboxAdapterConnection":  false,
+    "readyForProductionAudit":  false,
+    "readyForProductionWindow":  false,
+    "readyForProductionOperations":  false,
+    "runtimeShellImplemented":  false,
+    "runtimeShellEnabled":  false,
+    "runtimeShellInvocationAllowed":  false,
+    "realResolverImplementationAllowed":  false,
+    "executionAllowed":  false,
+    "connectsManagedAudit":  false,
+    "readsManagedAuditCredential":  false,
+    "storesManagedAuditCredential":  false,
+    "credentialValueRead":  false,
+    "credentialValueProvided":  false,
+    "rawEndpointUrlParsed":  false,
+    "rawEndpointUrlRendered":  false,
+    "externalRequestSent":  false,
+    "secretProviderInstantiated":  false,
+    "resolverClientInstantiated":  false,
+    "fakeSecretProviderInstantiated":  false,
+    "fakeResolverClientInstantiated":  false,
+    "schemaMigrationExecuted":  false,
+    "approvalLedgerWritten":  false,
+    "automaticUpstreamStart":  false,
+    "sourceNodeV305":  {
+                           "sourceVersion":  "Node v305",
+                           "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-chain-stop-prerequisite-upstream-echo-verification.v1",
+                           "verificationState":  "runtime-shell-chain-stop-prerequisite-upstream-echo-verification-ready",
+                           "readyForUpstreamEchoVerification":  true,
+                           "verificationDigest":  "75278ffa6fe777a5936b47382e49d4524dbc2bd6eec893f2b002c6323e47b5bb",
+                           "sourceSpan":  "Node v304 + Java v141 + mini-kv v134",
+                           "upstreamEchoAligned":  true,
+                           "prerequisiteGateStillBlocked":  true,
+                           "sideEffectBoundariesAligned":  true,
+                           "sourceNodeV304DecisionDigest":  "9212d0b804fdc1eda9098ac70d2441681730a98ff736776859811df9e288a654",
+                           "prerequisiteCount":  6,
+                           "missingRuntimePrerequisiteCount":  6,
+                           "noGoConditionCount":  8,
+                           "productionBlockerCount":  0,
+                           "warningCount":  1,
+                           "recommendationCount":  2,
+                           "runtimeShellImplemented":  false,
+                           "runtimeShellInvocationAllowed":  false,
+                           "executionAllowed":  false,
+                           "connectsManagedAudit":  false,
+                           "credentialValueRead":  false,
+                           "rawEndpointUrlParsed":  false,
+                           "externalRequestSent":  false,
+                           "schemaMigrationExecuted":  false,
+                           "approvalLedgerWritten":  false,
+                           "automaticUpstreamStart":  false
+                       },
+    "artifactIntakePlan":  {
+                               "artifactDigest":  "72f3e90606e40a978611fa4b8596c76c3ebc468124c4ead7bb9c4833130ee9c2",
+                               "artifactName":  "managed-audit-runtime-shell-approval-prerequisite-artifact",
+                               "artifactVersion":  "approval-prerequisite-artifact.v1",
+                               "intakeMode":  "approval-prerequisite-artifact-intake-plan-only",
+                               "sourceSpan":  "Node v305 + planned Java v142 + planned mini-kv v135",
+                               "purpose":  "Capture non-secret approval prerequisite handles and review statuses required before any managed audit credential resolver runtime shell implementation can be discussed.",
+                               "requiredFields":  [
+                                                      {
+                                                          "id":  "artifact_id",
+                                                          "label":  "Artifact id",
+                                                          "required":  true,
+                                                          "source":  "operator",
+                                                          "acceptedShape":  "stable non-secret id",
+                                                          "purpose":  "Trace this intake artifact across Node, Java, and mini-kv evidence."
+                                                      },
+                                                      {
+                                                          "id":  "source_node_verification",
+                                                          "label":  "Source Node verification",
+                                                          "required":  true,
+                                                          "source":  "node-v305",
+                                                          "acceptedShape":  "Node v305 digest + route reference",
+                                                          "purpose":  "Bind the artifact to the v305 upstream echo verification."
+                                                      },
+                                                      {
+                                                          "id":  "operator_approval_reference",
+                                                          "label":  "Operator approval reference",
+                                                          "required":  true,
+                                                          "source":  "operator",
+                                                          "acceptedShape":  "non-secret approval ticket or review id",
+                                                          "purpose":  "Prove a human approval review exists before any runtime shell step."
+                                                      },
+                                                      {
+                                                          "id":  "credential_handle_review_status",
+                                                          "label":  "Credential handle review status",
+                                                          "required":  true,
+                                                          "source":  "audit-process",
+                                                          "acceptedShape":  "credential handle + status, no value",
+                                                          "purpose":  "Show that only a credential handle was reviewed."
+                                                      },
+                                                      {
+                                                          "id":  "endpoint_handle_allowlist_review_status",
+                                                          "label":  "Endpoint handle allowlist review status",
+                                                          "required":  true,
+                                                          "source":  "audit-process",
+                                                          "acceptedShape":  "endpoint handle + allowlist status, no raw URL",
+                                                          "purpose":  "Show that only an endpoint handle was reviewed."
+                                                      },
+                                                      {
+                                                          "id":  "no_network_safety_test_reference",
+                                                          "label":  "No-network safety test reference",
+                                                          "required":  true,
+                                                          "source":  "node-v305",
+                                                          "acceptedShape":  "test or report id",
+                                                          "purpose":  "Prove the intake remains offline and does not send HTTP/TCP."
+                                                      },
+                                                      {
+                                                          "id":  "manual_abort_semantics_reference",
+                                                          "label":  "Manual abort semantics reference",
+                                                          "required":  true,
+                                                          "source":  "operator",
+                                                          "acceptedShape":  "runbook or review id",
+                                                          "purpose":  "Document how an operator stops before any runtime shell invocation."
+                                                      },
+                                                      {
+                                                          "id":  "rollback_semantics_reference",
+                                                          "label":  "Rollback semantics reference",
+                                                          "required":  true,
+                                                          "source":  "operator",
+                                                          "acceptedShape":  "runbook or review id",
+                                                          "purpose":  "Document rollback expectations without executing deployment or rollback."
+                                                      },
+                                                      {
+                                                          "id":  "java_echo_required_version",
+                                                          "label":  "Java echo required version",
+                                                          "required":  true,
+                                                          "source":  "java-v142",
+                                                          "acceptedShape":  "Java v142 receipt reference",
+                                                          "purpose":  "Tell Java exactly which read-only artifact contract to echo."
+                                                      },
+                                                      {
+                                                          "id":  "mini_kv_receipt_required_version",
+                                                          "label":  "mini-kv receipt required version",
+                                                          "required":  true,
+                                                          "source":  "mini-kv-v135",
+                                                          "acceptedShape":  "mini-kv v135 receipt reference",
+                                                          "purpose":  "Tell mini-kv exactly which non-participation receipt to emit."
+                                                      },
+                                                      {
+                                                          "id":  "created_by_operator_identity",
+                                                          "label":  "Created by operator identity",
+                                                          "required":  true,
+                                                          "source":  "operator",
+                                                          "acceptedShape":  "operator id or identity handle",
+                                                          "purpose":  "Bind the artifact to a non-secret operator identity."
+                                                      },
+                                                      {
+                                                          "id":  "audit_correlation_id",
+                                                          "label":  "Audit correlation id",
+                                                          "required":  true,
+                                                          "source":  "audit-process",
+                                                          "acceptedShape":  "stable correlation id",
+                                                          "purpose":  "Link all later evidence without embedding secret material."
+                                                      }
+                                                  ],
+                               "prohibitedFields":  [
+                                                        {
+                                                            "id":  "credential_value",
+                                                            "reason":  "Credential values are never accepted by Node, Java, or mini-kv in this stage.",
+                                                            "rejectionCode":  "CREDENTIAL_VALUE_PRESENT"
+                                                        },
+                                                        {
+                                                            "id":  "raw_endpoint_url",
+                                                            "reason":  "Raw endpoint URLs stay outside the artifact; only reviewed endpoint handles are allowed.",
+                                                            "rejectionCode":  "RAW_ENDPOINT_URL_PRESENT"
+                                                        },
+                                                        {
+                                                            "id":  "secret_provider_config",
+                                                            "reason":  "Secret provider configuration would imply implementation, not intake planning.",
+                                                            "rejectionCode":  "PROVIDER_OR_CLIENT_CONFIG_PRESENT"
+                                                        },
+                                                        {
+                                                            "id":  "resolver_client_config",
+                                                            "reason":  "Resolver client configuration would imply implementation, not intake planning.",
+                                                            "rejectionCode":  "PROVIDER_OR_CLIENT_CONFIG_PRESENT"
+                                                        },
+                                                        {
+                                                            "id":  "external_request_payload",
+                                                            "reason":  "External HTTP/TCP payloads are forbidden before a later explicit connection version.",
+                                                            "rejectionCode":  "EXTERNAL_REQUEST_REQUESTED"
+                                                        },
+                                                        {
+                                                            "id":  "approval_ledger_mutation",
+                                                            "reason":  "Approval ledger writes are Java-side production behavior and are blocked here.",
+                                                            "rejectionCode":  "WRITE_OR_SCHEMA_MUTATION_REQUESTED"
+                                                        },
+                                                        {
+                                                            "id":  "schema_migration_sql",
+                                                            "reason":  "Schema migration SQL is blocked in this artifact intake plan.",
+                                                            "rejectionCode":  "WRITE_OR_SCHEMA_MUTATION_REQUESTED"
+                                                        },
+                                                        {
+                                                            "id":  "mini_kv_write_command",
+                                                            "reason":  "mini-kv must remain non-authoritative and read-only.",
+                                                            "rejectionCode":  "MINI_KV_WRITE_OR_AUTHORITY_REQUESTED"
+                                                        }
+                                                    ],
+                               "rejectionReasons":  [
+                                                        {
+                                                            "code":  "MISSING_OPERATOR_APPROVAL_REFERENCE",
+                                                            "source":  "operator-approval",
+                                                            "message":  "Reject artifacts without a non-secret operator approval reference."
+                                                        },
+                                                        {
+                                                            "code":  "CREDENTIAL_VALUE_PRESENT",
+                                                            "source":  "credential-boundary",
+                                                            "message":  "Reject artifacts that include credential values instead of handles."
+                                                        },
+                                                        {
+                                                            "code":  "RAW_ENDPOINT_URL_PRESENT",
+                                                            "source":  "endpoint-boundary",
+                                                            "message":  "Reject artifacts that include raw endpoint URLs instead of endpoint handles."
+                                                        },
+                                                        {
+                                                            "code":  "NO_NETWORK_SAFETY_TEST_MISSING",
+                                                            "source":  "runtime-boundary",
+                                                            "message":  "Reject artifacts that do not cite a no-network safety check."
+                                                        },
+                                                        {
+                                                            "code":  "ABORT_ROLLBACK_SEMANTICS_MISSING",
+                                                            "source":  "runtime-boundary",
+                                                            "message":  "Reject artifacts missing abort or rollback semantics."
+                                                        },
+                                                        {
+                                                            "code":  "JAVA_OR_MINIKV_ECHO_MISSING",
+                                                            "source":  "upstream-echo",
+                                                            "message":  "Reject completion claims until Java v142 and mini-kv v135 echo this contract."
+                                                        },
+                                                        {
+                                                            "code":  "RUNTIME_SHELL_IMPLEMENTATION_REQUESTED",
+                                                            "source":  "runtime-boundary",
+                                                            "message":  "Reject requests to implement, enable, or invoke a runtime shell."
+                                                        },
+                                                        {
+                                                            "code":  "EXTERNAL_REQUEST_REQUESTED",
+                                                            "source":  "runtime-boundary",
+                                                            "message":  "Reject requests to send HTTP/TCP or instantiate providers/clients."
+                                                        },
+                                                        {
+                                                            "code":  "WRITE_OR_SCHEMA_MUTATION_REQUESTED",
+                                                            "source":  "write-boundary",
+                                                            "message":  "Reject ledger writes, SQL migrations, deployments, rollbacks, and mini-kv write/admin commands."
+                                                        }
+                                                    ],
+                               "noGoBoundaries":  [
+                                                      {
+                                                          "id":  "runtime_shell_implemented",
+                                                          "allowed":  false,
+                                                          "message":  "No runtime shell implementation belongs in v306."
+                                                      },
+                                                      {
+                                                          "id":  "runtime_shell_invocation_allowed",
+                                                          "allowed":  false,
+                                                          "message":  "No runtime shell invocation is allowed."
+                                                      },
+                                                      {
+                                                          "id":  "execution_allowed",
+                                                          "allowed":  false,
+                                                          "message":  "No execution path is opened by an intake plan."
+                                                      },
+                                                      {
+                                                          "id":  "connects_managed_audit",
+                                                          "allowed":  false,
+                                                          "message":  "No managed audit connection is opened."
+                                                      },
+                                                      {
+                                                          "id":  "credential_value_read",
+                                                          "allowed":  false,
+                                                          "message":  "No credential value is read or stored."
+                                                      },
+                                                      {
+                                                          "id":  "raw_endpoint_url_parsed",
+                                                          "allowed":  false,
+                                                          "message":  "No raw endpoint URL is parsed or rendered."
+                                                      },
+                                                      {
+                                                          "id":  "external_request_sent",
+                                                          "allowed":  false,
+                                                          "message":  "No HTTP/TCP request is sent."
+                                                      },
+                                                      {
+                                                          "id":  "provider_or_client_instantiated",
+                                                          "allowed":  false,
+                                                          "message":  "No secret provider, resolver client, fake provider, or fake client is instantiated."
+                                                      },
+                                                      {
+                                                          "id":  "schema_migration_executed",
+                                                          "allowed":  false,
+                                                          "message":  "No schema migration is executed."
+                                                      },
+                                                      {
+                                                          "id":  "approval_ledger_written",
+                                                          "allowed":  false,
+                                                          "message":  "No approval ledger write is performed."
+                                                      },
+                                                      {
+                                                          "id":  "mini_kv_write_or_authority",
+                                                          "allowed":  false,
+                                                          "message":  "mini-kv remains read-only and non-authoritative."
+                                                      },
+                                                      {
+                                                          "id":  "automatic_upstream_start",
+                                                          "allowed":  false,
+                                                          "message":  "Node does not start Java, mini-kv, or external audit services."
+                                                      }
+                                                  ],
+                               "upstreamEchoRequests":  [
+                                                            {
+                                                                "project":  "java",
+                                                                "version":  "Java v142",
+                                                                "requestedEcho":  "Echo the v306 artifact schema, required fields, rejection reasons, and no-go boundaries without ledger writes, SQL, deployment, rollback, or external managed audit calls.",
+                                                                "canRunInParallel":  true,
+                                                                "mustRemainReadOnly":  true
+                                                            },
+                                                            {
+                                                                "project":  "mini-kv",
+                                                                "version":  "mini-kv v135",
+                                                                "requestedEcho":  "Emit a read-only non-participation receipt for the v306 artifact schema without LOAD, COMPACT, RESTORE, SETNXEX, writes, or authority claims.",
+                                                                "canRunInParallel":  true,
+                                                                "mustRemainReadOnly":  true
+                                                            }
+                                                        ],
+                               "requiredFieldCount":  12,
+                               "prohibitedFieldCount":  8,
+                               "rejectionReasonCount":  9,
+                               "noGoBoundaryCount":  12,
+                               "javaMiniKvEchoCanRunInParallel":  true,
+                               "implementationStillBlocked":  true
+                           },
+    "necessityProof":  {
+                           "proofComplete":  true,
+                           "blockerResolved":  "v305 proved the blocked prerequisite decision is echoed upstream, but the six documented-missing prerequisites still lack a concrete non-secret artifact shape.",
+                           "consumer":  "Java v142 + mini-kv v135, then Node v307",
+                           "whyV305CannotBeReused":  "v305 verifies Java v141 and mini-kv v134 echoed Node v304; it does not define required artifact fields, prohibited fields, rejection reasons, or no-go boundaries for the next intake.",
+                           "existingReportReuseDecision":  "Reuse v305 only as source evidence and create v306 as the smallest artifact intake contract consumed by Java v142, mini-kv v135, and Node v307.",
+                           "stopCondition":  "Stop if the next step asks for credential values, raw endpoint URLs, provider/client configuration, HTTP/TCP, runtime shell implementation or invocation, ledger writes, schema migration, mini-kv writes/admin commands, or automatic upstream start."
+                       },
+    "checks":  {
+                   "sourceNodeV305Ready":  true,
+                   "sourceNodeV305UpstreamEchoAligned":  true,
+                   "sourceNodeV305PrerequisiteGateBlocked":  true,
+                   "sourceNodeV305SideEffectsClosed":  true,
+                   "requiredArtifactFieldsDocumented":  true,
+                   "prohibitedArtifactFieldsDocumented":  true,
+                   "rejectionReasonsDocumented":  true,
+                   "noGoBoundariesClosed":  true,
+                   "necessityProofDocumented":  true,
+                   "javaMiniKvEchoRequestExplicitlyParallel":  true,
+                   "upstreamProbesStillDisabled":  true,
+                   "upstreamActionsStillDisabled":  true,
+                   "runtimeShellImplementationStillBlocked":  true,
+                   "productionAuditStillBlocked":  true,
+                   "productionWindowStillBlocked":  true,
+                   "readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactIntakePlan":  true
+               },
+    "summary":  {
+                    "checkCount":  16,
+                    "passedCheckCount":  16,
+                    "prerequisiteCountFromNodeV305":  6,
+                    "missingRuntimePrerequisiteCountFromNodeV305":  6,
+                    "noGoConditionCountFromNodeV305":  8,
+                    "requiredFieldCount":  12,
+                    "prohibitedFieldCount":  8,
+                    "rejectionReasonCount":  9,
+                    "noGoBoundaryCount":  12,
+                    "upstreamEchoRequestCount":  2,
+                    "productionBlockerCount":  0,
+                    "warningCount":  1,
+                    "recommendationCount":  2
+                },
+    "productionBlockers":  [
+
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "ARTIFACT_INTAKE_PLAN_DOES_NOT_AUTHORIZE_RUNTIME",
+                         "severity":  "warning",
+                         "source":  "managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-intake-plan",
+                         "message":  "v306 defines the non-secret approval prerequisite artifact contract; it does not implement, enable, or invoke a runtime shell."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "RUN_JAVA_V142_AND_MINI_KV_V135_IN_PARALLEL_AFTER_V306",
+                                "severity":  "recommendation",
+                                "source":  "managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-intake-plan",
+                                "message":  "After v306 is archived, Java v142 and mini-kv v135 can independently echo the same artifact contract because they do not depend on each other."
+                            },
+                            {
+                                "code":  "VERIFY_ARTIFACT_ECHO_WITH_NODE_V307",
+                                "severity":  "recommendation",
+                                "source":  "managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-intake-plan",
+                                "message":  "Node v307 should wait for both upstream echoes and verify the required fields, prohibited fields, rejection reasons, and no-go boundaries."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "approvalPrerequisiteArtifactIntakePlanJson":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-intake-plan",
+                              "approvalPrerequisiteArtifactIntakePlanMarkdown":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-intake-plan?format=markdown",
+                              "sourceNodeV305Json":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-chain-stop-prerequisite-upstream-echo-verification",
+                              "sourceNodeV305Markdown":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-runtime-shell-chain-stop-prerequisite-upstream-echo-verification?format=markdown",
+                              "activePlan":  "docs/plans2/v305-post-stop-prerequisite-upstream-echo-roadmap.md"
+                          },
+    "nextActions":  [
+                        "Archive Node v306 as the artifact intake contract before any runtime shell implementation discussion.",
+                        "After Node v306 is complete, Java v142 and mini-kv v135 can run in parallel because they only echo the same read-only artifact contract.",
+                        "Node v307 must wait for both Java v142 and mini-kv v135, then verify their echo against this artifact intake plan.",
+                        "Stop immediately if a requested artifact includes credential values, raw endpoint URLs, provider/client configuration, HTTP/TCP calls, ledger writes, schema migration, mini-kv writes/admin commands, or automatic upstream start."
+                    ]
+}

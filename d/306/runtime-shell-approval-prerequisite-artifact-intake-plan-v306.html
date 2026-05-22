@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Node v306 Approval Prerequisite Artifact Intake Plan</title>
+  <style>
+    :root { color-scheme: light; --ink:#111827; --muted:#4b5563; --line:#d1d5db; --panel:#f8fafc; --ok:#047857; --warn:#b45309; --blue:#1d4ed8; }
+    body { margin:0; font-family: Inter, Segoe UI, Arial, sans-serif; color:var(--ink); background:#fff; }
+    main { max-width: 1120px; margin: 0 auto; padding: 36px 28px 44px; }
+    h1 { margin:0 0 8px; font-size: 34px; line-height:1.12; letter-spacing:0; }
+    p { color:var(--muted); line-height:1.62; }
+    .meta { display:flex; flex-wrap:wrap; gap:10px; margin: 18px 0 26px; }
+    .pill { border:1px solid var(--line); border-radius:999px; padding:7px 11px; font-size:13px; background:#fff; }
+    .grid { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:14px; margin: 20px 0 24px; }
+    section { border-top: 1px solid var(--line); padding-top: 20px; margin-top: 24px; }
+    .panel { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:16px; min-height: 116px; }
+    .label { font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; }
+    .value { font-size:24px; font-weight:700; margin-top:8px; }
+    .ok { color:var(--ok); } .warn { color:var(--warn); } .blue { color:var(--blue); }
+    table { width:100%; border-collapse: collapse; margin-top: 12px; font-size:14px; }
+    th, td { border:1px solid var(--line); padding:10px; vertical-align:top; text-align:left; }
+    th { background:#f3f4f6; }
+    code { font-family: Consolas, ui-monospace, monospace; font-size: 13px; }
+    .cols { display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    ul { padding-left: 20px; line-height:1.7; }
+    @media (max-width: 820px) { .grid, .cols { grid-template-columns:1fr; } main { padding:24px 16px 34px; } }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v306: approval prerequisite artifact intake plan</h1>
+    <p>v306 consumes Node v305's upstream echo verification and turns the six documented-missing prerequisites into a concrete non-secret artifact contract. It remains read-only and keeps runtime shell implementation, credential values, raw endpoint URLs, provider/client wiring, HTTP/TCP, ledger writes, schema migration, mini-kv writes, and auto-start blocked.</p>
+    <div class="meta">
+      <span class="pill">state: approval-prerequisite-artifact-intake-plan-ready</span>
+      <span class="pill">source: Node v305</span>
+      <span class="pill">next: Java v142 + mini-kv v135</span>
+      <span class="pill">verify: Node v307</span>
+    </div>
+    <div class="grid">
+      <div class="panel"><div class="label">checks</div><div class="value ok">16/16</div><p>All artifact intake checks pass with upstream probes/actions disabled.</p></div>
+      <div class="panel"><div class="label">contract</div><div class="value blue">12 fields</div><p>8 prohibited fields, 9 rejection reasons, 12 no-go boundaries.</p></div>
+      <div class="panel"><div class="label">runtime</div><div class="value warn">blocked</div><p>Implementation and invocation remain explicitly false.</p></div>
+    </div>
+    <section>
+      <h2>Required Artifact Fields</h2>
+      <table><thead><tr><th>Field</th><th>Source</th><th>Accepted shape</th><th>Purpose</th></tr></thead><tbody>
+        <tr><td><code>artifact_id</code></td><td>operator</td><td>stable non-secret id</td><td>Trace this intake artifact across Node, Java, and mini-kv evidence.</td></tr>
+<tr><td><code>source_node_verification</code></td><td>node-v305</td><td>Node v305 digest + route reference</td><td>Bind the artifact to the v305 upstream echo verification.</td></tr>
+<tr><td><code>operator_approval_reference</code></td><td>operator</td><td>non-secret approval ticket or review id</td><td>Prove a human approval review exists before any runtime shell step.</td></tr>
+<tr><td><code>credential_handle_review_status</code></td><td>audit-process</td><td>credential handle + status, no value</td><td>Show that only a credential handle was reviewed.</td></tr>
+<tr><td><code>endpoint_handle_allowlist_review_status</code></td><td>audit-process</td><td>endpoint handle + allowlist status, no raw URL</td><td>Show that only an endpoint handle was reviewed.</td></tr>
+<tr><td><code>no_network_safety_test_reference</code></td><td>node-v305</td><td>test or report id</td><td>Prove the intake remains offline and does not send HTTP/TCP.</td></tr>
+<tr><td><code>manual_abort_semantics_reference</code></td><td>operator</td><td>runbook or review id</td><td>Document how an operator stops before any runtime shell invocation.</td></tr>
+<tr><td><code>rollback_semantics_reference</code></td><td>operator</td><td>runbook or review id</td><td>Document rollback expectations without executing deployment or rollback.</td></tr>
+<tr><td><code>java_echo_required_version</code></td><td>java-v142</td><td>Java v142 receipt reference</td><td>Tell Java exactly which read-only artifact contract to echo.</td></tr>
+<tr><td><code>mini_kv_receipt_required_version</code></td><td>mini-kv-v135</td><td>mini-kv v135 receipt reference</td><td>Tell mini-kv exactly which non-participation receipt to emit.</td></tr>
+<tr><td><code>created_by_operator_identity</code></td><td>operator</td><td>operator id or identity handle</td><td>Bind the artifact to a non-secret operator identity.</td></tr>
+<tr><td><code>audit_correlation_id</code></td><td>audit-process</td><td>stable correlation id</td><td>Link all later evidence without embedding secret material.</td></tr>
+      </tbody></table>
+    </section>
+    <section class="cols">
+      <div>
+        <h2>Prohibited Fields</h2>
+        <ul><li><code>credential_value</code>: Credential values are never accepted by Node, Java, or mini-kv in this stage.</li>
+<li><code>raw_endpoint_url</code>: Raw endpoint URLs stay outside the artifact; only reviewed endpoint handles are allowed.</li>
+<li><code>secret_provider_config</code>: Secret provider configuration would imply implementation, not intake planning.</li>
+<li><code>resolver_client_config</code>: Resolver client configuration would imply implementation, not intake planning.</li>
+<li><code>external_request_payload</code>: External HTTP/TCP payloads are forbidden before a later explicit connection version.</li>
+<li><code>approval_ledger_mutation</code>: Approval ledger writes are Java-side production behavior and are blocked here.</li>
+<li><code>schema_migration_sql</code>: Schema migration SQL is blocked in this artifact intake plan.</li>
+<li><code>mini_kv_write_command</code>: mini-kv must remain non-authoritative and read-only.</li></ul>
+      </div>
+      <div>
+        <h2>Parallel Echo Requests</h2>
+        <ul><li><strong>Java v142</strong>: Echo the v306 artifact schema, required fields, rejection reasons, and no-go boundaries without ledger writes, SQL, deployment, rollback, or external managed audit calls.</li>
+<li><strong>mini-kv v135</strong>: Emit a read-only non-participation receipt for the v306 artifact schema without LOAD, COMPACT, RESTORE, SETNXEX, writes, or authority claims.</li></ul>
+      </div>
+    </section>
+    <section>
+      <h2>Necessity Proof</h2>
+      <p>v305 proved the blocked prerequisite decision is echoed upstream, but the six documented-missing prerequisites still lack a concrete non-secret artifact shape.</p>
+      <p><strong>Consumer:</strong> Java v142 + mini-kv v135, then Node v307</p>
+      <p><strong>Stop:</strong> Stop if the next step asks for credential values, raw endpoint URLs, provider/client configuration, HTTP/TCP, runtime shell implementation or invocation, ledger writes, schema migration, mini-kv writes/admin commands, or automatic upstream start.</p>
+    </section>
+  </main>
+</body>
+</html>

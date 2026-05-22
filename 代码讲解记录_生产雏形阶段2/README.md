@@ -37,6 +37,7 @@
 308-credential-resolver-runtime-shell-post-decision-plan-intake-upstream-echo-verification-v303.md
 309-credential-resolver-runtime-shell-chain-stop-or-prerequisite-decision-record-v304.md
 310-credential-resolver-runtime-shell-chain-stop-prerequisite-upstream-echo-verification-v305.md
+311-credential-resolver-approval-prerequisite-artifact-intake-plan-v306.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

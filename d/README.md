@@ -16,6 +16,7 @@
 303：credential resolver runtime shell post-decision plan intake upstream echo verification
 304：credential resolver runtime shell chain stop-or-prerequisite decision record
 305：credential resolver runtime shell chain stop/prerequisite upstream echo verification
+306：credential resolver approval prerequisite artifact intake plan
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

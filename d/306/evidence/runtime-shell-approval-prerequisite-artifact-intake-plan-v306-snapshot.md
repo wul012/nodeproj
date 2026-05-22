@@ -1,0 +1,1 @@
+- generic [ref=e2]: "{\"error\":\"ACCESS_GUARD_FORBIDDEN\",\"message\":\"Operator identity does not have the required role for this route.\",\"details\":{\"authMode\":\"rehearsal\",\"enforcement\":\"rehearsal\",\"policyId\":\"unmatched\",\"routeGroup\":\"unmatched\",\"requiredRole\":\"none\",\"matchedRoles\":[],\"reason\":\"missing_policy\"}}"
