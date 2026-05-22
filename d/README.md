@@ -18,6 +18,7 @@
 305：credential resolver runtime shell chain stop/prerequisite upstream echo verification
 306：credential resolver approval prerequisite artifact intake plan
 307：credential resolver approval prerequisite artifact upstream echo verification
+308：credential resolver human approval artifact review packet
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

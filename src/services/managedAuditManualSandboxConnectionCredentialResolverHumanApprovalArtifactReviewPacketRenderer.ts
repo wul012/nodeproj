@@ -1,0 +1,177 @@
+import {
+  renderEntries,
+  renderList,
+  renderMessages,
+} from "./liveProbeReportUtils.js";
+import type {
+  HumanApprovalArtifactReviewPacket,
+  HumanApprovalArtifactReviewPacketNecessityProof,
+  ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketProfile,
+  SourceNodeV307ApprovalPrerequisiteArtifactUpstreamEchoVerificationReference,
+} from "./managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver human approval artifact review packet",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Review packet state: ${profile.reviewPacketState}`,
+    `- Runtime shell chain decision: ${profile.runtimeShellChainDecision}`,
+    `- Ready for human approval artifact review packet: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket}`,
+    `- Active Node review version: ${profile.activeNodeReviewVersion}`,
+    `- Next Java version: ${profile.nextJavaVersion}`,
+    `- Next mini-kv version: ${profile.nextMiniKvVersion}`,
+    `- Next Node verification version: ${profile.nextNodeVerificationVersion}`,
+    `- Ready for parallel Java v143 + mini-kv v136 echo: ${profile.readyForParallelJavaV143MiniKvV136Echo}`,
+    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
+    `- Runtime shell invocation allowed: ${profile.runtimeShellInvocationAllowed}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    "",
+    "## Source Node v307",
+    "",
+    ...renderSourceNodeV307(profile.sourceNodeV307),
+    "",
+    "## Review Packet Contract",
+    "",
+    ...renderReviewPacket(profile.reviewPacket),
+    "",
+    "## Necessity Proof",
+    "",
+    ...renderNecessityProof(profile.necessityProof),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No human approval artifact review packet blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No human approval artifact review packet warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No human approval artifact review packet recommendations."),
+    "",
+    "## Evidence Endpoints",
+    "",
+    ...renderEntries(profile.evidenceEndpoints),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderSourceNodeV307(reference: SourceNodeV307ApprovalPrerequisiteArtifactUpstreamEchoVerificationReference): string[] {
+  return renderEntries({
+    sourceVersion: reference.sourceVersion,
+    profileVersion: reference.profileVersion,
+    verificationState: reference.verificationState,
+    readyForUpstreamEchoVerification: reference.readyForUpstreamEchoVerification,
+    verificationDigest: reference.verificationDigest,
+    verificationMode: reference.verificationMode,
+    sourceSpan: reference.sourceSpan,
+    upstreamEchoAligned: reference.upstreamEchoAligned,
+    artifactContractAligned: reference.artifactContractAligned,
+    sideEffectBoundariesAligned: reference.sideEffectBoundariesAligned,
+    sourceNodeV306ArtifactDigest: reference.sourceNodeV306ArtifactDigest,
+    sourceNodeV306RequiredFieldCount: reference.sourceNodeV306RequiredFieldCount,
+    sourceNodeV306ProhibitedFieldCount: reference.sourceNodeV306ProhibitedFieldCount,
+    sourceNodeV306RejectionReasonCount: reference.sourceNodeV306RejectionReasonCount,
+    sourceNodeV306NoGoBoundaryCount: reference.sourceNodeV306NoGoBoundaryCount,
+    sourceNodeV306UpstreamEchoRequestCount: reference.sourceNodeV306UpstreamEchoRequestCount,
+    runtimeShellImplemented: reference.runtimeShellImplemented,
+    runtimeShellInvocationAllowed: reference.runtimeShellInvocationAllowed,
+    executionAllowed: reference.executionAllowed,
+    connectsManagedAudit: reference.connectsManagedAudit,
+    credentialValueRead: reference.credentialValueRead,
+    rawEndpointUrlParsed: reference.rawEndpointUrlParsed,
+    externalRequestSent: reference.externalRequestSent,
+  });
+}
+
+function renderReviewPacket(packet: HumanApprovalArtifactReviewPacket): string[] {
+  return [
+    ...renderEntries({
+      packetDigest: packet.packetDigest,
+      packetName: packet.packetName,
+      packetVersion: packet.packetVersion,
+      reviewMode: packet.reviewMode,
+      sourceSpan: packet.sourceSpan,
+      requiredFieldCount: packet.requiredFieldCount,
+      prohibitedFieldCount: packet.prohibitedFieldCount,
+      rejectionReasonCount: packet.rejectionReasonCount,
+      missingFieldCheckCount: packet.missingFieldCheckCount,
+      noGoBoundaryCount: packet.noGoBoundaryCount,
+      upstreamEchoRequestCount: packet.upstreamEchoRequestCount,
+      implementationStillBlocked: packet.implementationStillBlocked,
+    }),
+    "",
+    "### Required Fields",
+    "",
+    ...renderList(
+      packet.requiredFields.map((field) =>
+        `${field.id}: ${field.label}; missing=${field.missingFieldCode}; evidence=${field.requiredEvidence}`),
+      "No required fields.",
+    ),
+    "",
+    "### Prohibited Fields",
+    "",
+    ...renderList(
+      packet.prohibitedFields.map((field) => `${field.id}: ${field.rejectionCode}; reason=${field.reason}`),
+      "No prohibited fields.",
+    ),
+    "",
+    "### Rejection Reasons",
+    "",
+    ...renderList(
+      packet.rejectionReasons.map((reason) => `${reason.code}: ${reason.message}`),
+      "No rejection reasons.",
+    ),
+    "",
+    "### Missing Field Checks",
+    "",
+    ...renderList(
+      packet.missingFieldChecks.map((check) => `${check.fieldId}: ${check.rejectionCode}`),
+      "No missing field checks.",
+    ),
+    "",
+    "### No-Go Boundaries",
+    "",
+    ...renderList(
+      packet.noGoBoundaries.map((boundary) => `${boundary.id}: closed=${boundary.closed}; reason=${boundary.reason}`),
+      "No no-go boundaries.",
+    ),
+    "",
+    "### Upstream Echo Requests",
+    "",
+    ...renderList(
+      packet.upstreamEchoRequests.map((request) =>
+        `${request.version}: project=${request.project}; mode=${request.mode}; canRunInParallel=${request.canRunInParallel}`),
+      "No upstream echo requests.",
+    ),
+  ];
+}
+
+function renderNecessityProof(proof: HumanApprovalArtifactReviewPacketNecessityProof): string[] {
+  return renderEntries({
+    blockerResolved: proof.blockerResolved,
+    nextConsumer: proof.nextConsumer,
+    whyV307CannotBeReused: proof.whyV307CannotBeReused,
+    existingReportReuseDecision: proof.existingReportReuseDecision,
+    stopCondition: proof.stopCondition,
+  });
+}
