@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v307-post-approval-prerequisite-artifact-upstream-echo-roadmap.md
+docs/plans2/v309-post-human-approval-artifact-review-upstream-echo-roadmap.md
 ```
 
 ## 当前状态
@@ -54,6 +54,10 @@ Node v306：approval prerequisite artifact intake plan 已完成；已定义非 
 Java v142：approval prerequisite artifact intake echo 已完成；只读回显 Node v306。
 mini-kv v135：approval prerequisite artifact intake non-participation receipt 已完成；只读回显 Node v306。
 Node v307：approval prerequisite artifact upstream echo verification 已完成；三方对 Node v306 artifact contract 已对齐。
+Node v308：human approval artifact review packet 已完成；定义人工 approval artifact review packet contract。
+Java v143：human approval artifact review packet echo 已完成；只读回显 Node v308。
+mini-kv v136：human approval artifact review non-participation receipt 已完成；只读回显 Node v308。
+Node v309：human approval artifact review upstream echo verification 已完成；三方对 Node v308 review packet contract 已对齐。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -90,7 +94,8 @@ Node v306：approval prerequisite artifact intake plan。已完成；先定义 a
 推荐并行：Java v142 + mini-kv v135。当前下一步；Node v306 已完成，两边互不依赖，可以并行只读 echo。
 Node v307：approval prerequisite artifact upstream echo verification。已完成；当前有效计划切换到 docs/plans2/v307-post-approval-prerequisite-artifact-upstream-echo-roadmap.md。
 Node v308：human approval artifact review packet。已完成；只定义人工 artifact review packet，不实现 runtime shell。
-推荐并行：Java v143 + mini-kv v136。当前下一步；两边互不依赖，可以并行只读 echo。
+推荐并行：Java v143 + mini-kv v136。已完成；两边互不依赖，可以并行只读 echo。
+Node v309：human approval artifact review upstream echo verification。已完成；当前有效计划切换到 docs/plans2/v309-post-human-approval-artifact-review-upstream-echo-roadmap.md。
 ```
 
 ## 质量收口
@@ -124,7 +129,8 @@ Node v308：human approval artifact review packet。已完成；只定义人工 
 - 推荐并行：Java v142 + mini-kv v135。Node v306 已完成，现在两边可以并行只读 echo。
 - Node v307 已完成 approval prerequisite artifact upstream echo verification；当前有效计划切换到 docs/plans2/v307-post-approval-prerequisite-artifact-upstream-echo-roadmap.md。
 - Node v308 已完成 human approval artifact review packet，不得跳到 runtime shell implementation。
-- 推荐并行：Java v143 + mini-kv v136。当前上游并行 lane；Node v309 必须等待两边完成。
+- 推荐并行：Java v143 + mini-kv v136。已完成；Node v309 已等待两边完成。
+- Node v309 已完成 human approval artifact review upstream echo verification；当前有效计划切换到 docs/plans2/v309-post-human-approval-artifact-review-upstream-echo-roadmap.md。
 - Java 后续质量优化可采纳当前短板：OpsEvidenceService catalog/service 化、VerificationHintBuilder 二次拆分；同一 Java 项目内部仍串行。
 - Node v302 已把 post-decision continuation options / necessity proof catalog 化；后续继续复用 catalog，避免第 9、10 段复制。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。

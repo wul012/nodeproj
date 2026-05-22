@@ -40,6 +40,7 @@
 311-credential-resolver-approval-prerequisite-artifact-intake-plan-v306.md
 312-credential-resolver-approval-prerequisite-artifact-upstream-echo-verification-v307.md
 313-credential-resolver-human-approval-artifact-review-packet-v308.md
+314-credential-resolver-human-approval-artifact-review-upstream-echo-verification-v309.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

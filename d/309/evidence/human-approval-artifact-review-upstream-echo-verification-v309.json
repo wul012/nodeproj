@@ -1,0 +1,1130 @@
+{
+  "service": "orderops-node",
+  "title": "Managed audit manual sandbox connection credential resolver human approval artifact review upstream echo verification",
+  "generatedAt": "2026-05-22T05:27:29.535Z",
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification.v1",
+  "verificationState": "human-approval-artifact-review-upstream-echo-verification-ready",
+  "runtimeShellChainDecision": "require-explicit-approval-prerequisites-before-runtime-shell",
+  "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification": true,
+  "readOnlyUpstreamEchoVerification": true,
+  "humanApprovalArtifactReviewUpstreamEchoVerificationOnly": true,
+  "consumesNodeV308HumanApprovalArtifactReviewPacket": true,
+  "consumesJavaV143HumanApprovalArtifactReviewPacketEcho": true,
+  "consumesMiniKvV136HumanApprovalArtifactReviewNonParticipationReceipt": true,
+  "activeNodeVerificationVersion": "Node v309",
+  "readyForDisabledRuntimeShellImplementation": false,
+  "readyForDisabledRuntimeShellInvocation": false,
+  "readyForManagedAuditResolverImplementation": false,
+  "readyForManagedAuditSandboxAdapterConnection": false,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "runtimeShellImplemented": false,
+  "runtimeShellEnabled": false,
+  "runtimeShellInvocationAllowed": false,
+  "realResolverImplementationAllowed": false,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "readsManagedAuditCredential": false,
+  "storesManagedAuditCredential": false,
+  "credentialValueRead": false,
+  "credentialValueProvided": false,
+  "rawEndpointUrlParsed": false,
+  "rawEndpointUrlRendered": false,
+  "externalRequestSent": false,
+  "secretProviderInstantiated": false,
+  "resolverClientInstantiated": false,
+  "fakeSecretProviderInstantiated": false,
+  "fakeResolverClientInstantiated": false,
+  "schemaMigrationExecuted": false,
+  "approvalLedgerWritten": false,
+  "automaticUpstreamStart": false,
+  "sourceNodeV308": {
+    "sourceVersion": "Node v308",
+    "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet.v1",
+    "reviewPacketState": "human-approval-artifact-review-packet-ready",
+    "readyForHumanApprovalArtifactReviewPacket": true,
+    "reviewPacketDigest": "b0dda954c509337c96a645c177be521d0a200d8f8e6d52081ed8c0df9a43ccf3",
+    "sourceNodeV307": {
+      "sourceVersion": "Node v307",
+      "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-approval-prerequisite-artifact-upstream-echo-verification.v1",
+      "verificationState": "approval-prerequisite-artifact-upstream-echo-verification-ready",
+      "readyForUpstreamEchoVerification": true,
+      "verificationDigest": "6c9e5563358402eb2a8d0ac9dc8235db83aab4d0f5634b53c7ff4da9a6b3c362",
+      "verificationMode": "approval-prerequisite-artifact-upstream-echo-verification-only",
+      "sourceSpan": "Node v306 + Java v142 + mini-kv v135",
+      "upstreamEchoAligned": true,
+      "artifactContractAligned": true,
+      "sideEffectBoundariesAligned": true,
+      "sourceNodeV306ArtifactDigest": "72f3e90606e40a978611fa4b8596c76c3ebc468124c4ead7bb9c4833130ee9c2",
+      "sourceNodeV306PlanState": "approval-prerequisite-artifact-intake-plan-ready",
+      "sourceNodeV306RequiredFieldCount": 12,
+      "sourceNodeV306ProhibitedFieldCount": 8,
+      "sourceNodeV306RejectionReasonCount": 9,
+      "sourceNodeV306NoGoBoundaryCount": 12,
+      "sourceNodeV306UpstreamEchoRequestCount": 2,
+      "sourceChecks": {
+        "sourceNodeV306Ready": true,
+        "sourceNodeV306RequestsParallelEcho": true,
+        "sourceNodeV306ArtifactContractComplete": true,
+        "sourceNodeV306KeepsRuntimeBlocked": true,
+        "sourceNodeV306KeepsSideEffectsClosed": true,
+        "javaV142EvidencePresent": true,
+        "javaV142EchoesNodeV306Plan": true,
+        "javaV142ReadyForNodeV307": true,
+        "javaV142ArtifactContractEchoed": true,
+        "javaV142KeepsRuntimeBlocked": true,
+        "miniKvV135EvidencePresent": true,
+        "miniKvV135EchoesNodeV306Plan": true,
+        "miniKvV135ReadyForNodeV307": true,
+        "miniKvV135ArtifactContractEchoed": true,
+        "miniKvV135KeepsRuntimeBlocked": true,
+        "upstreamEchoesAligned": true,
+        "artifactContractAligned": true,
+        "sideEffectBoundariesAligned": true,
+        "upstreamProbesStillDisabled": true,
+        "upstreamActionsStillDisabled": true,
+        "productionAuditStillBlocked": true,
+        "productionWindowStillBlocked": true,
+        "readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification": true
+      },
+      "sourceSummary": {
+        "checkCount": 23,
+        "passedCheckCount": 23,
+        "sourceNodeV306CheckCount": 16,
+        "sourceNodeV306PassedCheckCount": 16,
+        "javaEvidenceFileCount": 4,
+        "javaMatchedSnippetCount": 30,
+        "miniKvEvidenceFileCount": 3,
+        "miniKvMatchedSnippetCount": 24,
+        "requiredFieldCount": 12,
+        "prohibitedFieldCount": 8,
+        "rejectionReasonCount": 9,
+        "noGoBoundaryCount": 12,
+        "upstreamEchoRequestCount": 2,
+        "productionBlockerCount": 0,
+        "warningCount": 1,
+        "recommendationCount": 2
+      },
+      "runtimeShellImplemented": false,
+      "runtimeShellInvocationAllowed": false,
+      "executionAllowed": false,
+      "connectsManagedAudit": false,
+      "credentialValueRead": false,
+      "rawEndpointUrlParsed": false,
+      "externalRequestSent": false,
+      "schemaMigrationExecuted": false,
+      "approvalLedgerWritten": false,
+      "automaticUpstreamStart": false
+    },
+    "reviewPacket": {
+      "packetDigest": "b0dda954c509337c96a645c177be521d0a200d8f8e6d52081ed8c0df9a43ccf3",
+      "packetName": "managed-audit-runtime-shell-human-approval-artifact-review-packet",
+      "packetVersion": "human-approval-artifact-review-packet.v1",
+      "reviewMode": "human-approval-artifact-review-packet-contract-only",
+      "sourceSpan": "Node v307",
+      "requiredFields": [
+        {
+          "id": "artifact_id",
+          "label": "Artifact id",
+          "requiredEvidence": "Stable artifact id bound to the human review packet.",
+          "missingFieldCode": "MISSING_ARTIFACT_ID"
+        },
+        {
+          "id": "operator_approval_reference",
+          "label": "Operator approval reference",
+          "requiredEvidence": "Human approval reference or ticket handle.",
+          "missingFieldCode": "MISSING_OPERATOR_APPROVAL_REFERENCE"
+        },
+        {
+          "id": "credential_handle_review_status",
+          "label": "Credential handle review status",
+          "requiredEvidence": "Review status for the credential handle, not credential value.",
+          "missingFieldCode": "MISSING_CREDENTIAL_HANDLE_REVIEW_STATUS"
+        },
+        {
+          "id": "endpoint_handle_allowlist_review_status",
+          "label": "Endpoint handle allowlist review status",
+          "requiredEvidence": "Allowlist review status for endpoint handle, not raw URL.",
+          "missingFieldCode": "MISSING_ENDPOINT_HANDLE_ALLOWLIST_REVIEW_STATUS"
+        },
+        {
+          "id": "no_network_safety_test_reference",
+          "label": "No-network safety test reference",
+          "requiredEvidence": "Evidence that review packet validation performs no HTTP/TCP request.",
+          "missingFieldCode": "MISSING_NO_NETWORK_SAFETY_TEST_REFERENCE"
+        },
+        {
+          "id": "manual_abort_semantics_reference",
+          "label": "Manual abort semantics reference",
+          "requiredEvidence": "Documented operator abort behavior before runtime discussion.",
+          "missingFieldCode": "MISSING_MANUAL_ABORT_SEMANTICS_REFERENCE"
+        },
+        {
+          "id": "rollback_semantics_reference",
+          "label": "Rollback semantics reference",
+          "requiredEvidence": "Documented rollback behavior without executing rollback.",
+          "missingFieldCode": "MISSING_ROLLBACK_SEMANTICS_REFERENCE"
+        },
+        {
+          "id": "created_by_operator_identity",
+          "label": "Created by operator identity",
+          "requiredEvidence": "Verified operator identity for the review artifact.",
+          "missingFieldCode": "MISSING_CREATED_BY_OPERATOR_IDENTITY"
+        },
+        {
+          "id": "audit_correlation_id",
+          "label": "Audit correlation id",
+          "requiredEvidence": "Correlation id linking artifact review, audit trail, and later echo verification.",
+          "missingFieldCode": "MISSING_AUDIT_CORRELATION_ID"
+        }
+      ],
+      "prohibitedFields": [
+        {
+          "id": "credential_value",
+          "reason": "Credential values must never enter Node, Java, or mini-kv evidence.",
+          "rejectionCode": "CREDENTIAL_VALUE_PRESENT"
+        },
+        {
+          "id": "raw_endpoint_url",
+          "reason": "The review packet may carry endpoint handle status, not raw endpoint URLs.",
+          "rejectionCode": "RAW_ENDPOINT_URL_PRESENT"
+        },
+        {
+          "id": "secret_provider_config",
+          "reason": "Provider config would move v308 from contract review into implementation.",
+          "rejectionCode": "PROVIDER_CONFIG_PRESENT"
+        },
+        {
+          "id": "resolver_client_config",
+          "reason": "Resolver client config would instantiate the runtime path too early.",
+          "rejectionCode": "RESOLVER_CLIENT_CONFIG_PRESENT"
+        },
+        {
+          "id": "external_request_payload",
+          "reason": "v308 must not prepare or send HTTP/TCP payloads.",
+          "rejectionCode": "EXTERNAL_REQUEST_PAYLOAD_PRESENT"
+        },
+        {
+          "id": "approval_ledger_mutation",
+          "reason": "Ledger writes are outside this read-only packet contract.",
+          "rejectionCode": "APPROVAL_LEDGER_MUTATION_PRESENT"
+        },
+        {
+          "id": "schema_migration_sql",
+          "reason": "Schema migration SQL is prohibited in the review packet.",
+          "rejectionCode": "SCHEMA_MIGRATION_SQL_PRESENT"
+        },
+        {
+          "id": "mini_kv_write_command",
+          "reason": "mini-kv remains non-authoritative and must not receive write/admin commands.",
+          "rejectionCode": "MINI_KV_WRITE_COMMAND_PRESENT"
+        },
+        {
+          "id": "runtime_shell_invocation_request",
+          "reason": "Runtime shell invocation is still blocked after v308.",
+          "rejectionCode": "RUNTIME_SHELL_INVOCATION_REQUEST_PRESENT"
+        }
+      ],
+      "rejectionReasons": [
+        {
+          "code": "MISSING_ARTIFACT_ID",
+          "message": "Reject when artifact_id is absent or blank."
+        },
+        {
+          "code": "MISSING_OPERATOR_APPROVAL_REFERENCE",
+          "message": "Reject when the operator approval reference is absent."
+        },
+        {
+          "code": "MISSING_CREDENTIAL_HANDLE_REVIEW_STATUS",
+          "message": "Reject when credential handle review status is absent."
+        },
+        {
+          "code": "MISSING_ENDPOINT_HANDLE_ALLOWLIST_REVIEW_STATUS",
+          "message": "Reject when endpoint handle allowlist review status is absent."
+        },
+        {
+          "code": "MISSING_NO_NETWORK_SAFETY_TEST_REFERENCE",
+          "message": "Reject when no-network safety test reference is absent."
+        },
+        {
+          "code": "MISSING_ABORT_OR_ROLLBACK_SEMANTICS",
+          "message": "Reject when abort or rollback semantics are missing."
+        },
+        {
+          "code": "CREDENTIAL_VALUE_PRESENT",
+          "message": "Reject any artifact that includes credential values."
+        },
+        {
+          "code": "RAW_ENDPOINT_URL_PRESENT",
+          "message": "Reject any artifact that includes a raw endpoint URL."
+        },
+        {
+          "code": "PROVIDER_OR_CLIENT_CONFIG_PRESENT",
+          "message": "Reject provider or resolver client config."
+        },
+        {
+          "code": "EXTERNAL_REQUEST_REQUESTED",
+          "message": "Reject external request payloads or execution requests."
+        },
+        {
+          "code": "WRITE_OR_SCHEMA_MUTATION_REQUESTED",
+          "message": "Reject ledger writes and schema migration requests."
+        },
+        {
+          "code": "MINI_KV_WRITE_OR_AUTHORITY_REQUESTED",
+          "message": "Reject mini-kv writes, admin commands, and authority claims."
+        },
+        {
+          "code": "RUNTIME_SHELL_IMPLEMENTATION_REQUESTED",
+          "message": "Reject runtime shell implementation or invocation requests."
+        }
+      ],
+      "missingFieldChecks": [
+        {
+          "fieldId": "artifact_id",
+          "rejectionCode": "MISSING_ARTIFACT_ID"
+        },
+        {
+          "fieldId": "operator_approval_reference",
+          "rejectionCode": "MISSING_OPERATOR_APPROVAL_REFERENCE"
+        },
+        {
+          "fieldId": "credential_handle_review_status",
+          "rejectionCode": "MISSING_CREDENTIAL_HANDLE_REVIEW_STATUS"
+        },
+        {
+          "fieldId": "endpoint_handle_allowlist_review_status",
+          "rejectionCode": "MISSING_ENDPOINT_HANDLE_ALLOWLIST_REVIEW_STATUS"
+        },
+        {
+          "fieldId": "no_network_safety_test_reference",
+          "rejectionCode": "MISSING_NO_NETWORK_SAFETY_TEST_REFERENCE"
+        },
+        {
+          "fieldId": "manual_abort_semantics_reference",
+          "rejectionCode": "MISSING_MANUAL_ABORT_SEMANTICS_REFERENCE"
+        },
+        {
+          "fieldId": "rollback_semantics_reference",
+          "rejectionCode": "MISSING_ROLLBACK_SEMANTICS_REFERENCE"
+        },
+        {
+          "fieldId": "created_by_operator_identity",
+          "rejectionCode": "MISSING_CREATED_BY_OPERATOR_IDENTITY"
+        },
+        {
+          "fieldId": "audit_correlation_id",
+          "rejectionCode": "MISSING_AUDIT_CORRELATION_ID"
+        }
+      ],
+      "noGoBoundaries": [
+        {
+          "id": "credential_value_read",
+          "closed": true,
+          "reason": "Review only credential handle status."
+        },
+        {
+          "id": "raw_endpoint_url_parse",
+          "closed": true,
+          "reason": "Review only endpoint handle allowlist status."
+        },
+        {
+          "id": "secret_provider_instantiation",
+          "closed": true,
+          "reason": "No secret provider can be instantiated in v308."
+        },
+        {
+          "id": "resolver_client_instantiation",
+          "closed": true,
+          "reason": "No resolver client can be instantiated in v308."
+        },
+        {
+          "id": "fake_provider_or_client",
+          "closed": true,
+          "reason": "No fake provider/client is introduced as a shortcut."
+        },
+        {
+          "id": "external_http_or_tcp_request",
+          "closed": true,
+          "reason": "No HTTP/TCP request is prepared or sent."
+        },
+        {
+          "id": "runtime_shell_implementation",
+          "closed": true,
+          "reason": "Disabled runtime shell implementation remains blocked."
+        },
+        {
+          "id": "runtime_shell_invocation",
+          "closed": true,
+          "reason": "Runtime shell invocation remains blocked."
+        },
+        {
+          "id": "approval_ledger_write",
+          "closed": true,
+          "reason": "Approval ledger writes remain blocked."
+        },
+        {
+          "id": "schema_migration",
+          "closed": true,
+          "reason": "Schema migration remains blocked."
+        },
+        {
+          "id": "mini_kv_write_or_authority",
+          "closed": true,
+          "reason": "mini-kv stays a read-only evidence provider."
+        },
+        {
+          "id": "automatic_upstream_start",
+          "closed": true,
+          "reason": "Node must not start Java, mini-kv, or external audit services."
+        }
+      ],
+      "upstreamEchoRequests": [
+        {
+          "project": "java",
+          "version": "Java v143",
+          "mode": "read-only-human-approval-artifact-review-packet-echo",
+          "canRunInParallel": true,
+          "requiredBeforeNodeV309": true
+        },
+        {
+          "project": "mini-kv",
+          "version": "mini-kv v136",
+          "mode": "read-only-human-approval-artifact-review-non-participation-receipt",
+          "canRunInParallel": true,
+          "requiredBeforeNodeV309": true
+        }
+      ],
+      "requiredFieldCount": 9,
+      "prohibitedFieldCount": 9,
+      "rejectionReasonCount": 13,
+      "missingFieldCheckCount": 9,
+      "noGoBoundaryCount": 12,
+      "upstreamEchoRequestCount": 2,
+      "implementationStillBlocked": true
+    },
+    "checks": {
+      "sourceNodeV307Ready": true,
+      "sourceNodeV307UpstreamEchoAligned": true,
+      "sourceNodeV307ArtifactContractAligned": true,
+      "sourceNodeV307SideEffectsClosed": true,
+      "requiredReviewFieldsDocumented": true,
+      "prohibitedReviewFieldsDocumented": true,
+      "rejectionReasonsDocumented": true,
+      "missingFieldChecksDocumented": true,
+      "noGoBoundariesClosed": true,
+      "necessityProofDocumented": true,
+      "javaMiniKvEchoRequestExplicitlyParallel": true,
+      "reviewPacketStaysContractOnly": true,
+      "upstreamProbesStillDisabled": true,
+      "upstreamActionsStillDisabled": true,
+      "runtimeShellImplementationStillBlocked": true,
+      "productionAuditStillBlocked": true,
+      "productionWindowStillBlocked": true,
+      "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket": true
+    },
+    "summary": {
+      "checkCount": 18,
+      "passedCheckCount": 18,
+      "sourceNodeV307CheckCount": 23,
+      "sourceNodeV307PassedCheckCount": 23,
+      "requiredFieldCount": 9,
+      "prohibitedFieldCount": 9,
+      "rejectionReasonCount": 13,
+      "missingFieldCheckCount": 9,
+      "noGoBoundaryCount": 12,
+      "upstreamEchoRequestCount": 2,
+      "productionBlockerCount": 0,
+      "warningCount": 1,
+      "recommendationCount": 2
+    },
+    "nextJavaVersion": "Java v143",
+    "nextMiniKvVersion": "mini-kv v136",
+    "nextNodeVerificationVersion": "Node v309",
+    "readyForParallelJavaV143MiniKvV136Echo": true,
+    "requiredFieldIds": [
+      "artifact_id",
+      "operator_approval_reference",
+      "credential_handle_review_status",
+      "endpoint_handle_allowlist_review_status",
+      "no_network_safety_test_reference",
+      "manual_abort_semantics_reference",
+      "rollback_semantics_reference",
+      "created_by_operator_identity",
+      "audit_correlation_id"
+    ],
+    "prohibitedFieldIds": [
+      "credential_value",
+      "raw_endpoint_url",
+      "secret_provider_config",
+      "resolver_client_config",
+      "external_request_payload",
+      "approval_ledger_mutation",
+      "schema_migration_sql",
+      "mini_kv_write_command",
+      "runtime_shell_invocation_request"
+    ],
+    "rejectionReasonCodes": [
+      "MISSING_ARTIFACT_ID",
+      "MISSING_OPERATOR_APPROVAL_REFERENCE",
+      "MISSING_CREDENTIAL_HANDLE_REVIEW_STATUS",
+      "MISSING_ENDPOINT_HANDLE_ALLOWLIST_REVIEW_STATUS",
+      "MISSING_NO_NETWORK_SAFETY_TEST_REFERENCE",
+      "MISSING_ABORT_OR_ROLLBACK_SEMANTICS",
+      "CREDENTIAL_VALUE_PRESENT",
+      "RAW_ENDPOINT_URL_PRESENT",
+      "PROVIDER_OR_CLIENT_CONFIG_PRESENT",
+      "EXTERNAL_REQUEST_REQUESTED",
+      "WRITE_OR_SCHEMA_MUTATION_REQUESTED",
+      "MINI_KV_WRITE_OR_AUTHORITY_REQUESTED",
+      "RUNTIME_SHELL_IMPLEMENTATION_REQUESTED"
+    ],
+    "missingFieldCheckCodes": [
+      "MISSING_ARTIFACT_ID",
+      "MISSING_OPERATOR_APPROVAL_REFERENCE",
+      "MISSING_CREDENTIAL_HANDLE_REVIEW_STATUS",
+      "MISSING_ENDPOINT_HANDLE_ALLOWLIST_REVIEW_STATUS",
+      "MISSING_NO_NETWORK_SAFETY_TEST_REFERENCE",
+      "MISSING_MANUAL_ABORT_SEMANTICS_REFERENCE",
+      "MISSING_ROLLBACK_SEMANTICS_REFERENCE",
+      "MISSING_CREATED_BY_OPERATOR_IDENTITY",
+      "MISSING_AUDIT_CORRELATION_ID"
+    ],
+    "noGoBoundaryIds": [
+      "credential_value_read",
+      "raw_endpoint_url_parse",
+      "secret_provider_instantiation",
+      "resolver_client_instantiation",
+      "fake_provider_or_client",
+      "external_http_or_tcp_request",
+      "runtime_shell_implementation",
+      "runtime_shell_invocation",
+      "approval_ledger_write",
+      "schema_migration",
+      "mini_kv_write_or_authority",
+      "automatic_upstream_start"
+    ],
+    "upstreamEchoRequestVersions": [
+      "Java v143",
+      "mini-kv v136"
+    ],
+    "runtimeShellImplemented": false,
+    "runtimeShellInvocationAllowed": false,
+    "executionAllowed": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "externalRequestSent": false,
+    "schemaMigrationExecuted": false,
+    "approvalLedgerWritten": false,
+    "automaticUpstreamStart": false
+  },
+  "upstreamEvidence": {
+    "javaV143": {
+      "sourceVersion": "Java v143",
+      "receiptVersion": "java-release-approval-rehearsal-managed-audit-sandbox-endpoint-credential-resolver-human-approval-artifact-review-packet-echo-receipt.v1",
+      "echoMode": "java-v143-human-approval-artifact-review-packet-echo-only",
+      "sourceSpan": "Node v308",
+      "nextNodeVersion": "Node v309",
+      "expectedProfileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification.v1",
+      "evidenceFiles": [
+        {
+          "id": "java-v143-support",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "exists": true,
+          "sizeBytes": 40338,
+          "digest": "21bac14beaeb9e11cf9671de4faf448d6371c8abf0e9c7aabd890ca8e65fa82d"
+        },
+        {
+          "id": "java-v143-test",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "exists": true,
+          "sizeBytes": 20472,
+          "digest": "422ced280658b981a1d74bdb04b92d315eae8db960267a08ca0bc8e0eacc4e20"
+        },
+        {
+          "id": "java-v143-explanation",
+          "path": "D:/javaproj/advanced-order-platform/d/143/解释/说明.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\d\\143\\解释\\说明.md",
+          "exists": true,
+          "sizeBytes": 765,
+          "digest": "f40f21e1f363f441dad6e2beb7c48d10ddfcba355d00b2789094abdc61fe9d23"
+        },
+        {
+          "id": "java-v143-walkthrough",
+          "path": "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/145-version-143-human-approval-artifact-review-packet-echo.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\代码讲解记录_生产雏形阶段_续\\145-version-143-human-approval-artifact-review-packet-echo.md",
+          "exists": true,
+          "sizeBytes": 4648,
+          "digest": "35dc3a42a41e36c85c27b657f3046711a8ad4b9f21e9b8978e5d48744b71e284"
+        }
+      ],
+      "expectedSnippets": [
+        {
+          "id": "java-v143-version",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "java-v143-human-approval-artifact-review-packet-echo-only",
+          "matched": true
+        },
+        {
+          "id": "java-v143-node-v308",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": ".isEqualTo(\"Node v308\")",
+          "matched": true
+        },
+        {
+          "id": "java-v143-node-v309",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": ".isEqualTo(\"Node v309\")",
+          "matched": true
+        },
+        {
+          "id": "java-v143-upstream-profile",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification.v1",
+          "matched": true
+        },
+        {
+          "id": "java-v143-source-profile",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet.v1",
+          "matched": true
+        },
+        {
+          "id": "java-v143-source-route",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet",
+          "matched": true
+        },
+        {
+          "id": "java-v143-source-state",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "human-approval-artifact-review-packet-ready",
+          "matched": true
+        },
+        {
+          "id": "java-v143-ready",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "readyForNodeV309HumanApprovalArtifactReviewPacketUpstreamEchoVerification()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v143-source-span",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "sourceSpan()).isEqualTo(\"Node v308\")",
+          "matched": true
+        },
+        {
+          "id": "java-v143-required-count",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "reviewPacket().requiredFieldCount()).isEqualTo(9)",
+          "matched": true
+        },
+        {
+          "id": "java-v143-prohibited-count",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "reviewPacket().prohibitedFieldCount()).isEqualTo(9)",
+          "matched": true
+        },
+        {
+          "id": "java-v143-rejection-count",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "reviewPacket().rejectionReasonCount()).isEqualTo(13)",
+          "matched": true
+        },
+        {
+          "id": "java-v143-missing-count",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "reviewPacket().missingFieldCheckCount()).isEqualTo(9)",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-go-count",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "reviewPacket().noGoBoundaryCount()).isEqualTo(12)",
+          "matched": true
+        },
+        {
+          "id": "java-v143-parallel",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": "javaMiniKvEchoRequestExplicitlyParallel()).isTrue()",
+          "matched": true
+        },
+        {
+          "id": "java-v143-necessity",
+          "path": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\test\\java\\com\\codexdemo\\orderplatform\\ops\\OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+          "expectedText": ".contains(\"missing-field checks\")",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-runtime",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noRuntimeImplementationEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-invocation",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noRuntimeInvocationEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-credential",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noCredentialReadEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-endpoint",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noRawEndpointParseEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-provider",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noProviderClientInstantiationEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-external",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noExternalRequestEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-write",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noWriteOrMigrationEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-minikv",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noMiniKvWriteOrAuthorityEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-no-autostart",
+          "path": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\src\\main\\java\\com\\codexdemo\\orderplatform\\ops\\ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+          "expectedText": "noAutoStartBoundaryEchoed",
+          "matched": true
+        },
+        {
+          "id": "java-v143-explanation",
+          "path": "D:/javaproj/advanced-order-platform/d/143/解释/说明.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\d\\143\\解释\\说明.md",
+          "expectedText": "Java v143 adds the read-only echo for the Node v308 human approval artifact review packet.",
+          "matched": true
+        },
+        {
+          "id": "java-v143-walkthrough",
+          "path": "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/145-version-143-human-approval-artifact-review-packet-echo.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\代码讲解记录_生产雏形阶段_续\\145-version-143-human-approval-artifact-review-packet-echo.md",
+          "expectedText": "It consumes the Node v308 human approval artifact review packet contract",
+          "matched": true
+        }
+      ],
+      "evidencePresent": true,
+      "verificationDocumented": true,
+      "echoesNodeV308Packet": true,
+      "readyForNodeV309": true,
+      "reviewPacketContractEchoed": true,
+      "requiredFieldCountEchoed": true,
+      "prohibitedFieldCountEchoed": true,
+      "rejectionReasonCountEchoed": true,
+      "missingFieldCheckCountEchoed": true,
+      "noGoBoundaryCountEchoed": true,
+      "upstreamEchoRequestsEchoed": true,
+      "necessityProofEchoed": true,
+      "noRuntimeImplementationEchoed": true,
+      "noRuntimeInvocationEchoed": true,
+      "noCredentialReadEchoed": true,
+      "noRawEndpointParseEchoed": true,
+      "noProviderClientInstantiationEchoed": true,
+      "noExternalRequestEchoed": true,
+      "noWriteOrMigrationEchoed": true,
+      "noMiniKvWriteOrAuthorityEchoed": true,
+      "noAutoStartBoundaryEchoed": true,
+      "sideEffectBoundariesClosed": true
+    },
+    "miniKvV136": {
+      "sourceVersion": "mini-kv v136",
+      "receiptVersion": "mini-kv-credential-resolver-human-approval-artifact-review-non-participation-receipt.v1",
+      "releaseVersion": "v136",
+      "consumerHint": "Node v309 human approval artifact review upstream echo verification",
+      "receiptDigest": "fnv1a64:f9dcb117a0e2d57a",
+      "evidenceFiles": [
+        {
+          "id": "mini-kv-v136-receipt",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "exists": true,
+          "sizeBytes": 21338,
+          "digest": "fbc6825f37e07b37a43168798751aa192240eea5d1f4fbd791976212c8afea87"
+        },
+        {
+          "id": "mini-kv-v136-explanation",
+          "path": "D:/C/mini-kv/d/136/解释/说明.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\d\\136\\解释\\说明.md",
+          "exists": true,
+          "sizeBytes": 3268,
+          "digest": "6e9795f8c66c494ad36bd13c9ae2bff566579460e662fb89df27e4d65293cce3"
+        },
+        {
+          "id": "mini-kv-v136-walkthrough",
+          "path": "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/192-version-136-credential-resolver-human-approval-artifact-review-non-participation-receipt.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\代码讲解记录_生产雏形阶段_第二册\\192-version-136-credential-resolver-human-approval-artifact-review-non-participation-receipt.md",
+          "exists": true,
+          "sizeBytes": 5336,
+          "digest": "c00ac46d59732ebf13b1bba1e22ae3116fc1dc1d89599ab8f8ca9a0da501d81c"
+        }
+      ],
+      "expectedSnippets": [
+        {
+          "id": "mini-kv-v136-consumer",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "Node v309 human approval artifact review upstream echo verification",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-source-node-v308",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"source_version\":\"Node v308\"",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-plan-profile",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet.v1",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-plan-state",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "human-approval-artifact-review-packet-ready",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-packet-digest",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "b0dda954c509337c96a645c177be521d0a200d8f8e6d52081ed8c0df9a43ccf3",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-ready",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"ready_for_node_v309_human_approval_artifact_review_upstream_echo_verification\":true",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-counts",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"required_field_count\":9",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-prohibited",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"prohibited_field_count\":9",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-rejections",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"rejection_reason_count\":13",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-missing",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"missing_field_check_count\":9",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-go",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"no_go_boundary_count\":12",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-receipt-only",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"human_approval_artifact_review_non_participation_receipt_only\":true",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-read-only",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"read_only_review_packet_contract\":true",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-runtime",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"runtime_shell_implemented\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-invocation",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"runtime_shell_invocation_allowed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-credential",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"credential_value_read\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-endpoint",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"raw_endpoint_url_parsed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-provider",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"resolver_client_instantiated\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-external",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"external_request_sent\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-ledger",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"approval_ledger_written\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-restore",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"load_restore_compact_executed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-no-setnxex",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"setnxex_execution_allowed\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-not-authority",
+          "path": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+          "expectedText": "\"order_authoritative\":false",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-explanation",
+          "path": "D:/C/mini-kv/d/136/解释/说明.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\d\\136\\解释\\说明.md",
+          "expectedText": "mini-kv v136 运行截图说明",
+          "matched": true
+        },
+        {
+          "id": "mini-kv-v136-walkthrough",
+          "path": "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/192-version-136-credential-resolver-human-approval-artifact-review-non-participation-receipt.md",
+          "resolvedPath": "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\代码讲解记录_生产雏形阶段_第二册\\192-version-136-credential-resolver-human-approval-artifact-review-non-participation-receipt.md",
+          "expectedText": "ready_for_node_v309_human_approval_artifact_review_upstream_echo_verification=true",
+          "matched": true
+        }
+      ],
+      "evidencePresent": true,
+      "verificationDocumented": true,
+      "echoesNodeV308Packet": true,
+      "readyForNodeV309": true,
+      "sourceNodeV308ProfileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet.v1",
+      "sourceNodeV308ReviewPacketState": "human-approval-artifact-review-packet-ready",
+      "sourceNodeV308PacketDigest": "b0dda954c509337c96a645c177be521d0a200d8f8e6d52081ed8c0df9a43ccf3",
+      "requiredFieldCount": 9,
+      "prohibitedFieldCount": 9,
+      "rejectionReasonCount": 13,
+      "missingFieldCheckCount": 9,
+      "noGoBoundaryCount": 12,
+      "upstreamEchoRequestCount": 2,
+      "checkCount": 18,
+      "passedCheckCount": 18,
+      "nonParticipationReceiptOnly": true,
+      "humanApprovalArtifactReviewPacketOnly": true,
+      "readOnlyReviewPacketContract": true,
+      "consumesNodeV308HumanApprovalArtifactReviewPacket": true,
+      "consumesNodeV307ApprovalPrerequisiteArtifactUpstreamEchoVerification": true,
+      "readyForNodeV309BeforeUpstreamEcho": false,
+      "runtimeShellImplemented": false,
+      "runtimeShellInvocationAllowed": false,
+      "executionAllowed": false,
+      "connectsManagedAudit": false,
+      "credentialValueRead": false,
+      "credentialValueAccepted": false,
+      "rawEndpointUrlParsed": false,
+      "rawEndpointUrlAccepted": false,
+      "externalRequestSent": false,
+      "secretProviderInstantiated": false,
+      "resolverClientInstantiated": false,
+      "fakeSecretProviderInstantiated": false,
+      "fakeResolverClientInstantiated": false,
+      "schemaMigrationExecuted": false,
+      "approvalLedgerWritten": false,
+      "automaticUpstreamStart": false,
+      "loadRestoreCompactExecuted": false,
+      "setnxexExecutionAllowed": false,
+      "auditAuthoritative": false,
+      "orderAuthoritative": false,
+      "sideEffectBoundariesClosed": true
+    }
+  },
+  "echoVerification": {
+    "verificationDigest": "b306972aeab587fff6905759ad0fa2968af235cb13f09063c1c6c3af14e7913d",
+    "verificationMode": "human-approval-artifact-review-upstream-echo-verification-only",
+    "sourceSpan": "Node v308 + Java v143 + mini-kv v136",
+    "sourceNodeV308Ready": true,
+    "javaV143EchoReady": true,
+    "miniKvV136ReceiptReady": true,
+    "upstreamEchoAligned": true,
+    "reviewPacketContractAligned": true,
+    "sideEffectBoundariesAligned": true,
+    "implementationStillBlocked": true
+  },
+  "checks": {
+    "sourceNodeV308Ready": true,
+    "sourceNodeV308RequestsParallelEcho": true,
+    "sourceNodeV308ReviewPacketContractComplete": true,
+    "sourceNodeV308KeepsRuntimeBlocked": true,
+    "sourceNodeV308KeepsSideEffectsClosed": true,
+    "javaV143EvidencePresent": true,
+    "javaV143EchoesNodeV308Packet": true,
+    "javaV143ReadyForNodeV309": true,
+    "javaV143ReviewPacketContractEchoed": true,
+    "javaV143KeepsRuntimeBlocked": true,
+    "miniKvV136EvidencePresent": true,
+    "miniKvV136EchoesNodeV308Packet": true,
+    "miniKvV136ReadyForNodeV309": true,
+    "miniKvV136ReviewPacketContractEchoed": true,
+    "miniKvV136KeepsRuntimeBlocked": true,
+    "upstreamEchoesAligned": true,
+    "reviewPacketContractAligned": true,
+    "sideEffectBoundariesAligned": true,
+    "upstreamProbesStillDisabled": true,
+    "upstreamActionsStillDisabled": true,
+    "productionAuditStillBlocked": true,
+    "productionWindowStillBlocked": true,
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification": true
+  },
+  "summary": {
+    "checkCount": 23,
+    "passedCheckCount": 23,
+    "sourceNodeV308CheckCount": 18,
+    "sourceNodeV308PassedCheckCount": 18,
+    "javaEvidenceFileCount": 4,
+    "javaMatchedSnippetCount": 27,
+    "miniKvEvidenceFileCount": 3,
+    "miniKvMatchedSnippetCount": 25,
+    "requiredFieldCount": 9,
+    "prohibitedFieldCount": 9,
+    "rejectionReasonCount": 13,
+    "missingFieldCheckCount": 9,
+    "noGoBoundaryCount": 12,
+    "upstreamEchoRequestCount": 2,
+    "productionBlockerCount": 0,
+    "warningCount": 1,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "HUMAN_APPROVAL_REVIEW_ECHO_DOES_NOT_AUTHORIZE_RUNTIME_SHELL",
+      "severity": "warning",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification",
+      "message": "v309 proves Java v143 and mini-kv v136 echoed the Node v308 packet; it still does not approve or implement a runtime shell."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "PLAN_NEXT_NODE_ONLY_VERIFICATION_AFTER_V309",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification",
+      "message": "The next Node step may consume the v309 receipt, but it must still reject credential values, raw endpoint URLs, provider/client config, HTTP/TCP calls, ledger writes, schema migration, mini-kv writes/admin commands, and automatic upstream start."
+    },
+    {
+      "code": "KEEP_RUNTIME_SHELL_BLOCKED_AFTER_V309",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification",
+      "message": "Do not convert upstream echo alignment into implementation permission; require a separate future packet and explicit approval gates."
+    }
+  ],
+  "evidenceEndpoints": {
+    "humanApprovalArtifactReviewUpstreamEchoVerificationJson": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification",
+    "humanApprovalArtifactReviewUpstreamEchoVerificationMarkdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-upstream-echo-verification?format=markdown",
+    "sourceNodeV308Json": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet",
+    "sourceNodeV308Markdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-packet?format=markdown",
+    "javaV143Support": "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverHumanApprovalArtifactReviewPacketEchoSupport.java",
+    "javaV143Test": "D:/javaproj/advanced-order-platform/src/test/java/com/codexdemo/orderplatform/ops/OpsEvidenceServiceHumanApprovalArtifactReviewPacketEchoTests.java",
+    "javaV143Explanation": "D:/javaproj/advanced-order-platform/d/143/解释/说明.md",
+    "javaV143Walkthrough": "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段_续/145-version-143-human-approval-artifact-review-packet-echo.md",
+    "miniKvV136Receipt": "D:/C/mini-kv/fixtures/release/credential-resolver-human-approval-artifact-review-non-participation-receipt.json",
+    "miniKvV136Explanation": "D:/C/mini-kv/d/136/解释/说明.md",
+    "miniKvV136Walkthrough": "D:/C/mini-kv/代码讲解记录_生产雏形阶段_第二册/192-version-136-credential-resolver-human-approval-artifact-review-non-participation-receipt.md",
+    "activePlan": "docs/plans2/v307-post-approval-prerequisite-artifact-upstream-echo-roadmap.md"
+  },
+  "nextActions": [
+    "Archive Node v309 as the human approval artifact review upstream echo verification that consumes Node v308, Java v143, and mini-kv v136.",
+    "Keep disabled runtime shell implementation and invocation blocked after v309; this version only proves the packet contract was echoed upstream.",
+    "The next plan may consider a future Node-only read-only preflight, but it must still reject credential values, raw endpoint URLs, provider/client config, HTTP/TCP calls, ledger writes, schema migration, mini-kv writes/admin commands, and automatic upstream start."
+  ]
+}
