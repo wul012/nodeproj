@@ -315,6 +315,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactPrerequisiteClosureReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactPrerequisiteClosureReview.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntake,
+  renderManagedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntakeMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntake.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview,
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
@@ -870,6 +874,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-prerequisite-closure-review", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactPrerequisiteClosureReview({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactPrerequisiteClosureReviewMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-credential-handle-approval-contract-intake", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntake({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntakeMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance",

@@ -1,0 +1,111 @@
+- main [ref=e2]:
+  - heading "Node v317 credential handle approval contract intake" [level=1] [ref=e3]
+  - paragraph [ref=e4]: Contract-only evidence. No credential value read, no raw endpoint URL parsing, no provider/client instantiation, no HTTP/TCP, no ledger/schema write.
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: contract state
+      - generic [ref=e8]: credential-handle-approval-contract-intake-ready
+    - generic [ref=e9]:
+      - generic [ref=e10]: checks
+      - generic [ref=e11]: 20/20
+    - generic [ref=e12]:
+      - generic [ref=e13]: blockers
+      - generic [ref=e14]: "0"
+    - generic [ref=e15]:
+      - generic [ref=e16]: next parallel
+      - generic [ref=e17]: Java v146 + mini-kv v139
+  - heading "Required Fields" [level=2] [ref=e18]
+  - list [ref=e19]:
+    - listitem [ref=e20]:
+      - code [ref=e21]: credential_handle
+      - text: "- stable non-secret credential handle"
+    - listitem [ref=e22]:
+      - code [ref=e23]: approval_correlation_id
+      - text: "- stable non-secret correlation id"
+    - listitem [ref=e24]:
+      - code [ref=e25]: operator_identity_handle
+      - text: "- operator identity handle, no credential value"
+    - listitem [ref=e26]:
+      - code [ref=e27]: reviewer_identity_handle
+      - text: "- reviewer identity handle, no private key"
+    - listitem [ref=e28]:
+      - code [ref=e29]: policy_version
+      - text: "- policy id or semantic version"
+    - listitem [ref=e30]:
+      - code [ref=e31]: approval_status
+      - text: "- approved, rejected, expired, or revoked"
+    - listitem [ref=e32]:
+      - code [ref=e33]: issued_at
+      - text: "- ISO-8601 timestamp"
+    - listitem [ref=e34]:
+      - code [ref=e35]: expires_at
+      - text: "- ISO-8601 timestamp"
+    - listitem [ref=e36]:
+      - code [ref=e37]: revocation_marker
+      - text: "- boolean marker plus optional evidence handle"
+    - listitem [ref=e38]:
+      - code [ref=e39]: audit_digest
+      - text: "- sha256 digest or equivalent stable digest"
+  - heading "Prohibited Fields" [level=2] [ref=e40]
+  - list [ref=e41]:
+    - listitem [ref=e42]:
+      - code [ref=e43]: credential_value
+      - text: "- CREDENTIAL_VALUE_PRESENT"
+    - listitem [ref=e44]:
+      - code [ref=e45]: raw_endpoint_url
+      - text: "- RAW_ENDPOINT_URL_PRESENT"
+    - listitem [ref=e46]:
+      - code [ref=e47]: secret_provider_config
+      - text: "- SECRET_PROVIDER_CONFIG_PRESENT"
+    - listitem [ref=e48]:
+      - code [ref=e49]: resolver_client_config
+      - text: "- RESOLVER_CLIENT_CONFIG_PRESENT"
+    - listitem [ref=e50]:
+      - code [ref=e51]: provider_client_runtime_binding
+      - text: "- PROVIDER_CLIENT_RUNTIME_BINDING_PRESENT"
+    - listitem [ref=e52]:
+      - code [ref=e53]: external_request_payload
+      - text: "- EXTERNAL_REQUEST_PAYLOAD_PRESENT"
+    - listitem [ref=e54]:
+      - code [ref=e55]: approval_ledger_mutation
+      - text: "- APPROVAL_LEDGER_MUTATION_PRESENT"
+    - listitem [ref=e56]:
+      - code [ref=e57]: schema_migration_sql
+      - text: "- SCHEMA_MIGRATION_SQL_PRESENT"
+  - heading "No-Go Boundaries" [level=2] [ref=e58]
+  - list [ref=e59]:
+    - listitem [ref=e60]:
+      - code [ref=e61]: credential_value_read
+      - text: "- allowed=false"
+    - listitem [ref=e62]:
+      - code [ref=e63]: raw_endpoint_url_parse
+      - text: "- allowed=false"
+    - listitem [ref=e64]:
+      - code [ref=e65]: secret_provider_instantiation
+      - text: "- allowed=false"
+    - listitem [ref=e66]:
+      - code [ref=e67]: resolver_client_instantiation
+      - text: "- allowed=false"
+    - listitem [ref=e68]:
+      - code [ref=e69]: external_request
+      - text: "- allowed=false"
+    - listitem [ref=e70]:
+      - code [ref=e71]: ledger_or_schema_write
+      - text: "- allowed=false"
+    - listitem [ref=e72]:
+      - code [ref=e73]: automatic_upstream_start
+      - text: "- allowed=false"
+    - listitem [ref=e74]:
+      - code [ref=e75]: runtime_shell_implementation
+      - text: "- allowed=false"
+    - listitem [ref=e76]:
+      - code [ref=e77]: runtime_shell_invocation
+      - text: "- allowed=false"
+  - heading "Next Actions" [level=2] [ref=e78]
+  - list [ref=e79]:
+    - listitem [ref=e80]: Archive Node v317 as the credential-handle approval contract-only intake.
+    - listitem [ref=e81]: After v317 is complete, Java v146 and mini-kv v139 can run in parallel as read-only echo and non-participation receipt work.
+    - listitem [ref=e82]: Node v318 must wait for both Java v146 and mini-kv v139 before verifying credential-handle approval echo alignment.
+    - listitem [ref=e83]: Stop immediately if the credential-handle contract tries to include credential values, raw endpoint URLs, provider/client config, external request payloads, ledger/schema writes, runtime shell behavior, or automatic upstream start.
+  - heading "Evidence JSON" [level=2] [ref=e84]
+  - generic [ref=e85]: "{ \"profileVersion\": \"managed-audit-manual-sandbox-connection-credential-resolver-credential-handle-approval-contract-intake.v1\", \"contractState\": \"credential-handle-approval-contract-intake-ready\", \"summary\": { \"checkCount\": 20, \"passedCheckCount\": 20, \"sourceNodeV316CheckCount\": 17, \"sourceNodeV316PassedCheckCount\": 17, \"sourceCompletedPrerequisiteCount\": 2, \"sourceRemainingPrerequisiteCount\": 4, \"requiredFieldCount\": 10, \"prohibitedFieldCount\": 8, \"rejectionReasonCount\": 5, \"noGoBoundaryCount\": 9, \"upstreamEchoRequestCount\": 2, \"productionBlockerCount\": 0, \"warningCount\": 2, \"recommendationCount\": 2 }, \"contractDigest\": \"298ffb48a00aab4f4630b42fc7b48805185d50a5465938768bd78943e05ae817\" }"

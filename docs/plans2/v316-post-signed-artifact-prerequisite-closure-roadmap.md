@@ -14,6 +14,7 @@ Java v145：只读 echo Node v314 signed artifact contract 已完成。
 mini-kv v138：non-participation receipt 已完成。
 Node v315：三方 signed artifact contract upstream echo verification 已完成。
 Node v316：signed-human-approval-artifact prerequisite closure review 已完成；当前完成 2/6 prerequisite，剩余 4/6。
+Node v317：credential-handle approval contract intake 已完成；只定义非 secret contract，未请求真实连接、credential 读取或写操作。
 
 剩余 prerequisite：
 - credential-handle-approval
@@ -27,14 +28,14 @@ Node v316：signed-human-approval-artifact prerequisite closure review 已完成
 ## 推荐执行顺序
 
 ```text
-1. Node v317：credential-handle approval contract intake。当前下一步。
+1. Node v317：credential-handle approval contract intake。已完成。
    - 只定义 credential handle approval 的非 secret contract。
    - 允许字段只能是 credential handle、approval status、reviewer/operator handle、policy version、correlation id、issued/expires timestamp、revocation marker、audit digest 等非 secret 信息。
    - 禁止字段必须包含 credential value、raw endpoint URL、secret provider config、resolver client config、external request payload、ledger mutation、schema migration SQL。
    - 不请求 Java/mini-kv，直到 Node v317 contract 和归档完成。
 
-2. 推荐并行：Java v146 + mini-kv v139。
-   - Node v317 完成后执行。
+2. 推荐并行：Java v146 + mini-kv v139。当前下一步。
+   - Node v317 已完成后执行。
    - Java v146：只读 echo Node v317 credential-handle approval contract，不写 approval ledger，不执行 SQL/deployment/rollback。
    - mini-kv v139：non-participation receipt，只确认不存储 credential value、不校验 credential、不承载 credential authority。
    - 两边互不依赖，可以并行推进。
@@ -84,5 +85,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-signed-human-approval-artifact 已完成 contract + upstream echo 闭环；下一步不是并行两边，而是 Node v317 先定义 credential-handle approval 的非 secret contract。Java v146 + mini-kv v139 只有在 Node v317 完成后才推荐并行。
+signed-human-approval-artifact 已完成 contract + upstream echo 闭环；Node v317 也已定义 credential-handle approval 的非 secret contract。当前下一步是推荐并行 Java v146 + mini-kv v139；两边完成后，Node v318 再做 credential-handle approval upstream echo verification。
 ```
