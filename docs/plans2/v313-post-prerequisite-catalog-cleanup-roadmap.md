@@ -13,6 +13,7 @@ mini-kv v137：human approval artifact review post-echo decision gate non-partic
 Node v311：human approval artifact review post-echo decision upstream echo verification 已完成；三方对 v310 decision gate 已对齐。
 Node v312：human approval artifact review governance stop/prerequisite closure decision 已完成；只关闭 java-mini-kv-decision-echo，剩余 5 个 prerequisite 仍缺。
 Node v313：human approval post-echo prerequisite catalog cleanup 已完成；v310/v312 共用 prerequisite catalog，未改变 JSON contract。
+Node v314：signed human approval artifact contract intake 已完成；已定义第一个剩余 prerequisite 的非 secret contract，仍不关闭其余 4 个 prerequisite。
 
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
@@ -20,15 +21,15 @@ Node v313：human approval post-echo prerequisite catalog cleanup 已完成；v3
 ## 推荐执行顺序
 
 ```text
-1. Node v314：signed human approval artifact contract intake。
+1. Node v314：signed human approval artifact contract intake。已完成。
    - 目标是推进 v312 剩余 5 个 prerequisite 中的第一个具体闭环：signed-human-approval-artifact。
    - 只定义非 secret artifact contract，不接收真实 credential value，不解析 raw endpoint URL。
    - 字段只允许 artifact id、approval correlation id、operator identity handle、signer identity handle、policy version、artifact digest、issued/expired timestamp、review status、no-network assertion、rollback/abort reference。
    - 必须复用 v313 prerequisite catalog，明确本版只尝试关闭 signed-human-approval-artifact 的 contract-intake 前置，不关闭 credential-handle-approval、endpoint-handle-allowlist-approval、no-network-safety-fixture、abort-rollback-semantics。
    - 不请求 Java/mini-kv，直到 Node v314 自身 contract 和归档完成。
 
-2. 推荐并行：Java v145 + mini-kv v138。
-   - 仅当 Node v314 完成后执行。
+2. 推荐并行：Java v145 + mini-kv v138。当前下一步。
+   - Node v314 已完成后执行。
    - Java v145：只读 echo Node v314 signed human approval artifact contract，不写 approval ledger，不执行 SQL/deployment/rollback。
    - mini-kv v138：non-participation receipt，只确认不存储、不校验、不承载 signed approval artifact authority。
    - 两边互不依赖，可以并行推进。
@@ -48,18 +49,18 @@ Node v313：human approval post-echo prerequisite catalog cleanup 已完成；v3
 
 ```text
 Node：
-- v314 必须复用 v313 prerequisite catalog，不允许重新手写 signed-human-approval-artifact 文案和 ID。
-- 新增 contract 必须拆成 types / service / renderer / test；单个 service 不得膨胀到 700+ 行。
+- v314 已复用 v313 prerequisite catalog，不重新手写 signed-human-approval-artifact 文案和 ID。
+- 新增 contract 已拆成 types / service / renderer / test；单个 service 未膨胀到 700+ 行。
 - 如果发现 v314 与 v306/v308 的 artifact intake 字段重复明显，应抽 helper，而不是复制一套长字段。
 - 运行截图、解释写入 d/<版本>/；代码讲解写入 代码讲解记录_生产雏形阶段2/。
 
 Java：
-- 当前没有新 Java 任务，只有 Node v314 完成后才推荐 Java v145。
-- Java v145 若执行，只做只读 echo，不写 ledger，不执行 SQL/deployment/rollback。
+- 当前下一步是 Java v145。
+- Java v145 只做只读 echo，不写 ledger，不执行 SQL/deployment/rollback。
 
 mini-kv：
-- 当前没有新 mini-kv 任务，只有 Node v314 完成后才推荐 mini-kv v138。
-- mini-kv v138 若执行，只做 non-participation receipt，不存储 signed artifact，不执行 LOAD/COMPACT/RESTORE/SETNXEX，不成为 authority。
+- 当前下一步是 mini-kv v138。
+- mini-kv v138 只做 non-participation receipt，不存储 signed artifact，不执行 LOAD/COMPACT/RESTORE/SETNXEX，不成为 authority。
 ```
 
 ## 暂停条件
@@ -78,5 +79,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-v313 已完成 prerequisite catalog cleanup；下一步 Node v314 应推进第一个具体缺失 prerequisite：signed-human-approval-artifact contract intake。完成后才能推荐并行 Java v145 + mini-kv v138，只读 echo / non-participation，不打开任何真实执行能力。
+v313 已完成 prerequisite catalog cleanup；Node v314 也已完成第一个具体缺失 prerequisite：signed-human-approval-artifact contract intake。当前下一步推荐并行 Java v145 + mini-kv v138，只读 echo / non-participation，不打开任何真实执行能力。
 ```

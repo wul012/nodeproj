@@ -45,6 +45,7 @@
 316-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification-v311.md
 317-credential-resolver-human-approval-artifact-review-governance-stop-prerequisite-closure-decision-v312.md
 318-human-approval-post-echo-prerequisite-catalog-cleanup-v313.md
+319-signed-human-approval-artifact-contract-intake-v314.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

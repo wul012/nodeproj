@@ -1,0 +1,428 @@
+{
+  "service": "orderops-node",
+  "title": "Managed audit manual sandbox connection credential resolver signed human approval artifact contract intake",
+  "generatedAt": "2026-05-23T03:58:36.528Z",
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-contract-intake.v1",
+  "contractState": "signed-human-approval-artifact-contract-intake-ready",
+  "governanceChainDecision": "continue-only-for-signed-human-approval-artifact-contract-intake",
+  "readyForManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractIntake": true,
+  "signedHumanApprovalArtifactContractIntakeOnly": true,
+  "readOnlyArtifactContract": true,
+  "consumesNodeV312GovernanceStopPrerequisiteClosureDecision": true,
+  "consumesNodeV313PrerequisiteCatalog": true,
+  "activeNodeContractVersion": "Node v314",
+  "targetPrerequisiteId": "signed-human-approval-artifact",
+  "nextJavaVersion": "Java v145",
+  "nextMiniKvVersion": "mini-kv v138",
+  "nextNodeVerificationVersion": "Node v315",
+  "readyForParallelJavaV145MiniKvV138Echo": true,
+  "readyForNodeV315BeforeUpstreamEcho": false,
+  "readyForDisabledRuntimeShellImplementation": false,
+  "readyForDisabledRuntimeShellInvocation": false,
+  "readyForManagedAuditResolverImplementation": false,
+  "readyForManagedAuditSandboxAdapterConnection": false,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "runtimeShellImplemented": false,
+  "runtimeShellEnabled": false,
+  "runtimeShellInvocationAllowed": false,
+  "realResolverImplementationAllowed": false,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "readsManagedAuditCredential": false,
+  "storesManagedAuditCredential": false,
+  "credentialValueRead": false,
+  "credentialValueProvided": false,
+  "rawEndpointUrlParsed": false,
+  "rawEndpointUrlRendered": false,
+  "externalRequestSent": false,
+  "secretProviderInstantiated": false,
+  "resolverClientInstantiated": false,
+  "fakeSecretProviderInstantiated": false,
+  "fakeResolverClientInstantiated": false,
+  "schemaMigrationExecuted": false,
+  "approvalLedgerWritten": false,
+  "automaticUpstreamStart": false,
+  "sourceNodeV312": {
+    "sourceVersion": "Node v312",
+    "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-governance-stop-prerequisite-closure-decision.v1",
+    "decisionState": "human-approval-artifact-review-governance-stop-prerequisite-closure-decision-ready",
+    "readyForClosureDecision": true,
+    "decisionDigest": "152d7517c07119df360446a29c508f5d3d9a78a28adfc6137ea0b0254508b0c6",
+    "sourceVerificationDigest": "8292327cdb44e1d37ead67ff5a0444c08625860c62a3648846801a84f5a6f194",
+    "completedPrerequisiteCount": 1,
+    "remainingPrerequisiteCount": 5,
+    "originalPrerequisiteCount": 6,
+    "noGoConditionCount": 9,
+    "chainContinuationAllowed": false,
+    "nextConcretePrerequisiteContractRequired": true,
+    "completedPrerequisiteIds": [
+      "java-mini-kv-decision-echo"
+    ],
+    "remainingPrerequisiteIds": [
+      "signed-human-approval-artifact",
+      "credential-handle-approval",
+      "endpoint-handle-allowlist-approval",
+      "no-network-safety-fixture",
+      "abort-rollback-semantics"
+    ],
+    "sourceCheckCount": 16,
+    "sourcePassedCheckCount": 16,
+    "sourceProductionBlockerCount": 0,
+    "sourceWarningCount": 1,
+    "sourceRecommendationCount": 2,
+    "sourceChecks": {
+      "sourceNodeV311Ready": true,
+      "sourceNodeV311AlignedWithJavaMiniKv": true,
+      "sourceNodeV311KeepsRuntimeBlocked": true,
+      "sourceNodeV311KeepsSideEffectsClosed": true,
+      "javaMiniKvDecisionEchoClosed": true,
+      "exactlyOnePrerequisiteClosed": true,
+      "fivePrerequisitesRemainMissing": true,
+      "noNewJavaMiniKvEchoRequested": true,
+      "chainPausedWithoutConcretePrerequisite": true,
+      "closureDecisionStillReadOnly": true,
+      "runtimeShellStillBlocked": true,
+      "upstreamProbesStillDisabled": true,
+      "upstreamActionsStillDisabled": true,
+      "productionAuditStillBlocked": true,
+      "productionWindowStillBlocked": true,
+      "readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision": true
+    },
+    "sourceSummary": {
+      "checkCount": 16,
+      "passedCheckCount": 16,
+      "sourceNodeV311CheckCount": 23,
+      "sourceNodeV311PassedCheckCount": 23,
+      "originalPrerequisiteCount": 6,
+      "completedPrerequisiteCount": 1,
+      "remainingPrerequisiteCount": 5,
+      "noGoConditionCount": 9,
+      "productionBlockerCount": 0,
+      "warningCount": 1,
+      "recommendationCount": 2
+    },
+    "runtimeShellImplemented": false,
+    "runtimeShellInvocationAllowed": false,
+    "executionAllowed": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "externalRequestSent": false,
+    "schemaMigrationExecuted": false,
+    "approvalLedgerWritten": false,
+    "automaticUpstreamStart": false
+  },
+  "signedArtifactContract": {
+    "contractDigest": "72498e59c086eadd4d44e80789120de195af1a0b70dd49346b837e2bc8ed4666",
+    "artifactName": "managed-audit-signed-human-approval-artifact",
+    "artifactVersion": "signed-human-approval-artifact.v1",
+    "contractMode": "signed-human-approval-artifact-contract-intake-only",
+    "sourceSpan": "Node v312 + Node v313 catalog",
+    "targetPrerequisiteId": "signed-human-approval-artifact",
+    "purpose": "Define the non-secret signed human approval artifact shape required before any later managed audit credential resolver runtime shell discussion.",
+    "requiredFields": [
+      {
+        "id": "artifact_id",
+        "label": "Artifact id",
+        "required": true,
+        "acceptedShape": "stable non-secret artifact id",
+        "purpose": "Trace the signed approval artifact across Node, Java, and mini-kv evidence."
+      },
+      {
+        "id": "approval_correlation_id",
+        "label": "Approval correlation id",
+        "required": true,
+        "acceptedShape": "stable non-secret correlation id",
+        "purpose": "Bind the signed artifact to the approval review chain."
+      },
+      {
+        "id": "operator_identity_handle",
+        "label": "Operator identity handle",
+        "required": true,
+        "acceptedShape": "operator identity handle, no credential value",
+        "purpose": "Identify the requesting operator without embedding secret material."
+      },
+      {
+        "id": "signer_identity_handle",
+        "label": "Signer identity handle",
+        "required": true,
+        "acceptedShape": "signer identity handle, no private key",
+        "purpose": "Identify the human signer without carrying signing keys or credentials."
+      },
+      {
+        "id": "policy_version",
+        "label": "Policy version",
+        "required": true,
+        "acceptedShape": "policy id or semantic version",
+        "purpose": "Bind the artifact to a known approval policy contract."
+      },
+      {
+        "id": "artifact_digest",
+        "label": "Artifact digest",
+        "required": true,
+        "acceptedShape": "sha256 digest or equivalent stable digest",
+        "purpose": "Prove artifact immutability without embedding raw secret payloads."
+      },
+      {
+        "id": "issued_at",
+        "label": "Issued at",
+        "required": true,
+        "acceptedShape": "ISO-8601 timestamp",
+        "purpose": "Declare when the human approval artifact was issued."
+      },
+      {
+        "id": "expires_at",
+        "label": "Expires at",
+        "required": true,
+        "acceptedShape": "ISO-8601 timestamp",
+        "purpose": "Prevent stale approval artifacts from being treated as current."
+      },
+      {
+        "id": "review_status",
+        "label": "Review status",
+        "required": true,
+        "acceptedShape": "approved, rejected, expired, or revoked",
+        "purpose": "Keep this version contract-only and status-based."
+      },
+      {
+        "id": "no_network_assertion",
+        "label": "No-network assertion",
+        "required": true,
+        "acceptedShape": "boolean assertion plus evidence handle",
+        "purpose": "Assert this contract path sends no HTTP/TCP request."
+      },
+      {
+        "id": "rollback_abort_reference",
+        "label": "Rollback/abort reference",
+        "required": true,
+        "acceptedShape": "runbook or evidence handle",
+        "purpose": "Reference manual abort and rollback semantics without executing them."
+      }
+    ],
+    "prohibitedFields": [
+      {
+        "id": "credential_value",
+        "reason": "Credential values must not enter the signed approval artifact.",
+        "rejectionCode": "CREDENTIAL_VALUE_PRESENT"
+      },
+      {
+        "id": "raw_endpoint_url",
+        "reason": "The contract may reference endpoint handles, not raw endpoint URLs.",
+        "rejectionCode": "RAW_ENDPOINT_URL_PRESENT"
+      },
+      {
+        "id": "signing_private_key",
+        "reason": "A signed artifact may reference a signer handle, not a private key.",
+        "rejectionCode": "SIGNING_PRIVATE_KEY_PRESENT"
+      },
+      {
+        "id": "secret_provider_config",
+        "reason": "Provider configuration would turn this contract into implementation.",
+        "rejectionCode": "PROVIDER_CONFIG_PRESENT"
+      },
+      {
+        "id": "resolver_client_config",
+        "reason": "Resolver client configuration is not allowed in a contract-only intake.",
+        "rejectionCode": "RESOLVER_CLIENT_CONFIG_PRESENT"
+      },
+      {
+        "id": "external_request_payload",
+        "reason": "No HTTP/TCP payload may be prepared or sent by v314.",
+        "rejectionCode": "EXTERNAL_REQUEST_PAYLOAD_PRESENT"
+      },
+      {
+        "id": "approval_ledger_mutation",
+        "reason": "Approval ledger writes remain outside this Node contract.",
+        "rejectionCode": "APPROVAL_LEDGER_MUTATION_PRESENT"
+      },
+      {
+        "id": "schema_migration_sql",
+        "reason": "Schema migration SQL is prohibited in this intake.",
+        "rejectionCode": "SCHEMA_MIGRATION_SQL_PRESENT"
+      }
+    ],
+    "rejectionReasons": [
+      {
+        "code": "SIGNED_ARTIFACT_MISSING",
+        "source": "artifact-contract",
+        "message": "The signed approval artifact contract fields are missing."
+      },
+      {
+        "code": "CREDENTIAL_VALUE_PRESENT",
+        "source": "credential-boundary",
+        "message": "Credential values are not allowed; only handles and review statuses are allowed."
+      },
+      {
+        "code": "RAW_ENDPOINT_URL_PRESENT",
+        "source": "endpoint-boundary",
+        "message": "Raw endpoint URLs are not allowed; only endpoint handles may appear later."
+      },
+      {
+        "code": "RUNTIME_IMPLEMENTATION_PRESENT",
+        "source": "runtime-boundary",
+        "message": "Runtime shell implementation or invocation details are prohibited."
+      },
+      {
+        "code": "WRITE_OR_MIGRATION_PRESENT",
+        "source": "write-boundary",
+        "message": "Ledger writes, schema migration, deployment, and rollback execution are prohibited."
+      }
+    ],
+    "noGoBoundaries": [
+      {
+        "id": "runtime_shell_implementation",
+        "allowed": false,
+        "message": "v314 must not implement a runtime shell."
+      },
+      {
+        "id": "runtime_shell_invocation",
+        "allowed": false,
+        "message": "v314 must not invoke a runtime shell."
+      },
+      {
+        "id": "credential_value_read",
+        "allowed": false,
+        "message": "v314 must not read managed audit credential values."
+      },
+      {
+        "id": "raw_endpoint_url_parse",
+        "allowed": false,
+        "message": "v314 must not parse or render raw endpoint URLs."
+      },
+      {
+        "id": "provider_client_instantiation",
+        "allowed": false,
+        "message": "v314 must not instantiate secret providers or resolver clients."
+      },
+      {
+        "id": "external_request",
+        "allowed": false,
+        "message": "v314 must not send HTTP/TCP requests."
+      },
+      {
+        "id": "ledger_or_schema_write",
+        "allowed": false,
+        "message": "v314 must not write approval ledger or schema state."
+      },
+      {
+        "id": "automatic_upstream_start",
+        "allowed": false,
+        "message": "v314 must not automatically start Java, mini-kv, or external audit services."
+      }
+    ],
+    "upstreamEchoRequests": [
+      {
+        "project": "java",
+        "version": "Java v145",
+        "requestedEcho": "Read-only echo of the Node v314 signed human approval artifact contract.",
+        "canRunInParallel": true,
+        "mustRemainReadOnly": true
+      },
+      {
+        "project": "mini-kv",
+        "version": "mini-kv v138",
+        "requestedEcho": "Non-participation receipt proving mini-kv does not store, validate, or become authority for signed approval artifacts.",
+        "canRunInParallel": true,
+        "mustRemainReadOnly": true
+      }
+    ],
+    "requiredFieldCount": 11,
+    "prohibitedFieldCount": 8,
+    "rejectionReasonCount": 5,
+    "noGoBoundaryCount": 8,
+    "upstreamEchoRequestCount": 2,
+    "implementationStillBlocked": true
+  },
+  "prerequisiteTransition": {
+    "prerequisiteId": "signed-human-approval-artifact",
+    "catalogLabel": "Signed human approval artifact",
+    "beforeV314": "still-missing",
+    "afterV314": "contract-intake-defined",
+    "closureRequiresUpstreamEcho": true,
+    "closesCredentialHandleApproval": false,
+    "closesEndpointHandleAllowlistApproval": false,
+    "closesNoNetworkSafetyFixture": false,
+    "closesAbortRollbackSemantics": false
+  },
+  "necessityProof": {
+    "proofComplete": true,
+    "blockerResolved": "v312 paused the governance chain with five remaining prerequisites; v314 names the first concrete missing prerequisite and defines its non-secret contract shape.",
+    "consumer": "Java v145 + mini-kv v138, then Node v315",
+    "whyV312CannotBeReused": "v312 is a closure decision only; it lists signed-human-approval-artifact as missing but does not define the signed artifact contract fields that upstreams can echo.",
+    "existingReportReuseDecision": "Reuse v312 as source state and v313 as the prerequisite catalog; create v314 only for the signed-human-approval-artifact contract intake.",
+    "stopCondition": "Stop if the contract requires credential values, raw endpoint URLs, provider/client configuration, HTTP/TCP, runtime shell implementation or invocation, ledger/schema writes, mini-kv authority, or automatic upstream start."
+  },
+  "checks": {
+    "sourceNodeV312Ready": true,
+    "sourceNodeV312KeepsGovernancePaused": true,
+    "signedHumanApprovalArtifactStillMissingInSource": true,
+    "catalogTargetMatchesSignedArtifact": true,
+    "contractRequiredFieldsDocumented": true,
+    "contractProhibitedFieldsDocumented": true,
+    "rejectionReasonsDocumented": true,
+    "noGoBoundariesClosed": true,
+    "prerequisiteTransitionScopedToSignedArtifact": true,
+    "necessityProofDocumented": true,
+    "javaMiniKvEchoRequestExplicitlyParallel": true,
+    "contractStaysNonSecret": true,
+    "upstreamProbesStillDisabled": true,
+    "upstreamActionsStillDisabled": true,
+    "runtimeShellImplementationStillBlocked": true,
+    "productionAuditStillBlocked": true,
+    "productionWindowStillBlocked": true,
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractIntake": true
+  },
+  "summary": {
+    "checkCount": 18,
+    "passedCheckCount": 18,
+    "sourceNodeV312CheckCount": 16,
+    "sourceNodeV312PassedCheckCount": 16,
+    "sourceRemainingPrerequisiteCount": 5,
+    "requiredFieldCount": 11,
+    "prohibitedFieldCount": 8,
+    "rejectionReasonCount": 5,
+    "noGoBoundaryCount": 8,
+    "upstreamEchoRequestCount": 2,
+    "productionBlockerCount": 0,
+    "warningCount": 1,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "SIGNED_ARTIFACT_CONTRACT_DOES_NOT_CLOSE_ALL_PREREQUISITES",
+      "severity": "warning",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-contract-intake",
+      "message": "v314 defines a signed-human-approval-artifact contract only; credential handle approval, endpoint allowlist, no-network fixture, and abort/rollback semantics remain separate prerequisites."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "RUN_JAVA_V145_AND_MINI_KV_V138_AFTER_V314_ARCHIVE",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-contract-intake",
+      "message": "After v314 is archived, Java v145 and mini-kv v138 can run in parallel as read-only echo and non-participation receipt work."
+    },
+    {
+      "code": "KEEP_SIGNED_ARTIFACT_CONTRACT_NON_SECRET",
+      "severity": "recommendation",
+      "source": "signed-human-approval-artifact-contract",
+      "message": "Keep the signed approval artifact as handles, status, digest, and timestamps only; never add credential values, raw endpoint URLs, private keys, provider/client config, or HTTP/TCP payloads."
+    }
+  ],
+  "evidenceEndpoints": {
+    "signedHumanApprovalArtifactContractIntakeJson": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-contract-intake",
+    "signedHumanApprovalArtifactContractIntakeMarkdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-contract-intake?format=markdown",
+    "sourceNodeV312Json": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-governance-stop-prerequisite-closure-decision",
+    "sourceNodeV312Markdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-governance-stop-prerequisite-closure-decision?format=markdown",
+    "activePlan": "docs/plans2/v313-post-prerequisite-catalog-cleanup-roadmap.md"
+  },
+  "nextActions": [
+    "Archive Node v314 as the contract-only signed human approval artifact intake.",
+    "After v314 is complete, Java v145 and mini-kv v138 can run in parallel as read-only echo and non-participation receipt work.",
+    "Node v315 must wait for both Java v145 and mini-kv v138 before verifying upstream echo alignment.",
+    "Stop immediately if the signed artifact contract tries to include credential values, raw endpoint URLs, provider/client config, HTTP/TCP payloads, ledger/schema writes, or runtime shell behavior."
+  ]
+}
