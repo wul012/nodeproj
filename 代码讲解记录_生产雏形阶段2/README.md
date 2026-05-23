@@ -47,6 +47,7 @@
 318-human-approval-post-echo-prerequisite-catalog-cleanup-v313.md
 319-signed-human-approval-artifact-contract-intake-v314.md
 320-signed-human-approval-artifact-contract-upstream-echo-verification-v315.md
+321-signed-human-approval-artifact-prerequisite-closure-review-v316.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

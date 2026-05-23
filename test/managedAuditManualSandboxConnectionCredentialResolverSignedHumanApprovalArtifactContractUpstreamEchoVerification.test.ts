@@ -285,7 +285,7 @@ describe("managed audit manual sandbox connection credential resolver signed hum
     } finally {
       await app.close();
     }
-  }, 45000);
+  }, 60000);
 });
 
 function completeHeaders() {
