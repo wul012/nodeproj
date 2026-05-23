@@ -15,6 +15,9 @@ mini-kv v138：non-participation receipt 已完成。
 Node v315：三方 signed artifact contract upstream echo verification 已完成。
 Node v316：signed-human-approval-artifact prerequisite closure review 已完成；当前完成 2/6 prerequisite，剩余 4/6。
 Node v317：credential-handle approval contract intake 已完成；只定义非 secret contract，未请求真实连接、credential 读取或写操作。
+Java v146：credential-handle approval contract echo 已完成；只读回显 Node v317，不写 approval ledger，不执行 SQL/deployment/rollback。
+mini-kv v139：credential-handle approval contract non-participation receipt 已完成；只确认不存储、校验、解析或承载 credential handle authority。
+Node v318：credential-handle approval contract upstream echo verification 已完成；已消费 Node v317 + Java v146 + mini-kv v139，三方对非 secret contract 已对齐。
 
 剩余 prerequisite：
 - credential-handle-approval
@@ -34,18 +37,18 @@ Node v317：credential-handle approval contract intake 已完成；只定义非 
    - 禁止字段必须包含 credential value、raw endpoint URL、secret provider config、resolver client config、external request payload、ledger mutation、schema migration SQL。
    - 不请求 Java/mini-kv，直到 Node v317 contract 和归档完成。
 
-2. 推荐并行：Java v146 + mini-kv v139。当前下一步。
+2. 推荐并行：Java v146 + mini-kv v139。已完成。
    - Node v317 已完成后执行。
    - Java v146：只读 echo Node v317 credential-handle approval contract，不写 approval ledger，不执行 SQL/deployment/rollback。
    - mini-kv v139：non-participation receipt，只确认不存储 credential value、不校验 credential、不承载 credential authority。
    - 两边互不依赖，可以并行推进。
 
-3. Node v318：credential-handle approval contract upstream echo verification。
+3. Node v318：credential-handle approval contract upstream echo verification。已完成。
    - 消费 Node v317 + Java v146 + mini-kv v139。
    - 只验证三方对 credential-handle approval contract 的理解一致。
    - 如果 Java v146 或 mini-kv v139 未完成，Node v318 必须停止。
 
-4. Node v319：post-credential-handle prerequisite closure review。
+4. Node v319：post-credential-handle prerequisite closure review。当前下一步。
    - 只有 Node v318 完成后再做。
    - 判断 credential-handle-approval 是否可以推进到 `contract-intake-and-upstream-echo-complete`。
    - 即使 v319 完成，也仍不解锁 raw endpoint URL、provider/client、HTTP/TCP、ledger/schema 或 runtime shell。
