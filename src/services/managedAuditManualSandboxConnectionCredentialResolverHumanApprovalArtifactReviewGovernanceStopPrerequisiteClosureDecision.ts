@@ -1,6 +1,12 @@
 import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
+  getHumanApprovalArtifactReviewPostEchoPrerequisite,
+  HUMAN_APPROVAL_ARTIFACT_REVIEW_POST_ECHO_PREREQUISITE_CATALOG,
+  JAVA_MINI_KV_DECISION_ECHO_PREREQUISITE_ID,
+  type HumanApprovalArtifactReviewPostEchoPrerequisiteId,
+} from "./managedAuditHumanApprovalArtifactReviewPostEchoPrerequisiteCatalog.js";
+import {
   loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.js";
 import type {
@@ -155,23 +161,20 @@ function createSourceNodeV311(
 function createClosureDecision(
   sourceNodeV311: SourceNodeV311HumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationReference,
 ): HumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision {
+  const javaMiniKvEcho = getHumanApprovalArtifactReviewPostEchoPrerequisite(JAVA_MINI_KV_DECISION_ECHO_PREREQUISITE_ID);
   const completedPrerequisites: HumanApprovalArtifactReviewGovernanceStopPrerequisite[] = [
     {
-      id: "java-mini-kv-decision-echo",
-      label: "Java v144 + mini-kv v137 decision echo",
+      id: javaMiniKvEcho.id,
+      label: javaMiniKvEcho.closureLabel,
       closureState: "completed-by-node-v311",
       evidence: "Node v311 verified Java v144 and mini-kv v137 echoed Node v310 decision gate.",
       requiredBeforeRuntimeShell: true,
       opensRuntimeShell: false,
     },
   ];
-  const remainingPrerequisites: HumanApprovalArtifactReviewGovernanceStopPrerequisite[] = [
-    missing("signed-human-approval-artifact", "Signed human approval artifact"),
-    missing("credential-handle-approval", "Credential handle approval"),
-    missing("endpoint-handle-allowlist-approval", "Endpoint handle allowlist approval"),
-    missing("no-network-safety-fixture", "No-network safety fixture"),
-    missing("abort-rollback-semantics", "Abort and rollback semantics"),
-  ];
+  const remainingPrerequisites = HUMAN_APPROVAL_ARTIFACT_REVIEW_POST_ECHO_PREREQUISITE_CATALOG
+    .filter((entry) => entry.id !== JAVA_MINI_KV_DECISION_ECHO_PREREQUISITE_ID)
+    .map((entry) => missing(entry.id));
   const record = {
     decisionMode: "human-approval-artifact-review-governance-stop-prerequisite-closure-decision-only" as const,
     sourceSpan: "Node v311" as const,
@@ -198,14 +201,15 @@ function createClosureDecision(
 }
 
 function missing(
-  id: Exclude<HumanApprovalArtifactReviewGovernanceStopPrerequisite["id"], "java-mini-kv-decision-echo">,
-  label: string,
+  id: Exclude<HumanApprovalArtifactReviewPostEchoPrerequisiteId, typeof JAVA_MINI_KV_DECISION_ECHO_PREREQUISITE_ID>,
 ): HumanApprovalArtifactReviewGovernanceStopPrerequisite {
+  const entry = getHumanApprovalArtifactReviewPostEchoPrerequisite(id);
+
   return {
     id,
-    label,
+    label: entry.closureLabel,
     closureState: "still-missing",
-    evidence: "No committed artifact, approval record, safety fixture, or semantics contract exists yet.",
+    evidence: entry.closureMissingEvidence,
     requiredBeforeRuntimeShell: true,
     opensRuntimeShell: false,
   };
@@ -237,7 +241,7 @@ function createChecks(
       && sourceNodeV311.automaticUpstreamStart === false,
     javaMiniKvDecisionEchoClosed:
       closureDecision.completedPrerequisites.length === 1
-      && closureDecision.completedPrerequisites[0]?.id === "java-mini-kv-decision-echo",
+      && closureDecision.completedPrerequisites[0]?.id === JAVA_MINI_KV_DECISION_ECHO_PREREQUISITE_ID,
     exactlyOnePrerequisiteClosed: closureDecision.completedPrerequisiteCount === 1,
     fivePrerequisitesRemainMissing:
       closureDecision.remainingPrerequisiteCount === 5

@@ -2,6 +2,7 @@ import type {
   HumanApprovalArtifactReviewUpstreamEchoVerificationChecks,
   HumanApprovalArtifactReviewUpstreamEchoVerificationSummary,
 } from "./managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerificationTypes.js";
+import type { HumanApprovalArtifactReviewPostEchoPrerequisiteId } from "./managedAuditHumanApprovalArtifactReviewPostEchoPrerequisiteCatalog.js";
 
 export interface ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateProfile {
   service: "orderops-node";
@@ -131,7 +132,7 @@ export interface HumanApprovalArtifactReviewPostEchoDecisionGate {
 }
 
 export interface HumanApprovalArtifactReviewPostEchoPrerequisite {
-  id: string;
+  id: HumanApprovalArtifactReviewPostEchoPrerequisiteId;
   label: string;
   currentEvidence: string;
   status: "documented-missing";

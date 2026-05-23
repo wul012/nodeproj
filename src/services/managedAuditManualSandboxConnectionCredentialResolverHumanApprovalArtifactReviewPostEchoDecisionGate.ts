@@ -1,5 +1,6 @@
 import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
+import { HUMAN_APPROVAL_ARTIFACT_REVIEW_POST_ECHO_PREREQUISITE_CATALOG } from "./managedAuditHumanApprovalArtifactReviewPostEchoPrerequisiteCatalog.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification.js";
@@ -206,22 +207,13 @@ function createDecisionGate(
 }
 
 function createRequiredPrerequisites(): HumanApprovalArtifactReviewPostEchoPrerequisite[] {
-  return [
-    prerequisite("signed-human-approval-artifact", "Signed human approval artifact instance", "missing: v308 defined the review packet shape, but no signed artifact instance is present"),
-    prerequisite("credential-handle-approval", "Credential handle approval attestation", "missing: credential handle review status is contract-only; no approval attestation is present"),
-    prerequisite("endpoint-handle-allowlist-approval", "Endpoint handle allowlist approval", "missing: endpoint handle allowlist review remains a required artifact field"),
-    prerequisite("no-network-safety-fixture", "No-network safety fixture", "missing: no fixture proves the future runtime path refuses HTTP/TCP before approval"),
-    prerequisite("abort-rollback-semantics", "Manual abort and rollback semantics", "missing: abort and rollback semantics have not been rehearsed for a runtime shell path"),
-    prerequisite("java-mini-kv-decision-echo", "Java v144 + mini-kv v137 decision echo", "missing: upstreams have not echoed the v310 post-echo decision gate yet"),
-  ];
-}
-
-function prerequisite(
-  id: string,
-  label: string,
-  currentEvidence: string,
-): HumanApprovalArtifactReviewPostEchoPrerequisite {
-  return { id, label, currentEvidence, status: "documented-missing", requiredBeforeRuntimeShell: true };
+  return HUMAN_APPROVAL_ARTIFACT_REVIEW_POST_ECHO_PREREQUISITE_CATALOG.map((entry) => ({
+    id: entry.id,
+    label: entry.decisionGateLabel,
+    currentEvidence: entry.documentedMissingEvidence,
+    status: "documented-missing",
+    requiredBeforeRuntimeShell: true,
+  }));
 }
 
 function createNoGoConditions(): HumanApprovalArtifactReviewPostEchoNoGoCondition[] {

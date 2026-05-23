@@ -23,6 +23,7 @@
 310：credential resolver human approval artifact review post-echo decision gate
 311：credential resolver human approval artifact review post-echo decision upstream echo verification
 312：credential resolver human approval artifact review governance stop/prerequisite closure decision
+313：human approval post-echo prerequisite catalog cleanup
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

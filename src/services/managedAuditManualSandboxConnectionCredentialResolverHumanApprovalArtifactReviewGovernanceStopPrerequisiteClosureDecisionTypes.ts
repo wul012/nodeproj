@@ -2,6 +2,7 @@ import type {
   HumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationChecks,
   HumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationSummary,
 } from "./managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationTypes.js";
+import type { HumanApprovalArtifactReviewPostEchoPrerequisiteId } from "./managedAuditHumanApprovalArtifactReviewPostEchoPrerequisiteCatalog.js";
 
 export interface ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionProfile {
   service: "orderops-node";
@@ -96,13 +97,7 @@ export interface SourceNodeV311HumanApprovalArtifactReviewPostEchoDecisionUpstre
 }
 
 export interface HumanApprovalArtifactReviewGovernanceStopPrerequisite {
-  id:
-    | "signed-human-approval-artifact"
-    | "credential-handle-approval"
-    | "endpoint-handle-allowlist-approval"
-    | "no-network-safety-fixture"
-    | "abort-rollback-semantics"
-    | "java-mini-kv-decision-echo";
+  id: HumanApprovalArtifactReviewPostEchoPrerequisiteId;
   label: string;
   closureState: "completed-by-node-v311" | "still-missing";
   evidence: string;
