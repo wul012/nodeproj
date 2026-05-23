@@ -22,6 +22,7 @@
 309：credential resolver human approval artifact review upstream echo verification
 310：credential resolver human approval artifact review post-echo decision gate
 311：credential resolver human approval artifact review post-echo decision upstream echo verification
+312：credential resolver human approval artifact review governance stop/prerequisite closure decision
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
