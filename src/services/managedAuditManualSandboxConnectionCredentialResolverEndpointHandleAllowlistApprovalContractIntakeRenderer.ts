@@ -1,0 +1,156 @@
+﻿import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  EndpointHandleAllowlistApprovalContract,
+  ManagedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractIntakeProfile,
+  SourceNodeV319CredentialHandleApprovalPrerequisiteClosureReviewReference,
+} from "./managedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractIntakeTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractIntakeMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractIntakeProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver endpoint handle allowlist approval contract intake",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Contract state: ${profile.contractState}`,
+    `- Governance chain decision: ${profile.governanceChainDecision}`,
+    `- Ready for contract intake: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractIntake}`,
+    `- Active Node contract version: ${profile.activeNodeContractVersion}`,
+    `- Target prerequisite id: ${profile.targetPrerequisiteId}`,
+    `- Ready for Java v147 + mini-kv v140 echo: ${profile.readyForParallelJavaV147MiniKvV140Echo}`,
+    `- Ready for Node v321 before upstream echo: ${profile.readyForNodeV321BeforeUpstreamEcho}`,
+    `- Credential value read: ${profile.credentialValueRead}`,
+    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
+    `- Secret provider instantiated: ${profile.secretProviderInstantiated}`,
+    `- Resolver client instantiated: ${profile.resolverClientInstantiated}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v319",
+    "",
+    ...renderSourceNodeV319(profile.sourceNodeV319),
+    "",
+    "## Endpoint Handle Allowlist Approval Contract",
+    "",
+    ...renderContract(profile.endpointHandleAllowlistApprovalContract),
+    "",
+    "## Prerequisite Transition",
+    "",
+    ...renderEntries(profile.prerequisiteTransition),
+    "",
+    "## Necessity Proof",
+    "",
+    ...renderEntries(profile.necessityProof),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No endpoint handle allowlist approval contract intake blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No endpoint handle allowlist approval contract intake warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No endpoint handle allowlist approval contract intake recommendations."),
+    "",
+    "## Evidence Endpoints",
+    "",
+    ...renderEntries(profile.evidenceEndpoints),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderSourceNodeV319(
+  reference: SourceNodeV319CredentialHandleApprovalPrerequisiteClosureReviewReference,
+): string[] {
+  return renderEntries({
+    sourceVersion: reference.sourceVersion,
+    profileVersion: reference.profileVersion,
+    reviewState: reference.reviewState,
+    readyForCredentialHandleApprovalPrerequisiteClosureReview:
+      reference.readyForCredentialHandleApprovalPrerequisiteClosureReview,
+    reviewDigest: reference.reviewDigest,
+    completedPrerequisiteCount: reference.completedPrerequisiteCount,
+    remainingPrerequisiteCount: reference.remainingPrerequisiteCount,
+    originalPrerequisiteCount: reference.originalPrerequisiteCount,
+    nextConcretePrerequisiteId: reference.nextConcretePrerequisiteId,
+    nextConcretePrerequisiteContractRequired: reference.nextConcretePrerequisiteContractRequired,
+    nextNodeVersionSuggested: reference.nextNodeVersionSuggested,
+    chainContinuationAllowed: reference.chainContinuationAllowed,
+    runtimeShellStillBlocked: reference.runtimeShellStillBlocked,
+    completedPrerequisiteIds: reference.completedPrerequisiteIds,
+    remainingPrerequisiteIds: reference.remainingPrerequisiteIds,
+  });
+}
+
+function renderContract(contract: EndpointHandleAllowlistApprovalContract): string[] {
+  return [
+    ...renderEntries({
+      contractDigest: contract.contractDigest,
+      contractName: contract.contractName,
+      contractVersion: contract.contractVersion,
+      contractMode: contract.contractMode,
+      sourceSpan: contract.sourceSpan,
+      targetPrerequisiteId: contract.targetPrerequisiteId,
+      purpose: contract.purpose,
+      requiredFieldCount: contract.requiredFieldCount,
+      prohibitedFieldCount: contract.prohibitedFieldCount,
+      rejectionReasonCount: contract.rejectionReasonCount,
+      noGoBoundaryCount: contract.noGoBoundaryCount,
+      upstreamEchoRequestCount: contract.upstreamEchoRequestCount,
+      implementationStillBlocked: contract.implementationStillBlocked,
+    }),
+    "",
+    "### Required Fields",
+    "",
+    ...renderList(
+      contract.requiredFields.map((field) => `${field.id}: ${field.acceptedShape}; ${field.purpose}`),
+      "No required fields.",
+    ),
+    "",
+    "### Prohibited Fields",
+    "",
+    ...renderList(
+      contract.prohibitedFields.map((field) => `${field.id}: ${field.rejectionCode}; ${field.reason}`),
+      "No prohibited fields.",
+    ),
+    "",
+    "### Rejection Reasons",
+    "",
+    ...renderList(
+      contract.rejectionReasons.map((reason) => `${reason.code}: ${reason.source}; ${reason.message}`),
+      "No rejection reasons.",
+    ),
+    "",
+    "### No-Go Boundaries",
+    "",
+    ...renderList(
+      contract.noGoBoundaries.map((boundary) => `${boundary.id}: allowed=${boundary.allowed}; ${boundary.message}`),
+      "No no-go boundaries.",
+    ),
+    "",
+    "### Upstream Echo Requests",
+    "",
+    ...renderList(
+      contract.upstreamEchoRequests.map((request) =>
+        `${request.project} ${request.version}: ${request.requestedEcho}; readOnly=${request.mustRemainReadOnly}`),
+      "No upstream echo requests.",
+    ),
+  ];
+}
+
+

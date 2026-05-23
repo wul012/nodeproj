@@ -74,7 +74,8 @@ Java v146：credential-handle approval contract echo 已完成；只读回显 No
 mini-kv v139：credential-handle approval contract non-participation receipt 已完成；只确认 mini-kv 不存储、校验、解析或承载 credential handle authority。
 Node v318：credential-handle approval contract upstream echo verification 已完成；三方对 v317 非 secret contract 已对齐。
 Node v319：credential-handle-approval prerequisite closure review 已完成；当前完成 3/6 prerequisite，剩余 endpoint-handle-allowlist-approval、no-network-safety-fixture、abort-rollback-semantics。
-当前有效计划已切换到 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md；下一步是 Node v320 endpoint-handle allowlist approval contract intake。
+Node v320：endpoint-handle allowlist approval contract intake 已完成；只定义非 raw URL contract，不读取 credential value，不解析 raw endpoint URL，不打开连接。
+当前有效计划仍是 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md；下一步是推荐并行 Java v147 + mini-kv v140。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -127,7 +128,8 @@ Node v317：credential-handle approval contract intake。已完成；先由 Node
 Java v146 + mini-kv v139：已完成；两边互不依赖，已并行只读 echo / non-participation。
 Node v318：credential-handle approval upstream echo verification。已完成；已等待 Java v146 + mini-kv v139 完成。
 Node v319：post-credential-handle prerequisite closure review。已完成；credential-handle-approval 已推进到 `contract-intake-and-upstream-echo-complete`，仍不打开 runtime shell。
-Node v320：endpoint-handle allowlist approval contract intake。当前下一步；先由 Node 定义非 raw URL contract，不并行 Java/mini-kv。
+Node v320：endpoint-handle allowlist approval contract intake。已完成；先由 Node 定义非 raw URL contract，不并行 Java/mini-kv。
+推荐并行：Java v147 + mini-kv v140。当前下一步；两边互不依赖，可以并行只读 echo / non-participation。
 ```
 
 ## 质量收口
@@ -178,7 +180,7 @@ Node v320：endpoint-handle allowlist approval contract intake。当前下一步
 - Node v317 已完成 credential-handle approval contract intake；当前推荐并行 Java v146 + mini-kv v139。
 - Java v146 + mini-kv v139 已完成；Node v318 已完成三方 credential-handle approval upstream echo verification。
 - Node v319 已完成 credential-handle approval prerequisite closure review；当前有效计划切换到 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md。
-- Node v320 当前下一步，仍只做 endpoint-handle allowlist contract intake，不实现 resolver、provider/client、HTTP/TCP、ledger/schema 或 runtime shell。
+- Node v320 已完成 endpoint-handle allowlist contract intake；当前上游并行 lane 是 Java v147 + mini-kv v140。
 - Java 后续质量优化显式参考项：OpsEvidenceService.java service/catalog 化、ResponseRecords.java 继续拆、FailedEventMessageService.java 拆分、Java CI 加 jacoco gate；同一 Java 项目内部仍串行，不能和 Java v144 echo 并行。
 - Node 后续质量优化显式参考项：echo catalog 化全面落地，继续把第 9、10 段以后 echo/decision 重复块收进 catalog/template；新 service 接近 700+ 行时先拆再写功能。
 - Node v302 已把 post-decision continuation options / necessity proof catalog 化；后续继续复用 catalog，避免第 9、10 段复制。
