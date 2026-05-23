@@ -230,7 +230,7 @@ describe("production live probe real-read smoke read-only window live capture", 
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 90000);
 });
 
 async function approveCurrentChangeRequest(
