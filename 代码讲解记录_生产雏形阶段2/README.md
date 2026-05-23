@@ -49,6 +49,8 @@
 320-signed-human-approval-artifact-contract-upstream-echo-verification-v315.md
 321-signed-human-approval-artifact-prerequisite-closure-review-v316.md
 322-credential-handle-approval-contract-intake-v317.md
+323-credential-handle-approval-contract-upstream-echo-verification-v318.md
+324-credential-handle-approval-prerequisite-closure-review-v319.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。
