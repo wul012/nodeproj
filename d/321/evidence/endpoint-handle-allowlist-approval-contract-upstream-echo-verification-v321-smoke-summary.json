@@ -1,0 +1,12 @@
+﻿{
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "verificationState":  "endpoint-handle-allowlist-approval-contract-upstream-echo-verification-ready",
+    "activeNodeVerificationVersion":  "Node v321",
+    "javaReady":  true,
+    "miniKvReady":  true,
+    "javaV148QualityEvidence":  true,
+    "checkCount":  24,
+    "passedCheckCount":  24,
+    "productionBlockerCount":  0
+}
