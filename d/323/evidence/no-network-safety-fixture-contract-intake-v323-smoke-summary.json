@@ -1,0 +1,11 @@
+﻿{
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "contractState":  "no-network-safety-fixture-contract-intake-ready",
+    "activeNodeContractVersion":  "Node v323",
+    "targetPrerequisiteId":  "no-network-safety-fixture",
+    "readyForParallelEcho":  true,
+    "checkCount":  21,
+    "passedCheckCount":  21,
+    "productionBlockerCount":  0
+}

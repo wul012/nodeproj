@@ -1,0 +1,204 @@
+# Managed audit manual sandbox connection credential resolver no-network safety fixture contract intake
+
+- Service: orderops-node
+- Generated at: 2026-05-24T10:35:32.096Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-contract-intake.v1
+- Contract state: no-network-safety-fixture-contract-intake-ready
+- Governance chain decision: continue-only-for-no-network-safety-fixture-contract-intake
+- Ready for contract intake: true
+- Active Node contract version: Node v323
+- Target prerequisite id: no-network-safety-fixture
+- Ready for Java v149 + mini-kv v141 echo: true
+- Ready for Node v324 before upstream echo: false
+- Network safety fixture executed: false
+- HTTP request sent: false
+- TCP connection attempted: false
+- Credential value read: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Execution allowed: false
+
+## Source Node v322
+
+- sourceVersion: Node v322
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-endpoint-handle-allowlist-approval-prerequisite-closure-review.v1
+- reviewState: endpoint-handle-allowlist-approval-prerequisite-closure-review-ready
+- readyForEndpointHandleAllowlistApprovalPrerequisiteClosureReview: true
+- reviewDigest: 3b774f17053360aa1f3f747db9179298190d5c8daa03aaaf15ff591483eb863e
+- completedPrerequisiteCount: 4
+- remainingPrerequisiteCount: 2
+- originalPrerequisiteCount: 6
+- nextConcretePrerequisiteId: no-network-safety-fixture
+- nextConcretePrerequisiteContractRequired: true
+- nextNodeVersionSuggested: Node v323
+- chainContinuationAllowed: true
+- runtimeShellStillBlocked: true
+- completedPrerequisiteIds: ["java-mini-kv-decision-echo","signed-human-approval-artifact","credential-handle-approval","endpoint-handle-allowlist-approval"]
+- remainingPrerequisiteIds: ["no-network-safety-fixture","abort-rollback-semantics"]
+
+## No-Network Safety Fixture Contract
+
+- contractDigest: 73dcd413298048da6283f81bd0c3b759b9c1c2d360eb1382983d7db7349b2b88
+- contractName: managed-audit-no-network-safety-fixture
+- contractVersion: no-network-safety-fixture.v1
+- contractMode: no-network-safety-fixture-contract-intake-only
+- sourceSpan: Node v322 closure review + Node v313 catalog
+- targetPrerequisiteId: no-network-safety-fixture
+- purpose: Define the no-network safety fixture shape required before any later resolver can discuss a runtime path that must refuse HTTP/TCP before approval.
+- requiredFieldCount: 10
+- prohibitedFieldCount: 12
+- rejectionReasonCount: 6
+- noGoBoundaryCount: 10
+- upstreamEchoRequestCount: 2
+- implementationStillBlocked: true
+- fixtureExecutionAllowed: false
+
+### Required Fields
+
+- fixture_id: stable non-secret fixture identifier; Identify the no-network safety fixture without running it.
+- operator_confirmation_handle: operator confirmation handle, no credential value; Bind fixture review to a human operator confirmation.
+- approval_correlation_id: stable non-secret correlation id; Bind the fixture contract to the approval chain.
+- transport_denial_policy_id: policy id or semantic version; Declare which no-network denial policy is expected.
+- expected_denied_transport_classes: HTTP, HTTPS, TCP, TLS, DNS, or equivalent class names; List transport classes the future path must refuse before approval.
+- required_denial_evidence: machine-readable denial evidence handle or digest; Declare the evidence a later verification must observe.
+- forbidden_network_actions: non-empty action id list; List network actions that must not occur in contract intake.
+- cleanup_marker: stable cleanup marker or digest; Prove any future fixture run has a cleanup requirement.
+- timeout_budget_ms: positive integer budget; Bound any future denial verification without running it in v323.
+- audit_digest: sha256 digest or equivalent stable digest; Prove contract immutability without embedding secret or endpoint material.
+
+### Prohibited Fields
+
+- credential_value: CREDENTIAL_VALUE_PRESENT; Credential values must not enter the no-network safety fixture contract.
+- raw_endpoint_url: RAW_ENDPOINT_URL_PRESENT; Raw endpoint URLs must not enter this contract; only handles and denial policy ids are allowed.
+- secret_provider_config: SECRET_PROVIDER_CONFIG_PRESENT; Provider configuration would turn this contract into implementation.
+- resolver_client_config: RESOLVER_CLIENT_CONFIG_PRESENT; Resolver client configuration is not allowed in a contract-only intake.
+- external_request_payload: EXTERNAL_REQUEST_PAYLOAD_PRESENT; No HTTP/TCP payload may be prepared or sent by v323.
+- network_socket_open: NETWORK_SOCKET_OPEN_PRESENT; Opening sockets is prohibited during contract intake.
+- http_request_execution: HTTP_REQUEST_EXECUTION_PRESENT; HTTP request execution is prohibited during contract intake.
+- tcp_connection_attempt: TCP_CONNECTION_ATTEMPT_PRESENT; TCP connection attempts are prohibited during contract intake.
+- approval_ledger_mutation: APPROVAL_LEDGER_MUTATION_PRESENT; Approval ledger writes remain outside this Node contract.
+- schema_migration_sql: SCHEMA_MIGRATION_SQL_PRESENT; Schema migration SQL is prohibited in this intake.
+- upstream_process_start: UPSTREAM_PROCESS_START_PRESENT; Starting Java, mini-kv, or external audit services is prohibited.
+- runtime_shell_invocation: RUNTIME_SHELL_INVOCATION_PRESENT; Runtime shell invocation remains prohibited.
+
+### Rejection Reasons
+
+- FIXTURE_ID_MISSING: no-network-fixture-contract; The no-network safety fixture id is missing.
+- DENIAL_POLICY_MISSING: no-network-fixture-contract; The transport denial policy id or expected denied transport classes are missing.
+- NETWORK_ACTION_PRESENT: network-boundary; Network execution, socket opening, HTTP requests, or TCP connection attempts are prohibited.
+- CREDENTIAL_OR_RAW_ENDPOINT_PRESENT: credential-boundary; Credential values and raw endpoint URLs are not allowed in the fixture contract.
+- PROVIDER_CLIENT_CONFIG_PRESENT: provider-client-boundary; Secret provider and resolver client config are prohibited in this intake.
+- WRITE_OR_RUNTIME_ACTION_PRESENT: write-boundary; Ledger writes, schema migration, deployment, rollback, upstream start, and runtime shell invocation are prohibited.
+
+### No-Go Boundaries
+
+- credential_value_read: allowed=false; v323 must not read managed audit credential values.
+- raw_endpoint_url_parse: allowed=false; v323 must not parse or render raw endpoint URLs.
+- secret_provider_instantiation: allowed=false; v323 must not instantiate secret providers.
+- resolver_client_instantiation: allowed=false; v323 must not instantiate resolver clients.
+- http_request_send: allowed=false; v323 must not send HTTP/HTTPS requests.
+- tcp_socket_connect: allowed=false; v323 must not open TCP/TLS sockets.
+- network_fixture_execution: allowed=false; v323 must not execute a no-network fixture; it only defines the contract.
+- ledger_or_schema_write: allowed=false; v323 must not write approval ledger or schema state.
+- automatic_upstream_start: allowed=false; v323 must not automatically start Java, mini-kv, or external audit services.
+- runtime_shell_invocation: allowed=false; v323 must not invoke a runtime shell.
+
+### Upstream Echo Requests
+
+- java Java v149: Read-only echo of the Node v323 no-network safety fixture contract, confirming Java will not execute SQL, deployment, rollback, ledger writes, or external network calls.; readOnly=true
+- mini-kv mini-kv v141: Non-participation receipt proving mini-kv does not execute LOAD/COMPACT/RESTORE/SETNXEX, open network sockets, or become network safety authority.; readOnly=true
+
+## Prerequisite Transition
+
+- prerequisiteId: no-network-safety-fixture
+- catalogLabel: No-network safety fixture
+- beforeV323: still-missing
+- afterV323: contract-intake-defined
+- closureRequiresUpstreamEcho: true
+- completedPrerequisiteCountBeforeV323: 4
+- remainingPrerequisiteCountBeforeV323: 2
+- preservesSignedHumanApprovalArtifactClosure: true
+- preservesCredentialHandleApprovalClosure: true
+- preservesEndpointHandleAllowlistApprovalClosure: true
+- closesNoNetworkSafetyFixture: false
+- closesAbortRollbackSemantics: false
+
+## Necessity Proof
+
+- proofComplete: true
+- blockerResolved: v322 completed the endpoint-handle-allowlist-approval prerequisite and named no-network-safety-fixture as the next concrete missing contract.
+- consumer: Java v149 + mini-kv v141, then Node v324
+- whyV322CannotBeReused: v322 is a closure review only; it proves endpoint-handle-allowlist-approval is complete but does not define no-network denial evidence for upstream echo.
+- existingReportReuseDecision: Reuse v322 as source state and v313 as the prerequisite catalog; create v323 only for the no-network safety fixture contract intake.
+- stopCondition: Stop if the contract requires credential values, raw endpoint URLs, provider/client configuration, network execution, runtime shell implementation or invocation, ledger/schema writes, mini-kv authority, or automatic upstream start.
+
+## Checks
+
+- sourceNodeV322Ready: true
+- sourceNodeV322PointsToNoNetworkSafetyFixture: true
+- sourceNodeV322KeepsRuntimeBlocked: true
+- sourceNodeV322KeepsSideEffectsClosed: true
+- noNetworkSafetyFixtureStillMissingInSource: true
+- catalogTargetMatchesNoNetworkSafetyFixture: true
+- contractRequiredFieldsDocumented: true
+- contractProhibitedFieldsDocumented: true
+- rejectionReasonsDocumented: true
+- noGoBoundariesClosed: true
+- prerequisiteTransitionScopedToNoNetworkSafetyFixture: true
+- necessityProofDocumented: true
+- javaMiniKvEchoRequestExplicitlyParallel: true
+- contractStaysNoNetworkAndNonSecret: true
+- fixtureExecutionStillBlocked: true
+- upstreamProbesStillDisabled: true
+- upstreamActionsStillDisabled: true
+- runtimeShellImplementationStillBlocked: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureContractIntake: true
+
+## Summary
+
+- checkCount: 21
+- passedCheckCount: 21
+- sourceNodeV322CheckCount: 17
+- sourceNodeV322PassedCheckCount: 17
+- sourceCompletedPrerequisiteCount: 4
+- sourceRemainingPrerequisiteCount: 2
+- requiredFieldCount: 10
+- prohibitedFieldCount: 12
+- rejectionReasonCount: 6
+- noGoBoundaryCount: 10
+- upstreamEchoRequestCount: 2
+- productionBlockerCount: 0
+- warningCount: 2
+- recommendationCount: 2
+
+## Production Blockers
+
+- No no-network safety fixture contract intake blockers.
+
+## Warnings
+
+- NO_NETWORK_SAFETY_FIXTURE_CONTRACT_DOES_NOT_EXECUTE_FIXTURE (warning, managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-contract-intake): v323 defines the no-network fixture contract only; it does not run a fixture, open sockets, or prove denial behavior yet.
+- NO_NETWORK_SAFETY_FIXTURE_DOES_NOT_CLOSE_ABORT_ROLLBACK (warning, no-network-safety-fixture-contract): No-network safety fixture work does not close abort/rollback semantics, which remains a separate prerequisite.
+
+## Recommendations
+
+- RUN_JAVA_V149_AND_MINI_KV_V141_AFTER_V323_ARCHIVE (recommendation, managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-contract-intake): After v323 is archived, Java v149 and mini-kv v141 can run in parallel as read-only echo and non-participation receipt work.
+- KEEP_NO_NETWORK_FIXTURE_CONTRACT_NON_EXECUTING (recommendation, no-network-safety-fixture-contract): Keep the no-network safety fixture as handles, denied transport classes, evidence requirements, cleanup markers, timeout budget, and digest only; never add credential values, raw endpoint URLs, provider/client config, socket operations, or HTTP/TCP payloads.
+
+## Evidence Endpoints
+
+- noNetworkSafetyFixtureContractIntakeJson: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-contract-intake
+- noNetworkSafetyFixtureContractIntakeMarkdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-contract-intake?format=markdown
+- sourceNodeV322Json: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-endpoint-handle-allowlist-approval-prerequisite-closure-review
+- sourceNodeV322Markdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-endpoint-handle-allowlist-approval-prerequisite-closure-review?format=markdown
+- activePlan: docs/plans2/v322-post-endpoint-handle-prerequisite-closure-roadmap.md
+
+## Next Actions
+
+- Archive Node v323 as the no-network safety fixture contract-only intake.
+- After v323 is complete, Java v149 and mini-kv v141 can run in parallel as read-only echo and non-participation receipt work.
+- Node v324 must wait for both Java v149 and mini-kv v141 before verifying no-network safety fixture echo alignment.
+- Stop immediately if the fixture contract tries to execute HTTP/TCP, instantiate providers or clients, parse raw endpoint URLs, read credentials, write ledgers/schema, invoke runtime shell behavior, or automatically start upstreams.

@@ -80,6 +80,7 @@ mini-kv v140：endpoint-handle allowlist approval contract non-participation rec
 Java v148：response records split 质量优化已完成；作为 Node v321 non-blocking quality evidence 记录，不改变 echo 语义。
 Node v321：endpoint-handle allowlist contract upstream echo verification 已完成；三方 echo 已对齐。
 Node v322：endpoint-handle-allowlist-approval prerequisite closure review 已完成；当前完成 4/6 prerequisite，剩余 no-network-safety-fixture、abort-rollback-semantics。
+Node v323：no-network safety fixture contract intake 已完成；当前推荐并行 Java v149 + mini-kv v141。
 Node v321：endpoint-handle allowlist contract upstream echo verification 已完成；已消费 Node v320 + Java v147 + mini-kv v140，并记录 Java v148 质量证据。
 当前有效计划仍是 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md；下一步是 Node v322 post-endpoint-handle prerequisite closure review。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
