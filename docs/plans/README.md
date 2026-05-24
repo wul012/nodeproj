@@ -6,7 +6,7 @@
 
 ```text
 当前唯一有效全局计划：
-docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md
+docs/plans2/v322-post-endpoint-handle-prerequisite-closure-roadmap.md
 
 当前状态：
 Node v225 已完成 managed audit sandbox adapter dry-run package，并融合 auditRoutes 旧 JSON/Markdown 路由迁移。

@@ -1,0 +1,11 @@
+﻿{
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "reviewState":  "endpoint-handle-allowlist-approval-prerequisite-closure-review-ready",
+    "activeNodeReviewVersion":  "Node v322",
+    "completedPrerequisiteCount":  4,
+    "remainingPrerequisiteCount":  2,
+    "checkCount":  17,
+    "passedCheckCount":  17,
+    "productionBlockerCount":  0
+}

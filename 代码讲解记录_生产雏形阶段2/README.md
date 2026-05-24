@@ -53,6 +53,7 @@
 324-credential-handle-approval-prerequisite-closure-review-v319.md
 325-endpoint-handle-allowlist-approval-contract-intake-v320.md
 326-endpoint-handle-allowlist-approval-contract-upstream-echo-verification-v321.md
+327-endpoint-handle-allowlist-approval-prerequisite-closure-review-v322.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。
