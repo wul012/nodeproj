@@ -1,0 +1,124 @@
+# Managed audit manual sandbox connection credential resolver implementation candidate gate input-hardening decision
+
+- Service: orderops-node
+- Generated at: 2026-05-25T23:31:24.943Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-implementation-candidate-gate-input-hardening-decision.v1
+- Candidate gate state: implementation-candidate-gate-input-hardening-decision-ready
+- Candidate gate decision: require-input-export-hardening-before-disabled-runtime-design
+- Active Node version: Node v329
+- Source closure version: Node v328
+- Ready for candidate gate decision: true
+- Ready for parallel Java v151 + mini-kv v143: true
+- Ready for Node v330 before upstream echo: false
+- Ready for disabled runtime shell design draft: false
+- Ready for runtime shell implementation: false
+- Execution allowed: false
+- Credential value read: false
+- Raw endpoint URL parsed: false
+- HTTP request sent: false
+- TCP connection attempted: false
+- Java SQL execution allowed: false
+- Rollback execution allowed: false
+- mini-kv write command allowed: false
+- Automatic upstream start: false
+
+## Source Node v328
+
+- Review state: final-prerequisite-closure-review-ready
+- Ready for final closure review: true
+- All prerequisites closed: true
+- Ready for implementation candidate gate: true
+- Closure digest: 15d924b9d529f4d60dd43010b82689f5173d4f2583f8ae31f070f877141a6d14
+- Source checks: 18/18
+- Source production blockers: 0
+
+## Necessity Proof
+
+- Blocker resolved: The six-prerequisite catalog is closed, but implementation still lacks stable input-export contracts for Java and mini-kv evidence consumption.
+- Consumer: Java v151 and mini-kv v143, then Node v330
+- Why v328 cannot be reused: Node v328 only proves prerequisite closure. It does not decide whether Java Markdown archive input and mini-kv release receipt input are stable enough for a disabled runtime design draft.
+- Existing report reuse decision: Reuse v328 as the source closure evidence, but create v329 because the next blocker is input export hardening rather than another closure review.
+- Stop condition: Stop this chain if the next step asks for runtime shell implementation, credential value, raw endpoint URL, provider/client, HTTP/TCP, Java write, mini-kv write/admin command, or automatic upstream start.
+- Proof complete: true
+
+## Decision Record
+
+- Decision digest: e92109116e9d106ffdaa5691aa2eaa626fb595f8a9f4020dbf903fbce7874e87
+- Record mode: implementation-candidate-gate-input-hardening-decision-only
+- Decision scope: managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell
+- Decision: require-input-export-hardening-before-disabled-runtime-design
+- Candidate gate entered: true
+- Allows parallel Java v151 + mini-kv v143: true
+- Allows Node v330 before upstream echo: false
+- Allows disabled runtime design draft: false
+- Allows disabled runtime implementation: false
+- Allows managed audit connection: false
+- Allows mini-kv write/admin command: false
+- Decision reason: Node v328 closed all prerequisites, but v327 still consumes Java Markdown archive evidence and a mini-kv release receipt file; v329 therefore enters the implementation candidate gate only to require stable input export hardening before any disabled runtime design draft.
+
+## Input Hardening Requirements
+
+- java-stable-evidence-export [java] -> Java v151: Stabilize Java evidence export; status=required; evidence=Node v327 currently reads Java v150 archive Markdown; Java v151 should echo whether a stable JSON/current evidence export is required before design draft.
+- mini-kv-stable-current-receipt [mini-kv] -> mini-kv v143: Stabilize mini-kv current receipt export; status=required; evidence=Node v327 currently reads a mini-kv v142 release receipt file; mini-kv v143 should echo whether a stable current receipt path is required before design draft.
+- node-fail-closed-diagnostics [node] -> Node v330: Keep fail-closed diagnostics as a candidate gate requirement; status=required; evidence=Node v329 must preserve missing-input and enabled-upstream-action blockers before Node v330 evaluates upstream alignment.
+- route-evidence-consumability [node] -> Node v330: Keep JSON/Markdown evidence consumable; status=required; evidence=Node v329 keeps the report route readable and screenshot-friendly so v330 can consume the archived decision without manual reconstruction.
+
+## No-Go Conditions
+
+- CREDENTIAL_VALUE_REQUIRED: The next step requires reading or rendering credential values.; action=pause-and-do-not-implement-runtime-shell
+- RAW_ENDPOINT_URL_REQUIRED: The next step requires parsing or rendering a raw endpoint URL.; action=pause-and-do-not-implement-runtime-shell
+- PROVIDER_OR_CLIENT_REQUIRED: The next step requires instantiating a provider, resolver client, or fake client.; action=pause-and-do-not-implement-runtime-shell
+- NETWORK_REQUEST_REQUIRED: The next step requires HTTP/TCP or managed audit network access.; action=pause-and-do-not-implement-runtime-shell
+- JAVA_WRITE_REQUIRED: The next step requires Java SQL, deployment, rollback, ledger, or schema writes.; action=pause-and-do-not-implement-runtime-shell
+- MINI_KV_WRITE_OR_ADMIN_REQUIRED: The next step requires mini-kv LOAD, COMPACT, RESTORE, SETNXEX, or write commands.; action=pause-and-do-not-implement-runtime-shell
+- AUTO_START_REQUIRED: The next step requires automatically starting Java, mini-kv, or external services.; action=pause-and-do-not-implement-runtime-shell
+
+## Checks
+
+- sourceNodeV328Ready: true
+- sourceNodeV328ClosedAllPrerequisites: true
+- sourceNodeV328AllowsCandidateGateOnly: true
+- sourceNodeV328KeepsRuntimeBlocked: true
+- sourceNodeV328KeepsSideEffectsClosed: true
+- candidateGateRequiresInputHardening: true
+- candidateGateDoesNotOpenRuntime: true
+- necessityProofComplete: true
+- inputHardeningRequirementsDocumented: true
+- parallelJavaV151MiniKvV143EchoRecommended: true
+- nodeV330BlockedUntilUpstreamEcho: true
+- upstreamProbesStillDisabled: true
+- upstreamActionsStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecision: true
+
+## Summary
+
+- Checks: 16/16
+- Source Node v328 checks: 18/18
+- Source production blockers: 0
+- Input hardening requirements: 4
+- No-go conditions: 7
+- Production blockers: 0
+- Warnings: 1
+- Recommendations: 2
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- [warning] CANDIDATE_GATE_IS_NOT_RUNTIME_DESIGN (implementation-candidate-gate): v329 enters a candidate gate only to require input hardening; it is not a disabled runtime design draft.
+
+## Recommendations
+
+- [recommendation] REQUEST_PARALLEL_JAVA_V151_MINI_KV_V143 (next-step): After v329, request Java v151 and mini-kv v143 in parallel for read-only input-hardening echo / receipt work.
+- [recommendation] LET_NODE_V330_CONSUME_UPSTREAM_INPUT_HARDENING (next-step): Node v330 should consume Java v151 and mini-kv v143 before deciding whether disabled runtime design is even draftable.
+
+## Next Actions
+
+- Archive Node v329 as the candidate gate decision, not as runtime shell design or implementation.
+- After v329, request Java v151 and mini-kv v143 in parallel for read-only input-hardening echo / receipt work.
+- Let Node v330 consume those two upstream artifacts before any disabled runtime design draft is considered.
+- Keep credential values, raw endpoint URLs, provider clients, HTTP/TCP, Java SQL, rollback, ledger/schema writes, mini-kv writes/admin commands, and automatic upstream start closed.

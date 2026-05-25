@@ -1,0 +1,15 @@
+{
+  "jsonStatus": 200,
+  "markdownStatus": 200,
+  "candidateGateState": "implementation-candidate-gate-input-hardening-decision-ready",
+  "candidateGateDecision": "require-input-export-hardening-before-disabled-runtime-design",
+  "readyForInputHardeningDecision": true,
+  "readyForParallelJavaV151MiniKvV143EchoRequest": true,
+  "readyForDisabledRuntimeShellDesignDraft": false,
+  "inputHardeningRequirementCount": 4,
+  "noGoConditionCount": 7,
+  "productionBlockerCount": 0,
+  "checkCount": 16,
+  "passedCheckCount": 16,
+  "decisionDigest": "e92109116e9d106ffdaa5691aa2eaa626fb595f8a9f4020dbf903fbce7874e87"
+}

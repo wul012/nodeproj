@@ -363,6 +363,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecision,
+  renderManagedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecisionMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecision.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview,
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
@@ -966,6 +970,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-final-prerequisite-closure-review", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-candidate-gate-input-hardening-decision", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecision({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecisionMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance", 
