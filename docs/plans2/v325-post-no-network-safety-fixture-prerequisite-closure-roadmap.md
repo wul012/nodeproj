@@ -19,6 +19,7 @@ Node v326：abort/rollback semantics contract intake 已完成；只定义最后
 Java v150：abort/rollback semantics contract echo 已完成；Java 只读回显 Node v326 合同，不执行 SQL/deployment/rollback、不写 ledger、不发外部请求。
 mini-kv v142：abort/rollback semantics contract non-participation receipt 已完成；mini-kv 只读确认不执行 LOAD/COMPACT/RESTORE/SETNXEX、不承担 abort/rollback authority。
 Node v327：read-only cross-project readiness runner 已完成；Node 读取 Java v150 本地 evidence 与 mini-kv v142 本地 receipt，生成联合 readiness report，22/22 checks 通过，仍不启动上游、不发网络、不执行写操作。
+Node v328：final prerequisite closure review 已完成；消费 Node v327 report，把 6/6 prerequisite catalog 关闭到 final-prerequisite-complete，但仍只允许进入下一阶段 implementation candidate gate，不实现 runtime shell。
 
 剩余 prerequisite：
 - abort-rollback-semantics
@@ -57,13 +58,13 @@ Node v327：read-only cross-project readiness runner 已完成；Node 读取 Jav
    - 验收：typecheck、focused test、build、full test、HTTP smoke、归档 JSON/Markdown/截图/代码讲解。
    - 如果 Java v150 或 mini-kv v142 未完成，Node v327 必须停止。
 
-4. Node v328：final prerequisite closure review。当前下一步。
+4. Node v328：final prerequisite closure review。已完成。
    - 消费 Node v327 cross-project readiness report，而不是直接消费 Java/mini-kv echo 文档。
    - 判断 abort-rollback-semantics 是否可以推进到 `read-only-cross-project-readiness-complete`。
    - 若全部 6/6 prerequisite 完成，也只能进入新的 implementation candidate gate / decision record。
    - 不得在 v328 直接实现 runtime shell、provider/client、HTTP/TCP、ledger/schema 或真实 managed audit connection。
 
-5. v328 之后另起新计划。
+5. v328 之后另起新计划。已另起 `docs/plans2/v328-post-final-prerequisite-closure-roadmap.md`。
    - 新计划不能继续堆“another echo / another closure / another decision gate”，除非能说明解决的真实 blocker。
    - 下一阶段优先从 read-only integration runner 的失败闭环、输入路径稳定化、历史 fixture fallback 和报告可消费性做硬化。
 ```
@@ -108,5 +109,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-no-network-safety-fixture 已完成 contract + upstream echo + closure review 闭环；Node v326 已定义 abort-rollback-semantics 的非执行合同；Java v150 + mini-kv v142 已完成只读 echo / non-participation。下一步 Node v327 不再做纯 echo 堆叠，而是做最小只读联合 readiness runner：读取 Java 和 mini-kv 的真实本地产物，生成 cross-project readiness report；随后 v328 再基于该报告做最终 prerequisite closure review。
+no-network-safety-fixture 已完成 contract + upstream echo + closure review 闭环；Node v326 已定义 abort-rollback-semantics 的非执行合同；Java v150 + mini-kv v142 已完成只读 echo / non-participation；Node v327 已生成最小只读联合 readiness runner；Node v328 已基于该报告完成 final prerequisite closure review。下一步另起计划进入 implementation candidate gate / input-hardening 阶段，仍不得直接实现 runtime shell。
 ```

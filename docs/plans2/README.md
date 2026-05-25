@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v325-post-no-network-safety-fixture-prerequisite-closure-roadmap.md
+docs/plans2/v328-post-final-prerequisite-closure-roadmap.md
 ```
 
 ## 当前状态
@@ -89,7 +89,8 @@ Node v326：abort/rollback semantics contract intake 已完成；只定义最后
 Java v150：abort/rollback semantics contract echo 已完成；只读回显 Node v326，不执行 SQL/deployment/rollback、不写 ledger、不发外部请求。
 mini-kv v142：abort/rollback semantics contract non-participation receipt 已完成；只读确认不执行 LOAD/COMPACT/RESTORE/SETNXEX、不承担 abort/rollback authority。
 Node v327：read-only cross-project readiness runner 已完成；读取 Java v150 本地 evidence 与 mini-kv v142 本地 receipt，生成联合 readiness report，仍不启动上游、不发网络、不执行写操作。
-当前有效计划是 docs/plans2/v325-post-no-network-safety-fixture-prerequisite-closure-roadmap.md；下一步是 Node v328 final prerequisite closure review。
+Node v328：final prerequisite closure review 已完成；6/6 prerequisite 已关闭，但 runtime shell、provider/client、HTTP/TCP、ledger/schema、真实 managed audit connection 仍未打开。
+当前有效计划是 docs/plans2/v328-post-final-prerequisite-closure-roadmap.md；下一步是 Node v329 implementation candidate gate / input-hardening decision。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -205,7 +206,7 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v317 已完成 credential-handle approval contract intake；当前推荐并行 Java v146 + mini-kv v139。
 - Java v146 + mini-kv v139 已完成；Node v318 已完成三方 credential-handle approval upstream echo verification。
 - Node v319 已完成 credential-handle approval prerequisite closure review；当前有效计划切换到 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md。
-- Node v320 已完成 endpoint-handle allowlist contract intake；Java v147 + mini-kv v140 已完成并行上游证据，Java v148 已完成质量优化，Node v321 已完成三方 upstream echo verification，Node v322 已完成 endpoint-handle-allowlist-approval prerequisite closure review；Node v323-v325 已完成 no-network-safety-fixture contract、上游 echo 与 closure review；Node v326 已完成 abort/rollback semantics contract intake；Java v150 + mini-kv v142 已完成；Node v327 已完成 read-only cross-project readiness runner；当前有效计划切换到 docs/plans2/v325-post-no-network-safety-fixture-prerequisite-closure-roadmap.md，下一步是 Node v328 final prerequisite closure review。
+- Node v320 已完成 endpoint-handle allowlist contract intake；Java v147 + mini-kv v140 已完成并行上游证据，Java v148 已完成质量优化，Node v321 已完成三方 upstream echo verification，Node v322 已完成 endpoint-handle-allowlist-approval prerequisite closure review；Node v323-v325 已完成 no-network-safety-fixture contract、上游 echo 与 closure review；Node v326 已完成 abort/rollback semantics contract intake；Java v150 + mini-kv v142 已完成；Node v327 已完成 read-only cross-project readiness runner；Node v328 已完成 final prerequisite closure review；当前有效计划切换到 docs/plans2/v328-post-final-prerequisite-closure-roadmap.md，下一步是 Node v329 implementation candidate gate / input-hardening decision。
 - Node v327 起吸收统筹建议：不要继续堆纯 `echo verification / closure review`；优先读取 Java / mini-kv 真实本地产物，生成只读联合 readiness report，缺证据或禁止项异常时 fail closed。
 - Java 后续质量优化显式参考项：OpsEvidenceService.java service/catalog 化、ResponseRecords.java 继续拆、FailedEventMessageService.java 拆分、Java CI 加 jacoco gate；同一 Java 项目内部仍串行，不能和 Java v144 echo 并行。
 - Node 后续质量优化显式参考项：echo catalog 化全面落地，继续把第 9、10 段以后 echo/decision 重复块收进 catalog/template；新 service 接近 700+ 行时先拆再写功能。

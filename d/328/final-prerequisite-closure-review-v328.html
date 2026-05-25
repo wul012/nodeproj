@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v328 final prerequisite closure review</title>
+  <style>
+    :root {
+      color: #101418;
+      background: #f6f8fb;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    body {
+      margin: 0;
+      padding: 32px;
+    }
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 30px;
+      line-height: 1.2;
+    }
+    .lede {
+      margin: 0 0 24px;
+      color: #52606d;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+    .metric {
+      border: 1px solid #d8e0ea;
+      border-radius: 8px;
+      background: #fff;
+      padding: 14px;
+    }
+    .label {
+      color: #64748b;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .value {
+      margin-top: 8px;
+      font-size: 20px;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      overflow: auto;
+      border: 1px solid #d8e0ea;
+      border-radius: 8px;
+      background: #fff;
+      padding: 18px;
+      white-space: pre-wrap;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v328 final prerequisite closure review</h1>
+    <p class="lede">Read-only closure over Node v327 readiness; no runtime shell, network, credential, SQL, rollback, ledger, or mini-kv write side effects.</p>
+    <section class="grid">
+      <article class="metric"><div class="label">Review state</div><div class="value">final-prerequisite-closure-review-ready</div></article>
+      <article class="metric"><div class="label">Prerequisites</div><div class="value">6/6</div></article>
+      <article class="metric"><div class="label">Checks</div><div class="value">18/18</div></article>
+      <article class="metric"><div class="label">Next</div><div class="value">Node v329</div></article>
+    </section>
+    <pre># Managed audit manual sandbox connection credential resolver final prerequisite closure review
+
+- Service: orderops-node
+- Generated at: 2026-05-25T14:06:15.450Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-final-prerequisite-closure-review.v1
+- Review state: final-prerequisite-closure-review-ready
+- Active Node version: Node v328
+- Source readiness version: Node v327
+- Target prerequisite id: abort-rollback-semantics
+- All prerequisites closed: true
+- Ready for final prerequisite closure review: true
+- Ready for implementation candidate gate: true
+- Ready for runtime shell implementation: false
+- Execution allowed: false
+- Credential value read: false
+- Raw endpoint URL parsed: false
+- HTTP request sent: false
+- TCP connection attempted: false
+- Java SQL execution allowed: false
+- Rollback execution allowed: false
+- mini-kv write command allowed: false
+- Automatic upstream start: false
+- Closure digest: 15d924b9d529f4d60dd43010b82689f5173d4f2583f8ae31f070f877141a6d14
+
+## Source Node v327
+
+- Runner state: read-only-cross-project-readiness-ready
+- Ready for read-only report: true
+- Ready for final closure review: true
+- Readiness digest: 10ed29b284196e1e117f09a5b5ff2dc060fd9be261161111aba6ab2cc721d91c
+- Source Node contract: Node v326
+- Java evidence: Java v150
+- mini-kv receipt: mini-kv v142
+- Java ready for Node consumption: true
+- mini-kv ready for Node consumption: true
+- Side effect safety matrix closed: true
+- Source checks: 22/22
+- Source production blockers: 0
+
+## Closure Review
+
+- Review digest: 0f8e17e64a5bdeebeb77dfa8528cf0a55c6614f12d3a2788bd7a4888641761f6
+- Review mode: final-prerequisite-closure-review-only
+- Source span: Node v327
+- Moved prerequisite: abort-rollback-semantics
+- Moved from: contract-intake-and-cross-project-readiness-complete
+- Moved to: final-prerequisite-complete
+- Completed prerequisites: 6/6
+- Remaining prerequisites: 0
+- Next Node version: Node v329
+- Next step mode: implementation-candidate-gate-only
+- Runtime shell still blocked: true
+- Closure reason: Node v327 proved the final abort/rollback semantics prerequisite through read-only Java v150 and mini-kv v142 evidence, so v328 can close the six-prerequisite catalog without opening runtime execution.
+
+## Completed Prerequisites
+
+- signed-human-approval-artifact: completed-before-node-v328; opensRuntimeShell=false; evidence=Node v316 closed the signed-human-approval-artifact prerequisite after the v315 upstream echo verification.
+- credential-handle-approval: completed-before-node-v328; opensRuntimeShell=false; evidence=Node v319 closed the credential-handle-approval prerequisite after the v318 upstream echo verification.
+- endpoint-handle-allowlist-approval: completed-before-node-v328; opensRuntimeShell=false; evidence=Node v322 closed the endpoint-handle-allowlist-approval prerequisite after the v321 upstream echo verification.
+- no-network-safety-fixture: completed-before-node-v328; opensRuntimeShell=false; evidence=Node v325 closed the no-network-safety-fixture prerequisite after the v324 upstream echo verification.
+- abort-rollback-semantics: final-cross-project-readiness-complete; opensRuntimeShell=false; evidence=Node v327 readiness digest 10ed29b284196e1e117f09a5b5ff2dc060fd9be261161111aba6ab2cc721d91c consumed Java v150 evidence and mini-kv v142 receipt.
+- java-mini-kv-decision-echo: completed-before-node-v328; opensRuntimeShell=false; evidence=Node v312 closed the Java/mini-kv decision echo prerequisite after the v311 upstream echo verification.
+
+## Checks
+
+- sourceNodeV327Ready: true
+- sourceNodeV327ReadinessReportReady: true
+- sourceNodeV327FinalClosureReady: true
+- sourceNodeV327KeepsRuntimeBlocked: true
+- sourceNodeV327KeepsSideEffectsClosed: true
+- sourceJavaV150Consumed: true
+- sourceMiniKvV142Consumed: true
+- abortRollbackSemanticsCanClose: true
+- allSixPrerequisitesCompleted: true
+- noPrerequisitesRemain: true
+- finalClosureDoesNotOpenRuntime: true
+- implementationCandidateGateOnly: true
+- noNewJavaMiniKvEchoRequested: true
+- upstreamProbesStillDisabled: true
+- upstreamActionsStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview: true
+
+## Summary
+
+- Checks: 18/18
+- Source Node v327 checks: 22/22
+- Prerequisites: 6/6
+- Remaining prerequisites: 0
+- Production blockers: 0
+- Warnings: 1
+- Recommendations: 2
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- [warning] FINAL_PREREQUISITE_CLOSURE_IS_NOT_RUNTIME_PERMISSION (next-step): v328 closes the prerequisite catalog only; runtime implementation still needs a separate candidate gate.
+
+## Recommendations
+
+- [recommendation] OPEN_V329_CANDIDATE_GATE_PLAN (next-step): Start the next plan with Node v329 implementation candidate gate and keep it non-executing.
+- [recommendation] HARDEN_INPUT_EXPORTS_BEFORE_RUNTIME (next-step): After final closure, harden read-only input exports and historical fallback before any real adapter work.
+
+## Next Actions
+
+- Archive Node v328 as the final prerequisite closure review and stop adding another prerequisite closure layer.
+- Open the next plan at Node v329 as an implementation candidate gate only; do not implement runtime shell in v328.
+- Keep credential values, raw endpoint URLs, HTTP/TCP, Java SQL, rollback, ledger/schema writes, mini-kv writes, and automatic upstream start closed.
+</pre>
+  </main>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "jsonStatus": 200,
+  "markdownStatus": 200,
+  "reviewState": "final-prerequisite-closure-review-ready",
+  "readyForFinalPrerequisiteClosureReview": true,
+  "allPrerequisitesClosed": true,
+  "readyForImplementationCandidateGate": true,
+  "completedPrerequisiteCount": 6,
+  "remainingPrerequisiteCount": 0,
+  "productionBlockerCount": 0,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "closureDigest": "15d924b9d529f4d60dd43010b82689f5173d4f2583f8ae31f070f877141a6d14"
+}

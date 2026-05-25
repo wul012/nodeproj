@@ -30,6 +30,7 @@
 325：credential resolver no-network safety fixture prerequisite closure review
 326：credential resolver abort/rollback semantics contract intake
 327：credential resolver read-only cross-project readiness runner
+328：credential resolver final prerequisite closure review
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
