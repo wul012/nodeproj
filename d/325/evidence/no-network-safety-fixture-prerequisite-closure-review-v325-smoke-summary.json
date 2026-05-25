@@ -1,0 +1,9 @@
+{
+  "version": "v325",
+  "route": "http://127.0.0.1:4326/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-prerequisite-closure-review",
+  "jsonStatus": 200,
+  "markdownStatus": 200,
+  "jsonLength": 11189,
+  "markdownLength": 7819,
+  "generatedAt": "2026-05-25T07:51:52.844Z"
+}
