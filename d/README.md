@@ -25,6 +25,8 @@
 312：credential resolver human approval artifact review governance stop/prerequisite closure decision
 313：human approval post-echo prerequisite catalog cleanup
 314：signed human approval artifact contract intake
+323：credential resolver no-network safety fixture contract intake
+324：credential resolver no-network safety fixture upstream echo verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

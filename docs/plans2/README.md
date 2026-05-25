@@ -80,9 +80,11 @@ mini-kv v140：endpoint-handle allowlist approval contract non-participation rec
 Java v148：response records split 质量优化已完成；作为 Node v321 non-blocking quality evidence 记录，不改变 echo 语义。
 Node v321：endpoint-handle allowlist contract upstream echo verification 已完成；三方 echo 已对齐。
 Node v322：endpoint-handle-allowlist-approval prerequisite closure review 已完成；当前完成 4/6 prerequisite，剩余 no-network-safety-fixture、abort-rollback-semantics。
-Node v323：no-network safety fixture contract intake 已完成；当前推荐并行 Java v149 + mini-kv v141。
-Node v321：endpoint-handle allowlist contract upstream echo verification 已完成；已消费 Node v320 + Java v147 + mini-kv v140，并记录 Java v148 质量证据。
-当前有效计划仍是 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md；下一步是 Node v322 post-endpoint-handle prerequisite closure review。
+Node v323：no-network safety fixture contract intake 已完成；Java v149 + mini-kv v141 已按推荐并行完成。
+Java v149：no-network safety fixture contract echo 已完成；供 Node v324 消费。
+mini-kv v141：no-network safety fixture contract non-participation receipt 已完成；供 Node v324 消费。
+Node v324：no-network safety fixture upstream echo verification 已完成；三方对 v323 contract 和 no-network side-effect 边界已对齐。
+当前有效计划是 docs/plans2/v322-post-endpoint-handle-prerequisite-closure-roadmap.md；下一步是 Node v325 no-network-safety-fixture prerequisite closure review。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -140,6 +142,10 @@ Node v320：endpoint-handle allowlist approval contract intake。已完成；先
 Java v148：response records split 质量优化已完成；只作为质量证据，不替代 v147 echo。
 Node v321：endpoint-handle allowlist contract upstream echo verification。已完成；消费 Node v320 + Java v147 + mini-kv v140，并记录 Java v148 质量证据。
 Node v322：post-endpoint-handle prerequisite closure review。当前下一步；只能判断 endpoint-handle-allowlist-approval 是否可关闭，不打开 runtime shell。
+Node v323：no-network safety fixture contract intake。已完成；推荐并行 Java v149 + mini-kv v141。
+推荐并行：Java v149 + mini-kv v141。已完成；两边互不依赖，可以并行只读 echo / non-participation。
+Node v324：no-network safety fixture upstream echo verification。已完成；已等待 Java v149 + mini-kv v141 完成。
+Node v325：no-network-safety-fixture prerequisite closure review。当前下一步；只能判断 no-network-safety-fixture 是否可关闭，不打开 provider/client、HTTP/TCP、ledger/schema 或 runtime shell。
 ```
 
 ## 质量收口
