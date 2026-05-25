@@ -355,6 +355,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntakeMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunner,
+  renderManagedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunnerMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunner.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview,
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
@@ -950,6 +954,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntakeMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-read-only-cross-project-readiness-runner", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunner({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunnerMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance", 

@@ -1,0 +1,13 @@
+{
+  "jsonStatus": 200,
+  "markdownStatus": 200,
+  "runnerState": "read-only-cross-project-readiness-ready",
+  "readyForReadOnlyCrossProjectReadinessReport": true,
+  "readyForFinalPrerequisiteClosureReview": true,
+  "javaEvidencePresent": true,
+  "miniKvReceiptPresent": true,
+  "productionBlockerCount": 0,
+  "checkCount": 22,
+  "passedCheckCount": 22,
+  "readinessDigest": "10ed29b284196e1e117f09a5b5ff2dc060fd9be261161111aba6ab2cc721d91c"
+}

@@ -58,6 +58,7 @@
 329-no-network-safety-fixture-upstream-echo-verification-v324.md
 330-no-network-safety-fixture-prerequisite-closure-review-v325.md
 331-abort-rollback-semantics-contract-intake-v326.md
+332-read-only-cross-project-readiness-runner-v327.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。
