@@ -1,0 +1,15 @@
+{
+  "service": "orderops-node",
+  "version": "Node v326",
+  "route": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake",
+  "baseUrl": "http://127.0.0.1:4326",
+  "jsonStatus": 200,
+  "markdownStatus": 200,
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake.v1",
+  "contractState": "abort-rollback-semantics-contract-intake-ready",
+  "targetPrerequisiteId": "abort-rollback-semantics",
+  "readyForParallelJavaV150MiniKvV142Echo": true,
+  "readyForNodeV327BeforeUpstreamEcho": false,
+  "productionBlockerCount": 0,
+  "generatedAt": "2026-05-25T09:13:11.399Z"
+}

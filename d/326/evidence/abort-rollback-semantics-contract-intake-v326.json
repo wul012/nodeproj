@@ -1,0 +1,508 @@
+{
+  "service": "orderops-node",
+  "title": "Managed audit manual sandbox connection credential resolver abort/rollback semantics contract intake",
+  "generatedAt": "2026-05-25T09:13:08.250Z",
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake.v1",
+  "contractState": "abort-rollback-semantics-contract-intake-ready",
+  "governanceChainDecision": "continue-only-for-abort-rollback-semantics-contract-intake",
+  "readyForManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake": true,
+  "abortRollbackSemanticsContractIntakeOnly": true,
+  "readOnlyAbortRollbackSemanticsContract": true,
+  "consumesNodeV325NoNetworkSafetyFixturePrerequisiteClosureReview": true,
+  "consumesNodeV313PrerequisiteCatalog": true,
+  "activeNodeContractVersion": "Node v326",
+  "targetPrerequisiteId": "abort-rollback-semantics",
+  "nextJavaVersion": "Java v150",
+  "nextMiniKvVersion": "mini-kv v142",
+  "nextNodeVerificationVersion": "Node v327",
+  "readyForParallelJavaV150MiniKvV142Echo": true,
+  "readyForNodeV327BeforeUpstreamEcho": false,
+  "readyForFinalPrerequisiteClosureReview": false,
+  "readyForDisabledRuntimeShellImplementation": false,
+  "readyForDisabledRuntimeShellInvocation": false,
+  "readyForManagedAuditResolverImplementation": false,
+  "readyForManagedAuditSandboxAdapterConnection": false,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "runtimeShellImplemented": false,
+  "runtimeShellEnabled": false,
+  "runtimeShellInvocationAllowed": false,
+  "runtimeShellCommandRendered": false,
+  "realResolverImplementationAllowed": false,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "readsManagedAuditCredential": false,
+  "storesManagedAuditCredential": false,
+  "credentialValueRead": false,
+  "credentialValueProvided": false,
+  "endpointHandleAllowlistApproved": false,
+  "rawEndpointUrlParsed": false,
+  "rawEndpointUrlRendered": false,
+  "externalRequestSent": false,
+  "networkSafetyFixtureExecuted": false,
+  "abortRollbackSemanticsExecuted": false,
+  "rollbackExecutionAllowed": false,
+  "deploymentActionAllowed": false,
+  "javaSqlExecutionAllowed": false,
+  "miniKvWriteCommandAllowed": false,
+  "httpRequestSent": false,
+  "tcpConnectionAttempted": false,
+  "networkSocketOpened": false,
+  "secretProviderInstantiated": false,
+  "resolverClientInstantiated": false,
+  "fakeSecretProviderInstantiated": false,
+  "fakeResolverClientInstantiated": false,
+  "schemaMigrationExecuted": false,
+  "approvalLedgerWritten": false,
+  "automaticUpstreamStart": false,
+  "sourceNodeV325": {
+    "sourceVersion": "Node v325",
+    "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-prerequisite-closure-review.v1",
+    "reviewState": "no-network-safety-fixture-prerequisite-closure-review-ready",
+    "readyForNoNetworkSafetyFixturePrerequisiteClosureReview": true,
+    "reviewDigest": "5781245b6dd5b67d6e2985e7e6f70e942defcd4ea95a09dc516743abf7abf0ca",
+    "prerequisiteClosureDecision": "advance-no-network-safety-fixture-only",
+    "completedPrerequisiteCount": 5,
+    "remainingPrerequisiteCount": 1,
+    "originalPrerequisiteCount": 6,
+    "nextConcretePrerequisiteId": "abort-rollback-semantics",
+    "nextConcretePrerequisiteContractRequired": true,
+    "nextNodeVersionSuggested": "Node v326",
+    "chainContinuationAllowed": true,
+    "runtimeShellStillBlocked": true,
+    "completedPrerequisiteIds": [
+      "java-mini-kv-decision-echo",
+      "signed-human-approval-artifact",
+      "credential-handle-approval",
+      "endpoint-handle-allowlist-approval",
+      "no-network-safety-fixture"
+    ],
+    "remainingPrerequisiteIds": [
+      "abort-rollback-semantics"
+    ],
+    "sourceCheckCount": 17,
+    "sourcePassedCheckCount": 17,
+    "sourceProductionBlockerCount": 0,
+    "sourceWarningCount": 1,
+    "sourceRecommendationCount": 2,
+    "sourceChecks": {
+      "sourceNodeV324Ready": true,
+      "sourceNodeV324EchoAligned": true,
+      "sourceNodeV324KeepsRuntimeBlocked": true,
+      "sourceNodeV324KeepsNetworkSideEffectsClosed": true,
+      "noNetworkSafetyFixtureCanClose": true,
+      "noNetworkSafetyFixtureClosureDoesNotOpenRuntime": true,
+      "exactlyFivePrerequisitesCompleted": true,
+      "onePrerequisiteRemainsMissing": true,
+      "nextConcretePrerequisiteIsAbortRollbackSemantics": true,
+      "noNewJavaMiniKvEchoRequested": true,
+      "closureReviewStillReadOnly": true,
+      "runtimeShellStillBlocked": true,
+      "upstreamProbesStillDisabled": true,
+      "upstreamActionsStillDisabled": true,
+      "productionAuditStillBlocked": true,
+      "productionWindowStillBlocked": true,
+      "readyForManagedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixturePrerequisiteClosureReview": true
+    },
+    "sourceSummary": {
+      "checkCount": 17,
+      "passedCheckCount": 17,
+      "sourceNodeV324CheckCount": 23,
+      "sourceNodeV324PassedCheckCount": 23,
+      "originalPrerequisiteCount": 6,
+      "completedPrerequisiteCount": 5,
+      "remainingPrerequisiteCount": 1,
+      "requiredFieldCount": 10,
+      "prohibitedFieldCount": 12,
+      "rejectionReasonCount": 6,
+      "noGoBoundaryCount": 10,
+      "upstreamEchoRequestCount": 2,
+      "productionBlockerCount": 0,
+      "warningCount": 1,
+      "recommendationCount": 2
+    },
+    "runtimeShellImplemented": false,
+    "runtimeShellInvocationAllowed": false,
+    "executionAllowed": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "externalRequestSent": false,
+    "networkSafetyFixtureExecuted": false,
+    "httpRequestSent": false,
+    "tcpConnectionAttempted": false,
+    "networkSocketOpened": false,
+    "schemaMigrationExecuted": false,
+    "approvalLedgerWritten": false,
+    "automaticUpstreamStart": false
+  },
+  "abortRollbackSemanticsContract": {
+    "contractDigest": "fe05bcfd65aabf56ef170bf458837053a11edf0ae44ad203a88d4ecd284299f9",
+    "contractName": "managed-audit-abort-rollback-semantics",
+    "contractVersion": "abort-rollback-semantics.v1",
+    "contractMode": "abort-rollback-semantics-contract-intake-only",
+    "sourceSpan": "Node v325 closure review + Node v313 catalog",
+    "targetPrerequisiteId": "abort-rollback-semantics",
+    "purpose": "Define the final manual abort and rollback semantics prerequisite before any later resolver can discuss implementation candidate gates.",
+    "requiredFields": [
+      {
+        "id": "manual_abort_marker",
+        "label": "Manual abort marker",
+        "required": true,
+        "acceptedShape": "stable non-secret manual abort marker",
+        "purpose": "Bind the future path to a human-visible abort marker."
+      },
+      {
+        "id": "rollback_runbook_reference",
+        "label": "Rollback runbook reference",
+        "required": true,
+        "acceptedShape": "runbook id or immutable document reference",
+        "purpose": "Point operators to rollback instructions without executing them."
+      },
+      {
+        "id": "operator_confirmation_handle",
+        "label": "Operator confirmation handle",
+        "required": true,
+        "acceptedShape": "operator confirmation handle, no credential value",
+        "purpose": "Bind abort/rollback review to an operator confirmation."
+      },
+      {
+        "id": "approval_correlation_id",
+        "label": "Approval correlation id",
+        "required": true,
+        "acceptedShape": "stable non-secret correlation id",
+        "purpose": "Bind semantics to the approval chain."
+      },
+      {
+        "id": "cleanup_evidence_marker",
+        "label": "Cleanup evidence marker",
+        "required": true,
+        "acceptedShape": "cleanup marker or evidence digest",
+        "purpose": "Declare how cleanup evidence will be recognized after a stopped attempt."
+      },
+      {
+        "id": "idempotent_noop_failure_policy",
+        "label": "Idempotent no-op failure policy",
+        "required": true,
+        "acceptedShape": "policy id or semantic version",
+        "purpose": "Define how repeated abort/rollback requests remain safe no-ops."
+      },
+      {
+        "id": "rollback_authority_boundary",
+        "label": "Rollback authority boundary",
+        "required": true,
+        "acceptedShape": "authority handle, no executable permission",
+        "purpose": "Describe who may authorize rollback without granting Node execution."
+      },
+      {
+        "id": "abort_reason_code",
+        "label": "Abort reason code",
+        "required": true,
+        "acceptedShape": "stable reason code list",
+        "purpose": "Standardize operator-readable abort reasons."
+      },
+      {
+        "id": "recovery_checkpoint_reference",
+        "label": "Recovery checkpoint reference",
+        "required": true,
+        "acceptedShape": "checkpoint handle or digest",
+        "purpose": "Describe the recovery checkpoint to inspect before future execution."
+      },
+      {
+        "id": "audit_digest",
+        "label": "Audit digest",
+        "required": true,
+        "acceptedShape": "sha256 digest or equivalent stable digest",
+        "purpose": "Prove contract immutability without secret, endpoint, or command material."
+      }
+    ],
+    "prohibitedFields": [
+      {
+        "id": "credential_value",
+        "reason": "Credential values must not enter abort/rollback semantics.",
+        "rejectionCode": "CREDENTIAL_VALUE_PRESENT"
+      },
+      {
+        "id": "raw_endpoint_url",
+        "reason": "Raw endpoint URLs must remain outside this contract.",
+        "rejectionCode": "RAW_ENDPOINT_URL_PRESENT"
+      },
+      {
+        "id": "runtime_shell_command",
+        "reason": "Runtime shell commands would turn this intake into implementation.",
+        "rejectionCode": "RUNTIME_SHELL_COMMAND_PRESENT"
+      },
+      {
+        "id": "shell_script_body",
+        "reason": "Shell scripts are prohibited in the contract-only intake.",
+        "rejectionCode": "SHELL_SCRIPT_BODY_PRESENT"
+      },
+      {
+        "id": "secret_provider_config",
+        "reason": "Provider configuration is not allowed before implementation candidate gates.",
+        "rejectionCode": "SECRET_PROVIDER_CONFIG_PRESENT"
+      },
+      {
+        "id": "resolver_client_config",
+        "reason": "Resolver client configuration is not allowed before implementation candidate gates.",
+        "rejectionCode": "RESOLVER_CLIENT_CONFIG_PRESENT"
+      },
+      {
+        "id": "external_request_payload",
+        "reason": "HTTP/TCP payloads must not be prepared or sent by v326.",
+        "rejectionCode": "EXTERNAL_REQUEST_PAYLOAD_PRESENT"
+      },
+      {
+        "id": "approval_ledger_mutation",
+        "reason": "Approval ledger writes remain outside this Node contract.",
+        "rejectionCode": "APPROVAL_LEDGER_MUTATION_PRESENT"
+      },
+      {
+        "id": "schema_migration_sql",
+        "reason": "Schema migration SQL is prohibited in this intake.",
+        "rejectionCode": "SCHEMA_MIGRATION_SQL_PRESENT"
+      },
+      {
+        "id": "deployment_action",
+        "reason": "Deployment actions are prohibited during semantics intake.",
+        "rejectionCode": "DEPLOYMENT_ACTION_PRESENT"
+      },
+      {
+        "id": "rollback_execution_action",
+        "reason": "Rollback execution is prohibited during semantics intake.",
+        "rejectionCode": "ROLLBACK_EXECUTION_ACTION_PRESENT"
+      },
+      {
+        "id": "upstream_process_start",
+        "reason": "Starting Java, mini-kv, or external audit services is prohibited.",
+        "rejectionCode": "UPSTREAM_PROCESS_START_PRESENT"
+      },
+      {
+        "id": "mini_kv_write_command",
+        "reason": "mini-kv write commands are prohibited and mini-kv remains non-authoritative.",
+        "rejectionCode": "MINI_KV_WRITE_COMMAND_PRESENT"
+      },
+      {
+        "id": "java_sql_execution",
+        "reason": "Java SQL execution must not be triggered by this Node contract.",
+        "rejectionCode": "JAVA_SQL_EXECUTION_PRESENT"
+      }
+    ],
+    "rejectionReasons": [
+      {
+        "code": "MANUAL_ABORT_MARKER_MISSING",
+        "source": "abort-rollback-semantics-contract",
+        "message": "The manual abort marker is missing."
+      },
+      {
+        "code": "ROLLBACK_RUNBOOK_REFERENCE_MISSING",
+        "source": "abort-rollback-semantics-contract",
+        "message": "The rollback runbook reference or recovery checkpoint is missing."
+      },
+      {
+        "code": "CREDENTIAL_OR_RAW_ENDPOINT_PRESENT",
+        "source": "credential-boundary",
+        "message": "Credential values and raw endpoint URLs are not allowed in abort/rollback semantics."
+      },
+      {
+        "code": "RUNTIME_SHELL_COMMAND_PRESENT",
+        "source": "runtime-shell-boundary",
+        "message": "Runtime shell commands and shell script bodies are prohibited."
+      },
+      {
+        "code": "NETWORK_OR_PROVIDER_ACTION_PRESENT",
+        "source": "network-boundary",
+        "message": "Network execution, provider/client config, HTTP requests, and TCP attempts are prohibited."
+      },
+      {
+        "code": "WRITE_OR_ROLLBACK_ACTION_PRESENT",
+        "source": "write-boundary",
+        "message": "Ledger writes, schema migration, deployment, rollback execution, upstream start, Java SQL, and mini-kv writes are prohibited."
+      }
+    ],
+    "noGoBoundaries": [
+      {
+        "id": "credential_value_read",
+        "allowed": false,
+        "message": "v326 must not read managed audit credential values."
+      },
+      {
+        "id": "raw_endpoint_url_parse",
+        "allowed": false,
+        "message": "v326 must not parse or render raw endpoint URLs."
+      },
+      {
+        "id": "runtime_shell_command_render",
+        "allowed": false,
+        "message": "v326 must not render or invoke runtime shell commands."
+      },
+      {
+        "id": "secret_provider_instantiation",
+        "allowed": false,
+        "message": "v326 must not instantiate secret providers."
+      },
+      {
+        "id": "resolver_client_instantiation",
+        "allowed": false,
+        "message": "v326 must not instantiate resolver clients."
+      },
+      {
+        "id": "http_or_tcp_execution",
+        "allowed": false,
+        "message": "v326 must not send HTTP/HTTPS requests or open TCP/TLS sockets."
+      },
+      {
+        "id": "rollback_execution",
+        "allowed": false,
+        "message": "v326 must not execute deployment or rollback operations."
+      },
+      {
+        "id": "java_sql_execution",
+        "allowed": false,
+        "message": "v326 must not trigger Java SQL execution."
+      },
+      {
+        "id": "mini_kv_write_command",
+        "allowed": false,
+        "message": "v326 must not request mini-kv write commands or authority."
+      },
+      {
+        "id": "ledger_or_schema_write",
+        "allowed": false,
+        "message": "v326 must not write approval ledger or schema state."
+      },
+      {
+        "id": "automatic_upstream_start",
+        "allowed": false,
+        "message": "v326 must not automatically start Java, mini-kv, or external audit services."
+      }
+    ],
+    "upstreamEchoRequests": [
+      {
+        "project": "java",
+        "version": "Java v150",
+        "requestedEcho": "Read-only echo of the Node v326 abort/rollback semantics contract, confirming Java will not execute SQL, deployment, rollback, ledger writes, or external network calls.",
+        "canRunInParallel": true,
+        "mustRemainReadOnly": true
+      },
+      {
+        "project": "mini-kv",
+        "version": "mini-kv v142",
+        "requestedEcho": "Non-participation receipt proving mini-kv does not execute LOAD/COMPACT/RESTORE/SETNXEX, write commands, or become abort/rollback authority.",
+        "canRunInParallel": true,
+        "mustRemainReadOnly": true
+      }
+    ],
+    "requiredFieldCount": 10,
+    "prohibitedFieldCount": 14,
+    "rejectionReasonCount": 6,
+    "noGoBoundaryCount": 11,
+    "upstreamEchoRequestCount": 2,
+    "implementationStillBlocked": true,
+    "abortRollbackExecutionAllowed": false
+  },
+  "prerequisiteTransition": {
+    "prerequisiteId": "abort-rollback-semantics",
+    "catalogLabel": "Abort and rollback semantics",
+    "beforeV326": "still-missing",
+    "afterV326": "contract-intake-defined",
+    "closureRequiresUpstreamEcho": true,
+    "completedPrerequisiteCountBeforeV326": 5,
+    "remainingPrerequisiteCountBeforeV326": 1,
+    "preservesSignedHumanApprovalArtifactClosure": true,
+    "preservesCredentialHandleApprovalClosure": true,
+    "preservesEndpointHandleAllowlistApprovalClosure": true,
+    "preservesNoNetworkSafetyFixtureClosure": true,
+    "closesAbortRollbackSemantics": false
+  },
+  "necessityProof": {
+    "proofComplete": true,
+    "blockerResolved": "v325 completed the no-network-safety-fixture prerequisite and named abort-rollback-semantics as the final concrete missing contract.",
+    "consumer": "Java v150 + mini-kv v142, then Node v327",
+    "whyV325CannotBeReused": "v325 is a closure review for no-network-safety-fixture only; it proves 5/6 prerequisites but does not define manual abort markers, rollback runbook references, cleanup evidence, authority boundaries, or idempotent no-op failure handling.",
+    "existingReportReuseDecision": "Reuse v325 as source state and v313 as the prerequisite catalog; create v326 only for the final abort/rollback semantics contract intake.",
+    "stopCondition": "Stop if the contract requires credential values, raw endpoint URLs, runtime shell commands, provider/client configuration, HTTP/TCP, deployment, rollback execution, Java SQL, mini-kv writes, ledger/schema writes, or automatic upstream start."
+  },
+  "checks": {
+    "sourceNodeV325Ready": true,
+    "sourceNodeV325PointsToAbortRollbackSemantics": true,
+    "sourceNodeV325KeepsRuntimeBlocked": true,
+    "sourceNodeV325KeepsSideEffectsClosed": true,
+    "abortRollbackSemanticsStillMissingInSource": true,
+    "catalogTargetMatchesAbortRollbackSemantics": true,
+    "contractRequiredFieldsDocumented": true,
+    "contractProhibitedFieldsDocumented": true,
+    "rejectionReasonsDocumented": true,
+    "noGoBoundariesClosed": true,
+    "prerequisiteTransitionScopedToAbortRollbackSemantics": true,
+    "necessityProofDocumented": true,
+    "javaMiniKvEchoRequestExplicitlyParallel": true,
+    "contractStaysNonSecretAndNonExecuting": true,
+    "abortRollbackExecutionStillBlocked": true,
+    "upstreamProbesStillDisabled": true,
+    "upstreamActionsStillDisabled": true,
+    "runtimeShellImplementationStillBlocked": true,
+    "productionAuditStillBlocked": true,
+    "productionWindowStillBlocked": true,
+    "readyForManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake": true
+  },
+  "summary": {
+    "checkCount": 21,
+    "passedCheckCount": 21,
+    "sourceNodeV325CheckCount": 17,
+    "sourceNodeV325PassedCheckCount": 17,
+    "sourceCompletedPrerequisiteCount": 5,
+    "sourceRemainingPrerequisiteCount": 1,
+    "requiredFieldCount": 10,
+    "prohibitedFieldCount": 14,
+    "rejectionReasonCount": 6,
+    "noGoBoundaryCount": 11,
+    "upstreamEchoRequestCount": 2,
+    "productionBlockerCount": 0,
+    "warningCount": 2,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "ABORT_ROLLBACK_SEMANTICS_CONTRACT_DOES_NOT_EXECUTE_ROLLBACK",
+      "severity": "warning",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake",
+      "message": "v326 defines abort/rollback semantics only; it does not execute rollback, deployment, SQL, shell, HTTP/TCP, or cleanup work."
+    },
+    {
+      "code": "FINAL_PREREQUISITE_CONTRACT_DOES_NOT_APPROVE_RUNTIME",
+      "severity": "warning",
+      "source": "abort-rollback-semantics-contract",
+      "message": "Defining the final prerequisite contract does not close the final prerequisite; Java v150, mini-kv v142, and Node v327/v328 still have to verify and close it."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "RUN_JAVA_V150_AND_MINI_KV_V142_AFTER_V326_ARCHIVE",
+      "severity": "recommendation",
+      "source": "managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake",
+      "message": "After v326 is archived, Java v150 and mini-kv v142 can run in parallel as read-only echo and non-participation receipt work."
+    },
+    {
+      "code": "KEEP_ABORT_ROLLBACK_SEMANTICS_CONTRACT_NON_EXECUTING",
+      "severity": "recommendation",
+      "source": "abort-rollback-semantics-contract",
+      "message": "Keep abort/rollback semantics as markers, runbook references, cleanup evidence, no-op policy, authority boundary, checkpoint reference, and digest only; never add commands, SQL, write operations, credentials, raw endpoints, or socket actions."
+    }
+  ],
+  "evidenceEndpoints": {
+    "abortRollbackSemanticsContractIntakeJson": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake",
+    "abortRollbackSemanticsContractIntakeMarkdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-abort-rollback-semantics-contract-intake?format=markdown",
+    "sourceNodeV325Json": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-prerequisite-closure-review",
+    "sourceNodeV325Markdown": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-no-network-safety-fixture-prerequisite-closure-review?format=markdown",
+    "activePlan": "docs/plans2/v325-post-no-network-safety-fixture-prerequisite-closure-roadmap.md"
+  },
+  "nextActions": [
+    "Archive Node v326 as the abort/rollback semantics contract-only intake.",
+    "After v326 is complete, Java v150 and mini-kv v142 can run in parallel as read-only echo and non-participation receipt work.",
+    "Node v327 must wait for both Java v150 and mini-kv v142 before verifying abort/rollback semantics echo alignment.",
+    "Stop immediately if the contract tries to execute rollback, deployment, SQL, mini-kv writes, runtime shell commands, HTTP/TCP, provider/client work, credential value reads, raw endpoint URL parsing, ledger/schema writes, or automatic upstream start."
+  ]
+}
