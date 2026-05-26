@@ -39,6 +39,7 @@
 334：credential resolver disabled design draft outline archive verification
 335：credential resolver disabled design draft body intake
 336：credential resolver disabled design draft body intake archive verification
+337：credential resolver disabled design draft body candidate review
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
