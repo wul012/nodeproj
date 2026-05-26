@@ -34,6 +34,7 @@
 329：credential resolver implementation candidate gate input-hardening decision
 330：credential resolver candidate gate upstream hardening review
 331：credential resolver disabled runtime shell design draft candidate review
+332：credential resolver disabled design draft candidate archive verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
