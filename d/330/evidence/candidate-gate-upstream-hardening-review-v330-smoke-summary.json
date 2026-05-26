@@ -1,0 +1,22 @@
+﻿{
+    "version":  "v330",
+    "route":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-candidate-gate-upstream-hardening-review",
+    "jsonStatus":  200,
+    "markdownStatus":  200,
+    "reviewState":  "candidate-gate-upstream-hardening-review-ready",
+    "decision":  "input-hardening-aligned-proceed-to-disabled-design-draft-candidate-review",
+    "checkCount":  21,
+    "passedCheckCount":  21,
+    "productionBlockerCount":  0,
+    "warningCount":  2,
+    "recommendationCount":  1,
+    "readyForNextNodeDisabledRuntimeShellDesignDraftCandidate":  true,
+    "readyForDisabledRuntimeShellDesignDraft":  false,
+    "executionAllowed":  false,
+    "httpRequestSent":  false,
+    "tcpConnectionAttempted":  false,
+    "automaticUpstreamStart":  false,
+    "processId":  40548,
+    "fallbackEnabled":  "true",
+    "generatedAt":  "2026-05-26T09:48:05.7270802+08:00"
+}

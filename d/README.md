@@ -32,6 +32,7 @@
 327：credential resolver read-only cross-project readiness runner
 328：credential resolver final prerequisite closure review
 329：credential resolver implementation candidate gate input-hardening decision
+330：credential resolver candidate gate upstream hardening review
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
