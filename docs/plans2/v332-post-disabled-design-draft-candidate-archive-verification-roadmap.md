@@ -10,6 +10,7 @@
 Node v330：candidate gate upstream hardening review 已完成；消费 Node v329 + Java v151/v152 + mini-kv v143。
 Node v331：disabled runtime shell design draft candidate review 已完成；只允许 v332 归档验证。
 Node v332：disabled design draft candidate archive verification 已完成；验证 v331 route/Markdown/JSON/smoke/screenshot/讲解/计划索引和 historical fallback。
+Node v333：disabled runtime shell design draft outline intake 已完成；只定义 outline section catalog、非执行边界和 stop conditions，不写 outline body、不实现 runtime。
 
 当前仍不读取 credential value、不解析 raw endpoint URL、不实例化 provider/client、不发 HTTP/TCP、不实现或调用 runtime shell、不写 Java ledger/schema/SQL、不执行 mini-kv write/admin、不自动启动上游。
 ```
@@ -17,13 +18,13 @@ Node v332：disabled design draft candidate archive verification 已完成；验
 ## 推荐执行顺序
 
 ```text
-1. Node v333：disabled runtime shell design draft outline intake。
+1. Node v333：disabled runtime shell design draft outline intake。已完成。
    - 消费 Node v332 archive verification。
    - 只定义 outline intake 的章节边界、非执行字段、停止条件和必要性证明。
    - 不写 runtime shell implementation，不写 adapter/provider/client，不读取 credential value，不解析 raw endpoint URL，不发 HTTP/TCP。
    - 不请求 Java/mini-kv；除非本版新增需要上游确认的非 secret contract 字段。
 
-2. Node v334：disabled design draft outline archive verification。
+2. Node v334：disabled design draft outline archive verification。当前下一步。
    - 只有 Node v333 完成且仍无副作用时才推进。
    - 验证 v333 route/Markdown/evidence digest/截图/讲解/计划索引。
    - 仍不打开真实 runtime，不请求 Java/mini-kv 新 echo。
@@ -68,5 +69,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-Node v332 已把 v331 candidate review 的归档证据验稳；下一步只允许 Node v333 做 disabled design draft outline intake，仍不是 runtime shell 实现。
+Node v332 已把 v331 candidate review 的归档证据验稳；Node v333 已完成 disabled design draft outline intake。下一步只允许 Node v334 做 archive verification，仍不是 runtime shell 实现。
 ```
