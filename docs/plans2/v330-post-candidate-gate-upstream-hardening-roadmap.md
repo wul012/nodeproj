@@ -12,6 +12,7 @@ Java v151：release approval evidence export hint 已完成；提供 release-app
 Java v152：input-hardening decision echo 已完成；明确消费 Node v329，并确认 Java v151 已满足 java-stable-evidence-export。
 mini-kv v143：input-hardening candidate gate non-participation receipt 已完成；提供 stable current receipt export，并继续拒绝 LOAD/COMPACT/RESTORE/SETNXEX/write/admin。
 Node v330：candidate gate upstream hardening review 已完成；消费 Node v329 + Java v151/v152 + mini-kv v143，允许下一步只进入 disabled design draft candidate review，不允许直接实现 runtime shell。
+Node v331：disabled runtime shell design draft candidate review 已完成；只判断是否值得进入后续 archive verification，不写 design draft outline、不实现 runtime。
 
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不实例化 provider/client、不发 HTTP/TCP、不打开 managed audit connection、不写 Java ledger/schema/SQL、不执行 mini-kv write/admin、不自动启动上游。
 ```
@@ -19,13 +20,13 @@ Node v330：candidate gate upstream hardening review 已完成；消费 Node v32
 ## 推荐执行顺序
 
 ```text
-1. Node v331：disabled runtime shell design draft candidate review。
+1. Node v331：disabled runtime shell design draft candidate review。已完成。
    - 消费 Node v330 hardening review。
    - 只定义“是否值得起草 disabled runtime shell design”的候选评审，不写 shell、不写 adapter、不实例化 provider/client。
    - 必须继续写 necessity proof：解决哪个 blocker、谁消费、为什么不能复用 v330、何时停止。
    - 必须把 credential value、raw endpoint URL、provider/client、HTTP/TCP、Java SQL/ledger/schema/rollback、mini-kv LOAD/COMPACT/RESTORE/SETNXEX/write/admin、auto-start 全部保持 false。
 
-2. Node v332：disabled design draft candidate archive verification。
+2. Node v332：disabled design draft candidate archive verification。当前下一步。
    - 只有 Node v331 完成且仍无副作用时才推进。
    - 消费 v331，验证 route/Markdown/evidence digest/historical fallback 是否稳定。
    - 不打开真实 runtime，不请求 Java/mini-kv 新 echo。
@@ -69,5 +70,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-Node v330 已把 Java v151/v152 与 mini-kv v143 的 input-hardening 证据对齐；下一步只允许 Node v331 做 disabled runtime shell design draft candidate review，仍不是 runtime shell 实现。
+Node v330 已把 Java v151/v152 与 mini-kv v143 的 input-hardening 证据对齐；Node v331 已完成 disabled runtime shell design draft candidate review。下一步只允许 Node v332 做 archive verification，仍不是 runtime shell 实现。
 ```

@@ -95,7 +95,8 @@ Java v151：release approval evidence export hint 已完成；补 stable read-on
 Java v152：input-hardening decision echo 已完成；确认 Java v151 已满足 java-stable-evidence-export，并消费 Node v329。
 mini-kv v143：input-hardening candidate gate receipt 已完成；补 stable current receipt export 且仍不参与 authority/write/admin。
 Node v330：candidate gate upstream hardening review 已完成；消费 Node v329 + Java v151/v152 + mini-kv v143，并只允许下一步进入 disabled design draft candidate review。
-当前有效计划切换到 docs/plans2/v330-post-candidate-gate-upstream-hardening-roadmap.md；下一步是 Node v331。
+Node v331：disabled runtime shell design draft candidate review 已完成；只允许下一步做 archive verification，不写 design draft outline、不实现 runtime。
+当前有效计划切换到 docs/plans2/v330-post-candidate-gate-upstream-hardening-roadmap.md；下一步是 Node v332。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -211,7 +212,7 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v317 已完成 credential-handle approval contract intake；当前推荐并行 Java v146 + mini-kv v139。
 - Java v146 + mini-kv v139 已完成；Node v318 已完成三方 credential-handle approval upstream echo verification。
 - Node v319 已完成 credential-handle approval prerequisite closure review；当前有效计划切换到 docs/plans2/v319-post-credential-handle-prerequisite-closure-roadmap.md。
-- Node v320 已完成 endpoint-handle allowlist contract intake；Java v147 + mini-kv v140 已完成并行上游证据，Java v148 已完成质量优化，Node v321 已完成三方 upstream echo verification，Node v322 已完成 endpoint-handle-allowlist-approval prerequisite closure review；Node v323-v325 已完成 no-network-safety-fixture contract、上游 echo 与 closure review；Node v326 已完成 abort/rollback semantics contract intake；Java v150 + mini-kv v142 已完成；Node v327 已完成 read-only cross-project readiness runner；Node v328 已完成 final prerequisite closure review；Node v329 已完成 implementation candidate gate / input-hardening decision；Java v151 + mini-kv v143 已完成，Java v152 已补 echo；Node v330 已完成 candidate gate upstream hardening review，当前有效计划切换到 docs/plans2/v330-post-candidate-gate-upstream-hardening-roadmap.md。
+- Node v320 已完成 endpoint-handle allowlist contract intake；Java v147 + mini-kv v140 已完成并行上游证据，Java v148 已完成质量优化，Node v321 已完成三方 upstream echo verification，Node v322 已完成 endpoint-handle-allowlist-approval prerequisite closure review；Node v323-v325 已完成 no-network-safety-fixture contract、上游 echo 与 closure review；Node v326 已完成 abort/rollback semantics contract intake；Java v150 + mini-kv v142 已完成；Node v327 已完成 read-only cross-project readiness runner；Node v328 已完成 final prerequisite closure review；Node v329 已完成 implementation candidate gate / input-hardening decision；Java v151 + mini-kv v143 已完成，Java v152 已补 echo；Node v330 已完成 candidate gate upstream hardening review；Node v331 已完成 disabled design draft candidate review；当前有效计划仍是 docs/plans2/v330-post-candidate-gate-upstream-hardening-roadmap.md，下一步 Node v332。
 - Node v327 起吸收统筹建议：不要继续堆纯 `echo verification / closure review`；优先读取 Java / mini-kv 真实本地产物，生成只读联合 readiness report，缺证据或禁止项异常时 fail closed。
 - Java 后续质量优化显式参考项：OpsEvidenceService.java service/catalog 化、ResponseRecords.java 继续拆、FailedEventMessageService.java 拆分、Java CI 加 jacoco gate；同一 Java 项目内部仍串行，不能和 Java v144 echo 并行。
 - Node 后续质量优化显式参考项：echo catalog 化全面落地，继续把第 9、10 段以后 echo/decision 重复块收进 catalog/template；新 service 接近 700+ 行时先拆再写功能。

@@ -62,6 +62,7 @@
 333-final-prerequisite-closure-review-v328.md
 334-implementation-candidate-gate-input-hardening-decision-v329.md
 335-candidate-gate-upstream-hardening-review-v330.md
+336-disabled-runtime-shell-design-draft-candidate-review-v331.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。
