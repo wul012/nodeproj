@@ -82,6 +82,7 @@
 353-minimal-read-only-integration-rerun-decision-v348.md
 354-minimal-read-only-integration-smoke-rerun-archive-v349.md
 355-minimal-read-only-integration-passed-archive-verification-v350.md
+356-managed-audit-disabled-read-only-integration-intake-v351.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

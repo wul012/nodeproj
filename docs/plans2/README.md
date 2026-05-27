@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v350-post-minimal-read-only-integration-passed-archive-verification-roadmap.md
+docs/plans2/v351-post-managed-audit-disabled-read-only-integration-intake-roadmap.md
 ```
 
 ## 当前状态
@@ -236,5 +236,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v348 已完成 minimal read-only integration rerun decision；结论是 wait-for-external-read-window，下一步 Node v349 只能在用户启动 Java / mini-kv 后重跑现有 smoke lane，否则只归档 pending。
 - Node v349 已完成 minimal read-only integration smoke rerun archive；本轮授权临时启动 Java / mini-kv，真实只读重跑 5/5 passed。当前有效计划切换到 docs/plans2/v349-post-minimal-read-only-integration-smoke-rerun-archive-roadmap.md，下一步 Node v350 做 passed evidence verification / transition decision。
 - Node v350 已完成 minimal read-only integration passed archive verification；25/25 checks passed，transitionDecision=advance-to-managed-audit-disabled-read-only-integration-intake。当前有效计划切换到 docs/plans2/v350-post-minimal-read-only-integration-passed-archive-verification-roadmap.md，下一步 Node v351 做 managed-audit-disabled read-only integration intake。
+- Node v351 已完成 managed-audit-disabled read-only integration intake；20/20 checks passed，intakeDecision=define-managed-audit-disabled-read-only-integration-stage。当前有效计划切换到 docs/plans2/v351-post-managed-audit-disabled-read-only-integration-intake-roadmap.md，下一步 Node v352 做 intake archive verification。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```

@@ -9,6 +9,7 @@
 ```text
 Node v349：minimal read-only integration smoke rerun archive 已完成；真实只读重跑 5/5 passed。
 Node v350：minimal read-only integration passed archive verification 已完成；25/25 checks passed，transitionDecision=advance-to-managed-audit-disabled-read-only-integration-intake。
+Node v351：managed-audit-disabled read-only integration intake 已完成；20/20 checks passed，intakeDecision=define-managed-audit-disabled-read-only-integration-stage。当前有效计划切换到 docs/plans2/v351-post-managed-audit-disabled-read-only-integration-intake-roadmap.md。
 
 Java v153 + mini-kv v144：继续跳过。v349/v350 都没有 invalid-read-contract，因此不需要两边补字段。
 
@@ -18,7 +19,7 @@ Java v153 + mini-kv v144：继续跳过。v349/v350 都没有 invalid-read-contr
 ## 推荐执行顺序
 
 ```text
-1. Node v351：managed-audit-disabled read-only integration intake。当前下一步。
+1. Node v351：managed-audit-disabled read-only integration intake。已完成。
    - 消费 Node v350 transition decision。
    - 只定义 managed audit 仍 disabled 的只读 integration stage 输入。
    - 明确 credential value、raw endpoint URL、provider/client、runtime shell、Java writes、mini-kv write/admin 全部仍关闭。

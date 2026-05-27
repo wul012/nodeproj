@@ -1,0 +1,16 @@
+﻿{
+    "route":  "http://127.0.0.1:4351/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake",
+    "statusCode":  200,
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake.v1",
+    "intakeState":  "managed-audit-disabled-read-only-integration-intake-ready",
+    "intakeDecision":  "define-managed-audit-disabled-read-only-integration-stage",
+    "readyForManagedAuditDisabledReadOnlyIntegrationIntake":  true,
+    "checkCount":  20,
+    "passedCheckCount":  20,
+    "productionBlockerCount":  0,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "connectsManagedAudit":  false,
+    "sendsManagedAuditHttpTcp":  false,
+    "executionAllowed":  false
+}

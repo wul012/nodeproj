@@ -1,0 +1,163 @@
+﻿# Managed audit manual sandbox connection credential resolver managed-audit-disabled read-only integration intake
+
+- Service: orderops-node
+- Generated at: 2026-05-27T08:50:31.865Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake.v1
+- Intake state: managed-audit-disabled-read-only-integration-intake-ready
+- Intake decision: define-managed-audit-disabled-read-only-integration-stage
+- Active Node version: Node v351
+- Source Node version: Node v350
+- Managed audit disabled: true
+- Read-only integration only: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Reads managed audit credential: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Execution allowed: false
+
+## Source Node v350
+
+- sourceVersion: Node v350
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-passed-archive-verification.v1
+- transitionState: minimal-read-only-integration-passed-archive-verified
+- transitionDecision: advance-to-managed-audit-disabled-read-only-integration-intake
+- readyForPassedArchiveVerification: true
+- readyForNodeV351Intake: true
+- transitionDigest: 6b78f3f36ac89b412a83ac9a1c4ad071102f709a4c61f1161feec87f962b1c6b
+- attemptedTargetCount: 5
+- passedTargetCount: 5
+- unavailableTargetCount: 0
+- invalidContractTargetCount: 0
+- productionBlockerCount: 0
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- readsManagedAuditCredential: false
+- rawEndpointUrlParsed: false
+- executionAllowed: false
+
+## Necessity Proof
+
+- blockerResolved: passed-minimal-read-only-integration-needs-next-stage-boundary
+- consumedBy: Node v352 archive verification or later managed-audit-disabled read-only stage
+- cannotReuseExistingReportBecause: Node v350 only verifies the v349 passed archive; it does not define the managed-audit-disabled intake inputs and closed scopes that later stages must consume.
+- growthStopCondition: Stop this chain when a later step asks for credential value, raw endpoint URL parsing, provider/client instantiation, runtime shell, or upstream write/admin scope.
+
+## Intake Inputs
+
+- node-v350-transition: Verified v349 all-read-passed evidence and v350 transition decision
+  - source: node-v350
+  - requiredBeforeNextLiveWindow: true
+  - status: available
+  - notes: This is the only hard source consumed by v351.
+- operator-owned-java-mini-kv-window: Future Java and mini-kv startup remains operator/project-owned
+  - source: operator-window
+  - requiredBeforeNextLiveWindow: true
+  - status: operator-owned
+  - notes: Node records the requirement but does not start or stop those services.
+- managed-audit-disabled-stage: Managed audit remains disabled while read-only integration shape is defined
+  - source: future-disabled-managed-audit-stage
+  - requiredBeforeNextLiveWindow: false
+  - status: not-opened
+  - notes: No managed audit endpoint, credential provider, or resolver client is opened in v351.
+
+## Closed Scopes
+
+- credential-value:
+  - status: closed
+  - reason: Only credential handles/review status may be discussed.
+- raw-endpoint-url:
+  - status: closed
+  - reason: Only endpoint handle or allowlist review status may be discussed.
+- secret-provider:
+  - status: closed
+  - reason: Provider/client instantiation is not part of the disabled intake.
+- runtime-shell:
+  - status: closed
+  - reason: Runtime shell remains unimplemented and invocation is disallowed.
+- java-writes:
+  - status: closed
+  - reason: No Java ledger, SQL, deployment, rollback, or mutation action.
+- mini-kv-write-admin:
+  - status: closed
+  - reason: No mini-kv LOAD, COMPACT, SETNXEX, RESTORE, write, or admin command.
+- managed-audit-http-tcp:
+  - status: closed
+  - reason: No real managed audit HTTP/TCP request is sent.
+
+## Intake Record
+
+- intakeDigest: 18062d7f15c4aa401f974a46d3c29db5d5363504fc39bcfabf7187460cd1d534
+- intakeMode: managed-audit-disabled-read-only-integration-intake
+- sourceSpan: Node v350 passed archive verification transition
+- intakeDecision: define-managed-audit-disabled-read-only-integration-stage
+- managedAuditDisabled: true
+- readOnlyIntegrationOnly: true
+- nextNodeVersionSuggested: Node v352
+- sourceTransitionDigest: 6b78f3f36ac89b412a83ac9a1c4ad071102f709a4c61f1161feec87f962b1c6b
+- inputCount: 3
+- closedScopeCount: 7
+- sourceSummary: {"transitionState":"minimal-read-only-integration-passed-archive-verified","transitionDecision":"advance-to-managed-audit-disabled-read-only-integration-intake","passedTargetCount":5,"attemptedTargetCount":5}
+
+## Checks
+
+- sourceNodeV350Ready: true
+- sourceTransitionAllowsIntake: true
+- sourceV349AllReadTargetsPassed: true
+- necessityProofPresent: true
+- intakeInputsComplete: true
+- closedScopesComplete: true
+- managedAuditStillDisabled: true
+- credentialValueStillClosed: true
+- rawEndpointUrlStillClosed: true
+- providerClientNotInstantiated: true
+- runtimeShellStillNotImplemented: true
+- noUpstreamServiceStarted: true
+- noJavaMutation: true
+- noMiniKvMutation: true
+- noManagedAuditHttpTcp: true
+- noJavaMiniKvEchoRequired: true
+- intakeDigestStable: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditDisabledReadOnlyIntegrationIntake: true
+
+## Summary
+
+- checkCount: 20
+- passedCheckCount: 20
+- inputCount: 3
+- closedScopeCount: 7
+- attemptedTargetCount: 5
+- passedTargetCount: 5
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- MANAGED_AUDIT_REMAINS_DISABLED (warning, runtime-boundary): v351 defines the next read-only stage while managed audit remains disabled.
+
+## Recommendations
+
+- VERIFY_V351_INTAKE_IN_NODE_V352 (recommendation, next-step): Use Node v352 to verify this intake before any new live integration or managed audit capability.
+
+## Next Actions
+
+- Use Node v352 to verify this disabled read-only intake before adding another stage.
+- Keep Java and mini-kv startup owned by their own project windows for future true live integration.
+- Pause before any credential value, raw endpoint URL, provider/client, runtime shell, or write/admin scope is requested.
+
