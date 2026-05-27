@@ -1,0 +1,4 @@
+- generic [active] [ref=e1]:
+  - 'heading "Node v346: minimal read-only integration smoke rehearsal" [level=1] [ref=e2]'
+  - paragraph [ref=e3]: "HTTP smoke: JSON 200, Markdown 200, checks 17/17, state read-window-unavailable"
+  - generic [ref=e4]: "smokeState: read-window-unavailable smokeDecision: archive-read-window-unavailable-evidence attemptedTargets: 5 passedTargets: 0 connectionRefusedTargets: 5 requiresJavaV153MiniKvV144: false Java: GET /actuator/health, GET /api/v1/ops/overview mini-kv: HEALTH, INFOJSON, STATSJSON side effects: no Java start, no mini-kv start, no writes"

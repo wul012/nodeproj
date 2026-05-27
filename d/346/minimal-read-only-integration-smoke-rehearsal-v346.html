@@ -1,0 +1,178 @@
+﻿<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><title>Node v346 minimal read-only integration smoke rehearsal</title><style>body{font-family:Segoe UI,Arial,sans-serif;margin:32px;line-height:1.45;color:#111827}pre{white-space:pre-wrap;background:#f3f4f6;border:1px solid #d1d5db;border-radius:6px;padding:18px}h1{font-size:28px}.state{color:#047857;font-weight:700}</style></head>
+<body><h1>Node v346 minimal read-only integration smoke rehearsal</h1><p class="state">Smoke state: read-window-unavailable; checks 17/17</p><pre># Managed audit manual sandbox connection credential resolver minimal read-only integration smoke rehearsal
+
+- Service: orderops-node
+- Generated at: 2026-05-27T05:27:18.510Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-smoke-rehearsal.v1
+- Smoke state: read-window-unavailable
+- Smoke decision: archive-read-window-unavailable-evidence
+- Active Node version: Node v346
+- Source Node version: Node v345
+- Ready for v346 smoke rehearsal: true
+- Ready for v347 archive verification: true
+- Requires Java v153 + mini-kv v144 echo: false
+- Live probe performed now: true
+- Starts Java service: false
+- Starts mini-kv service: false
+- Mutates Java state: false
+- Mutates mini-kv state: false
+- Connects managed audit: false
+- Reads managed audit credential: false
+- Raw endpoint URL parsed: false
+- Execution allowed: false
+
+## Source Node v345
+
+- sourceVersion: Node v345
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-window-readiness-cut.v1
+- readinessState: minimal-read-only-integration-window-readiness-cut-ready
+- readinessDecision: ready-for-manual-read-only-integration-window
+- readyForReadinessCut: true
+- readyForNodeV346MinimalReadOnlyIntegrationSmokeRehearsal: true
+- requiresParallelJavaV153MiniKvV144ReadOnlyEcho: false
+- readinessDigest: cf61366362e982725d360d29dee5d84d71a4627ab84fa9116c723c23676246a8
+- sourceCheckCount: 20
+- sourcePassedCheckCount: 20
+- sourceProductionBlockerCount: 0
+- javaRequirementCount: 2
+- miniKvRequirementCount: 3
+- performsLiveProbeNow: false
+- startsJavaService: false
+- startsMiniKvService: false
+- executionAllowed: false
+- connectsManagedAudit: false
+- readsManagedAuditCredential: false
+- rawEndpointUrlParsed: false
+
+## Smoke Session
+
+- sessionDigest: 208ef7be1a672f4b169055e19fe3243f2e449ad882552c023e7d200a41a6ec6f
+- sessionMode: node-v346-minimal-read-only-integration-smoke-rehearsal
+- sourceSpan: Node v345 readiness cut plus live Java/mini-kv read-only probes
+- attemptedTargetCount: 5
+- passedTargetCount: 0
+- unavailableTargetCount: 5
+- invalidContractTargetCount: 0
+- onlyJavaGetRequests: true
+- onlyMiniKvReadCommands: true
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v347
+
+## Target Results
+
+- java GET /actuator/health:
+  - targetName: Java actuator health
+  - status: connection-refused
+  - readOnly: true
+  - mutatesState: false
+  - attempted: true
+  - latencyMs: n/a
+  - statusCode: 502
+  - responseShape: error
+  - errorCode: ORDER_PLATFORM_UNAVAILABLE
+  - errorMessage: Order platform is unavailable: fetch failed
+- java GET /api/v1/ops/overview:
+  - targetName: Java ops overview
+  - status: connection-refused
+  - readOnly: true
+  - mutatesState: false
+  - attempted: true
+  - latencyMs: n/a
+  - statusCode: 502
+  - responseShape: error
+  - errorCode: ORDER_PLATFORM_UNAVAILABLE
+  - errorMessage: Order platform is unavailable: fetch failed
+- mini-kv HEALTH:
+  - targetName: mini-kv health
+  - status: connection-refused
+  - readOnly: true
+  - mutatesState: false
+  - attempted: true
+  - latencyMs: n/a
+  - statusCode: 502
+  - responseShape: error
+  - errorCode: MINIKV_UNAVAILABLE
+  - errorMessage: mini-kv is unavailable: connect ECONNREFUSED 127.0.0.1:6379
+- mini-kv INFOJSON:
+  - targetName: mini-kv info JSON
+  - status: connection-refused
+  - readOnly: true
+  - mutatesState: false
+  - attempted: true
+  - latencyMs: n/a
+  - statusCode: 502
+  - responseShape: error
+  - errorCode: MINIKV_UNAVAILABLE
+  - errorMessage: mini-kv is unavailable: connect ECONNREFUSED 127.0.0.1:6379
+- mini-kv STATSJSON:
+  - targetName: mini-kv stats JSON
+  - status: connection-refused
+  - readOnly: true
+  - mutatesState: false
+  - attempted: true
+  - latencyMs: n/a
+  - statusCode: 502
+  - responseShape: error
+  - errorCode: MINIKV_UNAVAILABLE
+  - errorMessage: mini-kv is unavailable: connect ECONNREFUSED 127.0.0.1:6379
+
+## Checks
+
+- sourceNodeV345Ready: true
+- sourceNodeV345KeepsBoundariesClosed: true
+- allReadTargetsAttempted: true
+- onlyAllowedJavaGetRequestsAttempted: true
+- onlyAllowedMiniKvReadCommandsAttempted: true
+- noUpstreamServiceStarted: true
+- noJavaMutationAttempted: true
+- noMiniKvMutationAttempted: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- connectionFailuresFailClosed: true
+- invalidReadContractRequestsParallelEcho: true
+- smokeSessionDigestStable: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeRehearsal: true
+
+## Summary
+
+- Checks: 17/17
+- Attempted targets: 5
+- Passed targets: 0
+- Connection refused targets: 5
+- Timeout targets: 0
+- Invalid JSON targets: 0
+- Unexpected status targets: 0
+- Production blockers: 0
+- Warnings: 5
+- Recommendations: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- JAVA_CONNECTION_REFUSED (warning, java-read-probe): Java actuator health ended as connection-refused; v346 records it and keeps production closed.
+- JAVA_CONNECTION_REFUSED (warning, java-read-probe): Java ops overview ended as connection-refused; v346 records it and keeps production closed.
+- MINI_KV_CONNECTION_REFUSED (warning, mini-kv-read-probe): mini-kv health ended as connection-refused; v346 records it and keeps production closed.
+- MINI_KV_CONNECTION_REFUSED (warning, mini-kv-read-probe): mini-kv info JSON ended as connection-refused; v346 records it and keeps production closed.
+- MINI_KV_CONNECTION_REFUSED (warning, mini-kv-read-probe): mini-kv stats JSON ended as connection-refused; v346 records it and keeps production closed.
+
+## Recommendations
+
+- ARCHIVE_V346_IN_NODE_V347 (recommendation, next-step): Archive the v346 read-window-unavailable result in Node v347 without widening write/runtime scope.
+
+## Next Actions
+
+- Archive this v346 smoke result in Node v347; classify all-read-passed, read-window-unavailable, or invalid-read-contract explicitly.
+- If the result is read-window-unavailable, have the user or external window start Java/mini-kv and rerun; do not change Java/mini-kv code for connection refused alone.
+- If the result is invalid-read-contract, recommend Java v153 and/or mini-kv v144 to add only the missing read-only fields.
+- Keep managed audit endpoint access, runtime shell implementation, Java writes, and mini-kv write/admin commands out of this lane.
+</pre></body></html>

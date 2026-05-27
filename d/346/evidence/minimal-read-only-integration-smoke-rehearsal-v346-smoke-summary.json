@@ -1,0 +1,21 @@
+﻿{
+    "jsonStatus":  200,
+    "markdownStatus":  200,
+    "smokeState":  "read-window-unavailable",
+    "smokeDecision":  "archive-read-window-unavailable-evidence",
+    "readyForNodeV347MinimalReadOnlyIntegrationSmokeArchiveVerification":  true,
+    "requiresParallelJavaV153MiniKvV144ReadOnlyEcho":  false,
+    "checkCount":  17,
+    "passedCheckCount":  17,
+    "attemptedTargetCount":  5,
+    "passedTargetCount":  0,
+    "connectionRefusedTargetCount":  5,
+    "timeoutTargetCount":  0,
+    "invalidJsonTargetCount":  0,
+    "unexpectedStatusTargetCount":  0,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "mutatesJavaState":  false,
+    "mutatesMiniKvState":  false,
+    "liveProbePerformedNow":  true
+}

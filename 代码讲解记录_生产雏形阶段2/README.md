@@ -77,6 +77,7 @@
 348-disabled-design-draft-body-draft-candidate-v343.md
 349-disabled-design-draft-body-draft-candidate-archive-verification-v344.md
 350-minimal-read-only-integration-window-readiness-cut-v345.md
+351-minimal-read-only-integration-smoke-rehearsal-v346.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。
