@@ -196,10 +196,10 @@ describe("managed audit manual sandbox connection credential resolver candidate 
     expect(profile.hardeningReview.reviewDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
     expect(profile.summary.javaMatchedSnippetCount).toBe(profile.summary.javaSnippetCount);
-    expect(profile.javaV151EvidenceExportHint.evidenceFile.resolvedPath)
-      .toContain("fixtures\\historical\\sibling-workspaces");
-    expect(profile.miniKvV143Receipt.evidenceFile.resolvedPath)
-      .toContain("fixtures\\historical\\sibling-workspaces");
+    expect(normalizePath(profile.javaV151EvidenceExportHint.evidenceFile.resolvedPath))
+      .toContain("fixtures/historical/sibling-workspaces");
+    expect(normalizePath(profile.miniKvV143Receipt.evidenceFile.resolvedPath))
+      .toContain("fixtures/historical/sibling-workspaces");
   }, 60000);
 
   it("fails closed when any required upstream hardening evidence is missing", () => {
@@ -325,4 +325,8 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     ORDEROPS_IDP_CLOCK_SKEW_SECONDS: "90",
     ...overrides,
   });
+}
+
+function normalizePath(value: string): string {
+  return value.replace(/\\/g, "/");
 }

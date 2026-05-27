@@ -46,6 +46,7 @@
 341：credential resolver disabled design draft body preparation plan
 342：credential resolver disabled design draft body preparation plan archive verification
 343：credential resolver disabled design draft body draft candidate
+344：credential resolver disabled design draft body draft candidate archive verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
