@@ -1,0 +1,166 @@
+﻿# Managed audit manual sandbox connection credential resolver sandbox handle review contract decision archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-27T13:48:23.762Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-contract-decision-archive-verification.v1
+- Archive verification state: sandbox-handle-review-contract-decision-archive-verified
+- Archive verification decision: archive-sandbox-handle-review-contract-decision
+- Active Node version: Node v357
+- Source Node version: Node v356
+- Ready for v358 sandbox handle review packet/gate intake: true
+- Archive verification only: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Credential value requested: false
+- Credential value read: false
+- Raw endpoint URL requested: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Runtime shell invocation allowed: false
+- Execution allowed: false
+
+## Source Node v356
+
+- sourceVersion: Node v356
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-contract-decision.v1
+- decisionState: sandbox-handle-review-contract-decision-ready
+- decision: define-sandbox-handle-review-contract
+- readyForContractDecision: true
+- readyForNodeV357ArchiveVerification: true
+- decisionDigest: d94a98de0a7ea36cedd2feb2ed1579c5c1cf1519b44daa5c5db51b90d8e97eee
+- sourceArchiveVerificationDigest: 2fa881a68da1e6bd4495ebdec14eb59518b288e7bee898b469438b9f68a1416d
+- contractInputCount: 5
+- contractSectionCount: 6
+- sourceArchiveFileCount: 11
+- sourcePresentArchiveFileCount: 11
+- sourceCheckCount: 29
+- sourcePassedCheckCount: 29
+- checkCount: 25
+- passedCheckCount: 25
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- contractDecisionOnly: true
+- sandboxHandleReviewOnly: true
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- credentialValueRequested: false
+- credentialValueRead: false
+- rawEndpointUrlRequested: false
+- rawEndpointUrlParsed: false
+- secretProviderInstantiated: false
+- resolverClientInstantiated: false
+- runtimeShellImplemented: false
+- runtimeShellInvocationAllowed: false
+- executionAllowed: false
+
+## Archive Verification
+
+- archiveVerificationDigest: c4f981ff9051d09308e1ca532a22f75d2422ac32d72e985e0420bdd0a70a4ded
+- verificationMode: sandbox-handle-review-contract-decision-archive-verification
+- sourceSpan: Node v356 sandbox handle review contract decision
+- archiveRoot: d/356
+- archiveVerificationDecision: archive-sandbox-handle-review-contract-decision
+- sourceDecisionDigest: d94a98de0a7ea36cedd2feb2ed1579c5c1cf1519b44daa5c5db51b90d8e97eee
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- rerunsLiveProbe: false
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- requestsJavaMiniKvEcho: false
+- nextNodeVersionSuggested: Node v358
+- archiveFileDigests: [{"path":"d/356/evidence/sandbox-handle-review-contract-decision-v356-http.json","digest":"b22193f2231d5b35f1aaf804fb6675fa602a52033ce9fe57905952317be2f9e8","byteLength":11221},{"path":"d/356/evidence/sandbox-handle-review-contract-decision-v356-http.md","digest":"1ce425beee41473c150ea4055bff1c8797ac6c479f0436ce41b9fd0317032f2a","byteLength":10006},{"path":"d/356/evidence/sandbox-handle-review-contract-decision-v356-summary.json","digest":"8ac632406339ea92a302d178287dcc32482745d53f87035f47528efd8218306a","byteLength":1160},{"path":"d/356/evidence/sandbox-handle-review-contract-decision-v356-browser-snapshot.md","digest":"1cf2bf0512bafab5698dd1cdac22283cc7fe72135ec14ea849da71880aac1c27","byteLength":9854},{"path":"d/356/sandbox-handle-review-contract-decision-v356.html","digest":"b53c49c95f9be9dbb7d557065135219d4682082ef1aca93df41c1e80432598c3","byteLength":10463},{"path":"d/356/图片/sandbox-handle-review-contract-decision-v356.png","digest":"9cf031b4e1944ba97b16467a93b44dd8fe763f84e2b7162fba27fb21d7374f35","byteLength":155371},{"path":"d/356/解释/sandbox-handle-review-contract-decision-v356.md","digest":"324f671e086d88bcb4f5ac742d4516abd7eca8efd7ab3aeaff28bf2f96fe8df0","byteLength":2717},{"path":"代码讲解记录_生产雏形阶段2/361-sandbox-handle-review-contract-decision-v356.md","digest":"4eb0f330981af2bef85eade1eeba2ef2db784120712c1ffeb87f37b363383ca8","byteLength":7324},{"path":"docs/plans2/v356-post-sandbox-handle-review-contract-decision-roadmap.md","digest":"d3dacca549c2b10efc0b4711ec915996b6f09d47be05a2242b012e968b5ef7bd","byteLength":4270},{"path":"docs/plans2/README.md","digest":"22744940a19c76c2639cf35370d0a88d4737a61ed49f1f253c655014dc8a934c","byteLength":34318},{"path":"d/README.md","digest":"330e6ee0a3084d1b8b02264ad462eae4dd6e3eb113f159678aeba237b74b8d06","byteLength":4481}]
+
+## Archive References
+
+- d/356/evidence/sandbox-handle-review-contract-decision-v356-http.json: exists=true; bytes=11221; digest=b22193f2231d5b35f1aaf804fb6675fa602a52033ce9fe57905952317be2f9e8
+- d/356/evidence/sandbox-handle-review-contract-decision-v356-http.md: exists=true; bytes=10006; digest=1ce425beee41473c150ea4055bff1c8797ac6c479f0436ce41b9fd0317032f2a
+- d/356/evidence/sandbox-handle-review-contract-decision-v356-summary.json: exists=true; bytes=1160; digest=8ac632406339ea92a302d178287dcc32482745d53f87035f47528efd8218306a
+- d/356/evidence/sandbox-handle-review-contract-decision-v356-browser-snapshot.md: exists=true; bytes=9854; digest=1cf2bf0512bafab5698dd1cdac22283cc7fe72135ec14ea849da71880aac1c27
+- d/356/sandbox-handle-review-contract-decision-v356.html: exists=true; bytes=10463; digest=b53c49c95f9be9dbb7d557065135219d4682082ef1aca93df41c1e80432598c3
+- d/356/图片/sandbox-handle-review-contract-decision-v356.png: exists=true; bytes=155371; digest=9cf031b4e1944ba97b16467a93b44dd8fe763f84e2b7162fba27fb21d7374f35
+- d/356/解释/sandbox-handle-review-contract-decision-v356.md: exists=true; bytes=2717; digest=324f671e086d88bcb4f5ac742d4516abd7eca8efd7ab3aeaff28bf2f96fe8df0
+- 代码讲解记录_生产雏形阶段2/361-sandbox-handle-review-contract-decision-v356.md: exists=true; bytes=7324; digest=4eb0f330981af2bef85eade1eeba2ef2db784120712c1ffeb87f37b363383ca8
+- docs/plans2/v356-post-sandbox-handle-review-contract-decision-roadmap.md: exists=true; bytes=4270; digest=d3dacca549c2b10efc0b4711ec915996b6f09d47be05a2242b012e968b5ef7bd
+- docs/plans2/README.md: exists=true; bytes=34318; digest=22744940a19c76c2639cf35370d0a88d4737a61ed49f1f253c655014dc8a934c
+- d/README.md: exists=true; bytes=4481; digest=330e6ee0a3084d1b8b02264ad462eae4dd6e3eb113f159678aeba237b74b8d06
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonReadyForV357Verification: true
+- jsonDecisionValid: true
+- contractInputsRecorded: true
+- contractSectionsRecorded: true
+- allChecksPassedInSourceDecision: true
+- sourceNodeV355ArchiveEvidenceRecorded: true
+- summaryMatchesJson: true
+- markdownRecordsContractDecision: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsContractBoundary: true
+- codeWalkthroughPresent: true
+- planIndexReferencesV356AndV357: true
+- archiveIndexReferencesV356: true
+- routeRecordedInArchive: true
+- verificationDoesNotRerunProbe: true
+- noUpstreamServiceStartedByNode: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRequestedOrRead: true
+- noRawEndpointUrlRequestedOrParsed: true
+- noProviderClientInstantiated: true
+- noRuntimeShellImplementedOrInvoked: true
+- noJavaMiniKvEchoRequired: true
+- archiveVerificationDigestStable: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForSandboxHandleReviewContractDecisionArchiveVerification: true
+
+## Summary
+
+- checkCount: 30
+- passedCheckCount: 30
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- contractInputCount: 5
+- contractSectionCount: 6
+- sourceArchiveFileCount: 11
+- sourcePresentArchiveFileCount: 11
+- sourceCheckCount: 25
+- sourcePassedCheckCount: 25
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- V356_CONTRACT_DECISION_ARCHIVE_VERIFIED (warning, node-v356): v357 verified v356 as define-sandbox-handle-review-contract with 25/25 source checks passed.
+
+## Recommendations
+
+- PROCEED_TO_NODE_V358_HANDLE_REVIEW_INTAKE (recommendation, archive-verification): Proceed only to a non-secret sandbox handle review packet or gate intake; do not open credential, endpoint, provider/client, runtime, managed audit connection, or write scopes.
+
+## Next Actions
+
+- Use Node v358 only for a non-secret sandbox handle review packet or gate intake.
+- Keep credential value, raw endpoint URL, provider/client, runtime shell, managed audit HTTP/TCP, Java writes, and mini-kv write/admin scopes closed.
+- Pause if the next step needs real sandbox credential values, raw endpoint URLs, or executable managed audit connection code.
+
