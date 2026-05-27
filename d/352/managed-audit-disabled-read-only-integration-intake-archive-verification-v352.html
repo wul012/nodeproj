@@ -1,0 +1,184 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title>Node v352 managed-audit-disabled read-only intake archive verification</title>
+<style>
+body { margin: 0; font-family: Consolas, 'Microsoft YaHei UI', monospace; background: #f6f8fb; color: #1f2937; }
+main { max-width: 1180px; margin: 0 auto; padding: 32px; }
+header { border-bottom: 3px solid #111827; padding-bottom: 16px; margin-bottom: 20px; }
+h1 { font-size: 30px; margin: 0 0 8px; }
+.badges { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+.badge { border: 1px solid #cbd5e1; background: white; padding: 6px 10px; border-radius: 6px; }
+pre { white-space: pre-wrap; word-break: break-word; background: white; border: 1px solid #d8dee9; border-radius: 8px; padding: 18px; line-height: 1.45; font-size: 14px; }
+</style>
+</head>
+<body>
+<main>
+<header>
+<h1>Node v352 managed-audit-disabled read-only intake archive verification</h1>
+<div class="badges">
+<span class="badge">state: managed-audit-disabled-read-only-integration-intake-archive-verified</span>
+<span class="badge">checks: 27/27</span>
+<span class="badge">files: 10/10</span>
+<span class="badge">Java start: False</span>
+<span class="badge">mini-kv start: False</span>
+<span class="badge">managed audit HTTP/TCP: False</span>
+</div>
+</header>
+<pre># Managed audit manual sandbox connection credential resolver managed-audit-disabled read-only integration intake archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-27T09:56:39.886Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake-archive-verification.v1
+- Archive verification state: managed-audit-disabled-read-only-integration-intake-archive-verified
+- Archive verification decision: archive-managed-audit-disabled-read-only-integration-intake
+- Active Node version: Node v352
+- Source Node version: Node v351
+- Ready for v353 decision record: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Reads managed audit credential: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Execution allowed: false
+
+## Source Node v351
+
+- sourceVersion: Node v351
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake.v1
+- intakeState: managed-audit-disabled-read-only-integration-intake-ready
+- intakeDecision: define-managed-audit-disabled-read-only-integration-stage
+- readyForIntake: true
+- intakeDigest: 18062d7f15c4aa401f974a46d3c29db5d5363504fc39bcfabf7187460cd1d534
+- sourceTransitionDigest: 6b78f3f36ac89b412a83ac9a1c4ad071102f709a4c61f1161feec87f962b1c6b
+- inputCount: 3
+- closedScopeCount: 7
+- checkCount: 20
+- passedCheckCount: 20
+- attemptedTargetCount: 5
+- passedTargetCount: 5
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- managedAuditDisabled: true
+- readOnlyIntegrationOnly: true
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- readsManagedAuditCredential: false
+- rawEndpointUrlParsed: false
+- secretProviderInstantiated: false
+- resolverClientInstantiated: false
+- runtimeShellImplemented: false
+- runtimeShellInvocationAllowed: false
+- executionAllowed: false
+
+## Archive Verification
+
+- archiveVerificationDigest: 1e2d2b365ae049f97d8f5444361501ea4ec19912fee4a438077cf3553decafa4
+- verificationMode: managed-audit-disabled-read-only-integration-intake-archive-verification
+- sourceSpan: Node v351 managed-audit-disabled read-only integration intake
+- archiveRoot: d/351
+- archiveVerificationDecision: archive-managed-audit-disabled-read-only-integration-intake
+- sourceIntakeDigest: 18062d7f15c4aa401f974a46d3c29db5d5363504fc39bcfabf7187460cd1d534
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanIndex: true
+- rerunsLiveProbe: false
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- requestsJavaMiniKvEcho: false
+- nextNodeVersionSuggested: Node v353
+- archiveFileDigests: [{&quot;path&quot;:&quot;d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-http.json&quot;,&quot;digest&quot;:&quot;cac976a8b35cae99c864d0dd7d1b4f6e5d603eb60f39d80ee59a5ecb72442bc2&quot;,&quot;byteLength&quot;:7842},{&quot;path&quot;:&quot;d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-http.md&quot;,&quot;digest&quot;:&quot;2592f2a1bf449d6083b132c49c7f7ed5536df64d1f244c6abdff231688708fb8&quot;,&quot;byteLength&quot;:6477},{&quot;path&quot;:&quot;d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-summary.json&quot;,&quot;digest&quot;:&quot;5e28bc69f5739686bbc0f7b7542998651b8a18e4ff54f56aba3eb840037b64fb&quot;,&quot;byteLength&quot;:846},{&quot;path&quot;:&quot;d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-browser-snapshot.md&quot;,&quot;digest&quot;:&quot;750f29e57f23f938f71ab8c2449326ee5ca7c6c8d372ac7fb339531f89fbdeeb&quot;,&quot;byteLength&quot;:6883},{&quot;path&quot;:&quot;d/351/managed-audit-disabled-read-only-integration-intake-v351.html&quot;,&quot;digest&quot;:&quot;1167922a15eed942bbadb5ec4c0a54858c34c22caf82543d12661d78c05d5c99&quot;,&quot;byteLength&quot;:7799},{&quot;path&quot;:&quot;d/351/图片/managed-audit-disabled-read-only-integration-intake-v351.png&quot;,&quot;digest&quot;:&quot;b1bb65173de72c08c34d2e6d3714ad9ea046dc6c88ce1c3658cef1eeb4d8d5a3&quot;,&quot;byteLength&quot;:108267},{&quot;path&quot;:&quot;d/351/解释/managed-audit-disabled-read-only-integration-intake-v351.md&quot;,&quot;digest&quot;:&quot;6a7ae763090cee198f49ebb481e331a613cffee45aacfca3b97dbe17ca151432&quot;,&quot;byteLength&quot;:2607},{&quot;path&quot;:&quot;代码讲解记录_生产雏形阶段2/356-managed-audit-disabled-read-only-integration-intake-v351.md&quot;,&quot;digest&quot;:&quot;610f797ed48c0f480563f1f79ac8a6dc8cfbd0bad91c9e1781be69d72e429086&quot;,&quot;byteLength&quot;:6245},{&quot;path&quot;:&quot;docs/plans2/v351-post-managed-audit-disabled-read-only-integration-intake-roadmap.md&quot;,&quot;digest&quot;:&quot;0bd9b8b6a722653d07a9f23d01fdb4752296ba1645082d8f6bfdc43d02832854&quot;,&quot;byteLength&quot;:3860},{&quot;path&quot;:&quot;docs/plans2/README.md&quot;,&quot;digest&quot;:&quot;87afabcbf952e20012169e232d9a1a6bac57f6fee65dffa1015df1dfe6d311d0&quot;,&quot;byteLength&quot;:32139}]
+
+## Archive References
+
+- d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-http.json: exists=true; bytes=7842; digest=cac976a8b35cae99c864d0dd7d1b4f6e5d603eb60f39d80ee59a5ecb72442bc2
+- d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-http.md: exists=true; bytes=6477; digest=2592f2a1bf449d6083b132c49c7f7ed5536df64d1f244c6abdff231688708fb8
+- d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-summary.json: exists=true; bytes=846; digest=5e28bc69f5739686bbc0f7b7542998651b8a18e4ff54f56aba3eb840037b64fb
+- d/351/evidence/managed-audit-disabled-read-only-integration-intake-v351-browser-snapshot.md: exists=true; bytes=6883; digest=750f29e57f23f938f71ab8c2449326ee5ca7c6c8d372ac7fb339531f89fbdeeb
+- d/351/managed-audit-disabled-read-only-integration-intake-v351.html: exists=true; bytes=7799; digest=1167922a15eed942bbadb5ec4c0a54858c34c22caf82543d12661d78c05d5c99
+- d/351/图片/managed-audit-disabled-read-only-integration-intake-v351.png: exists=true; bytes=108267; digest=b1bb65173de72c08c34d2e6d3714ad9ea046dc6c88ce1c3658cef1eeb4d8d5a3
+- d/351/解释/managed-audit-disabled-read-only-integration-intake-v351.md: exists=true; bytes=2607; digest=6a7ae763090cee198f49ebb481e331a613cffee45aacfca3b97dbe17ca151432
+- 代码讲解记录_生产雏形阶段2/356-managed-audit-disabled-read-only-integration-intake-v351.md: exists=true; bytes=6245; digest=610f797ed48c0f480563f1f79ac8a6dc8cfbd0bad91c9e1781be69d72e429086
+- docs/plans2/v351-post-managed-audit-disabled-read-only-integration-intake-roadmap.md: exists=true; bytes=3860; digest=0bd9b8b6a722653d07a9f23d01fdb4752296ba1645082d8f6bfdc43d02832854
+- docs/plans2/README.md: exists=true; bytes=32139; digest=87afabcbf952e20012169e232d9a1a6bac57f6fee65dffa1015df1dfe6d311d0
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonReadyForV352Verification: true
+- jsonIntakeDecisionValid: true
+- intakeInputsRecorded: true
+- closedScopesRecorded: true
+- allChecksPassedInSourceIntake: true
+- summaryMatchesJson: true
+- markdownRecordsDisabledIntake: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsDisabledBoundary: true
+- codeWalkthroughPresent: true
+- planIndexReferencesV351AndV352: true
+- verificationDoesNotRerunProbe: true
+- noUpstreamServiceStartedByNode: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- noProviderClientInstantiated: true
+- noRuntimeShellImplemented: true
+- noJavaMiniKvEchoRequired: true
+- archiveVerificationDigestStable: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerification: true
+
+## Summary
+
+- checkCount: 27
+- passedCheckCount: 27
+- archiveFileCount: 10
+- presentArchiveFileCount: 10
+- inputCount: 3
+- closedScopeCount: 7
+- sourceCheckCount: 20
+- sourcePassedCheckCount: 20
+- attemptedTargetCount: 5
+- passedTargetCount: 5
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- V351_DISABLED_INTAKE_ARCHIVE_VERIFIED (warning, node-v351): v352 verified v351 as define-managed-audit-disabled-read-only-integration-stage with 20/20 source checks passed.
+
+## Recommendations
+
+- PROCEED_TO_NODE_V353_DECISION_RECORD (recommendation, archive-verification): Proceed only to a decision record; do not open credential, endpoint, provider/client, runtime, managed audit connection, or write scopes.
+
+## Next Actions
+
+- Use Node v353 only to decide whether another disabled-stage decision record is needed.
+- Do not open credential value, raw endpoint URL, provider/client, runtime shell, managed audit HTTP/TCP, or write scopes.
+- Keep Java and mini-kv startup owned by their own project windows for any later true live integration.
+</pre>
+</main>
+</body>
+</html>

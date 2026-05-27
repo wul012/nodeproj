@@ -1,0 +1,88 @@
+import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  ManagedAuditDisabledReadOnlyIntegrationIntakeArchiveFileReference,
+  ManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerificationProfile,
+} from "./managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerificationTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerificationMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerificationProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver managed-audit-disabled read-only integration intake archive verification",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Archive verification state: ${profile.archiveVerificationState}`,
+    `- Archive verification decision: ${profile.archiveVerificationDecision}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Ready for v353 decision record: ${profile.readyForNodeV353ManagedAuditDisabledReadOnlyIntegrationDecisionRecord}`,
+    `- Reruns live probe: ${profile.rerunsLiveProbe}`,
+    `- Starts Java service: ${profile.startsJavaService}`,
+    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    `- Sends managed audit HTTP/TCP: ${profile.sendsManagedAuditHttpTcp}`,
+    `- Reads managed audit credential: ${profile.readsManagedAuditCredential}`,
+    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
+    `- Secret provider instantiated: ${profile.secretProviderInstantiated}`,
+    `- Resolver client instantiated: ${profile.resolverClientInstantiated}`,
+    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v351",
+    "",
+    ...renderEntries(profile.sourceNodeV351),
+    "",
+    "## Archive Verification",
+    "",
+    ...renderEntries(profile.archiveVerification),
+    "",
+    "## Archive References",
+    "",
+    ...renderArchiveFileReferences([
+      profile.archiveReferences.jsonEvidence,
+      profile.archiveReferences.markdownEvidence,
+      profile.archiveReferences.summaryEvidence,
+      profile.archiveReferences.browserSnapshot,
+      profile.archiveReferences.htmlArchive,
+      profile.archiveReferences.screenshot,
+      profile.archiveReferences.explanation,
+      profile.archiveReferences.codeWalkthrough,
+      profile.archiveReferences.sourcePlan,
+      profile.archiveReferences.plansIndex,
+    ]),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No production blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No recommendations."),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderArchiveFileReferences(
+  files: readonly ManagedAuditDisabledReadOnlyIntegrationIntakeArchiveFileReference[],
+): string[] {
+  return files.map((file) =>
+    `- ${file.path}: exists=${file.exists}; bytes=${file.byteLength}; digest=${file.digest ?? "missing"}`);
+}
