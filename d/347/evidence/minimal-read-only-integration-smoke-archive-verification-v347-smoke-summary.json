@@ -1,0 +1,17 @@
+﻿{
+    "version":  "v347",
+    "route":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-smoke-archive-verification",
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "archiveVerificationState":  "minimal-read-only-integration-smoke-archive-verified",
+    "archiveResult":  "read-window-unavailable",
+    "archiveDecision":  "wait-for-external-read-window-rerun",
+    "requiresParallelJavaV153MiniKvV144ReadOnlyEcho":  false,
+    "rerunsLiveProbe":  false,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "productionBlockerCount":  0,
+    "warningCount":  1,
+    "recommendationCount":  1,
+    "generatedAt":  "2026-05-27T14:02:11.9625393+08:00"
+}

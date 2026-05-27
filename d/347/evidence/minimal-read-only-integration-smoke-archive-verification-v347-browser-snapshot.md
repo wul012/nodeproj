@@ -1,0 +1,27 @@
+- main [ref=e2]:
+  - heading "Node v347 Archive Verification" [level=1] [ref=e3]
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: archiveVerificationState
+      - generic [ref=e7]: minimal-read-only-integration-smoke-archive-verified
+    - generic [ref=e8]:
+      - generic [ref=e9]: archiveResult
+      - generic [ref=e10]: read-window-unavailable
+    - generic [ref=e11]:
+      - generic [ref=e12]: archiveDecision
+      - generic [ref=e13]: wait-for-external-read-window-rerun
+    - generic [ref=e14]:
+      - generic [ref=e15]: requires Java v153 + mini-kv v144
+      - generic [ref=e16]: "false"
+    - generic [ref=e17]:
+      - generic [ref=e18]: rerunsLiveProbe
+      - generic [ref=e19]: "false"
+    - generic [ref=e20]:
+      - generic [ref=e21]: starts upstream services
+      - generic [ref=e22]: Java=false, mini-kv=false
+  - paragraph [ref=e23]:
+    - text: v347 only verifies
+    - code [ref=e24]: d/346
+    - text: archive evidence. The result is
+    - code [ref=e25]: read-window-unavailable
+    - text: ": wait for the external Java and mini-kv read window, then rerun the minimal read-only smoke lane."

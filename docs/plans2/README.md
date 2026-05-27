@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v346-post-minimal-read-only-integration-smoke-rehearsal-roadmap.md
+docs/plans2/v347-post-minimal-read-only-integration-smoke-archive-verification-roadmap.md
 ```
 
 ## 当前状态
@@ -232,5 +232,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v302 已把 post-decision continuation options / necessity proof catalog 化；后续继续复用 catalog，避免第 9、10 段复制。
 - 同一项目内部版本仍按原子串行推进；只有 Java 与 mini-kv、或 Node 与其他项目互不依赖时，才写推荐并行。
 - 未来新增计划优先写入 docs/plans2/，不要回灌旧的 docs/plans/；一个计划版本做完后另起续写，不要无限追加。
+- Node v347 已完成 minimal read-only integration smoke archive verification；归档结论是 read-window-unavailable，不是 invalid-read-contract，因此不请求 Java v153 + mini-kv v144 改代码。当前有效计划切换到 docs/plans2/v347-post-minimal-read-only-integration-smoke-archive-verification-roadmap.md，下一步 Node v348 只做 rerun decision。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```
