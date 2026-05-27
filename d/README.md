@@ -58,6 +58,7 @@
 353：credential resolver managed-audit-disabled read-only integration decision record
 354：credential resolver sandbox handle review prerequisite intake
 355：credential resolver sandbox handle review prerequisite intake archive verification
+356：credential resolver sandbox handle review contract decision
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
