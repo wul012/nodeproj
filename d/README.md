@@ -51,6 +51,7 @@
 346：credential resolver minimal read-only integration smoke rehearsal
 347：credential resolver minimal read-only integration smoke archive verification
 348：credential resolver minimal read-only integration rerun decision
+349：credential resolver minimal read-only integration smoke rerun archive
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

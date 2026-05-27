@@ -1,0 +1,23 @@
+- main [ref=e2]:
+  - heading "Node v349 real read-only integration rerun archive" [level=1] [ref=e3]
+  - generic [ref=e4]: Java and mini-kv were temporarily started for this authorized window. Node only ran read-only GET/HEALTH/INFOJSON/STATSJSON checks.
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: Archive Result
+      - generic [ref=e8]: all-read-passed
+    - generic [ref=e9]:
+      - generic [ref=e10]: Archive Decision
+      - generic [ref=e11]: archive-read-passed-rerun-evidence
+    - generic [ref=e12]:
+      - generic [ref=e13]: HTTP Status
+      - generic [ref=e14]: "200"
+    - generic [ref=e15]:
+      - generic [ref=e16]: External Window
+      - generic [ref=e17]: "true"
+    - generic [ref=e18]:
+      - generic [ref=e19]: Targets Passed
+      - generic [ref=e20]: 5 / 5
+    - generic [ref=e21]:
+      - generic [ref=e22]: Production Blockers
+      - generic [ref=e23]: "0"
+  - generic [ref=e24]: "{ \"rerunArchiveResult\": \"all-read-passed\", \"attemptedTargetCount\": 5, \"passedTargetCount\": 5 }"

@@ -10,6 +10,7 @@
 Node v346：minimal read-only integration smoke rehearsal 已完成；真实只读探测五个目标，结果为 read-window-unavailable。
 Node v347：minimal read-only integration smoke archive verification 已完成；确认这是外部服务窗口不可达，不是 invalid-read-contract。
 Node v348：minimal read-only integration rerun decision 已完成；决策为 wait-for-external-read-window，不请求 Java v153 + mini-kv v144。
+Node v349：minimal read-only integration smoke rerun archive 已完成；本轮授权启动 Java / mini-kv 后，真实只读重跑 5/5 passed。
 
 Java v153 + mini-kv v144：当前继续跳过。只有后续出现 invalid-read-contract，才会重新请求并行只读字段补强。
 
@@ -23,12 +24,15 @@ Java v153 + mini-kv v144：当前继续跳过。只有后续出现 invalid-read-
    - 这不是 Node 自动化动作；Node 不启动、不停止、不构建、不测试、不修改 Java / mini-kv。
    - 如果无法确认两边已启动，Node 不重跑 live smoke，只归档 pending。
 
-2. Node v349：minimal read-only integration smoke rerun or pending archive。当前下一步。
+2. Node v349：minimal read-only integration smoke rerun or pending archive。已完成。
    - 如果用户明确说明 Java / mini-kv 已启动，则复用 v346 minimal read-only smoke lane 重跑。
    - 如果用户未确认服务已启动，则只生成 pending archive，不做无意义 connection-refused 重跑。
    - 如果重跑后仍是 read-window-unavailable，继续保留 external-window pending。
    - 如果重跑后是 invalid-read-contract，才推荐并行 Java v153 + mini-kv v144。
-   - 如果重跑后 all-read-passed，进入下一阶段 managed-audit-disabled read-only integration。
+   - 实际结果为 all-read-passed，进入下一阶段 managed-audit-disabled read-only integration。
+
+3. Node v350：minimal read-only integration passed archive verification / transition decision。下一步转入新计划：
+   `docs/plans2/v349-post-minimal-read-only-integration-smoke-rerun-archive-roadmap.md`
 ```
 
 ## 显式质量优化项
@@ -62,5 +66,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-Node v348 已把 v347 归档结论固化为 wait-for-external-read-window。下一步 Node v349 需要用户先确认 Java / mini-kv 已启动；否则只归档 pending，不继续制造无效联调失败。
+Node v349 已在授权外部窗口中完成真实只读重跑并归档 all-read-passed。下一步转入 v349 衍生计划，由 Node v350 验证 passed evidence 并做阶段切换决策。
 ```
