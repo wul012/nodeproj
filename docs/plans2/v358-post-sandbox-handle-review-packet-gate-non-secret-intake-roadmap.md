@@ -1,8 +1,8 @@
-# Node v357 衍生计划：sandbox handle review contract decision archive verification 之后
+# Node v358 衍生计划：sandbox handle review packet/gate non-secret intake 之后
 
-来源版本：Node v357 `sandbox handle review contract decision archive verification`。
+来源版本：Node v358 `sandbox handle review packet/gate non-secret intake`。
 
-计划状态：v356 衍生计划中的 Node v357 已完成 archive verification 后另起续写；不回填旧计划，不写重复版本。
+计划状态：v357 衍生计划中的 Node v358 已完成后另起续写；不回填旧计划，不写重复版本。
 
 ## 当前对齐状态
 
@@ -24,15 +24,17 @@ Java v153 + mini-kv v144：继续跳过。v349-v358 都没有 invalid-read-contr
 ## 推荐执行顺序
 
 ```text
-1. Node v358：sandbox handle review packet / gate non-secret intake。已完成。
-   - 消费 Node v357 archive verification。
-   - 只定义 handle review packet/gate 的非 secret 输入、输出、停止条件和 fail-closed 边界。
+1. Node v359：sandbox handle review packet/gate non-secret intake archive verification。当前下一步。
+   - 消费 Node v358 packet/gate intake。
+   - 验证 route、Markdown、stable digest、HTTP evidence、summary、HTML、截图、解释、代码讲解和计划索引。
+   - 验证 6 个 packet inputs、5 个 gate outputs、7 个 stop conditions 在归档中完整可追溯。
    - 不读取 credential value，不解析 raw endpoint URL，不实例化 provider/client，不实现 runtime shell。
    - 不启动 Java / mini-kv，不请求两边新版本。
 
-2. Node v359：sandbox handle review packet/gate non-secret intake archive verification。当前下一步。
-   - 如果 v358 只定义非 secret packet/gate intake，可以先做 archive verification。
-   - 如果 v358 需要真实 sandbox credential handle 值、raw endpoint URL、secret provider、resolver client、runtime shell 或 managed audit HTTP/TCP，必须暂停并让用户确认授权与输入范围。
+2. Node v360 或后续：
+   - 如果 v359 证明 v358 归档完整，可以再做 sandbox handle review packet/gate decision record 或人工 review prerequisite closure。
+   - 如果 v359 发现缺截图、解释、讲解、route、Markdown、digest 或 summary，先修 archive verification，不推进功能。
+   - 如果后续需要真实 sandbox credential handle 值、raw endpoint URL、secret provider、resolver client、runtime shell 或 managed audit HTTP/TCP，必须暂停并让用户确认授权与输入范围。
 
 3. Java / mini-kv：
    - 当前不要求新版本。
@@ -43,10 +45,11 @@ Java v153 + mini-kv v144：继续跳过。v349-v358 都没有 invalid-read-contr
 
 ```text
 Node：
-- v358 必须先写必要性证明：它解决哪个 blocker、谁消费、为什么不能复用 v356/v357、何时停止。
-- v358 只消费 v357 archive verification，不复制 v356/v357 archive reader。
-- 继续复用 types/service/renderer/test 拆分模式；新增文件接近 700 行前先拆 helper/catalog。
+- v359 只验证 v358 archive，不复制 v358 intake builder。
+- v359 必须继续分层：types/service/renderer/test，避免把 archive verification 写成巨型文件。
+- v359 的 archive manifest 要覆盖 d/358/evidence、d/358/解释、d/358/图片、代码讲解记录_生产雏形阶段2、docs/plans2 和 route。
 - 测试继续分批：focused -> 小组 -> build -> smoke，不一次性跑大批量测试。
+- 如果 v359 发现 route 或 renderer 重复明显，优先抽 catalog/helper，而不是再复制一套长函数。
 
 Java：
 - 当前不要求 Java 新版本。
@@ -70,5 +73,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-Node v358 已把 sandbox handle review packet/gate 的非 secret intake 固化。下一步 Node v359 先做 archive verification，不能把 intake 变成真实 credential、endpoint、provider/client、runtime shell 或 managed audit 连接实现。
+Node v358 已把 sandbox handle review packet/gate 的非 secret intake 固化为 6 个输入、5 个输出和 7 个 fail-closed 停止条件。下一步 Node v359 应先做 archive verification，不能跳到 credential、raw endpoint、provider/client、runtime shell 或 managed audit 连接实现。
 ```

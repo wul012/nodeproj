@@ -60,6 +60,7 @@
 355：credential resolver sandbox handle review prerequisite intake archive verification
 356：credential resolver sandbox handle review contract decision
 357：credential resolver sandbox handle review contract decision archive verification
+358：credential resolver sandbox handle review packet/gate non-secret intake
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

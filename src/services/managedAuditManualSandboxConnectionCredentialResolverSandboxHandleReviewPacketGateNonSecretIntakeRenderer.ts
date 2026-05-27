@@ -1,0 +1,128 @@
+import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  ManagedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeProfile,
+  SandboxHandleReviewGateOutput,
+  SandboxHandleReviewPacketInput,
+  SandboxHandleReviewStopCondition,
+} from "./managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver sandbox handle review packet/gate non-secret intake",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Intake state: ${profile.intakeState}`,
+    `- Intake decision: ${profile.intakeDecision}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Ready for v359 archive verification: ${profile.readyForNodeV359SandboxHandleReviewPacketGateIntakeArchiveVerification}`,
+    `- Packet/gate intake only: ${profile.packetGateIntakeOnly}`,
+    `- Sandbox handle review only: ${profile.sandboxHandleReviewOnly}`,
+    `- Reruns live probe: ${profile.rerunsLiveProbe}`,
+    `- Starts Java service: ${profile.startsJavaService}`,
+    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    `- Sends managed audit HTTP/TCP: ${profile.sendsManagedAuditHttpTcp}`,
+    `- Credential value requested: ${profile.credentialValueRequested}`,
+    `- Credential value read: ${profile.credentialValueRead}`,
+    `- Raw endpoint URL requested: ${profile.rawEndpointUrlRequested}`,
+    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
+    `- Secret provider instantiated: ${profile.secretProviderInstantiated}`,
+    `- Resolver client instantiated: ${profile.resolverClientInstantiated}`,
+    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
+    `- Runtime shell invocation allowed: ${profile.runtimeShellInvocationAllowed}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v357",
+    "",
+    ...renderEntries(profile.sourceNodeV357),
+    "",
+    "## Necessity Proof",
+    "",
+    ...renderEntries(profile.necessityProof),
+    "",
+    "## Packet Inputs",
+    "",
+    ...profile.packetInputs.flatMap(renderPacketInput),
+    "",
+    "## Gate Outputs",
+    "",
+    ...profile.gateOutputs.flatMap(renderGateOutput),
+    "",
+    "## Stop Conditions",
+    "",
+    ...profile.stopConditions.flatMap(renderStopCondition),
+    "",
+    "## Intake Record",
+    "",
+    ...renderEntries(profile.intakeRecord),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No production blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No recommendations."),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderPacketInput(input: SandboxHandleReviewPacketInput): string[] {
+  return [
+    `- ${input.id}: ${input.label}`,
+    `  - category: ${input.category}`,
+    `  - sourceContractInputId: ${input.sourceContractInputId}`,
+    `  - packetRequirement: ${input.packetRequirement}`,
+    `  - containsSecretValue: ${input.containsSecretValue}`,
+    `  - containsRawEndpointUrl: ${input.containsRawEndpointUrl}`,
+    `  - allowsNetworkConnection: ${input.allowsNetworkConnection}`,
+    `  - allowsRuntimeInvocation: ${input.allowsRuntimeInvocation}`,
+    `  - status: ${input.status}`,
+  ];
+}
+
+function renderGateOutput(output: SandboxHandleReviewGateOutput): string[] {
+  return [
+    `- ${output.id}: ${output.title}`,
+    `  - decisionRule: ${output.decisionRule}`,
+    `  - emitsSecretValue: ${output.emitsSecretValue}`,
+    `  - emitsRawEndpointUrl: ${output.emitsRawEndpointUrl}`,
+    `  - opensManagedAuditConnection: ${output.opensManagedAuditConnection}`,
+    `  - invokesRuntimeShell: ${output.invokesRuntimeShell}`,
+    `  - mutatesUpstreamState: ${output.mutatesUpstreamState}`,
+    `  - status: ${output.status}`,
+  ];
+}
+
+function renderStopCondition(condition: SandboxHandleReviewStopCondition): string[] {
+  return [
+    `- ${condition.id}: ${condition.trigger}`,
+    `  - effect: ${condition.effect}`,
+    `  - credentialValueRead: ${condition.credentialValueRead}`,
+    `  - rawEndpointUrlParsed: ${condition.rawEndpointUrlParsed}`,
+    `  - managedAuditHttpTcpAllowed: ${condition.managedAuditHttpTcpAllowed}`,
+    `  - runtimeShellInvocationAllowed: ${condition.runtimeShellInvocationAllowed}`,
+    `  - upstreamMutationAllowed: ${condition.upstreamMutationAllowed}`,
+  ];
+}
