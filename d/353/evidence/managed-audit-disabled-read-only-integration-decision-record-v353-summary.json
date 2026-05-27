@@ -1,0 +1,17 @@
+﻿{
+    "route":  "http://127.0.0.1:4355/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-decision-record",
+    "statusCode":  200,
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-decision-record.v1",
+    "decisionState":  "managed-audit-disabled-read-only-integration-decision-record-ready",
+    "decision":  "advance-to-sandbox-handle-review-prerequisite-intake",
+    "readyForManagedAuditDisabledReadOnlyIntegrationDecisionRecord":  true,
+    "readyForNodeV354SandboxHandleReviewPrerequisiteIntake":  true,
+    "checkCount":  19,
+    "passedCheckCount":  19,
+    "productionBlockerCount":  0,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "connectsManagedAudit":  false,
+    "sendsManagedAuditHttpTcp":  false,
+    "executionAllowed":  false
+}

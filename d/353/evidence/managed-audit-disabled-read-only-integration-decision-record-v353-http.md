@@ -1,0 +1,156 @@
+﻿# Managed audit manual sandbox connection credential resolver managed-audit-disabled read-only integration decision record
+
+- Service: orderops-node
+- Generated at: 2026-05-27T10:18:24.217Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-decision-record.v1
+- Decision state: managed-audit-disabled-read-only-integration-decision-record-ready
+- Decision: advance-to-sandbox-handle-review-prerequisite-intake
+- Active Node version: Node v353
+- Source Node version: Node v352
+- Ready for v354 sandbox handle review prerequisite intake: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Reads managed audit credential: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Execution allowed: false
+
+## Source Node v352
+
+- sourceVersion: Node v352
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake-archive-verification.v1
+- archiveVerificationState: managed-audit-disabled-read-only-integration-intake-archive-verified
+- archiveVerificationDecision: archive-managed-audit-disabled-read-only-integration-intake
+- readyForArchiveVerification: true
+- readyForNodeV353DecisionRecord: true
+- archiveVerificationDigest: ba801e87ce2385647f71c460f9f3903aa96442a9773b8be76651da7b4699ce7e
+- archiveFileCount: 10
+- presentArchiveFileCount: 10
+- checkCount: 27
+- passedCheckCount: 27
+- inputCount: 3
+- closedScopeCount: 7
+- productionBlockerCount: 0
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- readsManagedAuditCredential: false
+- rawEndpointUrlParsed: false
+- secretProviderInstantiated: false
+- resolverClientInstantiated: false
+- runtimeShellImplemented: false
+- executionAllowed: false
+
+## Necessity Proof
+
+- blockerResolved: verified-disabled-intake-needs-explicit-next-stage-decision
+- consumedBy: Node v354 sandbox handle review prerequisite intake or disabled checkpoint
+- cannotReuseExistingReportBecause: Node v352 only verifies the v351 archive; it does not record whether the next step is a sandbox-handle prerequisite intake or a disabled checkpoint.
+- growthStopCondition: Stop when the next step asks for credential value, raw endpoint URL, provider/client instantiation, runtime shell, managed audit HTTP/TCP, or upstream write/admin scope.
+
+## Decision Inputs
+
+- node-v352-archive-verification: Verified managed-audit-disabled intake archive
+  - source: node-v352
+  - requiredForDecision: true
+  - status: available
+  - notes: v352 proves v351 archive shape, checks, docs, and screenshots are complete.
+- credential-and-endpoint-material: Credential value and raw endpoint URL remain out of scope
+  - source: boundary-policy
+  - requiredForDecision: true
+  - status: closed
+  - notes: v353 may choose a handle-review prerequisite intake, but cannot request real secret or raw endpoint material.
+- operator-authorization: Operator authorization for real managed audit connection is not requested
+  - source: operator-authorization
+  - requiredForDecision: true
+  - status: not-requested
+  - notes: No executable connection path is opened in this decision record.
+- future-sandbox-handle-review: Future sandbox handle review can be prepared as a prerequisite intake
+  - source: future-stage
+  - requiredForDecision: false
+  - status: not-requested
+  - notes: The next stage may define non-secret handles and review status only.
+
+## Decision Record
+
+- decisionDigest: ad615910a993a19fa5519f3770ba3bb966d8e358f640d6aa71836854fc572c23
+- decisionMode: managed-audit-disabled-read-only-integration-decision-record
+- sourceSpan: Node v352 managed-audit-disabled read-only integration intake archive verification
+- sourceArchiveVerificationDigest: ba801e87ce2385647f71c460f9f3903aa96442a9773b8be76651da7b4699ce7e
+- decision: advance-to-sandbox-handle-review-prerequisite-intake
+- decisionReason: v352 archive verification is complete, so the next safe step is a non-secret sandbox-handle prerequisite intake.
+- allowsSandboxHandleReviewPreparation: true
+- requestsCredentialValue: false
+- requestsRawEndpointUrl: false
+- instantiatesProviderClient: false
+- implementsRuntimeShell: false
+- opensManagedAuditConnection: false
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- requestsJavaMiniKvEcho: false
+- nextNodeVersionSuggested: Node v354
+- inputCount: 4
+
+## Checks
+
+- sourceNodeV352Ready: true
+- sourceArchiveVerificationAllowsDecision: true
+- sourceArchiveFilesComplete: true
+- sourceChecksAllPassed: true
+- necessityProofPresent: true
+- decisionInputsComplete: true
+- decisionDigestStable: true
+- decisionLimitedToPrerequisiteIntake: true
+- noCredentialValueRequested: true
+- noRawEndpointUrlRequested: true
+- noProviderClientInstantiated: true
+- noRuntimeShellImplemented: true
+- noUpstreamServiceStarted: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noJavaMiniKvEchoRequired: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditDisabledReadOnlyIntegrationDecisionRecord: true
+
+## Summary
+
+- checkCount: 19
+- passedCheckCount: 19
+- inputCount: 4
+- sourceArchiveFileCount: 10
+- sourcePresentArchiveFileCount: 10
+- sourceCheckCount: 27
+- sourcePassedCheckCount: 27
+- sourceProductionBlockerCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- SANDBOX_HANDLE_REVIEW_STILL_NON_SECRET (warning, next-step): The next stage may prepare sandbox handle review, but only as non-secret prerequisite intake.
+
+## Recommendations
+
+- PROCEED_TO_NODE_V354_PREREQUISITE_INTAKE (recommendation, next-step): Proceed to Node v354 only for sandbox handle review prerequisite intake; do not connect or execute.
+
+## Next Actions
+
+- Use Node v354 to define a sandbox handle review prerequisite intake, not to read credential values or raw endpoints.
+- Keep provider/client instantiation, runtime shell, managed audit HTTP/TCP, Java writes, and mini-kv write/admin commands closed.
+- Pause if the next step asks for real credential material, raw endpoint URL, production key, or executable connection code.
+

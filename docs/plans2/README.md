@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v352-post-managed-audit-disabled-read-only-integration-intake-archive-verification-roadmap.md
+docs/plans2/v353-post-managed-audit-disabled-read-only-integration-decision-record-roadmap.md
 ```
 
 ## 当前状态
@@ -238,5 +238,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v350 已完成 minimal read-only integration passed archive verification；25/25 checks passed，transitionDecision=advance-to-managed-audit-disabled-read-only-integration-intake。当前有效计划切换到 docs/plans2/v350-post-minimal-read-only-integration-passed-archive-verification-roadmap.md，下一步 Node v351 做 managed-audit-disabled read-only integration intake。
 - Node v351 已完成 managed-audit-disabled read-only integration intake；20/20 checks passed，intakeDecision=define-managed-audit-disabled-read-only-integration-stage。当前有效计划切换到 docs/plans2/v351-post-managed-audit-disabled-read-only-integration-intake-roadmap.md，下一步 Node v352 做 intake archive verification。
 - Node v352 已完成 managed-audit-disabled read-only integration intake archive verification；27/27 checks passed，10/10 archive files present。当前有效计划切换到 docs/plans2/v352-post-managed-audit-disabled-read-only-integration-intake-archive-verification-roadmap.md，下一步 Node v353 做 decision record。
+- Node v353 已完成 managed-audit-disabled read-only integration decision record；19/19 checks passed，decision=advance-to-sandbox-handle-review-prerequisite-intake。当前有效计划切换到 docs/plans2/v353-post-managed-audit-disabled-read-only-integration-decision-record-roadmap.md，下一步 Node v354 做 sandbox handle review prerequisite intake。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```
