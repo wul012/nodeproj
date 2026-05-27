@@ -419,6 +419,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerification.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate,
+  renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview,
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.js";
@@ -1078,6 +1082,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-preparation-plan-archive-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerification({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerificationMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-draft-candidate", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateMarkdown),
 
   auditJsonMarkdownRoute(
     "/api/v1/audit/managed-adapter-compliance", 

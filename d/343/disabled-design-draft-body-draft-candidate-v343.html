@@ -1,0 +1,171 @@
+﻿<!doctype html><html><head><meta charset='utf-8'><title>Node v343 draft candidate</title><style>body{font-family:Consolas,'Microsoft YaHei',monospace;line-height:1.5;padding:32px;background:#f7f7f5;color:#171717}pre{white-space:pre-wrap;background:#fff;border:1px solid #ddd;padding:24px;border-radius:8px}</style></head><body><pre># Managed audit manual sandbox connection credential resolver disabled runtime shell design draft body draft candidate
+
+- Service: orderops-node
+- Generated at: 2026-05-27T03:08:38.524Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-draft-candidate.v1
+- Draft candidate state: disabled-runtime-shell-design-draft-body-draft-candidate-ready
+- Draft candidate decision: record-disabled-body-draft-candidate-under-non-runtime-boundary
+- Active Node version: Node v343
+- Source Node version: Node v342
+- Ready for v343 body draft candidate: true
+- Ready for Node v344 archive verification: true
+- Ready for disabled runtime shell design draft: false
+- Ready for runtime shell implementation: false
+- Execution allowed: false
+- Credential value read: false
+- Raw endpoint URL parsed: false
+- HTTP request sent: false
+- TCP connection attempted: false
+- Java SQL execution allowed: false
+- mini-kv write command allowed: false
+- Automatic upstream start: false
+
+## Source Node v342
+
+- archiveVerificationState: disabled-design-draft-body-preparation-plan-archive-verified
+- archiveVerificationDecision: preparation-plan-archive-verified-before-body-draft
+- readyForArchiveVerification: true
+- readyForNodeV343DisabledRuntimeShellDesignDraftBodyDraftCandidate: true
+- archiveVerificationDigest: 66ff27ab37ec91bb550df92b7683ecb9d61c65face4d96ebc233f3c1438788b1
+- sourcePlanDigest: a228c3e4bb1fccd046f834032a68b2f767ee257648db174bbc5787851e4f8c45
+- sourceChecks: 29/29
+- sourceArchiveFiles: 11/11
+- sourceProductionBlockers: 0
+
+## Necessity Proof
+
+- blockerResolved: preparation-plan-archive-verified-but-body-draft-candidate-not-recorded
+- consumer: Node v344 body draft candidate archive verification
+- whyV342CannotBeReused: Node v342 proves the preparation plan is archived, but it intentionally does not write the bounded design body text that later reviewers need.
+- whyThisIsNotRuntimeImplementation: v343 writes design prose only. It contains no provider/client construction, secret lookup, endpoint parsing, network request, Java write, mini-kv command, or startup behavior.
+- stopCondition: Stop before any runtime behavior, secret material, raw endpoint URL, HTTP/TCP, Java write, mini-kv write/admin command, or automatic upstream start.
+- proofComplete: true
+
+## Draft Candidate
+
+- candidateDigest: a9b51c298c282ee11eed85c9347cce342de28c94c498472b5f96a07cd4d79c49
+- candidateMode: disabled-runtime-shell-design-draft-body-draft-candidate-only
+- sourceSpan: Node v342 disabled design draft body preparation plan archive verification
+- candidateDecision: record-disabled-body-draft-candidate-under-non-runtime-boundary
+- candidateScope: write-design-body-text-only-without-runtime-or-network-behavior
+- requestsJavaMiniKvEcho: false
+- sectionCount: 8
+- evidenceCitationCount: 8
+- safetyGuardCount: 9
+- stopConditionCount: 8
+- writesDesignBodyText: true
+- implementsRuntimeShell: false
+- invokesRuntimeShell: false
+- instantiatesProviderClient: false
+- readsCredentialValue: false
+- parsesRawEndpointUrl: false
+- sendsExternalRequest: false
+- writesJavaState: false
+- executesMiniKvWriteOrAdmin: false
+- startsUpstreamAutomatically: false
+- readyForNodeV344DisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerification: true
+- nextNodeVersionSuggested: Node v344
+
+## Body Sections
+
+- scope-and-non-goals: Scope and Non-goals; The disabled resolver body describes a controlled design path only. It may document inputs, evidence, and boundaries, but it does not implement a resolver or enable managed audit traffic.
+- evidence-chain: Evidence Chain; The draft cites Node v335 through v342 as the evidence chain. Each step must remain digest-backed and archive-verified before later versions can rely on it.
+- body-section-catalog: Body Section Catalog; The body follows the existing section catalog instead of inventing a new runtime sequence. This keeps the design text comparable with the preparation plan and later archive verification.
+- runtime-boundary: Runtime Boundary; Runtime shell implementation and invocation remain closed. The draft can name the boundary, but it cannot include executable resolver code or runtime wiring.
+- credential-and-endpoint-boundary: Credential and Endpoint Boundary; Credential values and raw endpoint URLs remain outside the draft. The only acceptable references are handles, review status, and allowlist decisions already modeled by earlier contracts.
+- cross-project-boundary: Cross-project Boundary; Java and mini-kv are not mutated by this draft. They remain read-only evidence providers unless a later non-secret handoff field is explicitly introduced and echoed.
+- verification-plan: Verification Plan; Node v344 must archive-verify this draft candidate, including route output, Markdown, digest, screenshot, walkthrough, and plan index alignment.
+- stop-conditions: Stop Conditions; Any request for secret values, raw URLs, network calls, Java writes, mini-kv write/admin commands, runtime invocation, or automatic startup pauses the chain before implementation.
+
+## Evidence Citations
+
+- node-v335-body-section-catalog: Node v335; body section catalog; cited=true
+- node-v336-body-intake-archive: Node v336; body intake archive verification; cited=true
+- node-v337-body-candidate-review: Node v337; body candidate review; cited=true
+- node-v338-body-candidate-archive: Node v338; body candidate archive verification; cited=true
+- node-v339-pre-draft-decision: Node v339; pre-draft decision; cited=true
+- node-v340-pre-draft-decision-archive: Node v340; pre-draft archive verification; cited=true
+- node-v341-preparation-plan: Node v341; body preparation plan; cited=true
+- node-v342-preparation-plan-archive: Node v342; preparation plan archive verification; cited=true
+
+## Safety Guards
+
+- no-runtime-implementation: enforced=true
+- no-runtime-invocation: enforced=true
+- no-provider-client: enforced=true
+- no-credential-value: enforced=true
+- no-raw-endpoint: enforced=true
+- no-http-tcp: enforced=true
+- no-java-write: enforced=true
+- no-mini-kv-write-admin: enforced=true
+- no-auto-start: enforced=true
+
+## Stop Conditions
+
+- RUNTIME_IMPLEMENTATION_REQUESTED: action=pause-before-runtime-or-secret-boundary
+- RUNTIME_INVOCATION_REQUESTED: action=pause-before-runtime-or-secret-boundary
+- CREDENTIAL_VALUE_REQUIRED: action=pause-before-runtime-or-secret-boundary
+- RAW_ENDPOINT_URL_REQUIRED: action=pause-before-runtime-or-secret-boundary
+- NETWORK_REQUEST_REQUIRED: action=pause-before-runtime-or-secret-boundary
+- JAVA_WRITE_REQUIRED: action=pause-before-runtime-or-secret-boundary
+- MINI_KV_WRITE_OR_ADMIN_REQUIRED: action=pause-before-runtime-or-secret-boundary
+- AUTO_START_REQUIRED: action=pause-before-runtime-or-secret-boundary
+
+## Checks
+
+- sourceNodeV342Ready: true
+- sourceNodeV342AllowsDraftCandidateOnly: true
+- sourceNodeV342KeepsRuntimeAndSideEffectsClosed: true
+- necessityProofComplete: true
+- candidateModeIsTextOnly: true
+- bodySectionsComplete: true
+- evidenceCitationsComplete: true
+- safetyGuardsEnforced: true
+- stopConditionsComplete: true
+- noUpstreamEchoRequested: true
+- noRuntimeImplementationCreated: true
+- noRuntimeInvocationAllowed: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- noProviderClientInstantiated: true
+- noExternalRequestSent: true
+- noJavaOrMiniKvWrites: true
+- upstreamProbesStillDisabled: true
+- upstreamActionsStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate: true
+
+## Summary
+
+- Checks: 22/22
+- Source Node v342 checks: 29/29
+- Source archive files: 11/11
+- Source production blockers: 0
+- Body sections: 8
+- Evidence citations: 8
+- Safety guards: 9
+- Stop conditions: 8
+- Production blockers: 0
+- Warnings: 1
+- Recommendations: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- DRAFT_CANDIDATE_IS_NOT_RUNTIME (warning, draft-candidate): v343 records bounded design body text only; it does not implement or invoke a runtime shell.
+
+## Recommendations
+
+- RUN_NODE_V344_ARCHIVE_VERIFICATION (recommendation, next-step): Use Node v344 to archive-verify the v343 body draft candidate before treating it as stable evidence.
+
+## Next Actions
+
+- Archive Node v343 before treating any body draft candidate as stable project evidence.
+- Let Node v344 verify the v343 route, Markdown, digest, screenshot, and code walkthrough.
+- Do not request Java or mini-kv echo unless a later version defines new non-secret handoff fields.
+- Pause before runtime implementation, credential value, raw endpoint URL, provider/client, HTTP/TCP, Java writes, mini-kv write/admin commands, or automatic upstream start.
+</pre></body></html>
