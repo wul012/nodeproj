@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v354-post-sandbox-handle-review-prerequisite-intake-roadmap.md
+docs/plans2/v355-post-sandbox-handle-review-prerequisite-intake-archive-verification-roadmap.md
 ```
 
 ## 当前状态
@@ -110,8 +110,8 @@ Node v342：disabled design draft body preparation plan archive verification 已
 Node v343：disabled design draft body draft candidate 已完成；只写受限设计文本，不实现 runtime、不请求 Java/mini-kv。
 Node v344：disabled design draft body draft candidate archive verification 已完成；验证 v343 归档，未打开 runtime。
 Node v345-v350：最小只读真实联调 readiness、smoke、rerun archive、passed verification 已完成，v349 授权临时启动 Java / mini-kv 后真实只读重跑 5/5 passed。
-Node v351-v354：managed-audit-disabled read-only integration intake、archive verification、decision record、sandbox handle review prerequisite intake 已完成；v354 为 24/24 checks passed。
-当前有效计划是 docs/plans2/v354-post-sandbox-handle-review-prerequisite-intake-roadmap.md；下一步是 Node v355，先做 v354 archive verification。
+Node v351-v355：managed-audit-disabled read-only integration intake、archive verification、decision record、sandbox handle review prerequisite intake、v354 archive verification 已完成；v355 为 29/29 checks passed。
+当前有效计划是 docs/plans2/v355-post-sandbox-handle-review-prerequisite-intake-archive-verification-roadmap.md；下一步是 Node v356，做 sandbox handle review contract/decision。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -242,5 +242,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v352 已完成 managed-audit-disabled read-only integration intake archive verification；27/27 checks passed，10/10 archive files present。当前有效计划切换到 docs/plans2/v352-post-managed-audit-disabled-read-only-integration-intake-archive-verification-roadmap.md，下一步 Node v353 做 decision record。
 - Node v353 已完成 managed-audit-disabled read-only integration decision record；19/19 checks passed，decision=advance-to-sandbox-handle-review-prerequisite-intake。当前有效计划切换到 docs/plans2/v353-post-managed-audit-disabled-read-only-integration-decision-record-roadmap.md，下一步 Node v354 做 sandbox handle review prerequisite intake。
 - Node v354 已完成 sandbox handle review prerequisite intake；24/24 checks passed，5 个 non-secret prerequisite inputs + 9 个 closed scopes 已固化。当前有效计划切换到 docs/plans2/v354-post-sandbox-handle-review-prerequisite-intake-roadmap.md，下一步 Node v355 做 archive verification。
+- Node v355 已完成 sandbox handle review prerequisite intake archive verification；29/29 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v355-post-sandbox-handle-review-prerequisite-intake-archive-verification-roadmap.md，下一步 Node v356 做 sandbox handle review contract/decision。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```

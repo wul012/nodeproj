@@ -1,0 +1,163 @@
+﻿# Managed audit manual sandbox connection credential resolver sandbox handle review prerequisite intake archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-27T11:38:54.855Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-intake-archive-verification.v1
+- Archive verification state: sandbox-handle-review-prerequisite-intake-archive-verified
+- Archive verification decision: archive-sandbox-handle-review-prerequisite-intake
+- Active Node version: Node v355
+- Source Node version: Node v354
+- Ready for v356 sandbox handle review contract decision: true
+- Archive verification only: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Credential value requested: false
+- Credential value read: false
+- Raw endpoint URL requested: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Runtime shell invocation allowed: false
+- Execution allowed: false
+
+## Source Node v354
+
+- sourceVersion: Node v354
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-intake.v1
+- intakeState: sandbox-handle-review-prerequisite-intake-ready
+- intakeDecision: define-non-secret-sandbox-handle-review-prerequisites
+- readyForIntake: true
+- readyForNodeV355ArchiveVerification: true
+- intakeDigest: 9e3a8ece464d0e9785328d262b5ac933384566e5f2b387bc448e5ff474a0e07a
+- sourceDecisionDigest: 1235f36c45dc974316ec2ddbfabcf0ec1bd41302b03393dd2bd7687f195a5b35
+- prerequisiteInputCount: 5
+- closedScopeCount: 9
+- checkCount: 24
+- passedCheckCount: 24
+- sourceCheckCount: 19
+- sourcePassedCheckCount: 19
+- sourceProductionBlockerCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- prerequisiteIntakeOnly: true
+- sandboxHandleReviewOnly: true
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- credentialValueRequested: false
+- credentialValueRead: false
+- rawEndpointUrlRequested: false
+- rawEndpointUrlParsed: false
+- secretProviderInstantiated: false
+- resolverClientInstantiated: false
+- runtimeShellImplemented: false
+- runtimeShellInvocationAllowed: false
+- executionAllowed: false
+
+## Archive Verification
+
+- archiveVerificationDigest: 6378b9f47d5ade1785b43fc49f2648dba08df266475cb9c02adb4e74fcfe5859
+- verificationMode: sandbox-handle-review-prerequisite-intake-archive-verification
+- sourceSpan: Node v354 sandbox handle review prerequisite intake
+- archiveRoot: d/354
+- archiveVerificationDecision: archive-sandbox-handle-review-prerequisite-intake
+- sourceIntakeDigest: 9e3a8ece464d0e9785328d262b5ac933384566e5f2b387bc448e5ff474a0e07a
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- rerunsLiveProbe: false
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- requestsJavaMiniKvEcho: false
+- nextNodeVersionSuggested: Node v356
+- archiveFileDigests: [{"path":"d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-http.json","digest":"07e2ea1be158cd2ce80dd287170f6cde8708f2029f3b14282648a72e9f253d2e","byteLength":11967},{"path":"d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-http.md","digest":"59839bbeae515534bc6957a83a5eb5e9d578b73f9a96c6b0082c32061355c7c8","byteLength":10764},{"path":"d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-summary.json","digest":"8ea680eb88439461fe532837526f33a9ae74c32644116e8a42752b9d11d0a6e8","byteLength":864},{"path":"d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-browser-snapshot.md","digest":"c67853523f3f193783c6c9d4833c78c21c46f02e27650a75ed33c023fd8928ad","byteLength":11054},{"path":"d/354/sandbox-handle-review-prerequisite-intake-v354.html","digest":"1a3f34f098cc4bb54bd414f964b49264a4cf3ff752e1977c568acfcbbe7c31a8","byteLength":12074},{"path":"d/354/图片/sandbox-handle-review-prerequisite-intake-v354.png","digest":"a6a1f223a52ff97f2094c27ebd797254d59b28280c3dac853fc449d4751135bf","byteLength":174543},{"path":"d/354/解释/sandbox-handle-review-prerequisite-intake-v354.md","digest":"6049f2c019653fb2d331ef8de2deeb36c899285dc3e658e57e23c5516a801ab5","byteLength":2667},{"path":"代码讲解记录_生产雏形阶段2/359-sandbox-handle-review-prerequisite-intake-v354.md","digest":"2a64a1b5706d1f15415e70a5500b5327002eda0ba9aa3bd287f03b61d09bd630","byteLength":7124},{"path":"docs/plans2/v354-post-sandbox-handle-review-prerequisite-intake-roadmap.md","digest":"873f965e3eaa339e6bd8fafa63607b806e37a347ad8fa5217820b2515c63272c","byteLength":4117},{"path":"docs/plans2/README.md","digest":"f9234d69735059972ee14eae221eda1f8e2cfd79050edc3d7a740c5d4f40ca17","byteLength":33486},{"path":"d/README.md","digest":"aa6db7fa1a2fac091ada8fb323f8ac9a0f5ec68292e59b6d244f973dc71208fe","byteLength":4326}]
+
+## Archive References
+
+- d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-http.json: exists=true; bytes=11967; digest=07e2ea1be158cd2ce80dd287170f6cde8708f2029f3b14282648a72e9f253d2e
+- d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-http.md: exists=true; bytes=10764; digest=59839bbeae515534bc6957a83a5eb5e9d578b73f9a96c6b0082c32061355c7c8
+- d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-summary.json: exists=true; bytes=864; digest=8ea680eb88439461fe532837526f33a9ae74c32644116e8a42752b9d11d0a6e8
+- d/354/evidence/sandbox-handle-review-prerequisite-intake-v354-browser-snapshot.md: exists=true; bytes=11054; digest=c67853523f3f193783c6c9d4833c78c21c46f02e27650a75ed33c023fd8928ad
+- d/354/sandbox-handle-review-prerequisite-intake-v354.html: exists=true; bytes=12074; digest=1a3f34f098cc4bb54bd414f964b49264a4cf3ff752e1977c568acfcbbe7c31a8
+- d/354/图片/sandbox-handle-review-prerequisite-intake-v354.png: exists=true; bytes=174543; digest=a6a1f223a52ff97f2094c27ebd797254d59b28280c3dac853fc449d4751135bf
+- d/354/解释/sandbox-handle-review-prerequisite-intake-v354.md: exists=true; bytes=2667; digest=6049f2c019653fb2d331ef8de2deeb36c899285dc3e658e57e23c5516a801ab5
+- 代码讲解记录_生产雏形阶段2/359-sandbox-handle-review-prerequisite-intake-v354.md: exists=true; bytes=7124; digest=2a64a1b5706d1f15415e70a5500b5327002eda0ba9aa3bd287f03b61d09bd630
+- docs/plans2/v354-post-sandbox-handle-review-prerequisite-intake-roadmap.md: exists=true; bytes=4117; digest=873f965e3eaa339e6bd8fafa63607b806e37a347ad8fa5217820b2515c63272c
+- docs/plans2/README.md: exists=true; bytes=33486; digest=f9234d69735059972ee14eae221eda1f8e2cfd79050edc3d7a740c5d4f40ca17
+- d/README.md: exists=true; bytes=4326; digest=aa6db7fa1a2fac091ada8fb323f8ac9a0f5ec68292e59b6d244f973dc71208fe
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonReadyForV355Verification: true
+- jsonIntakeDecisionValid: true
+- prerequisiteInputsRecorded: true
+- closedScopesRecorded: true
+- allChecksPassedInSourceIntake: true
+- summaryMatchesJson: true
+- markdownRecordsPrerequisiteIntake: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsPrerequisiteBoundary: true
+- codeWalkthroughPresent: true
+- planIndexReferencesV354AndV355: true
+- archiveIndexReferencesV354: true
+- routeRecordedInArchive: true
+- verificationDoesNotRerunProbe: true
+- noUpstreamServiceStartedByNode: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRequestedOrRead: true
+- noRawEndpointUrlRequestedOrParsed: true
+- noProviderClientInstantiated: true
+- noRuntimeShellImplementedOrInvoked: true
+- noJavaMiniKvEchoRequired: true
+- archiveVerificationDigestStable: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForSandboxHandleReviewPrerequisiteIntakeArchiveVerification: true
+
+## Summary
+
+- checkCount: 29
+- passedCheckCount: 29
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- prerequisiteInputCount: 5
+- closedScopeCount: 9
+- sourceCheckCount: 24
+- sourcePassedCheckCount: 24
+- sourceProductionBlockerCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- V354_PREREQUISITE_INTAKE_ARCHIVE_VERIFIED (warning, node-v354): v355 verified v354 as define-non-secret-sandbox-handle-review-prerequisites with 24/24 source checks passed.
+
+## Recommendations
+
+- PROCEED_TO_NODE_V356_CONTRACT_DECISION (recommendation, archive-verification): Proceed only to a sandbox handle review contract/decision; do not open credential, endpoint, provider/client, runtime, managed audit connection, or write scopes.
+
+## Next Actions
+
+- Use Node v356 only for a sandbox handle review contract or decision; do not open credential values or raw endpoints.
+- Keep provider/client instantiation, runtime shell, managed audit HTTP/TCP, Java writes, and mini-kv write/admin scopes closed.
+- Pause if the next step requires real credential handle values, raw endpoint URLs, or executable managed audit connection code.
+
