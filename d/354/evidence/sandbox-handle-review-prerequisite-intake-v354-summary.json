@@ -1,0 +1,21 @@
+﻿{
+    "version":  "v354",
+    "route":  "http://127.0.0.1:4357/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-intake",
+    "jsonStatusCode":  200,
+    "markdownStatusCode":  200,
+    "intakeState":  "sandbox-handle-review-prerequisite-intake-ready",
+    "intakeDecision":  "define-non-secret-sandbox-handle-review-prerequisites",
+    "checkCount":  24,
+    "passedCheckCount":  24,
+    "prerequisiteInputCount":  5,
+    "closedScopeCount":  9,
+    "productionBlockerCount":  0,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "connectsManagedAudit":  false,
+    "sendsManagedAuditHttpTcp":  false,
+    "credentialValueRequested":  false,
+    "rawEndpointUrlRequested":  false,
+    "runtimeShellInvocationAllowed":  false,
+    "executionAllowed":  false
+}

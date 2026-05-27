@@ -1,0 +1,270 @@
+﻿# Managed audit manual sandbox connection credential resolver sandbox handle review prerequisite intake
+
+- Service: orderops-node
+- Generated at: 2026-05-27T10:55:06.843Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-intake.v1
+- Intake state: sandbox-handle-review-prerequisite-intake-ready
+- Intake decision: define-non-secret-sandbox-handle-review-prerequisites
+- Active Node version: Node v354
+- Source Node version: Node v353
+- Ready for v355 archive verification: true
+- Prerequisite intake only: true
+- Sandbox handle review only: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Credential value requested: false
+- Credential value read: false
+- Raw endpoint URL requested: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Runtime shell invocation allowed: false
+- Execution allowed: false
+
+## Source Node v353
+
+- sourceVersion: Node v353
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-decision-record.v1
+- decisionState: managed-audit-disabled-read-only-integration-decision-record-ready
+- decision: advance-to-sandbox-handle-review-prerequisite-intake
+- readyForDecisionRecord: true
+- readyForNodeV354PrerequisiteIntake: true
+- decisionDigest: 1235f36c45dc974316ec2ddbfabcf0ec1bd41302b03393dd2bd7687f195a5b35
+- checkCount: 19
+- passedCheckCount: 19
+- inputCount: 4
+- productionBlockerCount: 0
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- readsManagedAuditCredential: false
+- rawEndpointUrlParsed: false
+- secretProviderInstantiated: false
+- resolverClientInstantiated: false
+- runtimeShellImplemented: false
+- runtimeShellInvocationAllowed: false
+- executionAllowed: false
+
+## Necessity Proof
+
+- blockerResolved: sandbox-handle-review-needs-non-secret-prerequisite-input-contract
+- consumedBy: Node v355 sandbox handle review prerequisite intake archive verification or later handle review stage
+- cannotReuseExistingReportBecause: Node v353 only records that the next stage may advance; it does not define the specific non-secret handle and review-status inputs allowed for sandbox handle review.
+- growthStopCondition: Stop if the chain requests credential value, raw endpoint URL, provider/client instantiation, runtime shell code, managed audit HTTP/TCP, Java writes, or mini-kv write/admin authority.
+
+## Prerequisite Inputs
+
+- sandbox-handle-reference: Sandbox credential handle reference
+  - category: handle-reference
+  - allowedShape: opaque handle id or alias only
+  - requiredBeforeReview: true
+  - containsSecretValue: false
+  - containsRawEndpointUrl: false
+  - allowsNetworkConnection: false
+  - allowsRuntimeInvocation: false
+  - status: allowed-contract-only
+  - notes: The value is a handle reference for review, not credential material.
+- allowlist-review-status: Endpoint allowlist review status
+  - category: review-status
+  - allowedShape: approved | rejected | pending | not-requested
+  - requiredBeforeReview: true
+  - containsSecretValue: false
+  - containsRawEndpointUrl: false
+  - allowsNetworkConnection: false
+  - allowsRuntimeInvocation: false
+  - status: allowed-contract-only
+  - notes: The status describes review outcome only; it does not include a URL.
+- credential-handle-binding-status: Credential handle binding status
+  - category: binding-status
+  - allowedShape: bound | unbound | pending | not-requested
+  - requiredBeforeReview: true
+  - containsSecretValue: false
+  - containsRawEndpointUrl: false
+  - allowsNetworkConnection: false
+  - allowsRuntimeInvocation: false
+  - status: allowed-contract-only
+  - notes: The binding status proves a review prerequisite, not a usable credential.
+- operator-approval-correlation: Operator approval correlation id
+  - category: operator-context
+  - allowedShape: opaque correlation id
+  - requiredBeforeReview: true
+  - containsSecretValue: false
+  - containsRawEndpointUrl: false
+  - allowsNetworkConnection: false
+  - allowsRuntimeInvocation: false
+  - status: allowed-contract-only
+  - notes: The correlation id links review evidence without granting execution authority.
+- source-decision-digest: Node v353 decision digest
+  - category: source-evidence
+  - allowedShape: sha256 digest
+  - requiredBeforeReview: true
+  - containsSecretValue: false
+  - containsRawEndpointUrl: false
+  - allowsNetworkConnection: false
+  - allowsRuntimeInvocation: false
+  - status: allowed-contract-only
+  - notes: The prerequisite intake is chained to 1235f36c45dc974316ec2ddbfabcf0ec1bd41302b03393dd2bd7687f195a5b35.
+
+## Closed Scopes
+
+- credential-value: Credential value
+  - closedBecause: Handle review never reads or requests secret material.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- raw-endpoint-url: Raw endpoint URL
+  - closedBecause: Only allowlist review status is allowed, not endpoint strings.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- secret-provider: Secret provider
+  - closedBecause: No provider is instantiated in prerequisite intake.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- resolver-client: Resolver client
+  - closedBecause: No managed audit resolver client is created.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- runtime-shell: Runtime shell
+  - closedBecause: Runtime shell remains unimplemented and uninvoked.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- managed-audit-http-tcp: Managed audit HTTP/TCP
+  - closedBecause: No network request is sent to managed audit.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- java-writes: Java writes
+  - closedBecause: No Java ledger, SQL, deployment, or rollback action is opened.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- mini-kv-write-admin: mini-kv write/admin
+  - closedBecause: No LOAD/COMPACT/RESTORE/SETNXEX or authority storage is opened.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+- automatic-upstream-start: Automatic upstream start
+  - closedBecause: Node does not start Java, mini-kv, or external audit services.
+  - credentialValueRead: false
+  - rawEndpointUrlParsed: false
+  - providerClientInstantiated: false
+  - runtimeShellInvocationAllowed: false
+  - managedAuditHttpTcpAllowed: false
+  - upstreamMutationAllowed: false
+
+## Intake Record
+
+- intakeDigest: 9e3a8ece464d0e9785328d262b5ac933384566e5f2b387bc448e5ff474a0e07a
+- intakeMode: sandbox-handle-review-prerequisite-intake
+- sourceSpan: Node v353 managed-audit-disabled read-only integration decision record
+- sourceDecisionDigest: 1235f36c45dc974316ec2ddbfabcf0ec1bd41302b03393dd2bd7687f195a5b35
+- intakeDecision: define-non-secret-sandbox-handle-review-prerequisites
+- intakeReason: Node v353 decision is complete, so v354 may define only non-secret prerequisite inputs for sandbox handle review.
+- allowedInputCount: 5
+- closedScopeCount: 9
+- requestsCredentialValue: false
+- requestsRawEndpointUrl: false
+- instantiatesProviderClient: false
+- implementsRuntimeShell: false
+- invokesRuntimeShell: false
+- opensManagedAuditConnection: false
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- requestsJavaMiniKvEcho: false
+- nextNodeVersionSuggested: Node v355
+
+## Checks
+
+- sourceNodeV353Ready: true
+- sourceDecisionAllowsPrerequisiteIntake: true
+- sourceChecksAllPassed: true
+- necessityProofPresent: true
+- prerequisiteInputsComplete: true
+- prerequisiteInputsNonSecret: true
+- prerequisiteInputsNoRawEndpoint: true
+- prerequisiteInputsNoNetworkConnection: true
+- prerequisiteInputsNoRuntimeInvocation: true
+- closedScopesComplete: true
+- intakeDigestStable: true
+- intakeDecisionLimitedToPrerequisiteContract: true
+- noCredentialValueRequested: true
+- noRawEndpointRequested: true
+- noProviderClientInstantiated: true
+- noRuntimeShellImplemented: true
+- noRuntimeShellInvoked: true
+- noManagedAuditHttpTcp: true
+- noUpstreamServiceStarted: true
+- noUpstreamMutation: true
+- noJavaMiniKvEchoRequired: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForSandboxHandleReviewPrerequisiteIntake: true
+
+## Summary
+
+- checkCount: 24
+- passedCheckCount: 24
+- prerequisiteInputCount: 5
+- closedScopeCount: 9
+- sourceCheckCount: 19
+- sourcePassedCheckCount: 19
+- sourceInputCount: 4
+- sourceProductionBlockerCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- SANDBOX_HANDLE_REVIEW_STILL_CONTRACT_ONLY (warning, next-step): v354 defines only non-secret prerequisite inputs; it does not approve a real managed audit connection.
+
+## Recommendations
+
+- PROCEED_TO_NODE_V355_ARCHIVE_VERIFICATION (recommendation, next-step): Proceed to Node v355 as archive verification before adding any new handle review behavior.
+
+## Next Actions
+
+- Use Node v355 to verify the v354 archive before any sandbox handle review expansion.
+- Keep sandbox handle and review status as non-secret references only; do not request credential values or raw endpoint URLs.
+- Pause if the next step asks for provider/client instantiation, runtime shell invocation, managed audit HTTP/TCP, Java writes, or mini-kv write/admin scope.
+
