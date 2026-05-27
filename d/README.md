@@ -52,6 +52,7 @@
 347：credential resolver minimal read-only integration smoke archive verification
 348：credential resolver minimal read-only integration rerun decision
 349：credential resolver minimal read-only integration smoke rerun archive
+350：credential resolver minimal read-only integration passed archive verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

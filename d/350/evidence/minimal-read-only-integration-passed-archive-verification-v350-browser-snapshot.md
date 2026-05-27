@@ -1,0 +1,23 @@
+- main [ref=e2]:
+  - heading "Node v350 passed archive verification" [level=1] [ref=e3]
+  - generic [ref=e4]: Consumes Node v349 evidence only. No Java / mini-kv startup, no live probe, no managed audit connection.
+  - generic [ref=e5]:
+    - generic [ref=e6]:
+      - generic [ref=e7]: Transition State
+      - generic [ref=e8]: minimal-read-only-integration-passed-archive-verified
+    - generic [ref=e9]:
+      - generic [ref=e10]: Transition Decision
+      - generic [ref=e11]: advance-to-managed-audit-disabled-read-only-integration-intake
+    - generic [ref=e12]:
+      - generic [ref=e13]: Ready for v351
+      - generic [ref=e14]: "true"
+    - generic [ref=e15]:
+      - generic [ref=e16]: HTTP Status
+      - generic [ref=e17]: "200"
+    - generic [ref=e18]:
+      - generic [ref=e19]: Targets Verified
+      - generic [ref=e20]: 5 / 5
+    - generic [ref=e21]:
+      - generic [ref=e22]: Checks
+      - generic [ref=e23]: 25 / 25
+  - generic [ref=e24]: "{ \"transitionDecision\": \"advance-to-managed-audit-disabled-read-only-integration-intake\", \"passedTargetCount\": 5, \"passedCheckCount\": 25 }"

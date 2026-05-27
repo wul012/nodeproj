@@ -1,0 +1,13 @@
+﻿{
+    "route":  "http://127.0.0.1:4350/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-passed-archive-verification",
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "transitionState":  "minimal-read-only-integration-passed-archive-verified",
+    "transitionDecision":  "advance-to-managed-audit-disabled-read-only-integration-intake",
+    "readyForNodeV351ManagedAuditDisabledReadOnlyIntegrationIntake":  true,
+    "attemptedTargetCount":  5,
+    "passedTargetCount":  5,
+    "productionBlockerCount":  0,
+    "checkCount":  25,
+    "passedCheckCount":  25
+}

@@ -1,0 +1,48 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>Node v350 passed archive verification</title>
+  <style>
+    body { margin: 0; font-family: Arial, 'Microsoft YaHei', sans-serif; background: #f6f8fb; color: #172033; }
+    main { max-width: 1040px; margin: 0 auto; padding: 42px 34px; }
+    h1 { font-size: 30px; margin: 0 0 10px; }
+    .sub { color: #526070; margin-bottom: 28px; }
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card { background: #fff; border: 1px solid #d8dee8; border-radius: 8px; padding: 18px; }
+    .label { color: #657487; font-size: 13px; margin-bottom: 8px; }
+    .value { font-size: 20px; font-weight: 700; overflow-wrap: anywhere; }
+    .ok { color: #0f7b48; }
+    .warn { color: #8a5a00; }
+    pre { background: #101828; color: #e6edf7; padding: 18px; border-radius: 8px; overflow: auto; margin-top: 18px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v350 passed archive verification</h1>
+    <div class="sub">Consumes Node v349 evidence only. No Java / mini-kv startup, no live probe, no managed audit connection.</div>
+    <section class="grid">
+      <div class="card"><div class="label">Transition State</div><div class="value ok">minimal-read-only-integration-passed-archive-verified</div></div>
+      <div class="card"><div class="label">Transition Decision</div><div class="value ok">advance-to-managed-audit-disabled-read-only-integration-intake</div></div>
+      <div class="card"><div class="label">Ready for v351</div><div class="value ok">True</div></div>
+      <div class="card"><div class="label">HTTP Status</div><div class="value ok">200</div></div>
+      <div class="card"><div class="label">Targets Verified</div><div class="value ok">5 / 5</div></div>
+      <div class="card"><div class="label">Checks</div><div class="value ok">25 / 25</div></div>
+    </section>
+    <pre>{
+    "route":  "http://127.0.0.1:4350/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-passed-archive-verification",
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "transitionState":  "minimal-read-only-integration-passed-archive-verified",
+    "transitionDecision":  "advance-to-managed-audit-disabled-read-only-integration-intake",
+    "readyForNodeV351ManagedAuditDisabledReadOnlyIntegrationIntake":  true,
+    "attemptedTargetCount":  5,
+    "passedTargetCount":  5,
+    "productionBlockerCount":  0,
+    "checkCount":  25,
+    "passedCheckCount":  25
+}
+</pre>
+  </main>
+</body>
+</html>
