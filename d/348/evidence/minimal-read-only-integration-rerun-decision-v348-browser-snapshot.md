@@ -1,0 +1,25 @@
+- main [ref=e2]:
+  - heading "Node v348 Rerun Decision" [level=1] [ref=e3]
+  - generic [ref=e4]:
+    - generic [ref=e5]:
+      - generic [ref=e6]: rerunDecisionState
+      - generic [ref=e7]: minimal-read-only-integration-rerun-decision-ready
+    - generic [ref=e8]:
+      - generic [ref=e9]: rerunDecision
+      - generic [ref=e10]: wait-for-external-read-window
+    - generic [ref=e11]:
+      - generic [ref=e12]: sourceArchiveResult
+      - generic [ref=e13]: read-window-unavailable
+    - generic [ref=e14]:
+      - generic [ref=e15]: externalReadWindowRequired
+      - generic [ref=e16]: "true"
+    - generic [ref=e17]:
+      - generic [ref=e18]: requires Java v153 + mini-kv v144
+      - generic [ref=e19]: "false"
+    - generic [ref=e20]:
+      - generic [ref=e21]: starts upstream services
+      - generic [ref=e22]: Java=false, mini-kv=false
+  - paragraph [ref=e23]:
+    - text: v348 consumes
+    - code [ref=e24]: Node v347
+    - text: archive verification and decides to wait for the external read window. It does not rerun the live probe and does not ask Java or mini-kv for code changes.

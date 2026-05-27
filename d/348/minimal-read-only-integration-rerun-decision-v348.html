@@ -1,0 +1,32 @@
+﻿<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <title>Node v348 minimal read-only integration rerun decision</title>
+  <style>
+    body { font-family: Arial, 'Microsoft YaHei', sans-serif; margin: 32px; color: #17202a; background: #f7f9fb; }
+    main { max-width: 980px; margin: 0 auto; background: #fff; border: 1px solid #d8dee8; border-radius: 8px; padding: 28px; }
+    h1 { margin: 0 0 16px; font-size: 28px; }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+    .item { border: 1px solid #e3e8ef; border-radius: 6px; padding: 14px; background: #fbfcfe; }
+    .label { color: #526070; font-size: 13px; margin-bottom: 6px; }
+    .value { font-size: 18px; font-weight: 700; overflow-wrap: anywhere; }
+    .note { margin-top: 18px; line-height: 1.65; }
+    code { background: #eef2f7; padding: 2px 5px; border-radius: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v348 Rerun Decision</h1>
+    <div class="grid">
+      <section class="item"><div class="label">rerunDecisionState</div><div class="value">minimal-read-only-integration-rerun-decision-ready</div></section>
+      <section class="item"><div class="label">rerunDecision</div><div class="value">wait-for-external-read-window</div></section>
+      <section class="item"><div class="label">sourceArchiveResult</div><div class="value">read-window-unavailable</div></section>
+      <section class="item"><div class="label">externalReadWindowRequired</div><div class="value">True</div></section>
+      <section class="item"><div class="label">requires Java v153 + mini-kv v144</div><div class="value">False</div></section>
+      <section class="item"><div class="label">starts upstream services</div><div class="value">Java=False, mini-kv=False</div></section>
+    </div>
+    <p class="note">v348 consumes <code>Node v347</code> archive verification and decides to wait for the external read window. It does not rerun the live probe and does not ask Java or mini-kv for code changes.</p>
+  </main>
+</body>
+</html>

@@ -79,6 +79,7 @@
 350-minimal-read-only-integration-window-readiness-cut-v345.md
 351-minimal-read-only-integration-smoke-rehearsal-v346.md
 352-minimal-read-only-integration-smoke-archive-verification-v347.md
+353-minimal-read-only-integration-rerun-decision-v348.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

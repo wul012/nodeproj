@@ -1,0 +1,18 @@
+﻿{
+    "version":  "v348",
+    "route":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-rerun-decision",
+    "statusCode":  200,
+    "markdownStatusCode":  200,
+    "rerunDecisionState":  "minimal-read-only-integration-rerun-decision-ready",
+    "rerunDecision":  "wait-for-external-read-window",
+    "sourceArchiveResult":  "read-window-unavailable",
+    "externalReadWindowRequired":  true,
+    "requiresParallelJavaV153MiniKvV144ReadOnlyEcho":  false,
+    "rerunsLiveProbe":  false,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "productionBlockerCount":  0,
+    "warningCount":  1,
+    "recommendationCount":  1,
+    "generatedAt":  "2026-05-27T14:26:46.1066241+08:00"
+}
