@@ -72,6 +72,7 @@
 343-disabled-design-draft-body-candidate-archive-verification-v338.md
 344-disabled-design-draft-body-pre-draft-decision-v339.md
 345-disabled-design-draft-body-pre-draft-decision-archive-verification-v340.md
+346-disabled-design-draft-body-preparation-plan-v341.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。
