@@ -1,0 +1,183 @@
+﻿<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8" /><title>Node v339 disabled design draft body pre-draft decision</title><style>body { font-family: "Segoe UI", Arial, sans-serif; margin: 32px; background: #f7f8fb; color: #172033; } main { max-width: 1120px; margin: 0 auto; background: #fff; border: 1px solid #d9deea; border-radius: 8px; padding: 28px; box-shadow: 0 8px 24px rgba(23,32,51,0.08); } pre { white-space: pre-wrap; word-break: break-word; font: 14px/1.55 Consolas, "Cascadia Mono", monospace; }</style></head>
+<body><main><pre># Managed audit manual sandbox connection credential resolver disabled runtime shell design draft body pre-draft decision
+
+- Service: orderops-node
+- Generated at: 2026-05-26T15:34:34.974Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-pre-draft-decision.v1
+- Pre-draft decision state: disabled-runtime-shell-design-draft-body-pre-draft-decision-ready
+- Pre-draft decision: prepare-body-draft-under-disabled-boundary-after-archive
+- Active Node version: Node v339
+- Source Node version: Node v338
+- Ready for v339 pre-draft decision: true
+- Ready for Node v340 pre-draft decision archive verification: true
+- Ready for disabled runtime shell design draft: false
+- Ready for disabled runtime shell design draft outline: false
+- Ready for runtime shell implementation: false
+- Execution allowed: false
+- Credential value read: false
+- Raw endpoint URL parsed: false
+- HTTP request sent: false
+- TCP connection attempted: false
+- Java SQL execution allowed: false
+- mini-kv write command allowed: false
+- Automatic upstream start: false
+
+## Source Node v338
+
+- archiveVerificationState: disabled-design-draft-body-candidate-archive-verified
+- archiveVerificationDecision: body-candidate-archive-verified-before-design-body
+- readyForArchiveVerification: true
+- readyForNodeV339DisabledRuntimeShellDesignDraftBodyPreDraftDecision: true
+- archiveVerificationDigest: f887616cd6beb443665596575a7aef26c073633f9a67fd7bb6fa1952fad91bf2
+- sourceReviewDigest: f0f811dae8e85d16fdd4c91cc708285ffb100bf507a52a6712c6e4b56f476eaa
+- sourceChecks: 29/29
+- sourceArchiveFiles: 11/11
+- sourceProductionBlockers: 0
+- sourceBodySections: 8
+- sourceEvidenceItems: 6
+- sourceStopConditions: 8
+- sourceReviewQuestions: 5/5
+
+## Necessity Proof
+
+- blockerResolved: body-candidate-archive-verified-but-pre-draft-decision-not-recorded
+- consumer: Node v340 pre-draft decision archive verification
+- whyV338CannotBeReused: Node v338 verifies the v337 body candidate archive, but it intentionally does not decide whether the next step may prepare a body draft under disabled boundaries.
+- whyThisIsNotBodyDraft: v339 records a pre-draft decision and controls only; it does not write body content, implementation steps, provider/client logic, or runtime behavior.
+- stopCondition: Stop before body draft content, credential value, raw endpoint URL, provider/client, HTTP/TCP, Java write, mini-kv write/admin command, or automatic upstream start.
+- proofComplete: true
+
+## Pre-Draft Decision
+
+- decisionDigest: 3e4bd83c29e50d9a3bb0a595ee96e07d6f59dc4b1f3c8ce173ee147501a5c49d
+- decisionMode: disabled-runtime-shell-design-draft-body-pre-draft-decision-only
+- decision: prepare-body-draft-under-disabled-boundary-after-archive
+- sourceSpan: Node v338 disabled design draft body candidate archive verification
+- preDraftScope: decide-whether-a-future-disabled-body-draft-may-be-prepared-without-writing-it-now
+- requiresArchiveVerificationBeforeBodyDraft: true
+- requestsJavaMiniKvEcho: false
+- decisionQuestionCount: 5
+- preparationControlCount: 6
+- stopConditionCount: 8
+- allowsBodyDraftPreparation: true
+- writesBodyDraftNow: false
+- allowsDisabledRuntimeShellDesignDraftNow: false
+- allowsDisabledRuntimeShellDesignDraftOutlineNow: false
+- allowsRuntimeShellImplementation: false
+- allowsRuntimeShellInvocation: false
+- allowsRealResolverImplementation: false
+- allowsSecretProviderInstantiation: false
+- allowsResolverClientInstantiation: false
+- allowsCredentialValueRead: false
+- allowsRawEndpointUrlParse: false
+- allowsExternalRequest: false
+- allowsManagedAuditConnection: false
+- allowsSchemaMigration: false
+- allowsApprovalLedgerWrite: false
+- allowsRollbackExecution: false
+- allowsMiniKvWriteOrAdminCommand: false
+- allowsAutomaticUpstreamStart: false
+- readyForNodeV340DisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerification: true
+- nextNodeVersionSuggested: Node v340
+
+## Decision Questions
+
+- why-pre-draft-decision-now: Why make a pre-draft decision now?
+  - Answer: Node v338 verified the v337 body candidate archive, so the next useful step is deciding whether a future disabled body draft may be prepared without writing it yet.
+  - Answered: true
+- candidate-archive-stable: Is the body candidate archive stable enough for a pre-draft decision?
+  - Answer: Yes. v338 verified route, Markdown, digest, smoke, screenshot, explanation, walkthrough, plan index, and historical fallback evidence.
+  - Answered: true
+- pre-draft-scope-bounded: Is the pre-draft scope bounded away from implementation?
+  - Answer: Yes. v339 only records decision questions, preparation controls, and stop conditions; it does not write body content or runtime behavior.
+  - Answered: true
+- archive-before-body-draft: What must happen before body content is written?
+  - Answer: Node v340 must verify the v339 route, Markdown, digest, screenshot, and fallback evidence before any body draft content is written.
+  - Answered: true
+- no-runtime-side-effects: Are runtime side effects still closed?
+  - Answer: Yes. Credential values, raw endpoint URLs, provider/client instantiation, HTTP/TCP, Java writes, mini-kv write/admin commands, and upstream auto-start all remain false.
+  - Answered: true
+
+## Preparation Controls
+
+- use-existing-body-section-catalog: Reuse the v335 body section catalog instead of inventing new runtime sections.; enforced=true
+- write-no-body-content-yet: Do not write body paragraphs, pseudo-code, provider/client details, or runtime steps in v339.; enforced=true
+- no-new-cross-project-contract: Do not request Java/mini-kv echo unless a later version defines new non-secret handoff fields.; enforced=true
+- keep-runtime-shell-disabled: Keep runtime shell implementation, invocation, provider/client, and network surfaces disabled.; enforced=true
+- archive-pre-draft-decision-first: Require v340 archive verification before any body draft content is written.; enforced=true
+- stop-on-secret-network-or-write: Pause if the next step needs secrets, raw endpoints, network calls, Java writes, or mini-kv write/admin commands.; enforced=true
+
+## Stop Conditions
+
+- BODY_DRAFT_CONTENT_REQUESTED: The next step asks v339 to write actual design body content.; action=pause-before-body-draft-or-runtime
+- CREDENTIAL_VALUE_REQUIRED: The next step requires reading or rendering credential values.; action=pause-before-body-draft-or-runtime
+- RAW_ENDPOINT_URL_REQUIRED: The next step requires parsing or rendering a raw endpoint URL.; action=pause-before-body-draft-or-runtime
+- PROVIDER_OR_CLIENT_REQUIRED: The next step requires instantiating a provider, resolver client, or fake client.; action=pause-before-body-draft-or-runtime
+- NETWORK_REQUEST_REQUIRED: The next step requires HTTP/TCP or managed audit network access.; action=pause-before-body-draft-or-runtime
+- JAVA_WRITE_REQUIRED: The next step requires Java SQL, deployment, rollback, ledger, or schema writes.; action=pause-before-body-draft-or-runtime
+- MINI_KV_WRITE_OR_ADMIN_REQUIRED: The next step requires mini-kv LOAD, COMPACT, RESTORE, SETNXEX, or write commands.; action=pause-before-body-draft-or-runtime
+- AUTO_START_REQUIRED: The next step requires automatically starting Java, mini-kv, or external services.; action=pause-before-body-draft-or-runtime
+
+## Checks
+
+- sourceNodeV338Ready: true
+- sourceNodeV338AllowsPreDraftDecisionOnly: true
+- sourceNodeV338KeepsDesignDraftClosed: true
+- sourceNodeV338KeepsRuntimeAndSideEffectsClosed: true
+- necessityProofComplete: true
+- preDraftDecisionOnly: true
+- decisionQuestionsAnswered: true
+- preparationControlsEnforced: true
+- archiveVerificationRequiredBeforeBodyDraft: true
+- noUpstreamEchoRequested: true
+- noBodyDraftWritten: true
+- noRuntimeImplementationCreated: true
+- noRuntimeInvocationAllowed: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- noProviderClientInstantiated: true
+- noExternalRequestSent: true
+- noJavaOrMiniKvWrites: true
+- upstreamProbesStillDisabled: true
+- upstreamActionsStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecision: true
+
+## Summary
+
+- Checks: 23/23
+- Source Node v338 checks: 29/29
+- Source archive files: 11/11
+- Source body sections: 8
+- Source evidence items: 6
+- Source stop conditions: 8
+- Source review questions: 5/5
+- Decision questions: 5/5
+- Preparation controls: 6/6
+- Stop conditions: 8
+- Production blockers: 0
+- Warnings: 1
+- Recommendations: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- PRE_DRAFT_DECISION_IS_NOT_BODY_DRAFT (warning, pre-draft-decision): v339 only records whether a future disabled design body may be prepared; it does not write the body.
+
+## Recommendations
+
+- RUN_NODE_V340_ARCHIVE_VERIFICATION (recommendation, next-step): Use Node v340 to verify the v339 route, Markdown, digest, screenshot, and historical fallback before drafting any body content.
+
+## Next Actions
+
+- Archive Node v339 as a pre-draft decision before any design body content is written.
+- Let Node v340 verify the v339 route, Markdown, digest, screenshot, and historical fallback.
+- Do not request Java or mini-kv echo unless a future version defines new non-secret handoff fields.
+- Pause before body draft content, credential value, raw endpoint URL, provider/client, HTTP/TCP, Java write, mini-kv write/admin command, or automatic upstream start.
+</pre></main></body></html>
