@@ -1,0 +1,4 @@
+- generic [active] [ref=e1]:
+  - 'heading "Node v345: minimal read-only integration window readiness cut" [level=1] [ref=e2]'
+  - paragraph [ref=e3]: "HTTP smoke: JSON 200, Markdown 200, checks 20/20"
+  - generic [ref=e4]: "readinessState: minimal-read-only-integration-window-readiness-cut-ready readinessDecision: ready-for-manual-read-only-integration-window readyForNodeV346: true requiresJavaV153MiniKvV144: false Java: GET /actuator/health, GET /api/v1/ops/overview mini-kv: HEALTH, INFOJSON, STATSJSON side effects: no Java start, no mini-kv start, no live probe in v345"

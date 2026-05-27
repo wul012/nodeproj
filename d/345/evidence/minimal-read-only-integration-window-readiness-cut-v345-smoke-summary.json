@@ -1,0 +1,17 @@
+﻿{
+    "jsonStatus":  200,
+    "markdownStatus":  200,
+    "readinessState":  "minimal-read-only-integration-window-readiness-cut-ready",
+    "readinessDecision":  "ready-for-manual-read-only-integration-window",
+    "readyForNodeV346MinimalReadOnlyIntegrationSmokeRehearsal":  true,
+    "requiresParallelJavaV153MiniKvV144ReadOnlyEcho":  false,
+    "checkCount":  20,
+    "passedCheckCount":  20,
+    "javaRequirementCount":  2,
+    "miniKvRequirementCount":  3,
+    "performsLiveProbeNow":  false,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "sendsJavaHttpRequestNow":  false,
+    "opensMiniKvTcpSocketNow":  false
+}
