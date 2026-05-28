@@ -1,0 +1,203 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Node v372 Minimal Shard Readiness Live Read Archive Verification</title>
+<style>
+:root { color-scheme: light; font-family: Segoe UI, Arial, sans-serif; background: #f5f7fb; color: #172033; }
+body { margin: 0; padding: 32px; }
+main { max-width: 1180px; margin: 0 auto; background: #ffffff; border: 1px solid #d8dee9; border-radius: 8px; padding: 28px; box-shadow: 0 12px 30px rgba(20, 33, 61, 0.08); }
+pre { white-space: pre-wrap; word-break: break-word; line-height: 1.55; font-size: 14px; margin: 0; }
+</style>
+</head>
+<body>
+<main><pre># Managed audit manual sandbox connection credential resolver minimal shard readiness live-read archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-28T23:14:07.024Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-archive-verification.v1
+- Archive verification state: minimal-shard-readiness-live-read-archive-verified
+- Archive verification decision: archive-minimal-shard-readiness-live-read-and-prepare-compatibility-report
+- Active Node version: Node v372
+- Source Node version: Node v371
+- Ready for Node v373 shard readiness compatibility report: true
+- Archive verification only: true
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Execution allowed: false
+
+## Source Node v371
+
+- sourceVersion: Node v371
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-gate.v1
+- gateState: minimal-shard-readiness-live-read-gate-ready
+- gateDecision: archive-minimal-shard-readiness-live-read
+- readyForMinimalShardReadinessLiveReadGate: true
+- readyForNodeV372LiveReadArchiveVerification: true
+- activeNodeVersion: Node v371
+- sourceNodeVersion: Node v370
+- sourceNodeV370Ready: true
+- sourceNodeV370GateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- gateDigest: 73108e48edbab0b2d8c023ce8fb5f200a47a53f464c8ccf0f0eb3b1be1674d92
+- liveReadOnly: true
+- javaStatus: passed-read
+- miniKvStatus: passed-read
+- attemptedReadCount: 2
+- passedReadCount: 2
+- failedReadCount: 0
+- skippedReadCount: 0
+- checkCount: 27
+- passedCheckCount: 27
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- executionAllowed: false
+
+## Archived Java Live Read
+
+- Project: advanced-order-platform
+- Source version: Java v153 live
+- Status: passed-read
+- Attempted: true
+- Transport: http-json
+- Endpoint: GET /api/v1/ops/shard-readiness
+- Command: none
+- Required fields: 10/10
+- Read only safe: true
+- Execution blocked: true
+- Compatible with v370 evidence: true
+- Boundary safe: true
+- Ready for gate: true
+
+## Archived mini-kv Live Read
+
+- Project: mini-kv
+- Source version: mini-kv v144 live
+- Status: passed-read
+- Attempted: true
+- Transport: tcp-command
+- Endpoint: 127.0.0.1 mini-kv TCP
+- Command: SHARDJSON
+- Required fields: 10/10
+- Read only safe: true
+- Execution blocked: true
+- Compatible with v370 evidence: true
+- Boundary safe: true
+- Ready for gate: true
+
+## Archive Verification
+
+- archiveVerificationDigest: b077b67e9b423ef9cea77b6b0ba35fe213b4ce8d13f952fb6be28882be14d4e8
+- verificationMode: minimal-shard-readiness-live-read-archive-verification
+- sourceSpan: Node v371 minimal shard readiness live-read gate
+- archiveRoot: e/371
+- archiveVerificationDecision: archive-minimal-shard-readiness-live-read-and-prepare-compatibility-report
+- sourceGateDigest: 73108e48edbab0b2d8c023ce8fb5f200a47a53f464c8ccf0f0eb3b1be1674d92
+- sourceNodeV370GateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- archiveFileDigests: [{&quot;path&quot;:&quot;e/371/evidence/minimal-shard-readiness-live-read-gate-v371-http.json&quot;,&quot;digest&quot;:&quot;3ea1590fdebd7e588eba9efce2b96927549e0a5b63a34340ef693b3b65538b0f&quot;,&quot;byteLength&quot;:27356},{&quot;path&quot;:&quot;e/371/evidence/minimal-shard-readiness-live-read-gate-v371-http.md&quot;,&quot;digest&quot;:&quot;36c8adc7774f1cd11c57654c411a52ba7620615bea49e4b4ab3a18b8a3885d36&quot;,&quot;byteLength&quot;:5436},{&quot;path&quot;:&quot;e/371/evidence/minimal-shard-readiness-live-read-gate-v371-summary.json&quot;,&quot;digest&quot;:&quot;bf4d0f023637972f0050f9a373e1ee6e673827424356ec2035b94a19935858bc&quot;,&quot;byteLength&quot;:983},{&quot;path&quot;:&quot;e/371/evidence/minimal-shard-readiness-live-read-gate-v371-browser-snapshot.md&quot;,&quot;digest&quot;:&quot;dd83df6f4528c2c7c211e61f6cc4fedef851613ac97854da7a0d32d25a9c0d85&quot;,&quot;byteLength&quot;:5454},{&quot;path&quot;:&quot;e/371/minimal-shard-readiness-live-read-gate-v371.html&quot;,&quot;digest&quot;:&quot;c5ad7d606c72c100cbe6073b218ecb55a68b7245194bae94421b3871e6fa68eb&quot;,&quot;byteLength&quot;:6133},{&quot;path&quot;:&quot;e/371/图片/minimal-shard-readiness-live-read-gate-v371.png&quot;,&quot;digest&quot;:&quot;c9b08b9f82a422b033db35ae1f0cd3d837c527af272baafc49e045669cc03e71&quot;,&quot;byteLength&quot;:104709},{&quot;path&quot;:&quot;e/371/解释/minimal-shard-readiness-live-read-gate-v371.md&quot;,&quot;digest&quot;:&quot;1b073f04ca272fe59a8c79e42a9ed08aaabae40884c25b6a4afd90b16abcf78c&quot;,&quot;byteLength&quot;:2543},{&quot;path&quot;:&quot;代码讲解记录_生产雏形阶段3/376-minimal-shard-readiness-live-read-gate-v371.md&quot;,&quot;digest&quot;:&quot;33917833ca0885409633ab5212513dd2503a6ded5b4281a0fa7b89e0d5c48b22&quot;,&quot;byteLength&quot;:4352},{&quot;path&quot;:&quot;docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md&quot;,&quot;digest&quot;:&quot;71fc35038fe658c4a3717175ec604cb648aea546a9ac6918c109b7a950bb90a2&quot;,&quot;byteLength&quot;:1982},{&quot;path&quot;:&quot;docs/plans3/README.md&quot;,&quot;digest&quot;:&quot;1d3c17dcfeb2046537940ed75900559317ad2898e8a52e08213e10bc12bbe567&quot;,&quot;byteLength&quot;:952},{&quot;path&quot;:&quot;e/README.md&quot;,&quot;digest&quot;:&quot;e0bcb6458cd4c84c5c086659e124c3f0fa9617248c9bf304e124cb9668865233&quot;,&quot;byteLength&quot;:649}]
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- verifiesNoLiveReadRerun: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v373
+
+## Archive References
+
+- e/371/evidence/minimal-shard-readiness-live-read-gate-v371-http.json: exists=true; bytes=27356; digest=3ea1590fdebd7e588eba9efce2b96927549e0a5b63a34340ef693b3b65538b0f
+- e/371/evidence/minimal-shard-readiness-live-read-gate-v371-http.md: exists=true; bytes=5436; digest=36c8adc7774f1cd11c57654c411a52ba7620615bea49e4b4ab3a18b8a3885d36
+- e/371/evidence/minimal-shard-readiness-live-read-gate-v371-summary.json: exists=true; bytes=983; digest=bf4d0f023637972f0050f9a373e1ee6e673827424356ec2035b94a19935858bc
+- e/371/evidence/minimal-shard-readiness-live-read-gate-v371-browser-snapshot.md: exists=true; bytes=5454; digest=dd83df6f4528c2c7c211e61f6cc4fedef851613ac97854da7a0d32d25a9c0d85
+- e/371/minimal-shard-readiness-live-read-gate-v371.html: exists=true; bytes=6133; digest=c5ad7d606c72c100cbe6073b218ecb55a68b7245194bae94421b3871e6fa68eb
+- e/371/图片/minimal-shard-readiness-live-read-gate-v371.png: exists=true; bytes=104709; digest=c9b08b9f82a422b033db35ae1f0cd3d837c527af272baafc49e045669cc03e71
+- e/371/解释/minimal-shard-readiness-live-read-gate-v371.md: exists=true; bytes=2543; digest=1b073f04ca272fe59a8c79e42a9ed08aaabae40884c25b6a4afd90b16abcf78c
+- 代码讲解记录_生产雏形阶段3/376-minimal-shard-readiness-live-read-gate-v371.md: exists=true; bytes=4352; digest=33917833ca0885409633ab5212513dd2503a6ded5b4281a0fa7b89e0d5c48b22
+- docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md: exists=true; bytes=1982; digest=71fc35038fe658c4a3717175ec604cb648aea546a9ac6918c109b7a950bb90a2
+- docs/plans3/README.md: exists=true; bytes=952; digest=1d3c17dcfeb2046537940ed75900559317ad2898e8a52e08213e10bc12bbe567
+- e/README.md: exists=true; bytes=649; digest=e0bcb6458cd4c84c5c086659e124c3f0fa9617248c9bf304e124cb9668865233
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonGateReady: true
+- jsonSourceNodeV370Ready: true
+- jsonGateDigestStable: true
+- jsonBothLiveReadsPassed: true
+- jsonLiveReadCountsMatch: true
+- jsonChecksAllPassed: true
+- summaryMatchesJson: true
+- markdownRecordsGateAndReads: true
+- browserSnapshotPresent: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsLiveReadAndBoundary: true
+- codeWalkthroughPresent: true
+- sourcePlanPointsToV372: true
+- planIndexReferencesV371AndV372: true
+- archiveIndexReferencesV371: true
+- routeRecordedInArchive: true
+- archiveVerificationDoesNotRerunLiveRead: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- archiveVerificationDigestStable: true
+- readyForMinimalShardReadinessLiveReadArchiveVerification: true
+
+## Summary
+
+- checkCount: 29
+- passedCheckCount: 29
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- sourceCheckCount: 27
+- sourcePassedCheckCount: 27
+- attemptedReadCount: 2
+- passedReadCount: 2
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- ARCHIVE_VERIFIES_READINESS_NOT_ACTIVE_SHARDING (warning, archive-verification): v372 verifies 2 archived read-only reads; it still does not enable active sharding.
+
+## Recommendations
+
+- PROCEED_TO_V373_COMPATIBILITY_REPORT (recommendation, archive-verification): Proceed to Node v373 compatibility report using v370 static evidence and v371 archived live reads.
+
+## Next Actions
+
+- Use Node v373 to compare v370 static evidence, v371 live-read evidence, and shard-readiness contract fields.
+- Do not reopen Java or mini-kv live reads from this archive verification.
+- Keep mini-kv out of the Java transaction chain until a separate shard prototype plan authorizes more than read-only readiness.
+
+</pre></main>
+</body>
+</html>

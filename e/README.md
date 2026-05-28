@@ -9,6 +9,7 @@
 369: credential resolver minimal read-only operator/CI regular gate handoff + contract freeze
 370: shard readiness contract consumer gate
 371: minimal shard readiness live-read gate
+372: minimal shard readiness live-read archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
