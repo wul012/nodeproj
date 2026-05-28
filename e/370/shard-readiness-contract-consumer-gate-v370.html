@@ -1,0 +1,209 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Node v370 Shard Readiness Contract Consumer Gate</title>
+<style>
+:root { color-scheme: light; font-family: Segoe UI, Arial, sans-serif; background: #f5f7fb; color: #172033; }
+body { margin: 0; padding: 32px; }
+main { max-width: 1180px; margin: 0 auto; background: #ffffff; border: 1px solid #d8dee9; border-radius: 8px; padding: 28px; box-shadow: 0 12px 30px rgba(20, 33, 61, 0.08); }
+pre { white-space: pre-wrap; word-break: break-word; line-height: 1.55; font-size: 14px; margin: 0; }
+</style>
+</head>
+<body>
+<main><pre># Managed audit manual sandbox connection credential resolver shard readiness contract consumer gate
+
+- Service: orderops-node
+- Generated at: 2026-05-28T22:15:40.513Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate.v1
+- Gate state: shard-readiness-contract-consumer-gate-ready
+- Gate decision: consume-java-and-mini-kv-shard-readiness-evidence
+- Active Node version: Node v370
+- Source Node version: Node v369
+- Ready for shard readiness contract consumer gate: true
+- Ready for Node v371 minimal shard readiness live-read gate: true
+- Contract consumer only: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Mutates Java state: false
+- Mutates mini-kv state: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Credential value requested: false
+- Raw endpoint URL parsed: false
+- Execution allowed: false
+
+## Source Node v369
+
+- sourceVersion: Node v369
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-operator-ci-regular-gate-handoff.v1
+- handoffState: operator-ci-regular-gate-handoff-ready
+- handoffDecision: freeze-read-only-and-shard-readiness-contracts
+- readyForOperatorCiRegularGateHandoff: true
+- readyForNodeV370ShardReadinessContractConsumerGate: true
+- sourceHandoffDigest: 822260c3e3416f9289bdf464fe1a0ee602140f62592b18abab12a1bea1df19a8
+- sourcePlanDigest: 2a06d49bed2c2313358c3a963d8a803dbff7c77ae4fc466a92103b9e1b064b3c
+- frozenContractCount: 2
+- sourceCheckCount: 30
+- sourcePassedCheckCount: 30
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- executionAllowed: false
+
+## Gate
+
+- gateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- gateMode: shard-readiness-contract-consumer
+- sourceSpan: Node v369 handoff plus Java v153 and mini-kv v144 shard readiness evidence
+- consumesContracts: [&quot;read-only-integration.v1&quot;,&quot;shard-readiness.v1&quot;]
+- consumesSiblingEvidence: [&quot;Java v153&quot;,&quot;mini-kv v144&quot;]
+- focusedCommand: npx.cmd vitest run test\managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate.test.ts
+- groupedCommand: npx.cmd vitest run test\managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoff.test.ts test\managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate.test.ts
+- buildCommand: npm.cmd run build
+- smokeCommand: Node HTTP smoke with UPSTREAM_PROBES_ENABLED=false for shard readiness contract consumer gate route
+- nodeRole: contract-consumer-and-integration-gate
+- automaticUpstreamStart: false
+- externalReadWindowRequiredForLiveGate: true
+- nextNodeVersionSuggested: Node v371
+
+## Java Shard Readiness
+
+- Project: advanced-order-platform
+- Source version: Java v153
+- Ready for Node consumption: true
+- Required fields: 10/10
+- Missing fields: none
+- Read only safe: true
+- Execution blocked: true
+- Routing mode present: true
+- Status accepted: true
+- Source-specific prototype value accepted: false
+- Boundary safe: true
+- Evidence file: D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json
+- Resolved path: D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json
+- Used historical fallback: false
+- Historical fallback available: true
+- Digest: 1bc4409e523738997dd619bb704391913e18b00ed63af3b14b821e7660d00c1d
+- Evidence:
+  - project: advanced-order-platform
+  - version: Java v153
+  - releaseVersion: null
+  - readOnly: true
+  - executionAllowed: false
+  - shardEnabled: false
+  - shardCount: 0
+  - slotCount: 0
+  - routingMode: fixture
+  - evidencePath: e/153/evidence/java-shard-readiness-v153.json
+  - status: passed
+  - evidenceDigest: null
+  - rawFieldCount: 10
+
+## mini-kv Shard Readiness
+
+- Project: mini-kv
+- Source version: mini-kv v144
+- Ready for Node consumption: true
+- Required fields: 10/10
+- Missing fields: none
+- Read only safe: true
+- Execution blocked: true
+- Routing mode present: true
+- Status accepted: true
+- Source-specific prototype value accepted: true
+- Boundary safe: true
+- Evidence file: D:/C/mini-kv/fixtures/release/shard-readiness.json
+- Resolved path: D:/C/mini-kv/fixtures/release/shard-readiness.json
+- Used historical fallback: false
+- Historical fallback available: true
+- Digest: 73cfeab422144d710c855a13624ba9e4eb6249d1154665cb0febd288e6fddbd2
+- Evidence:
+  - project: mini-kv
+  - version: 0.102.0
+  - releaseVersion: v144
+  - readOnly: true
+  - executionAllowed: false
+  - shardEnabled: false
+  - shardCount: 1
+  - slotCount: 16
+  - routingMode: single-shard-readiness-prototype
+  - evidencePath: fixtures/release/shard-readiness.json
+  - status: prototype-ready-read-only
+  - evidenceDigest: fnv1a64:22d3c4815a440804
+  - rawFieldCount: 19
+
+## Checks
+
+- sourceNodeV369Ready: true
+- sourceNodeV369ContractsFrozen: true
+- sourceNodeV369BoundariesClosed: true
+- javaEvidenceFilePresent: true
+- javaEvidenceRequiredFieldsComplete: true
+- javaEvidenceReadOnly: true
+- javaEvidenceExecutionBlocked: true
+- javaShardCountValid: true
+- javaSlotCountValid: true
+- javaRoutingModePresent: true
+- javaStatusAccepted: true
+- miniKvEvidenceFilePresent: true
+- miniKvEvidenceRequiredFieldsComplete: true
+- miniKvEvidenceReadOnly: true
+- miniKvEvidenceExecutionBlocked: true
+- miniKvShardCountValid: true
+- miniKvSlotCountValid: true
+- miniKvRoutingModePresent: true
+- miniKvStatusAccepted: true
+- miniKvBoundarySafe: true
+- bothEvidenceSourcesReady: true
+- digestCoverageComplete: true
+- historicalFallbackCovered: true
+- nodeDoesNotStartUpstreams: true
+- nodeDoesNotMutateSiblingState: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForShardReadinessContractConsumerGate: true
+
+## Summary
+
+- checkCount: 31
+- passedCheckCount: 31
+- evidenceSourceCount: 2
+- readyEvidenceSourceCount: 2
+- requiredFieldCount: 20
+- presentRequiredFieldCount: 20
+- missingRequiredFieldCount: 0
+- historicalFallbackSourceCount: 0
+- productionBlockerCount: 0
+- warningCount: 2
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- MINI_KV_PROTOTYPE_ROUTING_MODE_ACCEPTED (warning, mini-kv-v144): mini-kv v144 uses prototype-specific status/routingMode values; Node v370 accepts them because readOnly and executionAllowed boundaries are hard-safe.
+- SHARD_ENABLED_FALSE_IS_BASELINE (warning, shard-readiness-contract): Both upstreams intentionally report shardEnabled=false; this is readiness evidence, not active sharding.
+
+## Recommendations
+
+- PREPARE_NODE_V371_LIVE_READ_WINDOW (recommendation, next-plan): Proceed to Node v371 only after Java and mini-kv are already running; v371 should perform read-only live reads.
+
+## Next Actions
+
+- Treat Java v153 and mini-kv v144 shard readiness evidence as the fixed baseline for Node v371.
+- Only run Node v371 live-read gate after the user confirms Java and mini-kv services are already started.
+- Keep v371 read-only: GET/INFO/HEALTH-style reads only, no upstream start, no write command, no managed audit connection.
+
+</pre></main>
+</body>
+</html>

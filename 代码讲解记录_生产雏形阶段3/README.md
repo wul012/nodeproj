@@ -7,6 +7,7 @@
 ```text
 373-minimal-read-only-gate-execution-archive-verification-v368.md
 374-minimal-read-only-operator-ci-regular-gate-handoff-v369.md
+375-shard-readiness-contract-consumer-gate-v370.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

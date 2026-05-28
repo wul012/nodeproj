@@ -1,0 +1,22 @@
+﻿{
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate.v1",
+    "gateState":  "shard-readiness-contract-consumer-gate-ready",
+    "gateDecision":  "consume-java-and-mini-kv-shard-readiness-evidence",
+    "readyForShardReadinessContractConsumerGate":  true,
+    "readyForNodeV371MinimalShardReadinessLiveReadGate":  true,
+    "checkCount":  31,
+    "passedCheckCount":  31,
+    "evidenceSourceCount":  2,
+    "readyEvidenceSourceCount":  2,
+    "historicalFallbackSourceCount":  0,
+    "productionBlockerCount":  0,
+    "warningCount":  2,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "connectsManagedAudit":  false,
+    "executionAllowed":  false,
+    "javaStatus":  "passed",
+    "miniKvStatus":  "prototype-ready-read-only",
+    "miniKvRoutingMode":  "single-shard-readiness-prototype",
+    "nextPlan":  "docs/plans3/v370-post-shard-readiness-contract-consumer-gate-roadmap.md"
+}

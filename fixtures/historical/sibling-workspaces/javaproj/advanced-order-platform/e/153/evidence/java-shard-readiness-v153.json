@@ -1,0 +1,12 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v153",
+  "readOnly": true,
+  "executionAllowed": false,
+  "shardEnabled": false,
+  "shardCount": 0,
+  "slotCount": 0,
+  "routingMode": "fixture",
+  "evidencePath": "e/153/evidence/java-shard-readiness-v153.json",
+  "status": "passed"
+}

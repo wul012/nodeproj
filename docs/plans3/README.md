@@ -5,15 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v369-post-operator-ci-regular-gate-handoff-roadmap.md
+docs/plans3/v370-post-shard-readiness-contract-consumer-gate-roadmap.md
 ```
 
 ## 当前状态
 
 ```text
-Node v369 已完成 operator/CI regular gate handoff，并冻结 read-only-integration.v1 与 shard-readiness.v1。
-下一步推荐并行推进 mini-kv shard readiness prototype + Java shard readiness echo。
-Node v370 只有在两边都发布只读 shard readiness 证据后才继续消费和 gate。
+Node v370 已完成 shard readiness contract consumer gate，消费 Java v153 与 mini-kv v144 的只读证据。
+下一步 Node v371 是 minimal shard readiness live-read gate。
+v371 需要用户确认 Java / mini-kv 服务已经由各自项目启动；Node 不自动启动或停止两边服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
