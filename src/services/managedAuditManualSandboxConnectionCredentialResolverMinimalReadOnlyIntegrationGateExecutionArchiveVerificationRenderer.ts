@@ -1,0 +1,121 @@
+import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  ManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerificationProfile,
+  MinimalReadOnlyIntegrationGateExecutionArchiveFileReference,
+} from "./managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerificationTypes.js";
+import type {
+  MinimalReadOnlyIntegrationSmokeTargetResult,
+} from "./managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeRehearsalTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerificationMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerificationProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver minimal read-only integration gate execution archive verification",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Archive verification state: ${profile.archiveVerificationState}`,
+    `- Archive verification decision: ${profile.archiveVerificationDecision}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Ready for v369 operator/CI regular gate handoff: ${profile.readyForNodeV369OperatorCiRegularGateHandoff}`,
+    `- Archive verification only: ${profile.archiveVerificationOnly}`,
+    `- Operator/CI handoff check included: ${profile.operatorCiHandoffCheckIncluded}`,
+    `- Reruns live probe: ${profile.rerunsLiveProbe}`,
+    `- Starts Java service: ${profile.startsJavaService}`,
+    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    `- Sends managed audit HTTP/TCP: ${profile.sendsManagedAuditHttpTcp}`,
+    `- Credential value requested: ${profile.credentialValueRequested}`,
+    `- Credential value read: ${profile.credentialValueRead}`,
+    `- Raw endpoint URL requested: ${profile.rawEndpointUrlRequested}`,
+    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
+    `- Secret provider instantiated: ${profile.secretProviderInstantiated}`,
+    `- Resolver client instantiated: ${profile.resolverClientInstantiated}`,
+    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
+    `- Runtime shell invocation allowed: ${profile.runtimeShellInvocationAllowed}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v367",
+    "",
+    ...renderEntries(profile.sourceNodeV367),
+    "",
+    "## Target Results",
+    "",
+    ...profile.targetResults.flatMap(renderTargetResult),
+    "",
+    "## Archive Verification",
+    "",
+    ...renderEntries(profile.archiveVerification),
+    "",
+    "## Operator / CI Handoff Check",
+    "",
+    ...renderEntries(profile.operatorCiHandoffCheck),
+    "",
+    "## Archive References",
+    "",
+    ...renderArchiveFileReferences([
+      profile.archiveReferences.jsonEvidence,
+      profile.archiveReferences.markdownEvidence,
+      profile.archiveReferences.summaryEvidence,
+      profile.archiveReferences.browserSnapshot,
+      profile.archiveReferences.htmlArchive,
+      profile.archiveReferences.screenshot,
+      profile.archiveReferences.explanation,
+      profile.archiveReferences.codeWalkthrough,
+      profile.archiveReferences.sourcePlan,
+      profile.archiveReferences.plansIndex,
+      profile.archiveReferences.archiveIndex,
+    ]),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No production blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No recommendations."),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderTargetResult(target: MinimalReadOnlyIntegrationSmokeTargetResult): string[] {
+  return [
+    `- ${target.project} ${target.methodOrCommand}:`,
+    `  - targetName: ${target.targetName}`,
+    `  - status: ${target.status}`,
+    `  - readOnly: ${target.readOnly}`,
+    `  - mutatesState: ${target.mutatesState}`,
+    `  - attempted: ${target.attempted}`,
+    `  - latencyMs: ${target.latencyMs ?? "n/a"}`,
+    `  - statusCode: ${target.statusCode ?? "n/a"}`,
+    `  - responseShape: ${target.responseShape}`,
+    `  - errorCode: ${target.errorCode ?? "n/a"}`,
+    `  - errorMessage: ${target.errorMessage ?? "n/a"}`,
+  ];
+}
+
+function renderArchiveFileReferences(
+  files: readonly MinimalReadOnlyIntegrationGateExecutionArchiveFileReference[],
+): string[] {
+  return files.map((file) =>
+    `- ${file.path}: exists=${file.exists}; bytes=${file.byteLength}; digest=${file.digest ?? "missing"}`);
+}

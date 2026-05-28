@@ -72,4 +72,4 @@
 367：credential resolver minimal read-only integration gate execution
 ```
 
-历史 v274 及以前的截图/解释仍保留在 `c/`。
+历史 v274 及以前的截图/解释仍保留在 `c/`。从 v368 起，新的截图/解释归档继续写入同级目录 `e/`。

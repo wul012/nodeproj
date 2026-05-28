@@ -1,0 +1,21 @@
+﻿{
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-gate-execution-archive-verification.v1",
+    "archiveVerificationState":  "minimal-read-only-integration-gate-execution-archive-verified",
+    "archiveVerificationDecision":  "archive-minimal-read-only-gate-execution-and-operator-ci-handoff",
+    "readyForMinimalReadOnlyIntegrationGateExecutionArchiveVerification":  true,
+    "readyForNodeV369OperatorCiRegularGateHandoff":  true,
+    "archiveFileCount":  11,
+    "presentArchiveFileCount":  11,
+    "sourceCheckCount":  20,
+    "sourcePassedCheckCount":  20,
+    "attemptedTargetCount":  5,
+    "passedTargetCount":  5,
+    "checkCount":  42,
+    "passedCheckCount":  42,
+    "productionBlockerCount":  0,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "executionAllowed":  false,
+    "connectsManagedAudit":  false,
+    "nextPlan":  "docs/plans3/v368-post-minimal-read-only-integration-gate-execution-archive-verification-roadmap.md"
+}
