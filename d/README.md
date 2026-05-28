@@ -65,6 +65,7 @@
 360：credential resolver sandbox handle review packet/gate decision record
 361：credential resolver sandbox handle review packet/gate decision record archive verification
 362：credential resolver sandbox handle review prerequisite closure review
+363：credential resolver sandbox handle review prerequisite closure review archive verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。

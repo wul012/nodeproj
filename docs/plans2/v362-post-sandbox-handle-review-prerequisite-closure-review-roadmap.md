@@ -33,9 +33,10 @@ Java v153 + mini-kv v144：继续跳过。v349-v362 都没有 invalid-read-contr
    - 验证 route、Markdown、stable digest、HTTP evidence、summary、HTML、截图、解释、代码讲解和计划索引。
    - 验证 v362 只关闭非执行 prerequisite chain，不允许 credential value、raw endpoint、provider/client、runtime shell 或 managed audit HTTP/TCP。
    - 不启动 Java / mini-kv，不请求两边新版本。
+   - 完成后不要继续长期追加 archive / closure 链；下一步应把 v349 的最小只读联调固化成常规门禁。
 
 2. Node v364 或后续：
-   - 如果 v363 证明 v362 归档完整，可以再做 sandbox handle review follow-up planning/intake。
+   - 如果 v363 证明 v362 归档完整，优先做 minimal read-only integration regular gate。
    - 如果 v363 发现缺截图、解释、讲解、route、Markdown、digest 或 summary，先修 archive verification，不推进功能。
    - 如果后续需要真实 sandbox credential handle 值、raw endpoint URL、secret provider、resolver client、runtime shell 或 managed audit HTTP/TCP，必须暂停并让用户确认授权与输入范围。
 

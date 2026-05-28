@@ -257,5 +257,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v360 已完成 sandbox handle review packet/gate decision record；20/20 checks passed。当前有效计划切换到 docs/plans2/v360-post-sandbox-handle-review-packet-gate-decision-record-roadmap.md，下一步 Node v361 做 archive verification。
 - Node v361 已完成 sandbox handle review packet/gate decision record archive verification；33/33 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v361-post-sandbox-handle-review-packet-gate-decision-record-archive-verification-roadmap.md，下一步 Node v362 做 prerequisite closure review。
 - Node v362 已完成 sandbox handle review prerequisite closure review；27/27 checks passed。当前有效计划切换到 docs/plans2/v362-post-sandbox-handle-review-prerequisite-closure-review-roadmap.md，下一步 Node v363 做 archive verification。
+- Node v363 已完成 sandbox handle review prerequisite closure review archive verification；33/33 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v363-post-sandbox-handle-review-prerequisite-closure-review-archive-verification-roadmap.md，下一步 Node v364 做 minimal read-only integration regular gate，避免继续堆 archive / closure。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```
