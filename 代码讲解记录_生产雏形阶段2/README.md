@@ -98,6 +98,7 @@
 369-minimal-read-only-integration-regular-gate-v364.md
 370-minimal-read-only-integration-regular-gate-archive-verification-v365.md
 371-explicit-read-window-gate-execution-decision-v366.md
+372-minimal-read-only-integration-gate-execution-v367.md
 ```
 
 历史 v274 及以前的代码讲解仍保留在 `代码讲解记录_生产雏形阶段/`。

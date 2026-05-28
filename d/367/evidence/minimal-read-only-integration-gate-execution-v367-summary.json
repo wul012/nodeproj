@@ -1,0 +1,17 @@
+﻿{
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-gate-execution.v1",
+    "activeNodeVersion":  "Node v367",
+    "gateExecutionState":  "minimal-read-only-integration-gate-executed",
+    "gateExecutionResult":  "all-read-passed",
+    "gateExecutionDecision":  "archive-read-passed-gate-execution",
+    "attemptedTargetCount":  5,
+    "passedTargetCount":  5,
+    "checkCount":  20,
+    "passedCheckCount":  20,
+    "productionBlockerCount":  0,
+    "liveProbePerformedNow":  true,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "connectsManagedAudit":  false,
+    "executionAllowed":  false
+}

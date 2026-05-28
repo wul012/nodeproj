@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v366-post-explicit-read-window-gate-execution-decision-roadmap.md
+docs/plans2/v367-post-minimal-read-only-integration-gate-execution-roadmap.md
 ```
 
 ## 当前状态
@@ -262,5 +262,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v365 已完成 minimal read-only integration regular gate archive + CI/operator friendly check；40/40 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v365-post-minimal-read-only-integration-regular-gate-archive-roadmap.md，下一步 Node v366 做 explicit read-window gate execution decision；没有明确 Java / mini-kv 读窗口就停在 wait-for-external-read-window。
 - Node v366 已完成 explicit read-window gate execution decision；22/22 checks passed，当前结论是 wait-for-external-read-window，未启动 Java / mini-kv，未执行真实 probe。当前有效计划切换到 docs/plans2/v366-post-explicit-read-window-gate-execution-decision-roadmap.md；没有明确 Java / mini-kv 读窗口或用户授权时，不继续推进 v367。
 - v366 计划已补充读窗口启动要求：Java 窗口需启动 D:\javaproj\advanced-order-platform 并提供 8080 health + ops overview 只读结果；mini-kv 窗口需启动 D:\C\mini-kv 并提供 6379 HEALTH / INFOJSON / STATSJSON 只读结果。两边未按清单启动时，Node v367 必须继续停在 wait-for-external-read-window。
+- Node v367 已完成 minimal read-only integration gate execution；用户已启动 Java / mini-kv 后，Node 真实只读访问 5 个目标，5/5 read targets passed，20/20 checks passed，且 startsJavaService=false、startsMiniKvService=false、executionAllowed=false。当前有效计划切换到 docs/plans2/v367-post-minimal-read-only-integration-gate-execution-roadmap.md，下一步 Node v368 做 v367 archive verification，不要求 Java / mini-kv 新版本。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```

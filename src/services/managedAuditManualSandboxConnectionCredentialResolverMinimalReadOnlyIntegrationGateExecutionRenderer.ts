@@ -1,0 +1,97 @@
+import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  ManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionProfile,
+} from "./managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionTypes.js";
+import type {
+  MinimalReadOnlyIntegrationSmokeTargetResult,
+} from "./managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeRehearsalTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver minimal read-only integration gate execution",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Gate execution state: ${profile.gateExecutionState}`,
+    `- Gate execution result: ${profile.gateExecutionResult}`,
+    `- Gate execution decision: ${profile.gateExecutionDecision}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- External read window confirmed: ${profile.externalReadWindowConfirmed}`,
+    `- Live probe performed now: ${profile.liveProbePerformedNow}`,
+    `- Reuses Node v349 smoke lane: ${profile.reusesNodeV349MinimalReadOnlySmokeLane}`,
+    `- Requires parallel Java/mini-kv read contract fix: ${profile.requiresParallelJavaMiniKvReadContractFix}`,
+    `- Starts Java service: ${profile.startsJavaService}`,
+    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
+    `- Mutates Java state: ${profile.mutatesJavaState}`,
+    `- Mutates mini-kv state: ${profile.mutatesMiniKvState}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    `- Sends managed audit HTTP/TCP: ${profile.sendsManagedAuditHttpTcp}`,
+    `- Credential value read: ${profile.credentialValueRead}`,
+    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
+    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v366",
+    "",
+    ...renderEntries(profile.sourceNodeV366),
+    "",
+    "## Reused Node v349 Smoke Lane",
+    "",
+    ...(profile.reusedNodeV349SmokeLane === null
+      ? ["No smoke lane was executed because the explicit read window was not available."]
+      : renderEntries(profile.reusedNodeV349SmokeLane)),
+    "",
+    "## Gate Execution",
+    "",
+    ...renderEntries(profile.gateExecution),
+    "",
+    "## Target Results",
+    "",
+    ...profile.targetResults.flatMap(renderTargetResult),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No production blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No recommendations."),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderTargetResult(target: MinimalReadOnlyIntegrationSmokeTargetResult): string[] {
+  return [
+    `- ${target.project} ${target.methodOrCommand}:`,
+    `  - targetName: ${target.targetName}`,
+    `  - status: ${target.status}`,
+    `  - readOnly: ${target.readOnly}`,
+    `  - mutatesState: ${target.mutatesState}`,
+    `  - attempted: ${target.attempted}`,
+    `  - latencyMs: ${target.latencyMs ?? "n/a"}`,
+    `  - statusCode: ${target.statusCode ?? "n/a"}`,
+    `  - responseShape: ${target.responseShape}`,
+    `  - errorCode: ${target.errorCode ?? "n/a"}`,
+    `  - errorMessage: ${target.errorMessage ?? "n/a"}`,
+  ];
+}

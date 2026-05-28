@@ -69,6 +69,7 @@
 364：credential resolver minimal read-only integration regular gate
 365：credential resolver minimal read-only integration regular gate archive verification
 366：credential resolver explicit read-window gate execution decision
+367：credential resolver minimal read-only integration gate execution
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
