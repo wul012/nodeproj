@@ -260,5 +260,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v363 已完成 sandbox handle review prerequisite closure review archive verification；33/33 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v363-post-sandbox-handle-review-prerequisite-closure-review-archive-verification-roadmap.md，下一步 Node v364 做 minimal read-only integration regular gate，避免继续堆 archive / closure。
 - Node v364 已完成 minimal read-only integration regular gate；34/34 checks passed，消费 Node v349/v350 passed evidence，把最小只读联调固化为常规门禁。当前有效计划切换到 docs/plans2/v364-post-minimal-read-only-integration-regular-gate-roadmap.md，下一步 Node v365 做 regular gate archive + CI/operator friendly check，避免拆成两个很小版本。
 - Node v365 已完成 minimal read-only integration regular gate archive + CI/operator friendly check；40/40 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v365-post-minimal-read-only-integration-regular-gate-archive-roadmap.md，下一步 Node v366 做 explicit read-window gate execution decision；没有明确 Java / mini-kv 读窗口就停在 wait-for-external-read-window。
+- Node v366 已完成 explicit read-window gate execution decision；22/22 checks passed，当前结论是 wait-for-external-read-window，未启动 Java / mini-kv，未执行真实 probe。当前有效计划切换到 docs/plans2/v366-post-explicit-read-window-gate-execution-decision-roadmap.md；没有明确 Java / mini-kv 读窗口或用户授权时，不继续推进 v367。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```

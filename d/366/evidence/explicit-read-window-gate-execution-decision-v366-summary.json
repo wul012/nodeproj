@@ -1,0 +1,19 @@
+﻿{
+    "service":  "orderops-node",
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-explicit-read-window-gate-execution-decision.v1",
+    "activeNodeVersion":  "Node v366",
+    "sourceNodeVersion":  "Node v365",
+    "decisionState":  "explicit-read-window-gate-execution-decision-ready",
+    "gateExecutionDecision":  "wait-for-external-read-window",
+    "checkCount":  22,
+    "passedCheckCount":  22,
+    "productionBlockerCount":  0,
+    "warningCount":  1,
+    "explicitReadWindowProvided":  false,
+    "externalReadWindowRequired":  true,
+    "actualProbeExecutedNow":  false,
+    "readyForDecision":  true,
+    "readyForProductionWindow":  false,
+    "executionAllowed":  false,
+    "createdAt":  "2026-05-28T16:20:32.2037966+08:00"
+}
