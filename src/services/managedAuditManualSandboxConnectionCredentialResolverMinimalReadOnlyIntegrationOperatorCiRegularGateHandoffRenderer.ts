@@ -1,0 +1,103 @@
+import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  FrozenContractReference,
+  ManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffProfile,
+  OperatorCiRegularGateHandoffFileReference,
+} from "./managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffProfile,
+): string {
+  return [
+    "# Managed audit manual sandbox connection credential resolver minimal read-only integration operator/CI regular gate handoff",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Handoff state: ${profile.handoffState}`,
+    `- Handoff decision: ${profile.handoffDecision}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Ready for parallel mini-kv shard readiness prototype: ${profile.readyForParallelMiniKvShardReadinessPrototype}`,
+    `- Ready for parallel Java shard readiness echo: ${profile.readyForParallelJavaShardReadinessEcho}`,
+    `- Ready for Node v370 shard readiness contract consumer gate: ${profile.readyForNodeV370ShardReadinessContractConsumerGate}`,
+    `- Handoff only: ${profile.handoffOnly}`,
+    `- Contract freeze included: ${profile.contractFreezeIncluded}`,
+    `- Reruns live probe: ${profile.rerunsLiveProbe}`,
+    `- Starts Java service: ${profile.startsJavaService}`,
+    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    `- Sends managed audit HTTP/TCP: ${profile.sendsManagedAuditHttpTcp}`,
+    `- Credential value requested: ${profile.credentialValueRequested}`,
+    `- Credential value read: ${profile.credentialValueRead}`,
+    `- Raw endpoint URL requested: ${profile.rawEndpointUrlRequested}`,
+    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
+    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v368",
+    "",
+    ...renderEntries(profile.sourceNodeV368),
+    "",
+    "## Handoff",
+    "",
+    ...renderEntries(profile.handoff),
+    "",
+    "## Frozen Contracts",
+    "",
+    ...profile.frozenContracts.flatMap(renderContract),
+    "",
+    "## Parallel Shard Readiness Plan",
+    "",
+    ...renderEntries(profile.parallelShardReadinessPlan),
+    "",
+    "## Source Archive References",
+    "",
+    ...renderArchiveFileReferences(Object.values(profile.archiveReferences)),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No production blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No recommendations."),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderContract(contract: FrozenContractReference): string[] {
+  return [
+    `- ${contract.contractVersion}:`,
+    `  - contractState: ${contract.contractState}`,
+    `  - path: ${contract.path}`,
+    `  - exists: ${contract.exists}`,
+    `  - digest: ${contract.digest ?? "missing"}`,
+    `  - requiredFieldCount: ${contract.requiredFieldCount}`,
+    `  - requiredFields: ${JSON.stringify(contract.requiredFields)}`,
+    `  - readOnlyRequired: ${contract.readOnlyRequired}`,
+    `  - executionAllowedRequired: ${contract.executionAllowedRequired}`,
+    `  - automaticUpstreamStartAllowed: ${contract.automaticUpstreamStartAllowed}`,
+  ];
+}
+
+function renderArchiveFileReferences(files: readonly OperatorCiRegularGateHandoffFileReference[]): string[] {
+  return files.map((file) =>
+    `- ${file.path}: exists=${file.exists}; bytes=${file.byteLength}; digest=${file.digest ?? "missing"}`);
+}

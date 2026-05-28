@@ -1,0 +1,33 @@
+{
+  "contractVersion": "read-only-integration.v1",
+  "contractState": "frozen",
+  "purpose": "Minimal cross-project read-only integration evidence shared by Node, Java, and mini-kv.",
+  "requiredFields": [
+    "project",
+    "version",
+    "readOnly",
+    "executionAllowed",
+    "status",
+    "evidencePath"
+  ],
+  "fieldRules": {
+    "project": "stable project identifier such as orderops-node, advanced-order-platform, or mini-kv",
+    "version": "project-local release label",
+    "readOnly": true,
+    "executionAllowed": false,
+    "status": [
+      "passed",
+      "blocked",
+      "unavailable"
+    ],
+    "evidencePath": "relative path to the producing project's evidence file"
+  },
+  "forbiddenBehaviors": [
+    "credential-value-read",
+    "raw-endpoint-url-parse",
+    "managed-audit-http-tcp-send",
+    "java-ledger-write",
+    "mini-kv-write-admin-command",
+    "automatic-upstream-start"
+  ]
+}

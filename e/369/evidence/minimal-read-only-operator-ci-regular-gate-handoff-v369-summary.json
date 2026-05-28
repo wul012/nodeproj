@@ -1,0 +1,19 @@
+﻿{
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-operator-ci-regular-gate-handoff.v1",
+    "handoffState":  "operator-ci-regular-gate-handoff-ready",
+    "handoffDecision":  "freeze-read-only-and-shard-readiness-contracts",
+    "readyForOperatorCiRegularGateHandoff":  true,
+    "readyForParallelMiniKvShardReadinessPrototype":  true,
+    "readyForParallelJavaShardReadinessEcho":  true,
+    "readyForNodeV370ShardReadinessContractConsumerGate":  true,
+    "checkCount":  30,
+    "passedCheckCount":  30,
+    "frozenContractCount":  2,
+    "productionBlockerCount":  0,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "connectsManagedAudit":  false,
+    "sendsManagedAuditHttpTcp":  false,
+    "executionAllowed":  false,
+    "nextPlan":  "docs/plans3/v369-post-operator-ci-regular-gate-handoff-roadmap.md"
+}

@@ -1,0 +1,45 @@
+{
+  "contractVersion": "shard-readiness.v1",
+  "contractState": "frozen",
+  "purpose": "Minimal read-only shard readiness evidence for parallel mini-kv prototype and Java echo work.",
+  "requiredFields": [
+    "project",
+    "version",
+    "readOnly",
+    "executionAllowed",
+    "shardEnabled",
+    "shardCount",
+    "slotCount",
+    "routingMode",
+    "evidencePath",
+    "status"
+  ],
+  "fieldRules": {
+    "project": "stable project identifier such as advanced-order-platform or mini-kv",
+    "version": "project-local release label",
+    "readOnly": true,
+    "executionAllowed": false,
+    "shardEnabled": "boolean capability flag; false is valid for an early echo",
+    "shardCount": "non-negative integer",
+    "slotCount": "non-negative integer",
+    "routingMode": [
+      "fixture",
+      "static-slot-table",
+      "hash-slot",
+      "disabled"
+    ],
+    "evidencePath": "relative path to the producing project's readiness evidence file",
+    "status": [
+      "passed",
+      "blocked",
+      "unavailable"
+    ]
+  },
+  "forbiddenBehaviors": [
+    "order-authoritative-storage",
+    "audit-authoritative-storage",
+    "java-transaction-route-change",
+    "mini-kv-load-compact-restore",
+    "automatic-upstream-start"
+  ]
+}
