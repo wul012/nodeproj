@@ -1,0 +1,22 @@
+﻿{
+    "service":  "orderops-node",
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-regular-gate-archive-verification.v1",
+    "activeNodeVersion":  "Node v365",
+    "sourceNodeVersion":  "Node v364",
+    "archiveVerificationState":  "minimal-read-only-integration-regular-gate-archive-verified",
+    "archiveVerificationDecision":  "archive-minimal-read-only-integration-regular-gate-and-ci-operator-check",
+    "checkCount":  40,
+    "passedCheckCount":  40,
+    "productionBlockerCount":  0,
+    "warningCount":  1,
+    "readyForMinimalReadOnlyIntegrationRegularGateArchiveVerification":  true,
+    "readyForNodeV366ExplicitReadWindowGateExecutionDecision":  true,
+    "ciOperatorFriendlyCheckIncluded":  true,
+    "avoidsFullTestBatchByDefault":  true,
+    "requiresExplicitReadWindowForActualProbe":  true,
+    "readOnlyTargetCount":  5,
+    "requiredHeaderCount":  4,
+    "readyForProductionWindow":  false,
+    "executionAllowed":  false,
+    "createdAt":  "2026-05-28T15:29:39.9711921+08:00"
+}

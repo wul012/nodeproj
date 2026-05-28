@@ -67,6 +67,7 @@
 362：credential resolver sandbox handle review prerequisite closure review
 363：credential resolver sandbox handle review prerequisite closure review archive verification
 364：credential resolver minimal read-only integration regular gate
+365：credential resolver minimal read-only integration regular gate archive verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
