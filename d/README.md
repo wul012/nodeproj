@@ -63,6 +63,7 @@
 358：credential resolver sandbox handle review packet/gate non-secret intake
 359：credential resolver sandbox handle review packet/gate non-secret intake archive verification
 360：credential resolver sandbox handle review packet/gate decision record
+361：credential resolver sandbox handle review packet/gate decision record archive verification
 ```
 
 历史 v274 及以前的截图/解释仍保留在 `c/`。
