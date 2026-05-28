@@ -5,7 +5,7 @@
 ## 当前唯一有效入口
 
 ```text
-docs/plans2/v361-post-sandbox-handle-review-packet-gate-decision-record-archive-verification-roadmap.md
+docs/plans2/v362-post-sandbox-handle-review-prerequisite-closure-review-roadmap.md
 ```
 
 ## 当前状态
@@ -117,7 +117,8 @@ Node v358：sandbox handle review packet/gate non-secret intake 已完成；27/2
 Node v359：sandbox handle review packet/gate non-secret intake archive verification 已完成；34/34 checks passed，11/11 archive files present。
 Node v360：sandbox handle review packet/gate decision record 已完成；20/20 checks passed，decision=advance-to-sandbox-handle-review-prerequisite-closure-review。
 Node v361：sandbox handle review packet/gate decision record archive verification 已完成；33/33 checks passed，11/11 archive files present。
-当前有效计划是 docs/plans2/v361-post-sandbox-handle-review-packet-gate-decision-record-archive-verification-roadmap.md；下一步是 Node v362，做 sandbox handle review prerequisite closure review。
+Node v362：sandbox handle review prerequisite closure review 已完成；27/27 checks passed，completed closure items=4，remaining closure items=0。
+当前有效计划是 docs/plans2/v362-post-sandbox-handle-review-prerequisite-closure-review-roadmap.md；下一步是 Node v363，做 prerequisite closure review archive verification。
 三项目当前仍不读取 credential value、不解析 raw endpoint URL、不打开 managed audit connection、不写 ledger、不执行 schema migration、不自动启动上游。
 ```
 
@@ -255,5 +256,6 @@ Node v328：final prerequisite closure review。当前下一步；消费 Node v3
 - Node v359 已完成 sandbox handle review packet/gate non-secret intake archive verification；34/34 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v359-post-sandbox-handle-review-packet-gate-non-secret-intake-archive-verification-roadmap.md，下一步 Node v360 做 decision record。
 - Node v360 已完成 sandbox handle review packet/gate decision record；20/20 checks passed。当前有效计划切换到 docs/plans2/v360-post-sandbox-handle-review-packet-gate-decision-record-roadmap.md，下一步 Node v361 做 archive verification。
 - Node v361 已完成 sandbox handle review packet/gate decision record archive verification；33/33 checks passed，11/11 archive files present。当前有效计划切换到 docs/plans2/v361-post-sandbox-handle-review-packet-gate-decision-record-archive-verification-roadmap.md，下一步 Node v362 做 prerequisite closure review。
+- Node v362 已完成 sandbox handle review prerequisite closure review；27/27 checks passed。当前有效计划切换到 docs/plans2/v362-post-sandbox-handle-review-prerequisite-closure-review-roadmap.md，下一步 Node v363 做 archive verification。
 - 代码讲解继续写入 代码讲解记录_生产雏形阶段2/，截图和解释继续放 d/<版本>/。
 ```
