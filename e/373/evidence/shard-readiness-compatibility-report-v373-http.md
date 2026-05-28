@@ -1,0 +1,184 @@
+﻿# Managed audit manual sandbox connection credential resolver shard readiness compatibility report
+
+- Service: orderops-node
+- Generated at: 2026-05-28T23:39:40.762Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-compatibility-report.v1
+- Compatibility state: shard-readiness-compatible-for-regular-gate
+- Compatibility decision: prepare-minimal-shard-readiness-regular-gate
+- Active Node version: Node v373
+- Source static Node version: Node v370
+- Source archive Node version: Node v372
+- Ready for Node v374 minimal shard readiness regular gate: true
+- Compatibility report only: true
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Mutates Java state: false
+- Mutates mini-kv state: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v370
+
+- sourceVersion: Node v370
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate.v1
+- gateState: shard-readiness-contract-consumer-gate-ready
+- gateDecision: consume-java-and-mini-kv-shard-readiness-evidence
+- readyForShardReadinessContractConsumerGate: true
+- readyForNodeV371MinimalShardReadinessLiveReadGate: true
+- gateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- sourceCheckCount: 31
+- sourcePassedCheckCount: 31
+- evidenceSourceCount: 2
+- readyEvidenceSourceCount: 2
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- executionAllowed: false
+
+## Source Node v372
+
+- sourceVersion: Node v372
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-archive-verification.v1
+- archiveVerificationState: minimal-shard-readiness-live-read-archive-verified
+- archiveVerificationDecision: archive-minimal-shard-readiness-live-read-and-prepare-compatibility-report
+- readyForMinimalShardReadinessLiveReadArchiveVerification: true
+- readyForNodeV373ShardReadinessCompatibilityReport: true
+- archiveVerificationDigest: 25da44fbdca47dd4106d016858df217c8c20dbbcf24953f76ff4205e4e4ee328
+- sourceGateDigest: 73108e48edbab0b2d8c023ce8fb5f200a47a53f464c8ccf0f0eb3b1be1674d92
+- sourceNodeV370GateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- sourceCheckCount: 29
+- sourcePassedCheckCount: 29
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- productionBlockerCount: 0
+- rerunsLiveRead: false
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+
+## Project Reports
+
+- advanced-order-platform:
+  - staticSourceVersion: Java v153
+  - liveSourceVersion: Java v153 live
+  - staticReady: true
+  - liveReady: true
+  - readOnlySafe: true
+  - executionBlocked: true
+  - activeShardingEnabled: false
+  - fieldCount: 9
+  - matchedFieldCount: 9
+  - mismatchedFields: none
+  - compatibleForRegularGate: true
+- mini-kv:
+  - staticSourceVersion: mini-kv v144
+  - liveSourceVersion: mini-kv v144 live
+  - staticReady: true
+  - liveReady: true
+  - readOnlySafe: true
+  - executionBlocked: true
+  - activeShardingEnabled: false
+  - fieldCount: 9
+  - matchedFieldCount: 9
+  - mismatchedFields: none
+  - compatibleForRegularGate: true
+
+## Field Checks
+
+- advanced-order-platform.project: static=advanced-order-platform; live=advanced-order-platform; matches=true
+- advanced-order-platform.version: static=Java v153; live=Java v153; matches=true
+- advanced-order-platform.readOnly: static=true; live=true; matches=true
+- advanced-order-platform.executionAllowed: static=false; live=false; matches=true
+- advanced-order-platform.shardEnabled: static=false; live=false; matches=true
+- advanced-order-platform.shardCount: static=0; live=0; matches=true
+- advanced-order-platform.slotCount: static=0; live=0; matches=true
+- advanced-order-platform.routingMode: static=fixture; live=fixture; matches=true
+- advanced-order-platform.status: static=passed; live=passed; matches=true
+- mini-kv.project: static=mini-kv; live=mini-kv; matches=true
+- mini-kv.version: static=0.102.0; live=0.102.0; matches=true
+- mini-kv.readOnly: static=true; live=true; matches=true
+- mini-kv.executionAllowed: static=false; live=false; matches=true
+- mini-kv.shardEnabled: static=false; live=false; matches=true
+- mini-kv.shardCount: static=1; live=1; matches=true
+- mini-kv.slotCount: static=16; live=16; matches=true
+- mini-kv.routingMode: static=single-shard-readiness-prototype; live=single-shard-readiness-prototype; matches=true
+- mini-kv.status: static=prototype-ready-read-only; live=prototype-ready-read-only; matches=true
+
+## Compatibility Report
+
+- reportDigest: 464c4564ad1044541c0a5197b18187e679f5139ab566c221ea2e1af91f5356e5
+- reportMode: shard-readiness-compatibility-report
+- sourceSpan: Node v370 static contract plus Node v371/v372 archived live-read evidence
+- sourceStaticGateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- sourceLiveReadGateDigest: 73108e48edbab0b2d8c023ce8fb5f200a47a53f464c8ccf0f0eb3b1be1674d92
+- sourceArchiveVerificationDigest: 25da44fbdca47dd4106d016858df217c8c20dbbcf24953f76ff4205e4e4ee328
+- comparesStaticAndLiveEvidence: true
+- consumesArchiveVerificationOnly: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v374
+
+## Checks
+
+- sourceNodeV370Ready: true
+- sourceNodeV372ArchiveReady: true
+- sourceDigestChainAligned: true
+- javaStaticEvidenceReady: true
+- javaLiveReadArchivedReady: true
+- javaStaticLiveFieldsCompatible: true
+- javaReadOnlyBoundarySafe: true
+- miniKvStaticEvidenceReady: true
+- miniKvLiveReadArchivedReady: true
+- miniKvStaticLiveFieldsCompatible: true
+- miniKvReadOnlyBoundarySafe: true
+- bothProjectsCompatible: true
+- archiveVerificationOnly: true
+- noLiveReadRerun: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- reportDigestStable: true
+- readyForShardReadinessCompatibilityReport: true
+
+## Summary
+
+- checkCount: 23
+- passedCheckCount: 23
+- projectReportCount: 2
+- compatibleProjectCount: 2
+- fieldCheckCount: 18
+- matchedFieldCheckCount: 18
+- mismatchedFieldCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- COMPATIBLE_READINESS_NOT_ACTIVE_SHARDING (warning, compatibility-report): Static and live evidence are compatible, but both still describe read-only readiness rather than active sharding.
+
+## Recommendations
+
+- PROCEED_TO_V374_REGULAR_GATE (recommendation, compatibility-report): Proceed to Node v374 regular gate; keep Java/mini-kv hardening parallel.
+
+## Next Actions
+
+- Use Node v374 to turn v370-v373 shard readiness evidence into a regular gate.
+- Keep Java and mini-kv hardening parallel; Node should consume their evidence instead of blocking their progress.
+- Do not treat shard-readiness compatibility as active sharding or authority transfer.
