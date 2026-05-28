@@ -1,8 +1,8 @@
-# Node v358 衍生计划：sandbox handle review packet/gate non-secret intake 之后
+# Node v359 衍生计划：sandbox handle review packet/gate non-secret intake archive verification 之后
 
-来源版本：Node v358 `sandbox handle review packet/gate non-secret intake`。
+来源版本：Node v359 `sandbox handle review packet/gate non-secret intake archive verification`。
 
-计划状态：v357 衍生计划中的 Node v358 已完成后另起续写；不回填旧计划，不写重复版本。
+计划状态：v358 衍生计划中的 Node v359 已完成后另起续写；不回填旧计划，不写重复版本。
 
 ## 当前对齐状态
 
@@ -25,16 +25,15 @@ Java v153 + mini-kv v144：继续跳过。v349-v359 都没有 invalid-read-contr
 ## 推荐执行顺序
 
 ```text
-1. Node v359：sandbox handle review packet/gate non-secret intake archive verification。已完成。
-   - 消费 Node v358 packet/gate intake。
-   - 验证 route、Markdown、stable digest、HTTP evidence、summary、HTML、截图、解释、代码讲解和计划索引。
-   - 验证 6 个 packet inputs、5 个 gate outputs、7 个 stop conditions 在归档中完整可追溯。
-   - 不读取 credential value，不解析 raw endpoint URL，不实例化 provider/client，不实现 runtime shell。
+1. Node v360：sandbox handle review packet/gate decision record。当前下一步。
+   - 消费 Node v359 archive verification。
+   - 只记录是否可以从 packet/gate intake archive 进入人工 review decision / prerequisite closure。
+   - 必须保留 credential value、raw endpoint URL、provider/client、runtime shell、managed audit HTTP/TCP、Java write、mini-kv write/admin 全部关闭。
    - 不启动 Java / mini-kv，不请求两边新版本。
 
-2. Node v360：sandbox handle review packet/gate decision record。当前下一步。
-   - 如果 v359 证明 v358 归档完整，可以再做 sandbox handle review packet/gate decision record 或人工 review prerequisite closure。
-   - 如果 v359 发现缺截图、解释、讲解、route、Markdown、digest 或 summary，先修 archive verification，不推进功能。
+2. Node v361 或后续：
+   - 如果 v360 仍只是 decision record，可以先做 archive verification。
+   - 如果 v360 发现缺少人工 approval artifact、credential handle review status 或 endpoint allowlist review status，必须停住并写清楚缺口，不得伪造真实 credential / endpoint。
    - 如果后续需要真实 sandbox credential handle 值、raw endpoint URL、secret provider、resolver client、runtime shell 或 managed audit HTTP/TCP，必须暂停并让用户确认授权与输入范围。
 
 3. Java / mini-kv：
@@ -46,11 +45,10 @@ Java v153 + mini-kv v144：继续跳过。v349-v359 都没有 invalid-read-contr
 
 ```text
 Node：
-- v359 只验证 v358 archive，不复制 v358 intake builder。
-- v359 必须继续分层：types/service/renderer/test，避免把 archive verification 写成巨型文件。
-- v359 的 archive manifest 要覆盖 d/358/evidence、d/358/解释、d/358/图片、代码讲解记录_生产雏形阶段2、docs/plans2 和 route。
+- v360 不要复制 v358/v359 的 archive reader；只消费 v359 profile 的 summary / sourceNodeV358 / archiveVerification。
+- v360 必须写必要性证明：它解决哪个 blocker、谁消费、为什么不能复用 v358 intake 或 v359 archive verification、何时停止。
+- 新增文件继续分层 types/service/renderer/test；单 service 接近 700 行时先拆 helper/catalog。
 - 测试继续分批：focused -> 小组 -> build -> smoke，不一次性跑大批量测试。
-- 如果 v359 发现 route 或 renderer 重复明显，优先抽 catalog/helper，而不是再复制一套长函数。
 
 Java：
 - 当前不要求 Java 新版本。
@@ -74,5 +72,5 @@ mini-kv：
 ## 一句话结论
 
 ```text
-Node v359 已证明 v358 packet/gate non-secret intake 归档完整。下一步 Node v360 可以做 decision record，但不能跳到 credential、raw endpoint、provider/client、runtime shell 或 managed audit 连接实现。
+Node v359 已证明 v358 packet/gate non-secret intake 归档完整。下一步 Node v360 可以做 packet/gate decision record，但不能把 decision record 变成真实 credential、endpoint、provider/client、runtime shell 或 managed audit 连接实现。
 ```

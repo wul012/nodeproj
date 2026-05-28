@@ -1,0 +1,172 @@
+﻿# Managed audit manual sandbox connection credential resolver sandbox handle review packet/gate non-secret intake archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-28T02:56:55.944Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-packet-gate-non-secret-intake-archive-verification.v1
+- Archive verification state: sandbox-handle-review-packet-gate-non-secret-intake-archive-verified
+- Archive verification decision: archive-sandbox-handle-review-packet-gate-non-secret-intake
+- Active Node version: Node v359
+- Source Node version: Node v358
+- Ready for v360 packet/gate decision record: true
+- Archive verification only: true
+- Reruns live probe: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Credential value requested: false
+- Credential value read: false
+- Raw endpoint URL requested: false
+- Raw endpoint URL parsed: false
+- Secret provider instantiated: false
+- Resolver client instantiated: false
+- Runtime shell implemented: false
+- Runtime shell invocation allowed: false
+- Execution allowed: false
+
+## Source Node v358
+
+- sourceVersion: Node v358
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-packet-gate-non-secret-intake.v1
+- intakeState: sandbox-handle-review-packet-gate-non-secret-intake-ready
+- intakeDecision: define-non-secret-sandbox-handle-review-packet-gate
+- readyForPacketGateIntake: true
+- readyForNodeV359ArchiveVerification: true
+- intakeDigest: d26f624fc3b485490647fa60c90610cb720005aed90915d83a1201dd602eda1b
+- sourceArchiveVerificationDigest: d655931c118efa026c4c4c2718629ada33eeb762cf82de7b9fc0be4b0f596d9e
+- packetInputCount: 6
+- gateOutputCount: 5
+- stopConditionCount: 7
+- sourceArchiveFileCount: 11
+- sourcePresentArchiveFileCount: 11
+- sourceCheckCount: 30
+- sourcePassedCheckCount: 30
+- checkCount: 27
+- passedCheckCount: 27
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- packetGateIntakeOnly: true
+- sandboxHandleReviewOnly: true
+- rerunsLiveProbe: false
+- startsJavaService: false
+- startsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- credentialValueRequested: false
+- credentialValueRead: false
+- rawEndpointUrlRequested: false
+- rawEndpointUrlParsed: false
+- secretProviderInstantiated: false
+- resolverClientInstantiated: false
+- runtimeShellImplemented: false
+- runtimeShellInvocationAllowed: false
+- executionAllowed: false
+
+## Archive Verification
+
+- archiveVerificationDigest: a0307bab51cb2114882cfce3625fa457980c087056b634018737cb2f684082ff
+- verificationMode: sandbox-handle-review-packet-gate-non-secret-intake-archive-verification
+- sourceSpan: Node v358 sandbox handle review packet/gate non-secret intake
+- archiveRoot: d/358
+- archiveVerificationDecision: archive-sandbox-handle-review-packet-gate-non-secret-intake
+- sourceIntakeDigest: d26f624fc3b485490647fa60c90610cb720005aed90915d83a1201dd602eda1b
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- verifiesPacketInputsGateOutputsAndStopConditions: true
+- rerunsLiveProbe: false
+- startsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- requestsJavaMiniKvEcho: false
+- nextNodeVersionSuggested: Node v360
+- archiveFileDigests: [{"path":"d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-http.json","digest":"6437b265281fe0fbdebca579669859386f8c642de6b1a16c657562b763c61f7b","byteLength":13746},{"path":"d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-http.md","digest":"392def1a9cc1755561bc801f2fe43a77349fb32a0d5012b414dfc9739d2d6db2","byteLength":12455},{"path":"d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-summary.json","digest":"d291581e7e00c4aa99929577d0cc5547cf7cc54beab3ca9c2feb2dab277cb2da","byteLength":1226},{"path":"d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-browser-snapshot.md","digest":"43c1c15ce15eda04932f229e9cd6b1d7f482314e5a582eb070e65d4149e4ade7","byteLength":12217},{"path":"d/358/sandbox-handle-review-packet-gate-non-secret-intake-v358.html","digest":"3a0b8223e9490ff7d9c47376e267db5821a302a98dcd098340e487cc15276620","byteLength":12926},{"path":"d/358/图片/sandbox-handle-review-packet-gate-non-secret-intake-v358.png","digest":"38416523211c4692d28a1e926ea042550ae5054f2469795c3d534239f449330c","byteLength":193138},{"path":"d/358/解释/sandbox-handle-review-packet-gate-non-secret-intake-v358.md","digest":"bd26f2aca86eb0115ac52b8dc4f09fa4323358f80e0eb3cdae0e4aecdf03cb5f","byteLength":2895},{"path":"代码讲解记录_生产雏形阶段2/363-sandbox-handle-review-packet-gate-non-secret-intake-v358.md","digest":"f933867e6525fd7f45a96a70a89923aacd0d6b78d3b97f7549c4f8ff3a6764e7","byteLength":7356},{"path":"docs/plans2/v358-post-sandbox-handle-review-packet-gate-non-secret-intake-roadmap.md","digest":"fa0ae47e477c2987d4037ad3fb977c54174aad24412f6f9ccb0136f6dd76d52d","byteLength":5223},{"path":"docs/plans2/README.md","digest":"160eed9c99116ce0568d8c8d88386fff4f215ce84c2bd145c0047f0a324f50c8","byteLength":35823},{"path":"d/README.md","digest":"2bffdbe62e08134ae8221899c77169a0edfb11526bd0a4a42c3f4bf422ed31ad","byteLength":4745}]
+
+## Archive References
+
+- d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-http.json: exists=true; bytes=13746; digest=6437b265281fe0fbdebca579669859386f8c642de6b1a16c657562b763c61f7b
+- d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-http.md: exists=true; bytes=12455; digest=392def1a9cc1755561bc801f2fe43a77349fb32a0d5012b414dfc9739d2d6db2
+- d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-summary.json: exists=true; bytes=1226; digest=d291581e7e00c4aa99929577d0cc5547cf7cc54beab3ca9c2feb2dab277cb2da
+- d/358/evidence/sandbox-handle-review-packet-gate-non-secret-intake-v358-browser-snapshot.md: exists=true; bytes=12217; digest=43c1c15ce15eda04932f229e9cd6b1d7f482314e5a582eb070e65d4149e4ade7
+- d/358/sandbox-handle-review-packet-gate-non-secret-intake-v358.html: exists=true; bytes=12926; digest=3a0b8223e9490ff7d9c47376e267db5821a302a98dcd098340e487cc15276620
+- d/358/图片/sandbox-handle-review-packet-gate-non-secret-intake-v358.png: exists=true; bytes=193138; digest=38416523211c4692d28a1e926ea042550ae5054f2469795c3d534239f449330c
+- d/358/解释/sandbox-handle-review-packet-gate-non-secret-intake-v358.md: exists=true; bytes=2895; digest=bd26f2aca86eb0115ac52b8dc4f09fa4323358f80e0eb3cdae0e4aecdf03cb5f
+- 代码讲解记录_生产雏形阶段2/363-sandbox-handle-review-packet-gate-non-secret-intake-v358.md: exists=true; bytes=7356; digest=f933867e6525fd7f45a96a70a89923aacd0d6b78d3b97f7549c4f8ff3a6764e7
+- docs/plans2/v358-post-sandbox-handle-review-packet-gate-non-secret-intake-roadmap.md: exists=true; bytes=5223; digest=fa0ae47e477c2987d4037ad3fb977c54174aad24412f6f9ccb0136f6dd76d52d
+- docs/plans2/README.md: exists=true; bytes=35823; digest=160eed9c99116ce0568d8c8d88386fff4f215ce84c2bd145c0047f0a324f50c8
+- d/README.md: exists=true; bytes=4745; digest=2bffdbe62e08134ae8221899c77169a0edfb11526bd0a4a42c3f4bf422ed31ad
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonReadyForV359Verification: true
+- jsonIntakeDecisionValid: true
+- packetInputsRecorded: true
+- gateOutputsRecorded: true
+- stopConditionsRecorded: true
+- allChecksPassedInSourceIntake: true
+- sourceNodeV357ArchiveEvidenceRecorded: true
+- summaryMatchesJson: true
+- markdownRecordsPacketGateIntake: true
+- markdownRecordsInputOutputStopConditionCounts: true
+- browserSnapshotPresent: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsNonSecretBoundary: true
+- codeWalkthroughPresent: true
+- sourcePlanPointsToV359: true
+- planIndexReferencesV358AndV359: true
+- archiveIndexReferencesV358: true
+- routeRecordedInArchive: true
+- verificationDoesNotRerunProbe: true
+- noUpstreamServiceStartedByNode: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRequestedOrRead: true
+- noRawEndpointUrlRequestedOrParsed: true
+- noProviderClientInstantiated: true
+- noRuntimeShellImplementedOrInvoked: true
+- noJavaMiniKvEchoRequired: true
+- archiveVerificationDigestStable: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForSandboxHandleReviewPacketGateNonSecretIntakeArchiveVerification: true
+
+## Summary
+
+- checkCount: 34
+- passedCheckCount: 34
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- packetInputCount: 6
+- gateOutputCount: 5
+- stopConditionCount: 7
+- sourceArchiveFileCount: 11
+- sourcePresentArchiveFileCount: 11
+- sourceCheckCount: 27
+- sourcePassedCheckCount: 27
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- V358_PACKET_GATE_INTAKE_ARCHIVE_VERIFIED (warning, node-v358): v359 verified v358 as define-non-secret-sandbox-handle-review-packet-gate with 27/27 source checks passed.
+
+## Recommendations
+
+- PROCEED_TO_NODE_V360_DECISION_RECORD (recommendation, archive-verification): Proceed only to a packet/gate decision record or prerequisite closure; do not open credential, endpoint, provider/client, runtime, managed audit connection, or write scopes.
+
+## Next Actions
+
+- Use Node v360 only for a sandbox handle review packet/gate decision record or prerequisite closure.
+- Keep credential value, raw endpoint URL, provider/client, runtime shell, managed audit HTTP/TCP, Java writes, and mini-kv write/admin scopes closed.
+- Pause if the next step needs real sandbox credential values, raw endpoint URLs, or executable managed audit connection code.
