@@ -1,0 +1,373 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Managed audit manual sandbox connection credential resolver minimal shard readiness live-read gate",
+    "generatedAt":  "2026-05-28T22:42:36.131Z",
+    "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-gate.v1",
+    "gateState":  "minimal-shard-readiness-live-read-gate-ready",
+    "gateDecision":  "archive-minimal-shard-readiness-live-read",
+    "readyForMinimalShardReadinessLiveReadGate":  true,
+    "readyForNodeV372LiveReadArchiveVerification":  true,
+    "activeNodeVersion":  "Node v371",
+    "sourceNodeVersion":  "Node v370",
+    "consumesNodeV370ShardReadinessContractConsumerGate":  true,
+    "liveReadOnly":  true,
+    "rerunsV370StaticConsumer":  true,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "stopsJavaService":  false,
+    "stopsMiniKvService":  false,
+    "mutatesJavaState":  false,
+    "mutatesMiniKvState":  false,
+    "connectsManagedAudit":  false,
+    "sendsManagedAuditHttpTcp":  false,
+    "credentialValueRequested":  false,
+    "credentialValueRead":  false,
+    "rawEndpointUrlRequested":  false,
+    "rawEndpointUrlParsed":  false,
+    "runtimeShellImplemented":  false,
+    "runtimeShellInvocationAllowed":  false,
+    "executionAllowed":  false,
+    "readyForProductionAudit":  false,
+    "readyForProductionWindow":  false,
+    "readyForProductionOperations":  false,
+    "sourceNodeV370":  {
+                           "sourceVersion":  "Node v370",
+                           "profileVersion":  "managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate.v1",
+                           "gateState":  "shard-readiness-contract-consumer-gate-ready",
+                           "gateDecision":  "consume-java-and-mini-kv-shard-readiness-evidence",
+                           "readyForShardReadinessContractConsumerGate":  true,
+                           "readyForNodeV371MinimalShardReadinessLiveReadGate":  true,
+                           "sourceGateDigest":  "9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec",
+                           "sourceCheckCount":  31,
+                           "sourcePassedCheckCount":  31,
+                           "evidenceSourceCount":  2,
+                           "readyEvidenceSourceCount":  2,
+                           "productionBlockerCount":  0,
+                           "startsJavaService":  false,
+                           "startsMiniKvService":  false,
+                           "connectsManagedAudit":  false,
+                           "sendsManagedAuditHttpTcp":  false,
+                           "executionAllowed":  false
+                       },
+    "sourceStaticEvidence":  {
+                                 "java":  {
+                                              "project":  "advanced-order-platform",
+                                              "sourceVersion":  "Java v153",
+                                              "evidenceFile":  {
+                                                                   "project":  "advanced-order-platform",
+                                                                   "configuredPath":  "D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json",
+                                                                   "resolvedPath":  "D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json",
+                                                                   "historicalFallbackPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\e\\153\\evidence\\java-shard-readiness-v153.json",
+                                                                   "exists":  true,
+                                                                   "byteLength":  297,
+                                                                   "digest":  "1bc4409e523738997dd619bb704391913e18b00ed63af3b14b821e7660d00c1d",
+                                                                   "usedHistoricalFallback":  false,
+                                                                   "historicalFallbackAvailable":  true
+                                                               },
+                                              "evidence":  {
+                                                               "project":  "advanced-order-platform",
+                                                               "version":  "Java v153",
+                                                               "releaseVersion":  null,
+                                                               "readOnly":  true,
+                                                               "executionAllowed":  false,
+                                                               "shardEnabled":  false,
+                                                               "shardCount":  0,
+                                                               "slotCount":  0,
+                                                               "routingMode":  "fixture",
+                                                               "evidencePath":  "e/153/evidence/java-shard-readiness-v153.json",
+                                                               "status":  "passed",
+                                                               "evidenceDigest":  null,
+                                                               "rawFieldCount":  10
+                                                           },
+                                              "contractVersionObserved":  null,
+                                              "requiredFieldCount":  10,
+                                              "presentRequiredFieldCount":  10,
+                                              "missingRequiredFields":  [
+
+                                                                        ],
+                                              "readOnlySafe":  true,
+                                              "executionBlocked":  true,
+                                              "shardCountValid":  true,
+                                              "slotCountValid":  true,
+                                              "routingModePresent":  true,
+                                              "statusAccepted":  true,
+                                              "sourceSpecificPrototypeValueAccepted":  false,
+                                              "boundarySafe":  true,
+                                              "readyForNodeConsumption":  true
+                                          },
+                                 "miniKv":  {
+                                                "project":  "mini-kv",
+                                                "sourceVersion":  "mini-kv v144",
+                                                "evidenceFile":  {
+                                                                     "project":  "mini-kv",
+                                                                     "configuredPath":  "D:/C/mini-kv/fixtures/release/shard-readiness.json",
+                                                                     "resolvedPath":  "D:/C/mini-kv/fixtures/release/shard-readiness.json",
+                                                                     "historicalFallbackPath":  "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\shard-readiness.json",
+                                                                     "exists":  true,
+                                                                     "byteLength":  1475,
+                                                                     "digest":  "73cfeab422144d710c855a13624ba9e4eb6249d1154665cb0febd288e6fddbd2",
+                                                                     "usedHistoricalFallback":  false,
+                                                                     "historicalFallbackAvailable":  true
+                                                                 },
+                                                "evidence":  {
+                                                                 "project":  "mini-kv",
+                                                                 "version":  "0.102.0",
+                                                                 "releaseVersion":  "v144",
+                                                                 "readOnly":  true,
+                                                                 "executionAllowed":  false,
+                                                                 "shardEnabled":  false,
+                                                                 "shardCount":  1,
+                                                                 "slotCount":  16,
+                                                                 "routingMode":  "single-shard-readiness-prototype",
+                                                                 "evidencePath":  "fixtures/release/shard-readiness.json",
+                                                                 "status":  "prototype-ready-read-only",
+                                                                 "evidenceDigest":  "fnv1a64:22d3c4815a440804",
+                                                                 "rawFieldCount":  19
+                                                             },
+                                                "contractVersionObserved":  "shard-readiness.v1",
+                                                "requiredFieldCount":  10,
+                                                "presentRequiredFieldCount":  10,
+                                                "missingRequiredFields":  [
+
+                                                                          ],
+                                                "readOnlySafe":  true,
+                                                "executionBlocked":  true,
+                                                "shardCountValid":  true,
+                                                "slotCountValid":  true,
+                                                "routingModePresent":  true,
+                                                "statusAccepted":  true,
+                                                "sourceSpecificPrototypeValueAccepted":  true,
+                                                "boundarySafe":  true,
+                                                "readyForNodeConsumption":  true
+                                            }
+                             },
+    "liveReads":  {
+                      "java":  {
+                                   "project":  "advanced-order-platform",
+                                   "sourceVersion":  "Java v153 live",
+                                   "attempted":  true,
+                                   "status":  "passed-read",
+                                   "transport":  "http-json",
+                                   "endpoint":  "GET /api/v1/ops/shard-readiness",
+                                   "command":  null,
+                                   "statusCode":  200,
+                                   "latencyMs":  32,
+                                   "errorCode":  null,
+                                   "errorMessage":  null,
+                                   "evidence":  {
+                                                    "project":  "advanced-order-platform",
+                                                    "version":  "Java v153",
+                                                    "readOnly":  true,
+                                                    "executionAllowed":  false,
+                                                    "shardEnabled":  false,
+                                                    "shardCount":  0,
+                                                    "slotCount":  0,
+                                                    "routingMode":  "fixture",
+                                                    "evidencePath":  "e/153/evidence/java-shard-readiness-v153.json",
+                                                    "status":  "passed"
+                                                },
+                                   "requiredFieldCount":  10,
+                                   "presentRequiredFieldCount":  10,
+                                   "missingRequiredFields":  [
+
+                                                             ],
+                                   "readOnlySafe":  true,
+                                   "executionBlocked":  true,
+                                   "shardCountValid":  true,
+                                   "slotCountValid":  true,
+                                   "routingModePresent":  true,
+                                   "statusAccepted":  true,
+                                   "compatibleWithV370Evidence":  true,
+                                   "boundarySafe":  true,
+                                   "readyForGate":  true
+                               },
+                      "miniKv":  {
+                                     "project":  "mini-kv",
+                                     "sourceVersion":  "mini-kv v144 live",
+                                     "attempted":  true,
+                                     "status":  "passed-read",
+                                     "transport":  "tcp-command",
+                                     "endpoint":  "127.0.0.1 mini-kv TCP",
+                                     "command":  "SHARDJSON",
+                                     "statusCode":  null,
+                                     "latencyMs":  4,
+                                     "errorCode":  null,
+                                     "errorMessage":  null,
+                                     "evidence":  {
+                                                      "contract":  "shard-readiness.v1",
+                                                      "evidenceType":  "shard_readiness",
+                                                      "project":  "mini-kv",
+                                                      "version":  "0.102.0",
+                                                      "releaseVersion":  "v144",
+                                                      "readOnly":  true,
+                                                      "executionAllowed":  false,
+                                                      "shardEnabled":  false,
+                                                      "shardCount":  1,
+                                                      "slotCount":  16,
+                                                      "routingMode":  "single-shard-readiness-prototype",
+                                                      "evidencePath":  "fixtures/release/shard-readiness.json",
+                                                      "status":  "prototype-ready-read-only",
+                                                      "shardMap":  [
+                                                                       {
+                                                                           "shardId":  "shard-0",
+                                                                           "slotStart":  0,
+                                                                           "slotEnd":  15,
+                                                                           "storagePath":  "not-created",
+                                                                           "readOnly":  true,
+                                                                           "writesAllowed":  false
+                                                                       }
+                                                                   ],
+                                                      "keyRoutingSamples":  [
+                                                                                {
+                                                                                    "key":  "orderops:alpha",
+                                                                                    "slot":  5,
+                                                                                    "shardId":  "shard-0"
+                                                                                },
+                                                                                {
+                                                                                    "key":  "audit:receipt:001",
+                                                                                    "slot":  9,
+                                                                                    "shardId":  "shard-0"
+                                                                                },
+                                                                                {
+                                                                                    "key":  "mini-kv:health",
+                                                                                    "slot":  14,
+                                                                                    "shardId":  "shard-0"
+                                                                                }
+                                                                            ],
+                                                      "boundaries":  {
+                                                                         "orderAuthoritative":  false,
+                                                                         "auditAuthoritative":  false,
+                                                                         "writeCommandsAllowed":  false,
+                                                                         "adminCommandsAllowed":  false,
+                                                                         "loadRestoreCompactAllowed":  false,
+                                                                         "setnxexExecutionAllowed":  false,
+                                                                         "multiProcessStarted":  false,
+                                                                         "storageDirectoriesCreated":  false
+                                                                     },
+                                                      "diagnostics":  {
+                                                                          "writeCommandsExecuted":  false,
+                                                                          "adminCommandsExecuted":  false,
+                                                                          "loadRestoreCompactExecuted":  false,
+                                                                          "nodeConsumer":  "Node v370 shard readiness contract consumer gate",
+                                                                          "javaEchoExpected":  "Java shard-readiness echo may consume the same shard-readiness.v1 fields"
+                                                                      },
+                                                      "evidenceDigest":  "fnv1a64:22d3c4815a440804",
+                                                      "notes":  [
+                                                                    "read-only shard readiness prototype",
+                                                                    "single logical shard only",
+                                                                    "slot table is evidence, not active storage routing",
+                                                                    "does not create shard directories or start extra processes",
+                                                                    "not order or audit authoritative"
+                                                                ]
+                                                  },
+                                     "requiredFieldCount":  10,
+                                     "presentRequiredFieldCount":  10,
+                                     "missingRequiredFields":  [
+
+                                                               ],
+                                     "readOnlySafe":  true,
+                                     "executionBlocked":  true,
+                                     "shardCountValid":  true,
+                                     "slotCountValid":  true,
+                                     "routingModePresent":  true,
+                                     "statusAccepted":  true,
+                                     "compatibleWithV370Evidence":  true,
+                                     "boundarySafe":  true,
+                                     "readyForGate":  true
+                                 }
+                  },
+    "gate":  {
+                 "gateDigest":  "73108e48edbab0b2d8c023ce8fb5f200a47a53f464c8ccf0f0eb3b1be1674d92",
+                 "gateMode":  "minimal-shard-readiness-live-read",
+                 "sourceSpan":  "Node v370 consumer gate plus Java and mini-kv live shard readiness reads",
+                 "liveReadOnly":  true,
+                 "javaEndpoint":  "GET /api/v1/ops/shard-readiness",
+                 "miniKvCommand":  "SHARDJSON",
+                 "focusedCommand":  "npx.cmd vitest run test\\managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate.test.ts",
+                 "groupedCommand":  "npx.cmd vitest run test\\managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate.test.ts test\\managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate.test.ts",
+                 "buildCommand":  "npm.cmd run build",
+                 "smokeCommand":  "Node HTTP smoke with UPSTREAM_PROBES_ENABLED=true for minimal shard readiness live-read gate route",
+                 "automaticUpstreamStart":  false,
+                 "automaticUpstreamStop":  false,
+                 "writeCommandsAllowed":  false,
+                 "nextNodeVersionSuggested":  "Node v372"
+             },
+    "checks":  {
+                   "sourceNodeV370Ready":  true,
+                   "sourceNodeV370EvidenceSourcesReady":  true,
+                   "upstreamProbesEnabledForLiveRead":  true,
+                   "javaLiveReadAttempted":  true,
+                   "javaLiveReadPassed":  true,
+                   "javaRequiredFieldsComplete":  true,
+                   "javaReadOnlySafe":  true,
+                   "javaExecutionBlocked":  true,
+                   "javaCompatibleWithV370Evidence":  true,
+                   "miniKvLiveReadAttempted":  true,
+                   "miniKvLiveReadPassed":  true,
+                   "miniKvRequiredFieldsComplete":  true,
+                   "miniKvReadOnlySafe":  true,
+                   "miniKvExecutionBlocked":  true,
+                   "miniKvCompatibleWithV370Evidence":  true,
+                   "miniKvBoundarySafe":  true,
+                   "bothLiveReadsReady":  true,
+                   "digestStable":  true,
+                   "nodeDoesNotStartUpstreams":  true,
+                   "nodeDoesNotStopUpstreams":  true,
+                   "nodeDoesNotMutateSiblingState":  true,
+                   "noManagedAuditConnection":  true,
+                   "noCredentialValueRead":  true,
+                   "noRawEndpointUrlParsed":  true,
+                   "productionAuditStillBlocked":  true,
+                   "productionWindowStillBlocked":  true,
+                   "readyForMinimalShardReadinessLiveReadGate":  true
+               },
+    "summary":  {
+                    "checkCount":  27,
+                    "passedCheckCount":  27,
+                    "attemptedReadCount":  2,
+                    "passedReadCount":  2,
+                    "failedReadCount":  0,
+                    "skippedReadCount":  0,
+                    "requiredFieldCount":  20,
+                    "presentRequiredFieldCount":  20,
+                    "missingRequiredFieldCount":  0,
+                    "productionBlockerCount":  0,
+                    "warningCount":  1,
+                    "recommendationCount":  1
+                },
+    "productionBlockers":  [
+
+                           ],
+    "warnings":  [
+                     {
+                         "code":  "LIVE_READ_CONFIRMS_READINESS_NOT_ACTIVE_SHARDING",
+                         "severity":  "warning",
+                         "source":  "runtime-boundary",
+                         "message":  "Both live reads report shardEnabled=false; v371 proves read-only readiness, not active sharding."
+                     }
+                 ],
+    "recommendations":  [
+                            {
+                                "code":  "ARCHIVE_V371_AND_VERIFY_IN_V372",
+                                "severity":  "recommendation",
+                                "source":  "next-plan",
+                                "message":  "Proceed to Node v372 archive verification for this live-read gate."
+                            }
+                        ],
+    "evidenceEndpoints":  {
+                              "minimalShardReadinessLiveReadGateJson":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-gate",
+                              "minimalShardReadinessLiveReadGateMarkdown":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-gate?format=markdown",
+                              "sourceNodeV370Json":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate",
+                              "sourceNodeV370Markdown":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate?format=markdown",
+                              "javaLiveEndpoint":  "GET /api/v1/ops/shard-readiness",
+                              "miniKvLiveCommand":  "SHARDJSON",
+                              "activePlan":  "docs/plans3/v370-post-shard-readiness-contract-consumer-gate-roadmap.md",
+                              "nextPlan":  "docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md",
+                              "nextNodeVersion":  "Node v372"
+                          },
+    "nextActions":  [
+                        "Archive Node v371 as the minimal shard readiness live-read gate.",
+                        "Use Node v372 to verify the v371 live-read archive instead of adding another prerequisite chain.",
+                        "Keep later shard work read-only until a separate plan explicitly authorizes stronger mini-kv shard behavior."
+                    ]
+}

@@ -1,0 +1,163 @@
+﻿# Managed audit manual sandbox connection credential resolver minimal shard readiness live-read gate
+
+- Service: orderops-node
+- Generated at: 2026-05-28T22:42:36.184Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-gate.v1
+- Gate state: minimal-shard-readiness-live-read-gate-ready
+- Gate decision: archive-minimal-shard-readiness-live-read
+- Active Node version: Node v371
+- Source Node version: Node v370
+- Ready for minimal shard readiness live-read gate: true
+- Ready for Node v372 archive verification: true
+- Live read only: true
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Mutates Java state: false
+- Mutates mini-kv state: false
+- Connects managed audit: false
+- Sends managed audit HTTP/TCP: false
+- Execution allowed: false
+
+## Source Node v370
+
+- sourceVersion: Node v370
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate.v1
+- gateState: shard-readiness-contract-consumer-gate-ready
+- gateDecision: consume-java-and-mini-kv-shard-readiness-evidence
+- readyForShardReadinessContractConsumerGate: true
+- readyForNodeV371MinimalShardReadinessLiveReadGate: true
+- sourceGateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- sourceCheckCount: 31
+- sourcePassedCheckCount: 31
+- evidenceSourceCount: 2
+- readyEvidenceSourceCount: 2
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- connectsManagedAudit: false
+- sendsManagedAuditHttpTcp: false
+- executionAllowed: false
+
+## Gate
+
+- gateDigest: 9c59b86a238360c21d3ee069a8d7d34d4d1945bfab3bfcd936c5dec22eac66ef
+- gateMode: minimal-shard-readiness-live-read
+- sourceSpan: Node v370 consumer gate plus Java and mini-kv live shard readiness reads
+- liveReadOnly: true
+- javaEndpoint: GET /api/v1/ops/shard-readiness
+- miniKvCommand: SHARDJSON
+- focusedCommand: npx.cmd vitest run test\managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate.test.ts
+- groupedCommand: npx.cmd vitest run test\managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate.test.ts test\managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate.test.ts
+- buildCommand: npm.cmd run build
+- smokeCommand: Node HTTP smoke with UPSTREAM_PROBES_ENABLED=true for minimal shard readiness live-read gate route
+- automaticUpstreamStart: false
+- automaticUpstreamStop: false
+- writeCommandsAllowed: false
+- nextNodeVersionSuggested: Node v372
+
+## Java Live Read
+
+- Project: advanced-order-platform
+- Source version: Java v153 live
+- Status: passed-read
+- Attempted: true
+- Transport: http-json
+- Endpoint: GET /api/v1/ops/shard-readiness
+- Command: none
+- Status code: 200
+- Latency ms: 7
+- Error code: none
+- Error message: none
+- Required fields: 10/10
+- Missing fields: none
+- Read only safe: true
+- Execution blocked: true
+- Compatible with v370 evidence: true
+- Boundary safe: true
+- Ready for gate: true
+
+## mini-kv Live Read
+
+- Project: mini-kv
+- Source version: mini-kv v144 live
+- Status: passed-read
+- Attempted: true
+- Transport: tcp-command
+- Endpoint: 127.0.0.1 mini-kv TCP
+- Command: SHARDJSON
+- Status code: none
+- Latency ms: 3
+- Error code: none
+- Error message: none
+- Required fields: 10/10
+- Missing fields: none
+- Read only safe: true
+- Execution blocked: true
+- Compatible with v370 evidence: true
+- Boundary safe: true
+- Ready for gate: true
+
+## Checks
+
+- sourceNodeV370Ready: true
+- sourceNodeV370EvidenceSourcesReady: true
+- upstreamProbesEnabledForLiveRead: true
+- javaLiveReadAttempted: true
+- javaLiveReadPassed: true
+- javaRequiredFieldsComplete: true
+- javaReadOnlySafe: true
+- javaExecutionBlocked: true
+- javaCompatibleWithV370Evidence: true
+- miniKvLiveReadAttempted: true
+- miniKvLiveReadPassed: true
+- miniKvRequiredFieldsComplete: true
+- miniKvReadOnlySafe: true
+- miniKvExecutionBlocked: true
+- miniKvCompatibleWithV370Evidence: true
+- miniKvBoundarySafe: true
+- bothLiveReadsReady: true
+- digestStable: true
+- nodeDoesNotStartUpstreams: true
+- nodeDoesNotStopUpstreams: true
+- nodeDoesNotMutateSiblingState: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForMinimalShardReadinessLiveReadGate: true
+
+## Summary
+
+- checkCount: 27
+- passedCheckCount: 27
+- attemptedReadCount: 2
+- passedReadCount: 2
+- failedReadCount: 0
+- skippedReadCount: 0
+- requiredFieldCount: 20
+- presentRequiredFieldCount: 20
+- missingRequiredFieldCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- LIVE_READ_CONFIRMS_READINESS_NOT_ACTIVE_SHARDING (warning, runtime-boundary): Both live reads report shardEnabled=false; v371 proves read-only readiness, not active sharding.
+
+## Recommendations
+
+- ARCHIVE_V371_AND_VERIFY_IN_V372 (recommendation, next-plan): Proceed to Node v372 archive verification for this live-read gate.
+
+## Next Actions
+
+- Archive Node v371 as the minimal shard readiness live-read gate.
+- Use Node v372 to verify the v371 live-read archive instead of adding another prerequisite chain.
+- Keep later shard work read-only until a separate plan explicitly authorizes stronger mini-kv shard behavior.

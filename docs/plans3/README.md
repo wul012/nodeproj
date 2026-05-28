@@ -5,15 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v370-post-shard-readiness-contract-consumer-gate-roadmap.md
+docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ```
 
 ## 当前状态
 
 ```text
-Node v370 已完成 shard readiness contract consumer gate，消费 Java v153 与 mini-kv v144 的只读证据。
-下一步 Node v371 是 minimal shard readiness live-read gate。
-v371 需要用户确认 Java / mini-kv 服务已经由各自项目启动；Node 不自动启动或停止两边服务。
+Node v371 已完成 minimal shard readiness live-read gate，真实只读读取 Java shard-readiness endpoint 和 mini-kv SHARDJSON。
+下一步 Node v372 是 live-read archive verification，不需要重新读取 Java / mini-kv。
+Java / mini-kv 可并行继续做 shard readiness hardening；Node 不作为它们的前置审批中心。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

@@ -139,6 +139,19 @@ export interface OrderPlatformFailedEventReplayExecutionContract {
   nextAllowedActions?: string[];
 }
 
+export interface OrderPlatformShardReadiness {
+  project?: string;
+  version?: string;
+  readOnly?: boolean;
+  executionAllowed?: boolean;
+  shardEnabled?: boolean;
+  shardCount?: number;
+  slotCount?: number;
+  routingMode?: string;
+  evidencePath?: string;
+  status?: string;
+}
+
 interface JsonRequestOptions {
   method?: string;
   headers?: Record<string, string>;
@@ -181,6 +194,10 @@ export class OrderPlatformClient {
 
   failedEventReplayExecutionContract(failedEventId: string): Promise<UpstreamJsonResponse<OrderPlatformFailedEventReplayExecutionContract>> {
     return this.request(`/api/v1/failed-events/${encodeURIComponent(failedEventId)}/replay-execution-contract`);
+  }
+
+  shardReadiness(): Promise<UpstreamJsonResponse<OrderPlatformShardReadiness>> {
+    return this.request("/api/v1/ops/shard-readiness");
   }
 
   listProducts(): Promise<UpstreamJsonResponse> {

@@ -106,6 +106,32 @@ export interface MiniKvCheckJsonResult extends MiniKvCommandResult {
   contract: MiniKvCheckJson;
 }
 
+export interface MiniKvShardReadiness {
+  contract?: string;
+  evidenceType?: string;
+  project?: string;
+  version?: string;
+  releaseVersion?: string;
+  readOnly?: boolean;
+  executionAllowed?: boolean;
+  shardEnabled?: boolean;
+  shardCount?: number;
+  slotCount?: number;
+  routingMode?: string;
+  evidencePath?: string;
+  status?: string;
+  evidenceDigest?: string;
+  boundaries?: Record<string, unknown>;
+  diagnostics?: Record<string, unknown>;
+  shardMap?: unknown[];
+  keyRoutingSamples?: unknown[];
+  notes?: string[];
+}
+
+export interface MiniKvShardJsonResult extends MiniKvCommandResult {
+  readiness: MiniKvShardReadiness;
+}
+
 export interface MiniKvKeyResult {
   key: string;
   value: string | null;
@@ -181,6 +207,14 @@ export class MiniKvClient {
     return {
       ...result,
       contract: parseMiniKvCheckJson(result.response),
+    };
+  }
+
+  async shardJson(): Promise<MiniKvShardJsonResult> {
+    const result = await this.execute("SHARDJSON");
+    return {
+      ...result,
+      readiness: parseMiniKvShardJson(result.response),
     };
   }
 
@@ -302,6 +336,7 @@ export function validateRawGatewayCommand(command: string): void {
     "COMMANDSJSON",
     "KEYS",
     "KEYSJSON",
+    "SHARDJSON",
     "EXPLAINJSON",
     "CHECKJSON",
   ]);
@@ -445,6 +480,21 @@ export function parseMiniKvCheckJson(response: string): MiniKvCheckJson {
   }
 
   return contract;
+}
+
+export function parseMiniKvShardJson(response: string): MiniKvShardReadiness {
+  let parsed: unknown;
+  try {
+    parsed = JSON.parse(response);
+  } catch {
+    throw new AppHttpError(502, "MINIKV_SHARDJSON_INVALID", "mini-kv returned invalid SHARDJSON output");
+  }
+
+  if (!isRecord(parsed)) {
+    throw new AppHttpError(502, "MINIKV_SHARDJSON_INVALID", "mini-kv SHARDJSON output must be a JSON object");
+  }
+
+  return parsed as MiniKvShardReadiness;
 }
 
 function validateKey(key: string): void {
