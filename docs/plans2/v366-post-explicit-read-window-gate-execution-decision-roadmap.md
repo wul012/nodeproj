@@ -32,7 +32,7 @@ v366 是必要的真实流程分叉：
 
 ```text
 1. 暂停 Node 自动推进。当前下一步不是继续写 Node 报告。
-   - 等待用户明确说明：Java / mini-kv 已经启动，或授权 Node 本轮启动它们。
+   - 等待用户明确说明：Java / mini-kv 已经按下面“读窗口启动要求”启动，或授权 Node 本轮启动它们。
    - 没有读窗口时，不要推进 v367。
 
 2. Node v367：minimal read-only gate execution。仅在明确读窗口存在时执行。
@@ -45,6 +45,40 @@ v366 是必要的真实流程分叉：
 3. Java / mini-kv：
    - 当前不要求新版本。
    - 只有 v367 真实 gate execution 发现 invalid-read-contract，才推荐并行 Java + mini-kv。
+```
+
+## 读窗口启动要求
+
+```text
+用途：
+- 这是给 Java / mini-kv 窗口的启动交接清单。
+- 后续只要 Node 计划需要真实只读联调，必须在计划里写清楚这一类启动要求。
+- 如果没有满足这些启动要求，Node 必须停在 wait-for-external-read-window，不继续执行真实 probe。
+
+Java 启动要求：
+- 项目：D:\javaproj\advanced-order-platform
+- 目标：只读运行 advanced-order-platform，不执行 deployment、rollback、SQL migration、approval ledger 写入或外部写操作。
+- Node 默认读取地址：ORDER_PLATFORM_URL=http://127.0.0.1:8080
+- 必须可读目标：
+  1. GET /actuator/health
+  2. GET /api/v1/ops/overview
+- Java 窗口完成启动后，应回报：端口、health 结果、ops overview 只读结果摘要、是否存在未提交异常变更。
+
+mini-kv 启动要求：
+- 项目：D:\C\mini-kv
+- 目标：只读运行 mini-kv TCP 服务，不执行 LOAD、COMPACT、RESTORE、SET/SETEX/SETNXEX、DEL、EXPIRE 或任何写/admin 命令。
+- Node 默认读取地址：MINIKV_HOST=127.0.0.1，MINIKV_PORT=6379
+- 必须可读命令：
+  1. HEALTH
+  2. INFOJSON
+  3. STATSJSON
+- mini-kv 窗口完成启动后，应回报：端口、HEALTH/INFOJSON/STATSJSON 结果摘要、是否存在未提交异常变更。
+
+Node v367 执行前确认：
+- 只有收到“Java 已启动 + mini-kv 已启动”的明确信号，Node 才设置 UPSTREAM_PROBES_ENABLED=true 做最小只读 gate execution。
+- Node 仍必须保持 UPSTREAM_ACTIONS_ENABLED=false。
+- Node 不自动启动上游，除非用户在本轮明确授权“由 Node 启动 Java / mini-kv”。
+- 如果任一上游不可达，v367 只能归档 read-window-unavailable；不能把不可达误判成 contract 失败。
 ```
 
 ## 显式质量优化项
@@ -64,7 +98,8 @@ mini-kv：
 
 ## 暂停条件
 
-- 用户没有明确给出 Java / mini-kv 读窗口，且没有授权 Node 启动两边。
+- 用户没有明确给出 Java / mini-kv 读窗口，或两边没有按“读窗口启动要求”完成启动。
+- 用户没有授权 Node 启动两边，但 Java / mini-kv 也没有由各自窗口启动。
 - 需要真实生产 managed audit credential、生产数据库、生产 IdP 或生产密钥。
 - 需要 Node、Java 或 mini-kv 读取 credential value，而不是 credential handle / review status。
 - 需要 Node 解析或输出 raw endpoint URL，而不是 endpoint handle / allowlist review status。
