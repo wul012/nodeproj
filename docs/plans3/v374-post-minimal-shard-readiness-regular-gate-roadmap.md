@@ -34,6 +34,27 @@ v374 的含义是：Node 已经能把 shard readiness 证据链作为 operator /
    - 仅在 Java / mini-kv 有新一轮只读证据后推进。
    - 如果两边还没有新证据，Node v376 应暂停，不继续堆前置治理链。
 
+## 连续并行推进规则
+
+Java 和 mini-kv 可以连续并行推进自己的版本，只要它们每次默认读取当前全局 plan，并且不修改 Node 正在写的归档、计划、fixture 或代码文件。
+
+写入后续每份 plan 时必须明确：
+
+```text
+是否推荐并行：
+  - 推荐并行：Java / mini-kv 可继续推进，不等待 Node。
+  - 等待上游：Node 需要 Java / mini-kv 的指定版本证据，未完成则 Node 停止。
+  - 串行：只有当同一项目内部版本存在直接依赖时才串行。
+```
+
+当前 v374 后的判断：
+
+```text
+Node v375 与 Java shard readiness hardening / mini-kv SHARDJSON hardening 推荐并行。
+Node v375 不消费它们的新提交，只验证 v374 归档。
+Node v376 才需要等待两边的新一轮已完成只读证据。
+```
+
 ## 服务启动要求
 
 - Node v375 不需要启动 Java / mini-kv。
