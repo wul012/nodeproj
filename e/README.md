@@ -13,6 +13,7 @@
 373: shard readiness compatibility report
 374: minimal shard readiness regular gate
 375: minimal shard readiness regular gate archive verification
+376: Java v154 + mini-kv v145 shard readiness evidence consumption
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

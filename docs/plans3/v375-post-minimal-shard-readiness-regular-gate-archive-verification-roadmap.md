@@ -17,6 +17,24 @@ Execution allowed: false
 
 v375 的含义是：Node v374 的 regular gate 归档已经完整，可以进入下一步消费 Java v154 / mini-kv v145 的新证据。
 
+## v376 执行结果
+
+Node v376 已完成 Java v154 + mini-kv v145 shard-readiness evidence consumption：
+
+```text
+Source Node: v375 archive verification
+Java evidence: v154 hardening + v153 source core
+mini-kv evidence: v145 hardening
+Required fields: project/version/readOnly/executionAllowed/shardEnabled/shardCount/slotCount/routingMode/status
+Checks: 30/30
+Production blockers: 0
+Starts/stops Java or mini-kv: false
+Execution allowed: false
+Historical fallback: Java v154/v153 + mini-kv v145 covered
+```
+
+v376 额外修复了旧 v370 的历史证据稳定性：v370 现在读取冻结的 `shard-readiness-v144.json`，不会再被 mini-kv 的 current `shard-readiness.json` 推进到 v145 后影响。
+
 ## 推荐执行顺序
 
 1. Node v376：consume Java v154 + mini-kv v145 shard-readiness evidence。
@@ -33,6 +51,7 @@ v375 的含义是：Node v374 的 regular gate 归档已经完整，可以进入
 3. Node v377：archive verification 或差异报告。
    - 如果 v376 消费成功，v377 验证 v376 归档。
    - 如果 v376 发现字段差异，v377 不继续推进，应先产出差异修复计划。
+   - 续写计划见 `docs/plans3/v376-post-java-mini-kv-shard-readiness-evidence-consumption-roadmap.md`。
 
 ## 并行 / 等待 / 串行判断
 

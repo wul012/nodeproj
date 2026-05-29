@@ -1,0 +1,79 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v154",
+  "readOnly": true,
+  "executionAllowed": false,
+  "sourceEvidenceVersion": "Java v153",
+  "sourceEndpoint": "/api/v1/ops/shard-readiness",
+  "sourceFixtureEndpoint": "/contracts/java-shard-readiness-v153.fixture.json",
+  "sourceEvidencePath": "e/153/evidence/java-shard-readiness-v153.json",
+  "fieldExplanations": [
+    {
+      "field": "readOnly",
+      "producer": "Java ops control plane",
+      "consumer": "Node regular gate",
+      "meaning": "The endpoint is safe for GET probes and does not mutate order state.",
+      "compatibility": "Must remain true for shard readiness read windows."
+    },
+    {
+      "field": "executionAllowed",
+      "producer": "Java ops control plane",
+      "consumer": "Node regular gate",
+      "meaning": "The endpoint is evidence only and must not authorize upstream actions.",
+      "compatibility": "Must remain false until a later explicit execution gate."
+    },
+    {
+      "field": "shardEnabled",
+      "producer": "Java shard readiness fixture",
+      "consumer": "Node shard readiness consumer",
+      "meaning": "False means readiness evidence is present, not that Java routing is sharded.",
+      "compatibility": "Changing to true requires a new producer and consumer version."
+    },
+    {
+      "field": "routingMode",
+      "producer": "Java shard readiness fixture",
+      "consumer": "Node shard readiness consumer",
+      "meaning": "The current routing profile is fixture-backed and non-authoritative.",
+      "compatibility": "Do not reinterpret as live routing."
+    },
+    {
+      "field": "status",
+      "producer": "Java shard readiness fixture",
+      "consumer": "Node regular gate",
+      "meaning": "Passed means Java-side shard readiness evidence is internally complete.",
+      "compatibility": "Non-passed values are fail-closed for new Java hardening evidence."
+    }
+  ],
+  "errorSemantics": [
+    {
+      "condition": "hardening endpoint unavailable",
+      "status": "BLOCK_NEW_JAVA_HARDENING_CONSUMPTION",
+      "nodeInterpretation": "Keep using archived Node v370-v373 evidence and mark Java v154 evidence missing."
+    },
+    {
+      "condition": "readOnly is false or executionAllowed is true",
+      "status": "FAIL_CLOSED",
+      "nodeInterpretation": "Treat the producer output as unsafe and refuse regular-gate promotion."
+    },
+    {
+      "condition": "source Java v153 field removed or renamed",
+      "status": "CONTRACT_BREAK",
+      "nodeInterpretation": "Require a new Node consumer plan before consuming this producer output."
+    }
+  ],
+  "compatibilityGuarantees": [
+    "v153-shard-readiness-core-fields-unchanged",
+    "v370-v373-node-archive-chain-not-mutated",
+    "hardening-output-is-additive-sibling-evidence",
+    "no-order-payment-inventory-ledger-sql-change"
+  ],
+  "forbiddenChanges": [
+    "mutate-e-153-archive",
+    "mutate-node-v370-v373-archives",
+    "change-v153-endpoint-field-names-or-types",
+    "enable-shard-routing-or-execution-from-hardening-endpoint",
+    "add-order-payment-inventory-ledger-sql-side-effects"
+  ],
+  "evidencePath": "e/154/evidence/java-shard-readiness-hardening-v154.json",
+  "status": "passed"
+}

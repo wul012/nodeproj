@@ -1,0 +1,189 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>Node v376 Java/mini-kv shard evidence consumption</title><style>body{font-family:Segoe UI,Arial,sans-serif;margin:32px;line-height:1.55;color:#1f2937;background:#f8fafc}main{max-width:1180px;margin:auto;background:white;border:1px solid #dbe3ee;border-radius:8px;padding:28px}pre{white-space:pre-wrap;font:14px/1.55 Consolas,monospace;background:#f3f6fa;padding:20px;border-radius:6px}</style></head><body><main><pre># Managed audit manual sandbox connection credential resolver Java/mini-kv shard readiness evidence consumption
+
+- Service: orderops-node
+- Generated at: 2026-05-29T02:57:53.543Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-shard-readiness-evidence-consumption.v1
+- Evidence consumption state: java-mini-kv-shard-readiness-evidence-consumed
+- Evidence consumption decision: consume-java-v154-and-mini-kv-v145-hardening
+- Active Node version: Node v376
+- Source Node version: Node v375
+- Ready for Node v377 archive verification: true
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Mutates Java state: false
+- Mutates mini-kv state: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v375
+
+- sourceVersion: Node v375
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate-archive-verification.v1
+- archiveVerificationState: minimal-shard-readiness-regular-gate-archive-verified
+- archiveVerificationDecision: archive-minimal-shard-readiness-regular-gate-and-consume-v154-v145
+- readyForMinimalShardReadinessRegularGateArchiveVerification: true
+- readyForNodeV376JavaMiniKvShardEvidenceConsumption: true
+- sourceArchiveVerificationDigest: 0c20086461b11502f36db823036323ba95dfc243dbb4fc5acb652d73916409b6
+- sourceCheckCount: 27
+- sourcePassedCheckCount: 27
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- connectsManagedAudit: false
+- executionAllowed: false
+
+## Java v154 Shard Readiness
+
+- Project: advanced-order-platform
+- Source version: Java v154
+- Ready for Node consumption: true
+- Required fields: 9/9
+- Missing fields: none
+- Read only safe: true
+- Execution blocked: true
+- Status accepted: true
+- Hardening explains fields: true
+- Source core linked: true
+- Boundary safe: true
+- Preserves archived Node evidence: true
+- Hardening file: D:/javaproj/advanced-order-platform/e/154/evidence/java-shard-readiness-hardening-v154.json
+- Resolved hardening path: D:/javaproj/advanced-order-platform/e/154/evidence/java-shard-readiness-hardening-v154.json
+- Used historical fallback: false
+- Source core file: D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json
+- Evidence:
+  - project: advanced-order-platform
+  - version: Java v154
+  - sourceCoreVersion: Java v153
+  - releaseVersion: null
+  - readOnly: true
+  - executionAllowed: false
+  - shardEnabled: false
+  - shardCount: 0
+  - slotCount: 0
+  - routingMode: fixture
+  - status: passed
+  - evidencePath: e/154/evidence/java-shard-readiness-hardening-v154.json
+  - rawFieldCount: 24
+
+## mini-kv v145 Shard Readiness
+
+- Project: mini-kv
+- Source version: mini-kv v145
+- Ready for Node consumption: true
+- Required fields: 9/9
+- Missing fields: none
+- Read only safe: true
+- Execution blocked: true
+- Status accepted: true
+- Hardening explains fields: true
+- Source core linked: true
+- Boundary safe: true
+- Preserves archived Node evidence: true
+- Hardening file: D:/C/mini-kv/fixtures/release/shard-readiness.json
+- Resolved hardening path: D:/C/mini-kv/fixtures/release/shard-readiness.json
+- Used historical fallback: false
+- Source core file: not-applicable
+- Evidence:
+  - project: mini-kv
+  - version: 0.102.0
+  - sourceCoreVersion: null
+  - releaseVersion: v145
+  - readOnly: true
+  - executionAllowed: false
+  - shardEnabled: false
+  - shardCount: 1
+  - slotCount: 16
+  - routingMode: single-shard-readiness-prototype
+  - status: hardened-read-only
+  - evidencePath: fixtures/release/shard-readiness.json
+  - rawFieldCount: 23
+
+## Evidence Consumption
+
+- consumptionDigest: 69718f3573e6447bd7f31a7464da3a6ddba29b3fee15343360637a98375ff638
+- consumptionMode: java-mini-kv-shard-readiness-evidence-consumption
+- sourceSpan: Node v375 archive verification plus Java v154 and mini-kv v145 hardening evidence
+- sourceNodeV375Digest: 0c20086461b11502f36db823036323ba95dfc243dbb4fc5acb652d73916409b6
+- javaV154HardeningDigest: 82891c19267a188177153697b8f1e2c5cf5274320c22f328a9dd995efacf78a9
+- javaV153SourceDigest: 1bc4409e523738997dd619bb704391913e18b00ed63af3b14b821e7660d00c1d
+- miniKvV145Digest: fdd430d5180c8cc0e86c6ff5643af3b575177fc423940fbbb9948f62a105b8cf
+- verifiesRequiredContractFields: ["project","version","readOnly","executionAllowed","shardEnabled","shardCount","slotCount","routingMode","status"]
+- verifiesHistoricalFallback: true
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v377
+
+## Checks
+
+- sourceNodeV375Ready: true
+- sourceNodeV375ArchiveVerified: true
+- sourceNodeV375BoundariesClosed: true
+- javaV154HardeningFilePresent: true
+- javaV153SourceCoreFilePresent: true
+- javaRequiredFieldsComplete: true
+- javaReadOnlySafe: true
+- javaExecutionBlocked: true
+- javaStatusAccepted: true
+- javaHardeningExplainsFields: true
+- javaSourceCoreLinked: true
+- miniKvV145FilePresent: true
+- miniKvReleaseVersionV145: true
+- miniKvRequiredFieldsComplete: true
+- miniKvReadOnlySafe: true
+- miniKvExecutionBlocked: true
+- miniKvStatusAccepted: true
+- miniKvBoundarySafe: true
+- miniKvArchivedEvidencePreserved: true
+- bothEvidenceSourcesReady: true
+- historicalFallbackCovered: true
+- digestCoverageComplete: true
+- nodeDoesNotStartOrStopUpstreams: true
+- nodeDoesNotMutateSiblingState: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForJavaMiniKvShardReadinessEvidenceConsumption: true
+
+## Summary
+
+- checkCount: 30
+- passedCheckCount: 30
+- evidenceSourceCount: 2
+- readyEvidenceSourceCount: 2
+- requiredFieldCount: 18
+- presentRequiredFieldCount: 18
+- missingRequiredFieldCount: 0
+- historicalFallbackSourceCount: 0
+- productionBlockerCount: 0
+- warningCount: 2
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- JAVA_V154_IS_ADDITIVE_HARDENING (warning, java-v154): Java v154 hardens the Java v153 core shard-readiness fields instead of duplicating every field.
+- ACTIVE_SHARDING_STILL_DISABLED (warning, mini-kv-v145): mini-kv v145 proves shard-readiness evidence only; active sharding and write routing remain disabled.
+
+## Recommendations
+
+- ARCHIVE_NODE_V376_CONSUMPTION (recommendation, next-plan): Proceed to Node v377 archive verification for the v376 Java/mini-kv evidence consumption.
+
+## Next Actions
+
+- Archive Node v376 consumption evidence before moving to v377.
+- Let Java and mini-kv continue in parallel; Node should only consume completed shard-readiness evidence.
+- Keep active sharding disabled until a separate cluster/shard prototype plan is authorized.
+</pre></main></body></html>

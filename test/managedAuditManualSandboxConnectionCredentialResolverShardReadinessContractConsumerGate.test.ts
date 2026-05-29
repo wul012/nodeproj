@@ -201,7 +201,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
       expect(profile.javaShardReadiness.evidenceFile.resolvedPath.replace(/\\/g, "/"))
         .toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json");
       expect(profile.miniKvShardReadiness.evidenceFile.resolvedPath.replace(/\\/g, "/"))
-        .toContain("fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness.json");
+        .toContain("fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v144.json");
     } finally {
       if (previous === undefined) {
         delete process.env.ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK;

@@ -36,7 +36,7 @@ const ACTIVE_PLAN = "docs/plans3/v369-post-operator-ci-regular-gate-handoff-road
 const NEXT_PLAN = "docs/plans3/v370-post-shard-readiness-contract-consumer-gate-roadmap.md";
 const JAVA_SHARD_READINESS_EVIDENCE =
   "D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json";
-const MINI_KV_SHARD_READINESS_EVIDENCE = "D:/C/mini-kv/fixtures/release/shard-readiness.json";
+const MINI_KV_SHARD_READINESS_EVIDENCE = "D:/C/mini-kv/fixtures/release/shard-readiness-v144.json";
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const REQUIRED_SHARD_READINESS_FIELDS = Object.freeze([
   "project",
