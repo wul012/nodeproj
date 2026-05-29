@@ -23,6 +23,7 @@
 388-java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verification-v383.md
 389-java-mini-kv-live-read-gate-plan-intake-v384.md
 390-java-mini-kv-live-read-gate-plan-intake-archive-verification-v385.md
+391-java-mini-kv-operator-service-lifecycle-evidence-intake-v386.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

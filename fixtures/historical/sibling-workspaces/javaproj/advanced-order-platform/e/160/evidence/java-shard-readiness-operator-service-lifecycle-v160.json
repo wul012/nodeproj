@@ -1,0 +1,54 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v160",
+  "readOnly": true,
+  "executionAllowed": false,
+  "operatorOwned": true,
+  "runtimeProbeAllowed": false,
+  "nodeMayStartService": false,
+  "nodeMayStopService": false,
+  "sourceGatePlanVersion": "Java v159",
+  "lastVerifiedByNodeVersion": "Node v385",
+  "nextNodeConsumerHint": "Node v386",
+  "javaServiceOwner": "java-service-operator-placeholder",
+  "javaStartOwner": "java-service-operator-placeholder",
+  "javaStopOwner": "java-service-operator-placeholder",
+  "javaPortDeclaration": "operator-declared-port-before-window",
+  "javaBaseUrlTemplate": "http://127.0.0.1:{java-port}",
+  "operatorPrerequisites": [
+    "operator-confirms-java-service-owner",
+    "operator-confirms-start-command-and-port-before-window",
+    "operator-confirms-stop-responsibility-before-window",
+    "operator-confirms-get-only-smoke-targets",
+    "operator-confirms-no-credential-or-raw-endpoint-value-read"
+  ],
+  "getOnlySmokeTargets": [
+    "GET /actuator/health",
+    "GET /api/v1/ops/shard-readiness/operator-service-lifecycle",
+    "GET /api/v1/ops/shard-readiness/live-read-gate-plan",
+    "GET /api/v1/ops/shard-readiness/active-shard-plan-handoff"
+  ],
+  "failClosedRules": [
+    "missing-operator-owner-blocks-runtime-probe",
+    "missing-operator-declared-port-blocks-runtime-probe",
+    "missing-cleanup-owner-blocks-runtime-probe",
+    "non-get-smoke-target-blocks-runtime-probe",
+    "failed-smoke-blocks-node-consumption"
+  ],
+  "cleanupResponsibilities": [
+    "operator-stops-java-if-operator-started-java",
+    "node-must-not-stop-java-from-this-evidence",
+    "node-may-clean-only-processes-started-by-a-separate-approved-runtime-plan",
+    "archive-runtime-smoke-output-before-cleanup"
+  ],
+  "stopConditions": [
+    "source-gate-plan-status-not-passed",
+    "request-would-start-java-from-this-evidence",
+    "request-would-stop-java-from-this-evidence",
+    "request-would-run-runtime-probe-before-operator-port-confirmation",
+    "request-would-run-non-get-smoke",
+    "request-would-read-credential-or-raw-endpoint-value"
+  ],
+  "evidencePath": "e/160/evidence/java-shard-readiness-operator-service-lifecycle-v160.json",
+  "status": "passed"
+}

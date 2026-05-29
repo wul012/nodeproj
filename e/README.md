@@ -23,6 +23,7 @@
 383: Java / mini-kv active shard plan boundary handoff intake archive verification
 384: Java v159 + mini-kv v150 live-read gate plan intake
 385: Java / mini-kv live-read gate plan intake archive verification
+386: Java v160 + mini-kv v151 operator service lifecycle evidence intake
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
