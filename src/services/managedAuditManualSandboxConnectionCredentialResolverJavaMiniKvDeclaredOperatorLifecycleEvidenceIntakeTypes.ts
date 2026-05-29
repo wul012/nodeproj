@@ -1,0 +1,314 @@
+export interface DeclaredOperatorLifecycleEvidenceFileReference {
+  id: string;
+  configuredPath: string;
+  resolvedPath: string;
+  historicalFallbackPath: string;
+  exists: boolean;
+  usedHistoricalFallback: boolean;
+  byteLength: number;
+  digest: string | null;
+}
+
+export interface SourceNodeV387ArchiveVerificationReference {
+  sourceVersion: "Node v387";
+  profileVersion: string;
+  archiveVerificationState: string;
+  archiveVerificationDecision: string;
+  readyForOperatorServiceLifecycleEvidenceIntakeArchiveVerification: boolean;
+  readyForNodeV388DeclaredOperatorEvidenceOrRuntimeGate: boolean;
+  readyForRuntimeLiveReadGate: boolean;
+  activeNodeVersion: "Node v387";
+  sourceNodeVersion: string;
+  archiveVerificationDigest: string;
+  sourceCheckCount: number;
+  sourcePassedCheckCount: number;
+  replayCheckCount: number;
+  replayPassedCheckCount: number;
+  declaredMiniKvOperatorEvidenceCount: number;
+  productionBlockerCount: number;
+  archiveVerificationOnly: boolean;
+  rerunsLiveRead: false;
+  startsJavaService: false;
+  startsMiniKvService: false;
+  stopsJavaService: false;
+  stopsMiniKvService: false;
+  connectsManagedAudit: false;
+  executionAllowed: false;
+  activeShardPrototypeEnabled: false;
+}
+
+export interface JavaDeclaredOperatorLifecycleReference {
+  project: "advanced-order-platform" | "unknown";
+  version: string;
+  readOnly: boolean;
+  executionAllowed: boolean;
+  operatorOwned: boolean;
+  operatorLifecycleDeclared: boolean;
+  startupCommandDeclared: boolean;
+  portDeclared: boolean;
+  getOnlySmokeDeclared: boolean;
+  cleanupDeclared: boolean;
+  failClosedDeclared: boolean;
+  runtimeProbeAllowed: boolean;
+  nodeMayStartService: boolean;
+  nodeMayStopService: boolean;
+  sourceLifecycleEvidenceVersion: string;
+  lastVerifiedByNodeVersion: string;
+  nextNodeConsumerHint: string;
+  javaServiceOwner: string | null;
+  javaStartOwner: string | null;
+  javaStopOwner: string | null;
+  declaredWorkingDirectory: string | null;
+  declaredStartupCommand: string | null;
+  declaredPorts: string[];
+  javaBaseUrlHandle: string | null;
+  getOnlySmokeTargets: string[];
+  failClosedRules: string[];
+  cleanupResponsibilities: string[];
+  runtimeGatePrerequisites: string[];
+  stopConditions: string[];
+  evidencePath: string | null;
+  status: string;
+}
+
+export interface MiniKvDeclaredOperatorLifecycleReference {
+  project: "mini-kv" | "unknown";
+  contract: string;
+  releaseVersion: string;
+  readOnly: boolean;
+  executionAllowed: boolean;
+  shardEnabled: boolean;
+  status: string;
+  evidencePath: string | null;
+  writeCommandsAllowed: boolean;
+  adminCommandsAllowed: boolean;
+  loadRestoreCompactAllowed: boolean;
+  setnxexExecutionAllowed: boolean;
+  activeRouterInstalled: boolean;
+  storageDirectoriesCreated: boolean;
+  multiProcessStarted: boolean;
+  archivedNodeEvidenceMutated: boolean;
+  previousConsumedReleaseVersion: string | null;
+  previousConsumedFixturePath: string | null;
+  previousConsumptionNodeVersion: string | null;
+  rollingCurrentUsedForHistoricalBaseline: boolean;
+  nodeV387ArchiveVerificationPreserved: boolean;
+  nodeV388ReadsUnfinishedUpstream: boolean;
+  archivedNodeVersions: string[];
+  changesArchivedNodeEvidence: boolean;
+  futureNodeConsumer: string | null;
+  operatorTemplateFreezeFrozenReleaseVersion: string | null;
+  operatorTemplateFreezeFrozenFixturePath: string | null;
+  operatorTemplateFreezePreservesTemplate: boolean;
+  frozenServiceOwnerDeclared: boolean;
+  frozenStartupCommandDeclared: boolean;
+  frozenPortListDeclared: boolean;
+  frozenGetOnlySmokeTargetDeclared: boolean;
+  frozenCleanupResponsibilityDeclared: boolean;
+  frozenRuntimeProbeAllowed: boolean;
+  frozenExecutionAllowed: boolean;
+  operatorEvidenceMode: string;
+  operatorSourceFrozenReleaseVersion: string | null;
+  operatorSourceFrozenFixturePath: string | null;
+  operatorOwnedServiceLifecycleDeclared: boolean;
+  serviceOwnerDeclared: boolean;
+  serviceOwnerHandle: string | null;
+  startupCommandDeclared: boolean;
+  startupCommand: string | null;
+  portListDeclared: boolean;
+  declaredPortHandles: string[];
+  getOnlySmokeTargetDeclared: boolean;
+  getOnlySmokeTarget: string | null;
+  failClosedBehaviorDeclared: boolean;
+  failClosedBehavior: string | null;
+  cleanupResponsibilityDeclared: boolean;
+  cleanupResponsibility: string | null;
+  runtimeGateApproved: boolean;
+  startsServices: boolean;
+  runtimeProbeAllowed: boolean;
+  liveReadAllowed: boolean;
+  activeShardPrototypeEnabled: boolean;
+  routerActivationAllowed: boolean;
+  writeRoutingAllowed: boolean;
+  operatorExecutionAllowed: boolean;
+  requiresSeparateRuntimeGate: boolean;
+  requiredBeforeRuntimeGate: string[];
+  evidenceDigest: string | null;
+}
+
+export interface MiniKvFrozenOperatorTemplateReference {
+  project: "mini-kv" | "unknown";
+  releaseVersion: string;
+  readOnly: boolean;
+  executionAllowed: boolean;
+  shardEnabled: boolean;
+  status: string;
+  operatorEvidenceMode: string;
+  operatorOwnedServiceLifecycleRequired: boolean;
+  serviceOwnerDeclared: boolean;
+  startupCommandDeclared: boolean;
+  portListDeclared: boolean;
+  getOnlySmokeTargetDeclared: boolean;
+  cleanupResponsibilityDeclared: boolean;
+  runtimeProbeAllowed: boolean;
+  liveReadAllowed: boolean;
+  executionAllowedByOperatorTemplate: boolean;
+}
+
+export interface DeclaredOperatorLifecycleEvidenceIntakeRecord {
+  intakeDigest: string;
+  intakeMode: "java-mini-kv-declared-operator-lifecycle-evidence-intake";
+  sourceSpan: "Node v387 + Java v161 + mini-kv v152";
+  sourceNodeV387Digest: string;
+  javaV161Digest: string | null;
+  miniKvV152Digest: string | null;
+  miniKvV151Digest: string | null;
+  usesFrozenJavaV161DeclaredLifecycleEvidence: boolean;
+  usesFrozenMiniKvV152DeclaredLifecycleEvidence: boolean;
+  verifiesMiniKvV151OperatorTemplateFreeze: boolean;
+  javaDeclaredOperatorLifecyclePresent: boolean;
+  miniKvDeclaredOperatorLifecyclePresent: boolean;
+  miniKvRuntimeGateApproved: false;
+  runtimeGateStillBlocked: true;
+  consumesRollingCurrentAsHistoricalBaseline: false;
+  liveReadGateAllowed: false;
+  runtimeProbeAllowed: false;
+  activeShardPrototypeEnabled: false;
+  startsUpstreamServices: false;
+  stopsUpstreamServices: false;
+  writesUpstreamState: false;
+  opensManagedAuditConnection: false;
+  nextNodeVersionSuggested: "Node v389";
+  ready: boolean;
+}
+
+export interface DeclaredOperatorLifecycleEvidenceIntakeChecks {
+  sourceNodeV387Ready: boolean;
+  sourceNodeV387ArchiveVerified: boolean;
+  sourceNodeV387ChecksAllPassed: boolean;
+  sourceNodeV387BoundariesClosed: boolean;
+  javaV161FilePresent: boolean;
+  javaV161VersionValid: boolean;
+  javaV161ReadOnly: boolean;
+  javaV161ExecutionBlocked: boolean;
+  javaV161DeclaredLifecycleComplete: boolean;
+  javaV161NodeLifecycleBlocked: boolean;
+  javaV161ReferencesV160AndNodeV387: boolean;
+  javaV161OwnerPortAndStartupPresent: boolean;
+  javaV161SmokeTargetsReadOnlyGet: boolean;
+  javaV161FailClosedRulesComplete: boolean;
+  javaV161CleanupResponsibilitiesSafe: boolean;
+  javaV161RuntimeGatePrerequisitesComplete: boolean;
+  javaV161StopConditionsSafe: boolean;
+  javaV161StatusPassed: boolean;
+  miniKvV152FilePresent: boolean;
+  miniKvV152ReleaseVersionValid: boolean;
+  miniKvV152ReadOnly: boolean;
+  miniKvV152ExecutionBlocked: boolean;
+  miniKvV152ShardDisabled: boolean;
+  miniKvV152StatusAccepted: boolean;
+  miniKvV152BoundarySafe: boolean;
+  miniKvV152HistoricalFallbackSafe: boolean;
+  miniKvV152PreservesNodeV387Archive: boolean;
+  miniKvV152OperatorTemplateFreezeSafe: boolean;
+  miniKvV152DeclaredLifecycleComplete: boolean;
+  miniKvV152RuntimeGateStillBlocked: boolean;
+  miniKvV152RequiresSeparateRuntimeGate: boolean;
+  miniKvV152NoRollingCurrentBaseline: boolean;
+  miniKvV151FrozenTemplatePresent: boolean;
+  miniKvV151FrozenTemplateSafe: boolean;
+  allEvidenceUsesHistoricalFallbackSnapshots: boolean;
+  runtimeGateStillBlocked: boolean;
+  intakeDigestStable: boolean;
+  noAutomaticUpstreamStartStop: boolean;
+  noUpstreamMutation: boolean;
+  noManagedAuditConnection: boolean;
+  noCredentialValueRead: boolean;
+  noRawEndpointUrlParsed: boolean;
+  productionAuditStillBlocked: boolean;
+  productionWindowStillBlocked: boolean;
+  readyForDeclaredOperatorLifecycleEvidenceIntake: boolean;
+}
+
+export interface DeclaredOperatorLifecycleEvidenceIntakeSummary {
+  evidenceSourceCount: number;
+  readyEvidenceSourceCount: number;
+  javaSmokeTargetCount: number;
+  javaDeclaredPortCount: number;
+  miniKvArchivedNodeVersionCount: number;
+  miniKvDeclaredPortHandleCount: number;
+  miniKvRequiredBeforeRuntimeGateCount: number;
+  declaredOperatorEvidenceSourceCount: number;
+  checkCount: number;
+  passedCheckCount: number;
+  productionBlockerCount: number;
+  warningCount: number;
+  recommendationCount: number;
+}
+
+export interface DeclaredOperatorLifecycleEvidenceIntakeMessage {
+  code: string;
+  severity: "blocker" | "warning" | "recommendation";
+  source: string;
+  message: string;
+}
+
+export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeProfile {
+  service: "orderops-node";
+  title: string;
+  generatedAt: string;
+  profileVersion: "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-evidence-intake.v1";
+  intakeState: "java-mini-kv-declared-operator-lifecycle-evidence-intake-ready" | "blocked";
+  intakeDecision: "consume-java-v161-and-mini-kv-v152-declared-operator-lifecycle-evidence" | "blocked";
+  readyForDeclaredOperatorLifecycleEvidenceIntake: boolean;
+  readyForNodeV389ArchiveVerification: boolean;
+  readyForRuntimeLiveReadGate: false;
+  activeNodeVersion: "Node v388";
+  sourceNodeVersion: "Node v387";
+  evidenceIntakeOnly: true;
+  declaredOperatorLifecycleEvidencePresent: boolean;
+  runtimeGateRequiresSeparateApproval: true;
+  liveReadGateAllowed: false;
+  runtimeProbeAllowed: false;
+  rerunsLiveRead: false;
+  startsJavaService: false;
+  startsMiniKvService: false;
+  stopsJavaService: false;
+  stopsMiniKvService: false;
+  mutatesJavaState: false;
+  mutatesMiniKvState: false;
+  connectsManagedAudit: false;
+  sendsManagedAuditHttpTcp: false;
+  credentialValueRequested: false;
+  credentialValueRead: false;
+  rawEndpointUrlRequested: false;
+  rawEndpointUrlParsed: false;
+  executionAllowed: false;
+  activeShardPrototypeEnabled: false;
+  readyForProductionAudit: false;
+  readyForProductionWindow: false;
+  readyForProductionOperations: false;
+  sourceNodeV387: SourceNodeV387ArchiveVerificationReference;
+  javaDeclaredOperatorLifecycleFile: DeclaredOperatorLifecycleEvidenceFileReference;
+  miniKvDeclaredOperatorLifecycleFile: DeclaredOperatorLifecycleEvidenceFileReference;
+  miniKvFrozenOperatorTemplateFile: DeclaredOperatorLifecycleEvidenceFileReference;
+  javaDeclaredOperatorLifecycle: JavaDeclaredOperatorLifecycleReference;
+  miniKvDeclaredOperatorLifecycle: MiniKvDeclaredOperatorLifecycleReference;
+  miniKvFrozenOperatorTemplate: MiniKvFrozenOperatorTemplateReference;
+  intake: DeclaredOperatorLifecycleEvidenceIntakeRecord;
+  checks: DeclaredOperatorLifecycleEvidenceIntakeChecks;
+  summary: DeclaredOperatorLifecycleEvidenceIntakeSummary;
+  productionBlockers: DeclaredOperatorLifecycleEvidenceIntakeMessage[];
+  warnings: DeclaredOperatorLifecycleEvidenceIntakeMessage[];
+  recommendations: DeclaredOperatorLifecycleEvidenceIntakeMessage[];
+  evidenceEndpoints: {
+    declaredOperatorLifecycleEvidenceIntakeJson: string;
+    declaredOperatorLifecycleEvidenceIntakeMarkdown: string;
+    sourceNodeV387Json: string;
+    sourceNodeV387Markdown: string;
+    activePlan: string;
+    nextPlan: string;
+    nextNodeVersion: "Node v389";
+  };
+  nextActions: string[];
+}
