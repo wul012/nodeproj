@@ -1,0 +1,73 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v156",
+  "readOnly": true,
+  "executionAllowed": false,
+  "sourceIndexVersion": "Java v155",
+  "sourceIndexEndpoint": "/api/v1/ops/shard-readiness/evidence-index",
+  "sourceIndexFixtureEndpoint": "/contracts/java-shard-readiness-evidence-index-v155.fixture.json",
+  "sourceIndexEvidencePath": "e/155/evidence/java-shard-readiness-evidence-index-v155.json",
+  "verifiedEntryCount": 2,
+  "verifiedEvidenceVersions": [
+    "Java v153",
+    "Java v154"
+  ],
+  "checks": [
+    {
+      "checkId": "index-read-only-and-non-executable",
+      "subject": "Java v155 evidence index",
+      "passed": true,
+      "detail": "Index evidence remains read-only and does not authorize execution."
+    },
+    {
+      "checkId": "required-contract-fields-covered",
+      "subject": "Node shard readiness contract",
+      "passed": true,
+      "detail": "All nine regular-gate contract fields are present."
+    },
+    {
+      "checkId": "source-entry-count",
+      "subject": "Java frozen evidence entries",
+      "passed": true,
+      "detail": "Java v153 core and Java v154 hardening are the frozen sources."
+    },
+    {
+      "checkId": "all-sources-frozen",
+      "subject": "Java frozen evidence entries",
+      "passed": true,
+      "detail": "Every source entry is marked frozen."
+    },
+    {
+      "checkId": "no-rolling-current-pointer",
+      "subject": "Historical fallback safety",
+      "passed": true,
+      "detail": "Historical baselines do not point at rolling current files."
+    },
+    {
+      "checkId": "versioned-fixture-endpoints",
+      "subject": "Fixture fallback safety",
+      "passed": true,
+      "detail": "Every fixture endpoint carries an explicit Java version."
+    },
+    {
+      "checkId": "versioned-archive-paths",
+      "subject": "Archive fallback safety",
+      "passed": true,
+      "detail": "Every archive path is versioned and release-directory scoped."
+    },
+    {
+      "checkId": "node-archive-mutation-forbidden",
+      "subject": "Node v370-v376 archive chain",
+      "passed": true,
+      "detail": "The Java verifier does not rewrite Node historical archives."
+    }
+  ],
+  "fallbackPolicy": [
+    "use-versioned-fixture-endpoints-only",
+    "use-versioned-archive-paths-only",
+    "do-not-read-rolling-current-files-for-historical-baselines",
+    "fail-closed-if-versioned-source-is-missing"
+  ],
+  "evidencePath": "e/156/evidence/java-shard-readiness-evidence-verification-v156.json",
+  "status": "passed"
+}

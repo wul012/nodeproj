@@ -1,0 +1,22 @@
+{
+  "profileVersion": "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-completed-shard-readiness-evidence-intake.v1",
+  "intakeState": "java-mini-kv-completed-shard-readiness-evidence-intake-ready",
+  "intakeDecision": "consume-java-v156-and-mini-kv-v146-completed-evidence",
+  "readyForCompletedShardReadinessEvidenceIntake": true,
+  "readyForNodeV379ArchiveVerification": true,
+  "activeNodeVersion": "Node v378",
+  "sourceNodeVersion": "Node v377",
+  "javaVerificationVersion": "Java v156",
+  "javaIndexVersion": "Java v155",
+  "miniKvReleaseVersion": "v146",
+  "checkCount": 38,
+  "passedCheckCount": 38,
+  "productionBlockerCount": 0,
+  "warningCount": 2,
+  "recommendationCount": 1,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "stopsJavaService": false,
+  "stopsMiniKvService": false,
+  "executionAllowed": false
+}

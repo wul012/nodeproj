@@ -1,0 +1,55 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v155",
+  "readOnly": true,
+  "executionAllowed": false,
+  "lastConsumedByNodeVersion": "Node v376",
+  "requiredContractFields": [
+    "project",
+    "version",
+    "readOnly",
+    "executionAllowed",
+    "shardEnabled",
+    "shardCount",
+    "slotCount",
+    "routingMode",
+    "status"
+  ],
+  "evidenceEntries": [
+    {
+      "evidenceVersion": "Java v153",
+      "evidenceRole": "shard-readiness-core-contract",
+      "endpoint": "/api/v1/ops/shard-readiness",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v153.fixture.json",
+      "archivePath": "e/153/evidence/java-shard-readiness-v153.json",
+      "frozen": true,
+      "rollingCurrentPointer": false,
+      "consumerBoundary": "Node v370-v376 core field source"
+    },
+    {
+      "evidenceVersion": "Java v154",
+      "evidenceRole": "shard-readiness-hardening",
+      "endpoint": "/api/v1/ops/shard-readiness/hardening",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-hardening-v154.fixture.json",
+      "archivePath": "e/154/evidence/java-shard-readiness-hardening-v154.json",
+      "frozen": true,
+      "rollingCurrentPointer": false,
+      "consumerBoundary": "Node v376 additive hardening source"
+    }
+  ],
+  "fallbackPolicy": [
+    "use-versioned-fixture-endpoints-only",
+    "use-versioned-archive-paths-only",
+    "do-not-read-rolling-current-files-for-historical-baselines",
+    "fail-closed-if-versioned-source-is-missing"
+  ],
+  "compatibilityGuarantees": [
+    "v153-core-contract-remains-frozen",
+    "v154-hardening-remains-additive",
+    "v155-index-does-not-enable-sharding",
+    "no-node-v370-v376-archive-mutation",
+    "no-order-payment-inventory-ledger-sql-change"
+  ],
+  "evidencePath": "e/155/evidence/java-shard-readiness-evidence-index-v155.json",
+  "status": "passed"
+}
