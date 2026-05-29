@@ -1,0 +1,168 @@
+# Managed audit manual sandbox connection credential resolver Java/mini-kv completed shard readiness evidence intake archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-29T06:13:58.189Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification.v1
+- Archive verification state: java-mini-kv-completed-shard-readiness-evidence-intake-archive-verified
+- Archive verification decision: archive-completed-shard-evidence-intake-and-prepare-v380
+- Active Node version: Node v379
+- Source Node version: Node v378
+- Ready for Node v380: true
+- Archive verification only: true
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v378
+
+- sourceVersion: Node v378
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-completed-shard-readiness-evidence-intake.v1
+- intakeState: java-mini-kv-completed-shard-readiness-evidence-intake-ready
+- intakeDecision: consume-java-v156-and-mini-kv-v146-completed-evidence
+- readyForCompletedShardReadinessEvidenceIntake: true
+- readyForNodeV379ArchiveVerification: true
+- activeNodeVersion: Node v378
+- sourceNodeVersion: Node v377
+- javaVerificationVersion: Java v156
+- javaIndexVersion: Java v155
+- miniKvReleaseVersion: v146
+- intakeDigest: fdc3d626bb92295e7c6e5da7f99f66d373c7c2864cc4793cb2b991f985b3b0af
+- checkCount: 38
+- passedCheckCount: 38
+- productionBlockerCount: 0
+- warningCount: 2
+- recommendationCount: 1
+- javaVerificationUsesHistoricalFallback: true
+- javaIndexUsesHistoricalFallback: true
+- miniKvUsesHistoricalFallback: true
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- executionAllowed: false
+
+## Replay From Frozen Evidence
+
+- replayState: ready
+- replayedProfileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-completed-shard-readiness-evidence-intake.v1
+- readyForCompletedShardReadinessEvidenceIntake: true
+- javaVerificationUsedHistoricalFallback: true
+- javaIndexUsedHistoricalFallback: true
+- miniKvUsedHistoricalFallback: true
+- miniKvReleaseVersion: v146
+- checkCount: 38
+- passedCheckCount: 38
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+
+## Archive Verification
+
+- archiveVerificationDigest: ca0c4478a46afa181b729bab8bc7d3ce03ec5444da01c202333a89813b8545bc
+- verificationMode: java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification
+- sourceSpan: Node v378 completed shard-readiness evidence intake
+- archiveRoot: e/378
+- archiveVerificationDecision: archive-completed-shard-evidence-intake-and-prepare-v380
+- sourceIntakeDigest: fdc3d626bb92295e7c6e5da7f99f66d373c7c2864cc4793cb2b991f985b3b0af
+- replayReady: true
+- archiveFileDigests: [{"path":"e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-http.json","digest":"6387f68786dbc1827c329e0012c2571752f1ccb02d6bebb3c56ded479e4217d0","byteLength":12448},{"path":"e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-http.md","digest":"cdfd3887bd692dbf68bf6adcf289a9ce1473c8217f02b4e0c0db9891d7a9e847","byteLength":8626},{"path":"e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-summary.json","digest":"61b29ae2251b7deb87dd75886ff4914e1d70cf6228efc15f3c83563909505c73","byteLength":865},{"path":"e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-browser-snapshot.md","digest":"affdfe9166cb98effc98610fffa484aa95da9d251d39defc4cab942101a49cbd","byteLength":8720},{"path":"e/378/java-mini-kv-completed-shard-readiness-evidence-intake-v378.html","digest":"e5edeae7419c0625a12ba600981487c6ce20a97924ec1564d94199c6ca0e61b9","byteLength":9131},{"path":"e/378/图片/java-mini-kv-completed-shard-readiness-evidence-intake-v378.png","digest":"62a9cafdc9372ec23c29bb37a78732e2609876dee02c5d32f666b95f3e1f67a0","byteLength":29309},{"path":"e/378/解释/java-mini-kv-completed-shard-readiness-evidence-intake-v378.md","digest":"58c75f2ebcbf9b6db1afc0cf356a69819509660dc28a1095a300249cd9d93014","byteLength":1945},{"path":"代码讲解记录_生产雏形阶段3/383-java-mini-kv-completed-shard-readiness-evidence-intake-v378.md","digest":"1057c63876ce3ce685f80e7ac208d6a3a9dd6561fac921620cf5293fe0191160","byteLength":5118},{"path":"docs/plans3/v378-post-java-mini-kv-completed-shard-readiness-evidence-intake-roadmap.md","digest":"b83d6d2f6a039294fa7ecf74f8734d2123f05c44a1c52e27e563ac1d59df2ef9","byteLength":3130},{"path":"docs/plans3/README.md","digest":"d9b53aa4a54add0988291fadc210fd889e918c9dd7446a2b270d84c491eb0d50","byteLength":2284},{"path":"e/README.md","digest":"1395b534144c9753574a8cb49f0d4e24e5e150840042136859aee9cdba4e4f47","byteLength":1101}]
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- verifiesReplayFromFrozenEvidence: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v380
+
+## Archive References
+
+- e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-http.json: exists=true; bytes=12448; digest=6387f68786dbc1827c329e0012c2571752f1ccb02d6bebb3c56ded479e4217d0
+- e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-http.md: exists=true; bytes=8626; digest=cdfd3887bd692dbf68bf6adcf289a9ce1473c8217f02b4e0c0db9891d7a9e847
+- e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-summary.json: exists=true; bytes=865; digest=61b29ae2251b7deb87dd75886ff4914e1d70cf6228efc15f3c83563909505c73
+- e/378/evidence/java-mini-kv-completed-shard-readiness-evidence-intake-v378-browser-snapshot.md: exists=true; bytes=8720; digest=affdfe9166cb98effc98610fffa484aa95da9d251d39defc4cab942101a49cbd
+- e/378/java-mini-kv-completed-shard-readiness-evidence-intake-v378.html: exists=true; bytes=9131; digest=e5edeae7419c0625a12ba600981487c6ce20a97924ec1564d94199c6ca0e61b9
+- e/378/图片/java-mini-kv-completed-shard-readiness-evidence-intake-v378.png: exists=true; bytes=29309; digest=62a9cafdc9372ec23c29bb37a78732e2609876dee02c5d32f666b95f3e1f67a0
+- e/378/解释/java-mini-kv-completed-shard-readiness-evidence-intake-v378.md: exists=true; bytes=1945; digest=58c75f2ebcbf9b6db1afc0cf356a69819509660dc28a1095a300249cd9d93014
+- 代码讲解记录_生产雏形阶段3/383-java-mini-kv-completed-shard-readiness-evidence-intake-v378.md: exists=true; bytes=5118; digest=1057c63876ce3ce685f80e7ac208d6a3a9dd6561fac921620cf5293fe0191160
+- docs/plans3/v378-post-java-mini-kv-completed-shard-readiness-evidence-intake-roadmap.md: exists=true; bytes=3130; digest=b83d6d2f6a039294fa7ecf74f8734d2123f05c44a1c52e27e563ac1d59df2ef9
+- docs/plans3/README.md: exists=true; bytes=2284; digest=d9b53aa4a54add0988291fadc210fd889e918c9dd7446a2b270d84c491eb0d50
+- e/README.md: exists=true; bytes=1101; digest=1395b534144c9753574a8cb49f0d4e24e5e150840042136859aee9cdba4e4f47
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonIntakeReady: true
+- jsonSourceNodeV377Ready: true
+- jsonEvidenceVersionsMatch: true
+- jsonIntakeDigestStable: true
+- jsonChecksAllPassed: true
+- jsonUsesFrozenHistoricalSnapshots: true
+- summaryMatchesJson: true
+- markdownRecordsIntake: true
+- browserSnapshotPresent: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsFrozenMiniKvV146: true
+- codeWalkthroughPresent: true
+- sourcePlanPointsToV379AndParallelUpstreams: true
+- planIndexReferencesV378AndV379: true
+- archiveIndexReferencesV378: true
+- routeRecordedInArchive: true
+- replayReady: true
+- replayUsesFrozenMiniKvV146: true
+- archiveVerificationDoesNotRerunLiveRead: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- archiveVerificationDigestStable: true
+- readyForCompletedShardEvidenceIntakeArchiveVerification: true
+
+## Summary
+
+- checkCount: 31
+- passedCheckCount: 31
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- sourceCheckCount: 38
+- sourcePassedCheckCount: 38
+- replayCheckCount: 38
+- replayPassedCheckCount: 38
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- ARCHIVE_VERIFIES_EVIDENCE_INTAKE_NOT_ACTIVE_SHARDING (warning, archive-verification): v379 verifies archived v378 intake; shard readiness is still not active sharding.
+
+## Recommendations
+
+- PROCEED_ONLY_WITH_COMPLETED_EVIDENCE_OR_EXPLICIT_LIVE_GATE (recommendation, node-v379): Proceed to Node v380 only with completed frozen upstream evidence or an explicit live-read gate plan.
+
+## Next Actions
+
+- Use Node v380 only if there is a completed frozen upstream evidence step or an explicit live-read gate plan.
+- Keep Java and mini-kv parallel work independent; Node should remain a consumer/gate, not a pre-approval blocker.
+- Do not convert readiness evidence into active sharding without a separate mini-kv prototype plan.
