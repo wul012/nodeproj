@@ -1,4 +1,6 @@
 import type { AppConfig } from "../config.js";
+import { existsSync, readFileSync } from "node:fs";
+import path from "node:path";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification,
@@ -42,6 +44,12 @@ const SOURCE_NODE_V372_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-archive-verification";
 const ACTIVE_PLAN = "docs/plans3/v372-post-minimal-shard-readiness-live-read-archive-verification-roadmap.md";
 const NEXT_PLAN = "docs/plans3/v373-post-shard-readiness-compatibility-report-roadmap.md";
+const V370_ARCHIVE_JSON = path.join(
+  "e",
+  "370",
+  "evidence",
+  "shard-readiness-contract-consumer-gate-v370-http.json",
+);
 const COMPATIBILITY_FIELDS = Object.freeze([
   "project",
   "version",
@@ -58,10 +66,11 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverShardRe
   input: { config: AppConfig; archiveRoot?: string },
 ): ManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReportProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
-  const staticGate = loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate({
-    config: input.config,
-    archiveRoot: projectRoot,
-  });
+  const staticGate = readArchivedStaticGate(projectRoot)
+    ?? loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate({
+      config: input.config,
+      archiveRoot: projectRoot,
+    });
   const archiveVerification =
     loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification({
       config: input.config,
@@ -153,6 +162,32 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverShardRe
         "Do not reopen live reads from this compatibility report.",
       ],
   };
+}
+
+function readArchivedStaticGate(
+  projectRoot: string,
+): ManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGateProfile | null {
+  const absolutePath = path.join(projectRoot, ...V370_ARCHIVE_JSON.split("/"));
+  if (!existsSync(absolutePath)) {
+    return null;
+  }
+
+  try {
+    const parsed = JSON.parse(readFileSync(absolutePath, "utf8").replace(/^\uFEFF/, ""));
+    if (
+      parsed !== null
+      && typeof parsed === "object"
+      && !Array.isArray(parsed)
+      && (parsed as Record<string, unknown>).profileVersion
+        === "managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate.v1"
+    ) {
+      return parsed as ManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGateProfile;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
 }
 
 function createSourceNodeV370(

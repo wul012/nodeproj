@@ -1,0 +1,122 @@
+﻿# Managed audit manual sandbox connection credential resolver minimal shard readiness regular gate
+
+- Service: orderops-node
+- Generated at: 2026-05-29T00:30:18.510Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate.v1
+- Gate state: minimal-shard-readiness-regular-gate-ready
+- Gate decision: freeze-minimal-shard-readiness-regular-gate
+- Active Node version: Node v374
+- Source Node version: Node v373
+- Ready for Node v375 regular gate archive verification: true
+- Regular gate only: true
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Mutates Java state: false
+- Mutates mini-kv state: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v373
+
+- sourceVersion: Node v373
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-compatibility-report.v1
+- compatibilityState: shard-readiness-compatible-for-regular-gate
+- compatibilityDecision: prepare-minimal-shard-readiness-regular-gate
+- readyForShardReadinessCompatibilityReport: true
+- readyForNodeV374MinimalShardReadinessRegularGate: true
+- compatibilityReportDigest: 104642466f176047d261a553c411242f5b202f6aa90ef273add42faf39f00117
+- sourceStaticGateDigest: 9819a72aebb8f780f69a3335f29170c620e7015f068457a08d98b5dd3d1af9ec
+- sourceLiveReadGateDigest: 73108e48edbab0b2d8c023ce8fb5f200a47a53f464c8ccf0f0eb3b1be1674d92
+- sourceArchiveVerificationDigest: 36300476a39ec96505ef9d0a06929ace587674684ac79dd1f1fc6187a351b78f
+- projectReportCount: 2
+- compatibleProjectCount: 2
+- fieldCheckCount: 18
+- matchedFieldCheckCount: 18
+- mismatchedFieldCount: 0
+- sourceCheckCount: 23
+- sourcePassedCheckCount: 23
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+
+## Regular Gate
+
+- gateDigest: 5b2492b951406989448be9bf5748d15551c38b6d9f8cf0bf57ff30dfd2a83682
+- gateMode: minimal-shard-readiness-regular-gate
+- sourceSpan: Node v370-v373 shard readiness evidence chain
+- contractVersion: shard-readiness-regular-gate.v1
+- consumesStaticContractGate: true
+- consumesLiveReadArchive: true
+- consumesArchiveVerification: true
+- consumesCompatibilityReport: true
+- operatorCiReady: true
+- activeShardingEnabled: false
+- readOnlyReadinessOnly: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- focusedCommand: npx.cmd vitest run test\managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate.test.ts
+- groupedCommand: npx.cmd vitest run test\managedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport.test.ts test\managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate.test.ts
+- buildCommand: npm.cmd run build
+- smokeCommand: Node HTTP smoke with UPSTREAM_PROBES_ENABLED=false for minimal shard readiness regular gate route
+- nextNodeVersionSuggested: Node v375
+
+## Checks
+
+- sourceNodeV373Ready: true
+- sourceDigestChainComplete: true
+- sourceProjectReportsComplete: true
+- sourceFieldChecksAllMatched: true
+- sourceProductionBlockersClear: true
+- regularGateDigestStable: true
+- regularGateConsumesFullEvidenceChain: true
+- operatorCiReady: true
+- archiveVerificationOnlyEvidencePreserved: true
+- noLiveReadRerun: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForMinimalShardReadinessRegularGate: true
+
+## Summary
+
+- checkCount: 18
+- passedCheckCount: 18
+- sourceProjectReportCount: 2
+- sourceCompatibleProjectCount: 2
+- sourceFieldCheckCount: 18
+- sourceMatchedFieldCheckCount: 18
+- sourceMismatchedFieldCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- REGULAR_GATE_IS_READINESS_NOT_ACTIVE_SHARDING (warning, regular-gate): The regular gate freezes 18/18 matched readiness fields, but active sharding remains disabled.
+
+## Recommendations
+
+- ARCHIVE_REGULAR_GATE_IN_V375 (recommendation, regular-gate): Proceed to Node v375 archive verification for the regular gate.
+
+## Next Actions
+
+- Use Node v375 to verify the regular gate archive.
+- Let Java and mini-kv continue shard-readiness hardening in parallel; Node should consume their next evidence instead of blocking it.
+- Do not interpret this regular gate as active sharding or authority transfer.

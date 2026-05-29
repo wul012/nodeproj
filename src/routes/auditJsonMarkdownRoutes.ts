@@ -491,6 +491,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReportMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate,
+  renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate.js";
+import {
   loadManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntake,
   renderManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntake.js";
@@ -1282,6 +1286,10 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-compatibility-report", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReportMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate({
+    config: deps.config,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateMarkdown),
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntake({
     config: deps.config,
