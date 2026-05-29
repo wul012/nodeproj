@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Node v383 boundary handoff archive verification</title>
+<style>
+  :root { color-scheme: light; --ink:#1b1f2a; --muted:#52606f; --line:#d9e2ec; --ok:#0f766e; --bg:#f7fafc; --panel:#ffffff; --accent:#0f766e; }
+  body { margin:0; font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:32px 40px 24px; background:#ffffff; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 12px; font-size:30px; letter-spacing:0; }
+  h2 { margin:28px 0 12px; font-size:20px; letter-spacing:0; }
+  main { max-width:1120px; margin:0 auto; padding:28px 24px 44px; }
+  .signals { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:18px; }
+  .signal { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }
+  .label { color:var(--muted); font-size:12px; text-transform:uppercase; }
+  .value { margin-top:6px; font-size:20px; font-weight:700; color:var(--ok); overflow-wrap:anywhere; }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  td { border-bottom:1px solid var(--line); padding:9px 12px; vertical-align:top; overflow-wrap:anywhere; }
+  td:first-child { width:42%; color:var(--muted); font-weight:700; }
+  tr:last-child td { border-bottom:0; }
+  .note { color:var(--muted); line-height:1.5; max-width:880px; }
+  .pill { display:inline-block; padding:4px 8px; border-radius:999px; background:#ccfbf1; color:var(--accent); font-weight:700; font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <span class="pill">Node v383</span>
+  <h1>Boundary handoff intake archive verification</h1>
+  <p class="note">Verifies the Node v382 archive and frozen replay for Java v158 plus mini-kv v149/v148 evidence. This archive does not start services, perform live reads, or enable active shard routing.</p>
+  <div class="signals">
+    <div class="signal"><div class="label">Verification</div><div class="value">java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verified</div></div>
+    <div class="signal"><div class="label">Checks</div><div class="value">35/35</div></div>
+    <div class="signal"><div class="label">Replay</div><div class="value">39/39</div></div>
+    <div class="signal"><div class="label">Archive files</div><div class="value">11/11</div></div>
+    <div class="signal"><div class="label">Active prototype</div><div class="value">False</div></div>
+  </div>
+</header>
+<main>
+  <h2>Summary</h2>
+  <table><tr><td>profileVersion</td><td>managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verification.v1</td></tr>
+<tr><td>archiveVerificationState</td><td>java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verified</td></tr>
+<tr><td>archiveVerificationDecision</td><td>archive-active-shard-plan-boundary-handoff-intake-and-prepare-v384</td></tr>
+<tr><td>readyForActiveShardPlanBoundaryHandoffIntakeArchiveVerification</td><td>True</td></tr>
+<tr><td>readyForNodeV384NextBoundaryEvidenceOrLiveGate</td><td>True</td></tr>
+<tr><td>activeNodeVersion</td><td>Node v383</td></tr>
+<tr><td>sourceNodeVersion</td><td>Node v382</td></tr>
+<tr><td>checkCount</td><td>35</td></tr>
+<tr><td>passedCheckCount</td><td>35</td></tr>
+<tr><td>archiveFileCount</td><td>11</td></tr>
+<tr><td>presentArchiveFileCount</td><td>11</td></tr>
+<tr><td>replayCheckCount</td><td>39</td></tr>
+<tr><td>replayPassedCheckCount</td><td>39</td></tr>
+<tr><td>productionBlockerCount</td><td>0</td></tr>
+<tr><td>warningCount</td><td>1</td></tr>
+<tr><td>recommendationCount</td><td>1</td></tr>
+<tr><td>startsJavaService</td><td>False</td></tr>
+<tr><td>startsMiniKvService</td><td>False</td></tr>
+<tr><td>stopsJavaService</td><td>False</td></tr>
+<tr><td>stopsMiniKvService</td><td>False</td></tr>
+<tr><td>executionAllowed</td><td>False</td></tr>
+<tr><td>activeShardPrototypeEnabled</td><td>False</td></tr></table>
+  <h2>Checks</h2>
+  <table><tr><td>archiveFilesPresent</td><td>True</td></tr>
+<tr><td>jsonEvidenceReadable</td><td>True</td></tr>
+<tr><td>jsonProfileVersionValid</td><td>True</td></tr>
+<tr><td>jsonIntakeReady</td><td>True</td></tr>
+<tr><td>jsonSourceNodeV381Ready</td><td>True</td></tr>
+<tr><td>jsonEvidenceVersionsMatch</td><td>True</td></tr>
+<tr><td>jsonActiveShardPrototypeDisabled</td><td>True</td></tr>
+<tr><td>jsonLiveReadGateRequiredBeforeRuntimeProbe</td><td>True</td></tr>
+<tr><td>jsonIntakeDigestStable</td><td>True</td></tr>
+<tr><td>jsonChecksAllPassed</td><td>True</td></tr>
+<tr><td>jsonUsesFrozenHistoricalSnapshots</td><td>True</td></tr>
+<tr><td>summaryMatchesJson</td><td>True</td></tr>
+<tr><td>markdownRecordsBoundaryHandoff</td><td>True</td></tr>
+<tr><td>browserSnapshotPresent</td><td>True</td></tr>
+<tr><td>screenshotAndHtmlPresent</td><td>True</td></tr>
+<tr><td>explanationRecordsMiniKvV149AndChecks</td><td>True</td></tr>
+<tr><td>codeWalkthroughPresent</td><td>True</td></tr>
+<tr><td>sourcePlanPointsToV383AndLiveGatePause</td><td>True</td></tr>
+<tr><td>planIndexReferencesV382AndV383</td><td>True</td></tr>
+<tr><td>archiveIndexReferencesV382</td><td>True</td></tr>
+<tr><td>routeRecordedInArchive</td><td>True</td></tr>
+<tr><td>replayReady</td><td>True</td></tr>
+<tr><td>replayUsesFrozenJavaV158MiniKvV149AndV148</td><td>True</td></tr>
+<tr><td>replayKeepsActiveShardPrototypeDisabled</td><td>True</td></tr>
+<tr><td>replayRequiresLiveReadGateBeforeRuntimeProbe</td><td>True</td></tr>
+<tr><td>archiveVerificationDoesNotRerunLiveRead</td><td>True</td></tr>
+<tr><td>noAutomaticUpstreamStartStop</td><td>True</td></tr>
+<tr><td>noUpstreamMutation</td><td>True</td></tr>
+<tr><td>noManagedAuditConnection</td><td>True</td></tr>
+<tr><td>noCredentialValueRead</td><td>True</td></tr>
+<tr><td>noRawEndpointUrlParsed</td><td>True</td></tr>
+<tr><td>productionAuditStillBlocked</td><td>True</td></tr>
+<tr><td>productionWindowStillBlocked</td><td>True</td></tr>
+<tr><td>archiveVerificationDigestStable</td><td>True</td></tr>
+<tr><td>readyForActiveShardPlanBoundaryHandoffIntakeArchiveVerification</td><td>True</td></tr></table>
+</main>
+</body>
+</html>

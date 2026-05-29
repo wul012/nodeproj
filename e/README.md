@@ -20,6 +20,7 @@
 380: Java v157 + mini-kv v147 active shard plan evidence intake
 381: Java / mini-kv active shard plan evidence intake archive verification
 382: Java v158 + mini-kv v149 active shard plan boundary handoff intake
+383: Java / mini-kv active shard plan boundary handoff intake archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
