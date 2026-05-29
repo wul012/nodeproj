@@ -45,7 +45,7 @@ const JAVA_V154_HARDENING_EVIDENCE =
   "D:/javaproj/advanced-order-platform/e/154/evidence/java-shard-readiness-hardening-v154.json";
 const JAVA_V153_CORE_EVIDENCE =
   "D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.json";
-const MINI_KV_V145_EVIDENCE = "D:/C/mini-kv/fixtures/release/shard-readiness.json";
+const MINI_KV_V145_EVIDENCE = "D:/C/mini-kv/fixtures/release/shard-readiness-v145.json";
 const MINI_KV_V145_HISTORICAL_FALLBACK =
   "fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v145.json";
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";

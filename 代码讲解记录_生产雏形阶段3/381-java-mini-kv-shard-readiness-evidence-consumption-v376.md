@@ -69,10 +69,10 @@ routingMode: stringValue(sourceCore?.routingMode) || null,
 mini-kv 当前证据仍在：
 
 ```ts
-const MINI_KV_V145_EVIDENCE = "D:/C/mini-kv/fixtures/release/shard-readiness.json";
+const MINI_KV_V145_EVIDENCE = "D:/C/mini-kv/fixtures/release/shard-readiness-v145.json";
 ```
 
-但 GitHub fallback 不使用滚动 current 文件，而使用 v145 冻结快照：
+Node v376 不读取滚动 current 文件 `shard-readiness.json`，因为 mini-kv 后续版本会继续推进它。GitHub fallback 同样使用 v145 冻结快照：
 
 ```ts
 const MINI_KV_V145_HISTORICAL_FALLBACK =

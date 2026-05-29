@@ -28,13 +28,13 @@ D:/javaproj/advanced-order-platform/e/153/evidence/java-shard-readiness-v153.jso
 
 原因是 Java v154 是 additive hardening，它不重复 `shardEnabled`、`shardCount`、`slotCount`、`routingMode` 等核心字段，而是通过 `sourceEvidencePath` 指回 Java v153 的核心证据。
 
-mini-kv 侧使用：
+mini-kv 侧使用冻结的 v145 证据：
 
 ```text
-D:/C/mini-kv/fixtures/release/shard-readiness.json
+D:/C/mini-kv/fixtures/release/shard-readiness-v145.json
 ```
 
-当前文件内容标识为 `releaseVersion=v145`，状态为 `hardened-read-only`。
+该文件内容标识为 `releaseVersion=v145`，状态为 `hardened-read-only`。不读取滚动的 `fixtures/release/shard-readiness.json`，避免 mini-kv 后续版本推进后影响 Node v376 的归档语义。
 
 ## 历史 fallback
 
@@ -44,6 +44,8 @@ D:/C/mini-kv/fixtures/release/shard-readiness.json
 fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/e/154/evidence/java-shard-readiness-hardening-v154.json
 fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v145.json
 ```
+
+这些文件用于 forced historical fixture fallback：GitHub runner 或缺少本地 sibling workspace 时，Node 仍能复现 Java v154/v153 与 mini-kv v145 的只读证据消费结果。
 
 同时把旧 v370 的 mini-kv 读取路径改为冻结的 `shard-readiness-v144.json`，避免旧版本继续读取 mini-kv 的滚动 current 文件。
 
