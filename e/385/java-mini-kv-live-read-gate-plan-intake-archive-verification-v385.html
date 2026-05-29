@@ -1,0 +1,202 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Node v385 Java mini-kv live-read gate plan intake archive verification</title>
+<style>
+:root { color-scheme: light; font-family: Inter, Segoe UI, Arial, sans-serif; }
+body { margin: 0; background: #f7f5ef; color: #1f2933; }
+main { max-width: 1120px; margin: 0 auto; padding: 32px 28px 56px; }
+pre { white-space: pre-wrap; word-break: break-word; background: #ffffff; border: 1px solid #d7d1c5; border-radius: 8px; padding: 24px; line-height: 1.5; box-shadow: 0 10px 30px rgba(31, 41, 51, 0.08); }
+h1 { font-size: 24px; margin: 0 0 18px; }
+</style>
+</head>
+<body>
+<main>
+<h1>Node v385 Java / mini-kv live-read gate plan intake archive verification</h1>
+<pre># Managed audit manual sandbox connection credential resolver Java/mini-kv live-read gate plan intake archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-29T14:00:23.513Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-live-read-gate-plan-intake-archive-verification.v1
+- Archive verification state: java-mini-kv-live-read-gate-plan-intake-archive-verified
+- Archive verification decision: archive-live-read-gate-plan-intake-and-prepare-v386
+- Active Node version: Node v385
+- Source Node version: Node v384
+- Ready for Node v386 service lifecycle evidence or runtime gate: true
+- Archive verification only: true
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v384
+
+- sourceVersion: Node v384
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-live-read-gate-plan-intake.v1
+- intakeState: java-mini-kv-live-read-gate-plan-intake-ready
+- intakeDecision: consume-java-v159-and-mini-kv-v150-live-read-gate-plan-evidence
+- readyForJavaMiniKvLiveReadGatePlanIntake: true
+- readyForNodeV385ArchiveVerification: true
+- activeNodeVersion: Node v384
+- sourceNodeVersion: Node v383
+- javaLiveReadGatePlanVersion: Java v159
+- miniKvLiveReadGatePlanReleaseVersion: v150
+- miniKvFrozenConsumerHandoffReleaseVersion: v149
+- liveReadGateAllowed: false
+- runtimeProbeAllowed: false
+- activeShardPrototypeEnabled: false
+- intakeDigest: 7a9a0f76b7e9f16c60493589b521cd5141fe6fd6d8fa48d208629bdf62572978
+- checkCount: 46
+- passedCheckCount: 46
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- javaLiveReadGatePlanUsesHistoricalFallback: true
+- miniKvLiveReadGatePlanUsesHistoricalFallback: true
+- miniKvFrozenConsumerHandoffUsesHistoricalFallback: true
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- executionAllowed: false
+
+## Replay From Frozen Evidence
+
+- replayState: ready
+- replayedProfileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-live-read-gate-plan-intake.v1
+- readyForJavaMiniKvLiveReadGatePlanIntake: true
+- javaLiveReadGatePlanUsedHistoricalFallback: true
+- miniKvLiveReadGatePlanUsedHistoricalFallback: true
+- miniKvFrozenConsumerHandoffUsedHistoricalFallback: true
+- javaLiveReadGatePlanVersion: Java v159
+- miniKvLiveReadGatePlanReleaseVersion: v150
+- miniKvFrozenConsumerHandoffReleaseVersion: v149
+- liveReadGateAllowed: false
+- runtimeProbeAllowed: false
+- activeShardPrototypeEnabled: false
+- checkCount: 46
+- passedCheckCount: 46
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+
+## Archive Verification
+
+- archiveVerificationDigest: 7a1ece06501e98d3e9a14b9f4b3a9ebe202d14c3755fab80ea792b172fd9c747
+- verificationMode: java-mini-kv-live-read-gate-plan-intake-archive-verification
+- sourceSpan: Node v384 live-read gate plan intake
+- archiveRoot: e/384
+- archiveVerificationDecision: archive-live-read-gate-plan-intake-and-prepare-v386
+- sourceIntakeDigest: 7a9a0f76b7e9f16c60493589b521cd5141fe6fd6d8fa48d208629bdf62572978
+- replayReady: true
+- archiveFileDigests: [{&quot;path&quot;:&quot;e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-http.json&quot;,&quot;digest&quot;:&quot;cee377f0293c1fa43cfb0de6b3f81ae7268a095a6c7884251a193bb7c1de1985&quot;,&quot;byteLength&quot;:15162},{&quot;path&quot;:&quot;e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-http.md&quot;,&quot;digest&quot;:&quot;1453cc64a04ad6a78eb580b7edb3a6eada4874d0cba8a6ec03b6c4aa9824d872&quot;,&quot;byteLength&quot;:13110},{&quot;path&quot;:&quot;e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-summary.json&quot;,&quot;digest&quot;:&quot;0e327d7af3c36be276343493ce2bbacb36947db35e531774aaafbe61b9268d30&quot;,&quot;byteLength&quot;:1244},{&quot;path&quot;:&quot;e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-browser-snapshot.md&quot;,&quot;digest&quot;:&quot;6b340c2bd4d3b5637f5ecd6dadb37a4f6e7537359e58015bbc1caf0b5dcd1a6f&quot;,&quot;byteLength&quot;:13389},{&quot;path&quot;:&quot;e/384/java-mini-kv-live-read-gate-plan-intake-v384.html&quot;,&quot;digest&quot;:&quot;6d830e43a2c8adac2e113989b8787320bccfdf99ebf1e982c963addabfdaa983&quot;,&quot;byteLength&quot;:14577},{&quot;path&quot;:&quot;e/384/图片/java-mini-kv-live-read-gate-plan-intake-v384.png&quot;,&quot;digest&quot;:&quot;a78a84f2e02abb10546f71dc171756d42a38bc218fa75a222809ddebe37d2f29&quot;,&quot;byteLength&quot;:202534},{&quot;path&quot;:&quot;e/384/解释/java-mini-kv-live-read-gate-plan-intake-v384.md&quot;,&quot;digest&quot;:&quot;1dce962b20d2c88ff2d9b48a7dc3d3a84c319e2137b9ef7a058bca1e91a23506&quot;,&quot;byteLength&quot;:2108},{&quot;path&quot;:&quot;代码讲解记录_生产雏形阶段3/389-java-mini-kv-live-read-gate-plan-intake-v384.md&quot;,&quot;digest&quot;:&quot;acc79b8a4bdbf8b7a364f6505dfdabc695bd6ed7adc55d701e429e0ed9185ee0&quot;,&quot;byteLength&quot;:3418},{&quot;path&quot;:&quot;docs/plans3/v384-post-java-mini-kv-live-read-gate-plan-intake-roadmap.md&quot;,&quot;digest&quot;:&quot;0741df11a137c30216064fb9d466ba64cdb44f379e98e7353f6b1b3d4bae1a0c&quot;,&quot;byteLength&quot;:2697},{&quot;path&quot;:&quot;docs/plans3/README.md&quot;,&quot;digest&quot;:&quot;cd3c3518246090ccf59bc45c57050d98faa07eb866aa3c841ababc65bfd9c0ac&quot;,&quot;byteLength&quot;:3311},{&quot;path&quot;:&quot;e/README.md&quot;,&quot;digest&quot;:&quot;31576780393d3e927b8fa56a579b89b70f6c298b41a859cff3ed67dea66a90f5&quot;,&quot;byteLength&quot;:1520}]
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- verifiesReplayFromFrozenEvidence: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- activeShardPrototypeEnabled: false
+- nextNodeVersionSuggested: Node v386
+
+## Archive References
+
+- e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-http.json: exists=true; bytes=15162; digest=cee377f0293c1fa43cfb0de6b3f81ae7268a095a6c7884251a193bb7c1de1985
+- e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-http.md: exists=true; bytes=13110; digest=1453cc64a04ad6a78eb580b7edb3a6eada4874d0cba8a6ec03b6c4aa9824d872
+- e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-summary.json: exists=true; bytes=1244; digest=0e327d7af3c36be276343493ce2bbacb36947db35e531774aaafbe61b9268d30
+- e/384/evidence/java-mini-kv-live-read-gate-plan-intake-v384-browser-snapshot.md: exists=true; bytes=13389; digest=6b340c2bd4d3b5637f5ecd6dadb37a4f6e7537359e58015bbc1caf0b5dcd1a6f
+- e/384/java-mini-kv-live-read-gate-plan-intake-v384.html: exists=true; bytes=14577; digest=6d830e43a2c8adac2e113989b8787320bccfdf99ebf1e982c963addabfdaa983
+- e/384/图片/java-mini-kv-live-read-gate-plan-intake-v384.png: exists=true; bytes=202534; digest=a78a84f2e02abb10546f71dc171756d42a38bc218fa75a222809ddebe37d2f29
+- e/384/解释/java-mini-kv-live-read-gate-plan-intake-v384.md: exists=true; bytes=2108; digest=1dce962b20d2c88ff2d9b48a7dc3d3a84c319e2137b9ef7a058bca1e91a23506
+- 代码讲解记录_生产雏形阶段3/389-java-mini-kv-live-read-gate-plan-intake-v384.md: exists=true; bytes=3418; digest=acc79b8a4bdbf8b7a364f6505dfdabc695bd6ed7adc55d701e429e0ed9185ee0
+- docs/plans3/v384-post-java-mini-kv-live-read-gate-plan-intake-roadmap.md: exists=true; bytes=2697; digest=0741df11a137c30216064fb9d466ba64cdb44f379e98e7353f6b1b3d4bae1a0c
+- docs/plans3/README.md: exists=true; bytes=3311; digest=cd3c3518246090ccf59bc45c57050d98faa07eb866aa3c841ababc65bfd9c0ac
+- e/README.md: exists=true; bytes=1520; digest=31576780393d3e927b8fa56a579b89b70f6c298b41a859cff3ed67dea66a90f5
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonIntakeReady: true
+- jsonSourceNodeV383Ready: true
+- jsonEvidenceVersionsMatch: true
+- jsonLiveReadGateClosed: true
+- jsonActiveShardPrototypeDisabled: true
+- jsonIntakeDigestStable: true
+- jsonChecksAllPassed: true
+- jsonUsesFrozenHistoricalSnapshots: true
+- summaryMatchesJson: true
+- markdownRecordsLiveReadGatePlan: true
+- browserSnapshotPresent: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsMiniKvV150AndChecks: true
+- codeWalkthroughPresent: true
+- sourcePlanPointsToV385ArchiveVerification: true
+- planIndexReferencesV384AndV385: true
+- archiveIndexReferencesV384: true
+- routeRecordedInArchive: true
+- replayReady: true
+- replayUsesFrozenJavaV159MiniKvV150AndV149: true
+- replayKeepsLiveReadGateClosed: true
+- replayKeepsActiveShardPrototypeDisabled: true
+- archiveVerificationDoesNotRerunLiveRead: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- archiveVerificationDigestStable: true
+- readyForLiveReadGatePlanIntakeArchiveVerification: true
+
+## Summary
+
+- checkCount: 35
+- passedCheckCount: 35
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- sourceCheckCount: 46
+- sourcePassedCheckCount: 46
+- replayCheckCount: 46
+- replayPassedCheckCount: 46
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- ARCHIVE_VERIFIES_GATE_PLAN_NOT_RUNTIME_GATE (warning, archive-verification): v385 verifies archived v384 gate-plan intake; it still does not run Java, mini-kv, or runtime probes.
+
+## Recommendations
+
+- WAIT_FOR_OPERATOR_OWNED_SERVICE_LIFECYCLE_PLAN (recommendation, node-v385): Pause Node unless operator-owned service lifecycle evidence appears for a later runtime gate.
+
+## Next Actions
+
+- Pause Node unless operator-owned service lifecycle evidence appears for a later runtime gate.
+- Keep Java and mini-kv parallel work independent; Node v385 only verifies the v384 archive.
+- Do not run runtime probes or start sibling services from this archive verification.
+</pre>
+</main>
+</body>
+</html>

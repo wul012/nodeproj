@@ -11,6 +11,8 @@ docs/plans3/v383-post-java-mini-kv-active-shard-plan-boundary-handoff-intake-arc
 上一入口：
 
 ```text
+Node v385 已完成 Java / mini-kv live-read gate plan intake archive verification。
+docs/plans3/v385-post-java-mini-kv-live-read-gate-plan-intake-archive-verification-roadmap.md
 Node v384 已完成 Java v159 + mini-kv v150 live-read gate plan intake。
 docs/plans3/v384-post-java-mini-kv-live-read-gate-plan-intake-roadmap.md
 Node v383 已完成 Java / mini-kv active shard plan boundary handoff intake archive verification。
@@ -43,9 +45,9 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v384 已完成 Java v159 + mini-kv v150 live-read gate plan intake，checks 46/46。
+Node v385 已完成 v384 archive verification，checks 35/35，frozen evidence replay 46/46。
 当前仍不启动 Java / mini-kv，不运行 runtime probe，不打开 active shard prototype。
-下一步 Node v385 应先归档并验证 v384 intake；Java / mini-kv 推荐并行继续。
+下一步 Node 等待 operator-owned service lifecycle evidence；Java / mini-kv 推荐并行继续。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
