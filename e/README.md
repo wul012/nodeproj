@@ -26,6 +26,7 @@
 386: Java v160 + mini-kv v151 operator service lifecycle evidence intake
 387: Java / mini-kv operator service lifecycle evidence intake archive verification
 388: Java v161 + mini-kv v152 declared operator lifecycle evidence intake
+389: Java / mini-kv declared operator lifecycle evidence intake archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

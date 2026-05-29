@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v388-post-java-mini-kv-declared-operator-lifecycle-evidence-intake-roadmap.md
+docs/plans3/v389-post-java-mini-kv-declared-operator-lifecycle-evidence-intake-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v389 已完成 Java / mini-kv declared operator lifecycle evidence intake archive verification。
+docs/plans3/v389-post-java-mini-kv-declared-operator-lifecycle-evidence-intake-archive-verification-roadmap.md
 Node v388 已完成 Java v161 + mini-kv v152 declared operator lifecycle evidence intake。
 docs/plans3/v388-post-java-mini-kv-declared-operator-lifecycle-evidence-intake-roadmap.md
 Node v387 已完成 Java / mini-kv operator service lifecycle evidence intake archive verification。
@@ -51,9 +53,9 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v388 已完成 Java v161 + mini-kv v152 declared lifecycle evidence intake。
-当前 readyForRuntimeLiveReadGate=false：v152 仍要求 separate runtime gate approval 和 concrete loopback ports。
-下一步 Node v389 做 v388 archive verification；Java / mini-kv 推荐并行继续。
+Node v389 已完成 v388 declared lifecycle evidence intake archive verification。
+当前 readyForRuntimeLiveReadGate=false：runtime live-read gate 仍需单独计划、审批、端口和清理证明。
+下一步 Node v390 可写 separate runtime live-read gate plan；Java / mini-kv 推荐并行继续。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
