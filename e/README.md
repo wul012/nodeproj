@@ -18,6 +18,7 @@
 378: Java v156/v155 + mini-kv v146 completed shard readiness evidence intake
 379: Java / mini-kv completed shard readiness evidence intake archive verification
 380: Java v157 + mini-kv v147 active shard plan evidence intake
+381: Java / mini-kv active shard plan evidence intake archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -18,6 +18,7 @@
 383-java-mini-kv-completed-shard-readiness-evidence-intake-v378.md
 384-java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification-v379.md
 385-java-mini-kv-active-shard-plan-evidence-intake-v380.md
+386-java-mini-kv-active-shard-plan-evidence-intake-archive-verification-v381.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。
