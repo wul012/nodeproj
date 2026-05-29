@@ -1,0 +1,37 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v157",
+  "readOnly": true,
+  "executionAllowed": false,
+  "sourceIndexVersion": "Java v155",
+  "sourceVerificationVersion": "Java v156",
+  "lastConsumedByNodeVersion": "Node v378",
+  "completedEvidenceVersions": [
+    "Java v155",
+    "Java v156"
+  ],
+  "handoffArtifacts": [
+    "/api/v1/ops/shard-readiness/evidence-index",
+    "/contracts/java-shard-readiness-evidence-index-v155.fixture.json",
+    "e/155/evidence/java-shard-readiness-evidence-index-v155.json",
+    "/api/v1/ops/shard-readiness/evidence-verification",
+    "/contracts/java-shard-readiness-evidence-verification-v156.fixture.json",
+    "e/156/evidence/java-shard-readiness-evidence-verification-v156.json"
+  ],
+  "consumerRules": [
+    "consume-only-completed-and-tagged-java-evidence",
+    "prefer-versioned-fixture-and-archive-paths",
+    "do-not-read-rolling-current-files-for-historical-baselines",
+    "treat-active-sharding-as-disabled",
+    "do-not-start-or-stop-java-from-node-consumption"
+  ],
+  "stopConditions": [
+    "source-index-status-not-passed",
+    "source-verification-status-not-passed",
+    "missing-versioned-fixture-or-archive",
+    "node-requests-live-read-without-explicit-service-plan",
+    "request-would-enable-write-routing-or-active-sharding"
+  ],
+  "evidencePath": "e/157/evidence/java-shard-readiness-evidence-handoff-v157.json",
+  "status": "passed"
+}

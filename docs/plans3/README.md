@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v379-post-java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification-roadmap.md
+docs/plans3/v380-post-java-mini-kv-active-shard-plan-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v380 已完成 Java v157 + mini-kv v147 active shard plan evidence intake。
+docs/plans3/v380-post-java-mini-kv-active-shard-plan-evidence-intake-roadmap.md
 Node v379 已完成 Java / mini-kv completed shard-readiness evidence intake archive verification。
 docs/plans3/v379-post-java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification-roadmap.md
 Node v378 已完成 Java v156/v155 + mini-kv v146 completed shard-readiness evidence intake。
@@ -33,9 +35,9 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v379 已完成 v378 archive verification，checks 31/31，frozen evidence replay 38/38。
-下一步 Node v380 必须二选一：消费 Java / mini-kv 新的完成冻结证据，或显式进入 live-read gate 计划；否则暂停。
-Java / mini-kv 推荐并行继续后续 hardening；Node 仍只消费完成并冻结的上游证据。
+Node v380 已完成 Java v157 + mini-kv v147 active shard plan evidence intake，checks 33/33，production blockers 0。
+下一步 Node v381 应验证 v380 归档和 forced historical fixture fallback。
+Java / mini-kv 推荐并行继续；Node live-read gate 仍必须先写清服务启停计划。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

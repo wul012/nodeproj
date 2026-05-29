@@ -1,0 +1,181 @@
+# Managed audit manual sandbox connection credential resolver Java/mini-kv active shard plan evidence intake
+
+- Service: orderops-node
+- Generated at: 2026-05-29T08:39:09.976Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-active-shard-plan-evidence-intake.v1
+- Intake state: java-mini-kv-active-shard-plan-evidence-intake-ready
+- Intake decision: consume-java-v157-and-mini-kv-v147-active-plan-evidence
+- Active Node version: Node v380
+- Source Node version: Node v379
+- Ready for Node v381 archive verification: true
+- Evidence intake only: true
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v379
+
+- sourceVersion: Node v379
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification.v1
+- archiveVerificationState: java-mini-kv-completed-shard-readiness-evidence-intake-archive-verified
+- archiveVerificationDecision: archive-completed-shard-evidence-intake-and-prepare-v380
+- readyForCompletedShardEvidenceIntakeArchiveVerification: true
+- readyForNodeV380NextCompletedEvidenceOrLiveGate: true
+- activeNodeVersion: Node v379
+- sourceNodeVersion: Node v378
+- archiveVerificationDigest: ca0c4478a46afa181b729bab8bc7d3ce03ec5444da01c202333a89813b8545bc
+- checkCount: 31
+- passedCheckCount: 31
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- connectsManagedAudit: false
+- executionAllowed: false
+
+## Java v157 Handoff
+
+- project: advanced-order-platform
+- version: Java v157
+- readOnly: true
+- executionAllowed: false
+- sourceIndexVersion: Java v155
+- sourceVerificationVersion: Java v156
+- lastConsumedByNodeVersion: Node v378
+- completedEvidenceVersions: ["Java v155","Java v156"]
+- handoffArtifacts: ["/api/v1/ops/shard-readiness/evidence-index","/contracts/java-shard-readiness-evidence-index-v155.fixture.json","e/155/evidence/java-shard-readiness-evidence-index-v155.json","/api/v1/ops/shard-readiness/evidence-verification","/contracts/java-shard-readiness-evidence-verification-v156.fixture.json","e/156/evidence/java-shard-readiness-evidence-verification-v156.json"]
+- consumerRules: ["consume-only-completed-and-tagged-java-evidence","prefer-versioned-fixture-and-archive-paths","do-not-read-rolling-current-files-for-historical-baselines","treat-active-sharding-as-disabled","do-not-start-or-stop-java-from-node-consumption"]
+- stopConditions: ["source-index-status-not-passed","source-verification-status-not-passed","missing-versioned-fixture-or-archive","node-requests-live-read-without-explicit-service-plan","request-would-enable-write-routing-or-active-sharding"]
+- status: passed
+- evidencePath: e/157/evidence/java-shard-readiness-evidence-handoff-v157.json
+
+## mini-kv v147 Frozen Snapshot
+
+- project: mini-kv
+- contract: shard-readiness.v1
+- releaseVersion: v147
+- readOnly: true
+- executionAllowed: false
+- shardEnabled: false
+- shardCount: 1
+- slotCount: 16
+- routingMode: single-shard-readiness-prototype
+- status: active-prototype-prerequisite-read-only
+- evidencePath: fixtures/release/shard-readiness.json
+- writeCommandsAllowed: false
+- adminCommandsAllowed: false
+- loadRestoreCompactAllowed: false
+- setnxexExecutionAllowed: false
+- activeRouterInstalled: false
+- storageDirectoriesCreated: false
+- multiProcessStarted: false
+- archivedNodeEvidenceMutated: false
+- activeShardPrototypeAllowed: false
+- routerActivationAllowed: false
+- shardDirectoryCreationAllowed: false
+- multiProcessStartAllowed: false
+- writeRoutingAllowed: false
+- previousConsumedReleaseVersion: v146
+- previousConsumedFixturePath: fixtures/release/shard-readiness-v146.json
+- previousConsumptionNodeVersion: Node v378
+- rollingCurrentUsedForHistoricalBaseline: false
+- archivedNodeVersions: ["Node v370","Node v371","Node v372","Node v373","Node v374","Node v375","Node v376","Node v377","Node v378"]
+- changesArchivedNodeEvidence: false
+- futureNodeConsumer: Node v380 or later after v379 archive verification
+- evidenceDigest: fnv1a64:e4a386fc9add4eaf
+
+## Evidence Files
+
+- java-v157-handoff: exists=true; fallback=true; bytes=1416; digest=286ed444f528704deb0e9afa9172fdd9a1b68d92c922c5a109309622033e9e0c; resolved=D:\nodeproj\orderops-node\fixtures\historical\sibling-workspaces\javaproj\advanced-order-platform\e\157\evidence\java-shard-readiness-evidence-handoff-v157.json
+- mini-kv-v147-snapshot: exists=true; fallback=true; bytes=3839; digest=d1d4950af08b6352337fdc88a8563fee803979c688f4f32d94d6b618617067fa; resolved=D:\nodeproj\orderops-node\fixtures\historical\sibling-workspaces\mini-kv\fixtures\release\shard-readiness-v147.json
+
+## Intake
+
+- intakeMode: java-mini-kv-active-shard-plan-evidence-intake
+- sourceSpan: Node v379 + Java v157 + mini-kv v147
+- sourceNodeV379Digest: ca0c4478a46afa181b729bab8bc7d3ce03ec5444da01c202333a89813b8545bc
+- javaV157Digest: 286ed444f528704deb0e9afa9172fdd9a1b68d92c922c5a109309622033e9e0c
+- miniKvV147Digest: d1d4950af08b6352337fdc88a8563fee803979c688f4f32d94d6b618617067fa
+- usesFrozenJavaV157Handoff: true
+- usesFrozenMiniKvV147Snapshot: true
+- consumesRollingCurrentAsHistoricalBaseline: false
+- activeShardPrototypeEnabled: false
+- ready: true
+- intakeDigest: e2cf8f93b3e060f5ebae9e1f5d18c3c1b3383290271c337c0fc107052950f2c4
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v381
+
+## Checks
+
+- sourceNodeV379Ready: true
+- sourceNodeV379ArchiveVerified: true
+- sourceNodeV379BoundariesClosed: true
+- javaV157HandoffFilePresent: true
+- javaV157VersionValid: true
+- javaV157ReadOnly: true
+- javaV157ExecutionBlocked: true
+- javaV157StatusPassed: true
+- javaV157ReferencesJavaV155AndV156: true
+- javaV157CompletedEvidenceVersionsValid: true
+- javaV157ConsumerRulesSafe: true
+- javaV157StopConditionsSafe: true
+- miniKvV147SnapshotPresent: true
+- miniKvV147ReleaseVersionValid: true
+- miniKvV147ReadOnly: true
+- miniKvV147ExecutionBlocked: true
+- miniKvV147StatusAccepted: true
+- miniKvV147ActivePrototypePlanPresent: true
+- miniKvV147ActivePrototypeStillDisabled: true
+- miniKvV147BoundarySafe: true
+- miniKvV147HistoricalFallbackSafe: true
+- miniKvV147PreservesNodeV378Path: true
+- allEvidenceUsesHistoricalFallbackSnapshots: true
+- intakeDigestStable: true
+- noRollingCurrentHistoricalBaseline: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForActiveShardPlanEvidenceIntake: true
+
+## Summary
+
+- evidenceSourceCount: 2
+- readyEvidenceSourceCount: 2
+- completedJavaEvidenceVersionCount: 2
+- miniKvArchivedNodeVersionCount: 9
+- checkCount: 33
+- passedCheckCount: 33
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- ACTIVE_SHARD_PLAN_IS_PREREQUISITE_ONLY (warning, mini-kv-v147): mini-kv v147 exposes activePrototypePlan evidence, but router activation and write routing remain disabled.
+
+## Recommendations
+
+- ARCHIVE_V380_BEFORE_LIVE_GATE (recommendation, node-v380): Archive and verify v380 before considering a live-read gate with explicit Java/mini-kv service ownership.
+
+## Next Actions
+
+- Use Node v381 to archive and verify the v380 active shard plan evidence intake.
+- Keep active shard prototype disabled until a separate live-read gate plan defines service startup and cleanup ownership.
+- Do not treat Java v157 or mini-kv v147 as write routing, active router, or production audit authorization.
