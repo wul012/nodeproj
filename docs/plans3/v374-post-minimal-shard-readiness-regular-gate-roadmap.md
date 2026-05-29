@@ -25,14 +25,14 @@ v374 的含义是：Node 已经能把 shard readiness 证据链作为 operator /
    - 验证 archive shape、digest linkage、截图/解释是否齐全。
    - 不启动、不停止、不写入 Java / mini-kv。
 
-2. 推荐并行：Java shard readiness hardening + mini-kv SHARDJSON hardening。
-   - Java 可以继续做 shard readiness echo 字段解释、错误语义和测试覆盖。
-   - mini-kv 可以继续做 SHARDJSON command catalog、fixture parity 和只读边界字段。
-   - 这两项可以和 Node v375 并行推进；Node v375 只验证自己的 v374 归档，不依赖它们的新提交。
+2. 已完成并行上游：Java v154 shard readiness hardening + mini-kv v145 shard readiness evidence hardening。
+   - Java v154 已完成 shard readiness hardening，并已在远端/tag 上可见。
+   - mini-kv v145 已完成 shard readiness evidence hardening，并已在远端/tag 上可见。
+   - Node v375 仍只验证自己的 v374 归档；Node v376 可以消费 Java v154 / mini-kv v145 的新证据。
 
 3. Node v376：consume next Java / mini-kv shard-readiness evidence。
-   - 仅在 Java / mini-kv 有新一轮只读证据后推进。
-   - 如果两边还没有新证据，Node v376 应暂停，不继续堆前置治理链。
+   - 消费 Java v154 / mini-kv v145 的新一轮只读证据。
+   - 如果读取到的证据字段和 v374 regular gate 契约不一致，Node v376 应停下来报告差异，不继续堆前置治理链。
 
 ## 连续并行推进规则
 
@@ -50,9 +50,9 @@ Java 和 mini-kv 可以连续并行推进自己的版本，只要它们每次默
 当前 v374 后的判断：
 
 ```text
-Node v375 与 Java shard readiness hardening / mini-kv SHARDJSON hardening 推荐并行。
+Java v154 与 mini-kv v145 已完成上一轮并行 hardening。
 Node v375 不消费它们的新提交，只验证 v374 归档。
-Node v376 才需要等待两边的新一轮已完成只读证据。
+Node v376 可以消费 Java v154 / mini-kv v145 的新证据。
 ```
 
 ## 服务启动要求
