@@ -1,0 +1,262 @@
+# Managed audit manual sandbox connection credential resolver Java/mini-kv live-read gate plan intake
+
+- Service: orderops-node
+- Generated at: 2026-05-29T13:22:26.322Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-live-read-gate-plan-intake.v1
+- Intake state: java-mini-kv-live-read-gate-plan-intake-ready
+- Intake decision: consume-java-v159-and-mini-kv-v150-live-read-gate-plan-evidence
+- Active Node version: Node v384
+- Source Node version: Node v383
+- Ready for Node v385 archive verification: true
+- Evidence intake only: true
+- Live read gate allowed: false
+- Runtime probe allowed: false
+- Reruns live read: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v383
+
+- sourceVersion: Node v383
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verification.v1
+- archiveVerificationState: java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verified
+- archiveVerificationDecision: archive-active-shard-plan-boundary-handoff-intake-and-prepare-v384
+- readyForActiveShardPlanBoundaryHandoffIntakeArchiveVerification: true
+- readyForNodeV384NextBoundaryEvidenceOrLiveGate: true
+- activeNodeVersion: Node v383
+- sourceNodeVersion: Node v382
+- archiveVerificationDigest: 1716b4846010cd6095151fad2264b85e469b29334acd191c4e97843038ae7f52
+- sourceCheckCount: 39
+- sourcePassedCheckCount: 39
+- replayCheckCount: 39
+- replayPassedCheckCount: 39
+- productionBlockerCount: 0
+- archiveVerificationOnly: true
+- rerunsLiveRead: false
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- connectsManagedAudit: false
+- executionAllowed: false
+- activeShardPrototypeEnabled: false
+
+## Java v159 Live Read Gate Plan
+
+- project: advanced-order-platform
+- version: Java v159
+- readOnly: true
+- executionAllowed: false
+- liveReadGateAllowed: false
+- serviceStartAllowedByNode: false
+- serviceStopAllowedByNode: false
+- failClosedRequired: true
+- sourceBoundaryHandoffVersion: Java v158
+- lastVerifiedByNodeVersion: Node v383
+- nextNodeConsumerHint: Node v384
+- requiredServiceOwnershipFields: ["java-service-owner","java-base-url-or-port","java-start-command-owner","java-stop-responsibility","node-smoke-timeout-and-fail-closed-policy","mini-kv-service-owner-if-mini-kv-live-read-is-in-scope"]
+- javaServiceLifecyclePlan: ["node-may-not-start-java-from-this-plan","java-operator-starts-service-before-live-read-window","java-port-must-be-declared-by-operator-before-node-probe","node-probes-get-only-smoke-targets-after-service-owner-confirms-readiness","operator-stops-java-service-after-window-if-operator-started-it"]
+- smokeTargets: ["GET /actuator/health","GET /api/v1/ops/shard-readiness/live-read-gate-plan","GET /api/v1/ops/shard-readiness/active-shard-plan-handoff","GET /api/v1/ops/shard-readiness/evidence-handoff"]
+- failClosedRules: ["missing-service-owner-blocks-live-read","missing-port-or-base-url-blocks-live-read","non-get-request-blocks-live-read","failed-smoke-blocks-node-consumption","cleanup-owner-missing-blocks-live-read"]
+- cleanupResponsibilities: ["java-operator-stops-java-if-java-operator-started-it","node-must-not-stop-pre-existing-java-service","node-may-close-only-processes-it-started-in-a-separate-approved-plan","archive-smoke-output-before-service-cleanup"]
+- stopConditions: ["source-boundary-handoff-status-not-passed","request-would-start-java-without-service-owner","request-would-start-mini-kv-without-service-owner","request-would-enable-active-shard-router-or-write-routing","request-would-read-credential-or-raw-endpoint-value","request-would-run-non-get-smoke"]
+- evidencePath: e/159/evidence/java-shard-readiness-live-read-gate-plan-v159.json
+- status: passed
+
+## mini-kv v150 Live Read Gate Plan
+
+- project: mini-kv
+- contract: shard-readiness.v1
+- releaseVersion: v150
+- readOnly: true
+- executionAllowed: false
+- shardEnabled: false
+- status: live-read-gate-prerequisite-read-only
+- evidencePath: fixtures/release/shard-readiness.json
+- writeCommandsAllowed: false
+- adminCommandsAllowed: false
+- loadRestoreCompactAllowed: false
+- setnxexExecutionAllowed: false
+- activeRouterInstalled: false
+- storageDirectoriesCreated: false
+- multiProcessStarted: false
+- archivedNodeEvidenceMutated: false
+- activeShardPrototypeAllowed: false
+- routerActivationAllowed: false
+- shardDirectoryCreationAllowed: false
+- multiProcessStartAllowed: false
+- writeRoutingAllowed: false
+- activePlanFreezeFrozenReleaseVersion: v149
+- activePlanFreezeFrozenFixturePath: fixtures/release/shard-readiness-v149.json
+- activePlanFreezePreservesActivePrototypePlan: true
+- activePlanFreezeRouterActivationAllowed: false
+- activePlanFreezeWriteRoutingAllowed: false
+- activePlanFreezeRollingCurrentUsedForFrozenBaseline: false
+- consumerHandoffMode: frozen-evidence-only
+- consumerFrozenReleaseVersion: v149
+- consumerFrozenFixturePath: fixtures/release/shard-readiness-v149.json
+- readyForNodeConsumption: true
+- liveReadGateRequiredBeforeRuntimeProbe: true
+- consumerStartsServices: false
+- consumerActiveShardPrototypeEnabled: false
+- consumerRouterActivationAllowed: false
+- consumerWriteRoutingAllowed: false
+- consumerExecutionAllowed: false
+- liveReadGatePlanMode: service-lifecycle-prerequisite-only
+- liveReadGateAllowed: false
+- runtimeProbeAllowed: false
+- liveReadGateStartsServices: false
+- requiresServiceOwner: true
+- requiresPortList: true
+- requiresSmokeTarget: true
+- requiresFailClosedBehavior: true
+- requiresCleanup: true
+- liveReadGateRouterActivationAllowed: false
+- liveReadGateWriteRoutingAllowed: false
+- liveReadGateExecutionAllowed: false
+- requiredBeforeLiveRead: ["explicit live-read gate plan","service owner and startup command","port list and conflict behavior","read-only smoke target","fail-closed missing evidence behavior","cleanup responsibility and stop command"]
+- previousConsumedReleaseVersion: v149
+- previousConsumedFixturePath: fixtures/release/shard-readiness-v149.json
+- previousConsumptionNodeVersion: Node v384 pending live-read gate plan or frozen evidence intake
+- rollingCurrentUsedForHistoricalBaseline: false
+- nodeV383ArchiveVerificationPreserved: true
+- nodeV384ReadsUnfinishedUpstream: false
+- archivedNodeVersions: ["Node v370","Node v371","Node v372","Node v373","Node v374","Node v375","Node v376","Node v377","Node v378","Node v379","Node v380","Node v381","Node v382","Node v383"]
+- changesArchivedNodeEvidence: false
+- futureNodeConsumer: Node v384 or later after v149 live-read gate prerequisite evidence
+- readOnlyBoundaryFields: ["readOnly","executionAllowed","boundaries.writeCommandsAllowed","boundaries.adminCommandsAllowed","boundaries.loadRestoreCompactAllowed","boundaries.archivedNodeEvidenceMutated","archiveCompatibility.changesArchivedNodeEvidence","historicalFallback.rollingCurrentUsedForHistoricalBaseline","activePrototypePlan.activeShardPrototypeAllowed","activePrototypePlan.routerActivationAllowed","activePrototypePlan.shardDirectoryCreationAllowed","activePrototypePlan.writeRoutingAllowed","activePrototypePlanFreeze.rollingCurrentUsedForFrozenBaseline","activePrototypePlanFreeze.frozenRouterActivationAllowed","activePrototypePlanFreeze.frozenWriteRoutingAllowed","consumerHandoff.startsServices","consumerHandoff.routerActivationAllowed","consumerHandoff.writeRoutingAllowed","consumerHandoff.executionAllowed","liveReadGatePlan.liveReadGateAllowed","liveReadGatePlan.runtimeProbeAllowed","liveReadGatePlan.startsServices","liveReadGatePlan.routerActivationAllowed","liveReadGatePlan.writeRoutingAllowed","liveReadGatePlan.executionAllowed"]
+- evidenceDigest: fnv1a64:b8b134f6aa527ca4
+
+## mini-kv v149 Frozen Consumer Handoff
+
+- project: mini-kv
+- releaseVersion: v149
+- readOnly: true
+- executionAllowed: false
+- shardEnabled: false
+- status: frozen-evidence-handoff-read-only
+- consumerHandoffMode: frozen-evidence-only
+- consumerFrozenReleaseVersion: v148
+- consumerFrozenFixturePath: fixtures/release/shard-readiness-v148.json
+- readyForNodeConsumption: true
+- liveReadGateRequiredBeforeRuntimeProbe: true
+- consumerStartsServices: false
+- consumerActiveShardPrototypeEnabled: false
+- consumerRouterActivationAllowed: false
+- consumerWriteRoutingAllowed: false
+- consumerExecutionAllowed: false
+
+## Evidence Files
+
+- java-v159-live-read-gate-plan: exists=true; fallback=true; bytes=2231; digest=af5acdde8279ca7815de0a6e7b3de5e77c28ed0c0dd1ae1337aa604c5d023f8a; resolved=D:\nodeproj\orderops-node\fixtures\historical\sibling-workspaces\javaproj\advanced-order-platform\e\159\evidence\java-shard-readiness-live-read-gate-plan-v159.json
+- mini-kv-v150-live-read-gate-plan: exists=true; fallback=true; bytes=6480; digest=07bdfd92f28c52ddb2d0d73e9e2ba16db8f977d9910035da44e6354ee5bea55c; resolved=D:\nodeproj\orderops-node\fixtures\historical\sibling-workspaces\mini-kv\fixtures\release\shard-readiness-v150.json
+- mini-kv-v149-frozen-consumer-handoff: exists=true; fallback=true; bytes=5455; digest=f8ebb3c724f72ceadc2a7a3f981becfb5a0887d49bc061c74e449959a17e2c9e; resolved=D:\nodeproj\orderops-node\fixtures\historical\sibling-workspaces\mini-kv\fixtures\release\shard-readiness-v149.json
+
+## Intake
+
+- intakeMode: java-mini-kv-live-read-gate-plan-intake
+- sourceSpan: Node v383 + Java v159 + mini-kv v150
+- sourceNodeV383Digest: 1716b4846010cd6095151fad2264b85e469b29334acd191c4e97843038ae7f52
+- javaV159Digest: af5acdde8279ca7815de0a6e7b3de5e77c28ed0c0dd1ae1337aa604c5d023f8a
+- miniKvV150Digest: 07bdfd92f28c52ddb2d0d73e9e2ba16db8f977d9910035da44e6354ee5bea55c
+- miniKvV149Digest: f8ebb3c724f72ceadc2a7a3f981becfb5a0887d49bc061c74e449959a17e2c9e
+- usesFrozenJavaV159LiveReadGatePlan: true
+- usesFrozenMiniKvV150LiveReadGatePlan: true
+- verifiesMiniKvV149FrozenConsumerHandoff: true
+- consumesRollingCurrentAsHistoricalBaseline: false
+- liveReadGateAllowed: false
+- runtimeProbeAllowed: false
+- activeShardPrototypeEnabled: false
+- ready: true
+- intakeDigest: 7a9a0f76b7e9f16c60493589b521cd5141fe6fd6d8fa48d208629bdf62572978
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- nextNodeVersionSuggested: Node v385
+
+## Checks
+
+- sourceNodeV383Ready: true
+- sourceNodeV383ArchiveVerified: true
+- sourceNodeV383ChecksAllPassed: true
+- sourceNodeV383BoundariesClosed: true
+- javaV159FilePresent: true
+- javaV159VersionValid: true
+- javaV159ReadOnly: true
+- javaV159ExecutionBlocked: true
+- javaV159LiveReadGateClosed: true
+- javaV159ServiceLifecycleNotOwnedByNode: true
+- javaV159FailClosedRequired: true
+- javaV159ReferencesV158AndNodeV383: true
+- javaV159OwnershipFieldsComplete: true
+- javaV159LifecyclePlanSafe: true
+- javaV159SmokeTargetsReadOnlyGet: true
+- javaV159FailClosedRulesComplete: true
+- javaV159CleanupResponsibilitiesSafe: true
+- javaV159StopConditionsSafe: true
+- javaV159StatusPassed: true
+- miniKvV150FilePresent: true
+- miniKvV150ReleaseVersionValid: true
+- miniKvV150ReadOnly: true
+- miniKvV150ExecutionBlocked: true
+- miniKvV150ShardDisabled: true
+- miniKvV150StatusAccepted: true
+- miniKvV150BoundarySafe: true
+- miniKvV150ConsumerHandoffReady: true
+- miniKvV150LiveReadGatePlanPrerequisiteOnly: true
+- miniKvV150RequiresServicePlanFields: true
+- miniKvV150ActivePlanStillDisabled: true
+- miniKvV150ActivePlanFreezeSafe: true
+- miniKvV150HistoricalFallbackSafe: true
+- miniKvV150PreservesNodeV383Archive: true
+- miniKvV150NoRollingCurrentBaseline: true
+- miniKvV149FrozenConsumerEvidencePresent: true
+- miniKvV149FrozenConsumerEvidenceSafe: true
+- allEvidenceUsesHistoricalFallbackSnapshots: true
+- intakeDigestStable: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- readyForJavaMiniKvLiveReadGatePlanIntake: true
+
+## Summary
+
+- evidenceSourceCount: 3
+- readyEvidenceSourceCount: 3
+- javaOwnershipFieldCount: 6
+- javaSmokeTargetCount: 4
+- miniKvArchivedNodeVersionCount: 14
+- miniKvRequiredBeforeLiveReadCount: 6
+- checkCount: 46
+- passedCheckCount: 46
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- LIVE_READ_GATE_PLAN_IS_NOT_LIVE_READ (warning, node-v384): v384 consumes frozen gate-plan evidence only; it does not run Java, mini-kv, or runtime probes.
+
+## Recommendations
+
+- ARCHIVE_V384_BEFORE_ANY_RUNTIME_GATE (recommendation, node-v384): Archive and verify v384 before considering any operator-owned live-read runtime gate.
+
+## Next Actions
+
+- Use Node v385 to archive and verify the v384 live-read gate plan intake.
+- Keep Java and mini-kv in recommended parallel mode until an operator-owned service lifecycle plan exists.
+- Do not run runtime probes, start services, or enable active shard routing from this evidence intake.

@@ -1,0 +1,57 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v159",
+  "readOnly": true,
+  "executionAllowed": false,
+  "liveReadGateAllowed": false,
+  "serviceStartAllowedByNode": false,
+  "serviceStopAllowedByNode": false,
+  "failClosedRequired": true,
+  "sourceBoundaryHandoffVersion": "Java v158",
+  "lastVerifiedByNodeVersion": "Node v383",
+  "nextNodeConsumerHint": "Node v384",
+  "requiredServiceOwnershipFields": [
+    "java-service-owner",
+    "java-base-url-or-port",
+    "java-start-command-owner",
+    "java-stop-responsibility",
+    "node-smoke-timeout-and-fail-closed-policy",
+    "mini-kv-service-owner-if-mini-kv-live-read-is-in-scope"
+  ],
+  "javaServiceLifecyclePlan": [
+    "node-may-not-start-java-from-this-plan",
+    "java-operator-starts-service-before-live-read-window",
+    "java-port-must-be-declared-by-operator-before-node-probe",
+    "node-probes-get-only-smoke-targets-after-service-owner-confirms-readiness",
+    "operator-stops-java-service-after-window-if-operator-started-it"
+  ],
+  "smokeTargets": [
+    "GET /actuator/health",
+    "GET /api/v1/ops/shard-readiness/live-read-gate-plan",
+    "GET /api/v1/ops/shard-readiness/active-shard-plan-handoff",
+    "GET /api/v1/ops/shard-readiness/evidence-handoff"
+  ],
+  "failClosedRules": [
+    "missing-service-owner-blocks-live-read",
+    "missing-port-or-base-url-blocks-live-read",
+    "non-get-request-blocks-live-read",
+    "failed-smoke-blocks-node-consumption",
+    "cleanup-owner-missing-blocks-live-read"
+  ],
+  "cleanupResponsibilities": [
+    "java-operator-stops-java-if-java-operator-started-it",
+    "node-must-not-stop-pre-existing-java-service",
+    "node-may-close-only-processes-it-started-in-a-separate-approved-plan",
+    "archive-smoke-output-before-service-cleanup"
+  ],
+  "stopConditions": [
+    "source-boundary-handoff-status-not-passed",
+    "request-would-start-java-without-service-owner",
+    "request-would-start-mini-kv-without-service-owner",
+    "request-would-enable-active-shard-router-or-write-routing",
+    "request-would-read-credential-or-raw-endpoint-value",
+    "request-would-run-non-get-smoke"
+  ],
+  "evidencePath": "e/159/evidence/java-shard-readiness-live-read-gate-plan-v159.json",
+  "status": "passed"
+}
