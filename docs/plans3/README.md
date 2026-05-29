@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v381-post-java-mini-kv-active-shard-plan-evidence-intake-archive-verification-roadmap.md
+docs/plans3/v382-post-java-mini-kv-active-shard-plan-boundary-handoff-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v382 已完成 Java v158 + mini-kv v149 active shard plan boundary handoff intake。
+docs/plans3/v382-post-java-mini-kv-active-shard-plan-boundary-handoff-intake-roadmap.md
 Node v381 已完成 Java / mini-kv active shard plan evidence intake archive verification。
 docs/plans3/v381-post-java-mini-kv-active-shard-plan-evidence-intake-archive-verification-roadmap.md
 Node v380 已完成 Java v157 + mini-kv v147 active shard plan evidence intake。
@@ -37,9 +39,9 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v381 已完成 v380 archive verification，checks 33/33，frozen evidence replay 33/33。
-下一步 Node 应等待新的完成冻结证据，或等待明确 live-read gate 服务启停计划。
-Java / mini-kv 推荐并行继续；Node 当前不作为上游前置审批中心。
+Node v382 已完成 Java v158 + mini-kv v149 boundary handoff intake。
+下一步推荐 Node v383 archive verification；Java / mini-kv 仍可并行继续。
+Node 不启动上游、不消费 rolling current、不打开 live-read gate。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

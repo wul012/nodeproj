@@ -1,0 +1,41 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v158",
+  "readOnly": true,
+  "executionAllowed": false,
+  "activeShardPrototypeEnabled": false,
+  "liveReadAllowed": false,
+  "sourceHandoffVersion": "Java v157",
+  "lastConsumedByNodeVersion": "Node v380",
+  "nodeArchiveVerificationVersion": "Node v381",
+  "javaRole": "read-only-active-shard-plan-boundary-handoff",
+  "activePrototypeAuthority": "mini-kv-active-prototype-plan",
+  "frozenJavaEvidence": [
+    "Java v157",
+    "/api/v1/ops/shard-readiness/evidence-handoff",
+    "/contracts/java-shard-readiness-evidence-handoff-v157.fixture.json",
+    "e/157/evidence/java-shard-readiness-evidence-handoff-v157.json"
+  ],
+  "nodeConsumptionReferences": [
+    "Node v380 consumed Java v157 handoff as frozen evidence",
+    "Node v381 verified the v380 archive with frozen evidence replay",
+    "docs/plans3/v380-post-java-mini-kv-active-shard-plan-evidence-intake-roadmap.md",
+    "docs/plans3/v381-post-java-mini-kv-active-shard-plan-evidence-intake-archive-verification-roadmap.md"
+  ],
+  "javaBoundaryRules": [
+    "java-remains-read-only-contract-echo-and-handoff-producer",
+    "active-shard-prototype-authority-stays-with-mini-kv-plan",
+    "do-not-enable-java-shard-router-or-write-routing",
+    "do-not-start-or-stop-node-or-mini-kv-from-java-handoff",
+    "live-read-gate-requires-explicit-service-start-port-and-cleanup-plan"
+  ],
+  "stopConditions": [
+    "source-handoff-status-not-passed",
+    "request-would-enable-active-shard-prototype",
+    "request-would-change-order-payment-inventory-ledger-or-sql-routing",
+    "node-requests-live-read-without-service-responsibility-plan",
+    "mini-kv-active-prototype-plan-not-frozen-or-not-read-only"
+  ],
+  "evidencePath": "e/158/evidence/java-shard-readiness-active-shard-plan-handoff-v158.json",
+  "status": "passed"
+}

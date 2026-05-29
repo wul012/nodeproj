@@ -1,0 +1,106 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Node v382 active shard plan boundary handoff intake</title>
+<style>
+  :root { color-scheme: light; --ink:#18202a; --muted:#52606f; --line:#d9e2ec; --ok:#0f766e; --bg:#f7fafc; --panel:#ffffff; --accent:#7c3aed; }
+  body { margin:0; font-family: Arial, Helvetica, sans-serif; background:var(--bg); color:var(--ink); }
+  header { padding:32px 40px 24px; background:#ffffff; border-bottom:1px solid var(--line); }
+  h1 { margin:0 0 12px; font-size:30px; letter-spacing:0; }
+  h2 { margin:28px 0 12px; font-size:20px; letter-spacing:0; }
+  main { max-width:1120px; margin:0 auto; padding:28px 24px 44px; }
+  .signals { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-top:18px; }
+  .signal { background:var(--panel); border:1px solid var(--line); border-radius:8px; padding:14px; }
+  .label { color:var(--muted); font-size:12px; text-transform:uppercase; }
+  .value { margin-top:6px; font-size:20px; font-weight:700; color:var(--ok); overflow-wrap:anywhere; }
+  table { width:100%; border-collapse:collapse; background:var(--panel); border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  td { border-bottom:1px solid var(--line); padding:9px 12px; vertical-align:top; overflow-wrap:anywhere; }
+  td:first-child { width:42%; color:var(--muted); font-weight:700; }
+  tr:last-child td { border-bottom:0; }
+  .note { color:var(--muted); line-height:1.5; max-width:880px; }
+  .pill { display:inline-block; padding:4px 8px; border-radius:999px; background:#ede9fe; color:var(--accent); font-weight:700; font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <span class="pill">Node v382</span>
+  <h1>Java / mini-kv active shard plan boundary handoff intake</h1>
+  <p class="note">Consumes Java v158 and mini-kv v149 from frozen historical fixtures. This archive does not start services, perform live reads, or enable active shard routing.</p>
+  <div class="signals">
+    <div class="signal"><div class="label">Intake</div><div class="value">java-mini-kv-active-shard-plan-boundary-handoff-intake-ready</div></div>
+    <div class="signal"><div class="label">Checks</div><div class="value">39/39</div></div>
+    <div class="signal"><div class="label">Java</div><div class="value">Java v158</div></div>
+    <div class="signal"><div class="label">mini-kv</div><div class="value">v149</div></div>
+    <div class="signal"><div class="label">Active prototype</div><div class="value">False</div></div>
+  </div>
+</header>
+<main>
+  <h2>Summary</h2>
+  <table><tr><td>profileVersion</td><td>managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-active-shard-plan-boundary-handoff-intake.v1</td></tr>
+<tr><td>intakeState</td><td>java-mini-kv-active-shard-plan-boundary-handoff-intake-ready</td></tr>
+<tr><td>intakeDecision</td><td>consume-java-v158-and-mini-kv-v149-boundary-handoff-evidence</td></tr>
+<tr><td>readyForActiveShardPlanBoundaryHandoffIntake</td><td>True</td></tr>
+<tr><td>readyForNodeV383ArchiveVerification</td><td>True</td></tr>
+<tr><td>activeNodeVersion</td><td>Node v382</td></tr>
+<tr><td>sourceNodeVersion</td><td>Node v381</td></tr>
+<tr><td>javaVersion</td><td>Java v158</td></tr>
+<tr><td>miniKvHandoffReleaseVersion</td><td>v149</td></tr>
+<tr><td>miniKvFrozenPlanReleaseVersion</td><td>v148</td></tr>
+<tr><td>checkCount</td><td>39</td></tr>
+<tr><td>passedCheckCount</td><td>39</td></tr>
+<tr><td>evidenceSourceCount</td><td>3</td></tr>
+<tr><td>readyEvidenceSourceCount</td><td>3</td></tr>
+<tr><td>productionBlockerCount</td><td>0</td></tr>
+<tr><td>warningCount</td><td>1</td></tr>
+<tr><td>recommendationCount</td><td>1</td></tr>
+<tr><td>startsJavaService</td><td>False</td></tr>
+<tr><td>startsMiniKvService</td><td>False</td></tr>
+<tr><td>stopsJavaService</td><td>False</td></tr>
+<tr><td>stopsMiniKvService</td><td>False</td></tr>
+<tr><td>executionAllowed</td><td>False</td></tr>
+<tr><td>activeShardPrototypeEnabled</td><td>False</td></tr></table>
+  <h2>Checks</h2>
+  <table><tr><td>sourceNodeV381Ready</td><td>True</td></tr>
+<tr><td>sourceNodeV381ArchiveVerified</td><td>True</td></tr>
+<tr><td>sourceNodeV381BoundariesClosed</td><td>True</td></tr>
+<tr><td>javaV158HandoffFilePresent</td><td>True</td></tr>
+<tr><td>javaV158VersionValid</td><td>True</td></tr>
+<tr><td>javaV158ReadOnly</td><td>True</td></tr>
+<tr><td>javaV158ExecutionBlocked</td><td>True</td></tr>
+<tr><td>javaV158ActivePrototypeDisabled</td><td>True</td></tr>
+<tr><td>javaV158LiveReadDisabled</td><td>True</td></tr>
+<tr><td>javaV158StatusPassed</td><td>True</td></tr>
+<tr><td>javaV158SourceReferencesV157</td><td>True</td></tr>
+<tr><td>javaV158ReferencesNodeV380AndV381</td><td>True</td></tr>
+<tr><td>javaV158BoundaryRulesSafe</td><td>True</td></tr>
+<tr><td>javaV158StopConditionsSafe</td><td>True</td></tr>
+<tr><td>miniKvV149HandoffFilePresent</td><td>True</td></tr>
+<tr><td>miniKvV149ReleaseVersionValid</td><td>True</td></tr>
+<tr><td>miniKvV149ReadOnly</td><td>True</td></tr>
+<tr><td>miniKvV149ExecutionBlocked</td><td>True</td></tr>
+<tr><td>miniKvV149StatusAccepted</td><td>True</td></tr>
+<tr><td>miniKvV149ConsumerHandoffReady</td><td>True</td></tr>
+<tr><td>miniKvV149ConsumerHandoffRequiresLiveGate</td><td>True</td></tr>
+<tr><td>miniKvV149BoundarySafe</td><td>True</td></tr>
+<tr><td>miniKvV149ActivePrototypeStillDisabled</td><td>True</td></tr>
+<tr><td>miniKvV149ActivePlanFreezeSafe</td><td>True</td></tr>
+<tr><td>miniKvV149HistoricalFallbackSafe</td><td>True</td></tr>
+<tr><td>miniKvV149PreservesNodeV381Path</td><td>True</td></tr>
+<tr><td>miniKvV148FrozenPlanFilePresent</td><td>True</td></tr>
+<tr><td>miniKvV148FrozenPlanValid</td><td>True</td></tr>
+<tr><td>allEvidenceUsesHistoricalFallbackSnapshots</td><td>True</td></tr>
+<tr><td>intakeDigestStable</td><td>True</td></tr>
+<tr><td>noRollingCurrentHistoricalBaseline</td><td>True</td></tr>
+<tr><td>noAutomaticUpstreamStartStop</td><td>True</td></tr>
+<tr><td>noUpstreamMutation</td><td>True</td></tr>
+<tr><td>noManagedAuditConnection</td><td>True</td></tr>
+<tr><td>noCredentialValueRead</td><td>True</td></tr>
+<tr><td>noRawEndpointUrlParsed</td><td>True</td></tr>
+<tr><td>productionAuditStillBlocked</td><td>True</td></tr>
+<tr><td>productionWindowStillBlocked</td><td>True</td></tr>
+<tr><td>readyForActiveShardPlanBoundaryHandoffIntake</td><td>True</td></tr></table>
+</main>
+</body>
+</html>
