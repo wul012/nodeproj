@@ -28,6 +28,7 @@
 388: Java v161 + mini-kv v152 declared operator lifecycle evidence intake
 389: Java / mini-kv declared operator lifecycle evidence intake archive verification
 390: Java / mini-kv declared operator lifecycle runtime live-read gate plan
+391: Java / mini-kv declared operator lifecycle runtime live-read gate plan archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

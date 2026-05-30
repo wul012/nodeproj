@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v390-post-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-roadmap.md
+docs/plans3/v391-post-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v391 正在进行 v390 declared operator lifecycle runtime live-read gate plan archive verification。
+docs/plans3/v391-post-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification-roadmap.md
 Node v390 已完成 separate runtime live-read gate plan。
 docs/plans3/v390-post-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-roadmap.md
 Node v389 已完成 Java / mini-kv declared operator lifecycle evidence intake archive verification。
@@ -55,9 +57,9 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v390 已完成 declared operator lifecycle runtime live-read gate plan。
-当前 readyForRuntimeLiveReadGate=false：计划已写入，但 operator approval、concrete loopback ports、GET-only smoke command 和 cleanup proof 仍未作为执行包提交。
-下一步 Node v391 做 v390 archive verification；Java / mini-kv 推荐并行继续。
+Node v391 正在验证 v390 declared operator lifecycle runtime live-read gate plan archive。
+当前 readyForRuntimeLiveReadGate=false：v391 只做归档校验，不提交 operator approval、concrete loopback ports、GET-only smoke command 或 cleanup proof。
+下一步 Node v392 只能在单独执行包中声明审批、端口、GET-only smoke、cleanup 和进程清理；Java / mini-kv 推荐并行继续。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

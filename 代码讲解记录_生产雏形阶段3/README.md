@@ -28,6 +28,7 @@
 393-java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.md
 394-java-mini-kv-declared-operator-lifecycle-evidence-intake-archive-verification-v389.md
 395-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-v390.md
+396-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification-v391.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。
