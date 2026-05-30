@@ -38,6 +38,7 @@
 398: Java / mini-kv runtime execution packet approval gate review
 399: Java / mini-kv runtime execution packet approval gate review archive verification
 400: Java / mini-kv runtime execution approval input intake contract
+401: Java / mini-kv runtime execution approval input completion intake
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
