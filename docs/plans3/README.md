@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v392-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-roadmap.md
+docs/plans3/v393-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v393 已完成 v392 runtime execution packet stop record archive verification。
+docs/plans3/v393-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification-roadmap.md
 Node v392 已完成 runtime execution packet stop record。
 docs/plans3/v392-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-roadmap.md
 Node v391 正在进行 v390 declared operator lifecycle runtime live-read gate plan archive verification。
@@ -59,9 +61,9 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v392 已完成 runtime execution packet stop record。
-当前 readyForRuntimeLiveReadGate=false：operator approval、concrete loopback ports、GET-only smoke command、cleanup proof、service owner 和 process cleanup rules 未同时具备，所以只能停止执行包路径。
-下一步 Node v393 应归档并验证 v392 stop record；Java / mini-kv 推荐并行继续。
+Node v393 已完成 v392 runtime execution packet stop record archive verification。
+当前 readyForRuntimeLiveReadGate=false：v393 只验证 stop record，仍未提交 operator approval、concrete loopback ports、GET-only smoke command、cleanup proof、service owner 或 process cleanup rules。
+下一步 Node v394 只有在收到真实执行工件时才应继续；Java / mini-kv 推荐并行继续。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
