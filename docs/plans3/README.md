@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v397-post-java-mini-kv-runtime-execution-packet-contribution-review-roadmap.md
+docs/plans3/v398-post-java-mini-kv-runtime-execution-packet-approval-gate-review-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v398 已完成 Java / mini-kv runtime execution packet approval gate review。
+docs/plans3/v398-post-java-mini-kv-runtime-execution-packet-approval-gate-review-roadmap.md
 Node v397 已完成 Java v163 + mini-kv v154 runtime execution packet contribution review。
 docs/plans3/v397-post-java-mini-kv-runtime-execution-packet-contribution-review-roadmap.md
 Node v396 已完成 Java v162 + mini-kv v153 runtime execution artifact upstream progress intake。
@@ -69,10 +71,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v397 已完成 Java v163 + mini-kv v154 runtime execution packet contribution review。
-Java v163 提供 Java-side contribution；mini-kv v154 提供 candidate-only contribution；cross-project accepted artifact 仍为 0/6。
-当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v397 只记录贡献审查，不启动 Java / mini-kv。
-下一步 Node v398 只有在 Node-approved runtime window、correlated approval record、完整 cross-project packet 都出现后才应推进 runtime approval gate review；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
+Node v398 已完成 Java / mini-kv runtime execution packet approval gate review。
+Node-approved runtime window、correlated operator approval record、complete cross-project runtime execution packet 均缺失，因此 approval gate 明确阻断。
+当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v398 只记录审批门阻断，不启动 Java / mini-kv。
+下一步 Node v399 可归档验证 v398 blocked gate；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
