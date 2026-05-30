@@ -1,0 +1,226 @@
+﻿# Managed audit manual sandbox connection credential resolver Java/mini-kv declared operator lifecycle runtime execution artifact intake preflight archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-30T05:03:15.281Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification.v1
+- Archive verification state: java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verified
+- Archive verification decision: archive-runtime-execution-artifact-intake-preflight-and-keep-runtime-gate-closed
+- Active Node version: Node v395
+- Source Node version: Node v394
+- Ready for Node v396 runtime execution artifact intake: true
+- Ready for runtime execution packet: false
+- Ready for runtime live-read gate: false
+- Archive verification only: true
+- Runtime execution artifacts complete: false
+- Present runtime execution artifact count: 0
+- Missing runtime execution artifact count: 6
+- Runtime execution packet present: false
+- Runtime execution packet executable: false
+- Runtime gate approval present: false
+- Concrete loopback ports assigned: false
+- Execution attempted: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v394
+
+- sourceVersion: Node v394
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight.v1
+- intakePreflightState: java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-complete
+- intakeDecision: block-runtime-execution-artifact-intake-missing-concrete-artifacts
+- readyForDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight: true
+- readyForNodeV395ArchiveVerification: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- activeNodeVersion: Node v394
+- sourceNodeVersion: Node v393
+- artifactIntakePreflightOnly: true
+- runtimeExecutionArtifactsComplete: false
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- runtimeGateApprovalPresent: false
+- concreteLoopbackPortsAssigned: false
+- executionAttempted: false
+- artifactIntakeDigest: be46ade563427965af40adfa274b0f2f2f352b7efbbb65f678168b58d9a7422f
+- sourceNodeV393ArchiveVerificationDigest: 5bb1310acb52533128b890b61b174cd4aaedf2a9502bbb32e6199ab699b11338
+- sourceNodeV392PacketDigest: 83b5960ca72d380cfa4acbf44cb5af9778802d0b8e1c04cf3cdbac5ef958a9aa
+- missingReasonCodes: ["OPERATOR_APPROVAL_RECORD_MISSING","CONCRETE_LOOPBACK_PORTS_MISSING","GET_ONLY_SMOKE_COMMAND_MISSING","CLEANUP_PROOF_MISSING","SERVICE_OWNER_MISSING","PROCESS_CLEANUP_RULES_MISSING"]
+- sourceCheckCount: 37
+- sourcePassedCheckCount: 37
+- replayCheckCount: 37
+- replayPassedCheckCount: 37
+- requiredRuntimeGateArtifactCount: 4
+- requiredRuntimeExecutionArtifactCount: 6
+- declaredOperatorEvidenceSourceCount: 2
+- checkCount: 43
+- passedCheckCount: 43
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- connectsManagedAudit: false
+- executionAllowed: false
+- activeShardPrototypeEnabled: false
+
+## Replay From Frozen Evidence
+
+- replayState: ready
+- replayedProfileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight.v1
+- intakePreflightState: java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-complete
+- intakeDecision: block-runtime-execution-artifact-intake-missing-concrete-artifacts
+- readyForNodeV395ArchiveVerification: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- artifactIntakePreflightOnly: true
+- runtimeExecutionArtifactsComplete: false
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- runtimeGateApprovalPresent: false
+- concreteLoopbackPortsAssigned: false
+- executionAttempted: false
+- artifactIntakeDigest: be46ade563427965af40adfa274b0f2f2f352b7efbbb65f678168b58d9a7422f
+- sourceNodeV393ArchiveVerificationDigest: 5bb1310acb52533128b890b61b174cd4aaedf2a9502bbb32e6199ab699b11338
+- sourceNodeV392PacketDigest: 83b5960ca72d380cfa4acbf44cb5af9778802d0b8e1c04cf3cdbac5ef958a9aa
+- checkCount: 43
+- passedCheckCount: 43
+- sourceCheckCount: 37
+- sourcePassedCheckCount: 37
+- replayCheckCount: 37
+- replayPassedCheckCount: 37
+- requiredRuntimeGateArtifactCount: 4
+- requiredRuntimeExecutionArtifactCount: 6
+- declaredOperatorEvidenceSourceCount: 2
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+- activeShardPrototypeEnabled: false
+
+## Archive Verification
+
+- archiveVerificationDigest: 0b46c3e7aa7ebab000957a0d239a80d5f06c5f7dced547cbaa3d8f795bd043d0
+- verificationMode: java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification
+- sourceSpan: Node v394 runtime execution artifact intake preflight
+- archiveRoot: e/394
+- archiveVerificationDecision: archive-runtime-execution-artifact-intake-preflight-and-keep-runtime-gate-closed
+- sourceArtifactIntakeDigest: be46ade563427965af40adfa274b0f2f2f352b7efbbb65f678168b58d9a7422f
+- replayReady: true
+- archiveFileDigests: [{"path":"e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-http.json","digest":"57ff29185243735ebd36743a515266037c14ebd7ac4c6defa66be2c318dde761","byteLength":15975},{"path":"e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-http.md","digest":"29f0353ca47e7bd390a7b8c8053d50d85a711043b714e72a91e43f0ffe4a62bc","byteLength":13568},{"path":"e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-summary.json","digest":"82c0ce853caca3dcdb7d83dffcf3a86cb886f59f77f5caf9394941df5a379e6e","byteLength":1695},{"path":"e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-browser-snapshot.md","digest":"1c1a30baf6240275a9f0a7d967219d040a4ad3490e9e9d6a2bc0f3b20a58373a","byteLength":13756},{"path":"e/394/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.html","digest":"1f2fc34078be5e20e288bcc2844a6768c1e69ea48a294266c17178eb90c282cb","byteLength":14476},{"path":"e/394/图片/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.png","digest":"7da67f38fa038256c902fb581989e14a2536e725a472b566a2ab1b4896bdcc7a","byteLength":202220},{"path":"e/394/解释/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md","digest":"10230f2dea90c91927a2472f04bc2c3c6adf97639f11908fd01d53b2bcdff8eb","byteLength":2739},{"path":"代码讲解记录_生产雏形阶段3/399-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md","digest":"14743ffdb682607699685bc7f3bb73bb47b182cb34e49ee878f65a00c398c86d","byteLength":3900},{"path":"docs/plans3/v394-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-roadmap.md","digest":"c598d852df3aeed3e55021e5f8dc4d2b5f113dd0e6911c84f87b893af90e6b58","byteLength":2990},{"path":"docs/plans3/README.md","digest":"709196d347f7bf25129e0d665f8b16731024caf1d6d0008e0c197b09446fa5af","byteLength":5454},{"path":"e/README.md","digest":"f032f2eb6727010477ed1980a3dfe49a33f315b7d62e881e78ea47a474cb8097","byteLength":2405}]
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- verifiesReplayFromFrozenEvidence: true
+- verifiesRuntimeGateStillBlocked: true
+- verifiesArtifactSetStillMissing: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- activeShardPrototypeEnabled: false
+- nextNodeVersionSuggested: Node v396
+
+## Archive References
+
+- e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-http.json: exists=true; bytes=15975; digest=57ff29185243735ebd36743a515266037c14ebd7ac4c6defa66be2c318dde761
+- e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-http.md: exists=true; bytes=13568; digest=29f0353ca47e7bd390a7b8c8053d50d85a711043b714e72a91e43f0ffe4a62bc
+- e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-summary.json: exists=true; bytes=1695; digest=82c0ce853caca3dcdb7d83dffcf3a86cb886f59f77f5caf9394941df5a379e6e
+- e/394/evidence/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394-browser-snapshot.md: exists=true; bytes=13756; digest=1c1a30baf6240275a9f0a7d967219d040a4ad3490e9e9d6a2bc0f3b20a58373a
+- e/394/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.html: exists=true; bytes=14476; digest=1f2fc34078be5e20e288bcc2844a6768c1e69ea48a294266c17178eb90c282cb
+- e/394/图片/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.png: exists=true; bytes=202220; digest=7da67f38fa038256c902fb581989e14a2536e725a472b566a2ab1b4896bdcc7a
+- e/394/解释/java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md: exists=true; bytes=2739; digest=10230f2dea90c91927a2472f04bc2c3c6adf97639f11908fd01d53b2bcdff8eb
+- 代码讲解记录_生产雏形阶段3/399-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md: exists=true; bytes=3900; digest=14743ffdb682607699685bc7f3bb73bb47b182cb34e49ee878f65a00c398c86d
+- docs/plans3/v394-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-roadmap.md: exists=true; bytes=2990; digest=c598d852df3aeed3e55021e5f8dc4d2b5f113dd0e6911c84f87b893af90e6b58
+- docs/plans3/README.md: exists=true; bytes=5454; digest=709196d347f7bf25129e0d665f8b16731024caf1d6d0008e0c197b09446fa5af
+- e/README.md: exists=true; bytes=2405; digest=f032f2eb6727010477ed1980a3dfe49a33f315b7d62e881e78ea47a474cb8097
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonPreflightReady: true
+- jsonReadyForNodeV395ArchiveVerification: true
+- jsonRuntimeGateClosed: true
+- jsonRuntimeExecutionPacketBlocked: true
+- jsonArtifactCountsPreserved: true
+- jsonMissingReasonCodesStable: true
+- jsonDigestStable: true
+- jsonChecksAllPassed: true
+- summaryMatchesJson: true
+- markdownRecordsBlockedPreflight: true
+- browserSnapshotPresent: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsBlockedBoundaryAndChecks: true
+- codeWalkthroughPresent: true
+- sourcePlanPointsToV395ArchiveVerification: true
+- planIndexReferencesV394AndV395: true
+- archiveIndexReferencesV394: true
+- routeRecordedInArchive: true
+- replayReady: true
+- replayKeepsRuntimeGateClosed: true
+- replayKeepsRuntimeExecutionPacketBlocked: true
+- replayPreservesMissingArtifacts: true
+- replayPreservesSourceCheckCounts: true
+- archiveVerificationDoesNotRerunLiveRead: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- activeShardPrototypeStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- archiveVerificationDigestStable: true
+- readyForDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification: true
+
+## Summary
+
+- checkCount: 37
+- passedCheckCount: 37
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- sourceCheckCount: 43
+- sourcePassedCheckCount: 43
+- replayCheckCount: 43
+- replayPassedCheckCount: 43
+- requiredRuntimeGateArtifactCount: 4
+- requiredRuntimeExecutionArtifactCount: 6
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- declaredOperatorEvidenceSourceCount: 2
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- ARCHIVE_VERIFICATION_IS_NOT_RUNTIME_ARTIFACT_INTAKE (warning, archive-verification): v395 verifies archived v394 blocked preflight evidence; it still does not start Java, mini-kv, or runtime probes.
+
+## Recommendations
+
+- WAIT_FOR_CONCRETE_RUNTIME_ARTIFACTS (recommendation, node-v395): Wait for all six concrete runtime execution artifacts before any renewed execution packet attempt.
+
+## Next Actions
+
+- Keep runtime execution blocked until all six concrete runtime execution artifacts are supplied together.
+- Use a later artifact intake only for concrete operator approval, ports, smoke command, cleanup proof, service owner, and process cleanup rules.
+- Do not start Java, start mini-kv, parse raw endpoint URLs, or enable active shard routing from this archive verification.

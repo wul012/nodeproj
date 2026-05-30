@@ -32,6 +32,7 @@
 397-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-v392.md
 398-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification-v393.md
 399-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md
+400-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification-v395.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。
