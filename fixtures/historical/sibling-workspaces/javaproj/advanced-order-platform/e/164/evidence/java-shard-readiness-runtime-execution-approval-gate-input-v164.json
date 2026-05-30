@@ -1,0 +1,78 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v164",
+  "readOnly": true,
+  "executionAllowed": false,
+  "javaApprovalGateInputPresent": true,
+  "javaApprovalGateInputComplete": true,
+  "runtimeGateApprovalPresent": false,
+  "nodeApprovedRuntimeWindowPresent": false,
+  "correlatedOperatorApprovalRecordPresent": false,
+  "crossProjectRuntimeExecutionPacketPresent": false,
+  "crossProjectRuntimeExecutionPacketExecutable": false,
+  "readyForRuntimeExecutionPacket": false,
+  "readyForRuntimeLiveReadGate": false,
+  "executionAttempted": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "activeShardPrototypeEnabled": false,
+  "sourcePacketContributionVersion": "Java v163",
+  "lastReviewedByNodeVersion": "Node v397",
+  "lastArchiveVerifiedByNodeVersion": "Node v399",
+  "nextNodeConsumerHint": "Node v400",
+  "inputScope": "java-side-runtime-execution-approval-gate-input",
+  "approvalGateInputId": "java-runtime-execution-approval-gate-input-v164",
+  "approvalGateInputPath": "e/164/evidence/java-shard-readiness-runtime-execution-approval-gate-input-v164.json",
+  "javaOperatorApprovalRecordId": "java-runtime-packet-contribution-approval-record-v163",
+  "approvalCorrelationRequirement": "node-v400-must-correlate-java-mini-kv-and-node-approved-runtime-window",
+  "javaLoopbackPort": "8080",
+  "javaServiceOwner": "java-platform-operator-confirmed",
+  "javaStartupCommand": "mvn spring-boot:run -Dspring-boot.run.profiles=local",
+  "javaApprovalInputArtifacts": [
+    "source-packet-contribution:Java v163",
+    "java-operator-approval-record:java-runtime-packet-contribution-approval-record-v163",
+    "java-loopback-port:8080",
+    "java-service-owner:java-platform-operator-confirmed",
+    "java-get-only-smoke-commands:3",
+    "java-stop-only-owned-process-rules:4"
+  ],
+  "javaPacketRowsForCorrelation": [
+    "java-approval-input:operator-approval-record:java-side-record-present-cross-project-signature-required",
+    "java-approval-input:concrete-loopback-ports:java-8080-present-mini-kv-required",
+    "java-approval-input:get-only-smoke-command:java-get-only-present-mini-kv-required",
+    "java-approval-input:cleanup-proof:java-cleanup-proof-reference-present-runtime-start-archive-required",
+    "java-approval-input:service-owner-confirmation:java-platform-operator-confirmed-mini-kv-required",
+    "java-approval-input:process-cleanup-rules:java-stop-only-owned-process-rules-present-mini-kv-required"
+  ],
+  "requiredSiblingInputs": [
+    "mini-kv-approval-gate-input",
+    "node-approved-runtime-window",
+    "correlated-operator-approval-record",
+    "complete-cross-project-runtime-execution-packet"
+  ],
+  "nodeApprovalGateInputPaths": [
+    "e/398/input/node-approved-runtime-window-v398.json",
+    "e/398/input/correlated-operator-approval-record-v398.json",
+    "e/398/input/cross-project-runtime-execution-packet-v398.json"
+  ],
+  "failClosedRules": [
+    "source-contribution-status-must-be-passed:passed",
+    "missing-node-approved-runtime-window-blocks-runtime-execution",
+    "missing-correlated-operator-approval-record-blocks-runtime-execution",
+    "missing-mini-kv-approval-gate-input-blocks-runtime-execution",
+    "missing-complete-cross-project-runtime-execution-packet-blocks-runtime-execution",
+    "java-approval-gate-input-alone-is-not-runtime-approval"
+  ],
+  "stopConditions": [
+    "request-would-start-java-from-approval-gate-input",
+    "request-would-stop-java-from-approval-gate-input",
+    "request-would-run-runtime-probe-from-approval-gate-input",
+    "request-would-treat-java-only-input-as-correlated-approval",
+    "request-would-claim-node-approved-runtime-window-present",
+    "request-would-claim-complete-cross-project-runtime-packet-present",
+    "request-would-read-credential-or-raw-endpoint-value",
+    "request-would-enable-active-shard-router-or-write-routing"
+  ],
+  "evidencePath": "e/164/evidence/java-shard-readiness-runtime-execution-approval-gate-input-v164.json",
+  "status": "passed"
+}

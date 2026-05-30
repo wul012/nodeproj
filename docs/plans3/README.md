@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v399-post-java-mini-kv-runtime-execution-packet-approval-gate-review-archive-verification-roadmap.md
+docs/plans3/v400-post-java-mini-kv-runtime-execution-approval-input-intake-contract-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v400 正在进行 Java / mini-kv runtime execution approval input intake contract。
+docs/plans3/v400-post-java-mini-kv-runtime-execution-approval-input-intake-contract-roadmap.md
 Node v399 已完成 Java / mini-kv runtime execution packet approval gate review archive verification。
 docs/plans3/v399-post-java-mini-kv-runtime-execution-packet-approval-gate-review-archive-verification-roadmap.md
 Node v398 已完成 Java / mini-kv runtime execution packet approval gate review。
@@ -73,10 +75,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v399 已完成 Java / mini-kv runtime execution packet approval gate review archive verification。
-已验证 v398 blocked approval gate 的 JSON/Markdown/summary/截图/说明/讲解/索引，并 replay v398 仍保持 runtime closed。
-当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v399 只做归档验证，未启动 Java / mini-kv。
-下一步 Node v400 只有在三项 approval-gate inputs 同时出现时才应进入 approval input intake；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
+Node v400 正在进行 Java / mini-kv runtime execution approval input intake contract。
+目标是只读消费 Node v399、Java v164、mini-kv v155，并把后续输入要求写成明确 owner-by-owner handoff。
+当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v400 只写输入契约，不启动 Java / mini-kv。
+下一步 Node v401 只有在 final mini-kv approval input、Node-approved runtime window、correlated operator approval record、complete cross-project runtime execution packet 同时出现时才可继续；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

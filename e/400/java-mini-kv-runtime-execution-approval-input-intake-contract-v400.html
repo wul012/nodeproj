@@ -1,0 +1,261 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Node v400 approval input intake contract</title>
+<style>body{margin:0;background:#f7f4ed;color:#1e1e1e;font:15px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;}main{max-width:1180px;margin:0 auto;padding:32px 24px 48px;}pre{white-space:pre-wrap;word-break:break-word;background:#fffdf8;border:1px solid #d9d2c3;border-radius:8px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.06);}h1{font:700 24px/1.2 system-ui,sans-serif;margin:0 0 16px;}</style>
+</head>
+<body><main><h1>Node v400 approval input intake contract</h1><pre># Managed audit manual sandbox connection credential resolver Java/mini-kv runtime execution approval input intake contract
+
+- Service: orderops-node
+- Generated at: 2026-05-30T13:03:50.289Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approval-input-intake-contract.v1
+- Intake state: runtime-execution-approval-input-intake-contract-blocked
+- Intake decision: block-runtime-execution-pending-complete-approval-inputs
+- Active Node version: Node v400
+- Source Node version: Node v399
+- Java source version: Java v164
+- mini-kv source version: mini-kv v155
+- Ready for runtime execution approval input intake contract: true
+- Ready for runtime execution packet: false
+- Ready for runtime live-read gate: false
+- Runtime execution artifacts complete: false
+- Present runtime execution artifact count: 0
+- Missing runtime execution artifact count: 6
+- Runtime execution packet present: false
+- Runtime execution packet executable: false
+- Runtime gate approval present: false
+- Concrete loopback ports assigned: false
+- Execution attempted: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v399
+
+- sourceVersion: Node v399
+- archiveVerificationState: runtime-execution-packet-approval-gate-review-archive-verified
+- readyForNodeV400RuntimeExecutionPacketApprovalInputIntake: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- checkCount: 38
+- passedCheckCount: 38
+
+## Java v164 Approval Gate Input
+
+- sourceVersion: Java v164
+- evidenceKind: java-side-runtime-execution-approval-gate-input
+- file: {&quot;id&quot;:&quot;java-v164-runtime-execution-approval-gate-input&quot;,&quot;path&quot;:&quot;D:/javaproj/advanced-order-platform/e/164/evidence/java-shard-readiness-runtime-execution-approval-gate-input-v164.json&quot;,&quot;resolvedPath&quot;:&quot;D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\javaproj\\advanced-order-platform\\e\\164\\evidence\\java-shard-readiness-runtime-execution-approval-gate-input-v164.json&quot;,&quot;exists&quot;:true,&quot;sizeBytes&quot;:3998,&quot;digest&quot;:&quot;c5edde0933dc271a22907034e2a59d3f2da61de0a205b681061d5a5e62f21557&quot;}
+- present: true
+- complete: true
+- inputScope: java-side-runtime-execution-approval-gate-input
+- status: passed
+- readOnly: true
+- executionAllowed: false
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- startsJavaService: false
+- startsMiniKvService: false
+- javaApprovalGateInputPresent: true
+- javaApprovalGateInputComplete: true
+- javaLoopbackPort: 8080
+- javaServiceOwner: java-platform-operator-confirmed
+- javaOperatorApprovalRecordId: java-runtime-packet-contribution-approval-record-v163
+- javaApprovalInputArtifactCount: 6
+- javaPacketRowsForCorrelationCount: 6
+- requiredSiblingInputCount: 4
+- nodeApprovalGateInputPathCount: 3
+- requiredSiblingInputs: [&quot;mini-kv-approval-gate-input&quot;,&quot;node-approved-runtime-window&quot;,&quot;correlated-operator-approval-record&quot;,&quot;complete-cross-project-runtime-execution-packet&quot;]
+
+## mini-kv v155 Approval Gate Input Precheck
+
+- sourceVersion: mini-kv v155
+- evidenceKind: mini-kv-runtime-execution-approval-gate-input-precheck
+- file: {&quot;id&quot;:&quot;mini-kv-v155-runtime-execution-approval-gate-input-precheck&quot;,&quot;path&quot;:&quot;D:/C/mini-kv/fixtures/release/shard-readiness-v155.json&quot;,&quot;resolvedPath&quot;:&quot;D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\shard-readiness-v155.json&quot;,&quot;exists&quot;:true,&quot;sizeBytes&quot;:24147,&quot;digest&quot;:&quot;536389866643af6ad85a3de3468f93012f506bd1d07b8ee40904fd3e6d766026&quot;}
+- present: true
+- complete: false
+- inputScope: mini-kv-precheck-only
+- status: runtime-execution-approval-gate-input-precheck-blocked-read-only
+- readOnly: true
+- executionAllowed: false
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- startsJavaService: false
+- startsMiniKvService: false
+- releaseVersion: v155
+- precheckMode: blocked-missing-approval-gate-inputs
+- approvalGateInputCount: 0
+- missingApprovalGateInputCount: 3
+- approvalGateInputsComplete: false
+- nodeApprovedRuntimeWindowPresent: false
+- correlatedOperatorApprovalRecordPresent: false
+- completeCrossProjectRuntimeExecutionPacketPresent: false
+- miniKvLoopbackPortCandidate: 6424
+- frozenCandidateReleaseVersion: v154
+- requiredApprovalGateInputs: [&quot;Node-approved runtime window&quot;,&quot;correlated operator approval record&quot;,&quot;complete cross-project runtime execution packet&quot;]
+
+## Required Node Approval Inputs
+
+- Node-approved runtime window
+  - key: nodeApprovedRuntimeWindow
+  - owner: node
+  - present: false
+  - complete: false
+  - file: {&quot;id&quot;:&quot;nodeApprovedRuntimeWindow&quot;,&quot;path&quot;:&quot;e/398/input/node-approved-runtime-window-v398.json&quot;,&quot;resolvedPath&quot;:&quot;e/398/input/node-approved-runtime-window-v398.json&quot;,&quot;exists&quot;:false,&quot;sizeBytes&quot;:0,&quot;digest&quot;:null}
+  - missingReasonCode: NODE_APPROVED_RUNTIME_WINDOW_MISSING
+  - requiredContents: [&quot;Node window id&quot;,&quot;approved Java and mini-kv source versions&quot;,&quot;approved loopback host and ports&quot;,&quot;start/stop owner boundaries&quot;,&quot;explicit runtime window expiry or stop condition&quot;]
+- Correlated operator approval record
+  - key: correlatedOperatorApprovalRecord
+  - owner: operator
+  - present: false
+  - complete: false
+  - file: {&quot;id&quot;:&quot;correlatedOperatorApprovalRecord&quot;,&quot;path&quot;:&quot;e/398/input/correlated-operator-approval-record-v398.json&quot;,&quot;resolvedPath&quot;:&quot;e/398/input/correlated-operator-approval-record-v398.json&quot;,&quot;exists&quot;:false,&quot;sizeBytes&quot;:0,&quot;digest&quot;:null}
+  - missingReasonCode: CORRELATED_OPERATOR_APPROVAL_RECORD_MISSING
+  - requiredContents: [&quot;operator identity&quot;,&quot;approval correlation id&quot;,&quot;Java v164 evidence digest&quot;,&quot;mini-kv final input digest&quot;,&quot;Node runtime window digest&quot;]
+- Complete cross-project runtime execution packet
+  - key: crossProjectRuntimeExecutionPacket
+  - owner: cross-project
+  - present: false
+  - complete: false
+  - file: {&quot;id&quot;:&quot;crossProjectRuntimeExecutionPacket&quot;,&quot;path&quot;:&quot;e/398/input/cross-project-runtime-execution-packet-v398.json&quot;,&quot;resolvedPath&quot;:&quot;e/398/input/cross-project-runtime-execution-packet-v398.json&quot;,&quot;exists&quot;:false,&quot;sizeBytes&quot;:0,&quot;digest&quot;:null}
+  - missingReasonCode: CROSS_PROJECT_RUNTIME_EXECUTION_PACKET_MISSING
+  - requiredContents: [&quot;Java-side approval gate input&quot;,&quot;mini-kv final approval gate input&quot;,&quot;Node-approved runtime window&quot;,&quot;correlated operator approval&quot;,&quot;GET-only smoke commands&quot;,&quot;cleanup proof and stop-only-owned-process rules&quot;]
+## Handoff Requirements
+
+- java-side-approval-gate-input
+  - owner: java
+  - currentStatus: present
+  - blocksRuntime: false
+  - expectedEvidence: Java v164 approval input with operator record, port, owner, GET-only smoke, and cleanup rules.
+  - currentEvidence: Java v164 input is present and complete as Java-side evidence.
+  - nextAction: Node can consume Java v164 as source evidence only.
+- mini-kv-approval-gate-input
+  - owner: mini-kv
+  - currentStatus: precheck-only
+  - blocksRuntime: true
+  - expectedEvidence: Final mini-kv approval gate input, not only precheck, with approved port, owner, smoke, and cleanup rules.
+  - currentEvidence: mini-kv v155 is precheck-only and still records 0/3 approval inputs.
+  - nextAction: mini-kv should produce a final approval gate input after operator approval exists.
+- node-approved-runtime-window
+  - owner: node
+  - currentStatus: missing
+  - blocksRuntime: true
+  - expectedEvidence: e/398/input/node-approved-runtime-window-v398.json
+  - currentEvidence: Node runtime window file is missing.
+  - nextAction: Create only after Java and mini-kv final inputs can be bound to a concrete runtime window.
+- correlated-operator-approval-record
+  - owner: operator
+  - currentStatus: missing
+  - blocksRuntime: true
+  - expectedEvidence: e/398/input/correlated-operator-approval-record-v398.json
+  - currentEvidence: Correlated approval file is missing.
+  - nextAction: Operator approval must bind Java, mini-kv, and the Node runtime window by digest.
+- complete-cross-project-runtime-execution-packet
+  - owner: cross-project
+  - currentStatus: missing
+  - blocksRuntime: true
+  - expectedEvidence: e/398/input/cross-project-runtime-execution-packet-v398.json
+  - currentEvidence: Cross-project runtime execution packet file is missing.
+  - nextAction: Assemble only after Java input, mini-kv final input, Node window, and correlated approval all exist.
+## Intake Contract
+
+- intakeDigest: 7999a4ae766efcb1a00fadbc94a62d9d569dca748183aba40ecc8d3e54c4e034
+- intakeMode: runtime-execution-approval-input-intake-contract
+- sourceSpan: Node v399 archive verification + Java v164 approval input + mini-kv v155 precheck
+- intakeDecision: block-runtime-execution-pending-complete-approval-inputs
+- javaInputAcceptedAsSourceEvidence: true
+- miniKvInputAcceptedAsSourceEvidence: true
+- miniKvPrecheckOnly: true
+- requiredNodeApprovalInputCount: 3
+- presentNodeApprovalInputCount: 0
+- missingNodeApprovalInputCount: 3
+- handoffRequirementCount: 5
+- satisfiedHandoffRequirementCount: 1
+- blockedHandoffRequirementCount: 4
+- runtimeGateStillClosed: true
+- nextNodeVersionSuggested: Node v401
+
+## Checks
+
+- sourceNodeV399ArchiveVerified: true
+- javaV164EvidencePresent: true
+- javaV164StatusPassed: true
+- javaV164ApprovalInputPresent: true
+- javaV164ApprovalInputComplete: true
+- javaV164DoesNotApproveRuntime: true
+- javaV164RequiresSiblingInputs: true
+- miniKvV155EvidencePresent: true
+- miniKvV155ReleaseCurrent: true
+- miniKvV155PrecheckStatus: true
+- miniKvV155PrecheckOnly: true
+- miniKvV155ApprovalInputsStillMissing: true
+- nodeApprovalInputCountStable: true
+- nodeApprovalInputsAbsentAndRecorded: true
+- nodeApprovedRuntimeWindowMissing: true
+- correlatedOperatorApprovalRecordMissing: true
+- crossProjectRuntimePacketMissing: true
+- handoffRequirementsExplicit: true
+- handoffRequiresMiniKvFinalInput: true
+- handoffRequiresCrossProjectPacket: true
+- runtimeGateStillClosed: true
+- runtimePacketStillAbsent: true
+- executionStillDenied: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- activeShardPrototypeStillDisabled: true
+- intakeDigestStable: true
+- readyForRuntimeExecutionApprovalInputIntakeContract: true
+
+## Summary
+
+- checkCount: 31
+- passedCheckCount: 31
+- sourceCheckCount: 38
+- sourcePassedCheckCount: 38
+- javaInputPresent: true
+- javaInputComplete: true
+- miniKvPrecheckPresent: true
+- miniKvFinalApprovalInputPresent: false
+- requiredNodeApprovalInputCount: 3
+- presentNodeApprovalInputCount: 0
+- missingNodeApprovalInputCount: 3
+- handoffRequirementCount: 5
+- satisfiedHandoffRequirementCount: 1
+- blockedHandoffRequirementCount: 4
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- productionBlockerCount: 4
+- warningCount: 2
+- recommendationCount: 1
+
+## Production Blockers
+
+- MINI_KV_FINAL_APPROVAL_GATE_INPUT_MISSING (blocker, mini-kv-input): mini-kv v155 is precheck-only; a final mini-kv approval gate input is still required.
+- NODE_APPROVED_RUNTIME_WINDOW_MISSING (blocker, node-input): Node-approved runtime window is still missing.
+- CORRELATED_OPERATOR_APPROVAL_RECORD_MISSING (blocker, operator-input): Correlated operator approval record is still missing.
+- CROSS_PROJECT_RUNTIME_EXECUTION_PACKET_MISSING (blocker, cross-project-input): Complete cross-project runtime execution packet is still missing.
+
+## Warnings
+
+- JAVA_INPUT_IS_NOT_CROSS_PROJECT_APPROVAL (warning, java-v164): Java v164 is useful source evidence but does not approve runtime execution by itself.
+- MINI_KV_PRECHECK_IS_NOT_FINAL_INPUT (warning, mini-kv-v155): mini-kv v155 records the missing input state; it is not the final mini-kv approval gate input.
+
+## Recommendations
+
+- WRITE_FINAL_INPUT_CHECKLIST_BEFORE_V401 (recommendation, node-v400): Use this contract as the exact checklist for Java, mini-kv, operator approval, and cross-project packet completion.
+
+## Next Actions
+
+- Java v164 can be consumed as Java-side approval input evidence, not as cross-project approval.
+- mini-kv must provide a final approval gate input; v155 is precheck-only and keeps 0/3 approval inputs.
+- Operator or release coordination must provide the Node-approved runtime window and correlated approval record.
+- A complete cross-project runtime execution packet must bind Java, mini-kv, Node window, ports, smoke commands, owner confirmations, and cleanup proof together before any runtime start.
+- Do not start Java, start mini-kv, parse raw endpoint URLs, or enable active shard routing from this intake contract.
+</pre></main></body>
+</html>
