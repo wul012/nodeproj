@@ -1,0 +1,265 @@
+﻿# Managed audit manual sandbox connection credential resolver Java/mini-kv runtime execution artifact upstream progress intake
+
+- Service: orderops-node
+- Generated at: 2026-05-30T06:31:21.864Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-artifact-upstream-progress-intake.v1
+- Upstream progress intake state: java-v162-candidate-and-mini-kv-v153-blocked-preflight-intaken
+- Upstream progress decision: clarify-prerequisite-gap-and-keep-runtime-gate-closed
+- Active Node version: Node v396
+- Source Node version: Node v395
+- Ready for Node v397 runtime execution packet prerequisite review: true
+- Ready for runtime execution packet: false
+- Ready for runtime live-read gate: false
+- Runtime execution artifacts complete: false
+- Present runtime execution artifact count: 0
+- Missing runtime execution artifact count: 6
+- Runtime execution packet present: false
+- Runtime execution packet executable: false
+- Runtime gate approval present: false
+- Concrete loopback ports assigned: false
+- Execution attempted: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v395
+
+- sourceVersion: Node v395
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification.v1
+- archiveVerificationState: java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verified
+- archiveVerificationDecision: archive-runtime-execution-artifact-intake-preflight-and-keep-runtime-gate-closed
+- readyForNodeV396RuntimeExecutionArtifactIntake: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- runtimeExecutionArtifactsComplete: false
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- runtimeGateApprovalPresent: false
+- concreteLoopbackPortsAssigned: false
+- executionAttempted: false
+- checkCount: 37
+- passedCheckCount: 37
+- sourceCheckCount: 43
+- sourcePassedCheckCount: 43
+- replayCheckCount: 43
+- replayPassedCheckCount: 43
+- productionBlockerCount: 0
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+- activeShardPrototypeEnabled: false
+
+## Java v162 Runtime Artifact Candidate
+
+- sourceVersion: Java v162
+- evidenceFile: {"id":"java-v162-runtime-artifact-candidate","path":"D:/javaproj/advanced-order-platform/e/162/evidence/java-shard-readiness-runtime-execution-artifact-candidate-v162.json","resolvedPath":"D:/nodeproj/orderops-node/fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/e/162/evidence/java-shard-readiness-runtime-execution-artifact-candidate-v162.json","exists":true,"sizeBytes":3134,"digest":"d6fad78d4f6a26ccbb5bc12758c27321922f192abeb6086fa26ff35ea22b9e94"}
+- status: passed
+- project: advanced-order-platform
+- candidatePresent: true
+- javaRuntimeArtifactsDeclared: true
+- javaRuntimeArtifactsComplete: true
+- crossProjectRuntimeArtifactsComplete: false
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- operatorApprovalRecord: java-runtime-artifact-candidate-operator-record-v162
+- operatorApprovalScope: java-side-artifact-candidate-only
+- serviceOwner: java-platform-operator
+- startupCommandOwner: java-platform-operator
+- cleanupOwner: java-platform-operator
+- declaredWorkingDirectory: advanced-order-platform
+- declaredStartupCommand: mvn spring-boot:run -Dspring-boot.run.profiles=local
+- javaLoopbackPort: 8080
+- miniKvLoopbackPort: requires-mini-kv-runtime-artifact
+- getOnlySmokeCommandCount: 3
+- cleanupProofCount: 3
+- processCleanupRuleCount: 4
+- missingCrossProjectArtifactCount: 3
+- executionAllowed: false
+- startsJavaService: false
+- startsMiniKvService: false
+- evidenceReady: true
+
+## mini-kv v153 Runtime Artifact Preflight
+
+- sourceVersion: mini-kv v153
+- evidenceFile: {"id":"mini-kv-v153-runtime-artifact-preflight","path":"D:/C/mini-kv/fixtures/release/shard-readiness-v153.json","resolvedPath":"D:/nodeproj/orderops-node/fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v153.json","exists":true,"sizeBytes":14369,"digest":"a6b354607650ea288b7aaae9ecae3652a9761b61032cbfd385eb6871b2c516f2"}
+- project: mini-kv
+- releaseVersion: v153
+- status: runtime-execution-artifact-intake-preflight-blocked-read-only
+- readOnly: true
+- executionAllowed: false
+- sourceFrozenReleaseVersion: v152
+- sourceFrozenFixturePath: fixtures/release/shard-readiness-v152.json
+- preflightMode: blocked-missing-runtime-execution-artifacts
+- runtimeExecutionArtifactsComplete: false
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- requiredRuntimeExecutionArtifactCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- executionAttempted: false
+- startsMiniKvService: false
+- startsServices: false
+- runtimeProbeAllowed: false
+- liveReadAllowed: false
+- routerActivationAllowed: false
+- writeRoutingAllowed: false
+- failClosedOnMissingArtifacts: true
+- evidenceReady: true
+
+## Runtime Packet Requirement Clarification
+
+- operatorApprovalRecord: operator approval record
+  - javaCandidateStatus: Java candidate-only record java-runtime-artifact-candidate-operator-record-v162 is not cross-project approval.
+  - miniKvStatus: mini-kv v153 explicitly remains blocked without runtime approval.
+  - operatorOrNodeStatus: Missing Node/operator approved runtime execution window and cross-project approval packet.
+  - packetSatisfied: false
+- concreteLoopbackPorts: concrete Java and mini-kv loopback ports
+  - javaCandidateStatus: Java candidate declares loopback port 8080.
+  - miniKvStatus: mini-kv v153 still lacks a concrete operator-approved loopback port.
+  - operatorOrNodeStatus: Cross-project packet must name both ports together.
+  - packetSatisfied: false
+- getOnlySmokeCommand: GET-only smoke command
+  - javaCandidateStatus: Java candidate declares 3 GET-only smoke commands.
+  - miniKvStatus: mini-kv v153 says the concrete GET-only smoke command artifact is missing.
+  - operatorOrNodeStatus: Cross-project packet must bind Java GET smoke and mini-kv read-only smoke together.
+  - packetSatisfied: false
+- cleanupProof: cleanup proof
+  - javaCandidateStatus: Java candidate records cleanup responsibility, but no runtime cleanup was executed.
+  - miniKvStatus: mini-kv v153 says cleanup proof is missing.
+  - operatorOrNodeStatus: Node/operator packet must archive cleanup proof after any approved runtime start.
+  - packetSatisfied: false
+- serviceOwner: service owner confirmation
+  - javaCandidateStatus: Java candidate declares java-platform-operator.
+  - miniKvStatus: mini-kv v153 keeps service owner confirmation in the missing 0/6 runtime artifact set.
+  - operatorOrNodeStatus: Cross-project packet must confirm both service owners in one place.
+  - packetSatisfied: false
+- processCleanupRules: process cleanup rules
+  - javaCandidateStatus: Java candidate declares 4 process cleanup rules.
+  - miniKvStatus: mini-kv v153 says process cleanup rules are missing.
+  - operatorOrNodeStatus: Cross-project packet must state stop-only-owned-process rules for both services.
+  - packetSatisfied: false
+
+## Upstream Progress Clarification
+
+- clarificationDigest: 022a1734e97d69788fba3b2796a9d6ccd6ba99a461c13afd91b1dcd14308f06d
+- clarificationMode: java-mini-kv-runtime-execution-artifact-upstream-progress-intake
+- sourceSpan: Node v395 + Java v162 + mini-kv v153
+- intakeDecision: record-upstream-progress-and-clarify-prerequisites-runtime-still-closed
+- javaV162CandidateReceived: true
+- miniKvV153BlockedPreflightReceived: true
+- bothUpstreamsFollowedNodePlanDirection: true
+- nodePlanAcceptanceCriteriaClarified: true
+- candidateIsNotCrossProjectApproval: true
+- blockedPreflightIsNotRuntimeArtifactSet: true
+- runtimeExecutionArtifactsComplete: false
+- satisfiedRuntimePacketRequirementCount: 0
+- unsatisfiedRuntimePacketRequirementCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- executionAttempted: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- activeShardPrototypeEnabled: false
+- nextNodeVersionSuggested: Node v397
+- sourceNodeV395ReadyForV396: true
+
+## Checks
+
+- sourceNodeV395Ready: true
+- sourceNodeV395ReadyForV396: true
+- sourceNodeV395RuntimeGateClosed: true
+- sourceNodeV395ChecksPassed: true
+- javaEvidenceFilePresent: true
+- javaEvidenceStatusPassed: true
+- javaNextNodeHintV396: true
+- javaCandidatePresent: true
+- javaCandidateCompleteForJavaSide: true
+- javaCandidateNotCrossProjectComplete: true
+- javaCandidateNotExecutable: true
+- javaOwnerPortSmokeCleanupRecorded: true
+- miniKvEvidenceFilePresent: true
+- miniKvReleaseVersionV153: true
+- miniKvBlockedPreflightStatus: true
+- miniKvPreflightCountsPreserved: true
+- miniKvFailClosed: true
+- miniKvNoExecutionAllowed: true
+- miniKvFrozenFromV152: true
+- upstreamDirectionFollowed: true
+- nodePlanGapClarified: true
+- runtimeRequirementCountStable: true
+- noRuntimePacketRequirementsSatisfied: true
+- runtimeExecutionPacketStillAbsent: true
+- runtimeGateStillClosed: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- activeShardPrototypeStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- clarificationDigestStable: true
+- readyForJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntake: true
+
+## Summary
+
+- checkCount: 35
+- passedCheckCount: 35
+- sourceCheckCount: 37
+- sourcePassedCheckCount: 37
+- javaEvidenceReady: true
+- miniKvEvidenceReady: true
+- runtimePacketRequirementCount: 6
+- satisfiedRuntimePacketRequirementCount: 0
+- unsatisfiedRuntimePacketRequirementCount: 6
+- requiredRuntimeExecutionArtifactCount: 6
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- productionBlockerCount: 0
+- warningCount: 2
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- UPSTREAM_PROGRESS_DOES_NOT_UNLOCK_RUNTIME (warning, node-v396): Java v162 followed the candidate direction and mini-kv v153 followed the preflight direction, but together they still do not form a runtime execution packet.
+- PREVIOUS_PLAN_ACCEPTANCE_CRITERIA_WAS_AMBIGUOUS (warning, node-v396): The previous Node plan named the six artifacts but did not hard-map which project or operator must supply each accepted artifact.
+
+## Recommendations
+
+- PUBLISH_HARD_UPSTREAM_DELIVERY_MATRIX (recommendation, node-v396): Use the v396 requirement clarification as the next handoff so Java, mini-kv, and operator evidence converge on the same six accepted artifacts.
+
+## Evidence Endpoints
+
+- upstreamProgressIntakeJson: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-artifact-upstream-progress-intake
+- upstreamProgressIntakeMarkdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-artifact-upstream-progress-intake?format=markdown
+- sourceNodeV395Json: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification
+- sourceNodeV395Markdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification?format=markdown
+- activePlan: docs/plans3/v395-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification-roadmap.md
+- nextPlan: docs/plans3/v396-post-java-mini-kv-runtime-execution-artifact-upstream-progress-intake-roadmap.md
+- nextNodeVersion: Node v397
+
+## Next Actions
+
+- Treat Java v162 as a Java-side candidate only, not cross-project runtime approval.
+- Treat mini-kv v153 as a blocked preflight proving the concrete mini-kv runtime artifact set is still missing.
+- Publish the next upstream handoff as a hard six-item delivery matrix before another Node execution-packet attempt.
+- Keep Java and mini-kv in recommended parallel mode; Node v396 does not start, stop, or mutate either service.

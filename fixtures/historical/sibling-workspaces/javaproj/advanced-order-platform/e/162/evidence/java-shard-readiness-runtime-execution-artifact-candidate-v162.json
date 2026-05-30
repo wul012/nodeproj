@@ -1,0 +1,70 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v162",
+  "readOnly": true,
+  "executionAllowed": false,
+  "javaRuntimeArtifactCandidatePresent": true,
+  "javaRuntimeArtifactsDeclared": true,
+  "javaRuntimeArtifactsComplete": true,
+  "crossProjectRuntimeArtifactsComplete": false,
+  "runtimeExecutionPacketPresent": false,
+  "runtimeExecutionPacketExecutable": false,
+  "readyForRuntimeExecutionPacket": false,
+  "readyForRuntimeLiveReadGate": false,
+  "executionAttempted": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "activeShardPrototypeEnabled": false,
+  "sourceDeclaredLifecycleVersion": "Java v161",
+  "lastVerifiedByNodeVersion": "Node v395",
+  "nextNodeConsumerHint": "Node v396",
+  "operatorApprovalRecord": "java-runtime-artifact-candidate-operator-record-v162",
+  "operatorApprovalScope": "java-side-artifact-candidate-only",
+  "serviceOwner": "java-platform-operator",
+  "startupCommandOwner": "java-platform-operator",
+  "cleanupOwner": "java-platform-operator",
+  "declaredWorkingDirectory": "advanced-order-platform",
+  "declaredStartupCommand": "mvn spring-boot:run -Dspring-boot.run.profiles=local",
+  "javaLoopbackPort": "8080",
+  "miniKvLoopbackPort": "requires-mini-kv-runtime-artifact",
+  "javaBaseUrlHandle": "java-local-readonly-base-url",
+  "getOnlySmokeCommands": [
+    "GET java-loopback-port-8080 /actuator/health",
+    "GET java-loopback-port-8080 /api/v1/ops/shard-readiness/runtime-execution-artifact-candidate",
+    "GET java-loopback-port-8080 /api/v1/ops/shard-readiness/declared-operator-lifecycle"
+  ],
+  "cleanupProofs": [
+    "java-operator-owns-cleanup-if-java-operator-starts-service",
+    "cleanup-proof-must-be-archived-after-any-approved-runtime-execution",
+    "no-cleanup-executed-by-this-read-only-candidate"
+  ],
+  "processCleanupRules": [
+    "record-java-process-id-before-approved-runtime-start",
+    "stop-only-process-id-started-by-approved-runtime-packet",
+    "do-not-stop-pre-existing-java-service",
+    "archive-smoke-output-before-process-cleanup"
+  ],
+  "failClosedRules": [
+    "missing-operator-approval-record-blocks-runtime-execution-packet",
+    "missing-mini-kv-runtime-artifact-blocks-runtime-execution-packet",
+    "missing-cross-project-execution-packet-blocks-runtime-execution",
+    "non-get-smoke-command-blocks-runtime-execution",
+    "failed-smoke-command-blocks-node-consumption"
+  ],
+  "missingCrossProjectArtifacts": [
+    "mini-kv-v153-runtime-artifact-candidate",
+    "cross-project-runtime-execution-packet",
+    "node-approved-runtime-execution-window"
+  ],
+  "stopConditions": [
+    "source-declared-lifecycle-status-not-passed",
+    "request-would-start-java-from-this-candidate",
+    "request-would-stop-java-from-this-candidate",
+    "request-would-run-runtime-probe-from-this-candidate",
+    "request-would-use-candidate-as-cross-project-runtime-approval",
+    "request-would-read-credential-or-raw-endpoint-value",
+    "request-would-enable-active-shard-router-or-write-routing"
+  ],
+  "evidencePath": "e/162/evidence/java-shard-readiness-runtime-execution-artifact-candidate-v162.json",
+  "status": "passed"
+}

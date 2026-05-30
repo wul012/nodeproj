@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v395-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification-roadmap.md
+docs/plans3/v396-post-java-mini-kv-runtime-execution-artifact-upstream-progress-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v396 已完成 Java v162 + mini-kv v153 runtime execution artifact upstream progress intake。
+docs/plans3/v396-post-java-mini-kv-runtime-execution-artifact-upstream-progress-intake-roadmap.md
 Node v395 已完成 v394 runtime execution artifact intake preflight archive verification。
 docs/plans3/v395-post-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification-roadmap.md
 Node v394 已完成 runtime execution artifact intake preflight。
@@ -65,9 +67,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v395 已完成 v394 runtime execution artifact intake preflight archive verification。
-当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v395 只校验 v394 blocked preflight 归档，不启动 Java / mini-kv。
-下一步 Node v396 只有在六项真实 runtime execution artifacts 出现时才应继续；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
+Node v396 已完成 Java v162 + mini-kv v153 runtime execution artifact upstream progress intake。
+Java v162 是 Java-side candidate；mini-kv v153 是 blocked preflight，记录 runtime artifact set 仍为 0/6。
+当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v396 只澄清前置，不启动 Java / mini-kv。
+下一步 Node v397 只有在完整六项 runtime execution packet 被供应时才应进入 prerequisite review；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

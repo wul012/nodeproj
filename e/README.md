@@ -33,6 +33,7 @@
 393: Java / mini-kv declared operator lifecycle runtime execution packet stop record archive verification
 394: Java / mini-kv declared operator lifecycle runtime execution artifact intake preflight
 395: Java / mini-kv declared operator lifecycle runtime execution artifact intake preflight archive verification
+396: Java v162 + mini-kv v153 runtime execution artifact upstream progress intake
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
