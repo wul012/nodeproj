@@ -46,7 +46,8 @@ const JAVA_V161_DECLARED_LIFECYCLE =
 const JAVA_V162_RUNTIME_ARTIFACT_CANDIDATE =
   "D:/javaproj/advanced-order-platform/e/162/evidence/java-shard-readiness-runtime-execution-artifacts-v162.json";
 const MINI_KV_V152_DECLARED_LIFECYCLE = "D:/C/mini-kv/fixtures/release/shard-readiness-v152.json";
-const MINI_KV_V153_RUNTIME_ARTIFACT_CANDIDATE = "D:/C/mini-kv/fixtures/release/shard-readiness-v153.json";
+const MINI_KV_V153_RUNTIME_ARTIFACT_CANDIDATE =
+  "D:/C/mini-kv/fixtures/release/runtime-execution-artifact-candidate-v153.json";
 const REQUIRED_RUNTIME_GATE_ARTIFACT_COUNT = 4;
 const REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT = 6;
 

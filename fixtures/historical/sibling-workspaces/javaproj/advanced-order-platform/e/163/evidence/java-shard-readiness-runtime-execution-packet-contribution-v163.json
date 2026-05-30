@@ -1,0 +1,75 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v163",
+  "readOnly": true,
+  "executionAllowed": false,
+  "javaPacketContributionPresent": true,
+  "javaPacketContributionComplete": true,
+  "crossProjectRuntimeExecutionPacketPresent": false,
+  "crossProjectRuntimeExecutionPacketExecutable": false,
+  "readyForRuntimeExecutionPacket": false,
+  "readyForRuntimeLiveReadGate": false,
+  "executionAttempted": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "activeShardPrototypeEnabled": false,
+  "sourceRuntimeArtifactCandidateVersion": "Java v162",
+  "lastClarifiedByNodeVersion": "Node v396",
+  "nextNodeConsumerHint": "Node v397",
+  "contributionScope": "java-side-runtime-execution-packet-contribution",
+  "operatorApprovalRecordId": "java-runtime-packet-contribution-approval-record-v163",
+  "operatorApprovalCorrelationRequirement": "must-be-correlated-by-node-approved-cross-project-runtime-window",
+  "javaLoopbackPort": "8080",
+  "miniKvLoopbackPortRequirement": "requires-mini-kv-runtime-packet-contribution",
+  "serviceOwnerConfirmation": "java-platform-operator-confirmed",
+  "startupCommand": "mvn spring-boot:run -Dspring-boot.run.profiles=local",
+  "startupCommandOwner": "java-platform-operator",
+  "cleanupOwner": "java-platform-operator",
+  "acceptedRequirementRows": [
+    "operator-approval-record:java-side-record-present-cross-project-signature-required",
+    "concrete-loopback-ports:java-8080-present-mini-kv-required",
+    "get-only-smoke-command:java-get-only-present-mini-kv-required",
+    "cleanup-proof:java-cleanup-proof-reference-present-runtime-start-archive-required",
+    "service-owner-confirmation:java-platform-operator-confirmed-mini-kv-required",
+    "process-cleanup-rules:java-stop-only-owned-process-rules-present-mini-kv-required"
+  ],
+  "getOnlySmokeCommands": [
+    "GET java-loopback-port-8080 /actuator/health",
+    "GET java-loopback-port-8080 /api/v1/ops/shard-readiness/runtime-execution-packet-contribution",
+    "GET java-loopback-port-8080 /api/v1/ops/shard-readiness/runtime-execution-artifact-candidate"
+  ],
+  "cleanupProofArtifacts": [
+    "java-cleanup-owner-confirmation:java-platform-operator",
+    "java-cleanup-proof-reference:archive-after-approved-runtime-start",
+    "java-cleanup-non-execution-proof:no-process-started-by-this-contribution"
+  ],
+  "processCleanupRules": [
+    "capture-java-process-id-only-after-approved-runtime-packet-start",
+    "stop-only-java-process-started-by-approved-runtime-packet",
+    "never-stop-pre-existing-java-service",
+    "archive-java-health-and-smoke-output-before-cleanup"
+  ],
+  "crossProjectMissingArtifacts": [
+    "mini-kv-runtime-execution-packet-contribution",
+    "node-approved-cross-project-runtime-window",
+    "correlated-operator-approval-record-for-java-and-mini-kv"
+  ],
+  "failClosedRules": [
+    "missing-mini-kv-packet-contribution-blocks-runtime-execution",
+    "missing-node-approved-runtime-window-blocks-runtime-execution",
+    "uncorrelated-operator-approval-record-blocks-runtime-execution",
+    "non-get-smoke-command-blocks-runtime-execution",
+    "missing-stop-only-owned-process-rule-blocks-runtime-execution"
+  ],
+  "stopConditions": [
+    "source-candidate-status-not-passed",
+    "request-would-start-java-from-this-contribution",
+    "request-would-stop-java-from-this-contribution",
+    "request-would-run-runtime-probe-from-this-contribution",
+    "request-would-treat-java-only-contribution-as-cross-project-packet",
+    "request-would-read-credential-or-raw-endpoint-value",
+    "request-would-enable-active-shard-router-or-write-routing"
+  ],
+  "evidencePath": "e/163/evidence/java-shard-readiness-runtime-execution-packet-contribution-v163.json",
+  "status": "passed"
+}
