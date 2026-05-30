@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v398-post-java-mini-kv-runtime-execution-packet-approval-gate-review-roadmap.md
+docs/plans3/v399-post-java-mini-kv-runtime-execution-packet-approval-gate-review-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v399 已完成 Java / mini-kv runtime execution packet approval gate review archive verification。
+docs/plans3/v399-post-java-mini-kv-runtime-execution-packet-approval-gate-review-archive-verification-roadmap.md
 Node v398 已完成 Java / mini-kv runtime execution packet approval gate review。
 docs/plans3/v398-post-java-mini-kv-runtime-execution-packet-approval-gate-review-roadmap.md
 Node v397 已完成 Java v163 + mini-kv v154 runtime execution packet contribution review。
@@ -71,10 +73,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v398 已完成 Java / mini-kv runtime execution packet approval gate review。
-Node-approved runtime window、correlated operator approval record、complete cross-project runtime execution packet 均缺失，因此 approval gate 明确阻断。
-当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v398 只记录审批门阻断，不启动 Java / mini-kv。
-下一步 Node v399 可归档验证 v398 blocked gate；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
+Node v399 已完成 Java / mini-kv runtime execution packet approval gate review archive verification。
+已验证 v398 blocked approval gate 的 JSON/Markdown/summary/截图/说明/讲解/索引，并 replay v398 仍保持 runtime closed。
+当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v399 只做归档验证，未启动 Java / mini-kv。
+下一步 Node v400 只有在三项 approval-gate inputs 同时出现时才应进入 approval input intake；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

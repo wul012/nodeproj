@@ -36,6 +36,7 @@
 396: Java v162 + mini-kv v153 runtime execution artifact upstream progress intake
 397: Java v163 + mini-kv v154 runtime execution packet contribution review
 398: Java / mini-kv runtime execution packet approval gate review
+399: Java / mini-kv runtime execution packet approval gate review archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

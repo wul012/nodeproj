@@ -1,0 +1,219 @@
+﻿# Managed audit manual sandbox connection credential resolver Java/mini-kv runtime execution packet approval gate review archive verification
+
+- Service: orderops-node
+- Generated at: 2026-05-30T10:55:11.758Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-packet-approval-gate-review-archive-verification.v1
+- Archive verification state: runtime-execution-packet-approval-gate-review-archive-verified
+- Archive verification decision: archive-approval-gate-review-and-keep-runtime-gate-closed
+- Active Node version: Node v399
+- Source Node version: Node v398
+- Ready for Node v400 runtime execution packet approval input intake: true
+- Ready for runtime execution packet: false
+- Ready for runtime live-read gate: false
+- Archive verification only: true
+- Runtime execution artifacts complete: false
+- Present runtime execution artifact count: 0
+- Missing runtime execution artifact count: 6
+- Runtime execution packet present: false
+- Runtime execution packet executable: false
+- Runtime gate approval present: false
+- Concrete loopback ports assigned: false
+- Execution attempted: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Stops Java service: false
+- Stops mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+- Active shard prototype enabled: false
+
+## Source Node v398
+
+- sourceVersion: Node v398
+- profileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-packet-approval-gate-review.v1
+- approvalGateReviewState: runtime-execution-packet-approval-gate-reviewed-blocked
+- approvalGateDecision: block-runtime-execution-packet-approval-missing-node-window-correlated-approval-and-cross-project-packet
+- readyForJavaMiniKvRuntimeExecutionPacketApprovalGateReview: true
+- readyForNodeV399RuntimeExecutionPacketApprovalGateArchiveVerification: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- runtimeExecutionArtifactsComplete: false
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- runtimeGateApprovalPresent: false
+- concreteLoopbackPortsAssigned: false
+- executionAttempted: false
+- requiredApprovalInputCount: 3
+- presentApprovalInputCount: 0
+- missingApprovalInputCount: 3
+- crossProjectAcceptedRequirementCount: 0
+- crossProjectMissingRequirementCount: 6
+- checkCount: 26
+- passedCheckCount: 26
+- sourceCheckCount: 33
+- sourcePassedCheckCount: 33
+- productionBlockerCount: 3
+- warningCount: 2
+- recommendationCount: 1
+- approvalGateDigest: c76e11b2c22b7a13f08af1315e53867172aa51e365b127f0f65f0f5fd665936f
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- connectsManagedAudit: false
+- executionAllowed: false
+- activeShardPrototypeEnabled: false
+
+## Replay From Frozen Evidence
+
+- replayState: ready
+- replayedProfileVersion: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-packet-approval-gate-review.v1
+- approvalGateReviewState: runtime-execution-packet-approval-gate-reviewed-blocked
+- approvalGateDecision: block-runtime-execution-packet-approval-missing-node-window-correlated-approval-and-cross-project-packet
+- readyForNodeV399RuntimeExecutionPacketApprovalGateArchiveVerification: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- runtimeExecutionArtifactsComplete: false
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- runtimeExecutionPacketPresent: false
+- runtimeExecutionPacketExecutable: false
+- runtimeGateApprovalPresent: false
+- concreteLoopbackPortsAssigned: false
+- executionAttempted: false
+- requiredApprovalInputCount: 3
+- presentApprovalInputCount: 0
+- missingApprovalInputCount: 3
+- crossProjectAcceptedRequirementCount: 0
+- crossProjectMissingRequirementCount: 6
+- approvalGateDigest: c76e11b2c22b7a13f08af1315e53867172aa51e365b127f0f65f0f5fd665936f
+- checkCount: 26
+- passedCheckCount: 26
+- sourceCheckCount: 33
+- sourcePassedCheckCount: 33
+- productionBlockerCount: 3
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- executionAllowed: false
+- activeShardPrototypeEnabled: false
+
+## Archive Verification
+
+- archiveVerificationDigest: 5ce9eca99762cb70d61b987f672c67a64122cbe5d0f3e52ff20c9b92ca4c6f21
+- verificationMode: java-mini-kv-runtime-execution-packet-approval-gate-review-archive-verification
+- sourceSpan: Node v398 runtime execution packet approval gate review
+- archiveRoot: e/398
+- archiveVerificationDecision: archive-approval-gate-review-and-keep-runtime-gate-closed
+- sourceApprovalGateDigest: c76e11b2c22b7a13f08af1315e53867172aa51e365b127f0f65f0f5fd665936f
+- replayReady: true
+- archiveFileDigests: [{"path":"e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-http.json","digest":"9af2eba554f39737612376ff1399cd79715538bda2bc33e440cb16030a2f1a68","byteLength":9582},{"path":"e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-http.md","digest":"1ece6d7fb0c508c832bf3df431b6d6f93c3dac003a7f8587c1c91257f0103ebb","byteLength":9046},{"path":"e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-summary.json","digest":"5d7c1eaa02444ae9f9b2ff8e95fcbdf33d60d8e615a5c2934b1b46f0eae86c80","byteLength":1854},{"path":"e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-browser-snapshot.md","digest":"1995fb8897987965e5d6a07da3795f51f14a40c4ab6def3a2582bc69554c3f6e","byteLength":9144},{"path":"e/398/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.html","digest":"f2193e523102241e636f9de80594b69d8d6150f6870121b9f1d37fdba90edc49","byteLength":9995},{"path":"e/398/图片/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.png","digest":"7fc959bbd8aaf234312d78b9e27a8a578c7ce213bff7dc76674d961e954cabae","byteLength":164607},{"path":"e/398/解释/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md","digest":"860b5c065477510142e914a3b0ae62b2a47fe87175511c48cbfd76a25dac8867","byteLength":2394},{"path":"代码讲解记录_生产雏形阶段3/403-java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md","digest":"995a8bbabf09241998fb267d574685ee09228a508d555a19ebdb33189e3c9653","byteLength":2502},{"path":"docs/plans3/v398-post-java-mini-kv-runtime-execution-packet-approval-gate-review-roadmap.md","digest":"85fffd232542f1c407f5b1512a543e6a6d3b752369e9d77cf24985bfa2eee612","byteLength":3317},{"path":"docs/plans3/README.md","digest":"f6ba3436d3d5473fac46ec9839ec5db030f98a4060b43d3a76a10455989656a3","byteLength":6359},{"path":"e/README.md","digest":"13ff04016ec01b22c85f868a4c5b96ffbb1e4535f1bd7df2236be5055107da7c","byteLength":2715}]
+- verifiesJsonMarkdownAndSummary: true
+- verifiesScreenshotExplanationAndWalkthrough: true
+- verifiesPlanAndArchiveIndexes: true
+- verifiesReplayFromFrozenEvidence: true
+- verifiesApprovalGateBlockers: true
+- verifiesRuntimeGateStillBlocked: true
+- rerunsLiveRead: false
+- startsUpstreamServices: false
+- stopsUpstreamServices: false
+- writesUpstreamState: false
+- opensManagedAuditConnection: false
+- activeShardPrototypeEnabled: false
+- nextNodeVersionSuggested: Node v400
+
+## Archive References
+
+- e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-http.json: exists=true; bytes=9582; digest=9af2eba554f39737612376ff1399cd79715538bda2bc33e440cb16030a2f1a68
+- e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-http.md: exists=true; bytes=9046; digest=1ece6d7fb0c508c832bf3df431b6d6f93c3dac003a7f8587c1c91257f0103ebb
+- e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-summary.json: exists=true; bytes=1854; digest=5d7c1eaa02444ae9f9b2ff8e95fcbdf33d60d8e615a5c2934b1b46f0eae86c80
+- e/398/evidence/java-mini-kv-runtime-execution-packet-approval-gate-review-v398-browser-snapshot.md: exists=true; bytes=9144; digest=1995fb8897987965e5d6a07da3795f51f14a40c4ab6def3a2582bc69554c3f6e
+- e/398/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.html: exists=true; bytes=9995; digest=f2193e523102241e636f9de80594b69d8d6150f6870121b9f1d37fdba90edc49
+- e/398/图片/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.png: exists=true; bytes=164607; digest=7fc959bbd8aaf234312d78b9e27a8a578c7ce213bff7dc76674d961e954cabae
+- e/398/解释/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md: exists=true; bytes=2394; digest=860b5c065477510142e914a3b0ae62b2a47fe87175511c48cbfd76a25dac8867
+- 代码讲解记录_生产雏形阶段3/403-java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md: exists=true; bytes=2502; digest=995a8bbabf09241998fb267d574685ee09228a508d555a19ebdb33189e3c9653
+- docs/plans3/v398-post-java-mini-kv-runtime-execution-packet-approval-gate-review-roadmap.md: exists=true; bytes=3317; digest=85fffd232542f1c407f5b1512a543e6a6d3b752369e9d77cf24985bfa2eee612
+- docs/plans3/README.md: exists=true; bytes=6359; digest=f6ba3436d3d5473fac46ec9839ec5db030f98a4060b43d3a76a10455989656a3
+- e/README.md: exists=true; bytes=2715; digest=13ff04016ec01b22c85f868a4c5b96ffbb1e4535f1bd7df2236be5055107da7c
+
+## Checks
+
+- archiveFilesPresent: true
+- jsonEvidenceReadable: true
+- jsonProfileVersionValid: true
+- jsonApprovalGateReady: true
+- jsonReadyForNodeV399ArchiveVerification: true
+- jsonRuntimeGateClosed: true
+- jsonRuntimeApprovalBlocked: true
+- jsonApprovalInputCountsPreserved: true
+- jsonRuntimeArtifactCountsPreserved: true
+- jsonDigestStable: true
+- jsonChecksAllPassed: true
+- summaryMatchesJson: true
+- markdownRecordsApprovalGateBlockers: true
+- browserSnapshotPresent: true
+- screenshotAndHtmlPresent: true
+- explanationRecordsApprovalGateBlockersAndChecks: true
+- codeWalkthroughPresent: true
+- sourcePlanPointsToV399ArchiveVerification: true
+- planIndexReferencesV398AndV399: true
+- archiveIndexReferencesV398: true
+- routeRecordedInArchive: true
+- replayReady: true
+- replayKeepsRuntimeGateClosed: true
+- replayKeepsApprovalGateBlocked: true
+- replayPreservesApprovalInputCounts: true
+- replayPreservesRuntimeArtifactCounts: true
+- replayPreservesSourceCheckCounts: true
+- archiveVerificationDoesNotRerunLiveRead: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- activeShardPrototypeStillDisabled: true
+- productionAuditStillBlocked: true
+- productionWindowStillBlocked: true
+- archiveVerificationDigestStable: true
+- readyForRuntimeExecutionPacketApprovalGateReviewArchiveVerification: true
+
+## Summary
+
+- checkCount: 38
+- passedCheckCount: 38
+- archiveFileCount: 11
+- presentArchiveFileCount: 11
+- sourceCheckCount: 26
+- sourcePassedCheckCount: 26
+- replayCheckCount: 26
+- replayPassedCheckCount: 26
+- requiredApprovalInputCount: 3
+- presentApprovalInputCount: 0
+- missingApprovalInputCount: 3
+- presentRuntimeExecutionArtifactCount: 0
+- missingRuntimeExecutionArtifactCount: 6
+- sourceProductionBlockerCount: 3
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- ARCHIVE_VERIFICATION_IS_NOT_RUNTIME_APPROVAL (warning, archive-verification): v399 verifies archived v398 blocked approval gate evidence; it still does not start Java, mini-kv, or runtime probes.
+
+## Recommendations
+
+- WAIT_FOR_APPROVAL_INPUTS (recommendation, node-v399): Use a later version only when all three approval-gate inputs are supplied together.
+
+## Next Actions
+
+- Keep runtime execution blocked until the three approval-gate inputs exist together.
+- Use a later approval input intake only for Node-approved runtime window, correlated approval, and complete cross-project packet.
+- Do not start Java, start mini-kv, parse raw endpoint URLs, or enable active shard routing from this archive verification.
