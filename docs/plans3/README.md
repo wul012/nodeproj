@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v418-post-sandbox-endpoint-credential-resolver-route-group-split-roadmap.md
+docs/plans3/v419-post-credential-resolver-fake-shell-readiness-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v418 正在进行 sandbox endpoint credential resolver route group split。
+Node v419 正在进行 credential resolver fake-shell readiness route group split。
+docs/plans3/v419-post-credential-resolver-fake-shell-readiness-route-group-split-roadmap.md
+Node v418 已完成 sandbox endpoint credential resolver route group split。
 docs/plans3/v418-post-sandbox-endpoint-credential-resolver-route-group-split-roadmap.md
 Node v417 已完成 sandbox handle review route group split。
 docs/plans3/v417-post-sandbox-handle-review-route-group-split-roadmap.md

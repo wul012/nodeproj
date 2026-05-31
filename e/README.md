@@ -56,6 +56,7 @@
 416: managed-audit-disabled read-only integration route group split
 417: sandbox handle review route group split
 418: sandbox endpoint credential resolver route group split
+419: credential resolver fake-shell readiness route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
