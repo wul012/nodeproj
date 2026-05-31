@@ -48,6 +48,7 @@
 408: Java / mini-kv runtime execution pass evidence archive verification
 409: Java / mini-kv runtime execution pass evidence closeout
 410: Java / mini-kv runtime execution route group split
+411: Java / mini-kv declared operator lifecycle route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
