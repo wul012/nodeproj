@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v427-post-credential-resolver-runtime-shell-post-decision-route-group-split-roadmap.md
+docs/plans3/v428-post-credential-resolver-runtime-shell-prerequisite-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v427 正在进行 credential resolver runtime shell post-decision route group split。
+Node v428 已完成 credential resolver runtime shell prerequisite route group split。
+docs/plans3/v428-post-credential-resolver-runtime-shell-prerequisite-route-group-split-roadmap.md
+Node v427 已完成 credential resolver runtime shell post-decision route group split。
 docs/plans3/v427-post-credential-resolver-runtime-shell-post-decision-route-group-split-roadmap.md
 Node v426 已完成 credential resolver runtime shell decision route group split。
 docs/plans3/v426-post-credential-resolver-runtime-shell-decision-route-group-split-roadmap.md
