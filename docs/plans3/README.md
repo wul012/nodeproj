@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v409-post-java-mini-kv-runtime-execution-pass-evidence-closeout-roadmap.md
+docs/plans3/v410-post-java-mini-kv-runtime-execution-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v409 正在进行 Java / mini-kv runtime execution pass evidence closeout。
+Node v410 正在进行 Java / mini-kv runtime execution route group split。
+docs/plans3/v410-post-java-mini-kv-runtime-execution-route-group-split-roadmap.md
+Node v409 已完成 Java / mini-kv runtime execution pass evidence closeout。
 docs/plans3/v409-post-java-mini-kv-runtime-execution-pass-evidence-closeout-roadmap.md
 Node v408 已完成 Java / mini-kv runtime execution pass evidence archive verification。
 docs/plans3/v408-post-java-mini-kv-runtime-execution-pass-evidence-archive-verification-roadmap.md
@@ -93,10 +95,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v409 正在进行 Java / mini-kv runtime execution pass evidence closeout。
-目标是把 v405 canonical approval、v406 live-read gate、v407 real loopback smoke、v408 archive verification 合成单一 closeout ledger。
-v409 不重跑 Java / mini-kv smoke，不启动/停止 sibling 服务；它只读取归档文件并验证 v408 artifact 完整性。
-Java / mini-kv 推荐并行继续，Node v409 不是上游 pre-approval blocker；后续只有出现新合同、新消费者或 archive mismatch 才继续叠加 gate。
+Node v410 正在进行 Java / mini-kv runtime execution route group split。
+目标是把 v396-v409 runtime execution JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
+v410 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Java / mini-kv 推荐并行继续，Node v410 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
