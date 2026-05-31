@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v422-post-credential-resolver-implementation-plan-route-group-split-roadmap.md
+docs/plans3/v423-post-credential-resolver-fake-harness-contract-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v422 正在进行 credential resolver implementation plan route group split。
+Node v423 正在进行 credential resolver fake-harness contract route group split。
+docs/plans3/v423-post-credential-resolver-fake-harness-contract-route-group-split-roadmap.md
+Node v422 已完成 credential resolver implementation plan route group split。
 docs/plans3/v422-post-credential-resolver-implementation-plan-route-group-split-roadmap.md
 Node v421 已完成 credential resolver approval-required readiness route group split。
 docs/plans3/v421-post-credential-resolver-approval-required-readiness-route-group-split-roadmap.md
