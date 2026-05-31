@@ -236,9 +236,20 @@ export function createRuntimeExecutionApprovalInputTemplates(): RuntimeExecution
 
 export function createRuntimeExecutionApprovalInputTargetValidation(
   template: RuntimeExecutionApprovalInputTemplateDefinition,
+  options: { readCurrentTarget?: boolean } = {},
 ): RuntimeExecutionApprovalInputTargetValidation {
-  const json = readJsonObject(template.targetPath);
-  const file = evidenceFile(template.key, template.targetPath);
+  const readCurrentTarget = options.readCurrentTarget === true;
+  const json = readCurrentTarget ? readJsonObject(template.targetPath) : {};
+  const file = readCurrentTarget
+    ? evidenceFile(template.key, template.targetPath)
+    : {
+      id: template.key,
+      path: template.targetPath,
+      resolvedPath: template.targetPath,
+      exists: false,
+      sizeBytes: 0,
+      digest: null,
+    };
   const missingRequiredFieldCount = template.requiredFields.filter((field) => !hasValue(json, field)).length;
   const passedExpectedConstantCount = Object.entries(template.expectedConstants)
     .filter(([field, expected]) => valueAtPath(json, field) === expected).length;

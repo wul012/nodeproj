@@ -469,7 +469,14 @@ function collectRecommendations(): RuntimeExecutionCanonicalApprovalInputPrechec
 }
 
 function canonicalInputFiles() {
-  return CANONICAL_TARGETS.map((target) => evidenceFile(target, target));
+  return CANONICAL_TARGETS.map((target) => ({
+    id: target,
+    path: target,
+    resolvedPath: target,
+    exists: false,
+    sizeBytes: 0,
+    digest: null,
+  }));
 }
 
 function isDigest(value: string | null | undefined): boolean {

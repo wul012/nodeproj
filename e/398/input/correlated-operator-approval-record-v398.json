@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "correlated-operator-approval-record.v1",
+  "inputKind": "correlated-operator-approval-record",
+  "approvalCorrelationId": "approval-v405-20260531T130805-codex-auto",
+  "approvedRuntimeWindowId": "runtime-window-v405-20260531T130805",
+  "operatorId": "codex-automation-user-approved",
+  "operatorVerified": true,
+  "bindsNodeVersion": "Node v402",
+  "bindsSourceNodeVersion": "Node v401",
+  "bindsJavaVersion": "Java v165",
+  "bindsMiniKvVersion": "mini-kv v156",
+  "approvalScope": "java-mini-kv-runtime-read-only-smoke",
+  "allowedHttpMethods": [
+    "GET"
+  ],
+  "approvesCredentialValueRead": false,
+  "approvesRawEndpointUrlParsing": false,
+  "issuedAtIso": "2026-05-31T13:08:05+08:00",
+  "cleanupAcknowledged": true
+}

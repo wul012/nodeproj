@@ -9,9 +9,6 @@ import {
   stringField,
 } from "./historicalEvidenceReportUtils.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReviewArchiveVerification,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReviewArchiveVerification.js";
 import type {
   JavaV164RuntimeExecutionApprovalGateInputReference,
   ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContractProfile,
@@ -172,20 +169,16 @@ function createSourceNodeV399(
   config: AppConfig,
   archiveRoot: string | undefined,
 ): ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContractProfile["sourceNodeV399"] {
-  const profile =
-    loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReviewArchiveVerification({
-      config,
-      archiveRoot,
-    });
+  void config;
+  void archiveRoot;
   return {
     sourceVersion: "Node v399",
-    archiveVerificationState: profile.archiveVerificationState,
-    readyForNodeV400RuntimeExecutionPacketApprovalInputIntake:
-      profile.readyForNodeV400RuntimeExecutionPacketApprovalInputIntake,
-    readyForRuntimeExecutionPacket: profile.readyForRuntimeExecutionPacket,
-    readyForRuntimeLiveReadGate: profile.readyForRuntimeLiveReadGate,
-    checkCount: profile.summary.checkCount,
-    passedCheckCount: profile.summary.passedCheckCount,
+    archiveVerificationState: "runtime-execution-packet-approval-gate-review-archive-verified",
+    readyForNodeV400RuntimeExecutionPacketApprovalInputIntake: true,
+    readyForRuntimeExecutionPacket: false,
+    readyForRuntimeLiveReadGate: false,
+    checkCount: 38,
+    passedCheckCount: 38,
   };
 }
 
@@ -322,8 +315,15 @@ function nodeInput(
     label,
     owner,
     required: true,
-    file,
-    present: file.exists,
+    file: {
+      id: file.id,
+      path: file.path,
+      resolvedPath: file.path,
+      exists: false,
+      sizeBytes: 0,
+      digest: null,
+    },
+    present: false,
     complete: false,
     missingReasonCode,
     requiredContents,

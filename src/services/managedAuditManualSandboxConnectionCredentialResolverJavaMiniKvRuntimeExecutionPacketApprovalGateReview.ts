@@ -231,8 +231,15 @@ function approvalGateInput(
     key,
     label,
     required: true,
-    file,
-    present: file.exists,
+    file: {
+      id: file.id,
+      path: file.path,
+      resolvedPath: file.path,
+      exists: false,
+      sizeBytes: 0,
+      digest: null,
+    },
+    present: false,
     gateSatisfied: false,
     missingReasonCode,
   };

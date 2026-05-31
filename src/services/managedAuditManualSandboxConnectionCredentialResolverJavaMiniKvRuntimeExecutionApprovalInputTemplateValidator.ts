@@ -42,7 +42,8 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMin
 ): ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorProfile {
   const sourceNodeV401 = createSourceNodeV401(input.config, input.archiveRoot);
   const templates = createRuntimeExecutionApprovalInputTemplates();
-  const targetValidations = templates.map(createRuntimeExecutionApprovalInputTargetValidation);
+  const targetValidations = templates.map((template) =>
+    createRuntimeExecutionApprovalInputTargetValidation(template));
   const templateBundle = createTemplateBundle(templates, targetValidations);
   const checks = createChecks(sourceNodeV401, templates, targetValidations, templateBundle);
   checks.readyForRuntimeExecutionApprovalInputTemplateValidator = Object.entries(checks)

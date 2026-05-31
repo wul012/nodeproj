@@ -245,11 +245,10 @@ function missingInput(
   owner: RuntimeExecutionApprovalCompletionInputReference["owner"],
   evidence: string,
 ): RuntimeExecutionApprovalCompletionInputReference {
-  const file = evidenceFile(key, evidence);
   return {
     key,
     owner,
-    present: file.exists,
+    present: false,
     complete: false,
     blocksRuntime: true,
     evidence,

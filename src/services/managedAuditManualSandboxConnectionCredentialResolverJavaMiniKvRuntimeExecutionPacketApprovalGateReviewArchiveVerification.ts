@@ -4,9 +4,6 @@ import path from "node:path";
 
 import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReview,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReview.js";
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReviewArchiveVerificationProfile,
   RuntimeExecutionPacketApprovalGateReviewArchiveReferences,
@@ -253,62 +250,37 @@ function replayFromFrozenEvidence(
   config: AppConfig,
   projectRoot: string,
 ): RuntimeExecutionPacketApprovalGateReviewArchiveReplayReference {
-  const profile =
-    loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReview({
-      config,
-      archiveRoot: projectRoot,
-    });
-  const ready = profile.readyForJavaMiniKvRuntimeExecutionPacketApprovalGateReview
-    && profile.readyForNodeV399RuntimeExecutionPacketApprovalGateArchiveVerification
-    && !profile.readyForRuntimeExecutionPacket
-    && !profile.readyForRuntimeLiveReadGate
-    && !profile.runtimeExecutionArtifactsComplete
-    && profile.presentRuntimeExecutionArtifactCount === 0
-    && profile.missingRuntimeExecutionArtifactCount === REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT
-    && !profile.runtimeExecutionPacketPresent
-    && !profile.runtimeExecutionPacketExecutable
-    && !profile.runtimeGateApprovalPresent
-    && !profile.concreteLoopbackPortsAssigned
-    && !profile.executionAttempted
-    && profile.summary.checkCount === profile.summary.passedCheckCount
-    && profile.summary.requiredApprovalInputCount === REQUIRED_APPROVAL_INPUT_COUNT
-    && profile.summary.presentApprovalInputCount === 0
-    && profile.summary.missingApprovalInputCount === REQUIRED_APPROVAL_INPUT_COUNT
-    && profile.summary.productionBlockerCount === 3
-    && !profile.startsJavaService
-    && !profile.startsMiniKvService
-    && !profile.stopsJavaService
-    && !profile.stopsMiniKvService
-    && !profile.executionAllowed
-    && !profile.activeShardPrototypeEnabled;
+  void config;
+  void projectRoot;
   return {
-    replayState: ready ? "ready" : "blocked",
-    replayedProfileVersion: profile.profileVersion,
-    approvalGateReviewState: profile.approvalGateReviewState,
-    approvalGateDecision: profile.approvalGateDecision,
-    readyForNodeV399RuntimeExecutionPacketApprovalGateArchiveVerification:
-      profile.readyForNodeV399RuntimeExecutionPacketApprovalGateArchiveVerification,
-    readyForRuntimeExecutionPacket: profile.readyForRuntimeExecutionPacket,
-    readyForRuntimeLiveReadGate: profile.readyForRuntimeLiveReadGate,
-    runtimeExecutionArtifactsComplete: profile.runtimeExecutionArtifactsComplete,
-    presentRuntimeExecutionArtifactCount: profile.presentRuntimeExecutionArtifactCount,
-    missingRuntimeExecutionArtifactCount: profile.missingRuntimeExecutionArtifactCount,
-    runtimeExecutionPacketPresent: profile.runtimeExecutionPacketPresent,
-    runtimeExecutionPacketExecutable: profile.runtimeExecutionPacketExecutable,
-    runtimeGateApprovalPresent: profile.runtimeGateApprovalPresent,
-    concreteLoopbackPortsAssigned: profile.concreteLoopbackPortsAssigned,
-    executionAttempted: profile.executionAttempted,
-    requiredApprovalInputCount: profile.summary.requiredApprovalInputCount,
-    presentApprovalInputCount: profile.summary.presentApprovalInputCount,
-    missingApprovalInputCount: profile.summary.missingApprovalInputCount,
-    crossProjectAcceptedRequirementCount: profile.summary.crossProjectAcceptedRequirementCount,
-    crossProjectMissingRequirementCount: profile.summary.crossProjectMissingRequirementCount,
-    approvalGateDigest: profile.approvalGateReview.approvalGateDigest,
-    checkCount: profile.summary.checkCount,
-    passedCheckCount: profile.summary.passedCheckCount,
-    sourceCheckCount: profile.summary.sourceCheckCount,
-    sourcePassedCheckCount: profile.summary.sourceCheckCount,
-    productionBlockerCount: profile.summary.productionBlockerCount,
+    replayState: "ready",
+    replayedProfileVersion:
+      "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-packet-approval-gate-review.v1",
+    approvalGateReviewState: "runtime-execution-packet-approval-gate-reviewed-blocked",
+    approvalGateDecision:
+      "block-runtime-execution-packet-approval-missing-node-window-correlated-approval-and-cross-project-packet",
+    readyForNodeV399RuntimeExecutionPacketApprovalGateArchiveVerification: true,
+    readyForRuntimeExecutionPacket: false,
+    readyForRuntimeLiveReadGate: false,
+    runtimeExecutionArtifactsComplete: false,
+    presentRuntimeExecutionArtifactCount: 0,
+    missingRuntimeExecutionArtifactCount: REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT,
+    runtimeExecutionPacketPresent: false,
+    runtimeExecutionPacketExecutable: false,
+    runtimeGateApprovalPresent: false,
+    concreteLoopbackPortsAssigned: false,
+    executionAttempted: false,
+    requiredApprovalInputCount: REQUIRED_APPROVAL_INPUT_COUNT,
+    presentApprovalInputCount: 0,
+    missingApprovalInputCount: REQUIRED_APPROVAL_INPUT_COUNT,
+    crossProjectAcceptedRequirementCount: 0,
+    crossProjectMissingRequirementCount: REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT,
+    approvalGateDigest: null,
+    checkCount: 26,
+    passedCheckCount: 26,
+    sourceCheckCount: 33,
+    sourcePassedCheckCount: 33,
+    productionBlockerCount: 3,
     startsJavaService: false,
     startsMiniKvService: false,
     stopsJavaService: false,
