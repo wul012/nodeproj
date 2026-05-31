@@ -5,13 +5,25 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v403-post-java-mini-kv-runtime-execution-approval-input-template-compatibility-intake-roadmap.md
+docs/plans3/v409-post-java-mini-kv-runtime-execution-pass-evidence-closeout-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v403 正在进行 Java / mini-kv runtime execution approval input template compatibility intake。
+Node v409 正在进行 Java / mini-kv runtime execution pass evidence closeout。
+docs/plans3/v409-post-java-mini-kv-runtime-execution-pass-evidence-closeout-roadmap.md
+Node v408 已完成 Java / mini-kv runtime execution pass evidence archive verification。
+docs/plans3/v408-post-java-mini-kv-runtime-execution-pass-evidence-archive-verification-roadmap.md
+Node v407 已完成 Java / mini-kv runtime execution approved local-loopback read-only smoke。
+docs/plans3/v407-post-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-roadmap.md
+Node v406 已完成 Java / mini-kv runtime execution live-read gate。
+docs/plans3/v406-post-java-mini-kv-runtime-execution-live-read-gate-roadmap.md
+Node v405 已完成 Java / mini-kv runtime execution canonical approval input value validation。
+docs/plans3/v405-post-java-mini-kv-runtime-execution-canonical-approval-input-value-validation-roadmap.md
+Node v404 已完成 Java / mini-kv runtime execution canonical approval input precheck intake。
+docs/plans3/v404-post-java-mini-kv-runtime-execution-canonical-approval-input-precheck-intake-roadmap.md
+Node v403 已完成 Java / mini-kv runtime execution approval input template compatibility intake。
 docs/plans3/v403-post-java-mini-kv-runtime-execution-approval-input-template-compatibility-intake-roadmap.md
 Node v402 已完成 runtime execution approval input template validator。
 docs/plans3/v402-post-runtime-execution-approval-input-template-validator-roadmap.md
@@ -81,10 +93,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v408 正在进行 Java / mini-kv runtime execution pass evidence archive verification。
-目标是验证 v407 HTTP pass evidence、summary、cleanup proof、browser snapshot、截图、说明和代码讲解全部存在且一致。
-v408 不重跑 Java / mini-kv smoke，不启动/停止 sibling 服务；它只证明 v407 的 2/2 pass、21/21 checks、0 blockers 和 cleanup proof 可复核。
-Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker；v409 应做 closeout，而不是继续叠加 gate。
+Node v409 正在进行 Java / mini-kv runtime execution pass evidence closeout。
+目标是把 v405 canonical approval、v406 live-read gate、v407 real loopback smoke、v408 archive verification 合成单一 closeout ledger。
+v409 不重跑 Java / mini-kv smoke，不启动/停止 sibling 服务；它只读取归档文件并验证 v408 artifact 完整性。
+Java / mini-kv 推荐并行继续，Node v409 不是上游 pre-approval blocker；后续只有出现新合同、新消费者或 archive mismatch 才继续叠加 gate。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
