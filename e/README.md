@@ -67,6 +67,7 @@
 427: credential resolver runtime shell post-decision route group split
 428: credential resolver runtime shell prerequisite route group split
 429: credential resolver human approval artifact review route group split
+430: credential resolver signed human approval artifact route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

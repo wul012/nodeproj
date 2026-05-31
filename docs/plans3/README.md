@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v429-post-credential-resolver-human-approval-artifact-review-route-group-split-roadmap.md
+docs/plans3/v430-post-credential-resolver-signed-human-approval-artifact-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v430 已完成 credential resolver signed human approval artifact route group split。
+docs/plans3/v430-post-credential-resolver-signed-human-approval-artifact-route-group-split-roadmap.md
 Node v429 已完成 credential resolver human approval artifact review route group split。
 docs/plans3/v429-post-credential-resolver-human-approval-artifact-review-route-group-split-roadmap.md
 Node v428 已完成 credential resolver runtime shell prerequisite route group split。
