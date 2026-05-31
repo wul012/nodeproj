@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v433-post-credential-resolver-no-network-safety-fixture-route-group-split-roadmap.md
+docs/plans3/v434-post-credential-resolver-final-prerequisite-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v434 已完成 credential resolver final prerequisite route group split。
+docs/plans3/v434-post-credential-resolver-final-prerequisite-route-group-split-roadmap.md
 Node v433 已完成 credential resolver no-network safety fixture route group split。
 docs/plans3/v433-post-credential-resolver-no-network-safety-fixture-route-group-split-roadmap.md
 Node v432 已完成 credential resolver endpoint handle allowlist approval route group split。

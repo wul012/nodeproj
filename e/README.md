@@ -71,6 +71,7 @@
 431: credential resolver credential handle approval route group split
 432: credential resolver endpoint handle allowlist approval route group split
 433: credential resolver no-network safety fixture route group split
+434: credential resolver final prerequisite route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
