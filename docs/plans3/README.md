@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v415-post-minimal-read-only-integration-route-group-split-roadmap.md
+docs/plans3/v416-post-managed-audit-disabled-read-only-integration-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v415 正在进行 minimal read-only integration route group split。
+Node v416 正在进行 managed-audit-disabled read-only integration route group split。
+docs/plans3/v416-post-managed-audit-disabled-read-only-integration-route-group-split-roadmap.md
+Node v415 已完成 minimal read-only integration route group split。
 docs/plans3/v415-post-minimal-read-only-integration-route-group-split-roadmap.md
 Node v414 已完成 minimal shard readiness route group split。
 docs/plans3/v414-post-minimal-shard-readiness-route-group-split-roadmap.md
