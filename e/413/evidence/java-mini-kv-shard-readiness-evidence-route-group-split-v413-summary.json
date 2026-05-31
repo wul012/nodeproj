@@ -1,0 +1,30 @@
+﻿{
+    "version":  "v413",
+    "changeType":  "route-group-refactor",
+    "activeNodeVersion":  "Node v413",
+    "sourceNodeVersion":  "Node v412",
+    "refactorOnly":  true,
+    "addsEvidenceGate":  false,
+    "apiPathsChanged":  false,
+    "responseShapeChanged":  false,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "executionAllowed":  false,
+    "centralRouteTableBeforeLines":  1406,
+    "centralRouteTableAfterLines":  1377,
+    "extractedRouteGroupLines":  38,
+    "extractedRouteCount":  4,
+    "extractedRouteGroup":  "src/routes/auditJavaMiniKvShardReadinessEvidenceRoutes.ts",
+    "centralRouteTable":  "src/routes/auditJsonMarkdownRoutes.ts",
+    "verification":  {
+                         "focusedVitestFiles":  1,
+                         "focusedVitestTests":  1,
+                         "adjacentVitestFiles":  5,
+                         "adjacentVitestTests":  15,
+                         "fullVitestFiles":  346,
+                         "fullVitestTests":  1172,
+                         "typecheckPassed":  true,
+                         "buildPassed":  true,
+                         "browserScreenshotRequired":  false
+                     }
+}

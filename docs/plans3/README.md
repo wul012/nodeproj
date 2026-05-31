@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v412-post-java-mini-kv-active-shard-plan-route-group-split-roadmap.md
+docs/plans3/v413-post-java-mini-kv-shard-readiness-evidence-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v412 正在进行 Java / mini-kv active shard plan route group split。
+Node v413 正在进行 Java / mini-kv shard readiness evidence route group split。
+docs/plans3/v413-post-java-mini-kv-shard-readiness-evidence-route-group-split-roadmap.md
+Node v412 已完成 Java / mini-kv active shard plan route group split。
 docs/plans3/v412-post-java-mini-kv-active-shard-plan-route-group-split-roadmap.md
 Node v411 已完成 Java / mini-kv declared operator lifecycle route group split。
 docs/plans3/v411-post-java-mini-kv-declared-operator-lifecycle-route-group-split-roadmap.md
@@ -99,10 +101,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v412 正在进行 Java / mini-kv active shard plan route group split。
-目标是把 active shard plan、live-read gate plan、operator service lifecycle JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
-v412 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
-Java / mini-kv 推荐并行继续，Node v412 不是上游 pre-approval blocker。
+Node v413 正在进行 Java / mini-kv shard readiness evidence route group split。
+目标是把 shard-readiness evidence JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
+v413 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Java / mini-kv 推荐并行继续，Node v413 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
