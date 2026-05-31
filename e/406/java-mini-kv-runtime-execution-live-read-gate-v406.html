@@ -1,0 +1,208 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Node v406 Runtime Execution Live-Read Gate</title>
+  <style>
+    :root { color-scheme: light; font-family: Arial, sans-serif; background: #f7f7f4; color: #1f2933; }
+    body { margin: 0; padding: 32px; }
+    main { max-width: 1120px; margin: 0 auto; }
+    h1 { margin: 0 0 16px; font-size: 30px; line-height: 1.2; }
+    pre { white-space: pre-wrap; overflow-wrap: anywhere; background: #ffffff; border: 1px solid #d7d9dd; border-radius: 6px; padding: 20px; line-height: 1.5; font-size: 14px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Node v406 Runtime Execution Live-Read Gate</h1>
+    <pre># Managed audit manual sandbox connection credential resolver Java/mini-kv runtime execution live-read gate
+
+- Service: orderops-node
+- Generated at: 2026-05-31T05:59:43.233Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-live-read-gate.v1
+- Gate state: runtime-execution-live-read-gate-ready
+- Gate decision: accept-approved-local-loopback-get-only-live-read-gate-for-next-smoke
+- Active Node version: Node v406
+- Source Node version: Node v405
+- Java source version: Java v167
+- mini-kv source version: mini-kv v158
+- Ready for runtime execution live-read gate: true
+- Ready for approved local loopback read-only smoke: true
+- Runtime execution packet executable: true
+- Runtime gate approval present: true
+- Execution attempted: false
+- Runtime smoke attempted: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v405
+
+- sourceVersion: Node v405
+- validationState: runtime-execution-canonical-approval-input-value-validation-ready
+- validationDecision: accept-canonical-approval-input-values-for-next-live-read-gate
+- readyForRuntimeExecutionCanonicalApprovalInputValueValidation: true
+- readyForRuntimeExecutionPacket: true
+- readyForRuntimeLiveReadGate: true
+- checkCount: 32
+- passedCheckCount: 32
+- productionBlockerCount: 0
+- targetInputCount: 3
+- presentTargetInputCount: 3
+- validTargetInputCount: 3
+
+## Service Targets
+
+- owner: java
+- serviceOwner: java-platform-operator
+- host: 127.0.0.1
+- port: 8080
+- method: GET
+- path: /actuator/health
+- cleanupRule: stop-only-owned-java-processes
+- localLoopbackOnly: true
+- getOnly: true
+- concretePortAssigned: true
+- nodeStartsService: false
+- nodeStopsService: false
+- readOnly: true
+- writeAllowed: false
+- credentialValueRequired: false
+- rawEndpointUrlRequired: false
+- managedAuditConnectionAllowed: false
+- activeShardRoutingAllowed: false
+- readyForNextSmoke: true
+- owner: mini-kv
+- serviceOwner: mini-kv-service-owner
+- host: 127.0.0.1
+- port: 6424
+- method: GET
+- path: /health
+- cleanupRule: stop-only-owned-mini-kv-processes
+- localLoopbackOnly: true
+- getOnly: true
+- concretePortAssigned: true
+- nodeStartsService: false
+- nodeStopsService: false
+- readOnly: true
+- writeAllowed: false
+- credentialValueRequired: false
+- rawEndpointUrlRequired: false
+- managedAuditConnectionAllowed: false
+- activeShardRoutingAllowed: false
+- readyForNextSmoke: true
+
+## Live Read Gate
+
+- gateDigest: 33f6b1f2de32026919703af2ed8841dbb119592af97802fc3e854f39f677c00f
+- gateMode: runtime-execution-live-read-gate
+- sourceSpan: Node v405 canonical approval input value validation + approved e/398/input packet
+- gateDecision: accept-approved-local-loopback-get-only-live-read-gate-for-next-smoke
+- approvalCorrelationId: approval-v405-20260531T130805-codex-auto
+- approvalWindowId: runtime-window-v405-20260531T130805
+- packetId: runtime-execution-packet-v405-20260531T130805
+- targetCount: 2
+- readyTargetCount: 2
+- packetExecutable: true
+- liveReadGateInputValidated: true
+- localLoopbackOnly: true
+- concreteLoopbackPortsAssigned: true
+- serviceOwnersResolved: true
+- smokeTargetsGetOnly: true
+- cleanupProofRequired: true
+- cleanupRuleCount: 3
+- operatorOwnsServiceLifecycle: true
+- nodeMayStartServices: false
+- nodeMayStopServices: false
+- nodeMayMutateUpstream: false
+- runtimeSmokeAttempted: false
+- executionAttempted: false
+- managedAuditConnectionOpened: false
+- credentialValueRead: false
+- rawEndpointUrlParsed: false
+- activeShardRoutingEnabled: false
+- liveReadGateOpenForNextSmoke: true
+- nextNodeVersionSuggested: Node v407
+
+## Checks
+
+- sourceNodeV405Ready: true
+- sourceNodeV405HasNoBlockers: true
+- sourceNodeV405DidNotExecuteRuntime: true
+- canonicalInputsStillPresent: true
+- canonicalInputsStillValid: true
+- approvalCorrelationIdStable: true
+- approvalWindowStillValid: true
+- runtimePacketExecutable: true
+- runtimeGateApprovalPresent: true
+- loopbackHostsAreLocal: true
+- loopbackPortsConcrete: true
+- serviceOwnersDeclared: true
+- javaSmokeTargetDeclared: true
+- miniKvSmokeTargetDeclared: true
+- smokeTargetsGetOnly: true
+- javaSmokeTargetHealthGet: true
+- miniKvSmokeTargetHealthGet: true
+- cleanupProofRequired: true
+- cleanupRulesSafe: true
+- upstreamProbesApproved: true
+- upstreamActionsDisabled: true
+- operatorVerified: true
+- operatorCleanupAcknowledged: true
+- credentialValueReadDenied: true
+- rawEndpointParsingDenied: true
+- managedAuditConnectionDenied: true
+- writeOperationsDenied: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- executionStillNotAttempted: true
+- activeShardPrototypeStillDisabled: true
+- gateDigestStable: true
+- readyForRuntimeExecutionLiveReadGate: true
+
+## Summary
+
+- checkCount: 33
+- passedCheckCount: 33
+- sourceCheckCount: 32
+- sourcePassedCheckCount: 32
+- targetCount: 2
+- readyTargetCount: 2
+- cleanupRuleCount: 3
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+- readyForApprovedLocalLoopbackReadOnlySmoke: true
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- LIVE_READ_GATE_IS_NOT_RUNTIME_SMOKE (warning, node-v406): v406 accepts the live-read gate for the next smoke run; it still does not start Java or mini-kv.
+
+## Recommendations
+
+- RUN_APPROVED_LOOPBACK_SMOKE_NEXT (recommendation, node-v406): Run Node v407 as an approved local-loopback, GET-only, read-only smoke with explicit owned-process cleanup proof.
+
+## Evidence Endpoints
+
+- liveReadGateJson: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-live-read-gate
+- liveReadGateMarkdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-live-read-gate?format=markdown
+- sourceNodeV405Json: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-canonical-approval-input-value-validation
+- sourceNodeV405Markdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-canonical-approval-input-value-validation?format=markdown
+- activePlan: docs/plans3/v406-post-java-mini-kv-runtime-execution-live-read-gate-roadmap.md
+- nextPlan: docs/plans3/v407-post-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-roadmap.md
+- nextNodeVersion: Node v407
+
+## Next Actions
+
+- Use Node v406 as the final gate record before any approved local-loopback read-only smoke.
+- If v407 starts Java or mini-kv for smoke, record owned PIDs/ports and stop only those owned processes.
+- Keep smoke GET-only against 127.0.0.1:8080 and 127.0.0.1:6424; do not write Java/mini-kv state.
+- Keep managed audit, credential values, raw endpoint parsing, and active shard routing closed.</pre>
+  </main>
+</body>
+</html>

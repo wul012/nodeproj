@@ -81,10 +81,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v405 正在进行 Java / mini-kv runtime execution canonical approval input value validation。
-目标是验证三份 e/398/input canonical approval input 已真实出现且共享 approvalCorrelationId、GET-only、禁写、禁 credential/raw endpoint/managed-audit。
-当前 readyForRuntimeExecutionPacket=true、readyForRuntimeLiveReadGate=true，但 executionAttempted=false：v405 不启动 Java / mini-kv。
-下一步 Node v406 可以做独立 live-read gate；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
+Node v406 正在进行 Java / mini-kv runtime execution live-read gate。
+目标是消费 v405 已验证的真实 canonical approval input，并把 Java 127.0.0.1:8080 GET /actuator/health、mini-kv 127.0.0.1:6424 GET /health、owner、cleanup proof 和禁写边界写成最终 gate。
+当前 v406 仍不启动 Java / mini-kv、不连接 managed audit、不读 credential/raw endpoint、不写 sibling 状态；若通过，下一步 Node v407 才能做 approved local-loopback read-only smoke。
+Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker；只有 v407 实际需要且无法从既有证据推导 startup/cleanup 所有权时才等待。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

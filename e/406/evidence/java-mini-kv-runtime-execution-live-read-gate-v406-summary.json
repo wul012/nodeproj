@@ -1,0 +1,32 @@
+﻿{
+    "version":  "v406",
+    "generatedAt":  "2026-05-31T05:59:43.2996974Z",
+    "healthStatus":  200,
+    "jsonStatus":  200,
+    "markdownStatus":  200,
+    "route":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-live-read-gate",
+    "activeNodeVersion":  "Node v406",
+    "sourceNodeVersion":  "Node v405",
+    "readyForRuntimeExecutionLiveReadGate":  true,
+    "readyForApprovedLocalLoopbackReadOnlySmoke":  true,
+    "checkCount":  33,
+    "passedCheckCount":  33,
+    "productionBlockerCount":  0,
+    "targetCount":  2,
+    "readyTargetCount":  2,
+    "runtimeSmokeAttempted":  false,
+    "startsJavaService":  false,
+    "startsMiniKvService":  false,
+    "executionAllowed":  false,
+    "verification":  {
+        "focusedVitestFiles":  1,
+        "focusedVitestTests":  2,
+        "adjacentVitestFiles":  2,
+        "adjacentVitestTests":  4,
+        "fullVitestFiles":  339,
+        "fullVitestTests":  1162,
+        "typecheckPassed":  true,
+        "buildPassed":  true,
+        "playwrightMcpScreenshotGenerated":  true
+    }
+}
