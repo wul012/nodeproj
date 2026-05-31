@@ -1,0 +1,95 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v166",
+  "readOnly": true,
+  "executionAllowed": false,
+  "templateCompatibilityReceiptPresent": true,
+  "templateCompatibilityReceiptComplete": true,
+  "sourceContractHandoffPresent": true,
+  "sourceJavaInputCanonical": true,
+  "nodeTemplateValidatorPresent": true,
+  "templatesAreApprovalInputs": false,
+  "canonicalApprovalInputsCreatedByJava": false,
+  "runtimeGateApprovalPresent": false,
+  "nodeApprovedRuntimeWindowPresent": false,
+  "correlatedOperatorApprovalRecordPresent": false,
+  "completeCrossProjectRuntimeExecutionPacketPresent": false,
+  "crossProjectRuntimeExecutionPacketExecutable": false,
+  "readyForRuntimeExecutionPacket": false,
+  "readyForRuntimeLiveReadGate": false,
+  "executionAttempted": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "activeShardPrototypeEnabled": false,
+  "sourceContractHandoffVersion": "Java v165",
+  "sourceCanonicalJavaInputVersion": "Java v164",
+  "lastTemplateValidatorNodeVersion": "Node v402",
+  "nextNodeConsumerHint": "Node v403",
+  "receiptScope": "java-side-runtime-execution-approval-input-template-compatibility-receipt",
+  "receiptId": "java-runtime-execution-approval-input-template-compatibility-receipt-v166",
+  "canonicalJavaApprovalInputPath": "e/164/evidence/java-shard-readiness-runtime-execution-approval-gate-input-v164.json",
+  "canonicalJavaApprovalInputEndpoint": "/api/v1/ops/shard-readiness/runtime-execution-approval-gate-input",
+  "canonicalJavaApprovalInputFixture": "/contracts/java-shard-readiness-runtime-execution-approval-gate-input-v164.fixture.json",
+  "templateMatrix": [
+    "node-approved-runtime-window:canonical=e/398/input/node-approved-runtime-window-v398.json:template=e/402/input-templates/node-approved-runtime-window-v402.template.json",
+    "correlated-operator-approval-record:canonical=e/398/input/correlated-operator-approval-record-v398.json:template=e/402/input-templates/correlated-operator-approval-record-v402.template.json",
+    "complete-cross-project-runtime-execution-packet:canonical=e/398/input/cross-project-runtime-execution-packet-v398.json:template=e/402/input-templates/cross-project-runtime-execution-packet-v402.template.json"
+  ],
+  "canonicalTargetPaths": [
+    "e/398/input/node-approved-runtime-window-v398.json",
+    "e/398/input/correlated-operator-approval-record-v398.json",
+    "e/398/input/cross-project-runtime-execution-packet-v398.json"
+  ],
+  "templateArchivePaths": [
+    "e/402/input-templates/node-approved-runtime-window-v402.template.json",
+    "e/402/input-templates/correlated-operator-approval-record-v402.template.json",
+    "e/402/input-templates/cross-project-runtime-execution-packet-v402.template.json"
+  ],
+  "javaTemplateBindingFields": [
+    "java-input-version:Java v164",
+    "java-input-path:e/164/evidence/java-shard-readiness-runtime-execution-approval-gate-input-v164.json",
+    "java-input-endpoint:/api/v1/ops/shard-readiness/runtime-execution-approval-gate-input",
+    "java-input-fixture:/contracts/java-shard-readiness-runtime-execution-approval-gate-input-v164.fixture.json",
+    "java-loopback-port:8080",
+    "java-service-owner:java-platform-operator-confirmed",
+    "java-startup-command-owner:java-platform-operator",
+    "java-get-only-smoke-commands:required-by-final-packet",
+    "java-stop-only-owned-process-rules:required-by-final-packet"
+  ],
+  "compatibilityChecks": [
+    "java-v164-canonical-input-path-template-bindable",
+    "java-service-owner-template-field-present",
+    "java-loopback-port-template-field-present",
+    "java-get-only-smoke-commands-remain-get-only",
+    "approval-correlation-id-required-but-not-issued-by-java",
+    "template-archives-are-not-canonical-approval-inputs",
+    "cleanup-proof-required-after-approved-runtime-start"
+  ],
+  "blockedCanonicalInputs": [
+    "node-approved-runtime-window:canonical-file-missing-or-not-owned-by-java",
+    "correlated-operator-approval-record:canonical-file-missing-or-not-owned-by-java",
+    "complete-cross-project-runtime-execution-packet:canonical-file-missing-or-not-owned-by-java"
+  ],
+  "failClosedRules": [
+    "source-contract-handoff-status-must-be-passed:passed",
+    "node-v402-templates-are-template-only-not-approval-inputs",
+    "java-does-not-create-e398-canonical-approval-input-files",
+    "missing-node-approved-runtime-window-blocks-runtime-execution",
+    "missing-correlated-operator-approval-record-blocks-runtime-execution",
+    "missing-complete-cross-project-runtime-execution-packet-blocks-runtime-execution",
+    "template-compatibility-receipt-alone-is-not-runtime-approval"
+  ],
+  "stopConditions": [
+    "request-would-copy-template-to-canonical-input-path",
+    "request-would-start-java-from-template-compatibility-receipt",
+    "request-would-stop-java-from-template-compatibility-receipt",
+    "request-would-run-runtime-probe-from-template-compatibility-receipt",
+    "request-would-treat-template-as-node-approved-runtime-window",
+    "request-would-treat-template-as-correlated-operator-approval",
+    "request-would-treat-template-as-complete-cross-project-packet",
+    "request-would-read-credential-or-raw-endpoint-value",
+    "request-would-enable-active-shard-router-or-write-routing"
+  ],
+  "evidencePath": "e/166/evidence/java-shard-readiness-runtime-execution-approval-input-template-compatibility-v166.json",
+  "status": "passed"
+}

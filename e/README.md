@@ -40,6 +40,7 @@
 400: Java / mini-kv runtime execution approval input intake contract
 401: Java / mini-kv runtime execution approval input completion intake
 402: Java / mini-kv runtime execution approval input template validator
+403: Java / mini-kv runtime execution approval input template compatibility intake
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

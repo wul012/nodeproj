@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v402-post-runtime-execution-approval-input-template-validator-roadmap.md
+docs/plans3/v403-post-java-mini-kv-runtime-execution-approval-input-template-compatibility-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v402 正在进行 runtime execution approval input template validator。
+Node v403 正在进行 Java / mini-kv runtime execution approval input template compatibility intake。
+docs/plans3/v403-post-java-mini-kv-runtime-execution-approval-input-template-compatibility-intake-roadmap.md
+Node v402 已完成 runtime execution approval input template validator。
 docs/plans3/v402-post-runtime-execution-approval-input-template-validator-roadmap.md
 Node v401 已完成 Java / mini-kv runtime execution approval input completion intake。
 docs/plans3/v401-post-java-mini-kv-runtime-execution-approval-input-completion-roadmap.md
@@ -79,10 +81,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v402 正在进行 runtime execution approval input template validator。
-目标是在不伪造批准的前提下，发布 Node-approved runtime window、correlated operator approval record、complete cross-project runtime execution packet 的机器可校验模板。
-当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v402 不启动 Java / mini-kv，也不写 e/398/input 的真实批准文件。
-下一步 Node v403 只有在三个 canonical input 文件真实出现后才可继续验证；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
+Node v403 正在进行 Java / mini-kv runtime execution approval input template compatibility intake。
+目标是只读消费 Node v402、Java v166、mini-kv v157，确认上游已接受模板边界但未生成真实批准。
+当前 readyForRuntimeExecutionPacket=false、readyForRuntimeLiveReadGate=false：v403 不启动 Java / mini-kv，也不写 e/398/input 的真实批准文件。
+下一步 Node v404 只有在三个 canonical input 文件真实出现后才可继续验证；Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
