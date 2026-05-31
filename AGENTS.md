@@ -13,18 +13,6 @@ Default responsibility:
 - Do not modify, build, test, start, or stop Java / mini-kv unless the user explicitly authorizes that cross-project work.
 - Do not stage or revert unrelated user/IDE changes such as `.idea/misc.xml`.
 
-## Context Length Stop Gate
-
-When the context is clearly long and close to compaction risk, stop and do not start new changes.
-
-If context is judged close to compaction risk:
-
-- State that the context is approaching the compaction risk zone.
-- Do not start new file edits, commits, processes, or long-running verification.
-- Ask the user to compact the context or open a new session before continuing.
-
-If already in final cleanup, only do safe cleanup: stop processes started this turn, delete temporary files created this turn, and report status.
-
 ## Plan-First Development Rule
 
 Before advancing a Node version:
