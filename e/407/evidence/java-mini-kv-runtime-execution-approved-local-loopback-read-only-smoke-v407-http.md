@@ -1,0 +1,173 @@
+﻿# Managed audit manual sandbox connection credential resolver Java/mini-kv runtime execution approved local-loopback read-only smoke
+
+- Service: orderops-node
+- Generated at: 2026-05-31T06:30:01.350Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke.v1
+- Smoke state: approved-local-loopback-read-only-smoke-passed
+- Smoke decision: accept-read-only-smoke-pass-evidence
+- Active Node version: Node v407
+- Source Node version: Node v406
+- Java source version: Java v167
+- mini-kv source version: mini-kv v158
+- Ready for approved local loopback read-only smoke: true
+- Ready for pass evidence archive: true
+- Upstream probes enabled: true
+- Upstream actions enabled: false
+- Starts Java service from route: false
+- Starts mini-kv service from route: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v406
+
+- sourceVersion: Node v406
+- gateState: runtime-execution-live-read-gate-ready
+- gateDecision: accept-approved-local-loopback-get-only-live-read-gate-for-next-smoke
+- readyForRuntimeExecutionLiveReadGate: true
+- readyForApprovedLocalLoopbackReadOnlySmoke: true
+- checkCount: 33
+- passedCheckCount: 33
+- productionBlockerCount: 0
+- targetCount: 2
+- readyTargetCount: 2
+
+## Targets
+
+- id: java-health
+- owner: java
+- protocol: http
+- methodOrCommand: GET
+- target: http://127.0.0.1:8080/actuator/health
+- readOnly: true
+- mutatesState: false
+- id: mini-kv-health
+- owner: mini-kv
+- protocol: tcp-inline
+- methodOrCommand: HEALTH
+- target: 127.0.0.1:6424 HEALTH
+- readOnly: true
+- mutatesState: false
+
+## Records
+
+- id: java-health
+- owner: java
+- protocol: http
+- methodOrCommand: GET
+- target: http://127.0.0.1:8080/actuator/health
+- status: passed-read
+- attempted: true
+- readOnly: true
+- mutatesState: false
+- latencyMs: 5
+- statusCode: 200
+- failureClass: none
+- message: Approved local-loopback read-only smoke target returned evidence.
+- evidenceSummary: {"status":"UP","healthy":true}
+- id: mini-kv-health
+- owner: mini-kv
+- protocol: tcp-inline
+- methodOrCommand: HEALTH
+- target: 127.0.0.1:6424 HEALTH
+- status: passed-read
+- attempted: true
+- readOnly: true
+- mutatesState: false
+- latencyMs: 1
+- statusCode: unknown
+- failureClass: none
+- message: Approved local-loopback read-only smoke target returned evidence.
+- evidenceSummary: {"command":"HEALTH","response":"OK live_keys=0 wal_enabled=no compact_recommended=na total_commands=3 successful_commands=3 error_commands=0 total_latency_ns=116400 avg_latency_ns=38800 max_latency_ns=72100 command_breakdown=HEALTH:2/2/0/115200/57600/72100;QUIT:1/1/0/1200/1200/1200 connection_stats_available=yes active_connections=1 total_connections=3 peak_connections=1","healthy":true}
+
+## Smoke Session
+
+- smokeDigest: d5c3da7f4eb646fb64e00db1c4e41ae9a7fc3d09a297297c7365d840db233e2b
+- smokeMode: approved-local-loopback-read-only-smoke
+- sourceSpan: Node v406 live-read gate + approved local Java/mini-kv loopback services
+- approvalCorrelationId: approval-v405-20260531T130805-codex-auto
+- targetCount: 2
+- attemptedTargetCount: 2
+- passedTargetCount: 2
+- failedTargetCount: 0
+- skippedTargetCount: 0
+- upstreamProbesEnabled: true
+- upstreamActionsEnabled: false
+- localLoopbackOnly: true
+- readOnly: true
+- mutatesUpstreamState: false
+- startsJavaServiceFromRoute: false
+- startsMiniKvServiceFromRoute: false
+- stopsJavaServiceFromRoute: false
+- stopsMiniKvServiceFromRoute: false
+- connectsManagedAudit: false
+- credentialValueRead: false
+- rawEndpointUrlParsed: false
+- activeShardRoutingEnabled: false
+- cleanupProofRequired: true
+- cleanupProofExpectedInArchive: true
+- nextNodeVersionSuggested: Node v408
+
+## Checks
+
+- sourceNodeV406Ready: true
+- sourceNodeV406HasNoBlockers: true
+- upstreamProbesEnabled: true
+- upstreamActionsDisabled: true
+- targetsAreLocalLoopback: true
+- targetsGetOnlyOrHealthOnly: true
+- javaHealthAttempted: true
+- miniKvHealthAttempted: true
+- javaHealthPassed: true
+- miniKvHealthPassed: true
+- allAttemptedTargetsPassed: true
+- noWriteTargets: true
+- noAutomaticUpstreamStartStopFromRoute: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- activeShardPrototypeStillDisabled: true
+- cleanupProofRequired: true
+- smokeDigestStable: true
+- readyForRuntimeExecutionApprovedLocalLoopbackReadOnlySmoke: true
+
+## Summary
+
+- checkCount: 21
+- passedCheckCount: 21
+- targetCount: 2
+- attemptedTargetCount: 2
+- passedTargetCount: 2
+- failedTargetCount: 0
+- skippedTargetCount: 0
+- productionBlockerCount: 0
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- No production blockers.
+
+## Warnings
+
+- LOCAL_LOOPBACK_SMOKE_IS_NOT_PRODUCTION_EXECUTION (warning, node-v407): v407 captures local-loopback read-only pass evidence only; production execution remains disabled.
+
+## Recommendations
+
+- ARCHIVE_AND_VERIFY_V407_PASS_EVIDENCE (recommendation, node-v407): Archive cleanup proof and verify v407 pass evidence before broadening runtime checks.
+
+## Evidence Endpoints
+
+- approvedLocalLoopbackSmokeJson: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke
+- approvedLocalLoopbackSmokeMarkdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke?format=markdown
+- sourceNodeV406Json: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-live-read-gate
+- sourceNodeV406Markdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-live-read-gate?format=markdown
+- activePlan: docs/plans3/v407-post-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-roadmap.md
+- nextPlan: docs/plans3/v408-post-java-mini-kv-runtime-execution-pass-evidence-archive-verification-roadmap.md
+- nextNodeVersion: Node v408
+
+## Next Actions
+
+- Archive and verify Node v407 pass evidence before adding any broader runtime surface.
+- Stop only the Java and mini-kv processes started for this approved smoke window.
+- Keep managed audit, credentials, raw endpoint parsing, writes, and active shard routing closed.

@@ -1,0 +1,148 @@
+﻿{
+    "version":  "v407",
+    "generatedAt":  "2026-05-31T06:31:36.3536465Z",
+    "revisedAt":  "2026-05-31T06:32:22.6537206Z",
+    "ownedPids":  [
+                      6576,
+                      24416,
+                      4364,
+                      29012,
+                      3216
+                  ],
+    "checkedPorts":  [
+                         8080,
+                         6424,
+                         4407,
+                         8407
+                     ],
+    "beforeProcesses":  [
+                            {
+                                "pid":  6576,
+                                "parentPid":  868,
+                                "name":  "java.exe",
+                                "commandLine":  "\"D:\\21jdk\\bin\\java.exe\"             -classpath \"D:\\MAVEN\\apache-maven-3.9.9\\boot\\plexus-classworlds-2.8.0.jar\"   \"-Dclassworlds.conf=D:\\MAVEN\\apache-maven-3.9.9\\bin\\m2.conf\"   \"-Dmaven.home=D:\\MAVEN\\apache-maven-3.9.9\"   \"-Dlibrary.jansi.path=D:\\MAVEN\\apache-maven-3.9.9\\lib\\jansi-native\"   \"-Dmaven.multiModuleProjectDirectory=D:\\javaproj\\advanced-order-platform\"   org.codehaus.plexus.classworlds.launcher.Launcher  spring-boot:run"
+                            },
+                            {
+                                "pid":  24416,
+                                "parentPid":  6576,
+                                "name":  "java.exe",
+                                "commandLine":  "D:\\21jdk\\bin\\java.exe -XX:TieredStopAtLevel=1 -cp @C:\\Users\\吴林东\\AppData\\Local\\Temp\\spring-boot-13660567525305349783.argfile com.codexdemo.orderplatform.OrderPlatformApplication"
+                            },
+                            {
+                                "pid":  4364,
+                                "parentPid":  36676,
+                                "name":  "minikv_server.exe",
+                                "commandLine":  "\"D:\\C\\mini-kv\\cmake-build-debug\\minikv_server.exe\" 6424 127.0.0.1 "
+                            },
+                            {
+                                "pid":  29012,
+                                "parentPid":  324,
+                                "name":  "node.exe",
+                                "commandLine":  "\"C:\\Program Files\\nodejs\\node.exe\" dist/server.js "
+                            },
+                            {
+                                "pid":  3216,
+                                "parentPid":  21584,
+                                "name":  "python.exe",
+                                "commandLine":  "\"D:\\python\\python.exe\" -m http.server 8407 --bind 127.0.0.1 -d D:\\nodeproj\\orderops-node\\e\\407 "
+                            }
+                        ],
+    "beforePorts":  [
+                        {
+                            "localAddress":  "::",
+                            "localPort":  8080,
+                            "state":  "Listen",
+                            "owningProcess":  24416
+                        },
+                        {
+                            "localAddress":  "127.0.0.1",
+                            "localPort":  8407,
+                            "state":  "TimeWait",
+                            "owningProcess":  0
+                        },
+                        {
+                            "localAddress":  "127.0.0.1",
+                            "localPort":  8407,
+                            "state":  "Listen",
+                            "owningProcess":  3216
+                        },
+                        {
+                            "localAddress":  "127.0.0.1",
+                            "localPort":  8407,
+                            "state":  "TimeWait",
+                            "owningProcess":  0
+                        },
+                        {
+                            "localAddress":  "127.0.0.1",
+                            "localPort":  8407,
+                            "state":  "TimeWait",
+                            "owningProcess":  0
+                        },
+                        {
+                            "localAddress":  "127.0.0.1",
+                            "localPort":  6424,
+                            "state":  "Listen",
+                            "owningProcess":  4364
+                        },
+                        {
+                            "localAddress":  "127.0.0.1",
+                            "localPort":  4407,
+                            "state":  "Listen",
+                            "owningProcess":  29012
+                        }
+                    ],
+    "stopResults":  [
+                        {
+                            "pid":  6576,
+                            "stopped":  true,
+                            "name":  "java"
+                        },
+                        {
+                            "pid":  24416,
+                            "stopped":  true,
+                            "name":  "java"
+                        },
+                        {
+                            "pid":  4364,
+                            "stopped":  true,
+                            "name":  "minikv_server"
+                        },
+                        {
+                            "pid":  29012,
+                            "stopped":  true,
+                            "name":  "node"
+                        },
+                        {
+                            "pid":  3216,
+                            "stopped":  true,
+                            "name":  "python"
+                        }
+                    ],
+    "afterProcesses":  {
+
+                       },
+    "afterPorts":  [
+                       {
+                           "localAddress":  "127.0.0.1",
+                           "localPort":  8407,
+                           "remoteAddress":  "127.0.0.1",
+                           "remotePort":  64545,
+                           "state":  "TimeWait",
+                           "owningProcess":  0
+                       },
+                       {
+                           "localAddress":  "127.0.0.1",
+                           "localPort":  8407,
+                           "remoteAddress":  "127.0.0.1",
+                           "remotePort":  51709,
+                           "state":  "TimeWait",
+                           "owningProcess":  0
+                       }
+                   ],
+    "afterListeningPorts":  [
+
+                            ],
+    "afterTimeWaitCount":  2,
+    "cleanupPassed":  true,
+    "cleanupCriterion":  "owned processes stopped and no checked port remains in LISTEN state; TIME_WAIT is recorded but not a live listener"
+}

@@ -1,0 +1,71 @@
+﻿{
+    "version":  "v407",
+    "generatedAt":  "2026-05-31T06:30:01.6475094Z",
+    "healthStatus":  200,
+    "jsonStatus":  200,
+    "markdownStatus":  200,
+    "route":  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke",
+    "activeNodeVersion":  "Node v407",
+    "sourceNodeVersion":  "Node v406",
+    "smokeState":  "approved-local-loopback-read-only-smoke-passed",
+    "smokeDecision":  "accept-read-only-smoke-pass-evidence",
+    "readyForRuntimeExecutionApprovedLocalLoopbackReadOnlySmoke":  true,
+    "checkCount":  21,
+    "passedCheckCount":  21,
+    "productionBlockerCount":  0,
+    "attemptedTargetCount":  2,
+    "passedTargetCount":  2,
+    "failedTargetCount":  0,
+    "skippedTargetCount":  0,
+    "startsJavaServiceFromRoute":  false,
+    "startsMiniKvServiceFromRoute":  false,
+    "executionAllowed":  false,
+    "cleanupProof":  {
+        "path":  "e/407/evidence/java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-v407-cleanup-proof.json",
+        "cleanupPassed":  true,
+        "checkedPorts":  [
+            8080,
+            6424,
+            4407,
+            8407
+        ],
+        "afterListeningSocketCount":  0
+    },
+    "verification":  {
+        "focusedVitestFiles":  1,
+        "focusedVitestTests":  2,
+        "adjacentVitestFiles":  2,
+        "adjacentVitestTests":  4,
+        "fullVitestFiles":  340,
+        "fullVitestTests":  1164,
+        "typecheckPassed":  true,
+        "buildPassed":  true,
+        "playwrightMcpScreenshotGenerated":  true
+    },
+    "ownedProcessesBeforeCleanup":  [
+                                        {
+                                            "pid":  6576,
+                                            "parentPid":  868,
+                                            "name":  "java.exe",
+                                            "commandLine":  "\"D:\\21jdk\\bin\\java.exe\"             -classpath \"D:\\MAVEN\\apache-maven-3.9.9\\boot\\plexus-classworlds-2.8.0.jar\"   \"-Dclassworlds.conf=D:\\MAVEN\\apache-maven-3.9.9\\bin\\m2.conf\"   \"-Dmaven.home=D:\\MAVEN\\apache-maven-3.9.9\"   \"-Dlibrary.jansi.path=D:\\MAVEN\\apache-maven-3.9.9\\lib\\jansi-native\"   \"-Dmaven.multiModuleProjectDirectory=D:\\javaproj\\advanced-order-platform\"   org.codehaus.plexus.classworlds.launcher.Launcher  spring-boot:run"
+                                        },
+                                        {
+                                            "pid":  24416,
+                                            "parentPid":  6576,
+                                            "name":  "java.exe",
+                                            "commandLine":  "D:\\21jdk\\bin\\java.exe -XX:TieredStopAtLevel=1 -cp @C:\\Users\\吴林东\\AppData\\Local\\Temp\\spring-boot-13660567525305349783.argfile com.codexdemo.orderplatform.OrderPlatformApplication"
+                                        },
+                                        {
+                                            "pid":  4364,
+                                            "parentPid":  36676,
+                                            "name":  "minikv_server.exe",
+                                            "commandLine":  "\"D:\\C\\mini-kv\\cmake-build-debug\\minikv_server.exe\" 6424 127.0.0.1 "
+                                        },
+                                        {
+                                            "pid":  29012,
+                                            "parentPid":  324,
+                                            "name":  "node.exe",
+                                            "commandLine":  "\"C:\\Program Files\\nodejs\\node.exe\" dist/server.js "
+                                        }
+                                    ]
+}
