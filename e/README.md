@@ -45,6 +45,7 @@
 405: Java / mini-kv runtime execution canonical approval input value validation
 406: Java / mini-kv runtime execution live-read gate
 407: Java / mini-kv runtime execution approved local-loopback read-only smoke
+408: Java / mini-kv runtime execution pass evidence archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

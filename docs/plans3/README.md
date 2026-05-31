@@ -81,10 +81,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v407 正在进行 Java / mini-kv runtime execution approved local-loopback read-only smoke。
-目标是在 v406 gate 通过后，只读探测 Java `GET http://127.0.0.1:8080/actuator/health` 和 mini-kv `HEALTH 127.0.0.1:6424`。
-v407 route 本身不启动/停止 Java 或 mini-kv；启动由本轮 operator-owned 进程完成，cleanup proof 必须记录 PID、停止 owned processes，并验证 8080/6424 不再监听。
-Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker；v408 只做 v407 pass evidence 和 cleanup proof verification。
+Node v408 正在进行 Java / mini-kv runtime execution pass evidence archive verification。
+目标是验证 v407 HTTP pass evidence、summary、cleanup proof、browser snapshot、截图、说明和代码讲解全部存在且一致。
+v408 不重跑 Java / mini-kv smoke，不启动/停止 sibling 服务；它只证明 v407 的 2/2 pass、21/21 checks、0 blockers 和 cleanup proof 可复核。
+Java / mini-kv 推荐并行继续，Node 不是上游 pre-approval blocker；v409 应做 closeout，而不是继续叠加 gate。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
