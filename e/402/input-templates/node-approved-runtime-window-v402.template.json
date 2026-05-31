@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "node-runtime-execution-approval-input.v1",
+  "inputKind": "node-approved-runtime-window",
+  "activeNodeVersion": "Node v402",
+  "sourceNodeVersion": "Node v401",
+  "javaSourceVersion": "Java v165",
+  "miniKvSourceVersion": "mini-kv v156",
+  "approvalWindowId": "REQUIRED-runtime-window-id",
+  "approvalCorrelationId": "REQUIRED-shared-approval-correlation-id",
+  "windowMode": "manual-approved-runtime-read-only-smoke",
+  "notBeforeIso": "REQUIRED-iso8601",
+  "notAfterIso": "REQUIRED-iso8601",
+  "javaLoopbackHost": "127.0.0.1",
+  "javaLoopbackPort": 8080,
+  "miniKvLoopbackHost": "127.0.0.1",
+  "miniKvLoopbackPort": 6424,
+  "upstreamProbesEnabled": true,
+  "upstreamActionsEnabled": false,
+  "allowedHttpMethods": [
+    "GET"
+  ],
+  "runtimeExecutionPacketRequired": true,
+  "cleanupRequired": true
+}

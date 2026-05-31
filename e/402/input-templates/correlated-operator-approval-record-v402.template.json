@@ -1,0 +1,20 @@
+{
+  "schemaVersion": "correlated-operator-approval-record.v1",
+  "inputKind": "correlated-operator-approval-record",
+  "approvalCorrelationId": "REQUIRED-shared-approval-correlation-id",
+  "approvedRuntimeWindowId": "REQUIRED-runtime-window-id",
+  "operatorId": "REQUIRED-operator-id",
+  "operatorVerified": true,
+  "bindsNodeVersion": "Node v402",
+  "bindsSourceNodeVersion": "Node v401",
+  "bindsJavaVersion": "Java v165",
+  "bindsMiniKvVersion": "mini-kv v156",
+  "approvalScope": "java-mini-kv-runtime-read-only-smoke",
+  "allowedHttpMethods": [
+    "GET"
+  ],
+  "approvesCredentialValueRead": false,
+  "approvesRawEndpointUrlParsing": false,
+  "issuedAtIso": "REQUIRED-iso8601",
+  "cleanupAcknowledged": true
+}

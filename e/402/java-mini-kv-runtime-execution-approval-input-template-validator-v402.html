@@ -1,0 +1,197 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Node v402 approval input template validator</title>
+<style>body{margin:0;background:#f7f4ed;color:#1e1e1e;font:15px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;}main{max-width:1180px;margin:0 auto;padding:32px 24px 48px;}pre{white-space:pre-wrap;word-break:break-word;background:#fffdf8;border:1px solid #d9d2c3;border-radius:8px;padding:24px;box-shadow:0 1px 3px rgba(0,0,0,.06);}h1{font:700 24px/1.2 system-ui,sans-serif;margin:0 0 16px;}</style>
+</head>
+<body><main><h1>Node v402 approval input template validator</h1><pre># Managed audit manual sandbox connection credential resolver Java/mini-kv runtime execution approval input template validator
+
+- Service: orderops-node
+- Generated at: 2026-05-30T23:50:54.218Z
+- Profile version: managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approval-input-template-validator.v1
+- Template validator state: runtime-execution-approval-input-templates-published-runtime-blocked
+- Template validator decision: publish-machine-checkable-input-templates-and-keep-runtime-blocked
+- Active Node version: Node v402
+- Source Node version: Node v401
+- Java source version: Java v165
+- mini-kv source version: mini-kv v156
+- Ready for runtime execution approval input template validator: true
+- Ready for runtime execution packet: false
+- Ready for runtime live-read gate: false
+- Runtime execution packet executable: false
+- Runtime gate approval present: false
+- Execution attempted: false
+- Starts Java service: false
+- Starts mini-kv service: false
+- Connects managed audit: false
+- Execution allowed: false
+
+## Source Node v401
+
+- sourceVersion: Node v401
+- intakeState: runtime-execution-approval-input-completion-intake-blocked
+- readyForRuntimeExecutionApprovalInputCompletionIntake: true
+- readyForRuntimeExecutionPacket: false
+- readyForRuntimeLiveReadGate: false
+- checkCount: 27
+- passedCheckCount: 27
+- productionBlockerCount: 3
+
+## Template Bundle
+
+- bundleDigest: 5ecb75552bf844c85038958a57c4832e24cf2772cfe8148d78839026ba4e1580
+- bundleMode: template-only-no-runtime-approval
+- sourceSpan: Node v401 completion intake + Java v165 + mini-kv v156
+- templateCount: 3
+- targetInputCount: 3
+- presentTargetInputCount: 0
+- validTargetInputCount: 0
+- missingTargetInputCount: 3
+- runtimeGateStillClosed: true
+- nextNodeVersionSuggested: Node v403
+
+## Input Templates
+
+- nodeApprovedRuntimeWindow
+  - owner: node
+  - targetPath: e/398/input/node-approved-runtime-window-v398.json
+  - templateArchivePath: e/402/input-templates/node-approved-runtime-window-v402.template.json
+  - schemaVersion: node-runtime-execution-approval-input.v1
+  - inputKind: node-approved-runtime-window
+  - requiredFields: [&quot;schemaVersion&quot;,&quot;inputKind&quot;,&quot;activeNodeVersion&quot;,&quot;sourceNodeVersion&quot;,&quot;javaSourceVersion&quot;,&quot;miniKvSourceVersion&quot;,&quot;approvalWindowId&quot;,&quot;approvalCorrelationId&quot;,&quot;windowMode&quot;,&quot;notBeforeIso&quot;,&quot;notAfterIso&quot;,&quot;javaLoopbackHost&quot;,&quot;javaLoopbackPort&quot;,&quot;miniKvLoopbackHost&quot;,&quot;miniKvLoopbackPort&quot;,&quot;allowedHttpMethods&quot;,&quot;cleanupRequired&quot;]
+  - expectedConstants: {&quot;schemaVersion&quot;:&quot;node-runtime-execution-approval-input.v1&quot;,&quot;inputKind&quot;:&quot;node-approved-runtime-window&quot;,&quot;activeNodeVersion&quot;:&quot;Node v402&quot;,&quot;sourceNodeVersion&quot;:&quot;Node v401&quot;,&quot;javaSourceVersion&quot;:&quot;Java v165&quot;,&quot;miniKvSourceVersion&quot;:&quot;mini-kv v156&quot;,&quot;upstreamActionsEnabled&quot;:false,&quot;cleanupRequired&quot;:true}
+  - semanticRules: [&quot;allowedHttpMethods must contain only GET&quot;,&quot;notBeforeIso and notAfterIso must be explicit ISO strings supplied by the approver&quot;,&quot;loopback ports must bind Java and mini-kv in the same runtime window&quot;]
+  - templateDigest: 258c81c2680b82ae43293e06f8265fa9ec54dd3b676bb66c3e3192f3e10dfec8
+- correlatedOperatorApprovalRecord
+  - owner: operator
+  - targetPath: e/398/input/correlated-operator-approval-record-v398.json
+  - templateArchivePath: e/402/input-templates/correlated-operator-approval-record-v402.template.json
+  - schemaVersion: correlated-operator-approval-record.v1
+  - inputKind: correlated-operator-approval-record
+  - requiredFields: [&quot;schemaVersion&quot;,&quot;inputKind&quot;,&quot;approvalCorrelationId&quot;,&quot;approvedRuntimeWindowId&quot;,&quot;operatorId&quot;,&quot;operatorVerified&quot;,&quot;bindsNodeVersion&quot;,&quot;bindsSourceNodeVersion&quot;,&quot;bindsJavaVersion&quot;,&quot;bindsMiniKvVersion&quot;,&quot;approvalScope&quot;,&quot;allowedHttpMethods&quot;,&quot;issuedAtIso&quot;,&quot;cleanupAcknowledged&quot;]
+  - expectedConstants: {&quot;schemaVersion&quot;:&quot;correlated-operator-approval-record.v1&quot;,&quot;inputKind&quot;:&quot;correlated-operator-approval-record&quot;,&quot;operatorVerified&quot;:true,&quot;bindsNodeVersion&quot;:&quot;Node v402&quot;,&quot;bindsSourceNodeVersion&quot;:&quot;Node v401&quot;,&quot;bindsJavaVersion&quot;:&quot;Java v165&quot;,&quot;bindsMiniKvVersion&quot;:&quot;mini-kv v156&quot;,&quot;approvesCredentialValueRead&quot;:false,&quot;approvesRawEndpointUrlParsing&quot;:false,&quot;cleanupAcknowledged&quot;:true}
+  - semanticRules: [&quot;approvalCorrelationId must match the Node runtime window and packet&quot;,&quot;operatorVerified must be true&quot;,&quot;allowedHttpMethods must contain only GET&quot;]
+  - templateDigest: 94fe9195220890c21ef4917dcac909a7d861895046eb940bdcc275ed595dae03
+- crossProjectRuntimeExecutionPacket
+  - owner: cross-project
+  - targetPath: e/398/input/cross-project-runtime-execution-packet-v398.json
+  - templateArchivePath: e/402/input-templates/cross-project-runtime-execution-packet-v402.template.json
+  - schemaVersion: cross-project-runtime-execution-packet.v1
+  - inputKind: complete-cross-project-runtime-execution-packet
+  - requiredFields: [&quot;schemaVersion&quot;,&quot;inputKind&quot;,&quot;packetId&quot;,&quot;approvalCorrelationId&quot;,&quot;nodeApprovedRuntimeWindowInput&quot;,&quot;correlatedOperatorApprovalRecordInput&quot;,&quot;sourceNodeV401Archive&quot;,&quot;javaApprovalInputEvidence&quot;,&quot;miniKvFinalApprovalInputEvidence&quot;,&quot;nodeVersion&quot;,&quot;javaVersion&quot;,&quot;miniKvVersion&quot;,&quot;runtimeExecutionPacketPresent&quot;,&quot;runtimeExecutionPacketExecutable&quot;,&quot;readyForRuntimeLiveReadGate&quot;,&quot;allowedHttpMethods&quot;,&quot;writeOperationsAllowed&quot;,&quot;cleanupProofRequiredAfterRun&quot;]
+  - expectedConstants: {&quot;schemaVersion&quot;:&quot;cross-project-runtime-execution-packet.v1&quot;,&quot;inputKind&quot;:&quot;complete-cross-project-runtime-execution-packet&quot;,&quot;nodeApprovedRuntimeWindowInput&quot;:&quot;e/398/input/node-approved-runtime-window-v398.json&quot;,&quot;correlatedOperatorApprovalRecordInput&quot;:&quot;e/398/input/correlated-operator-approval-record-v398.json&quot;,&quot;nodeVersion&quot;:&quot;Node v402&quot;,&quot;javaVersion&quot;:&quot;Java v165&quot;,&quot;miniKvVersion&quot;:&quot;mini-kv v156&quot;,&quot;runtimeExecutionPacketPresent&quot;:true,&quot;runtimeExecutionPacketExecutable&quot;:true,&quot;readyForRuntimeLiveReadGate&quot;:true,&quot;writeOperationsAllowed&quot;:false,&quot;cleanupProofRequiredAfterRun&quot;:true}
+  - semanticRules: [&quot;approvalCorrelationId must match the Node window and operator record&quot;,&quot;allowedHttpMethods must contain only GET&quot;,&quot;packet must include service owners, loopback ports, smoke commands, and cleanup rules&quot;]
+  - templateDigest: 5d244abb08e9ccfc383ee88e4e5de0f5b55a2bded07a0589d928d0f501db0ad7
+## Target Input Validations
+
+- nodeApprovedRuntimeWindow
+  - owner: node
+  - file: {&quot;id&quot;:&quot;nodeApprovedRuntimeWindow&quot;,&quot;path&quot;:&quot;e/398/input/node-approved-runtime-window-v398.json&quot;,&quot;resolvedPath&quot;:&quot;e/398/input/node-approved-runtime-window-v398.json&quot;,&quot;exists&quot;:false,&quot;sizeBytes&quot;:0,&quot;digest&quot;:null}
+  - present: false
+  - valid: false
+  - requiredFieldCount: 17
+  - missingRequiredFieldCount: 17
+  - expectedConstantCount: 8
+  - passedExpectedConstantCount: 0
+  - semanticRuleCount: 3
+  - passedSemanticRuleCount: 0
+  - canUnlockRuntimeAlone: false
+- correlatedOperatorApprovalRecord
+  - owner: operator
+  - file: {&quot;id&quot;:&quot;correlatedOperatorApprovalRecord&quot;,&quot;path&quot;:&quot;e/398/input/correlated-operator-approval-record-v398.json&quot;,&quot;resolvedPath&quot;:&quot;e/398/input/correlated-operator-approval-record-v398.json&quot;,&quot;exists&quot;:false,&quot;sizeBytes&quot;:0,&quot;digest&quot;:null}
+  - present: false
+  - valid: false
+  - requiredFieldCount: 14
+  - missingRequiredFieldCount: 14
+  - expectedConstantCount: 10
+  - passedExpectedConstantCount: 0
+  - semanticRuleCount: 3
+  - passedSemanticRuleCount: 0
+  - canUnlockRuntimeAlone: false
+- crossProjectRuntimeExecutionPacket
+  - owner: cross-project
+  - file: {&quot;id&quot;:&quot;crossProjectRuntimeExecutionPacket&quot;,&quot;path&quot;:&quot;e/398/input/cross-project-runtime-execution-packet-v398.json&quot;,&quot;resolvedPath&quot;:&quot;e/398/input/cross-project-runtime-execution-packet-v398.json&quot;,&quot;exists&quot;:false,&quot;sizeBytes&quot;:0,&quot;digest&quot;:null}
+  - present: false
+  - valid: false
+  - requiredFieldCount: 18
+  - missingRequiredFieldCount: 18
+  - expectedConstantCount: 12
+  - passedExpectedConstantCount: 0
+  - semanticRuleCount: 3
+  - passedSemanticRuleCount: 0
+  - canUnlockRuntimeAlone: false
+## Checks
+
+- sourceNodeV401Ready: true
+- sourceNodeV401StillBlocksRuntime: true
+- templateCountStable: true
+- targetInputCountStable: true
+- templateDigestsStable: true
+- nodeWindowTemplateComplete: true
+- operatorApprovalTemplateComplete: true
+- crossProjectPacketTemplateComplete: true
+- targetPathsCanonical: true
+- templateArchivePathsSeparateFromCanonicalInputs: true
+- noConcreteApprovalInputsPresent: true
+- noConcreteApprovalInputsValid: true
+- runtimePacketStillAbsent: true
+- runtimeGateStillClosed: true
+- executionStillDenied: true
+- noAutomaticUpstreamStartStop: true
+- noUpstreamMutation: true
+- noManagedAuditConnection: true
+- noCredentialValueRead: true
+- noRawEndpointUrlParsed: true
+- activeShardPrototypeStillDisabled: true
+- readyForRuntimeExecutionApprovalInputTemplateValidator: true
+
+## Summary
+
+- checkCount: 22
+- passedCheckCount: 22
+- sourceCheckCount: 27
+- sourcePassedCheckCount: 27
+- templateCount: 3
+- targetInputCount: 3
+- presentTargetInputCount: 0
+- validTargetInputCount: 0
+- missingTargetInputCount: 3
+- productionBlockerCount: 3
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- NODE_APPROVED_RUNTIME_WINDOW_INPUT_NOT_PRESENT (blocker, e/398/input/node-approved-runtime-window-v398.json): The canonical Node-approved runtime window input is still absent.
+- CORRELATED_OPERATOR_APPROVAL_RECORD_INPUT_NOT_PRESENT (blocker, e/398/input/correlated-operator-approval-record-v398.json): The canonical correlated operator approval record input is still absent.
+- CROSS_PROJECT_RUNTIME_EXECUTION_PACKET_INPUT_NOT_PRESENT (blocker, e/398/input/cross-project-runtime-execution-packet-v398.json): The canonical complete cross-project runtime execution packet input is still absent.
+
+## Warnings
+
+- TEMPLATES_ARE_NOT_RUNTIME_APPROVAL (warning, node-v402): Template files document required shape only; they must not be copied into canonical input paths without real approval values.
+
+## Recommendations
+
+- FILL_CANONICAL_INPUTS_WITH_SHARED_CORRELATION_ID (recommendation, node-v402): Use one approvalCorrelationId across the Node runtime window, operator approval record, and cross-project packet.
+
+## Evidence Endpoints
+
+- templateValidatorJson: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approval-input-template-validator
+- templateValidatorMarkdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approval-input-template-validator?format=markdown
+- sourceNodeV401Json: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approval-input-completion-intake
+- sourceNodeV401Markdown: /api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-approval-input-completion-intake?format=markdown
+- activePlan: docs/plans3/v402-post-runtime-execution-approval-input-template-validator-roadmap.md
+- nextPlan: docs/plans3/v403-post-runtime-execution-approval-input-validation-roadmap.md
+- nextNodeVersion: Node v403
+
+## Next Actions
+
+- Write real approval inputs only to the canonical e/398/input target paths, not to the v402 template archive paths.
+- Keep the Node-approved runtime window, correlated operator approval record, and cross-project packet correlated by one approvalCorrelationId.
+- Require GET-only smoke commands and explicit cleanup rules before any Java or mini-kv startup.
+- Do not treat these templates as runtime approval; they are validation contracts only.
+- Run the v403 validator only after the three canonical input files are present.
+</pre></main></body>
+</html>

@@ -1,0 +1,111 @@
+import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import type {
+  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorProfile,
+} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorTypes.js";
+
+export function renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorMarkdown(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorProfile,
+): string {
+  return [
+    `# ${profile.title}`,
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Template validator state: ${profile.templateValidatorState}`,
+    `- Template validator decision: ${profile.templateValidatorDecision}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Java source version: ${profile.javaSourceVersion}`,
+    `- mini-kv source version: ${profile.miniKvSourceVersion}`,
+    `- Ready for runtime execution approval input template validator: ${profile.readyForRuntimeExecutionApprovalInputTemplateValidator}`,
+    `- Ready for runtime execution packet: ${profile.readyForRuntimeExecutionPacket}`,
+    `- Ready for runtime live-read gate: ${profile.readyForRuntimeLiveReadGate}`,
+    `- Runtime execution packet executable: ${profile.runtimeExecutionPacketExecutable}`,
+    `- Runtime gate approval present: ${profile.runtimeGateApprovalPresent}`,
+    `- Execution attempted: ${profile.executionAttempted}`,
+    `- Starts Java service: ${profile.startsJavaService}`,
+    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
+    `- Connects managed audit: ${profile.connectsManagedAudit}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Node v401",
+    "",
+    ...renderEntries(profile.sourceNodeV401),
+    "",
+    "## Template Bundle",
+    "",
+    ...renderEntries(profile.templateBundle),
+    "",
+    "## Input Templates",
+    "",
+    ...profile.templates.flatMap(renderTemplate),
+    "## Target Input Validations",
+    "",
+    ...profile.targetValidations.flatMap(renderValidation),
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Production Blockers",
+    "",
+    ...renderMessages(profile.productionBlockers, "No production blockers."),
+    "",
+    "## Warnings",
+    "",
+    ...renderMessages(profile.warnings, "No warnings."),
+    "",
+    "## Recommendations",
+    "",
+    ...renderMessages(profile.recommendations, "No recommendations."),
+    "",
+    "## Evidence Endpoints",
+    "",
+    ...renderEntries(profile.evidenceEndpoints),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
+
+function renderTemplate(
+  template: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorProfile["templates"][number],
+): string[] {
+  return [
+    `- ${template.key}`,
+    `  - owner: ${template.owner}`,
+    `  - targetPath: ${template.targetPath}`,
+    `  - templateArchivePath: ${template.templateArchivePath}`,
+    `  - schemaVersion: ${template.schemaVersion}`,
+    `  - inputKind: ${template.inputKind}`,
+    `  - requiredFields: ${JSON.stringify(template.requiredFields)}`,
+    `  - expectedConstants: ${JSON.stringify(template.expectedConstants)}`,
+    `  - semanticRules: ${JSON.stringify(template.semanticRules)}`,
+    `  - templateDigest: ${template.templateDigest}`,
+  ];
+}
+
+function renderValidation(
+  validation: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorProfile["targetValidations"][number],
+): string[] {
+  return [
+    `- ${validation.key}`,
+    `  - owner: ${validation.owner}`,
+    `  - file: ${JSON.stringify(validation.file)}`,
+    `  - present: ${validation.present}`,
+    `  - valid: ${validation.valid}`,
+    `  - requiredFieldCount: ${validation.requiredFieldCount}`,
+    `  - missingRequiredFieldCount: ${validation.missingRequiredFieldCount}`,
+    `  - expectedConstantCount: ${validation.expectedConstantCount}`,
+    `  - passedExpectedConstantCount: ${validation.passedExpectedConstantCount}`,
+    `  - semanticRuleCount: ${validation.semanticRuleCount}`,
+    `  - passedSemanticRuleCount: ${validation.passedSemanticRuleCount}`,
+    `  - canUnlockRuntimeAlone: ${validation.canUnlockRuntimeAlone}`,
+  ];
+}

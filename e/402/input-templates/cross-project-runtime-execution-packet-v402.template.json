@@ -1,0 +1,56 @@
+{
+  "schemaVersion": "cross-project-runtime-execution-packet.v1",
+  "inputKind": "complete-cross-project-runtime-execution-packet",
+  "packetId": "REQUIRED-runtime-execution-packet-id",
+  "approvalCorrelationId": "REQUIRED-shared-approval-correlation-id",
+  "nodeApprovedRuntimeWindowInput": "e/398/input/node-approved-runtime-window-v398.json",
+  "correlatedOperatorApprovalRecordInput": "e/398/input/correlated-operator-approval-record-v398.json",
+  "sourceNodeV401Archive": "e/401/evidence/java-mini-kv-runtime-execution-approval-input-completion-intake-v401-http.json",
+  "javaApprovalInputEvidence": "D:/javaproj/advanced-order-platform/e/165/evidence/java-shard-readiness-runtime-execution-approval-input-contract-handoff-v165.json",
+  "miniKvFinalApprovalInputEvidence": "D:/C/mini-kv/fixtures/release/shard-readiness-v156.json",
+  "nodeVersion": "Node v402",
+  "javaVersion": "Java v165",
+  "miniKvVersion": "mini-kv v156",
+  "runtimeExecutionPacketPresent": true,
+  "runtimeExecutionPacketExecutable": true,
+  "readyForRuntimeLiveReadGate": true,
+  "allowedHttpMethods": [
+    "GET"
+  ],
+  "writeOperationsAllowed": false,
+  "managedAuditConnectionAllowed": false,
+  "rawEndpointUrlParsingAllowed": false,
+  "cleanupProofRequiredAfterRun": true,
+  "serviceOwners": {
+    "java": "java-platform-operator",
+    "miniKv": "mini-kv-service-owner",
+    "node": "node-control-plane-operator"
+  },
+  "loopback": {
+    "java": {
+      "host": "127.0.0.1",
+      "port": 8080
+    },
+    "miniKv": {
+      "host": "127.0.0.1",
+      "port": 6424
+    }
+  },
+  "smokeCommands": [
+    {
+      "owner": "java",
+      "method": "GET",
+      "path": "/actuator/health"
+    },
+    {
+      "owner": "mini-kv",
+      "method": "GET",
+      "path": "/health"
+    }
+  ],
+  "cleanupRules": [
+    "stop-only-owned-java-processes",
+    "stop-only-owned-mini-kv-processes",
+    "archive-cleanup-proof-after-runtime-start"
+  ]
+}
