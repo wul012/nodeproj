@@ -475,30 +475,6 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoff.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate,
-  renderManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGateMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate,
-  renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification,
-  renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport,
-  renderManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReportMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate,
-  renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerification,
-  renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerification.js";
-import {
   loadManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntake,
   renderManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntake.js";
@@ -662,6 +638,7 @@ import { javaMiniKvActiveShardPlanAuditJsonMarkdownRoutes } from "./auditJavaMin
 import { javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes } from "./auditJavaMiniKvDeclaredOperatorLifecycleRoutes.js";
 import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMiniKvRuntimeExecutionRoutes.js";
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
+import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
 
 export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistration[] = [
   auditJsonMarkdownRoute("/api/v1/audit/store-profile", (deps) => createAuditStoreRuntimeProfile({
@@ -1277,31 +1254,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGateMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-gate", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate({
-    config: deps.config,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-live-read-archive-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerificationMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-compatibility-report", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReportMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGate({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate-archive-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerificationMarkdown),
+  ...minimalShardReadinessAuditJsonMarkdownRoutes,
 
   ...javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes,
 

@@ -1,0 +1,30 @@
+{
+  "version": "v414",
+  "changeType": "route-group-refactor",
+  "activeNodeVersion": "Node v414",
+  "sourceNodeVersion": "Node v413",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "centralRouteTableBeforeLines": 1377,
+  "centralRouteTableAfterLines": 1330,
+  "extractedRouteGroupLines": 56,
+  "extractedRouteCount": 6,
+  "extractedRouteGroup": "src/routes/auditMinimalShardReadinessRoutes.ts",
+  "centralRouteTable": "src/routes/auditJsonMarkdownRoutes.ts",
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "adjacentVitestFiles": 5,
+    "adjacentVitestTests": 5,
+    "fullVitestFiles": 347,
+    "fullVitestTests": 1173,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false
+  }
+}
