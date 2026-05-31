@@ -1,0 +1,31 @@
+{
+  "version": "v417",
+  "changeType": "route-group-refactor",
+  "activeNodeVersion": "Node v417",
+  "sourceNodeVersion": "Node v416",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "centralRouteTableBeforeLines": 1210,
+  "centralRouteTableAfterLines": 1133,
+  "extractedRouteGroupLines": 86,
+  "extractedRouteCount": 10,
+  "extractedRouteGroup": "src/routes/auditSandboxHandleReviewRoutes.ts",
+  "centralRouteTable": "src/routes/auditJsonMarkdownRoutes.ts",
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "adjacentVitestFiles": 5,
+    "adjacentVitestTests": 9,
+    "fullVitestFiles": 350,
+    "fullVitestTests": 1176,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false,
+    "timeoutOnlyRerunPassed": false
+  }
+}
