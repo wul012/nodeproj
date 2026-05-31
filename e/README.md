@@ -64,6 +64,7 @@
 424: credential resolver fake-harness execution readiness route group split
 425: credential resolver disabled runtime shell readiness route group split
 426: credential resolver runtime shell decision route group split
+427: credential resolver runtime shell post-decision route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
