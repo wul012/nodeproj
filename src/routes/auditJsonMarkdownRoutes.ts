@@ -147,14 +147,6 @@ import {
   renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft,
-  renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraftMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification,
-  renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification.js";
-import {
   loadManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck,
   renderManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck.js";
@@ -460,6 +452,7 @@ import {
 } from "./auditJsonMarkdownRouteRegistrar.js";
 import { credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes } from "./auditCredentialResolverApprovalRequiredReadinessRoutes.js";
 import { credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes } from "./auditCredentialResolverFakeShellReadinessRoutes.js";
+import { credentialResolverImplementationPlanAuditJsonMarkdownRoutes } from "./auditCredentialResolverImplementationPlanRoutes.js";
 import { credentialResolverPreImplementationReadinessAuditJsonMarkdownRoutes } from "./auditCredentialResolverPreImplementationReadinessRoutes.js";
 import { javaMiniKvActiveShardPlanAuditJsonMarkdownRoutes } from "./auditJavaMiniKvActiveShardPlanRoutes.js";
 import { javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes } from "./auditJavaMiniKvDeclaredOperatorLifecycleRoutes.js";
@@ -727,13 +720,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-draft", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraftMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-upstream-echo-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown),
+  ...credentialResolverImplementationPlanAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-test-only-fake-harness-precheck", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck({
     config: deps.config,
