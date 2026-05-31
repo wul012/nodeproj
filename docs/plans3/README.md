@@ -5,13 +5,15 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v420-post-credential-resolver-pre-implementation-readiness-route-group-split-roadmap.md
+docs/plans3/v421-post-credential-resolver-approval-required-readiness-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
-Node v420 正在进行 credential resolver pre-implementation readiness route group split。
+Node v421 正在进行 credential resolver approval-required readiness route group split。
+docs/plans3/v421-post-credential-resolver-approval-required-readiness-route-group-split-roadmap.md
+Node v420 已完成 credential resolver pre-implementation readiness route group split。
 docs/plans3/v420-post-credential-resolver-pre-implementation-readiness-route-group-split-roadmap.md
 Node v419 已完成 credential resolver fake-shell readiness route group split。
 docs/plans3/v419-post-credential-resolver-fake-shell-readiness-route-group-split-roadmap.md

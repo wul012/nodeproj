@@ -58,6 +58,7 @@
 418: sandbox endpoint credential resolver route group split
 419: credential resolver fake-shell readiness route group split
 420: credential resolver pre-implementation readiness route group split
+421: credential resolver approval-required readiness route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
