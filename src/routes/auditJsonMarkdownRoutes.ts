@@ -15,14 +15,6 @@ import {
   renderFileAuditRestartEvidenceMarkdown,
 } from "../services/fileAuditRestartEvidence.js";
 import {
-  loadManagedAuditManualSandboxConnectionPrecheckPacket,
-  renderManagedAuditManualSandboxConnectionPrecheckPacketMarkdown,
-} from "../services/managedAuditManualSandboxConnectionPrecheckPacket.js";
-import {
-  loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification,
-  renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
-import {
   loadManagedAuditManualSandboxConnectionDecisionRecord,
   renderManagedAuditManualSandboxConnectionDecisionRecordMarkdown,
 } from "../services/managedAuditManualSandboxConnectionDecisionRecord.js";
@@ -51,17 +43,9 @@ import {
   renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown,
 } from "../services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.js";
 import {
-  loadManagedAuditManualSandboxConnectionRehearsalGuard,
-  renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown,
-} from "../services/managedAuditManualSandboxConnectionRehearsalGuard.js";
-import {
   createManagedAuditReadinessSummary,
   renderManagedAuditReadinessSummaryMarkdown,
 } from "../services/managedAuditReadinessSummary.js";
-import {
-  loadManagedAuditSandboxCodeHealthPass,
-  renderManagedAuditSandboxCodeHealthPassMarkdown,
-} from "../services/managedAuditSandboxCodeHealthPass.js";
 import {
   createManagedAuditStoreContractProfile,
   renderManagedAuditStoreContractMarkdown,
@@ -106,6 +90,7 @@ import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditMana
 import { managedAuditLocalAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditLocalAdapterRoutes.js";
 import { managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionCommandRoutes.js";
 import { managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionPacketRoutes.js";
+import { managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionPrecheckRoutes.js";
 import { managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionReadinessRoutes.js";
 import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
 import { managedAuditRouteQualityAuditJsonMarkdownRoutes } from "./auditManagedAuditRouteQualityRoutes.js";
@@ -175,21 +160,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-packet", (deps) => loadManagedAuditManualSandboxConnectionPrecheckPacket({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionPrecheckPacketMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-upstream-receipt-verification", (deps) => loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-sandbox-code-health-pass", (deps) => loadManagedAuditSandboxCodeHealthPass({
-    config: deps.config,
-  }), renderManagedAuditSandboxCodeHealthPassMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-rehearsal-guard", (deps) => loadManagedAuditManualSandboxConnectionRehearsalGuard({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown),
+  ...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-decision-record", (deps) => loadManagedAuditManualSandboxConnectionDecisionRecord({
     config: deps.config,

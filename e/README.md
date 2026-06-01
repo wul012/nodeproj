@@ -92,6 +92,7 @@
 452: managed audit manual sandbox connection packet route group split
 453: managed audit manual sandbox connection readiness route group split
 454: managed audit manual sandbox connection command route group split
+455: managed audit manual sandbox connection precheck route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

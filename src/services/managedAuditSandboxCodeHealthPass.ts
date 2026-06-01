@@ -143,6 +143,8 @@ const V247_SERVICE =
 const V247_TEST =
   "test/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.test.ts";
 const ROUTE_TABLE = "src/routes/auditJsonMarkdownRoutes.ts";
+const PRECHECK_ROUTE_GROUP =
+  "src/routes/auditManagedAuditManualSandboxConnectionPrecheckRoutes.ts";
 const ACTIVE_PLAN = "docs/plans/v245-post-sandbox-precheck-roadmap.md";
 
 const V247_ROUTE_PATH =
@@ -344,6 +346,19 @@ function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["r
   const serviceSource = readText(V247_SERVICE);
   const testSource = readText(V247_TEST);
   const routeSource = readText(ROUTE_TABLE);
+  const precheckRouteGroupSource = readText(PRECHECK_ROUTE_GROUP);
+  const registeredDirectlyInRouteTable =
+    routeSource.includes(V247_ROUTE_PATH)
+    && routeSource.includes("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification");
+  const renderedDirectlyInRouteTable =
+    routeSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown");
+  const registeredThroughPrecheckRouteGroup =
+    routeSource.includes("...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes")
+    && precheckRouteGroupSource.includes(V247_ROUTE_PATH)
+    && precheckRouteGroupSource.includes("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification");
+  const renderedThroughPrecheckRouteGroup =
+    routeSource.includes("...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes")
+    && precheckRouteGroupSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown");
 
   return {
     serviceFile: codeEvidenceFile(V247_SERVICE),
@@ -360,10 +375,9 @@ function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["r
       testSource.includes("exposes JSON and Markdown routes through the audit route table")
       && testSource.includes("?format=markdown"),
     routeRegisteredThroughTable:
-      routeSource.includes(V247_ROUTE_PATH)
-      && routeSource.includes("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification"),
+      registeredDirectlyInRouteTable || registeredThroughPrecheckRouteGroup,
     markdownRendererRegisteredThroughTable:
-      routeSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown"),
+      renderedDirectlyInRouteTable || renderedThroughPrecheckRouteGroup,
     noRealConnectionClientImport:
       !serviceSource.includes("../clients/")
       && !serviceSource.includes("OrderPlatformClient")
