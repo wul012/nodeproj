@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v457-post-managed-audit-manual-sandbox-connection-fake-transport-route-group-split-roadmap.md
+docs/plans3/v458-post-foundational-audit-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v458 已完成 foundational audit route group split。
+docs/plans3/v458-post-foundational-audit-route-group-split-roadmap.md
 Node v457 已完成 managed audit manual sandbox connection fake transport route group split。
 docs/plans3/v457-post-managed-audit-manual-sandbox-connection-fake-transport-route-group-split-roadmap.md
 Node v456 已完成 managed audit manual sandbox connection adapter client route group split。
@@ -189,11 +191,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v457 已完成 managed audit manual sandbox connection fake transport route group split。
-目标是把 fake-transport dry-run packet / archive verification / upstream echo verification JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
-v457 还修正了 Node 计划规则：写 successor plan 前必须只读检查 Java / mini-kv 当前进度，并把两边能否并行、具体下一步和阻塞条件写进计划。
-Java 当前 v186，可继续 read-only endpoint registry / historical snapshot 质量收口；mini-kv 当前 v175，只读 route split compatibility window 追到 Node v449，建议继续追 Node v450-v457。
-v457 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v458 正在进行 foundational audit route group split。
+目标是把 store-profile、store-config-profile、file-restart-evidence、retention-integrity-evidence、managed-store-contract、managed-readiness-summary 这 6 条基础 JSON/Markdown route 注册从中央 route 表抽到独立 route group。
+v458 前置检查显示 Java 正在推进 v187 contract alignment，mini-kv 正在推进 v176 route split window through Node v457；两边都有未提交工作，Node 只读记录，未修改、未构建、未停止它们。
+v458 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

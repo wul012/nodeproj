@@ -1,0 +1,52 @@
+{
+  "version": "v458",
+  "changeType": "route-group-refactor",
+  "activeNodeVersion": "Node v458",
+  "sourceNodeVersion": "Node v457",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "prePlanCrossProjectCheck": {
+    "java": {
+      "workspace": "D:\\javaproj",
+      "clean": false,
+      "committedBaseline": "5975173b",
+      "committedBaselineTag": "v186-order-platform-shard-readiness-historical-endpoint-snapshot-compatibility",
+      "observedInProgressDirection": "v187-style shard readiness v1 contract alignment",
+      "nodeTouchedJava": false
+    },
+    "miniKv": {
+      "workspace": "D:\\C\\mini-kv",
+      "clean": false,
+      "committedBaseline": "33d90e9",
+      "committedBaselineTag": "第一百七十五版Node路由拆分窗口扩展至v449",
+      "observedInProgressDirection": "v176-style read-only Node route split compatibility window through Node v457",
+      "nodeTouchedMiniKv": false
+    },
+    "nodeBlocksSiblingProjects": false
+  },
+  "centralRouteTableBeforeLines": 209,
+  "centralRouteTableAfterLines": 151,
+  "centralDirectRouteRegistrationsAfter": 0,
+  "extractedRouteGroupLines": 64,
+  "extractedRouteCount": 6,
+  "extractedRouteGroup": "src/routes/auditFoundationalRoutes.ts",
+  "centralRouteTable": "src/routes/auditJsonMarkdownRoutes.ts",
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "adjacentVitestFiles": 7,
+    "adjacentVitestTests": 18,
+    "fullVitestFiles": 391,
+    "fullVitestTests": 1217,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false,
+    "forcedHistoricalFixtureFallbackCovered": false,
+    "forcedHistoricalFixtureFallbackNotApplicable": true
+  }
+}
