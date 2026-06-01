@@ -167,14 +167,6 @@ import {
   renderManagedAuditPacketRestoreDrillPlanMarkdown,
 } from "../services/managedAuditPacketRestoreDrillPlan.js";
 import {
-  loadManagedAuditPersistenceBoundaryCandidate,
-  renderManagedAuditPersistenceBoundaryCandidateMarkdown,
-} from "../services/managedAuditPersistenceBoundaryCandidate.js";
-import {
-  loadManagedAuditPersistenceDryRunVerification,
-  renderManagedAuditPersistenceDryRunVerificationMarkdown,
-} from "../services/managedAuditPersistenceDryRunVerification.js";
-import {
   createManagedAuditReadinessSummary,
   renderManagedAuditReadinessSummaryMarkdown,
 } from "../services/managedAuditReadinessSummary.js";
@@ -240,6 +232,7 @@ import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMi
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
 import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterRoutes.js";
 import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
+import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditMinimalReadOnlyIntegrationRoutes.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
 import { sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes } from "./auditSandboxEndpointCredentialResolverRoutes.js";
@@ -282,21 +275,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditAdapterAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-persistence-boundary-candidate", (deps) => loadManagedAuditPersistenceBoundaryCandidate({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-    auditLog: deps.auditLog,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditPersistenceBoundaryCandidateMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-persistence-dry-run-verification", (deps) => loadManagedAuditPersistenceDryRunVerification({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-    auditLog: deps.auditLog,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditPersistenceDryRunVerificationMarkdown),
+  ...managedAuditPersistenceAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-identity-approval-binding-contract", (deps) => loadManagedAuditIdentityApprovalBindingContract({
     config: deps.config,

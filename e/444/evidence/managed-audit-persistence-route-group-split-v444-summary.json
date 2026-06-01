@@ -1,0 +1,37 @@
+{
+  "version": "v444",
+  "changeType": "route-group-refactor",
+  "activeNodeVersion": "Node v444",
+  "sourceNodeVersion": "Node v443",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "centralRouteTableBeforeLines": 559,
+  "centralRouteTableAfterLines": 538,
+  "extractedRouteGroupLines": 30,
+  "extractedRouteCount": 2,
+  "extractedRouteGroup": "src/routes/auditManagedAuditPersistenceRoutes.ts",
+  "centralRouteTable": "src/routes/auditJsonMarkdownRoutes.ts",
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "adjacentVitestFiles": 3,
+    "adjacentVitestTests": 7,
+    "fullVitestFiles": 377,
+    "fullVitestTests": 1203,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false,
+    "forcedHistoricalFixtureFallbackCovered": true,
+    "historicalFixturePathsChecked": [
+      "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/74",
+      "fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/runtime-smoke-evidence.json"
+    ],
+    "timeoutOnlyRerunPassed": false,
+    "timeoutOnlyRerunFiles": []
+  }
+}

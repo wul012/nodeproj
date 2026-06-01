@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v443-post-managed-audit-adapter-route-group-split-roadmap.md
+docs/plans3/v444-post-managed-audit-persistence-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v444 已完成 managed audit persistence route group split。
+docs/plans3/v444-post-managed-audit-persistence-route-group-split-roadmap.md
 Node v443 已完成 managed audit adapter route group split。
 docs/plans3/v443-post-managed-audit-adapter-route-group-split-roadmap.md
 Node v442 已完成 credential resolver disabled runtime shell design draft body draft candidate route group split。
