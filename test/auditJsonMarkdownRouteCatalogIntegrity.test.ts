@@ -29,7 +29,7 @@ describe("audit JSON/Markdown route catalog integrity", () => {
     });
     expect(result.summary).toMatchObject({
       groupCount: 50,
-      routeCount: 199,
+      routeCount: 200,
       domainGroupCounts: {
         foundational: 1,
         "managed-audit": 16,
@@ -42,7 +42,7 @@ describe("audit JSON/Markdown route catalog integrity", () => {
         foundational: 6,
         "managed-audit": 52,
         "credential-resolver": 70,
-        "java-mini-kv": 35,
+        "java-mini-kv": 36,
         "minimal-integration": 18,
         sandbox: 18,
       },

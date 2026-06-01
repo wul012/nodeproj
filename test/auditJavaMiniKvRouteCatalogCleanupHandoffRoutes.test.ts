@@ -8,6 +8,9 @@ import {
 import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_HANDOFF_EVIDENCE_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupHandoffEvidenceReport.js";
+import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupLatestEvidenceReport.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
@@ -26,7 +29,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(1);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(2);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -64,6 +67,57 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
       expect(markdown.body).toContain("# Java / mini-kv route catalog cleanup handoff evidence report");
       expect(markdown.body).toContain("Java v206 Endpoint Pair Integrity");
       expect(markdown.body).toContain("mini-kv v191 Handoff");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes latest tagged Java v207/v208 and mini-kv v193 evidence through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-latest-evidence-report.v1",
+        reportState: "ready",
+        activeNodeVersion: "Node v476",
+        sourceNodeVersion: "Node v475",
+        readyForRouteCatalogCleanupLatestEvidenceReport: true,
+        executionAllowed: false,
+        summary: {
+          fileCount: 4,
+          presentFileCount: 4,
+          checkCount: 16,
+          passedCheckCount: 16,
+          javaV1RouteCount: 6,
+          javaEndpointCatalogCount: 6,
+        },
+        evidence: {
+          javaV208EndpointCatalog: {
+            version: "Java v208",
+            contractEndpointCount: 6,
+          },
+          miniKvV193HandoffAuditFreeze: {
+            releaseVersion: "v193",
+            previousConsumedReleaseVersion: "v192",
+          },
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Java / mini-kv route catalog cleanup latest evidence report");
+      expect(markdown.body).toContain("Java v208 Endpoint Catalog");
+      expect(markdown.body).toContain("mini-kv v193 Handoff Audit Freeze");
     } finally {
       await app.close();
     }

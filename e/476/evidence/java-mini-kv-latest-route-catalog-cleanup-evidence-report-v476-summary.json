@@ -1,0 +1,57 @@
+{
+  "version": "v476",
+  "title": "Java / mini-kv latest route catalog cleanup evidence report",
+  "nodeBase": {
+    "commit": "8566cdf",
+    "tag": "v475"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "7a5c180e",
+      "tag": "v209-order-platform-shard-readiness-v208-endpoint-catalog-snapshot-freeze",
+      "status": "dirty/staged: v210-like endpoint catalog historical compatibility changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "5bd9a3c",
+      "tag": "第一百九十四版路由目录清理收口版本目录",
+      "status": "dirty: v195-like source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v476 exposes v475 frozen evidence and does not consume dirty sibling worktrees"
+  },
+  "route": {
+    "json": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-evidence",
+    "markdown": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-evidence?format=markdown",
+    "accessPolicyPattern": "/api/v1/audit/java-mini-kv-*",
+    "catalogGroupId": "java-mini-kv-route-catalog-cleanup-handoff",
+    "catalogGroupCount": 50,
+    "catalogRouteCount": 200,
+    "javaMiniKvDomainGroupCount": 5,
+    "javaMiniKvDomainRouteCount": 36
+  },
+  "reportSummary": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-latest-evidence-report.v1",
+    "activeNodeVersion": "Node v476",
+    "sourceNodeVersion": "Node v475",
+    "ready": true,
+    "fileCount": 4,
+    "presentFileCount": 4,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "executionAllowed": false,
+    "startsJavaService": false,
+    "startsMiniKvService": false
+  },
+  "validation": {
+    "focusedVitest": "passed: 4 files / 9 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "httpSmoke": "passed: handoff JSON 200, latest JSON 200, latest Markdown 200, latest ready=true, 16/16 checks"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}
