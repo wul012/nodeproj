@@ -46,7 +46,6 @@ describe("managed audit route registration table quality pass", () => {
         registrationTableRouteCount: 198,
         routeGroupCatalogAdded: true,
         routeGroupCount: 49,
-        sourceAnchorCount: 0,
         registerAuditRoutesLoopCount: 1,
       },
       checks: {
@@ -56,7 +55,6 @@ describe("managed audit route registration table quality pass", () => {
         routeGroupCatalogAdded: true,
         routeGroupCountAligned: true,
         routeTableMatchesCatalog: true,
-        sourceAnchorsAligned: true,
         uniqueRoutePaths: true,
         noEmptyRouteGroups: true,
         directRouteRegistrationReduced: true,
@@ -72,7 +70,6 @@ describe("managed audit route registration table quality pass", () => {
       summary: {
         routeRegistrationCount: 198,
         routeGroupCount: 49,
-        sourceAnchorCount: 0,
         duplicateRoutePathCount: 0,
         emptyRouteGroupCount: 0,
         removedDirectRegistrationCallCount: 41,
@@ -85,7 +82,6 @@ describe("managed audit route registration table quality pass", () => {
         summary: {
           groupCount: 49,
           routeCount: 198,
-          sourceAnchorCount: 0,
         },
       },
     });

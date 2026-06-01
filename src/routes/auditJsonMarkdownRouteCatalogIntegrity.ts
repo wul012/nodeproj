@@ -6,7 +6,6 @@ export type AuditJsonMarkdownRouteDomain = AuditJsonMarkdownRouteGroup["domain"]
 export interface AuditJsonMarkdownRouteCatalogIntegrityInput {
   groups: readonly AuditJsonMarkdownRouteGroup[];
   routes: readonly AuditJsonMarkdownRouteRegistration[];
-  sourceAnchors?: readonly string[];
 }
 
 export interface AuditJsonMarkdownRouteCatalogIntegrityResult {
@@ -18,12 +17,10 @@ export interface AuditJsonMarkdownRouteCatalogIntegrityResult {
     uniqueGroupIds: boolean;
     uniqueRoutePaths: boolean;
     routeTableMatchesCatalog: boolean;
-    sourceAnchorsMatchGroupCount: boolean;
   };
   summary: {
     groupCount: number;
     routeCount: number;
-    sourceAnchorCount: number;
     domainGroupCounts: Record<AuditJsonMarkdownRouteDomain, number>;
     emptyGroupIds: string[];
     duplicateGroupIds: string[];
@@ -51,7 +48,6 @@ export function evaluateAuditJsonMarkdownRouteCatalogIntegrity(
   const emptyGroupIds = input.groups
     .filter((group) => group.routes.length === 0)
     .map((group) => group.id);
-  const sourceAnchorCount = input.sourceAnchors?.length ?? 0;
 
   const checks = {
     hasGroups: input.groups.length > 0,
@@ -60,8 +56,6 @@ export function evaluateAuditJsonMarkdownRouteCatalogIntegrity(
     uniqueGroupIds: duplicateGroupIds.length === 0,
     uniqueRoutePaths: duplicateRoutePaths.length === 0,
     routeTableMatchesCatalog: routesMatch(flattenedRoutes, input.routes),
-    sourceAnchorsMatchGroupCount: input.sourceAnchors === undefined
-      || sourceAnchorCount === input.groups.length,
   };
 
   return {
@@ -70,7 +64,6 @@ export function evaluateAuditJsonMarkdownRouteCatalogIntegrity(
     summary: {
       groupCount: input.groups.length,
       routeCount: flattenedRoutes.length,
-      sourceAnchorCount,
       domainGroupCounts: countGroupsByDomain(input.groups),
       emptyGroupIds,
       duplicateGroupIds,

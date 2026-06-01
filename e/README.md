@@ -105,6 +105,7 @@
 465: code health route group evidence
 466: central route anchor extraction
 467: route catalog anchor removal
+468: route catalog integrity anchor field removal
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

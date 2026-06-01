@@ -23,12 +23,10 @@ describe("audit JSON/Markdown route catalog integrity", () => {
       uniqueGroupIds: true,
       uniqueRoutePaths: true,
       routeTableMatchesCatalog: true,
-      sourceAnchorsMatchGroupCount: true,
     });
     expect(result.summary).toMatchObject({
       groupCount: 49,
       routeCount: 198,
-      sourceAnchorCount: 0,
       domainGroupCounts: {
         foundational: 1,
         "managed-audit": 16,

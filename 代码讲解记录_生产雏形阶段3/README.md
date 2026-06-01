@@ -105,6 +105,7 @@
 470-code-health-route-group-evidence-v465.md
 471-central-route-anchor-extraction-v466.md
 472-route-catalog-anchor-removal-v467.md
+473-route-catalog-integrity-anchor-field-removal-v468.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

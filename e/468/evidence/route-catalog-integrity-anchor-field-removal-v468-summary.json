@@ -1,0 +1,34 @@
+{
+  "version": "v468",
+  "title": "route catalog integrity anchor field removal",
+  "nodeBase": {
+    "commit": "66904ac",
+    "tag": "v467"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "b23e2a1d",
+      "tag": "v199-order-platform-shard-readiness-v1-contract-handoff-manifest",
+      "status": "dirty: v200-like handoff manifest snapshot source/test/docs changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "506ff62",
+      "tag": "mini-kv-v184-route-catalog-final-closeout-window",
+      "status": "dirty: v185-like route-catalog closeout source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v468 removes stale Node-only anchor report fields"
+  },
+  "removedFields": [
+    "sourceAnchorsMatchGroupCount",
+    "sourceAnchorCount",
+    "sourceAnchorsAligned",
+    "SOURCE_ANCHORS_NOT_ALIGNED"
+  ],
+  "validation": {
+    "focusedTests": "passed: 4 files / 10 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

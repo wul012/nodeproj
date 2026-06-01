@@ -43,7 +43,6 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
     registrationTableRouteCount: number;
     routeGroupCatalogAdded: true;
     routeGroupCount: number;
-    sourceAnchorCount: number;
     registerAuditRoutesLoopCount: number;
   };
   checks: {
@@ -53,7 +52,6 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
     routeGroupCatalogAdded: boolean;
     routeGroupCountAligned: boolean;
     routeTableMatchesCatalog: boolean;
-    sourceAnchorsAligned: boolean;
     uniqueRoutePaths: boolean;
     noEmptyRouteGroups: boolean;
     directRouteRegistrationReduced: boolean;
@@ -71,7 +69,6 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
     passedCheckCount: number;
     routeRegistrationCount: number;
     routeGroupCount: number;
-    sourceAnchorCount: number;
     duplicateRoutePathCount: number;
     emptyRouteGroupCount: number;
     removedDirectRegistrationCallCount: number;
@@ -140,7 +137,6 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
     registrationTableRouteCount: catalogIntegrity.summary.routeCount,
     routeGroupCatalogAdded: true as const,
     routeGroupCount: catalogIntegrity.summary.groupCount,
-    sourceAnchorCount: catalogIntegrity.summary.sourceAnchorCount,
     registerAuditRoutesLoopCount: 1,
   };
   const checks = {
@@ -150,7 +146,6 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
     routeGroupCatalogAdded: codeShape.routeGroupCatalogAdded,
     routeGroupCountAligned: codeShape.routeGroupCount === ROUTE_GROUP_COUNT,
     routeTableMatchesCatalog: catalogIntegrity.checks.routeTableMatchesCatalog,
-    sourceAnchorsAligned: catalogIntegrity.checks.sourceAnchorsMatchGroupCount,
     uniqueRoutePaths: catalogIntegrity.checks.uniqueRoutePaths,
     noEmptyRouteGroups: catalogIntegrity.checks.noEmptyGroups,
     directRouteRegistrationReduced:
@@ -205,7 +200,6 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
       passedCheckCount: countPassedReportChecks(checks),
       routeRegistrationCount: codeShape.registrationTableRouteCount,
       routeGroupCount: codeShape.routeGroupCount,
-      sourceAnchorCount: codeShape.sourceAnchorCount,
       duplicateRoutePathCount: catalogIntegrity.summary.duplicateRoutePaths.length,
       emptyRouteGroupCount: catalogIntegrity.summary.emptyGroupIds.length,
       removedDirectRegistrationCallCount:
@@ -320,12 +314,6 @@ function collectProductionBlockers(
       message: "The flattened route table must match the catalog and keep unique non-empty groups.",
     },
     {
-      condition: checks.sourceAnchorsAligned,
-      code: "SOURCE_ANCHORS_NOT_ALIGNED",
-      source: "audit-route-catalog-integrity",
-      message: "Temporary source anchors must stay aligned with the route group catalog until the final anchor cleanup.",
-    },
-    {
       condition: checks.directRouteRegistrationReduced,
       code: "DIRECT_ROUTE_REGISTRATION_NOT_REDUCED",
       source: "managed-audit-route-registration-table-quality-pass",
@@ -393,12 +381,10 @@ function createCurrentAuditRouteCatalogIntegritySnapshot(): AuditJsonMarkdownRou
       uniqueGroupIds: true,
       uniqueRoutePaths: true,
       routeTableMatchesCatalog: true,
-      sourceAnchorsMatchGroupCount: true,
     },
     summary: {
       groupCount: ROUTE_GROUP_COUNT,
       routeCount: ROUTE_REGISTRATION_TABLE_COUNT,
-      sourceAnchorCount: 0,
       domainGroupCounts: {
         foundational: 1,
         "managed-audit": 16,
