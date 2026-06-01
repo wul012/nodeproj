@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v468-post-route-catalog-integrity-anchor-field-removal-roadmap.md
+docs/plans3/v469-post-route-catalog-summary-builder-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v469 已完成 route catalog summary builder。
+docs/plans3/v469-post-route-catalog-summary-builder-roadmap.md
 Node v468 已完成 route catalog integrity anchor field removal。
 docs/plans3/v468-post-route-catalog-integrity-anchor-field-removal-roadmap.md
 Node v467 已完成 route catalog anchor removal。
@@ -211,10 +213,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v468 已完成 route catalog integrity anchor field removal。
-目标是从 catalog integrity 与 managed audit route quality profile 中移除 `sourceAnchorCount` / `sourceAnchorsMatchGroupCount` / `sourceAnchorsAligned` 残留字段。
-v468 前置检查显示 Java 已到 v199 且有 v200 方向本地改动，mini-kv 在 v184 后有 v185 方向本地改动；两边建议并行，Node v468 不等待新的 sibling evidence。
-v468 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v469 已完成 route catalog summary builder。
+目标是把 audit JSON/Markdown route catalog 的 flatten 与 domain summary 统计抽成 typed builder，供 integrity 和后续报告复用。
+v469 前置检查显示 Java 已完成 v200，mini-kv 已完成 v185 且有 v186 方向本地改动；两边建议并行，Node v469 不等待新的 sibling evidence。
+v469 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

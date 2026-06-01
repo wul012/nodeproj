@@ -1,0 +1,34 @@
+{
+  "version": "v469",
+  "title": "route catalog summary builder",
+  "nodeBase": {
+    "commit": "cced05e",
+    "tag": "v468"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "7e9c999b",
+      "tag": "v200-order-platform-shard-readiness-v199-handoff-manifest-snapshot-freeze",
+      "status": "clean"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "2c7526f",
+      "tag": "mini-kv-v185-route-catalog-closeout-snapshot",
+      "status": "dirty: v186-like route catalog closeout source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v469 extracts a Node-only catalog summary helper"
+  },
+  "summaryBuilder": {
+    "flattenHelperAdded": true,
+    "summaryHelperAdded": true,
+    "domainRouteCountsAdded": true,
+    "integrityEvaluatorUsesBuilder": true
+  },
+  "validation": {
+    "focusedTests": "passed: 4 files / 8 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

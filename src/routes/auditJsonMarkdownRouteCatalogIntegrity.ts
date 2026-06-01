@@ -1,7 +1,15 @@
 import type { AuditJsonMarkdownRouteRegistration } from "./auditJsonMarkdownRouteRegistrar.js";
 import type { AuditJsonMarkdownRouteGroup } from "./auditJsonMarkdownRouteGroups.js";
+import {
+  flattenAuditJsonMarkdownRouteCatalog,
+  summarizeAuditJsonMarkdownRouteCatalog,
+  type AuditJsonMarkdownRouteCatalogSummary,
+} from "./auditJsonMarkdownRouteCatalogSummary.js";
 
-export type AuditJsonMarkdownRouteDomain = AuditJsonMarkdownRouteGroup["domain"];
+export type {
+  AuditJsonMarkdownRouteCatalogSummary,
+  AuditJsonMarkdownRouteDomain,
+} from "./auditJsonMarkdownRouteCatalogSummary.js";
 
 export interface AuditJsonMarkdownRouteCatalogIntegrityInput {
   groups: readonly AuditJsonMarkdownRouteGroup[];
@@ -18,31 +26,18 @@ export interface AuditJsonMarkdownRouteCatalogIntegrityResult {
     uniqueRoutePaths: boolean;
     routeTableMatchesCatalog: boolean;
   };
-  summary: {
-    groupCount: number;
-    routeCount: number;
-    domainGroupCounts: Record<AuditJsonMarkdownRouteDomain, number>;
+  summary: AuditJsonMarkdownRouteCatalogSummary & {
     emptyGroupIds: string[];
     duplicateGroupIds: string[];
     duplicateRoutePaths: string[];
-    firstRoutePath: string | null;
-    lastRoutePath: string | null;
   };
 }
-
-const AUDIT_JSON_MARKDOWN_ROUTE_DOMAINS: readonly AuditJsonMarkdownRouteDomain[] = [
-  "foundational",
-  "managed-audit",
-  "credential-resolver",
-  "java-mini-kv",
-  "minimal-integration",
-  "sandbox",
-];
 
 export function evaluateAuditJsonMarkdownRouteCatalogIntegrity(
   input: AuditJsonMarkdownRouteCatalogIntegrityInput,
 ): AuditJsonMarkdownRouteCatalogIntegrityResult {
-  const flattenedRoutes = input.groups.flatMap((group) => group.routes);
+  const flattenedRoutes = flattenAuditJsonMarkdownRouteCatalog(input.groups);
+  const catalogSummary = summarizeAuditJsonMarkdownRouteCatalog(input.groups);
   const duplicateGroupIds = collectDuplicates(input.groups.map((group) => group.id));
   const duplicateRoutePaths = collectDuplicates(flattenedRoutes.map((route) => route.path));
   const emptyGroupIds = input.groups
@@ -62,14 +57,10 @@ export function evaluateAuditJsonMarkdownRouteCatalogIntegrity(
     ready: Object.values(checks).every(Boolean),
     checks,
     summary: {
-      groupCount: input.groups.length,
-      routeCount: flattenedRoutes.length,
-      domainGroupCounts: countGroupsByDomain(input.groups),
+      ...catalogSummary,
       emptyGroupIds,
       duplicateGroupIds,
       duplicateRoutePaths,
-      firstRoutePath: flattenedRoutes[0]?.path ?? null,
-      lastRoutePath: flattenedRoutes.at(-1)?.path ?? null,
     },
   };
 }
@@ -94,18 +85,4 @@ function collectDuplicates(values: readonly string[]): string[] {
   }
 
   return [...duplicates].sort();
-}
-
-function countGroupsByDomain(
-  groups: readonly AuditJsonMarkdownRouteGroup[],
-): Record<AuditJsonMarkdownRouteDomain, number> {
-  const counts = Object.fromEntries(
-    AUDIT_JSON_MARKDOWN_ROUTE_DOMAINS.map((domain) => [domain, 0]),
-  ) as Record<AuditJsonMarkdownRouteDomain, number>;
-
-  for (const group of groups) {
-    counts[group.domain] += 1;
-  }
-
-  return counts;
 }

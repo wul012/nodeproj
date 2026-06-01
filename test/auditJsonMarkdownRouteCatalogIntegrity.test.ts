@@ -35,6 +35,14 @@ describe("audit JSON/Markdown route catalog integrity", () => {
         "minimal-integration": 2,
         sandbox: 2,
       },
+      domainRouteCounts: {
+        foundational: 6,
+        "managed-audit": 52,
+        "credential-resolver": 70,
+        "java-mini-kv": 34,
+        "minimal-integration": 18,
+        sandbox: 18,
+      },
       firstRoutePath: "/api/v1/audit/store-profile",
       lastRoutePath:
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification",
