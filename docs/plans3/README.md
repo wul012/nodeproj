@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v492-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-roadmap.md
+docs/plans3/v493-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-archive-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v493 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence report archive。
+docs/plans3/v493-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-archive-roadmap.md
 Node v492 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence report。
 docs/plans3/v492-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-roadmap.md
 Node v491 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence intake。
@@ -273,6 +275,11 @@ Node v492 已完成 Java / mini-kv route catalog cleanup consumer readiness evid
 目标是把 v491 intake 暴露到现有 cleanup route group，供 v493 archive 使用。
 v492 前置检查沿用 v491 边界：Java 当前 worktree dirty 不消费，mini-kv v210 clean 但无 versioned fixture，v210 只作为 audit note。
 v492 focused route/catalog tests、typecheck、build 已通过；总 route count 更新为 206，Java/mini-kv domain route count 更新为 42。
+
+Node v493 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence report archive。
+目标是固化 v492 JSON/Markdown route 输出和 SHA-256 summary，供 v494 verifier 使用。
+v493 Fastify inject archive 生成通过：JSON 200、Markdown 200、ready=true、21/21 checks。
+v493 不新增 route，不启动 sibling 服务，不开启 runtime execution。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

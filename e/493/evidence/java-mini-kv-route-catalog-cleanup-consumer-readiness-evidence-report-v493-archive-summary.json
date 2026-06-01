@@ -1,0 +1,33 @@
+{
+  "version": "v493",
+  "title": "Java / mini-kv route catalog cleanup consumer readiness evidence report archive",
+  "generatedAt": "2026-06-01T23:18:23.883Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "checkCount": 21,
+  "passedCheckCount": 21,
+  "activeNodeVersion": "Node v492",
+  "sourceNodeVersion": "Node v491",
+  "files": {
+    "json": {
+      "path": "e/493/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-v492-http.json",
+      "sizeBytes": 25922,
+      "sha256": "d4bcf6c7468791b40c87e3db563a591c4208094776b784a1b9a0b7d40954224c"
+    },
+    "markdown": {
+      "path": "e/493/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-v492-http.md",
+      "sizeBytes": 10966,
+      "sha256": "f3199992d62705cbdd36f7c07fa76d27cf7d495bf9e6b519c732f73bb2a69a5f"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}
