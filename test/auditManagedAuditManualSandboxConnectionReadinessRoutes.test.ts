@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditManualSandboxConnectionReadinessRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit manual sandbox connection readiness audit route group", () => {
   it("keeps preflight, rehearsal, precondition, envelope, and readiness routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const preflightJson = await app.inject({
@@ -40,14 +38,10 @@ describe("managed audit manual sandbox connection readiness audit route group", 
         "/api/v1/audit/managed-audit-manual-sandbox-connection-dry-run-request-envelope",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-readiness-gate",
       ]);
-      expect(routeTableSource).toContain("...managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionPreflightGate");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionPreflightVerification");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionRehearsalPacketReview");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionPreconditionIntake");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDryRunRequestEnvelope");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionReadinessGate");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes",
+      });
 
       expect(preflightJson.statusCode).toBe(200);
       expect(preflightJson.json()).toMatchObject({

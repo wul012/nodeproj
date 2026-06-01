@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditRouteQualityAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditRouteQualityRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit route quality audit route group", () => {
   it("keeps helper and registration-table quality routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditRouteQualityAuditJsonMarkdownRoutes.map((route) => route.path);
       const helperJson = await app.inject({
@@ -30,9 +28,10 @@ describe("managed audit route quality audit route group", () => {
         "/api/v1/audit/managed-audit-route-helper-quality-pass",
         "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
       ]);
-      expect(routeTableSource).toContain("...managedAuditRouteQualityAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditRouteHelperQualityPass");
-      expect(routeTableSource).not.toContain("loadManagedAuditRouteRegistrationTableQualityPass");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditRouteQualityAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditRouteQualityAuditJsonMarkdownRoutes",
+      });
       expect(helperJson.statusCode).toBe(200);
       expect(helperJson.json()).toMatchObject({
         profileVersion: "managed-audit-route-helper-quality-pass.v1",

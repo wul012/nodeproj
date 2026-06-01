@@ -1,19 +1,16 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { sandboxHandleReviewAuditJsonMarkdownRoutes } from "../src/routes/auditSandboxHandleReviewRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 const LATEST_SANDBOX_HANDLE_REVIEW_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification";
 
 describe("sandbox handle review audit route group", () => {
   it("keeps prerequisite, contract, packet gate, and closure routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = sandboxHandleReviewAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -32,8 +29,10 @@ describe("sandbox handle review audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-intake",
       );
       expect(paths).toContain(LATEST_SANDBOX_HANDLE_REVIEW_ROUTE);
-      expect(routeTableSource).toContain("...sandboxHandleReviewAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewArchiveVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: sandboxHandleReviewAuditJsonMarkdownRoutes,
+        sourceAnchor: "...sandboxHandleReviewAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v363",

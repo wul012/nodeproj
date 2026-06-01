@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditManualSandboxConnectionCommandRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit manual sandbox connection command audit route group", () => {
   it("keeps operator-window and dry-run command routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes.map((route) => route.path);
       const checklistJson = await app.inject({
@@ -38,12 +36,10 @@ describe("managed audit manual sandbox connection command audit route group", ()
         "/api/v1/audit/managed-audit-manual-sandbox-connection-dry-run-command-package-verification-report",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-dry-run-command-upstream-echo-verification",
       ]);
-      expect(routeTableSource).toContain("...managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionOperatorWindowChecklist");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerification");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDryRunCommandPackage");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDryRunCommandPackageVerificationReport");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDryRunCommandUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes",
+      });
 
       expect(checklistJson.statusCode).toBe(200);
       expect(checklistJson.json()).toMatchObject({

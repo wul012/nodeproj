@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditManualSandboxConnectionPacketRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit manual sandbox connection packet audit route group", () => {
   it("keeps evidence checklist, operator packet, and packet verification routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes.map((route) => route.path);
       const checklistJson = await app.inject({
@@ -36,10 +34,10 @@ describe("managed audit manual sandbox connection packet audit route group", () 
         "/api/v1/audit/managed-audit-manual-sandbox-connection-operator-packet",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-packet-verification",
       ]);
-      expect(routeTableSource).toContain("...managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionEvidenceChecklist");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionOperatorPacket");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionPacketVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes",
+      });
 
       expect(checklistJson.statusCode).toBe(200);
       expect(checklistJson.json()).toMatchObject({

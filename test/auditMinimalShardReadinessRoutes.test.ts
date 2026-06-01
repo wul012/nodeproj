@@ -1,19 +1,16 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "../src/routes/auditMinimalShardReadinessRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 const LATEST_MINIMAL_SHARD_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate-archive-verification";
 
 describe("minimal shard readiness audit route group", () => {
   it("keeps contract, live-read, compatibility, and regular-gate routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = minimalShardReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -32,8 +29,10 @@ describe("minimal shard readiness audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate",
       );
       expect(paths).toContain(LATEST_MINIMAL_SHARD_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...minimalShardReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: minimalShardReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...minimalShardReadinessAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v375",

@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -9,13 +8,13 @@ import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { foundationalAuditJsonMarkdownRoutes } from "../src/routes/auditFoundationalRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("foundational audit JSON/Markdown route group", () => {
   it("keeps foundational audit routes registered through the shared route table", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-foundational-audit-routes-"));
     const auditStorePath = path.join(directory, "audit.jsonl");
     const app = await buildApp(loadTestConfig(auditStorePath));
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = foundationalAuditJsonMarkdownRoutes.map((route) => route.path);
       const storeProfileJson = await app.inject({
@@ -57,14 +56,10 @@ describe("foundational audit JSON/Markdown route group", () => {
         "/api/v1/audit/managed-store-contract",
         "/api/v1/audit/managed-readiness-summary",
       ]);
-      expect(routeTableSource).toContain("...foundationalAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("auditJsonMarkdownRoute(");
-      expect(routeTableSource).not.toContain("createAuditStoreRuntimeProfile");
-      expect(routeTableSource).not.toContain("createAuditStoreEnvConfigProfile");
-      expect(routeTableSource).not.toContain("createFileAuditRestartEvidenceReport");
-      expect(routeTableSource).not.toContain("createAuditRetentionIntegrityEvidence");
-      expect(routeTableSource).not.toContain("createManagedAuditStoreContractProfile");
-      expect(routeTableSource).not.toContain("createManagedAuditReadinessSummary");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: foundationalAuditJsonMarkdownRoutes,
+        sourceAnchor: "...foundationalAuditJsonMarkdownRoutes",
+      });
 
       expect(storeProfileJson.statusCode).toBe(200);
       expect(storeProfileJson.json()).toMatchObject({

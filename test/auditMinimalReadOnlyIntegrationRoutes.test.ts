@@ -1,19 +1,16 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "../src/routes/auditMinimalReadOnlyIntegrationRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 const LATEST_MINIMAL_READ_ONLY_INTEGRATION_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-operator-ci-regular-gate-handoff";
 
 describe("minimal read-only integration audit route group", () => {
   it("keeps window, smoke, gate execution, and handoff routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = minimalReadOnlyIntegrationAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -32,8 +29,10 @@ describe("minimal read-only integration audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-read-only-integration-window-readiness-cut",
       );
       expect(paths).toContain(LATEST_MINIMAL_READ_ONLY_INTEGRATION_ROUTE);
-      expect(routeTableSource).toContain("...minimalReadOnlyIntegrationAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoff");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: minimalReadOnlyIntegrationAuditJsonMarkdownRoutes,
+        sourceAnchor: "...minimalReadOnlyIntegrationAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v369",

@@ -1,19 +1,16 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "../src/routes/auditJavaMiniKvRuntimeExecutionRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 const V409_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-pass-evidence-closeout";
 
 describe("Java/mini-kv runtime execution audit route group", () => {
   it("keeps the extracted runtime execution routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -32,8 +29,10 @@ describe("Java/mini-kv runtime execution audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-runtime-execution-artifact-upstream-progress-intake",
       );
       expect(paths).toContain(V409_ROUTE);
-      expect(routeTableSource).toContain("...javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseout");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes,
+        sourceAnchor: "...javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v409",

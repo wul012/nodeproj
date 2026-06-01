@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditManualSandboxConnectionAdapterClientRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit manual sandbox connection adapter client audit route group", () => {
   it("keeps decision, disabled-client, shell-contract, and upstream echo routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes.map((route) => route.path);
       const decisionJson = await app.inject({
@@ -37,11 +35,10 @@ describe("managed audit manual sandbox connection adapter client audit route gro
         "/api/v1/audit/managed-audit-manual-sandbox-connection-test-only-adapter-shell-contract",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-disabled-adapter-client-upstream-echo-verification",
       ]);
-      expect(routeTableSource).toContain("...managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDecisionRecord");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDisabledAdapterClientPrecheck");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes",
+      });
 
       expect(decisionJson.statusCode).toBe(200);
       expect(decisionJson.json()).toMatchObject({

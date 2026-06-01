@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditManualSandboxConnectionFakeTransportRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit manual sandbox connection fake-transport audit route group", () => {
   it("keeps fake-transport packet routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes.map((route) => route.path);
       const packetJson = await app.inject({
@@ -36,10 +34,10 @@ describe("managed audit manual sandbox connection fake-transport audit route gro
         "/api/v1/audit/managed-audit-manual-sandbox-connection-fake-transport-packet-archive-verification",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-fake-transport-packet-upstream-echo-verification",
       ]);
-      expect(routeTableSource).toContain("...managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacket");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionFakeTransportPacketArchiveVerification");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes",
+      });
 
       expect(packetJson.statusCode).toBe(200);
       expect(packetJson.json()).toMatchObject({

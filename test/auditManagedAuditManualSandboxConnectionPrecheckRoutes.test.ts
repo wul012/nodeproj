@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditManualSandboxConnectionPrecheckRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit manual sandbox connection precheck audit route group", () => {
   it("keeps precheck, code health, and rehearsal guard routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes.map((route) => route.path);
       const precheckJson = await app.inject({
@@ -37,11 +35,10 @@ describe("managed audit manual sandbox connection precheck audit route group", (
         "/api/v1/audit/managed-audit-sandbox-code-health-pass",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-rehearsal-guard",
       ]);
-      expect(routeTableSource).toContain("...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionPrecheckPacket");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification");
-      expect(routeTableSource).not.toContain("loadManagedAuditSandboxCodeHealthPass");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionRehearsalGuard");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes",
+      });
 
       expect(precheckJson.statusCode).toBe(200);
       expect(precheckJson.json()).toMatchObject({

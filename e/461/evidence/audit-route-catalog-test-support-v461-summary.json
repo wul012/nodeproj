@@ -1,0 +1,36 @@
+{
+  "version": "v461",
+  "title": "audit route catalog test support",
+  "nodeBase": {
+    "commit": "39beabc",
+    "tag": "v460"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "e3211bfd",
+      "tag": "v195-order-platform-shard-readiness-v193-evidence-packet-historical-snapshot-compatibility",
+      "status": "clean"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "901e46e",
+      "tag": "mini-kv-v179-route-split-window-numeric-span-audit",
+      "status": "dirty: v180-like local source/test/evidence changes plus .playwright-mcp"
+    },
+    "nodeDecision": "recommended parallel; v461 changes Node test support only"
+  },
+  "testSupport": {
+    "helper": "test/support/auditJsonMarkdownRouteCatalogTestSupport.ts",
+    "migratedRouteGroupTests": 12,
+    "remainingRouteTableSourceTests": 39
+  },
+  "validation": {
+    "focusedMigratedTests": "passed: 12 migrated route-group files",
+    "catalogTests": "passed with focused suite",
+    "focusedSuite": "passed: 14 files / 15 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "fullVitest": "deferred to final batch version"
+  }
+}
