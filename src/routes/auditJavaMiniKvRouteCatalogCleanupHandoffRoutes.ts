@@ -34,6 +34,11 @@ import {
   renderJavaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerificationMarkdown,
 } from "../services/javaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerification.js";
 import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_EVIDENCE_ROUTE_PATH,
+  loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceReport,
+  renderJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceReportMarkdown,
+} from "../services/javaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceReport.js";
+import {
   auditJsonMarkdownRoute,
   type AuditJsonMarkdownRouteRegistration,
 } from "./auditJsonMarkdownRouteRegistrar.js";
@@ -87,5 +92,12 @@ export const javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes: readon
       config: deps.config,
     }),
     renderJavaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerificationMarkdown,
+  ),
+  auditJsonMarkdownRoute(
+    JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_EVIDENCE_ROUTE_PATH,
+    (deps) => loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceReport({
+      config: deps.config,
+    }),
+    renderJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceReportMarkdown,
   ),
 ];

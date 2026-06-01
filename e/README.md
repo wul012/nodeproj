@@ -129,6 +129,7 @@
 489: Java / mini-kv route catalog cleanup verification checklist evidence archive verification
 490: Java / mini-kv route catalog cleanup verification checklist evidence archive verification route
 491: Java / mini-kv route catalog cleanup consumer readiness evidence intake
+492: Java / mini-kv route catalog cleanup consumer readiness evidence report
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
