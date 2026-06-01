@@ -80,6 +80,7 @@
 440: credential resolver disabled runtime shell design draft body pre-draft decision route group split
 441: credential resolver disabled runtime shell design draft body preparation plan route group split
 442: credential resolver disabled runtime shell design draft body draft candidate route group split
+443: managed audit adapter route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

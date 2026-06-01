@@ -15,18 +15,6 @@ import {
   renderFileAuditRestartEvidenceMarkdown,
 } from "../services/fileAuditRestartEvidence.js";
 import {
-  createManagedAuditAdapterBoundaryProfile,
-  renderManagedAuditAdapterBoundaryMarkdown,
-} from "../services/managedAuditAdapterBoundary.js";
-import {
-  createManagedAuditAdapterComplianceProfile,
-  renderManagedAuditAdapterComplianceMarkdown,
-} from "../services/managedAuditAdapterCompliance.js";
-import {
-  createManagedAuditAdapterRunnerProfile,
-  renderManagedAuditAdapterRunnerMarkdown,
-} from "../services/managedAuditAdapterRunner.js";
-import {
   loadManagedAuditAdapterDisabledShell,
   renderManagedAuditAdapterDisabledShellMarkdown,
 } from "../services/managedAuditAdapterDisabledShell.js";
@@ -250,6 +238,7 @@ import { javaMiniKvActiveShardPlanAuditJsonMarkdownRoutes } from "./auditJavaMin
 import { javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes } from "./auditJavaMiniKvDeclaredOperatorLifecycleRoutes.js";
 import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMiniKvRuntimeExecutionRoutes.js";
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
+import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterRoutes.js";
 import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditMinimalReadOnlyIntegrationRoutes.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
@@ -291,10 +280,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
     auditLog: deps.auditLog,
   }), renderManagedAuditReadinessSummaryMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-adapter-boundary", (deps) => createManagedAuditAdapterBoundaryProfile({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-  }), renderManagedAuditAdapterBoundaryMarkdown),
+  ...managedAuditAdapterAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-persistence-boundary-candidate", (deps) => loadManagedAuditPersistenceBoundaryCandidate({
     config: deps.config,
@@ -570,15 +556,4 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...sandboxHandleReviewAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute(
-    "/api/v1/audit/managed-adapter-compliance",
-    (deps) => createManagedAuditAdapterComplianceProfile(deps.config),
-    renderManagedAuditAdapterComplianceMarkdown,
-  ),
-
-  auditJsonMarkdownRoute(
-    "/api/v1/audit/managed-adapter-runner",
-    (deps) => createManagedAuditAdapterRunnerProfile(deps.config),
-    renderManagedAuditAdapterRunnerMarkdown,
-  ),
 ];
