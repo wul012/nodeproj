@@ -1,0 +1,42 @@
+{
+  "version": "v460",
+  "title": "audit route catalog integrity",
+  "nodeBase": {
+    "commit": "5a0de70",
+    "tag": "v459"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "e46433e3",
+      "tag": "v194-order-platform-shard-readiness-v193-evidence-packet-snapshot-freeze",
+      "status": "dirty: one local test-file modification"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "901e46e",
+      "tag": "mini-kv-v179-route-split-window-numeric-span-audit",
+      "status": "dirty: tracked shard-readiness changes plus v180 evidence/history files"
+    },
+    "nodeDecision": "recommended parallel; v460 uses only Node route catalog metadata"
+  },
+  "catalogIntegrity": {
+    "groupCount": 49,
+    "routeCount": 198,
+    "sourceAnchorCount": 49,
+    "domainGroupCounts": {
+      "foundational": 1,
+      "managed-audit": 16,
+      "credential-resolver": 24,
+      "java-mini-kv": 4,
+      "minimal-integration": 2,
+      "sandbox": 2
+    }
+  },
+  "validation": {
+    "focusedCatalogTests": "passed: 2 files / 3 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "fullVitest": "deferred to final batch version"
+  }
+}

@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v459-post-audit-route-group-catalog-roadmap.md
+docs/plans3/v460-post-audit-route-catalog-integrity-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v460 正在进行 audit route catalog integrity。
+docs/plans3/v460-post-audit-route-catalog-integrity-roadmap.md
 Node v459 已完成 audit route group catalog。
 docs/plans3/v459-post-audit-route-group-catalog-roadmap.md
 Node v458 已完成 foundational audit route group split。
@@ -193,10 +195,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v459 已完成 audit route group catalog。
-目标是把 49 个 audit route group 的顺序、domain 和 route 引用集中到 `auditJsonMarkdownRouteGroups.ts`，让 `auditJsonMarkdownRoutes.ts` 只从 catalog flatMap 出 198 条 route。
-v459 前置检查显示 Java 已到 v192 且干净，mini-kv 已到 v178 且干净；两边可以继续并行，Node v459 不是它们的 pre-approval blocker。
-v459 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v460 正在进行 audit route catalog integrity。
+目标是把 v459 catalog 的 group/path/source-anchor/flatMap invariants 提升为可复用 typed helper，后续 v461+ 可以减少源码字符串检查和旧质量报告里的硬编码假设。
+v460 前置检查显示 Java 已到 v194 且有 1 个本地测试文件改动，mini-kv 已到 v179 且有 v180 方向本地改动；两边建议并行，Node v460 不是它们的 pre-approval blocker。
+v460 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
