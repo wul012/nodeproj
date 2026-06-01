@@ -1,0 +1,33 @@
+{
+  "version": "v471",
+  "title": "route catalog expected integrity snapshot factory",
+  "nodeBase": {
+    "commit": "e8be12a",
+    "tag": "v470"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "79be6529",
+      "tag": "v201-order-platform-shard-readiness-v199-handoff-manifest-historical-snapshot-compatibility",
+      "status": "clean"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "1b6a565",
+      "tag": "mini-kv-v186-route-catalog-anchor-removal-audit",
+      "status": "clean"
+    },
+    "nodeDecision": "recommended parallel; v471 moves a Node-only expected integrity snapshot factory"
+  },
+  "snapshotFactory": {
+    "catalogIntegrityFactoryAdded": true,
+    "routeQualityServiceUsesFactory": true,
+    "liveCatalogEvaluatorMatchesExpectedSnapshot": true
+  },
+  "validation": {
+    "focusedTests": "passed: 3 files / 7 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

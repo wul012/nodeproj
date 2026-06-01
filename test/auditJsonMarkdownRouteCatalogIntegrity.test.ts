@@ -2,7 +2,10 @@ import { describe, expect, it } from "vitest";
 
 import type { AuditJsonMarkdownRouteRegistration } from "../src/routes/auditJsonMarkdownRouteRegistrar.js";
 import type { AuditJsonMarkdownRouteGroup } from "../src/routes/auditJsonMarkdownRouteGroups.js";
-import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
+import {
+  createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot,
+  evaluateAuditJsonMarkdownRouteCatalogIntegrity,
+} from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
 import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import {
   auditJsonMarkdownRoutes,
@@ -47,6 +50,7 @@ describe("audit JSON/Markdown route catalog integrity", () => {
       lastRoutePath:
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification",
     });
+    expect(createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot()).toEqual(result);
   });
 
   it("surfaces duplicate groups, duplicate paths, empty groups, and stale flat tables", () => {

@@ -1,6 +1,8 @@
 import type { AppConfig } from "../config.js";
-import type { AuditJsonMarkdownRouteCatalogIntegrityResult } from "../routes/auditJsonMarkdownRouteCatalogIntegrity.js";
-import { EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY } from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
+import {
+  createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot,
+  type AuditJsonMarkdownRouteCatalogIntegrityResult,
+} from "../routes/auditJsonMarkdownRouteCatalogIntegrity.js";
 import {
   countPassedReportChecks,
   countReportChecks,
@@ -117,7 +119,7 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
   config: AppConfig;
   catalogIntegrity?: AuditJsonMarkdownRouteCatalogIntegrityResult;
 }): ManagedAuditRouteRegistrationTableQualityPassProfile {
-  const catalogIntegrity = input.catalogIntegrity ?? createCurrentAuditRouteCatalogIntegritySnapshot();
+  const catalogIntegrity = input.catalogIntegrity ?? createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot();
   const refactorScope = {
     sourcePlan: "docs/plans/v237-post-readiness-gate-roadmap.md" as const,
     sourceVersion: "Node v239" as const,
@@ -370,24 +372,4 @@ function collectRecommendations(): RouteRegistrationTableQualityPassMessage[] {
       message: "Resume the disabled dry-run command package only after this route registration quality pass and the upstream optimizations are clear.",
     },
   ];
-}
-
-function createCurrentAuditRouteCatalogIntegritySnapshot(): AuditJsonMarkdownRouteCatalogIntegrityResult {
-  return {
-    ready: true,
-    checks: {
-      hasGroups: true,
-      hasRoutes: true,
-      noEmptyGroups: true,
-      uniqueGroupIds: true,
-      uniqueRoutePaths: true,
-      routeTableMatchesCatalog: true,
-    },
-    summary: {
-      ...EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
-      emptyGroupIds: [],
-      duplicateGroupIds: [],
-      duplicateRoutePaths: [],
-    },
-  };
 }

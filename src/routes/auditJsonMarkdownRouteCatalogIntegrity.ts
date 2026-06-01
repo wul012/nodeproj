@@ -1,6 +1,7 @@
 import type { AuditJsonMarkdownRouteRegistration } from "./auditJsonMarkdownRouteRegistrar.js";
 import type { AuditJsonMarkdownRouteGroup } from "./auditJsonMarkdownRouteGroups.js";
 import {
+  EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
   flattenAuditJsonMarkdownRouteCatalog,
   summarizeAuditJsonMarkdownRouteCatalog,
   type AuditJsonMarkdownRouteCatalogSummary,
@@ -61,6 +62,27 @@ export function evaluateAuditJsonMarkdownRouteCatalogIntegrity(
       emptyGroupIds,
       duplicateGroupIds,
       duplicateRoutePaths,
+    },
+  };
+}
+
+export function createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot():
+  AuditJsonMarkdownRouteCatalogIntegrityResult {
+  return {
+    ready: true,
+    checks: {
+      hasGroups: true,
+      hasRoutes: true,
+      noEmptyGroups: true,
+      uniqueGroupIds: true,
+      uniqueRoutePaths: true,
+      routeTableMatchesCatalog: true,
+    },
+    summary: {
+      ...EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
+      emptyGroupIds: [],
+      duplicateGroupIds: [],
+      duplicateRoutePaths: [],
     },
   };
 }
