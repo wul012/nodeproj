@@ -1,0 +1,46 @@
+{
+  "version": "v450",
+  "changeType": "route-group-refactor",
+  "activeNodeVersion": "Node v450",
+  "sourceNodeVersion": "Node v449",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "centralRouteTableBeforeLines": 441,
+  "centralRouteTableAfterLines": 420,
+  "extractedRouteGroupLines": 30,
+  "extractedRouteCount": 3,
+  "extractedRouteGroup": "src/routes/auditManagedAuditLocalAdapterRoutes.ts",
+  "centralRouteTable": "src/routes/auditJsonMarkdownRoutes.ts",
+  "timeoutBudgetStabilization": {
+    "applied": true,
+    "testFile": "test/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.test.ts",
+    "oldExplicitTestTimeoutMs": 45000,
+    "newExplicitTestTimeoutMs": 90000,
+    "focusedRerunPassedBeforeChange": true,
+    "focusedRerunPassedAfterChange": true,
+    "shardRerunPassedAfterChange": true,
+    "businessBehaviorChange": false
+  },
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "adjacentVitestFiles": 4,
+    "adjacentVitestTests": 11,
+    "fullVitestFiles": 383,
+    "fullVitestTests": 1209,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false,
+    "forcedHistoricalFixtureFallbackCovered": false,
+    "forcedHistoricalFixtureFallbackNotApplicable": true,
+    "timeoutOnlyRerunPassed": true,
+    "timeoutOnlyRerunFiles": [
+      "test/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.test.ts"
+    ]
+  }
+}

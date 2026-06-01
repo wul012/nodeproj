@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v449-post-managed-audit-adapter-implementation-route-group-split-roadmap.md
+docs/plans3/v450-post-managed-audit-local-adapter-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v450 已完成 managed audit local adapter route group split。
+docs/plans3/v450-post-managed-audit-local-adapter-route-group-split-roadmap.md
 Node v449 已完成 managed audit adapter implementation route group split。
 docs/plans3/v449-post-managed-audit-adapter-implementation-route-group-split-roadmap.md
 Node v448 已完成 managed audit route quality route group split。
@@ -173,10 +175,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v413 正在进行 Java / mini-kv shard readiness evidence route group split。
-目标是把 shard-readiness evidence JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
-v413 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
-Java / mini-kv 推荐并行继续，Node v413 不是上游 pre-approval blocker。
+Node v450 已完成 managed audit local adapter route group split。
+目标是把 local/external adapter readiness JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
+v450 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Java / mini-kv 推荐并行继续，Node v450 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
