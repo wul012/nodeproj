@@ -1,0 +1,54 @@
+{
+  "version": "v477",
+  "title": "Java / mini-kv latest route catalog cleanup evidence report archive",
+  "nodeBase": {
+    "commit": "d1db9be",
+    "tag": "v476"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "9b1ac4d4",
+      "tag": "v210-order-platform-shard-readiness-v208-endpoint-catalog-historical-compatibility",
+      "status": "dirty: v211-like consumer handoff bundle source/test changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "5bd9a3c",
+      "tag": "第一百九十四版路由目录清理收口版本目录",
+      "status": "dirty: v195-like source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v477 archives v476 output and does not consume new dirty sibling worktrees"
+  },
+  "archivedRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-evidence",
+  "jsonStatus": 200,
+  "markdownStatus": 200,
+  "ready": true,
+  "checkCount": 16,
+  "passedCheckCount": 16,
+  "files": {
+    "json": {
+      "path": "e/477/evidence/java-mini-kv-latest-route-catalog-cleanup-evidence-report-v476-http.json",
+      "sizeBytes": 7904,
+      "sha256": "16ea90b8cc18eab80774fd1d80822f1cd835d9c4631f1fa5317306647cf133d4"
+    },
+    "markdown": {
+      "path": "e/477/evidence/java-mini-kv-latest-route-catalog-cleanup-evidence-report-v476-http.md",
+      "sizeBytes": 4865,
+      "sha256": "254aa5ed184cb3acbded16f72131a41fe05591e53c4ce8245e5dfdc5c0f7032c"
+    }
+  },
+  "executionAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "validation": {
+    "httpCapture": "passed: JSON 200, Markdown 200, ready=true, 16/16 checks",
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}
