@@ -135,6 +135,7 @@
 495: Java / mini-kv route catalog cleanup consumer readiness evidence archive verification route
 496: Java / mini-kv route catalog cleanup consumer readiness batch closeout
 497: Java / mini-kv route catalog cleanup consumer readiness batch closeout report
+498: Java / mini-kv route catalog cleanup consumer readiness batch closeout archive
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

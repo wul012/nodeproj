@@ -1,0 +1,35 @@
+{
+  "version": "v498",
+  "title": "Java / mini-kv route catalog cleanup consumer readiness batch closeout archive",
+  "generatedAt": "2026-06-01T23:31:09.768Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "checkCount": 15,
+  "passedCheckCount": 15,
+  "activeNodeVersion": "Node v496",
+  "sourceNodeVersion": "Node v495",
+  "closedVersionCount": 5,
+  "routeCountAtCloseout": 207,
+  "files": {
+    "json": {
+      "path": "e/498/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-v497-http.json",
+      "sizeBytes": 9064,
+      "sha256": "7dd13a7680b7935c5bcede63d8dd267268d54e2cd59b546282bff63a39b42b79"
+    },
+    "markdown": {
+      "path": "e/498/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-v497-http.md",
+      "sizeBytes": 6962,
+      "sha256": "51fdb0f07396e93448b92d1d2cb61601b230c16302e82a30455b67eb0db424a6"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}
