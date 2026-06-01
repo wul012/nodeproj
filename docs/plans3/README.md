@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v458-post-foundational-audit-route-group-split-roadmap.md
+docs/plans3/v459-post-audit-route-group-catalog-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v459 已完成 audit route group catalog。
+docs/plans3/v459-post-audit-route-group-catalog-roadmap.md
 Node v458 已完成 foundational audit route group split。
 docs/plans3/v458-post-foundational-audit-route-group-split-roadmap.md
 Node v457 已完成 managed audit manual sandbox connection fake transport route group split。
@@ -191,10 +193,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v458 正在进行 foundational audit route group split。
-目标是把 store-profile、store-config-profile、file-restart-evidence、retention-integrity-evidence、managed-store-contract、managed-readiness-summary 这 6 条基础 JSON/Markdown route 注册从中央 route 表抽到独立 route group。
-v458 前置检查显示 Java 正在推进 v187 contract alignment，mini-kv 正在推进 v176 route split window through Node v457；两边都有未提交工作，Node 只读记录，未修改、未构建、未停止它们。
-v458 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v459 已完成 audit route group catalog。
+目标是把 49 个 audit route group 的顺序、domain 和 route 引用集中到 `auditJsonMarkdownRouteGroups.ts`，让 `auditJsonMarkdownRoutes.ts` 只从 catalog flatMap 出 198 条 route。
+v459 前置检查显示 Java 已到 v192 且干净，mini-kv 已到 v178 且干净；两边可以继续并行，Node v459 不是它们的 pre-approval blocker。
+v459 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

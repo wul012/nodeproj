@@ -1,0 +1,49 @@
+{
+  "version": "v459",
+  "changeType": "route-group-catalog-refactor",
+  "activeNodeVersion": "Node v459",
+  "sourceNodeVersion": "Node v458",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "prePlanCrossProjectCheck": {
+    "java": {
+      "workspace": "D:\\javaproj",
+      "clean": true,
+      "commit": "afb0a9e9",
+      "tag": "v192-order-platform-shard-readiness-v190-handoff-historical-snapshot-compatibility",
+      "nodeTouchedJava": false
+    },
+    "miniKv": {
+      "workspace": "D:\\C\\mini-kv",
+      "clean": true,
+      "commit": "58d2aa2",
+      "tag": "mini-kv-v178-route-split-window-audit-hardening",
+      "nodeTouchedMiniKv": false
+    },
+    "nodeBlocksSiblingProjects": false
+  },
+  "centralRouteTableBeforeLines": 151,
+  "centralRouteTableAfterLines": 57,
+  "routeGroupCatalogLines": 108,
+  "routeGroupCount": 49,
+  "flattenedRouteCount": 198,
+  "centralDirectRouteRegistrationsAfter": 0,
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "compatibilityVitestFiles": 3,
+    "compatibilityVitestTests": 5,
+    "fullVitestFiles": 392,
+    "fullVitestTests": 1218,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false,
+    "forcedHistoricalFixtureFallbackCovered": false,
+    "forcedHistoricalFixtureFallbackNotApplicable": true
+  }
+}
