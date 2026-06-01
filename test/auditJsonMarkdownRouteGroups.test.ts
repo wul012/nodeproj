@@ -12,9 +12,9 @@ describe("audit JSON/Markdown route group catalog", () => {
     const groupIds = auditJsonMarkdownRouteGroups.map((group) => group.id);
     const paths = auditJsonMarkdownRoutes.map((route) => route.path);
 
-    expect(auditJsonMarkdownRouteGroups).toHaveLength(49);
+    expect(auditJsonMarkdownRouteGroups).toHaveLength(50);
     expect(new Set(groupIds).size).toBe(groupIds.length);
-    expect(paths).toHaveLength(198);
+    expect(paths).toHaveLength(201);
     expect(new Set(paths).size).toBe(paths.length);
     expect(paths[0]).toBe("/api/v1/audit/store-profile");
     expect(paths.at(-1)).toBe("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification");
@@ -28,6 +28,7 @@ describe("audit JSON/Markdown route group catalog", () => {
     expect(catalogSource).toContain("export const auditJsonMarkdownRouteGroups");
     expect(catalogSource).not.toContain("auditJsonMarkdownRouteGroupSourceAnchors");
     expect(catalogSource).toContain("id: \"foundational\"");
+    expect(catalogSource).toContain("id: \"java-mini-kv-route-catalog-cleanup-handoff\"");
     expect(catalogSource).toContain("id: \"sandbox-handle-review\"");
   });
 });

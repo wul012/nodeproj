@@ -117,6 +117,7 @@
 482-java-mini-kv-latest-route-catalog-cleanup-evidence-report-archive-v477.md
 483-java-mini-kv-latest-route-catalog-cleanup-evidence-archive-verification-v478.md
 484-java-mini-kv-latest-route-catalog-cleanup-evidence-archive-verification-route-v479.md
+485-java-mini-kv-route-catalog-cleanup-evidence-batch-closeout-v480.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

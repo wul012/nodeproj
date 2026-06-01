@@ -1,0 +1,61 @@
+{
+  "version": "v480",
+  "title": "Java / mini-kv route catalog cleanup evidence batch closeout",
+  "nodeBase": {
+    "commit": "11f6698",
+    "tag": "v479"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "4111cee4",
+      "tag": "v214-order-platform-shard-readiness-v1-contract-consumer-handoff-bundle-integrity",
+      "status": "clean and pushed"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "e559708",
+      "tag": "第一百九十七版最新路由目录清理证据包",
+      "status": "clean and pushed"
+    },
+    "nodeDecision": "recommended parallel; v480 closes Node v473-v479 and leaves Java v214 / mini-kv v197 for the next Node batch"
+  },
+  "closedVersions": [
+    "v473",
+    "v474",
+    "v475",
+    "v476",
+    "v477",
+    "v478",
+    "v479"
+  ],
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 201,
+    "javaMiniKvDomainGroupCount": 5,
+    "javaMiniKvDomainRouteCount": 37,
+    "cleanupHandoffRouteGroupRouteCount": 3
+  },
+  "validation": {
+    "focusedBatch": "passed: 7 cleanup/catalog files / 15 tests",
+    "routeGroupExpectationRepair": "fixed stale auditJsonMarkdownRouteGroups test from 49/198 to 50/201, then passed",
+    "fullSuiteShard1": "passed: 100 files / 319 tests",
+    "fullSuiteShard2": "passed: 100 files / 303 tests",
+    "fullSuiteShard3": "passed after expectation repair: 99 files / 307 tests",
+    "fullSuiteShard4": "passed: 99 files / 301 tests",
+    "fullSuiteTotal": "passed: 398 files / 1230 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "httpSmoke": "passed: handoff JSON 200, latest JSON 200, verifier JSON 200, verifier Markdown 200, verifier ready=true, 16/16 checks"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  },
+  "nextBatchCandidate": {
+    "javaTag": "v214-order-platform-shard-readiness-v1-contract-consumer-handoff-bundle-integrity",
+    "miniKvTag": "第一百九十七版最新路由目录清理证据包",
+    "recommendedFirstNodeStep": "freeze and read Java v214 + mini-kv v197 evidence in a new Node intake version"
+  }
+}
