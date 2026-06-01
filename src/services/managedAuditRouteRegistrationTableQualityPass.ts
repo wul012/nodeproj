@@ -104,8 +104,8 @@ interface RouteRegistrationTableQualityPassMessage {
   message: string;
 }
 
-const ROUTE_REGISTRATION_TABLE_COUNT = 198;
-const ROUTE_GROUP_COUNT = 49;
+const ROUTE_REGISTRATION_TABLE_COUNT = 199;
+const ROUTE_GROUP_COUNT = 50;
 const ENDPOINTS = Object.freeze({
   routeRegistrationTableQualityPassJson: "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
   routeRegistrationTableQualityPassMarkdown:

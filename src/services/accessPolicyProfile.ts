@@ -282,6 +282,7 @@ export function createAccessRoutePolicies(): AccessRoutePolicy[] {
         "/api/v1/audit/file-*",
         "/api/v1/audit/retention-*",
         "/api/v1/audit/managed-*",
+        "/api/v1/audit/java-mini-kv-*",
       ],
       minimumRole: "auditor",
       mutatesLocalState: false,

@@ -1,0 +1,57 @@
+{
+  "version": "v474",
+  "title": "Java / mini-kv route catalog cleanup handoff evidence report",
+  "nodeBase": {
+    "commit": "73477e4",
+    "tag": "v473"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "4ab89d0b",
+      "tag": "v207-order-platform-shard-readiness-v1-contract-controller-split",
+      "status": "dirty: v208-like endpoint catalog source/test/fixture changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "8046f37",
+      "tag": "第一百九十三版路由目录清理收口交接审计冻结",
+      "status": "dirty: v194-like source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v474 exposes v473 frozen evidence and does not consume dirty sibling worktrees"
+  },
+  "route": {
+    "json": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-handoff-evidence",
+    "markdown": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-handoff-evidence?format=markdown",
+    "accessPolicyPattern": "/api/v1/audit/java-mini-kv-*",
+    "catalogGroupId": "java-mini-kv-route-catalog-cleanup-handoff",
+    "catalogGroupCount": 50,
+    "catalogRouteCount": 199,
+    "javaMiniKvDomainGroupCount": 5,
+    "javaMiniKvDomainRouteCount": 35
+  },
+  "reportSummary": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-handoff-evidence-report.v1",
+    "activeNodeVersion": "Node v474",
+    "sourceNodeVersion": "Node v473",
+    "ready": true,
+    "fileCount": 4,
+    "presentFileCount": 4,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "executionAllowed": false,
+    "startsJavaService": false,
+    "startsMiniKvService": false
+  },
+  "validation": {
+    "focusedVitest": "passed: 6 files / 15 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "httpSmoke": "passed: JSON 200, Markdown 200, ready=true, 16/16 checks"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}

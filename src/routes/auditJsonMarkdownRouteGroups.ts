@@ -26,6 +26,7 @@ import { credentialResolverSignedHumanApprovalArtifactAuditJsonMarkdownRoutes } 
 import { foundationalAuditJsonMarkdownRoutes } from "./auditFoundationalRoutes.js";
 import { javaMiniKvActiveShardPlanAuditJsonMarkdownRoutes } from "./auditJavaMiniKvActiveShardPlanRoutes.js";
 import { javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes } from "./auditJavaMiniKvDeclaredOperatorLifecycleRoutes.js";
+import { javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes } from "./auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.js";
 import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMiniKvRuntimeExecutionRoutes.js";
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
 import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterRoutes.js";
@@ -104,6 +105,7 @@ export const auditJsonMarkdownRouteGroups: readonly AuditJsonMarkdownRouteGroup[
   { id: "java-mini-kv-active-shard-plan", domain: "java-mini-kv", routes: javaMiniKvActiveShardPlanAuditJsonMarkdownRoutes },
   { id: "java-mini-kv-declared-operator-lifecycle", domain: "java-mini-kv", routes: javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes },
   { id: "java-mini-kv-runtime-execution", domain: "java-mini-kv", routes: javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes },
+  { id: "java-mini-kv-route-catalog-cleanup-handoff", domain: "java-mini-kv", routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes },
   { id: "managed-audit-disabled-read-only-integration", domain: "managed-audit", routes: managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes },
   { id: "sandbox-handle-review", domain: "sandbox", routes: sandboxHandleReviewAuditJsonMarkdownRoutes },
 ];

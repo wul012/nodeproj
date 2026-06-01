@@ -111,6 +111,7 @@
 476-route-catalog-expected-integrity-snapshot-v471.md
 477-route-catalog-cleanup-closeout-v472.md
 478-java-mini-kv-route-catalog-cleanup-handoff-evidence-v473.md
+479-java-mini-kv-route-catalog-cleanup-handoff-evidence-report-v474.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。
