@@ -77,6 +77,7 @@
 437: credential resolver disabled runtime shell design draft outline route group split
 438: credential resolver disabled runtime shell design draft body intake route group split
 439: credential resolver disabled runtime shell design draft body candidate route group split
+440: credential resolver disabled runtime shell design draft body pre-draft decision route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

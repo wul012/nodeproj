@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v439-post-credential-resolver-disabled-runtime-shell-design-draft-body-candidate-route-group-split-roadmap.md
+docs/plans3/v440-post-credential-resolver-disabled-runtime-shell-design-draft-body-pre-draft-decision-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v440 已完成 credential resolver disabled runtime shell design draft body pre-draft decision route group split。
+docs/plans3/v440-post-credential-resolver-disabled-runtime-shell-design-draft-body-pre-draft-decision-route-group-split-roadmap.md
 Node v439 已完成 credential resolver disabled runtime shell design draft body candidate route group split。
 docs/plans3/v439-post-credential-resolver-disabled-runtime-shell-design-draft-body-candidate-route-group-split-roadmap.md
 Node v438 已完成 credential resolver disabled runtime shell design draft body intake route group split。
