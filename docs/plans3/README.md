@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v487-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-roadmap.md
+docs/plans3/v488-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-archive-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v488 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report archive。
+docs/plans3/v488-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-archive-roadmap.md
 Node v487 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report。
 docs/plans3/v487-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-roadmap.md
 Node v486 已完成 Java / mini-kv route catalog cleanup verification checklist evidence intake。
@@ -249,6 +251,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v488 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report archive。
+目标是把 v487 checklist evidence report 的 JSON/Markdown 输出固化为 e/488 archive。
+v488 前置检查显示 Java 已到 v220 tag 但有 v221-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 fresh sibling evidence。
+v488 Fastify inject archive 生成通过：JSON 200、Markdown 200、ready=true、18/18 checks，并记录 SHA-256 摘要。
+
 Node v487 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report。
 目标是把 v486 checklist/continuity frozen evidence 挂到现有 cleanup route group，并更新 route count 到 204。
 v487 前置检查显示 Java 已到 v219 tag 但有 v220-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 只消费 v486 frozen evidence。
