@@ -147,14 +147,6 @@ import {
   renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate,
-  renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate.js";
-import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerification,
-  renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerification.js";
-import {
   loadManagedAuditManualSandboxConnectionTestOnlyAdapterShellContract,
   renderManagedAuditManualSandboxConnectionTestOnlyAdapterShellContractMarkdown,
 } from "../services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.js";
@@ -233,6 +225,7 @@ import {
 import { credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes } from "./auditCredentialResolverApprovalRequiredReadinessRoutes.js";
 import { credentialResolverCredentialHandleApprovalAuditJsonMarkdownRoutes } from "./auditCredentialResolverCredentialHandleApprovalRoutes.js";
 import { credentialResolverDisabledRuntimeShellDesignDraftBodyCandidateAuditJsonMarkdownRoutes } from "./auditCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateRoutes.js";
+import { credentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateAuditJsonMarkdownRoutes } from "./auditCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateRoutes.js";
 import { credentialResolverDisabledRuntimeShellDesignDraftBodyIntakeAuditJsonMarkdownRoutes } from "./auditCredentialResolverDisabledRuntimeShellDesignDraftBodyIntakeRoutes.js";
 import { credentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionAuditJsonMarkdownRoutes } from "./auditCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionRoutes.js";
 import { credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes } from "./auditCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanRoutes.js";
@@ -559,13 +552,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-draft-candidate", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-draft-candidate-archive-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerificationMarkdown),
+  ...credentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateAuditJsonMarkdownRoutes,
 
   ...minimalReadOnlyIntegrationAuditJsonMarkdownRoutes,
 
