@@ -1,0 +1,37 @@
+{
+  "version": "v490",
+  "title": "Java / mini-kv route catalog cleanup verification checklist evidence archive verification route",
+  "generatedAt": "2026-06-01T14:09:03.446Z",
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 205,
+    "javaMiniKvDomainRouteCount": 41,
+    "cleanupHandoffRouteGroupRouteCount": 7
+  },
+  "batch": {
+    "closedVersions": [
+      "v481",
+      "v482",
+      "v483",
+      "v484",
+      "v485",
+      "v486",
+      "v487",
+      "v488",
+      "v489",
+      "v490"
+    ],
+    "nodeOnly": true,
+    "siblingProjectsParallel": true
+  },
+  "smoke": {
+    "jsonStatus": 200,
+    "markdownStatus": 200,
+    "markdownContentType": "text/markdown; charset=utf-8",
+    "ready": true,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "activeNodeVersion": "Node v489",
+    "sourceNodeVersion": "Node v488"
+  }
+}

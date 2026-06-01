@@ -23,6 +23,9 @@ import {
 import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceReport.js";
+import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerification.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
@@ -41,7 +44,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(6);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(7);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -327,6 +330,53 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         .toContain("# Java / mini-kv route catalog cleanup verification checklist evidence report");
       expect(markdown.body).toContain("Java v217 Consumer Verification Checklist Historical Compatibility");
       expect(markdown.body).toContain("mini-kv v201 Post-Closeout Continuity");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes verification checklist archive verification through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-archive-verification.v1",
+        archiveVerificationState: "ready",
+        activeNodeVersion: "Node v489",
+        sourceNodeVersion: "Node v488",
+        readyForRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerification: true,
+        archiveVerificationOnly: true,
+        executionAllowed: false,
+        sourceReport: {
+          activeNodeVersion: "Node v487",
+          sourceNodeVersion: "Node v486",
+          ready: true,
+          checkCount: 18,
+          passedCheckCount: 18,
+        },
+        summary: {
+          archiveFileCount: 3,
+          presentArchiveFileCount: 3,
+          checkCount: 16,
+          passedCheckCount: 16,
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body)
+        .toContain("# Java / mini-kv route catalog cleanup verification checklist evidence archive verification");
+      expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
     } finally {
       await app.close();
     }
