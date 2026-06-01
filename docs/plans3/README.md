@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v474-post-java-mini-kv-route-catalog-cleanup-handoff-evidence-report-roadmap.md
+docs/plans3/v475-post-java-mini-kv-latest-route-catalog-cleanup-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v475 已完成 Java / mini-kv latest route catalog cleanup evidence intake。
+docs/plans3/v475-post-java-mini-kv-latest-route-catalog-cleanup-evidence-intake-roadmap.md
 Node v474 已完成 Java / mini-kv route catalog cleanup handoff evidence report。
 docs/plans3/v474-post-java-mini-kv-route-catalog-cleanup-handoff-evidence-report-roadmap.md
 Node v473 已完成 Java / mini-kv route catalog cleanup handoff evidence。
@@ -223,10 +225,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v474 已完成 Java / mini-kv route catalog cleanup handoff evidence report。
-目标是把 v473 frozen evidence 暴露为审计 JSON/Markdown route，并保持 route catalog / access guard 规则一致。
-v474 前置检查显示 Java 在 v207 后有 v208-like 本地改动，mini-kv 在 v193 后有 v194-like 本地改动；两边建议并行，Node v474 不消费 dirty sibling worktree。
-v474 不新增 approval/evidence gate，不启动/停止 sibling 服务，不开启 runtime execution。
+Node v475 已完成 Java / mini-kv latest route catalog cleanup evidence intake。
+目标是冻结并读取 Java v207/v208 与 mini-kv v193 的最新 tagged evidence，给后续报告/归档版本使用。
+v475 前置检查显示 Java 在 v208 后有 v209-like 本地改动，mini-kv 在 v193 后有 v194-like 本地改动；两边建议并行，Node v475 不消费 dirty sibling worktree。
+v475 不新增 approval/evidence gate，不新增 API route，不启动/停止 sibling 服务，不开启 runtime execution。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

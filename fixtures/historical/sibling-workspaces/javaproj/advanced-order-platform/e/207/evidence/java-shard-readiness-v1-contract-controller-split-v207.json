@@ -1,0 +1,46 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-controller-split-receipt-v207",
+  "version": "Java v207",
+  "status": "passed",
+  "scope": "shard-readiness.v1 controller split",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "V1 contract read endpoints moved from OpsShardReadinessController to OpsShardReadinessV1ContractController, with route constants shared by services and tests.",
+  "controllerSplit": {
+    "sourceController": "OpsShardReadinessController",
+    "newController": "OpsShardReadinessV1ContractController",
+    "v1RouteCount": 6,
+    "mainControllerKeeps": [
+      "/api/v1/ops/shard-readiness",
+      "/api/v1/ops/shard-readiness/hardening",
+      "/api/v1/ops/shard-readiness/echo"
+    ]
+  },
+  "v1Routes": [
+    "/api/v1/ops/shard-readiness/v1-contract-alignment",
+    "/api/v1/ops/shard-readiness/v1-contract-alignment-handoff",
+    "/api/v1/ops/shard-readiness/v1-contract-evidence-packet",
+    "/api/v1/ops/shard-readiness/v1-contract-operator-checklist",
+    "/api/v1/ops/shard-readiness/v1-contract-handoff-manifest",
+    "/api/v1/ops/shard-readiness/v1-contract-consumer-probe-plan"
+  ],
+  "guards": [
+    "route constants stay under /api/v1/ops/shard-readiness",
+    "v1 contract routes are not declared by the primary readiness controller",
+    "integration checks keep existing live endpoints stable",
+    "no write routing or runtime execution path opened"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractControllerSplitTests,OpsShardReadinessRoutePathsTests,OpsShardReadinessV1ContractConsumerProbePlanIntegrationTests,OpsShardReadinessV1ContractAlignmentIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

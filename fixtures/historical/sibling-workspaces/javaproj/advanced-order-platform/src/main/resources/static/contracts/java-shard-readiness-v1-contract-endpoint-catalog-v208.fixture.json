@@ -1,0 +1,102 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v208",
+  "contractName": "shard-readiness.v1",
+  "readOnly": true,
+  "executionAllowed": false,
+  "shardEnabled": false,
+  "endpointCatalogEndpoint": "/api/v1/ops/shard-readiness/v1-contract-endpoint-catalog",
+  "endpointCatalogFixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-endpoint-catalog-v208.fixture.json",
+  "contractEndpointCount": 6,
+  "endpoints": [
+    {
+      "name": "alignment",
+      "liveEndpoint": "/api/v1/ops/shard-readiness/v1-contract-alignment",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-alignment-v187.fixture.json",
+      "evidencePath": "e/187/evidence/java-shard-readiness-v1-contract-alignment-v187.json",
+      "receiptId": "java-shard-readiness-v1-contract-alignment-receipt-v187"
+    },
+    {
+      "name": "alignment-handoff",
+      "liveEndpoint": "/api/v1/ops/shard-readiness/v1-contract-alignment-handoff",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-alignment-handoff-v190.fixture.json",
+      "evidencePath": "e/190/evidence/java-shard-readiness-v1-contract-alignment-handoff-v190.json",
+      "receiptId": "java-shard-readiness-v1-contract-alignment-handoff-receipt-v190"
+    },
+    {
+      "name": "evidence-packet",
+      "liveEndpoint": "/api/v1/ops/shard-readiness/v1-contract-evidence-packet",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-evidence-packet-v193.fixture.json",
+      "evidencePath": "e/193/evidence/java-shard-readiness-v1-contract-evidence-packet-v193.json",
+      "receiptId": "java-shard-readiness-v1-contract-evidence-packet-receipt-v193"
+    },
+    {
+      "name": "operator-checklist",
+      "liveEndpoint": "/api/v1/ops/shard-readiness/v1-contract-operator-checklist",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-operator-checklist-v196.fixture.json",
+      "evidencePath": "e/196/evidence/java-shard-readiness-v1-contract-operator-checklist-v196.json",
+      "receiptId": "java-shard-readiness-v1-contract-operator-checklist-receipt-v196"
+    },
+    {
+      "name": "handoff-manifest",
+      "liveEndpoint": "/api/v1/ops/shard-readiness/v1-contract-handoff-manifest",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-handoff-manifest-v199.fixture.json",
+      "evidencePath": "e/199/evidence/java-shard-readiness-v1-contract-handoff-manifest-v199.json",
+      "receiptId": "java-shard-readiness-v1-contract-handoff-manifest-receipt-v199"
+    },
+    {
+      "name": "consumer-probe-plan",
+      "liveEndpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-probe-plan",
+      "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-consumer-probe-plan-v202.fixture.json",
+      "evidencePath": "e/202/evidence/java-shard-readiness-v1-contract-consumer-probe-plan-v202.json",
+      "receiptId": "java-shard-readiness-v1-contract-consumer-probe-plan-receipt-v202"
+    }
+  ],
+  "liveProbeEndpoints": [
+    "GET /api/v1/ops/shard-readiness/v1-contract-alignment",
+    "GET /api/v1/ops/shard-readiness/v1-contract-alignment-handoff",
+    "GET /api/v1/ops/shard-readiness/v1-contract-evidence-packet",
+    "GET /api/v1/ops/shard-readiness/v1-contract-operator-checklist",
+    "GET /api/v1/ops/shard-readiness/v1-contract-handoff-manifest",
+    "GET /api/v1/ops/shard-readiness/v1-contract-consumer-probe-plan"
+  ],
+  "fixtureProbeEndpoints": [
+    "GET /contracts/java-shard-readiness-v1-contract-alignment-v187.fixture.json",
+    "GET /contracts/java-shard-readiness-v1-contract-alignment-handoff-v190.fixture.json",
+    "GET /contracts/java-shard-readiness-v1-contract-evidence-packet-v193.fixture.json",
+    "GET /contracts/java-shard-readiness-v1-contract-operator-checklist-v196.fixture.json",
+    "GET /contracts/java-shard-readiness-v1-contract-handoff-manifest-v199.fixture.json",
+    "GET /contracts/java-shard-readiness-v1-contract-consumer-probe-plan-v202.fixture.json"
+  ],
+  "evidencePaths": [
+    "e/187/evidence/java-shard-readiness-v1-contract-alignment-v187.json",
+    "e/190/evidence/java-shard-readiness-v1-contract-alignment-handoff-v190.json",
+    "e/193/evidence/java-shard-readiness-v1-contract-evidence-packet-v193.json",
+    "e/196/evidence/java-shard-readiness-v1-contract-operator-checklist-v196.json",
+    "e/199/evidence/java-shard-readiness-v1-contract-handoff-manifest-v199.json",
+    "e/202/evidence/java-shard-readiness-v1-contract-consumer-probe-plan-v202.json"
+  ],
+  "blockedOperations": [
+    "write-routing",
+    "active-shard-router",
+    "credential-value-read",
+    "raw-endpoint-parse",
+    "managed-audit-connection",
+    "deployment-or-rollback",
+    "node-start-or-stop-java-or-mini-kv"
+  ],
+  "probesAreGetOnly": true,
+  "upstreamActionsAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "writeRoutingAllowed": false,
+  "activeShardRouterAllowed": false,
+  "credentialValueRead": false,
+  "rawEndpointParsed": false,
+  "managedAuditConnectionAllowed": false,
+  "deploymentOrRollbackAllowed": false,
+  "nodeMayStartOrStopJavaOrMiniKv": false,
+  "receiptId": "java-shard-readiness-v1-contract-endpoint-catalog-receipt-v208",
+  "evidencePath": "e/208/evidence/java-shard-readiness-v1-contract-endpoint-catalog-v208.json",
+  "status": "passed"
+}

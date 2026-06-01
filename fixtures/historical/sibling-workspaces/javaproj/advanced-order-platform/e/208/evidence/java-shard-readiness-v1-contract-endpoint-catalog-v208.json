@@ -1,0 +1,39 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-endpoint-catalog-receipt-v208",
+  "version": "Java v208",
+  "status": "passed",
+  "scope": "shard-readiness.v1 endpoint catalog",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "V1 contract now exposes a read-only endpoint catalog for the six Node-consumable contract artifacts, including live endpoints, fixture endpoints, evidence paths, and receipts.",
+  "endpointCatalogEndpoint": "/api/v1/ops/shard-readiness/v1-contract-endpoint-catalog",
+  "endpointCatalogFixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-endpoint-catalog-v208.fixture.json",
+  "contractEndpointCount": 6,
+  "catalogedArtifacts": [
+    "alignment",
+    "alignment-handoff",
+    "evidence-packet",
+    "operator-checklist",
+    "handoff-manifest",
+    "consumer-probe-plan"
+  ],
+  "registry": {
+    "v1ContractRegistryPairs": 7,
+    "catalogPosition": "after consumer-probe-plan and before read-only evidence catalog",
+    "includedInOpsEvidenceProbes": true
+  },
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractEndpointCatalogServiceTests,OpsShardReadinessV1ContractEndpointCatalogIntegrationTests,OpsShardReadinessV1ContractEndpointPairsTests,OpsShardReadinessV1ContractEndpointPairIntegrityTests,OpsShardReadinessEvidenceEndpointsTests,OpsShardReadinessRoutePathsTests,OpsShardReadinessV1ContractControllerSplitTests,OpsEvidenceServiceTests,OpsShardReadinessHistoricalEndpointSnapshotCompatibilityTests\" test",
+    "JSON fixture parse and MockMvc checks",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

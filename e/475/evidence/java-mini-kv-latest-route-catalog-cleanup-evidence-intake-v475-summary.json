@@ -1,0 +1,95 @@
+{
+  "version": "v475",
+  "title": "Java / mini-kv latest route catalog cleanup evidence intake",
+  "nodeBase": {
+    "commit": "416cbdd",
+    "tag": "v474"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "ff116a92",
+      "tag": "v208-order-platform-shard-readiness-v1-contract-endpoint-catalog",
+      "status": "dirty: v209-like endpoint catalog snapshot source/test/evidence changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "8046f37",
+      "tag": "第一百九十三版路由目录清理收口交接审计冻结",
+      "status": "dirty: v194-like source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v475 consumes Java v207/v208 and mini-kv v193 tagged evidence only"
+  },
+  "evidenceFiles": {
+    "javaV207ControllerSplit": {
+      "path": "D:/javaproj/advanced-order-platform/e/207/evidence/java-shard-readiness-v1-contract-controller-split-v207.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/e/207/evidence/java-shard-readiness-v1-contract-controller-split-v207.json",
+      "sizeBytes": 2001,
+      "sha256": "317c8d5c5a7dd9c6fed2cd31b9fb50c55ee1963622b102c10e5e23694dc02fd8"
+    },
+    "javaV208EndpointCatalog": {
+      "path": "D:/javaproj/advanced-order-platform/e/208/evidence/java-shard-readiness-v1-contract-endpoint-catalog-v208.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/e/208/evidence/java-shard-readiness-v1-contract-endpoint-catalog-v208.json",
+      "sizeBytes": 1875,
+      "sha256": "e02063e732f92f79b79030d24c6da176d5d657e13e6cba106be4710804e37e2d"
+    },
+    "javaV208EndpointCatalogFixture": {
+      "path": "D:/javaproj/advanced-order-platform/src/main/resources/static/contracts/java-shard-readiness-v1-contract-endpoint-catalog-v208.fixture.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/src/main/resources/static/contracts/java-shard-readiness-v1-contract-endpoint-catalog-v208.fixture.json",
+      "sizeBytes": 5289,
+      "sha256": "a66d8a893ca591435a31866413bc8c43a5c79b23eb06ee09a32df6a58186211d"
+    },
+    "miniKvV193HandoffAuditFreeze": {
+      "path": "D:/C/mini-kv/fixtures/release/shard-readiness-v193.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v193.json",
+      "sizeBytes": 108677,
+      "sha256": "f97f7173a59748f665b8c5cb6a684fecb46767773c8eed9a978a403ed785d926"
+    }
+  },
+  "evidenceSummary": {
+    "fileCount": 4,
+    "presentFileCount": 4,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "javaV1RouteCount": 6,
+    "javaEndpointCatalogCount": 6,
+    "miniKvArchivedNodeVersionCount": 89,
+    "miniKvHistoricalFixtureCount": 49
+  },
+  "keyChecks": {
+    "javaV207": {
+      "version": "Java v207",
+      "controllerSplit": "OpsShardReadinessController -> OpsShardReadinessV1ContractController",
+      "v1RouteCount": 6,
+      "mainControllerKeepsCount": 3,
+      "runtimeBoundaryClosed": true
+    },
+    "javaV208": {
+      "version": "Java v208",
+      "endpointCatalogEndpoint": "/api/v1/ops/shard-readiness/v1-contract-endpoint-catalog",
+      "contractEndpointCount": 6,
+      "registryPairCount": 7,
+      "includedInOpsEvidenceProbes": true,
+      "fixtureGetOnly": true
+    },
+    "miniKvV193": {
+      "releaseVersion": "v193",
+      "status": "node-route-catalog-cleanup-closeout-handoff-audit-freeze-read-only",
+      "previousConsumedReleaseVersion": "v192",
+      "evidenceDigest": "fnv1a64:0aad0fd5d2732af5",
+      "fieldCount": 648,
+      "groupCount": 32
+    }
+  },
+  "validation": {
+    "focusedVitest": "passed: test/javaMiniKvRouteCatalogCleanupLatestEvidence.test.ts, 2 tests",
+    "forcedHistoricalFallback": "passed inside focused Vitest; every resolved file path pointed under fixtures/historical/sibling-workspaces",
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}
