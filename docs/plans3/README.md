@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v500-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-archive-verification-route-roadmap.md
+docs/plans3/v501-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v501 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence intake。
+docs/plans3/v501-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-intake-roadmap.md
 Node v500 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout archive verification route。
 docs/plans3/v500-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-archive-verification-route-roadmap.md
 Node v499 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout archive verification。
@@ -329,6 +331,11 @@ Node v500 已完成 Java / mini-kv route catalog cleanup consumer readiness batc
 目标是将 v499 verifier 暴露到现有 cleanup route group，并完成 v496-v500 五版链。
 v500 focused route/catalog tests、typecheck、build 已通过；总 route count 更新为 209，Java/mini-kv domain route count 更新为 45。
 v500 不启动 sibling 服务，不开启 runtime execution。
+
+Node v501 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence intake。
+目标是冻结并读取 Java v225-v231 readiness handoff 与 mini-kv v211-v212 versioned retention evidence。
+v501 前置检查显示 Java clean tag 到 v231 但当前有 v232-like dirty work，mini-kv clean tag 到 v212 但当前有 v213-like dirty work；两边 recommended parallel，Node 只消费 clean/tagged evidence。
+v501 focused normal/fallback intake test、typecheck 已通过；不新增 route，不启动 sibling 服务，不开启 runtime execution。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

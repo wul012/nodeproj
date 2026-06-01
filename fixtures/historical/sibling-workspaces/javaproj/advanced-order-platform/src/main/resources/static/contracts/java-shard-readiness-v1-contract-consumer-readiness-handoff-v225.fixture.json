@@ -1,0 +1,61 @@
+{
+  "project": "advanced-order-platform",
+  "version": "Java v225",
+  "contractName": "shard-readiness.v1",
+  "readOnly": true,
+  "executionAllowed": false,
+  "shardEnabled": false,
+  "readinessHandoffEndpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-readiness-handoff",
+  "readinessHandoffFixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-consumer-readiness-handoff-v225.fixture.json",
+  "evidenceDigestEndpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-evidence-digest",
+  "evidenceDigestFixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-consumer-evidence-digest-v220.fixture.json",
+  "evidenceDigestEvidencePath": "e/220/evidence/java-shard-readiness-v1-contract-consumer-evidence-digest-v220.json",
+  "evidenceDigestReceiptId": "java-shard-readiness-v1-contract-consumer-evidence-digest-receipt-v220",
+  "digestEvidenceCount": 5,
+  "digestCheckCount": 7,
+  "digestEvidence": [
+    "e/215/evidence/java-shard-readiness-v1-contract-consumer-verification-checklist-v215.json",
+    "e/216/evidence/java-shard-readiness-v215-consumer-verification-checklist-snapshot-freeze-v216.json",
+    "e/217/evidence/java-shard-readiness-v215-consumer-verification-checklist-historical-compatibility-v217.json",
+    "e/218/evidence/java-shard-readiness-v1-contract-consumer-verification-checklist-integrity-v218.json",
+    "e/219/evidence/java-shard-readiness-v1-contract-consumer-route-inventory-v219.json"
+  ],
+  "handoffGuardEvidence": [
+    "e/221/evidence/java-shard-readiness-v220-consumer-evidence-digest-snapshot-freeze-v221.json",
+    "e/222/evidence/java-shard-readiness-v220-consumer-evidence-digest-historical-compatibility-v222.json",
+    "e/223/evidence/java-shard-readiness-v1-contract-consumer-evidence-digest-integrity-v223.json",
+    "e/224/evidence/java-shard-readiness-v1-contract-consumer-readiness-completion-v224.json"
+  ],
+  "handoffChecks": [
+    "digest-version:Java v220",
+    "digest-evidence-count:5",
+    "digest-check-count:7",
+    "handoff-guard-evidence-count:4",
+    "probes-are-get-only:true",
+    "upstream-actions-allowed:false",
+    "node-may-start-or-stop-java-or-mini-kv:false"
+  ],
+  "blockedOperations": [
+    "write-routing",
+    "active-shard-router",
+    "credential-value-read",
+    "raw-endpoint-parse",
+    "managed-audit-connection",
+    "deployment-or-rollback",
+    "node-start-or-stop-java-or-mini-kv"
+  ],
+  "probesAreGetOnly": true,
+  "upstreamActionsAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "writeRoutingAllowed": false,
+  "activeShardRouterAllowed": false,
+  "credentialValueRead": false,
+  "rawEndpointParsed": false,
+  "managedAuditConnectionAllowed": false,
+  "deploymentOrRollbackAllowed": false,
+  "nodeMayStartOrStopJavaOrMiniKv": false,
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-receipt-v225",
+  "evidencePath": "e/225/evidence/java-shard-readiness-v1-contract-consumer-readiness-handoff-v225.json",
+  "status": "passed"
+}

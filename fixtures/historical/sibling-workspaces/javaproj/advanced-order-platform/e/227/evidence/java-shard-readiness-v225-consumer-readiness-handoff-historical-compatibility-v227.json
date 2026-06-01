@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v225-consumer-readiness-handoff-historical-compatibility-receipt-v227",
+  "version": "Java v227",
+  "status": "passed",
+  "scope": "v225 consumer readiness handoff historical compatibility",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v227 proves the v225 readiness handoff is part of the current rolling endpoint registry without being backfilled into older read-only endpoint snapshots or polluted by future handoff guard receipts.",
+  "guards": [
+    "v179 read-only handoff verification live and fixture snapshots do not contain the v225 readiness handoff",
+    "v184 read-only endpoint registry integrity live and fixture snapshots do not contain the v225 readiness handoff",
+    "the current rolling registry keeps evidence digest, readiness handoff, and read-only catalog in that order",
+    "the frozen v225 handoff keeps v226 and v227 receipts out of handoffGuardEvidence",
+    "the frozen v225 handoff evidence path remains the original v225 evidence path"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffHistoricalCompatibilityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffSnapshotTests,OpsShardReadinessEvidenceEndpointsTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

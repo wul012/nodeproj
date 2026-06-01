@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-integrity-receipt-v228",
+  "version": "Java v228",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff integrity",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v228 locks the v225 readiness handoff integrity boundary: digest evidence, guard evidence, derived checks, future receipt exclusion, and all execution-denied flags remain exact.",
+  "guards": [
+    "digestEvidence equals the frozen Java v220 digest evidence list",
+    "handoffGuardEvidence equals the four v221-v224 digest guard evidence receipts",
+    "handoffChecks keep digest version, digest count, guard count, GET-only, upstream-denied, and no-process-control checks",
+    "v226-v228 handoff guard receipts do not appear inside the frozen v225 handoff",
+    "blocked operations remain write-routing, active-shard-router, credential-value-read, raw-endpoint-parse, managed-audit-connection, deployment-or-rollback, and node-start-or-stop-java-or-mini-kv"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffSnapshotTests,OpsShardReadinessV1ContractConsumerReadinessHandoffHistoricalCompatibilityTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

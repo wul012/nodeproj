@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-route-inventory-receipt-v229",
+  "version": "Java v229",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff route inventory",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v229 verifies the readiness handoff route, endpoint-pair registry entry, GET probe inventory, and static fixture discovery all point at the same v225 consumer handoff contract.",
+  "guards": [
+    "v1 endpoint-pair registry still has eleven pairs",
+    "readiness handoff remains the final v1 consumer pair in the registry",
+    "route path equals /v1-contract-consumer-readiness-handoff",
+    "live and fixture probe inventories include GET readiness handoff entries",
+    "static fixture java-shard-readiness-v1-contract-consumer-readiness-handoff-v225.fixture.json is discoverable on the classpath"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffRouteInventoryTests,OpsShardReadinessV1ContractEndpointPairsTests,OpsShardReadinessEvidenceEndpointsTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

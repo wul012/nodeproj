@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-evidence-chain-receipt-v230",
+  "version": "Java v230",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff evidence chain",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v230 proves the v225 readiness handoff evidence chain is closed: five digest evidence inputs, four digest guard receipts, and the v225 handoff receipt form the complete handoff chain without future backfill.",
+  "guards": [
+    "handoff evidence chain contains v215-v219 digest evidence inputs in order",
+    "handoff evidence chain contains v221-v224 digest guard receipts in order",
+    "handoff evidence chain closes with the v225 readiness handoff evidence path",
+    "v226-v230 validation receipts remain outside the frozen v225 handoff chain",
+    "handoff check counts match the digest evidence and guard evidence sizes"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffEvidenceChainTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffSnapshotTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

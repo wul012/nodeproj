@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-ops-evidence-alignment-receipt-v231",
+  "version": "Java v231",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff ops evidence alignment",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v231 verifies the readiness handoff endpoint and fixture are visible through the shared OpsEvidence endpoint and GET probe inventory in the same relative order as the v1 consumer chain.",
+  "guards": [
+    "OpsShardReadinessEvidenceEndpoints.liveEndpoints includes the readiness handoff live endpoint",
+    "OpsShardReadinessEvidenceEndpoints.fixtureEndpoints includes the readiness handoff fixture endpoint",
+    "live and fixture probe inventories include GET readiness handoff entries",
+    "checklist, evidence digest, readiness handoff, and read-only catalog remain in order",
+    "OpsEvidenceServiceTests still pass with the readiness handoff probe surface"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffOpsEvidenceAlignmentTests,OpsShardReadinessEvidenceEndpointsTests,OpsEvidenceServiceTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

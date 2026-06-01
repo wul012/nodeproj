@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v225-consumer-readiness-handoff-snapshot-freeze-receipt-v226",
+  "version": "Java v226",
+  "status": "passed",
+  "scope": "v225 consumer readiness handoff snapshot freeze",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v226 freezes the v225 readiness handoff into a package-local snapshot so later guard versions can assert the same handoff contract without rebuilding it in the service layer.",
+  "guards": [
+    "OpsShardReadinessV1ContractConsumerReadinessHandoffService delegates to the frozen v225 snapshot",
+    "the frozen v225 handoff still references the frozen v220 evidence digest endpoint, fixture, evidence path, and receipt",
+    "digest evidence remains exactly the v215-v219 checklist input evidence carried by the v220 digest",
+    "handoff guard evidence remains exactly the v221-v224 digest guard receipts",
+    "handoff checks remain derived from the frozen digest and preserve the no-start/no-write boundary"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffSnapshotTests,OpsShardReadinessV1ContractConsumerReadinessHandoffServiceTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}
