@@ -5,6 +5,13 @@ import path from "node:path";
 import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks } from "./liveProbeReportUtils.js";
 
+export {
+  renderJavaMiniKvRouteCatalogCleanupLatestEvidenceArchiveVerificationMarkdown,
+} from "./javaMiniKvRouteCatalogCleanupLatestEvidenceArchiveVerificationRenderer.js";
+
+export const JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH =
+  "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-evidence-archive-verification";
+
 const ARCHIVE_JSON =
   "e/477/evidence/java-mini-kv-latest-route-catalog-cleanup-evidence-report-v476-http.json";
 const ARCHIVE_MARKDOWN =

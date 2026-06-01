@@ -1,0 +1,57 @@
+{
+  "version": "v479",
+  "title": "Java / mini-kv latest route catalog cleanup evidence archive verification route",
+  "nodeBase": {
+    "commit": "730c003",
+    "tag": "v478"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "d57ad648",
+      "tag": "v211-order-platform-shard-readiness-v1-contract-consumer-handoff-bundle",
+      "status": "dirty: v212-like consumer handoff bundle snapshot changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "adb646e",
+      "tag": "第一百九十五版路由目录清理收口版本目录审计",
+      "status": "dirty: v196-like source/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v479 exposes v478 archive verification only"
+  },
+  "route": {
+    "json": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-evidence-archive-verification",
+    "markdown": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-evidence-archive-verification?format=markdown",
+    "accessPolicyPattern": "/api/v1/audit/java-mini-kv-*",
+    "catalogGroupId": "java-mini-kv-route-catalog-cleanup-handoff",
+    "catalogGroupCount": 50,
+    "catalogRouteCount": 201,
+    "javaMiniKvDomainGroupCount": 5,
+    "javaMiniKvDomainRouteCount": 37
+  },
+  "reportSummary": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-latest-evidence-archive-verification.v1",
+    "activeNodeVersion": "Node v478",
+    "sourceNodeVersion": "Node v477",
+    "ready": true,
+    "archiveFileCount": 3,
+    "presentArchiveFileCount": 3,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "executionAllowed": false,
+    "startsJavaService": false,
+    "startsMiniKvService": false
+  },
+  "validation": {
+    "focusedVitest": "passed: 5 files / 11 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "httpSmoke": "passed: handoff JSON 200, latest JSON 200, verifier JSON 200, verifier Markdown 200, verifier ready=true, 16/16 checks"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}
