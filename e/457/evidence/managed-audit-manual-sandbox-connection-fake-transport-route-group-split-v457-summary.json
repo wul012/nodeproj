@@ -1,0 +1,51 @@
+{
+  "version": "v457",
+  "changeType": "route-group-refactor-plus-planning-rule-correction",
+  "activeNodeVersion": "Node v457",
+  "sourceNodeVersion": "Node v456",
+  "refactorOnly": true,
+  "addsEvidenceGate": false,
+  "apiPathsChanged": false,
+  "responseShapeChanged": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "prePlanCrossProjectCheck": {
+    "java": {
+      "workspace": "D:\\javaproj",
+      "clean": true,
+      "commit": "5975173b",
+      "tag": "v186-order-platform-shard-readiness-historical-endpoint-snapshot-compatibility",
+      "recommendedNextDirection": "continue read-only endpoint registry and historical snapshot quality work"
+    },
+    "miniKv": {
+      "workspace": "D:\\C\\mini-kv",
+      "clean": true,
+      "commit": "33d90e9",
+      "tag": "第一百七十五版Node路由拆分窗口扩展至v449",
+      "recommendedNextDirection": "extend read-only nodeRouteSplitCompatibilityWindow from Node v449 through Node v450-v457"
+    },
+    "nodeBlocksSiblingProjects": false
+  },
+  "centralRouteTableBeforeLines": 230,
+  "centralRouteTableAfterLines": 209,
+  "centralDirectRouteRegistrationsAfter": 6,
+  "extractedRouteGroupLines": 30,
+  "extractedRouteCount": 3,
+  "extractedRouteGroup": "src/routes/auditManagedAuditManualSandboxConnectionFakeTransportRoutes.ts",
+  "centralRouteTable": "src/routes/auditJsonMarkdownRoutes.ts",
+  "processRuleUpdated": "AGENTS.md Plan-First Development Rule now requires read-only Java / mini-kv progress checks before writing successor plans.",
+  "verification": {
+    "focusedVitestFiles": 1,
+    "focusedVitestTests": 1,
+    "adjacentVitestFiles": 4,
+    "adjacentVitestTests": 11,
+    "fullVitestFiles": 390,
+    "fullVitestTests": 1216,
+    "typecheckPassed": true,
+    "buildPassed": true,
+    "browserScreenshotRequired": false,
+    "forcedHistoricalFixtureFallbackCovered": false,
+    "forcedHistoricalFixtureFallbackNotApplicable": true
+  }
+}

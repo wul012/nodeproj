@@ -17,11 +17,13 @@ Default responsibility:
 
 Before advancing a Node version:
 
-- Read the latest valid plan in `docs/plans/` or `docs/plans2/`.
+- Read the latest valid plan in `docs/plans3/`, `docs/plans2/`, or `docs/plans/`, preferring the newest active successor directory.
+- Before writing a successor plan, inspect Java and mini-kv progress read-only in parallel. Record the latest committed version/tag, clean/dirty status, whether each project can continue in parallel, and the concrete next direction they can follow.
+- Every new Node plan must include a cross-project progress section. If Node needs fresh Java / mini-kv evidence, list the exact upstream version and pause condition. If the Node version is a local route-table/archive/refactor loop, mark Java / mini-kv as recommended parallel and say Node is not their pre-approval blocker.
 - Follow the latest plan's version order, validation requirements, screenshot/archive rules, and pause conditions.
 - If the next planned step is Java or mini-kv, do only a read-only completion check. Continue Node only if the required Java / mini-kv evidence is already complete or the user explicitly changes the order.
 - Avoid overlapping or conflicting plan files. When a plan is complete, start a new plan file for the next phase instead of appending duplicate future versions.
-- For new successor plans after this rule, prefer `docs/plans2/` and keep `docs/plans/` as historical plan storage.
+- For new successor plans after v368, prefer `docs/plans3/` and keep `docs/plans2/` / `docs/plans/` as historical plan storage.
 
 Current cross-project framing:
 

@@ -94,6 +94,7 @@
 454: managed audit manual sandbox connection command route group split
 455: managed audit manual sandbox connection precheck route group split
 456: managed audit manual sandbox connection adapter client route group split
+457: managed audit manual sandbox connection fake transport route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -15,18 +15,6 @@ import {
   renderFileAuditRestartEvidenceMarkdown,
 } from "../services/fileAuditRestartEvidence.js";
 import {
-  loadManagedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacket,
-  renderManagedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacketMarkdown,
-} from "../services/managedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacket.js";
-import {
-  loadManagedAuditManualSandboxConnectionFakeTransportPacketArchiveVerification,
-  renderManagedAuditManualSandboxConnectionFakeTransportPacketArchiveVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionFakeTransportPacketArchiveVerification.js";
-import {
-  loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification,
-  renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.js";
-import {
   createManagedAuditReadinessSummary,
   renderManagedAuditReadinessSummaryMarkdown,
 } from "../services/managedAuditReadinessSummary.js";
@@ -74,6 +62,7 @@ import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditMana
 import { managedAuditLocalAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditLocalAdapterRoutes.js";
 import { managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionAdapterClientRoutes.js";
 import { managedAuditManualSandboxConnectionCommandAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionCommandRoutes.js";
+import { managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionFakeTransportRoutes.js";
 import { managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionPacketRoutes.js";
 import { managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionPrecheckRoutes.js";
 import { managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes } from "./auditManagedAuditManualSandboxConnectionReadinessRoutes.js";
@@ -149,17 +138,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-fake-transport-adapter-dry-run-verification-packet", (deps) => loadManagedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacket({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacketMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-fake-transport-packet-archive-verification", (deps) => loadManagedAuditManualSandboxConnectionFakeTransportPacketArchiveVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionFakeTransportPacketArchiveVerificationMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-fake-transport-packet-upstream-echo-verification", (deps) => loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown),
+  ...managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes,
 
   ...sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes,
 

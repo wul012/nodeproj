@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v456-post-managed-audit-manual-sandbox-connection-adapter-client-route-group-split-roadmap.md
+docs/plans3/v457-post-managed-audit-manual-sandbox-connection-fake-transport-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v457 已完成 managed audit manual sandbox connection fake transport route group split。
+docs/plans3/v457-post-managed-audit-manual-sandbox-connection-fake-transport-route-group-split-roadmap.md
 Node v456 已完成 managed audit manual sandbox connection adapter client route group split。
 docs/plans3/v456-post-managed-audit-manual-sandbox-connection-adapter-client-route-group-split-roadmap.md
 Node v455 已完成 managed audit manual sandbox connection precheck route group split。
@@ -187,10 +189,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v456 已完成 managed audit manual sandbox connection adapter client route group split。
-目标是把 decision/disabled-client/shell-contract/upstream-echo JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
-v456 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
-Java / mini-kv 推荐并行继续，Node v456 不是上游 pre-approval blocker。
+Node v457 已完成 managed audit manual sandbox connection fake transport route group split。
+目标是把 fake-transport dry-run packet / archive verification / upstream echo verification JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
+v457 还修正了 Node 计划规则：写 successor plan 前必须只读检查 Java / mini-kv 当前进度，并把两边能否并行、具体下一步和阻塞条件写进计划。
+Java 当前 v186，可继续 read-only endpoint registry / historical snapshot 质量收口；mini-kv 当前 v175，只读 route split compatibility window 追到 Node v449，建议继续追 Node v450-v457。
+v457 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
