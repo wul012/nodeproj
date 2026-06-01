@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v486-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-intake-roadmap.md
+docs/plans3/v487-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v487 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report。
+docs/plans3/v487-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-roadmap.md
 Node v486 已完成 Java / mini-kv route catalog cleanup verification checklist evidence intake。
 docs/plans3/v486-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-intake-roadmap.md
 Node v485 已完成 Java / mini-kv current route catalog cleanup evidence archive verification route。
@@ -247,6 +249,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v487 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report。
+目标是把 v486 checklist/continuity frozen evidence 挂到现有 cleanup route group，并更新 route count 到 204。
+v487 前置检查显示 Java 已到 v219 tag 但有 v220-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 只消费 v486 frozen evidence。
+v487 focused route/intake/catalog tests、typecheck、build、Fastify inject smoke 已通过；新 report route JSON/Markdown 200、ready=true、18/18 checks。
+
 Node v486 已完成 Java / mini-kv route catalog cleanup verification checklist evidence intake。
 目标是冻结并读取 Java v215-v217 checklist evidence 与 mini-kv v201 post-closeout continuity evidence。
 v486 前置检查显示 Java 已完成 v217 tag 但有 v218-like 本地改动，mini-kv 已完成 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 只消费 tagged/frozen evidence。

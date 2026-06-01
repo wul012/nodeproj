@@ -20,6 +20,9 @@ import {
 import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CURRENT_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupCurrentEvidenceArchiveVerification.js";
+import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceReport.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
@@ -38,7 +41,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(5);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(6);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -272,6 +275,58 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Java / mini-kv route catalog cleanup current evidence archive verification");
       expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes verification checklist evidence through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_VERIFICATION_CHECKLIST_EVIDENCE_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report.v1",
+        reportState: "ready",
+        activeNodeVersion: "Node v487",
+        sourceNodeVersion: "Node v486",
+        readyForRouteCatalogCleanupVerificationChecklistEvidenceReport: true,
+        executionAllowed: false,
+        summary: {
+          fileCount: 6,
+          presentFileCount: 6,
+          checkCount: 18,
+          passedCheckCount: 18,
+          javaVerificationItemCount: 7,
+          miniKvV201BoundaryGroupCount: 40,
+        },
+        evidence: {
+          javaV217ConsumerVerificationChecklistHistoricalCompatibility: {
+            version: "Java v217",
+            guardCount: 4,
+          },
+          miniKvV201RouteCatalogCleanupPostCloseoutContinuity: {
+            releaseVersion: "v201",
+            previousConsumedReleaseVersion: "v200",
+          },
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body)
+        .toContain("# Java / mini-kv route catalog cleanup verification checklist evidence report");
+      expect(markdown.body).toContain("Java v217 Consumer Verification Checklist Historical Compatibility");
+      expect(markdown.body).toContain("mini-kv v201 Post-Closeout Continuity");
     } finally {
       await app.close();
     }
