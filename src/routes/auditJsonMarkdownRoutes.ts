@@ -15,10 +15,6 @@ import {
   renderFileAuditRestartEvidenceMarkdown,
 } from "../services/fileAuditRestartEvidence.js";
 import {
-  loadManagedAuditManualSandboxAdapterConnectionRunbook,
-  renderManagedAuditManualSandboxAdapterConnectionRunbookMarkdown,
-} from "../services/managedAuditManualSandboxAdapterConnectionRunbook.js";
-import {
   loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal,
   renderManagedAuditManualSandboxConnectionBlockedExecutionRehearsalMarkdown,
 } from "../services/managedAuditManualSandboxConnectionBlockedExecutionRehearsal.js";
@@ -127,14 +123,6 @@ import {
   renderManagedAuditSandboxCodeHealthPassMarkdown,
 } from "../services/managedAuditSandboxCodeHealthPass.js";
 import {
-  loadManagedAuditSandboxAdapterDryRunPackage,
-  renderManagedAuditSandboxAdapterDryRunPackageMarkdown,
-} from "../services/managedAuditSandboxAdapterDryRunPackage.js";
-import {
-  loadManagedAuditSandboxAdapterDryRunPlan,
-  renderManagedAuditSandboxAdapterDryRunPlanMarkdown,
-} from "../services/managedAuditSandboxAdapterDryRunPlan.js";
-import {
   createManagedAuditStoreContractProfile,
   renderManagedAuditStoreContractMarkdown,
 } from "../services/managedAuditStoreContract.js";
@@ -179,6 +167,7 @@ import { managedAuditLocalAdapterAuditJsonMarkdownRoutes } from "./auditManagedA
 import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
 import { managedAuditRouteQualityAuditJsonMarkdownRoutes } from "./auditManagedAuditRouteQualityRoutes.js";
 import { managedAuditRestoreDrillAuditJsonMarkdownRoutes } from "./auditManagedAuditRestoreDrillRoutes.js";
+import { managedAuditSandboxAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditSandboxAdapterRoutes.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditMinimalReadOnlyIntegrationRoutes.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
 import { sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes } from "./auditSandboxEndpointCredentialResolverRoutes.js";
@@ -235,17 +224,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditLocalAdapterAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-sandbox-adapter-dry-run-plan", (deps) => loadManagedAuditSandboxAdapterDryRunPlan({
-    config: deps.config,
-  }), renderManagedAuditSandboxAdapterDryRunPlanMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-sandbox-adapter-dry-run-package", (deps) => loadManagedAuditSandboxAdapterDryRunPackage({
-    config: deps.config,
-  }), renderManagedAuditSandboxAdapterDryRunPackageMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-adapter-connection-runbook", (deps) => loadManagedAuditManualSandboxAdapterConnectionRunbook({
-    config: deps.config,
-  }), renderManagedAuditManualSandboxAdapterConnectionRunbookMarkdown),
+  ...managedAuditSandboxAdapterAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-evidence-checklist", (deps) => loadManagedAuditManualSandboxConnectionEvidenceChecklist({
     config: deps.config,

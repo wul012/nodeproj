@@ -161,7 +161,8 @@ describe("managed audit manual sandbox adapter connection runbook", () => {
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Managed audit manual sandbox adapter connection runbook");
       expect(markdown.body).toContain("RUNBOOK_ONLY_NO_CONNECTION");
-      expect(routeTableSource).toContain("auditJsonMarkdownRoute(\"/api/v1/audit/managed-audit-manual-sandbox-adapter-connection-runbook\"");
+      expect(routeTableSource).toContain("...managedAuditSandboxAdapterAuditJsonMarkdownRoutes");
+      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxAdapterConnectionRunbook");
       expect(routeEntryPointSource).toContain("registerAuditJsonMarkdownRoutes(app, deps, auditJsonMarkdownRoutes)");
       expect(routeEntryPointSource).not.toContain("/api/v1/audit/managed-audit-manual-sandbox-adapter-connection-runbook");
     } finally {
