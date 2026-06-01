@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v482-post-java-mini-kv-current-route-catalog-cleanup-evidence-report-roadmap.md
+docs/plans3/v483-post-java-mini-kv-current-route-catalog-cleanup-evidence-report-archive-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v483 已完成 Java / mini-kv current route catalog cleanup evidence report archive。
+docs/plans3/v483-post-java-mini-kv-current-route-catalog-cleanup-evidence-report-archive-roadmap.md
 Node v482 已完成 Java / mini-kv current route catalog cleanup evidence report。
 docs/plans3/v482-post-java-mini-kv-current-route-catalog-cleanup-evidence-report-roadmap.md
 Node v481 已完成 Java / mini-kv current route catalog cleanup evidence intake。
@@ -239,6 +241,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v483 已完成 Java / mini-kv current route catalog cleanup evidence report archive。
+目标是把 v482 current evidence report 的 JSON/Markdown 输出固化为 e/483 archive。
+v483 前置检查显示 Java 已完成 v215 tag 但有 v216-like 本地改动，mini-kv 仍有 v201-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
+v483 Fastify inject archive 生成通过：JSON 200、Markdown 200、ready=true、18/18 checks，并记录 SHA-256 摘要。
+
 Node v482 已完成 Java / mini-kv current route catalog cleanup evidence report。
 目标是把 v481 冻结证据挂到现有 cleanup route group，并保持路由目录一致。
 v482 前置检查显示 Java 有 v215-like 本地改动、mini-kv 有 v201-like 本地改动；两边仍建议并行，Node 只消费 v481 frozen evidence。

@@ -1,0 +1,33 @@
+{
+  "version": "v483",
+  "title": "Java / mini-kv current route catalog cleanup evidence report archive",
+  "generatedAt": "2026-06-01T13:42:22.473Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-current-evidence",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-current-evidence?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "activeNodeVersion": "Node v482",
+  "sourceNodeVersion": "Node v481",
+  "files": {
+    "json": {
+      "path": "e/483/evidence/java-mini-kv-current-route-catalog-cleanup-evidence-report-v482-http.json",
+      "sizeBytes": 12591,
+      "sha256": "a78a6296af920ef1a736aeb3f3f5470347de8559966d0c18a66c08e6db8051c1"
+    },
+    "markdown": {
+      "path": "e/483/evidence/java-mini-kv-current-route-catalog-cleanup-evidence-report-v482-http.md",
+      "sizeBytes": 6885,
+      "sha256": "dee44d3f2d1aa05723f142912e37b53a96dc0c25bb0b31458e8eeb6b487efcb2"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}
