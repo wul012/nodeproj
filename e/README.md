@@ -103,6 +103,7 @@
 463: audit route quality catalog integrity
 464: audit route catalog final closeout
 465: code health route group evidence
+466: central route anchor extraction
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

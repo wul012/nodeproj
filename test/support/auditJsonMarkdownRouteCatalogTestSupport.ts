@@ -1,11 +1,11 @@
 import { expect } from "vitest";
 
 import type { AuditJsonMarkdownRouteRegistration } from "../../src/routes/auditJsonMarkdownRouteRegistrar.js";
-import { auditJsonMarkdownRouteGroups } from "../../src/routes/auditJsonMarkdownRouteGroups.js";
 import {
   auditJsonMarkdownRouteGroupSourceAnchors,
-  auditJsonMarkdownRoutes,
-} from "../../src/routes/auditJsonMarkdownRoutes.js";
+  auditJsonMarkdownRouteGroups,
+} from "../../src/routes/auditJsonMarkdownRouteGroups.js";
+import { auditJsonMarkdownRoutes } from "../../src/routes/auditJsonMarkdownRoutes.js";
 
 export function expectAuditRouteGroupRegisteredThroughCatalog(input: {
   routes: readonly AuditJsonMarkdownRouteRegistration[];

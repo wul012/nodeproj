@@ -1,0 +1,33 @@
+{
+  "version": "v466",
+  "title": "central route anchor extraction",
+  "nodeBase": {
+    "commit": "88f5958",
+    "tag": "v465"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "64d1dfdb",
+      "tag": "v198-order-platform-shard-readiness-v196-operator-checklist-historical-snapshot-compatibility",
+      "status": "dirty: v199-like handoff manifest files and controller edits"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "506ff62",
+      "tag": "mini-kv-v184-route-catalog-final-closeout-window",
+      "status": "clean"
+    },
+    "nodeDecision": "recommended parallel; v466 moves Node route catalog metadata only"
+  },
+  "anchorExtraction": {
+    "centralRouteTableExportsOnlyFlatRoutes": true,
+    "anchorsMovedToCatalogFile": true,
+    "sourceAnchorCount": 49
+  },
+  "validation": {
+    "focusedTests": "passed: 4 files / 10 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

@@ -3,7 +3,10 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import { auditJsonMarkdownRoutes } from "../src/routes/auditJsonMarkdownRoutes.js";
-import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import {
+  auditJsonMarkdownRouteGroupSourceAnchors,
+  auditJsonMarkdownRouteGroups,
+} from "../src/routes/auditJsonMarkdownRouteGroups.js";
 
 describe("audit JSON/Markdown route group catalog", () => {
   it("keeps the central route table as a flat catalog consumer with unique groups and paths", () => {
@@ -23,10 +26,12 @@ describe("audit JSON/Markdown route group catalog", () => {
     expect(routeTableSource).toContain("auditJsonMarkdownRouteGroups");
     expect(routeTableSource).toContain(".flatMap((group) => group.routes)");
     expect(routeTableSource).not.toContain("auditJsonMarkdownRoute(");
-    expect(routeTableSource).toContain("auditJsonMarkdownRouteGroupSourceAnchors");
+    expect(routeTableSource).not.toContain("auditJsonMarkdownRouteGroupSourceAnchors");
 
     expect(catalogSource).toContain("export const auditJsonMarkdownRouteGroups");
+    expect(catalogSource).toContain("export const auditJsonMarkdownRouteGroupSourceAnchors");
     expect(catalogSource).toContain("id: \"foundational\"");
     expect(catalogSource).toContain("id: \"sandbox-handle-review\"");
+    expect(auditJsonMarkdownRouteGroupSourceAnchors).toHaveLength(auditJsonMarkdownRouteGroups.length);
   });
 });

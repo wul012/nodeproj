@@ -3,11 +3,11 @@ import { describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
-import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import {
   auditJsonMarkdownRouteGroupSourceAnchors,
-  auditJsonMarkdownRoutes,
-} from "../src/routes/auditJsonMarkdownRoutes.js";
+  auditJsonMarkdownRouteGroups,
+} from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import { auditJsonMarkdownRoutes } from "../src/routes/auditJsonMarkdownRoutes.js";
 import {
   loadManagedAuditRouteRegistrationTableQualityPass,
 } from "../src/services/managedAuditRouteRegistrationTableQualityPass.js";

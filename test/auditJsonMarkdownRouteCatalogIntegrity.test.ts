@@ -3,9 +3,11 @@ import { describe, expect, it } from "vitest";
 import type { AuditJsonMarkdownRouteRegistration } from "../src/routes/auditJsonMarkdownRouteRegistrar.js";
 import type { AuditJsonMarkdownRouteGroup } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
-import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import {
   auditJsonMarkdownRouteGroupSourceAnchors,
+  auditJsonMarkdownRouteGroups,
+} from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import {
   auditJsonMarkdownRoutes,
 } from "../src/routes/auditJsonMarkdownRoutes.js";
 
