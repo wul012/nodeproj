@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v480-post-java-mini-kv-route-catalog-cleanup-evidence-batch-closeout-roadmap.md
+docs/plans3/v481-post-java-mini-kv-current-route-catalog-cleanup-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v481 已完成 Java / mini-kv current route catalog cleanup evidence intake。
+docs/plans3/v481-post-java-mini-kv-current-route-catalog-cleanup-evidence-intake-roadmap.md
 Node v480 已完成 Java / mini-kv route catalog cleanup evidence batch closeout。
 docs/plans3/v480-post-java-mini-kv-route-catalog-cleanup-evidence-batch-closeout-roadmap.md
 Node v479 已完成 Java / mini-kv latest route catalog cleanup evidence archive verification route。
@@ -235,6 +237,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v481 已完成 Java / mini-kv current route catalog cleanup evidence intake。
+目标是冻结并读取 Java v211/v214 与 mini-kv v199/v200 的当前 clean sibling evidence。
+v481 前置检查显示 Java 已到 v214 且 clean/pushed，mini-kv 已到 v200 且 clean/pushed；两边建议并行，Node 不作为 Java v215+ 或 mini-kv v201+ 前置批准阻碍。
+v481 新增 typed intake 和 focused fallback test，不新增 API route，不启动/停止 sibling 服务，不开启 runtime execution。
+
 Node v480 已完成 Java / mini-kv route catalog cleanup evidence batch closeout。
 目标是收口 v473-v479 批次并完成 focused、full-suite、typecheck、build、HTTP smoke 验证。
 v480 前置检查显示 Java 已到 v214 且 clean/pushed，mini-kv 已到 v197 且 clean/pushed；两边建议并行，新证据留给下一批 Node intake。

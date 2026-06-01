@@ -1,0 +1,31 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-handoff-bundle-integrity-receipt-v214",
+  "version": "Java v214",
+  "status": "passed",
+  "scope": "v1 contract consumer handoff bundle integrity",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "V214 adds an integrity guard that cross-checks v1 endpoint pairs, the v208 endpoint catalog snapshot, and the v211 consumer handoff bundle snapshot.",
+  "guards": [
+    "v1 endpoint pair registry contains eight focused v1 contract endpoint/fixture pairs",
+    "endpoint catalog and consumer handoff bundle stay adjacent before read-only evidence catalog",
+    "bundle catalogedArtifactCount matches the frozen v208 catalog",
+    "bundle read targets and fixture targets match the frozen catalog probes",
+    "requiredEvidence starts with frozen catalog evidence paths and does not include the bundle self evidence",
+    "handoffEvidence includes the bundle self evidence exactly where expected"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerHandoffBundleIntegrityTests,OpsShardReadinessV1ContractEndpointPairIntegrityTests,OpsShardReadinessV1ContractConsumerHandoffBundleHistoricalCompatibilityTests,OpsShardReadinessV1ContractConsumerHandoffBundleSnapshotTests\" test",
+    "mvn -q test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

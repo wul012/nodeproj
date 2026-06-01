@@ -1,0 +1,35 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-handoff-bundle-receipt-v211",
+  "version": "Java v211",
+  "status": "passed",
+  "scope": "shard-readiness.v1 consumer handoff bundle",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "V211 publishes a read-only consumer handoff bundle that ties the v208 endpoint catalog to its v209 snapshot freeze and v210 historical compatibility evidence.",
+  "handoffBundleEndpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-handoff-bundle",
+  "handoffBundleFixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-consumer-handoff-bundle-v211.fixture.json",
+  "endpointCatalogEndpoint": "/api/v1/ops/shard-readiness/v1-contract-endpoint-catalog",
+  "endpointCatalogReceiptId": "java-shard-readiness-v1-contract-endpoint-catalog-receipt-v208",
+  "catalogedArtifactCount": 6,
+  "requiredEvidenceCount": 9,
+  "handoffEvidence": [
+    "e/208/evidence/java-shard-readiness-v1-contract-endpoint-catalog-v208.json",
+    "e/209/evidence/java-shard-readiness-v208-endpoint-catalog-snapshot-freeze-v209.json",
+    "e/210/evidence/java-shard-readiness-v208-endpoint-catalog-historical-compatibility-v210.json",
+    "e/211/evidence/java-shard-readiness-v1-contract-consumer-handoff-bundle-v211.json"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerHandoffBundleServiceTests,OpsShardReadinessV1ContractConsumerHandoffBundleIntegrationTests,OpsShardReadinessV1ContractEndpointPairsTests,OpsShardReadinessV1ContractEndpointPairIntegrityTests,OpsShardReadinessEvidenceEndpointsTests,OpsShardReadinessRoutePathsTests,OpsShardReadinessV1ContractControllerSplitTests,OpsEvidenceServiceTests,OpsShardReadinessHistoricalEndpointSnapshotCompatibilityTests,OpsShardReadinessV1ContractEndpointCatalogHistoricalCompatibilityTests\" test",
+    "JSON fixture parse and MockMvc checks",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}
