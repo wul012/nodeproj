@@ -1,0 +1,21 @@
+{
+  "version": "v485",
+  "title": "Java / mini-kv current route catalog cleanup evidence archive verification route",
+  "generatedAt": "2026-06-01T13:50:43.077Z",
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 203,
+    "javaMiniKvDomainRouteCount": 39,
+    "cleanupHandoffRouteGroupRouteCount": 5
+  },
+  "smoke": {
+    "jsonStatus": 200,
+    "markdownStatus": 200,
+    "markdownContentType": "text/markdown; charset=utf-8",
+    "ready": true,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "activeNodeVersion": "Node v484",
+    "sourceNodeVersion": "Node v483"
+  }
+}

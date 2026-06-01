@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v484-post-java-mini-kv-current-route-catalog-cleanup-evidence-archive-verification-roadmap.md
+docs/plans3/v485-post-java-mini-kv-current-route-catalog-cleanup-evidence-archive-verification-route-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v485 已完成 Java / mini-kv current route catalog cleanup evidence archive verification route。
+docs/plans3/v485-post-java-mini-kv-current-route-catalog-cleanup-evidence-archive-verification-route-roadmap.md
 Node v484 已完成 Java / mini-kv current route catalog cleanup evidence archive verification。
 docs/plans3/v484-post-java-mini-kv-current-route-catalog-cleanup-evidence-archive-verification-roadmap.md
 Node v483 已完成 Java / mini-kv current route catalog cleanup evidence report archive。
@@ -243,6 +245,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v485 已完成 Java / mini-kv current route catalog cleanup evidence archive verification route。
+目标是将 v484 verifier 暴露到现有 cleanup route group，并更新 route count 到 203。
+v485 前置检查显示 Java 已到 v217 tag 但有 v218-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
+v485 focused route/catalog tests、typecheck、build、Fastify inject smoke 已通过；新 verifier route JSON/Markdown 200、ready=true、16/16 checks。
+
 Node v484 已完成 Java / mini-kv current route catalog cleanup evidence archive verification。
 目标是验证 e/483 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
 v484 前置检查显示 Java 已到 v216 tag 但有 v217-like 本地改动，mini-kv 已到 v201 tag 且 clean/pushed；两边建议并行，Node 暂不消费 fresh v216/v201。
