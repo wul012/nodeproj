@@ -115,6 +115,7 @@
 475: Java / mini-kv latest route catalog cleanup evidence intake
 476: Java / mini-kv latest route catalog cleanup evidence report
 477: Java / mini-kv latest route catalog cleanup evidence report archive
+478: Java / mini-kv latest route catalog cleanup evidence archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

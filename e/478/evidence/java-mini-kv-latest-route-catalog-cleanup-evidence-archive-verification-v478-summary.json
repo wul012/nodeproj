@@ -1,0 +1,52 @@
+{
+  "version": "v478",
+  "title": "Java / mini-kv latest route catalog cleanup evidence archive verification",
+  "nodeBase": {
+    "commit": "961501f",
+    "tag": "v477"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "9b1ac4d4",
+      "tag": "v210-order-platform-shard-readiness-v208-endpoint-catalog-historical-compatibility",
+      "status": "dirty: v211-like consumer handoff bundle source/test changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "5bd9a3c",
+      "tag": "第一百九十四版路由目录清理收口版本目录",
+      "status": "dirty: v195-like source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v478 verifies v477 archive files only"
+  },
+  "archiveVerification": {
+    "state": "ready",
+    "ready": true,
+    "archiveFileCount": 3,
+    "presentArchiveFileCount": 3,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "sourceCheckCount": 16,
+    "sourcePassedCheckCount": 16,
+    "sourceReportProfileVersion": "java-mini-kv-route-catalog-cleanup-latest-evidence-report.v1",
+    "sourceReportActiveNodeVersion": "Node v476",
+    "sourceReportSourceNodeVersion": "Node v475",
+    "miniKvReleaseVersion": "v193"
+  },
+  "archiveFiles": {
+    "jsonSha256": "16ea90b8cc18eab80774fd1d80822f1cd835d9c4631f1fa5317306647cf133d4",
+    "markdownSha256": "254aa5ed184cb3acbded16f72131a41fe05591e53c4ce8245e5dfdc5c0f7032c",
+    "summarySha256": "6ed0563bc68a895f2f528efef64e85f8e6721e28ba46d17fb611e5a10dce98c5"
+  },
+  "validation": {
+    "focusedVitest": "passed: test/javaMiniKvRouteCatalogCleanupLatestEvidenceArchiveVerification.test.ts, 1 test",
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}

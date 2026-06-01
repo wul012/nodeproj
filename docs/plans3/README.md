@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v477-post-java-mini-kv-latest-route-catalog-cleanup-evidence-report-archive-roadmap.md
+docs/plans3/v478-post-java-mini-kv-latest-route-catalog-cleanup-evidence-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v478 已完成 Java / mini-kv latest route catalog cleanup evidence archive verification。
+docs/plans3/v478-post-java-mini-kv-latest-route-catalog-cleanup-evidence-archive-verification-roadmap.md
 Node v477 已完成 Java / mini-kv latest route catalog cleanup evidence report archive。
 docs/plans3/v477-post-java-mini-kv-latest-route-catalog-cleanup-evidence-report-archive-roadmap.md
 Node v476 已完成 Java / mini-kv latest route catalog cleanup evidence report。
@@ -229,10 +231,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v477 已完成 Java / mini-kv latest route catalog cleanup evidence report archive。
-目标是归档 v476 latest evidence report 的 JSON/Markdown route 输出，给后续 archive verifier 使用。
-v477 前置检查显示 Java 在 v210 后有 v211-like 本地改动，mini-kv 在 v194 后有 v195-like 本地改动；两边建议并行，Node v477 不消费 dirty sibling worktree。
-v477 不新增 approval/evidence gate，不新增 API route，不启动/停止 sibling 服务，不开启 runtime execution。
+Node v478 已完成 Java / mini-kv latest route catalog cleanup evidence archive verification。
+目标是验证 v477 归档 JSON/Markdown/summary 文件及 digest，给后续 route 暴露 verifier 使用。
+v478 前置检查显示 Java 在 v210 后有 v211-like 本地改动，mini-kv 在 v194 后有 v195-like 本地改动；两边建议并行，Node v478 不消费 dirty sibling worktree。
+v478 不新增 approval/evidence gate，不新增 API route，不启动/停止 sibling 服务，不开启 runtime execution。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
