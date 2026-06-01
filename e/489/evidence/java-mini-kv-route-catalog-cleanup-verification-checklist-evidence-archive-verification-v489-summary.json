@@ -1,0 +1,70 @@
+{
+  "version": "v489",
+  "title": "Java / mini-kv route catalog cleanup verification checklist evidence archive verification",
+  "generatedAt": "2026-06-01T14:05:51.710Z",
+  "profile": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-archive-verification.v1",
+    "archiveVerificationState": "ready",
+    "activeNodeVersion": "Node v489",
+    "sourceNodeVersion": "Node v488",
+    "ready": true,
+    "sourceReport": {
+      "profileVersion": "java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report.v1",
+      "activeNodeVersion": "Node v487",
+      "sourceNodeVersion": "Node v486",
+      "ready": true,
+      "checkCount": 18,
+      "passedCheckCount": 18,
+      "javaVerificationItemCount": 7,
+      "miniKvV201ReleaseVersion": "v201",
+      "miniKvV201BoundaryGroupCount": 40,
+      "executionAllowed": false
+    },
+    "summary": {
+      "archiveFileCount": 3,
+      "presentArchiveFileCount": 3,
+      "checkCount": 16,
+      "passedCheckCount": 16,
+      "sourceCheckCount": 18,
+      "sourcePassedCheckCount": 18
+    },
+    "checks": {
+      "archiveFilesPresent": true,
+      "jsonReadable": true,
+      "markdownReadable": true,
+      "summaryReadable": true,
+      "summaryDigestsMatchFiles": true,
+      "jsonProfileVersionValid": true,
+      "jsonSourceVersionsMatch": true,
+      "jsonReportReady": true,
+      "jsonChecksAllPassed": true,
+      "jsonChecklistEvidenceVersionsMatch": true,
+      "markdownRecordsChecklistReport": true,
+      "markdownRecordsJavaAndMiniKvEvidence": true,
+      "summaryMatchesJson": true,
+      "noRuntimeExecutionOpened": true,
+      "noSiblingServiceStartup": true,
+      "readyForRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerification": true
+    },
+    "archiveFiles": {
+      "json": {
+        "path": "e/488/evidence/java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-v487-http.json",
+        "exists": true,
+        "sizeBytes": 12798,
+        "sha256": "ad753b0815bc0a57f4f18d139acbb24a127988aa17d85e04ddd44ce8dd230095"
+      },
+      "markdown": {
+        "path": "e/488/evidence/java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-v487-http.md",
+        "exists": true,
+        "sizeBytes": 7083,
+        "sha256": "22cd5d235ab2b28b6586c76cdc7a7c7a7532452ceb8c63b695089d77bdad873c"
+      },
+      "summary": {
+        "path": "e/488/evidence/java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-v488-archive-summary.json",
+        "exists": true,
+        "sizeBytes": 1228,
+        "sha256": "9eb459f5474631dc96f7c1e4c1041fd7b1db0dc7a3d4c481618371d02cdfcaa7"
+      }
+    }
+  }
+}

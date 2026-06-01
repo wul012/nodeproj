@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v488-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-archive-roadmap.md
+docs/plans3/v489-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
+docs/plans3/v489-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-archive-verification-roadmap.md
 Node v488 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report archive。
 docs/plans3/v488-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-report-archive-roadmap.md
 Node v487 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report。
@@ -251,6 +253,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
+目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
+v489 前置检查显示 Java 已到 v221 tag 但有 v222-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
+v489 新增 archive verifier 和 focused test，不新增 route，不启动 sibling 服务，不开启 runtime execution。
+
 Node v488 已完成 Java / mini-kv route catalog cleanup verification checklist evidence report archive。
 目标是把 v487 checklist evidence report 的 JSON/Markdown 输出固化为 e/488 archive。
 v488 前置检查显示 Java 已到 v220 tag 但有 v221-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 fresh sibling evidence。
