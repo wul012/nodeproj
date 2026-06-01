@@ -34,6 +34,10 @@ describe("managed audit sandbox code health pass", () => {
         connectionStillBlocked: true,
       },
       regressionCoverage: {
+        routeGroupFile: {
+          path: "src/routes/auditManagedAuditManualSandboxConnectionPrecheckRoutes.ts",
+          exists: true,
+        },
         fallbackRegressionTestPresent: true,
         blockedConfigTestPresent: true,
         jsonMarkdownRouteRegressionPresent: true,

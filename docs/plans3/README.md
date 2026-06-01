@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v464-post-audit-route-catalog-final-closeout-roadmap.md
+docs/plans3/v465-post-code-health-route-group-evidence-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v465 已完成 code health route group evidence。
+docs/plans3/v465-post-code-health-route-group-evidence-roadmap.md
 Node v464 已完成 audit route catalog final closeout。
 docs/plans3/v464-post-audit-route-catalog-final-closeout-roadmap.md
 Node v463 已完成 audit route quality catalog integrity。
@@ -203,10 +205,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v464 已完成 audit route catalog final closeout。
-目标是迁移最后一个非中心 route-table source 测试、修复 v463 暴露的 service-to-route import cycle，并完成 typecheck/build/full Vitest 收口。
-v464 前置检查显示 Java 已到 v198 且干净，mini-kv 在 v181 后有 v182 方向本地改动；两边建议并行，Node v464 不是它们的 pre-approval blocker。
-v464 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v465 已完成 code health route group evidence。
+目标是让 managed-audit sandbox code-health pass 从真实 precheck route group 获取注册证据，不再依赖中心 route table 的兼容锚点文本。
+v465 前置检查显示 Java 已到 v198 且干净，mini-kv 已到 v184 且干净；两边建议并行，Node v465 不是它们的 pre-approval blocker。
+v465 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

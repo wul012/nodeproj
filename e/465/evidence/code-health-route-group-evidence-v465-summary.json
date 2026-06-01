@@ -1,0 +1,33 @@
+{
+  "version": "v465",
+  "title": "code health route group evidence",
+  "nodeBase": {
+    "commit": "5a1c894",
+    "tag": "v464"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "64d1dfdb",
+      "tag": "v198-order-platform-shard-readiness-v196-operator-checklist-historical-snapshot-compatibility",
+      "status": "clean"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "506ff62",
+      "tag": "mini-kv-v184-route-catalog-final-closeout-window",
+      "status": "clean"
+    },
+    "nodeDecision": "recommended parallel; v465 changes Node code-health evidence only"
+  },
+  "evidenceShift": {
+    "oldDependency": "central route-table compatibility anchor",
+    "newDependency": "src/routes/auditManagedAuditManualSandboxConnectionPrecheckRoutes.ts",
+    "routeGroupFileEvidenceAdded": true
+  },
+  "validation": {
+    "focusedTests": "passed: 3 files / 6 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

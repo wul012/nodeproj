@@ -46,6 +46,7 @@ export interface ManagedAuditSandboxCodeHealthPassProfile {
     serviceFile: CodeEvidenceFile;
     testFile: CodeEvidenceFile;
     routeTableFile: CodeEvidenceFile;
+    routeGroupFile: CodeEvidenceFile;
     planFile: CodeEvidenceFile;
     fallbackRegressionTestPresent: boolean;
     blockedConfigTestPresent: boolean;
@@ -345,25 +346,18 @@ function createSourceNodeV247(
 function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["regressionCoverage"] {
   const serviceSource = readText(V247_SERVICE);
   const testSource = readText(V247_TEST);
-  const routeSource = readText(ROUTE_TABLE);
   const precheckRouteGroupSource = readText(PRECHECK_ROUTE_GROUP);
-  const registeredDirectlyInRouteTable =
-    routeSource.includes(V247_ROUTE_PATH)
-    && routeSource.includes("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification");
-  const renderedDirectlyInRouteTable =
-    routeSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown");
   const registeredThroughPrecheckRouteGroup =
-    routeSource.includes("...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes")
-    && precheckRouteGroupSource.includes(V247_ROUTE_PATH)
+    precheckRouteGroupSource.includes(V247_ROUTE_PATH)
     && precheckRouteGroupSource.includes("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification");
   const renderedThroughPrecheckRouteGroup =
-    routeSource.includes("...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes")
-    && precheckRouteGroupSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown");
+    precheckRouteGroupSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown");
 
   return {
     serviceFile: codeEvidenceFile(V247_SERVICE),
     testFile: codeEvidenceFile(V247_TEST),
     routeTableFile: codeEvidenceFile(ROUTE_TABLE),
+    routeGroupFile: codeEvidenceFile(PRECHECK_ROUTE_GROUP),
     planFile: codeEvidenceFile(ACTIVE_PLAN),
     fallbackRegressionTestPresent:
       testSource.includes("ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK")
@@ -374,10 +368,8 @@ function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["r
     jsonMarkdownRouteRegressionPresent:
       testSource.includes("exposes JSON and Markdown routes through the audit route table")
       && testSource.includes("?format=markdown"),
-    routeRegisteredThroughTable:
-      registeredDirectlyInRouteTable || registeredThroughPrecheckRouteGroup,
-    markdownRendererRegisteredThroughTable:
-      renderedDirectlyInRouteTable || renderedThroughPrecheckRouteGroup,
+    routeRegisteredThroughTable: registeredThroughPrecheckRouteGroup,
+    markdownRendererRegisteredThroughTable: renderedThroughPrecheckRouteGroup,
     noRealConnectionClientImport:
       !serviceSource.includes("../clients/")
       && !serviceSource.includes("OrderPlatformClient")
