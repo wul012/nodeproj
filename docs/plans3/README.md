@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v472-post-route-catalog-cleanup-closeout-roadmap.md
+docs/plans3/v473-post-java-mini-kv-route-catalog-cleanup-handoff-evidence-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v473 已完成 Java / mini-kv route catalog cleanup handoff evidence。
+docs/plans3/v473-post-java-mini-kv-route-catalog-cleanup-handoff-evidence-roadmap.md
 Node v472 已完成 route catalog cleanup closeout。
 docs/plans3/v472-post-route-catalog-cleanup-closeout-roadmap.md
 Node v471 已完成 route catalog expected integrity snapshot factory。
@@ -219,10 +221,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v472 已完成 route catalog cleanup closeout。
-目标是归档 v465-v471 的 route catalog 清理链路，并完成限并发 full suite、typecheck、build 验证。
-v472 前置检查显示 Java 在 v201 后有 v202 方向本地改动，mini-kv 在 v186 后有 v187 方向本地改动；两边建议并行，Node v472 不等待新的 sibling evidence。
-v472 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v473 已完成 Java / mini-kv route catalog cleanup handoff evidence。
+目标是冻结并读取 Java v202/v206 与 mini-kv v191/v192 的 route catalog cleanup handoff 证据，给 v474+ 继续构建报告/路由层。
+v473 前置检查显示 Java 在 v206 后有 v207-like 本地改动，mini-kv 在 v192 后有 v193-like 本地改动；两边建议并行，Node v473 只消费 tagged/frozen evidence。
+v473 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

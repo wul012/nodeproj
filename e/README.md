@@ -110,6 +110,7 @@
 470: route catalog expected summary
 471: route catalog expected integrity snapshot
 472: route catalog cleanup closeout
+473: Java / mini-kv route catalog cleanup handoff evidence
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

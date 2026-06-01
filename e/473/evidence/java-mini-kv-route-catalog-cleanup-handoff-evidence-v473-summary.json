@@ -1,0 +1,104 @@
+{
+  "version": "v473",
+  "title": "Java / mini-kv route catalog cleanup handoff evidence",
+  "nodeBase": {
+    "commit": "aa8314c",
+    "tag": "v472"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj\\advanced-order-platform",
+      "commit": "9581a898",
+      "tag": "v206-order-platform-shard-readiness-v1-contract-endpoint-pair-integrity",
+      "status": "dirty: v207-like v1 contract controller split source/test changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "2f653ed",
+      "tag": "第一百九十二版路由目录清理收口交接审计",
+      "status": "dirty: v193-like source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v473 consumes frozen Java v202/v206 and mini-kv v191/v192 evidence only"
+  },
+  "evidenceFiles": {
+    "javaV202ConsumerProbePlan": {
+      "path": "D:/javaproj/advanced-order-platform/src/main/resources/static/contracts/java-shard-readiness-v1-contract-consumer-probe-plan-v202.fixture.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/src/main/resources/static/contracts/java-shard-readiness-v1-contract-consumer-probe-plan-v202.fixture.json",
+      "sizeBytes": 4488,
+      "sha256": "c1b99fe33397d2227ec89bec8a6823763aa8f432b921d6b31190eeaece4ac779"
+    },
+    "javaV206EndpointPairIntegrity": {
+      "path": "D:/javaproj/advanced-order-platform/e/206/evidence/java-shard-readiness-v1-contract-endpoint-pair-integrity-v206.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/e/206/evidence/java-shard-readiness-v1-contract-endpoint-pair-integrity-v206.json",
+      "sizeBytes": 1566,
+      "sha256": "62121ae688b2a36a65987a4bc811a5954a1d438b6b93e7b0a169cac5cd98fb4c"
+    },
+    "miniKvV191RouteCatalogHandoff": {
+      "path": "D:/C/mini-kv/fixtures/release/shard-readiness-v191.json",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v191.json",
+      "sizeBytes": 101121,
+      "sha256": "6bf3a6a8e13b5a88a56893890d682c4923396ee59c40fcada0324a386f10bf7d"
+    },
+    "miniKvV192RouteCatalogHandoffAuditNote": {
+      "path": "D:/C/mini-kv/e/192/解释/说明.md",
+      "frozenFallback": "fixtures/historical/sibling-workspaces/mini-kv/e/192/解释/说明.md",
+      "sizeBytes": 2031,
+      "sha256": "277316c1d614e72a04d9d868e022ca3c9843798c249fe2065616443b141993b8"
+    }
+  },
+  "evidenceSummary": {
+    "fileCount": 4,
+    "presentFileCount": 4,
+    "checkCount": 16,
+    "passedCheckCount": 16,
+    "javaReadTargetCount": 5,
+    "javaFixtureTargetCount": 5,
+    "javaEndpointPairCount": 6,
+    "miniKvArchivedNodeVersionCount": 89
+  },
+  "keyChecks": {
+    "javaV202": {
+      "version": "Java v202",
+      "contractName": "shard-readiness.v1",
+      "readOnly": true,
+      "executionAllowed": false,
+      "probesAreGetOnly": true,
+      "probeSequenceCount": 6,
+      "requiredEvidenceCount": 10
+    },
+    "javaV206": {
+      "version": "Java v206",
+      "v1ContractEndpointPairCount": 6,
+      "liveEndpointsDistinct": true,
+      "fixtureEndpointsDistinct": true,
+      "excludesReadOnlyCatalogEndpoints": true,
+      "excludesRuntimeExecutionEndpoints": true,
+      "newRouteAdded": false,
+      "productionCodeChanged": false
+    },
+    "miniKvV191": {
+      "releaseVersion": "v191",
+      "status": "node-route-catalog-cleanup-closeout-handoff-read-only",
+      "readOnly": true,
+      "executionAllowed": false,
+      "shardEnabled": false,
+      "evidenceDigest": "fnv1a64:e6a06c9207144d9d"
+    },
+    "miniKvV192Note": {
+      "releaseVersionSnippetMatched": true,
+      "digestSnippetMatched": true,
+      "executionAllowedFalseSnippetMatched": true
+    }
+  },
+  "validation": {
+    "focusedVitest": "passed: test/javaMiniKvRouteCatalogCleanupHandoffEvidence.test.ts, 2 tests",
+    "forcedHistoricalFallback": "passed inside focused Vitest; every resolved file path pointed under fixtures/historical/sibling-workspaces",
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "cleanup": {
+    "temporaryFilesCreated": [],
+    "processesStarted": [],
+    "leftRunning": []
+  }
+}
