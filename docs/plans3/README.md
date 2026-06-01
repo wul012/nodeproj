@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v504-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-archive-verification-roadmap.md
+docs/plans3/v505-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-archive-verification-route-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v505 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence archive verification route。
+docs/plans3/v505-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-archive-verification-route-roadmap.md
 Node v504 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence archive verification。
 docs/plans3/v504-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-archive-verification-roadmap.md
 Node v503 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence report archive。
@@ -357,6 +359,11 @@ Node v504 已完成 Java / mini-kv route catalog cleanup readiness handoff evide
 目标是验证 e/503 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、16/16 checks 与 runtime boundary。
 v504 新增 archive verifier 和 focused test，不新增 route，不启动 sibling 服务，不开启 runtime execution。
 v504 focused verifier test、typecheck 已通过。
+
+Node v505 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence archive verification route。
+目标是将 v504 verifier 暴露到现有 cleanup route group，并完成 v491-v505 十五版连续推进。
+v505 focused route/catalog tests、typecheck、build 已通过；总 route count 更新为 211，Java/mini-kv domain route count 更新为 47。
+v505 不启动 sibling 服务，不开启 runtime execution；Java v232-like 和 mini-kv v213-like dirty work 继续排除。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
