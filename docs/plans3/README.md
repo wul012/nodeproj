@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v503-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-report-archive-roadmap.md
+docs/plans3/v504-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v504 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence archive verification。
+docs/plans3/v504-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-archive-verification-roadmap.md
 Node v503 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence report archive。
 docs/plans3/v503-post-java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-report-archive-roadmap.md
 Node v502 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence report。
@@ -350,6 +352,11 @@ Node v503 已完成 Java / mini-kv route catalog cleanup readiness handoff evide
 目标是固化 v502 JSON/Markdown route 输出和 SHA-256 summary，供 v504 verifier 使用。
 v503 Fastify inject archive 生成通过：JSON 200、Markdown 200、ready=true、16/16 checks。
 v503 不新增 route，不启动 sibling 服务，不开启 runtime execution。
+
+Node v504 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence archive verification。
+目标是验证 e/503 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、16/16 checks 与 runtime boundary。
+v504 新增 archive verifier 和 focused test，不新增 route，不启动 sibling 服务，不开启 runtime execution。
+v504 focused verifier test、typecheck 已通过。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
