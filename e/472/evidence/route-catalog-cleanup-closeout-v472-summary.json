@@ -1,0 +1,48 @@
+{
+  "version": "v472",
+  "title": "route catalog cleanup closeout",
+  "nodeBase": {
+    "commit": "518d4c2",
+    "tag": "v471"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "79be6529",
+      "tag": "v201-order-platform-shard-readiness-v199-handoff-manifest-historical-snapshot-compatibility",
+      "status": "dirty: v202-like contract consumer probe plan source/test/fixture changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "1b6a565",
+      "tag": "mini-kv-v186-route-catalog-anchor-removal-audit",
+      "status": "dirty: v187-like route catalog closeout source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v472 is a Node-only closeout and validation record"
+  },
+  "closedVersions": [
+    "v465",
+    "v466",
+    "v467",
+    "v468",
+    "v469",
+    "v470",
+    "v471"
+  ],
+  "validation": {
+    "initialFullSuite": "timed out after 15 minutes; orderops-node Vitest process tree stopped and verified clean",
+    "fullSuiteShard1": "passed: 99 files / 317 tests",
+    "fullSuiteShard2": "passed: 99 files / 301 tests",
+    "fullSuiteShard3": "passed: 98 files / 304 tests",
+    "fullSuiteShard4": "passed: 98 files / 300 tests",
+    "fullSuiteTotal": "passed: 394 files / 1222 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  },
+  "cleanup": {
+    "stoppedProcesses": [
+      "orderops-node Vitest process tree rooted at PID 22708 after monolithic timeout"
+    ],
+    "leftRunning": []
+  }
+}

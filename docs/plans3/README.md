@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v471-post-route-catalog-expected-integrity-snapshot-roadmap.md
+docs/plans3/v472-post-route-catalog-cleanup-closeout-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v472 已完成 route catalog cleanup closeout。
+docs/plans3/v472-post-route-catalog-cleanup-closeout-roadmap.md
 Node v471 已完成 route catalog expected integrity snapshot factory。
 docs/plans3/v471-post-route-catalog-expected-integrity-snapshot-roadmap.md
 Node v470 已完成 route catalog expected summary centralization。
@@ -217,10 +219,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v471 已完成 route catalog expected integrity snapshot factory。
-目标是把 route-quality fallback 使用的 expected integrity snapshot 工厂下沉到 catalog integrity 模块，服务层只消费 catalog 结果。
-v471 前置检查显示 Java 已完成 v201，mini-kv 已完成 v186；两边建议并行，Node v471 不等待新的 sibling evidence。
-v471 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v472 已完成 route catalog cleanup closeout。
+目标是归档 v465-v471 的 route catalog 清理链路，并完成限并发 full suite、typecheck、build 验证。
+v472 前置检查显示 Java 在 v201 后有 v202 方向本地改动，mini-kv 在 v186 后有 v187 方向本地改动；两边建议并行，Node v472 不等待新的 sibling evidence。
+v472 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
