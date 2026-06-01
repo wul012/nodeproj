@@ -23,18 +23,6 @@ import {
   renderManagedAuditAdapterImplementationPrecheckPacketMarkdown,
 } from "../services/managedAuditAdapterImplementationPrecheckPacket.js";
 import {
-  loadManagedAuditAdapterProductionHardeningReadinessGate,
-  renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown,
-} from "../services/managedAuditAdapterProductionHardeningReadinessGate.js";
-import {
-  loadManagedAuditDryRunAdapterArchiveVerification,
-  renderManagedAuditDryRunAdapterArchiveVerificationMarkdown,
-} from "../services/managedAuditDryRunAdapterArchiveVerification.js";
-import {
-  loadManagedAuditDryRunAdapterCandidate,
-  renderManagedAuditDryRunAdapterCandidateMarkdown,
-} from "../services/managedAuditDryRunAdapterCandidate.js";
-import {
   loadManagedAuditExternalAdapterConnectionReadinessReview,
   renderManagedAuditExternalAdapterConnectionReadinessReviewMarkdown,
 } from "../services/managedAuditExternalAdapterConnectionReadinessReview.js";
@@ -212,6 +200,7 @@ import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMi
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
 import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterRoutes.js";
 import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
+import { managedAuditDryRunAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditDryRunAdapterRoutes.js";
 import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditManagedAuditIdentityApprovalRoutes.js";
 import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
 import { managedAuditRestoreDrillAuditJsonMarkdownRoutes } from "./auditManagedAuditRestoreDrillRoutes.js";
@@ -263,17 +252,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditRestoreDrillAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-dry-run-adapter-candidate", (deps) => loadManagedAuditDryRunAdapterCandidate({
-    config: deps.config,
-  }), renderManagedAuditDryRunAdapterCandidateMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-dry-run-adapter-archive-verification", (deps) => loadManagedAuditDryRunAdapterArchiveVerification({
-    config: deps.config,
-  }), renderManagedAuditDryRunAdapterArchiveVerificationMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate", (deps) => loadManagedAuditAdapterProductionHardeningReadinessGate({
-    config: deps.config,
-  }), renderManagedAuditAdapterProductionHardeningReadinessGateMarkdown),
+  ...managedAuditDryRunAdapterAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-helper-quality-pass", (deps) => loadManagedAuditRouteHelperQualityPass({
     config: deps.config,

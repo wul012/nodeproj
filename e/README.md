@@ -84,6 +84,7 @@
 444: managed audit persistence route group split
 445: managed audit identity approval route group split
 446: managed audit restore drill route group split
+447: managed audit dry-run adapter route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
