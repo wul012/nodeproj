@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v499-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-archive-verification-roadmap.md
+docs/plans3/v500-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-archive-verification-route-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v500 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout archive verification route。
+docs/plans3/v500-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-archive-verification-route-roadmap.md
 Node v499 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout archive verification。
 docs/plans3/v499-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-archive-verification-roadmap.md
 Node v498 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout archive。
@@ -322,6 +324,11 @@ Node v499 已完成 Java / mini-kv route catalog cleanup consumer readiness batc
 目标是验证 e/498 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、15/15 checks 与 runtime boundary。
 v499 新增 archive verifier 和 focused test，不新增 route，不启动 sibling 服务，不开启 runtime execution。
 v499 focused verifier test、typecheck 已通过。
+
+Node v500 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout archive verification route。
+目标是将 v499 verifier 暴露到现有 cleanup route group，并完成 v496-v500 五版链。
+v500 focused route/catalog tests、typecheck、build 已通过；总 route count 更新为 209，Java/mini-kv domain route count 更新为 45。
+v500 不启动 sibling 服务，不开启 runtime execution。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
