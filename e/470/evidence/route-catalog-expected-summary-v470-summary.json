@@ -1,0 +1,33 @@
+{
+  "version": "v470",
+  "title": "route catalog expected summary centralization",
+  "nodeBase": {
+    "commit": "636351f",
+    "tag": "v469"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "7e9c999b",
+      "tag": "v200-order-platform-shard-readiness-v199-handoff-manifest-snapshot-freeze",
+      "status": "dirty: v201-like historical snapshot compatibility test/docs changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "2c7526f",
+      "tag": "mini-kv-v185-route-catalog-closeout-snapshot",
+      "status": "dirty: v186-like route catalog closeout source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v470 centralizes Node-only expected catalog summary literals"
+  },
+  "expectedSummary": {
+    "centralConstantAdded": true,
+    "routeQualitySnapshotUsesCentralSummary": true,
+    "liveCatalogTestCoversExpectedSummary": true
+  },
+  "validation": {
+    "focusedTests": "passed: 3 files / 7 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

@@ -107,6 +107,7 @@
 467: route catalog anchor removal
 468: route catalog integrity anchor field removal
 469: route catalog summary builder
+470: route catalog expected summary
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

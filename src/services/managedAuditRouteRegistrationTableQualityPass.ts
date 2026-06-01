@@ -1,5 +1,6 @@
 import type { AppConfig } from "../config.js";
 import type { AuditJsonMarkdownRouteCatalogIntegrityResult } from "../routes/auditJsonMarkdownRouteCatalogIntegrity.js";
+import { EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY } from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
 import {
   countPassedReportChecks,
   countReportChecks,
@@ -383,30 +384,10 @@ function createCurrentAuditRouteCatalogIntegritySnapshot(): AuditJsonMarkdownRou
       routeTableMatchesCatalog: true,
     },
     summary: {
-      groupCount: ROUTE_GROUP_COUNT,
-      routeCount: ROUTE_REGISTRATION_TABLE_COUNT,
-      domainGroupCounts: {
-        foundational: 1,
-        "managed-audit": 16,
-        "credential-resolver": 24,
-        "java-mini-kv": 4,
-        "minimal-integration": 2,
-        sandbox: 2,
-      },
-      domainRouteCounts: {
-        foundational: 6,
-        "managed-audit": 52,
-        "credential-resolver": 70,
-        "java-mini-kv": 34,
-        "minimal-integration": 18,
-        sandbox: 18,
-      },
+      ...EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
       emptyGroupIds: [],
       duplicateGroupIds: [],
       duplicateRoutePaths: [],
-      firstRoutePath: "/api/v1/audit/store-profile",
-      lastRoutePath:
-        "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification",
     },
   };
 }

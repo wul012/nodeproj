@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v469-post-route-catalog-summary-builder-roadmap.md
+docs/plans3/v470-post-route-catalog-expected-summary-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v470 已完成 route catalog expected summary centralization。
+docs/plans3/v470-post-route-catalog-expected-summary-roadmap.md
 Node v469 已完成 route catalog summary builder。
 docs/plans3/v469-post-route-catalog-summary-builder-roadmap.md
 Node v468 已完成 route catalog integrity anchor field removal。
@@ -213,10 +215,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v469 已完成 route catalog summary builder。
-目标是把 audit JSON/Markdown route catalog 的 flatten 与 domain summary 统计抽成 typed builder，供 integrity 和后续报告复用。
-v469 前置检查显示 Java 已完成 v200，mini-kv 已完成 v185 且有 v186 方向本地改动；两边建议并行，Node v469 不等待新的 sibling evidence。
-v469 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v470 已完成 route catalog expected summary centralization。
+目标是把 route-quality 默认快照需要的 expected catalog summary 集中到 summary 模块，避免服务层手抄 counts。
+v470 前置检查显示 Java 在 v200 后有 v201 方向本地改动，mini-kv 在 v185 后有 v186 方向本地改动；两边建议并行，Node v470 不等待新的 sibling evidence。
+v470 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

@@ -21,6 +21,30 @@ export const AUDIT_JSON_MARKDOWN_ROUTE_DOMAINS: readonly AuditJsonMarkdownRouteD
   "sandbox",
 ];
 
+export const EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY: AuditJsonMarkdownRouteCatalogSummary = {
+  groupCount: 49,
+  routeCount: 198,
+  domainGroupCounts: {
+    foundational: 1,
+    "managed-audit": 16,
+    "credential-resolver": 24,
+    "java-mini-kv": 4,
+    "minimal-integration": 2,
+    sandbox: 2,
+  },
+  domainRouteCounts: {
+    foundational: 6,
+    "managed-audit": 52,
+    "credential-resolver": 70,
+    "java-mini-kv": 34,
+    "minimal-integration": 18,
+    sandbox: 18,
+  },
+  firstRoutePath: "/api/v1/audit/store-profile",
+  lastRoutePath:
+    "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification",
+};
+
 export function flattenAuditJsonMarkdownRouteCatalog(
   groups: readonly AuditJsonMarkdownRouteGroup[],
 ): AuditJsonMarkdownRouteRegistration[] {
