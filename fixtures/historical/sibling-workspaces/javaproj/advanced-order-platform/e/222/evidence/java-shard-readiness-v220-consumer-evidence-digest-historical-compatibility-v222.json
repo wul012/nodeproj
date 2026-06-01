@@ -1,0 +1,28 @@
+{
+  "receiptId": "java-shard-readiness-v220-consumer-evidence-digest-historical-compatibility-receipt-v222",
+  "version": "Java v222",
+  "status": "passed",
+  "scope": "v220 consumer evidence digest historical compatibility",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v222 proves the v220 digest is present only in the current rolling registry and is not backfilled into older v179 or v184 endpoint snapshots.",
+  "guards": [
+    "v179 live and fixture snapshots do not contain the v220 digest endpoint",
+    "v184 live and fixture snapshots do not contain the v220 digest endpoint",
+    "current rolling registry keeps digest after the v215 checklist and before read-only catalog",
+    "frozen v220 digestEvidence does not include v221 or v222 self/future receipts"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerEvidenceDigestHistoricalCompatibilityTests,OpsShardReadinessHistoricalEndpointSnapshotCompatibilityTests,OpsShardReadinessV1ContractConsumerEvidenceDigestSnapshotTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

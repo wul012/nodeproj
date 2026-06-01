@@ -1,0 +1,30 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-evidence-digest-integrity-receipt-v223",
+  "version": "Java v223",
+  "status": "passed",
+  "scope": "v1 contract consumer evidence digest integrity",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v223 cross-checks the v220 evidence digest against the frozen v215 checklist and the focused v1 endpoint registry.",
+  "guards": [
+    "v1 endpoint registry contains ten focused v1 contract endpoint/fixture pairs",
+    "consumer handoff bundle, checklist, and digest stay adjacent in order",
+    "digest checklist endpoint, fixture, evidence path, and receipt match the frozen v215 checklist",
+    "digest counts and blocked operations match the frozen v215 checklist",
+    "digestEvidence matches the frozen digest snapshot and excludes digest self/future receipts",
+    "digestChecks match the frozen digest snapshot"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerEvidenceDigestIntegrityTests,OpsShardReadinessV1ContractEndpointPairIntegrityTests,OpsShardReadinessV1ContractConsumerEvidenceDigestHistoricalCompatibilityTests,OpsShardReadinessV1ContractConsumerVerificationChecklistIntegrityTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

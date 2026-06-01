@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-completion-receipt-v224",
+  "version": "Java v224",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness completion",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v224 closes the ten-version run by proving the v1 consumer surface completes bundle, checklist, and digest handoff before the general read-only catalog group.",
+  "guards": [
+    "v1 endpoint pair registry contains ten focused contract pairs",
+    "endpoint catalog, consumer bundle, checklist, digest, and read-only catalog stay in the intended sequence",
+    "v220 digestEvidence remains focused on v215-v219 checklist input evidence",
+    "v221-v224 digest guard evidence remains outside frozen v220 digestEvidence",
+    "checklist and digest are read-only and execution denied"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessCompletionTests,OpsShardReadinessV1ContractConsumerEvidenceDigestIntegrityTests,OpsShardReadinessV1ContractConsumerEvidenceDigestHistoricalCompatibilityTests,OpsShardReadinessV1ContractConsumerEvidenceDigestSnapshotTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

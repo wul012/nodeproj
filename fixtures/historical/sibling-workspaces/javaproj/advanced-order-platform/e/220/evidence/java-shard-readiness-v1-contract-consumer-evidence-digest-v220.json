@@ -1,0 +1,41 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-evidence-digest-receipt-v220",
+  "version": "Java v220",
+  "status": "passed",
+  "scope": "v1 contract consumer evidence digest",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v220 adds a read-only consumer evidence digest endpoint that summarizes the v215 checklist and the v216-v219 guard receipts for Node-side consumption.",
+  "endpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-evidence-digest",
+  "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-consumer-evidence-digest-v220.fixture.json",
+  "verificationChecklistEndpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-verification-checklist",
+  "digestEvidence": [
+    "e/215/evidence/java-shard-readiness-v1-contract-consumer-verification-checklist-v215.json",
+    "e/216/evidence/java-shard-readiness-v215-consumer-verification-checklist-snapshot-freeze-v216.json",
+    "e/217/evidence/java-shard-readiness-v215-consumer-verification-checklist-historical-compatibility-v217.json",
+    "e/218/evidence/java-shard-readiness-v1-contract-consumer-verification-checklist-integrity-v218.json",
+    "e/219/evidence/java-shard-readiness-v1-contract-consumer-route-inventory-v219.json"
+  ],
+  "digestChecks": [
+    "checklist-version:Java v215",
+    "checklist-items:7",
+    "checklist-required-evidence:5",
+    "checklist-verification-checks:7",
+    "digest-evidence-count:5",
+    "probes-are-get-only:true",
+    "node-may-start-or-stop-java-or-mini-kv:false"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerEvidenceDigestServiceTests,OpsShardReadinessV1ContractConsumerEvidenceDigestIntegrationTests,OpsShardReadinessV1ContractEndpointPairsTests,OpsShardReadinessV1ContractEndpointPairIntegrityTests,OpsShardReadinessEvidenceEndpointsTests,OpsShardReadinessRoutePathsTests,OpsShardReadinessV1ContractControllerSplitTests,OpsEvidenceServiceTests,OpsShardReadinessHistoricalEndpointSnapshotCompatibilityTests,OpsShardReadinessV1ContractRouteInventoryTests,OpsShardReadinessV1ContractConsumerVerificationChecklistIntegrityTests,OpsShardReadinessV1ContractConsumerHandoffBundleIntegrityTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

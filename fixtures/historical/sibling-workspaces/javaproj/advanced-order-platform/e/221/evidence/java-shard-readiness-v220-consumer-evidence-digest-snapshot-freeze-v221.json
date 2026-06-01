@@ -1,0 +1,31 @@
+{
+  "receiptId": "java-shard-readiness-v220-consumer-evidence-digest-snapshot-freeze-receipt-v221",
+  "version": "Java v221",
+  "status": "passed",
+  "scope": "v220 consumer evidence digest snapshot freeze",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v221 freezes the v220 consumer evidence digest behind a snapshot helper so later compatibility and integrity tests can depend on a stable digest baseline.",
+  "frozenSnapshot": "OpsShardReadinessV1ContractConsumerEvidenceDigestSnapshot.v220Digest",
+  "serviceReturn": "OpsShardReadinessV1ContractConsumerEvidenceDigestService.digest",
+  "guards": [
+    "service returns the frozen v220 digest snapshot",
+    "snapshot preserves the v215 checklist endpoint and receipt",
+    "snapshot preserves five digest evidence paths",
+    "snapshot preserves seven digest checks",
+    "snapshot keeps the v220 evidence path unchanged"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerEvidenceDigestSnapshotTests,OpsShardReadinessV1ContractConsumerEvidenceDigestServiceTests,OpsShardReadinessV1ContractConsumerEvidenceDigestIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

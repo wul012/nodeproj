@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v490-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-archive-verification-route-roadmap.md
+docs/plans3/v491-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v491 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence intake。
+docs/plans3/v491-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-intake-roadmap.md
 Node v490 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification route。
 docs/plans3/v490-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-archive-verification-route-roadmap.md
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
@@ -259,6 +261,11 @@ Node v490 已完成 Java / mini-kv route catalog cleanup verification checklist 
 目标是将 v489 verifier 暴露到现有 cleanup route group，并收口 v481-v490 十版批次。
 v490 前置检查显示 Java 已到 v222 tag 但有 v223-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
 v490 focused route/catalog tests、typecheck、build、Fastify inject smoke 已通过；总 route count 更新为 205，Java/mini-kv domain route count 更新为 41。
+
+Node v491 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence intake。
+目标是冻结 Java v220-v224 digest/readiness 与 mini-kv v202-v209 versioned continuity，并把 mini-kv v210 仅记录为 audit note。
+v491 前置检查显示 Java 已到 v224 tag 但当前工作树有未提交 v225-like 改动，mini-kv 已到 v210 且 clean/pushed；两边建议并行，Node 只消费 tagged/frozen evidence。
+v491 新增 typed intake 和 forced historical fallback test，不新增 route，不启动 sibling 服务，不开启 runtime execution。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

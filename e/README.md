@@ -118,6 +118,17 @@
 478: Java / mini-kv latest route catalog cleanup evidence archive verification
 479: Java / mini-kv latest route catalog cleanup evidence archive verification route
 480: Java / mini-kv route catalog cleanup evidence batch closeout
+481: Java / mini-kv current route catalog cleanup evidence intake
+482: Java / mini-kv current route catalog cleanup evidence report
+483: Java / mini-kv current route catalog cleanup evidence report archive
+484: Java / mini-kv current route catalog cleanup evidence archive verification
+485: Java / mini-kv current route catalog cleanup evidence archive verification route
+486: Java / mini-kv route catalog cleanup verification checklist evidence intake
+487: Java / mini-kv route catalog cleanup verification checklist evidence report
+488: Java / mini-kv route catalog cleanup verification checklist evidence report archive
+489: Java / mini-kv route catalog cleanup verification checklist evidence archive verification
+490: Java / mini-kv route catalog cleanup verification checklist evidence archive verification route
+491: Java / mini-kv route catalog cleanup consumer readiness evidence intake
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
