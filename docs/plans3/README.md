@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v435-post-credential-resolver-implementation-candidate-gate-route-group-split-roadmap.md
+docs/plans3/v436-post-credential-resolver-disabled-runtime-shell-design-draft-candidate-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v436 已完成 credential resolver disabled runtime shell design draft candidate route group split。
+docs/plans3/v436-post-credential-resolver-disabled-runtime-shell-design-draft-candidate-route-group-split-roadmap.md
 Node v435 已完成 credential resolver implementation candidate gate route group split。
 docs/plans3/v435-post-credential-resolver-implementation-candidate-gate-route-group-split-roadmap.md
 Node v434 已完成 credential resolver final prerequisite route group split。

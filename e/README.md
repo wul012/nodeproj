@@ -73,6 +73,7 @@
 433: credential resolver no-network safety fixture route group split
 434: credential resolver final prerequisite route group split
 435: credential resolver implementation candidate gate route group split
+436: credential resolver disabled runtime shell design draft candidate route group split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
