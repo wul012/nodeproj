@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v447-post-managed-audit-dry-run-adapter-route-group-split-roadmap.md
+docs/plans3/v448-post-managed-audit-route-quality-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v448 已完成 managed audit route quality route group split。
+docs/plans3/v448-post-managed-audit-route-quality-route-group-split-roadmap.md
 Node v447 已完成 managed audit dry-run adapter route group split。
 docs/plans3/v447-post-managed-audit-dry-run-adapter-route-group-split-roadmap.md
 Node v446 已完成 managed audit restore drill route group split。

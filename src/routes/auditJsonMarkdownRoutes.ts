@@ -143,14 +143,6 @@ import {
   renderManagedAuditReadinessSummaryMarkdown,
 } from "../services/managedAuditReadinessSummary.js";
 import {
-  loadManagedAuditRouteHelperQualityPass,
-  renderManagedAuditRouteHelperQualityPassMarkdown,
-} from "../services/managedAuditRouteHelperQualityPass.js";
-import {
-  loadManagedAuditRouteRegistrationTableQualityPass,
-  renderManagedAuditRouteRegistrationTableQualityPassMarkdown,
-} from "../services/managedAuditRouteRegistrationTableQualityPass.js";
-import {
   loadManagedAuditSandboxCodeHealthPass,
   renderManagedAuditSandboxCodeHealthPassMarkdown,
 } from "../services/managedAuditSandboxCodeHealthPass.js";
@@ -203,6 +195,7 @@ import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "
 import { managedAuditDryRunAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditDryRunAdapterRoutes.js";
 import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditManagedAuditIdentityApprovalRoutes.js";
 import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
+import { managedAuditRouteQualityAuditJsonMarkdownRoutes } from "./auditManagedAuditRouteQualityRoutes.js";
 import { managedAuditRestoreDrillAuditJsonMarkdownRoutes } from "./auditManagedAuditRestoreDrillRoutes.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditMinimalReadOnlyIntegrationRoutes.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
@@ -254,13 +247,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditDryRunAdapterAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-helper-quality-pass", (deps) => loadManagedAuditRouteHelperQualityPass({
-    config: deps.config,
-  }), renderManagedAuditRouteHelperQualityPassMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-registration-table-quality-pass", (deps) => loadManagedAuditRouteRegistrationTableQualityPass({
-    config: deps.config,
-  }), renderManagedAuditRouteRegistrationTableQualityPassMarkdown),
+  ...managedAuditRouteQualityAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-adapter-implementation-precheck-packet", (deps) => loadManagedAuditAdapterImplementationPrecheckPacket({
     config: deps.config,
