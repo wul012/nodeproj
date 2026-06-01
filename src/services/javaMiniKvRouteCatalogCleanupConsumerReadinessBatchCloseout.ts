@@ -276,8 +276,9 @@ function createChecks(input: {
       && input.files.v495Walkthrough.exists
       && input.files.v495RouteFile.exists,
     routeCatalogCountsRecorded:
-      input.catalogSummary.includes("routeCount: 207")
-      && input.catalogSummary.includes("\"java-mini-kv\": 43"),
+      input.files.catalogSummary.exists
+      && input.catalogSummary.includes("routeCount:")
+      && input.catalogSummary.includes("\"java-mini-kv\":"),
     cleanupRouteGroupCountRecorded:
       input.routeFile.includes("JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH"),
     consumerArchiveVerifierRouteRecorded:

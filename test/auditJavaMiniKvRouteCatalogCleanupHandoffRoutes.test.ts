@@ -32,6 +32,9 @@ import {
 import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceArchiveVerification.js";
+import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_BATCH_CLOSEOUT_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessBatchCloseoutReport.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
@@ -50,7 +53,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(9);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(10);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -485,6 +488,50 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
       expect(markdown.body)
         .toContain("# Java / mini-kv route catalog cleanup consumer readiness evidence archive verification");
       expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes consumer readiness batch closeout through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_BATCH_CLOSEOUT_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_BATCH_CLOSEOUT_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout.v1",
+        closeoutState: "ready",
+        activeNodeVersion: "Node v496",
+        sourceNodeVersion: "Node v495",
+        readyForRouteCatalogCleanupConsumerReadinessBatchCloseout: true,
+        executionAllowed: false,
+        routeCatalog: {
+          routeCount: 207,
+          javaMiniKvDomainRouteCount: 43,
+          cleanupHandoffRouteGroupRouteCount: 9,
+        },
+        summary: {
+          fileCount: 22,
+          presentFileCount: 22,
+          checkCount: 15,
+          passedCheckCount: 15,
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Java / mini-kv route catalog cleanup consumer readiness batch closeout");
+      expect(markdown.body).toContain("routeCount: 207");
+      expect(markdown.body).toContain("javaDirtyWorktreeExcluded: true");
     } finally {
       await app.close();
     }
