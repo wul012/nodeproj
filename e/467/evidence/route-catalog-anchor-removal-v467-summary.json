@@ -1,0 +1,33 @@
+{
+  "version": "v467",
+  "title": "route catalog anchor removal",
+  "nodeBase": {
+    "commit": "837311c",
+    "tag": "v466"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "64d1dfdb",
+      "tag": "v198-order-platform-shard-readiness-v196-operator-checklist-historical-snapshot-compatibility",
+      "status": "dirty: v199-like handoff manifest/controller/test/docs changes"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "506ff62",
+      "tag": "mini-kv-v184-route-catalog-final-closeout-window",
+      "status": "dirty: v185-like route-catalog closeout source/test/fixture changes"
+    },
+    "nodeDecision": "recommended parallel; v467 removes Node compatibility anchors only"
+  },
+  "anchorRemoval": {
+    "sourceAnchorsRemoved": true,
+    "routeGroupHelperRequiresSourceAnchor": false,
+    "affectedRouteGroupTests": 53
+  },
+  "validation": {
+    "focusedTests": "passed: 53 files / 59 tests",
+    "typecheck": "passed",
+    "build": "passed"
+  }
+}

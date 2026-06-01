@@ -31,7 +31,6 @@ describe("minimal shard readiness audit route group", () => {
       expect(paths).toContain(LATEST_MINIMAL_SHARD_READINESS_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: minimalShardReadinessAuditJsonMarkdownRoutes,
-        sourceAnchor: "...minimalShardReadinessAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

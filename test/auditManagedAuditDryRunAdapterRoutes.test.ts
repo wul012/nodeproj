@@ -45,7 +45,6 @@ describe("managed audit dry-run adapter audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditDryRunAdapterAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditDryRunAdapterAuditJsonMarkdownRoutes",
       });
       expect(javaHistoricalPath).toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/77");
       expect(miniKvHistoricalPath).toContain("fixtures/historical/sibling-workspaces/mini-kv/c/86");

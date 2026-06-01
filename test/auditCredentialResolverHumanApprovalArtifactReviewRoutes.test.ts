@@ -46,7 +46,6 @@ describe("credential resolver human approval artifact review audit route group",
       expect(paths).toContain(LATEST_HUMAN_APPROVAL_ARTIFACT_REVIEW_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

@@ -45,7 +45,6 @@ describe("managed audit adapter audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditAdapterAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditAdapterAuditJsonMarkdownRoutes",
       });
       for (const response of responses) {
         expect(response.statusCode).toBe(200);

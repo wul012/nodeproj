@@ -36,7 +36,6 @@ describe("managed audit sandbox adapter audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditSandboxAdapterAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditSandboxAdapterAuditJsonMarkdownRoutes",
       });
 
       expect(planJson.statusCode).toBe(200);

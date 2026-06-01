@@ -164,7 +164,6 @@ describe("managed audit manual sandbox adapter connection runbook", () => {
       expect(markdown.body).toContain("RUNBOOK_ONLY_NO_CONNECTION");
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditSandboxAdapterAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditSandboxAdapterAuditJsonMarkdownRoutes",
       });
       expect(routeEntryPointSource).toContain("registerAuditJsonMarkdownRoutes(app, deps, auditJsonMarkdownRoutes)");
       expect(routeEntryPointSource).not.toContain("/api/v1/audit/managed-audit-manual-sandbox-adapter-connection-runbook");

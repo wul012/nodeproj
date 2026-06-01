@@ -3,10 +3,7 @@ import { describe, expect, it } from "vitest";
 import type { AuditJsonMarkdownRouteRegistration } from "../src/routes/auditJsonMarkdownRouteRegistrar.js";
 import type { AuditJsonMarkdownRouteGroup } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
-import {
-  auditJsonMarkdownRouteGroupSourceAnchors,
-  auditJsonMarkdownRouteGroups,
-} from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import {
   auditJsonMarkdownRoutes,
 } from "../src/routes/auditJsonMarkdownRoutes.js";
@@ -16,7 +13,6 @@ describe("audit JSON/Markdown route catalog integrity", () => {
     const result = evaluateAuditJsonMarkdownRouteCatalogIntegrity({
       groups: auditJsonMarkdownRouteGroups,
       routes: auditJsonMarkdownRoutes,
-      sourceAnchors: auditJsonMarkdownRouteGroupSourceAnchors,
     });
 
     expect(result.ready).toBe(true);
@@ -32,7 +28,7 @@ describe("audit JSON/Markdown route catalog integrity", () => {
     expect(result.summary).toMatchObject({
       groupCount: 49,
       routeCount: 198,
-      sourceAnchorCount: 49,
+      sourceAnchorCount: 0,
       domainGroupCounts: {
         foundational: 1,
         "managed-audit": 16,
@@ -71,7 +67,6 @@ describe("audit JSON/Markdown route catalog integrity", () => {
     const result = evaluateAuditJsonMarkdownRouteCatalogIntegrity({
       groups,
       routes: staleRouteTable,
-      sourceAnchors: ["...first"],
     });
 
     expect(result.ready).toBe(false);
@@ -80,7 +75,6 @@ describe("audit JSON/Markdown route catalog integrity", () => {
       uniqueGroupIds: false,
       uniqueRoutePaths: false,
       routeTableMatchesCatalog: false,
-      sourceAnchorsMatchGroupCount: false,
     });
     expect(result.summary.emptyGroupIds).toEqual(["empty-group"]);
     expect(result.summary.duplicateGroupIds).toEqual(["duplicate-group"]);

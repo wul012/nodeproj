@@ -34,7 +34,6 @@ describe("Java/mini-kv shard readiness evidence audit route group", () => {
       expect(paths).toContain(LATEST_SHARD_READINESS_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes,
-        sourceAnchor: "...javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

@@ -37,7 +37,6 @@ describe("credential resolver implementation candidate gate audit route group", 
       expect(paths).toContain(LATEST_IMPLEMENTATION_CANDIDATE_GATE_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverImplementationCandidateGateAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverImplementationCandidateGateAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

@@ -37,7 +37,6 @@ describe("credential resolver disabled runtime shell design draft candidate audi
       expect(paths).toContain(LATEST_DISABLED_RUNTIME_SHELL_DESIGN_DRAFT_CANDIDATE_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

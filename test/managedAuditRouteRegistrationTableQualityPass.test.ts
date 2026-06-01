@@ -3,10 +3,7 @@ import { describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
-import {
-  auditJsonMarkdownRouteGroupSourceAnchors,
-  auditJsonMarkdownRouteGroups,
-} from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import { auditJsonMarkdownRoutes } from "../src/routes/auditJsonMarkdownRoutes.js";
 import {
   loadManagedAuditRouteRegistrationTableQualityPass,
@@ -49,7 +46,7 @@ describe("managed audit route registration table quality pass", () => {
         registrationTableRouteCount: 198,
         routeGroupCatalogAdded: true,
         routeGroupCount: 49,
-        sourceAnchorCount: 49,
+        sourceAnchorCount: 0,
         registerAuditRoutesLoopCount: 1,
       },
       checks: {
@@ -75,7 +72,7 @@ describe("managed audit route registration table quality pass", () => {
       summary: {
         routeRegistrationCount: 198,
         routeGroupCount: 49,
-        sourceAnchorCount: 49,
+        sourceAnchorCount: 0,
         duplicateRoutePathCount: 0,
         emptyRouteGroupCount: 0,
         removedDirectRegistrationCallCount: 41,
@@ -88,7 +85,7 @@ describe("managed audit route registration table quality pass", () => {
         summary: {
           groupCount: 49,
           routeCount: 198,
-          sourceAnchorCount: 49,
+          sourceAnchorCount: 0,
         },
       },
     });
@@ -236,6 +233,5 @@ function currentCatalogIntegrity() {
   return evaluateAuditJsonMarkdownRouteCatalogIntegrity({
     groups: auditJsonMarkdownRouteGroups,
     routes: auditJsonMarkdownRoutes,
-    sourceAnchors: auditJsonMarkdownRouteGroupSourceAnchors,
   });
 }

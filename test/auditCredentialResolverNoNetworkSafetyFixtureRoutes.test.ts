@@ -40,7 +40,6 @@ describe("credential resolver no-network safety fixture audit route group", () =
       expect(paths).toContain(LATEST_NO_NETWORK_SAFETY_FIXTURE_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverNoNetworkSafetyFixtureAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverNoNetworkSafetyFixtureAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

@@ -34,7 +34,6 @@ describe("Java/mini-kv declared operator lifecycle audit route group", () => {
       expect(paths).toContain(LATEST_DECLARED_OPERATOR_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes,
-        sourceAnchor: "...javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

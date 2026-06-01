@@ -31,7 +31,6 @@ describe("Java/mini-kv runtime execution audit route group", () => {
       expect(paths).toContain(V409_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes,
-        sourceAnchor: "...javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

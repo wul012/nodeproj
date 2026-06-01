@@ -43,7 +43,6 @@ describe("credential resolver fake-harness execution readiness audit route group
       expect(paths).toContain(LATEST_FAKE_HARNESS_EXECUTION_READINESS_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

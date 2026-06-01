@@ -40,7 +40,6 @@ describe("credential resolver fake-harness contract audit route group", () => {
       expect(paths).toContain(LATEST_FAKE_HARNESS_CONTRACT_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

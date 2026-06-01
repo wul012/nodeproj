@@ -36,7 +36,6 @@ describe("managed audit manual sandbox connection fake-transport audit route gro
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditManualSandboxConnectionFakeTransportAuditJsonMarkdownRoutes",
       });
 
       expect(packetJson.statusCode).toBe(200);

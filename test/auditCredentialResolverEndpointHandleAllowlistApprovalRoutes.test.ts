@@ -40,7 +40,6 @@ describe("credential resolver endpoint handle allowlist approval audit route gro
       expect(paths).toContain(LATEST_ENDPOINT_HANDLE_ALLOWLIST_APPROVAL_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

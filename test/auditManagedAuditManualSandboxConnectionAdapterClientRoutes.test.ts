@@ -37,7 +37,6 @@ describe("managed audit manual sandbox connection adapter client audit route gro
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditManualSandboxConnectionAdapterClientAuditJsonMarkdownRoutes",
       });
 
       expect(decisionJson.statusCode).toBe(200);

@@ -45,7 +45,6 @@ describe("managed audit identity approval audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditIdentityApprovalAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditIdentityApprovalAuditJsonMarkdownRoutes",
       });
       expect(javaHistoricalPath).toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/75");
       expect(miniKvHistoricalPath).toContain("fixtures/historical/sibling-workspaces/mini-kv/c/84");

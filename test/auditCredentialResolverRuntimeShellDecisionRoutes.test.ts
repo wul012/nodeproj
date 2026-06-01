@@ -40,7 +40,6 @@ describe("credential resolver runtime shell decision audit route group", () => {
       expect(paths).toContain(LATEST_RUNTIME_SHELL_DECISION_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverRuntimeShellDecisionAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverRuntimeShellDecisionAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

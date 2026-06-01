@@ -40,7 +40,6 @@ describe("managed audit manual sandbox connection readiness audit route group", 
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditManualSandboxConnectionReadinessAuditJsonMarkdownRoutes",
       });
 
       expect(preflightJson.statusCode).toBe(200);

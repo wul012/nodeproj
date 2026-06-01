@@ -30,7 +30,6 @@ describe("managed audit restore drill audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditRestoreDrillAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditRestoreDrillAuditJsonMarkdownRoutes",
       });
       expect(planJson.statusCode).toBe(200);
       expect(planJson.json()).toMatchObject({

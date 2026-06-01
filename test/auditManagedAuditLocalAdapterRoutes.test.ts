@@ -36,7 +36,6 @@ describe("managed audit local adapter audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditLocalAdapterAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditLocalAdapterAuditJsonMarkdownRoutes",
       });
 
       expect(dryRunJson.statusCode).toBe(200);

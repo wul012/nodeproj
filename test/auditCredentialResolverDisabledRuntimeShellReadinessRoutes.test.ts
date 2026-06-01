@@ -43,7 +43,6 @@ describe("credential resolver disabled runtime shell readiness audit route group
       expect(paths).toContain(LATEST_DISABLED_RUNTIME_SHELL_READINESS_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

@@ -40,7 +40,6 @@ describe("credential resolver final prerequisite audit route group", () => {
       expect(paths).toContain(LATEST_FINAL_PREREQUISITE_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

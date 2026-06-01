@@ -41,7 +41,6 @@ describe("managed audit persistence audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditPersistenceAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditPersistenceAuditJsonMarkdownRoutes",
       });
       expect(javaHistoricalPath).toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/74");
       expect(miniKvHistoricalPath).toContain("fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/runtime-smoke-evidence.json");

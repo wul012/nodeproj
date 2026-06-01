@@ -398,7 +398,7 @@ function createCurrentAuditRouteCatalogIntegritySnapshot(): AuditJsonMarkdownRou
     summary: {
       groupCount: ROUTE_GROUP_COUNT,
       routeCount: ROUTE_REGISTRATION_TABLE_COUNT,
-      sourceAnchorCount: ROUTE_GROUP_COUNT,
+      sourceAnchorCount: 0,
       domainGroupCounts: {
         foundational: 1,
         "managed-audit": 16,

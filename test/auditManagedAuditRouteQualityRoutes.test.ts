@@ -30,7 +30,6 @@ describe("managed audit route quality audit route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditRouteQualityAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditRouteQualityAuditJsonMarkdownRoutes",
       });
       expect(helperJson.statusCode).toBe(200);
       expect(helperJson.json()).toMatchObject({

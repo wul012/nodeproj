@@ -37,7 +37,6 @@ describe("credential resolver fake-shell readiness audit route group", () => {
       expect(paths).toContain(LATEST_CREDENTIAL_RESOLVER_FAKE_SHELL_READINESS_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

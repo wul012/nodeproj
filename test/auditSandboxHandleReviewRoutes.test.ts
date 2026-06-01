@@ -31,7 +31,6 @@ describe("sandbox handle review audit route group", () => {
       expect(paths).toContain(LATEST_SANDBOX_HANDLE_REVIEW_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: sandboxHandleReviewAuditJsonMarkdownRoutes,
-        sourceAnchor: "...sandboxHandleReviewAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

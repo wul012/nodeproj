@@ -37,7 +37,6 @@ describe("sandbox endpoint credential resolver audit route group", () => {
       expect(paths).toContain(LATEST_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes,
-        sourceAnchor: "...sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

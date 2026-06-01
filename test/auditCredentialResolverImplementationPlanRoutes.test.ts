@@ -37,7 +37,6 @@ describe("credential resolver implementation plan audit route group", () => {
       expect(paths).toContain(LATEST_IMPLEMENTATION_PLAN_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverImplementationPlanAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverImplementationPlanAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

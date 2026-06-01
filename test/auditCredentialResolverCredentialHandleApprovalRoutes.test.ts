@@ -40,7 +40,6 @@ describe("credential resolver credential handle approval audit route group", () 
       expect(paths).toContain(LATEST_CREDENTIAL_HANDLE_APPROVAL_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverCredentialHandleApprovalAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverCredentialHandleApprovalAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

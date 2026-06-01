@@ -36,7 +36,6 @@ describe("managed audit manual sandbox connection packet audit route group", () 
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditManualSandboxConnectionPacketAuditJsonMarkdownRoutes",
       });
 
       expect(checklistJson.statusCode).toBe(200);

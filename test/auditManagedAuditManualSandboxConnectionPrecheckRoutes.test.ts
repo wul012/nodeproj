@@ -37,7 +37,6 @@ describe("managed audit manual sandbox connection precheck audit route group", (
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes",
       });
 
       expect(precheckJson.statusCode).toBe(200);

@@ -43,7 +43,6 @@ describe("credential resolver runtime shell prerequisite audit route group", () 
       expect(paths).toContain(LATEST_RUNTIME_SHELL_PREREQUISITE_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverRuntimeShellPrerequisiteAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverRuntimeShellPrerequisiteAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

@@ -58,7 +58,6 @@ describe("foundational audit JSON/Markdown route group", () => {
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: foundationalAuditJsonMarkdownRoutes,
-        sourceAnchor: "...foundationalAuditJsonMarkdownRoutes",
       });
 
       expect(storeProfileJson.statusCode).toBe(200);

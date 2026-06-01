@@ -31,7 +31,6 @@ describe("minimal read-only integration audit route group", () => {
       expect(paths).toContain(LATEST_MINIMAL_READ_ONLY_INTEGRATION_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: minimalReadOnlyIntegrationAuditJsonMarkdownRoutes,
-        sourceAnchor: "...minimalReadOnlyIntegrationAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

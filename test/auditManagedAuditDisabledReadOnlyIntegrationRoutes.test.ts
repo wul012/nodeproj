@@ -34,7 +34,6 @@ describe("managed-audit-disabled read-only integration audit route group", () =>
       expect(paths).toContain(LATEST_MANAGED_AUDIT_DISABLED_READ_ONLY_INTEGRATION_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes,
-        sourceAnchor: "...managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({

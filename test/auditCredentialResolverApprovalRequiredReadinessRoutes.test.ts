@@ -43,7 +43,6 @@ describe("credential resolver approval-required readiness audit route group", ()
       expect(paths).toContain(LATEST_APPROVAL_REQUIRED_READINESS_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes,
-        sourceAnchor: "...credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes",
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
