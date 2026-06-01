@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes,
 } from "../src/routes/auditSandboxEndpointCredentialResolverRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-upstream-echo-verification";
@@ -17,8 +17,6 @@ describe("sandbox endpoint credential resolver audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -37,8 +35,10 @@ describe("sandbox endpoint credential resolver audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-preflight-review",
       );
       expect(paths).toContain(LATEST_SANDBOX_ENDPOINT_CREDENTIAL_RESOLVER_ROUTE);
-      expect(routeTableSource).toContain("...sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes,
+        sourceAnchor: "...sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         verificationState: "sandbox-endpoint-credential-resolver-test-only-shell-upstream-echo-verification-ready",

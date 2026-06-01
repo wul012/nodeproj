@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_DISABLED_RUNTIME_SHELL_DESIGN_DRAFT_BODY_PREPARATION_PLAN_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-preparation-plan-archive-verification";
@@ -17,8 +17,6 @@ describe("credential resolver disabled runtime shell design draft body preparati
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -37,12 +35,10 @@ describe("credential resolver disabled runtime shell design draft body preparati
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-body-preparation-plan",
       );
       expect(paths).toContain(LATEST_DISABLED_RUNTIME_SHELL_DESIGN_DRAFT_BODY_PREPARATION_PLAN_ROUTE);
-      expect(routeTableSource).toContain(
-        "...credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes",
-      );
-      expect(routeTableSource).not.toContain(
-        "loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerification",
-      );
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

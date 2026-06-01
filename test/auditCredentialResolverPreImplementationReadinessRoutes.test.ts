@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverPreImplementationReadinessAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverPreImplementationReadinessRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_PRE_IMPLEMENTATION_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-implementation-candidate-review";
@@ -17,8 +17,6 @@ describe("credential resolver pre-implementation readiness audit route group", (
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverPreImplementationReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -43,8 +41,10 @@ describe("credential resolver pre-implementation readiness audit route group", (
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake-upstream-echo-verification",
       );
       expect(paths).toContain(LATEST_PRE_IMPLEMENTATION_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverPreImplementationReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverDisabledImplementationCandidateReview");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverPreImplementationReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverPreImplementationReadinessAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

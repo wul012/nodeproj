@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverFakeShellReadinessRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_CREDENTIAL_RESOLVER_FAKE_SHELL_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-production-readiness-decision-gate";
@@ -17,8 +17,6 @@ describe("credential resolver fake-shell readiness audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -37,8 +35,10 @@ describe("credential resolver fake-shell readiness audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-fake-shell-archive-verification",
       );
       expect(paths).toContain(LATEST_CREDENTIAL_RESOLVER_FAKE_SHELL_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverProductionReadinessDecisionGate");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverFakeShellReadinessAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         decisionGateState: "blocked",

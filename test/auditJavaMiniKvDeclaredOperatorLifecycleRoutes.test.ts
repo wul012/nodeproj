@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,14 +6,14 @@ import {
   javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes,
 } from "../src/routes/auditJavaMiniKvDeclaredOperatorLifecycleRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 const LATEST_DECLARED_OPERATOR_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification";
 
 describe("Java/mini-kv declared operator lifecycle audit route group", () => {
   it("keeps declared operator lifecycle routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -34,8 +32,10 @@ describe("Java/mini-kv declared operator lifecycle audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-evidence-intake",
       );
       expect(paths).toContain(LATEST_DECLARED_OPERATOR_ROUTE);
-      expect(routeTableSource).toContain("...javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes,
+        sourceAnchor: "...javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v395",

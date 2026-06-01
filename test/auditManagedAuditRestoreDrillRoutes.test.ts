@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditRestoreDrillAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditRestoreDrillRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit restore drill audit route group", () => {
   it("keeps restore drill plan and archive verification routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditRestoreDrillAuditJsonMarkdownRoutes.map((route) => route.path);
       const planJson = await app.inject({
@@ -30,9 +28,10 @@ describe("managed audit restore drill audit route group", () => {
         "/api/v1/audit/managed-audit-packet-restore-drill-plan",
         "/api/v1/audit/managed-audit-restore-drill-archive-verification",
       ]);
-      expect(routeTableSource).toContain("...managedAuditRestoreDrillAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditPacketRestoreDrillPlan");
-      expect(routeTableSource).not.toContain("loadManagedAuditRestoreDrillArchiveVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditRestoreDrillAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditRestoreDrillAuditJsonMarkdownRoutes",
+      });
       expect(planJson.statusCode).toBe(200);
       expect(planJson.json()).toMatchObject({
         profileVersion: "managed-audit-packet-restore-drill-plan.v1",

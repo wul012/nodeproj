@@ -1,0 +1,39 @@
+{
+  "version": "v462",
+  "title": "audit route catalog test migration",
+  "nodeBase": {
+    "commit": "a579395",
+    "tag": "v461"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "ffb2fd7f",
+      "tag": "v196-order-platform-shard-readiness-v1-contract-operator-checklist",
+      "status": "clean"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "e0eafe4",
+      "tag": "mini-kv-v180-history-evidence-formatter-split",
+      "status": "dirty: v181-like shard-readiness source/test/evidence changes"
+    },
+    "nodeDecision": "recommended parallel; v462 changes Node tests only"
+  },
+  "testMigration": {
+    "newlyMigratedRouteGroupTests": 37,
+    "remainingRouteTableSourceTests": 2,
+    "remainingRouteTableSourceTestFiles": [
+      "test/auditJsonMarkdownRouteGroups.test.ts",
+      "test/managedAuditManualSandboxAdapterConnectionRunbook.test.ts"
+    ]
+  },
+  "validation": {
+    "focusedMigratedTests": "passed: 37 migrated route-group files",
+    "catalogSupportTests": "passed with focused suite",
+    "focusedSuite": "passed: 39 files / 40 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "fullVitest": "deferred to v464 final validation"
+  }
+}

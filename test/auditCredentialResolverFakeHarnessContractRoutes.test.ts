@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverFakeHarnessContractRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_FAKE_HARNESS_CONTRACT_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-fake-harness-contract-upstream-echo-verification";
@@ -17,8 +17,6 @@ describe("credential resolver fake-harness contract audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -40,8 +38,10 @@ describe("credential resolver fake-harness contract audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-fake-harness-contract",
       );
       expect(paths).toContain(LATEST_FAKE_HARNESS_CONTRACT_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverFakeHarnessContractAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

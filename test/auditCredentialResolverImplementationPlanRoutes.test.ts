@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverImplementationPlanAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverImplementationPlanRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_IMPLEMENTATION_PLAN_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-upstream-echo-verification";
@@ -17,8 +17,6 @@ describe("credential resolver implementation plan audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverImplementationPlanAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -37,8 +35,10 @@ describe("credential resolver implementation plan audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-draft",
       );
       expect(paths).toContain(LATEST_IMPLEMENTATION_PLAN_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverImplementationPlanAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverImplementationPlanAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverImplementationPlanAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

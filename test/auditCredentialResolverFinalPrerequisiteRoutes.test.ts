@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverFinalPrerequisiteRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_FINAL_PREREQUISITE_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-final-prerequisite-closure-review";
@@ -17,8 +17,6 @@ describe("credential resolver final prerequisite audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -40,8 +38,10 @@ describe("credential resolver final prerequisite audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-read-only-cross-project-readiness-runner",
       );
       expect(paths).toContain(LATEST_FINAL_PREREQUISITE_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverFinalPrerequisiteAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -10,6 +9,8 @@ import {
 } from "../src/routes/auditManagedAuditPersistenceRoutes.js";
 import { resolveHistoricalEvidencePath } from "../src/services/historicalEvidenceResolver.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
 describe("managed audit persistence audit route group", () => {
@@ -17,8 +18,6 @@ describe("managed audit persistence audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditPersistenceAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -40,9 +39,10 @@ describe("managed audit persistence audit route group", () => {
         "/api/v1/audit/managed-persistence-boundary-candidate",
         "/api/v1/audit/managed-persistence-dry-run-verification",
       ]);
-      expect(routeTableSource).toContain("...managedAuditPersistenceAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditPersistenceBoundaryCandidate");
-      expect(routeTableSource).not.toContain("loadManagedAuditPersistenceDryRunVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditPersistenceAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditPersistenceAuditJsonMarkdownRoutes",
+      });
       expect(javaHistoricalPath).toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/74");
       expect(miniKvHistoricalPath).toContain("fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/runtime-smoke-evidence.json");
       expect(json.statusCode).toBe(200);

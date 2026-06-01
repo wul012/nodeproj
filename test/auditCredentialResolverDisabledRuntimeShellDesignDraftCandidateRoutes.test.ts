@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverDisabledRuntimeShellDesignDraftCandidateRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_DISABLED_RUNTIME_SHELL_DESIGN_DRAFT_CANDIDATE_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-candidate-archive-verification";
@@ -17,8 +17,6 @@ describe("credential resolver disabled runtime shell design draft candidate audi
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -37,12 +35,10 @@ describe("credential resolver disabled runtime shell design draft candidate audi
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-design-draft-candidate-review",
       );
       expect(paths).toContain(LATEST_DISABLED_RUNTIME_SHELL_DESIGN_DRAFT_CANDIDATE_ROUTE);
-      expect(routeTableSource).toContain(
-        "...credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes",
-      );
-      expect(routeTableSource).not.toContain(
-        "loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftCandidateArchiveVerification",
-      );
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverDisabledRuntimeShellDesignDraftCandidateAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

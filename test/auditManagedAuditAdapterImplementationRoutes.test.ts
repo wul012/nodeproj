@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditAdapterImplementationAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditAdapterImplementationRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit adapter implementation audit route group", () => {
   it("keeps implementation precheck and disabled shell routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditAdapterImplementationAuditJsonMarkdownRoutes.map((route) => route.path);
       const precheckJson = await app.inject({
@@ -30,9 +28,10 @@ describe("managed audit adapter implementation audit route group", () => {
         "/api/v1/audit/managed-audit-adapter-implementation-precheck-packet",
         "/api/v1/audit/managed-audit-adapter-disabled-shell",
       ]);
-      expect(routeTableSource).toContain("...managedAuditAdapterImplementationAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditAdapterImplementationPrecheckPacket");
-      expect(routeTableSource).not.toContain("loadManagedAuditAdapterDisabledShell");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditAdapterImplementationAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditAdapterImplementationAuditJsonMarkdownRoutes",
+      });
       expect(precheckJson.statusCode).toBe(200);
       expect(precheckJson.json()).toMatchObject({
         profileVersion: "managed-audit-adapter-implementation-precheck-packet.v1",

@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,14 +6,14 @@ import {
   javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes,
 } from "../src/routes/auditJavaMiniKvShardReadinessEvidenceRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 const LATEST_SHARD_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-completed-shard-readiness-evidence-intake-archive-verification";
 
 describe("Java/mini-kv shard readiness evidence audit route group", () => {
   it("keeps shard readiness evidence routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -34,8 +32,10 @@ describe("Java/mini-kv shard readiness evidence audit route group", () => {
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-shard-readiness-evidence-consumption",
       );
       expect(paths).toContain(LATEST_SHARD_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvCompletedShardReadinessEvidenceIntakeArchiveVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes,
+        sourceAnchor: "...javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v379",

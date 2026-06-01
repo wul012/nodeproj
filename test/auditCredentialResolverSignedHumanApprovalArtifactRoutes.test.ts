@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverSignedHumanApprovalArtifactAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverSignedHumanApprovalArtifactRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_SIGNED_HUMAN_APPROVAL_ARTIFACT_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-prerequisite-closure-review";
@@ -17,8 +17,6 @@ describe("credential resolver signed human approval artifact audit route group",
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverSignedHumanApprovalArtifactAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -40,8 +38,10 @@ describe("credential resolver signed human approval artifact audit route group",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-signed-human-approval-artifact-contract-upstream-echo-verification",
       );
       expect(paths).toContain(LATEST_SIGNED_HUMAN_APPROVAL_ARTIFACT_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverSignedHumanApprovalArtifactAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactPrerequisiteClosureReview");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverSignedHumanApprovalArtifactAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverSignedHumanApprovalArtifactAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

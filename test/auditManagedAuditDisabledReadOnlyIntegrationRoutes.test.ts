@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,14 +6,14 @@ import {
   managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 const LATEST_MANAGED_AUDIT_DISABLED_READ_ONLY_INTEGRATION_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-decision-record";
 
 describe("managed-audit-disabled read-only integration audit route group", () => {
   it("keeps intake, archive verification, and decision-record routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -34,8 +32,10 @@ describe("managed-audit-disabled read-only integration audit route group", () =>
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-managed-audit-disabled-read-only-integration-intake",
       );
       expect(paths).toContain(LATEST_MANAGED_AUDIT_DISABLED_READ_ONLY_INTEGRATION_ROUTE);
-      expect(routeTableSource).toContain("...managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationDecisionRecord");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         activeNodeVersion: "Node v353",

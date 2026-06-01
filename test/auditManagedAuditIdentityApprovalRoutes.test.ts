@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -10,6 +9,8 @@ import {
 } from "../src/routes/auditManagedAuditIdentityApprovalRoutes.js";
 import { resolveHistoricalEvidencePath } from "../src/services/historicalEvidenceResolver.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
 describe("managed audit identity approval audit route group", () => {
@@ -17,8 +18,6 @@ describe("managed audit identity approval audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditIdentityApprovalAuditJsonMarkdownRoutes.map((route) => route.path);
       const bindingJson = await app.inject({
@@ -44,10 +43,10 @@ describe("managed audit identity approval audit route group", () => {
         "/api/v1/audit/managed-identity-approval-provenance-dry-run-packet",
         "/api/v1/audit/managed-identity-approval-provenance-packet-verification-report",
       ]);
-      expect(routeTableSource).toContain("...managedAuditIdentityApprovalAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditIdentityApprovalBindingContract");
-      expect(routeTableSource).not.toContain("loadManagedAuditIdentityApprovalProvenanceDryRunPacket");
-      expect(routeTableSource).not.toContain("loadManagedAuditIdentityApprovalProvenancePacketVerificationReport");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditIdentityApprovalAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditIdentityApprovalAuditJsonMarkdownRoutes",
+      });
       expect(javaHistoricalPath).toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/75");
       expect(miniKvHistoricalPath).toContain("fixtures/historical/sibling-workspaces/mini-kv/c/84");
       expect(bindingJson.statusCode).toBe(200);

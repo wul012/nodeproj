@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import { mkdtemp, rm } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
@@ -10,6 +9,8 @@ import { loadConfig } from "../src/config.js";
 import {
   managedAuditAdapterAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditAdapterRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 describe("managed audit adapter audit route group", () => {
   it("keeps boundary, compliance, and runner routes registered through the shared route table", async () => {
@@ -30,8 +31,6 @@ describe("managed audit adapter audit route group", () => {
       AUDIT_STORE_URL: "managed-audit://contract-only",
       PORT: "4443",
     }));
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditAdapterAuditJsonMarkdownRoutes.map((route) => route.path);
       const responses = await Promise.all(paths.flatMap((url) => [
@@ -44,10 +43,10 @@ describe("managed audit adapter audit route group", () => {
         "/api/v1/audit/managed-adapter-compliance",
         "/api/v1/audit/managed-adapter-runner",
       ]);
-      expect(routeTableSource).toContain("...managedAuditAdapterAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("createManagedAuditAdapterBoundaryProfile");
-      expect(routeTableSource).not.toContain("createManagedAuditAdapterComplianceProfile");
-      expect(routeTableSource).not.toContain("createManagedAuditAdapterRunnerProfile");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditAdapterAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditAdapterAuditJsonMarkdownRoutes",
+      });
       for (const response of responses) {
         expect(response.statusCode).toBe(200);
       }

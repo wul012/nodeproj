@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverFakeHarnessExecutionReadinessRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_FAKE_HARNESS_EXECUTION_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-fake-harness-readiness-blocked-decision-upstream-echo-verification";
@@ -17,8 +17,6 @@ describe("credential resolver fake-harness execution readiness audit route group
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -43,8 +41,10 @@ describe("credential resolver fake-harness execution readiness audit route group
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-fake-harness-readiness-decision-record",
       );
       expect(paths).toContain(LATEST_FAKE_HARNESS_EXECUTION_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverFakeHarnessReadinessBlockedDecisionUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverFakeHarnessExecutionReadinessAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

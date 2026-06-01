@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditLocalAdapterAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditLocalAdapterRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit local adapter audit route group", () => {
   it("keeps local and external adapter readiness routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditLocalAdapterAuditJsonMarkdownRoutes.map((route) => route.path);
       const dryRunJson = await app.inject({
@@ -36,10 +34,10 @@ describe("managed audit local adapter audit route group", () => {
         "/api/v1/audit/managed-audit-local-adapter-candidate-verification-report",
         "/api/v1/audit/managed-audit-external-adapter-connection-readiness-review",
       ]);
-      expect(routeTableSource).toContain("...managedAuditLocalAdapterAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditLocalAdapterCandidateDryRun");
-      expect(routeTableSource).not.toContain("loadManagedAuditLocalAdapterCandidateVerificationReport");
-      expect(routeTableSource).not.toContain("loadManagedAuditExternalAdapterConnectionReadinessReview");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditLocalAdapterAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditLocalAdapterAuditJsonMarkdownRoutes",
+      });
 
       expect(dryRunJson.statusCode).toBe(200);
       expect(dryRunJson.json()).toMatchObject({

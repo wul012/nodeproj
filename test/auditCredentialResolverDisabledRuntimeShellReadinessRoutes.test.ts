@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverDisabledRuntimeShellReadinessRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_DISABLED_RUNTIME_SHELL_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-implementation-candidate-gate";
@@ -17,8 +17,6 @@ describe("credential resolver disabled runtime shell readiness audit route group
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -43,8 +41,10 @@ describe("credential resolver disabled runtime shell readiness audit route group
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-runtime-shell-upstream-echo-verification",
       );
       expect(paths).toContain(LATEST_DISABLED_RUNTIME_SHELL_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellImplementationCandidateGate");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverDisabledRuntimeShellReadinessAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverHumanApprovalArtifactReviewRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_HUMAN_APPROVAL_ARTIFACT_REVIEW_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-governance-stop-prerequisite-closure-decision";
@@ -17,8 +17,6 @@ describe("credential resolver human approval artifact review audit route group",
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -46,8 +44,10 @@ describe("credential resolver human approval artifact review audit route group",
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-human-approval-artifact-review-post-echo-decision-upstream-echo-verification",
       );
       expect(paths).toContain(LATEST_HUMAN_APPROVAL_ARTIFACT_REVIEW_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverHumanApprovalArtifactReviewAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

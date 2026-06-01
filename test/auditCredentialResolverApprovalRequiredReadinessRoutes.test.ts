@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverApprovalRequiredReadinessRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_APPROVAL_REQUIRED_READINESS_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-approval-required-implementation-readiness-upstream-echo-verification";
@@ -17,8 +17,6 @@ describe("credential resolver approval-required readiness audit route group", ()
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -43,8 +41,10 @@ describe("credential resolver approval-required readiness audit route group", ()
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-approval-required-implementation-readiness-review",
       );
       expect(paths).toContain(LATEST_APPROVAL_REQUIRED_READINESS_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverApprovalRequiredReadinessAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

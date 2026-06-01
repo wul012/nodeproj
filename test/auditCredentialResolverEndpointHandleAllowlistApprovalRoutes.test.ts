@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -7,6 +5,8 @@ import { loadConfig } from "../src/config.js";
 import {
   credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes,
 } from "../src/routes/auditCredentialResolverEndpointHandleAllowlistApprovalRoutes.js";
+
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 const LATEST_ENDPOINT_HANDLE_ALLOWLIST_APPROVAL_ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-endpoint-handle-allowlist-approval-prerequisite-closure-review";
@@ -17,8 +17,6 @@ describe("credential resolver endpoint handle allowlist approval audit route gro
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
@@ -40,8 +38,10 @@ describe("credential resolver endpoint handle allowlist approval audit route gro
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-endpoint-handle-allowlist-approval-contract-upstream-echo-verification",
       );
       expect(paths).toContain(LATEST_ENDPOINT_HANDLE_ALLOWLIST_APPROVAL_ROUTE);
-      expect(routeTableSource).toContain("...credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalPrerequisiteClosureReview");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes,
+        sourceAnchor: "...credentialResolverEndpointHandleAllowlistApprovalAuditJsonMarkdownRoutes",
+      });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
         profileVersion:

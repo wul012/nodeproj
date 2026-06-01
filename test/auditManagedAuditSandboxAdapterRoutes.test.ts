@@ -1,5 +1,3 @@
-import { readFileSync } from "node:fs";
-
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -8,11 +6,11 @@ import {
   managedAuditSandboxAdapterAuditJsonMarkdownRoutes,
 } from "../src/routes/auditManagedAuditSandboxAdapterRoutes.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 describe("managed audit sandbox adapter audit route group", () => {
   it("keeps sandbox dry-run and manual runbook routes registered through the shared route table", async () => {
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditSandboxAdapterAuditJsonMarkdownRoutes.map((route) => route.path);
       const planJson = await app.inject({
@@ -36,10 +34,10 @@ describe("managed audit sandbox adapter audit route group", () => {
         "/api/v1/audit/managed-audit-sandbox-adapter-dry-run-package",
         "/api/v1/audit/managed-audit-manual-sandbox-adapter-connection-runbook",
       ]);
-      expect(routeTableSource).toContain("...managedAuditSandboxAdapterAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditSandboxAdapterDryRunPlan");
-      expect(routeTableSource).not.toContain("loadManagedAuditSandboxAdapterDryRunPackage");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxAdapterConnectionRunbook");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditSandboxAdapterAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditSandboxAdapterAuditJsonMarkdownRoutes",
+      });
 
       expect(planJson.statusCode).toBe(200);
       expect(planJson.json()).toMatchObject({

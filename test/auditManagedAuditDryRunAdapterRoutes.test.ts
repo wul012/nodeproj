@@ -1,4 +1,3 @@
-import { readFileSync } from "node:fs";
 import path from "node:path";
 
 import { describe, expect, it } from "vitest";
@@ -10,6 +9,8 @@ import {
 } from "../src/routes/auditManagedAuditDryRunAdapterRoutes.js";
 import { resolveHistoricalEvidencePath } from "../src/services/historicalEvidenceResolver.js";
 
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
+
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
 describe("managed audit dry-run adapter audit route group", () => {
@@ -17,8 +18,6 @@ describe("managed audit dry-run adapter audit route group", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
     process.env[FORCE_FALLBACK_ENV] = "true";
     const app = await buildApp(loadTestConfig());
-    const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
-
     try {
       const paths = managedAuditDryRunAdapterAuditJsonMarkdownRoutes.map((route) => route.path);
       const candidateJson = await app.inject({
@@ -44,10 +43,10 @@ describe("managed audit dry-run adapter audit route group", () => {
         "/api/v1/audit/managed-audit-dry-run-adapter-archive-verification",
         "/api/v1/audit/managed-audit-adapter-production-hardening-readiness-gate",
       ]);
-      expect(routeTableSource).toContain("...managedAuditDryRunAdapterAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditDryRunAdapterCandidate");
-      expect(routeTableSource).not.toContain("loadManagedAuditDryRunAdapterArchiveVerification");
-      expect(routeTableSource).not.toContain("loadManagedAuditAdapterProductionHardeningReadinessGate");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditDryRunAdapterAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditDryRunAdapterAuditJsonMarkdownRoutes",
+      });
       expect(javaHistoricalPath).toContain("fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/c/77");
       expect(miniKvHistoricalPath).toContain("fixtures/historical/sibling-workspaces/mini-kv/c/86");
       expect(candidateJson.statusCode).toBe(200);
