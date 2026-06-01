@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v462-post-audit-route-catalog-test-migration-roadmap.md
+docs/plans3/v463-post-audit-route-quality-catalog-integrity-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v463 已完成 audit route quality catalog integrity。
+docs/plans3/v463-post-audit-route-quality-catalog-integrity-roadmap.md
 Node v462 已完成 audit route catalog test migration。
 docs/plans3/v462-post-audit-route-catalog-test-migration-roadmap.md
 Node v461 已完成 audit route catalog test support。
@@ -199,10 +201,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v462 已完成 audit route catalog test migration。
-目标是迁移剩余 37 个 route-group 测试到共享 catalog helper，把直接读取 `auditJsonMarkdownRoutes.ts` 的旧测试压缩到中心 catalog 形状检查和一个 legacy runbook 检查。
-v462 前置检查显示 Java 已到 v196 且干净，mini-kv 已到 v180 且有 v181 方向本地改动；两边建议并行，Node v462 不是它们的 pre-approval blocker。
-v462 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Node v463 已完成 audit route quality catalog integrity。
+目标是把旧 route-registration-table quality pass 从 v240 的 44 route 快照升级为当前 49 group / 198 route 的 catalog integrity 报告。
+v463 前置检查显示 Java 在 v196 后有 v197 方向本地改动，mini-kv 已到 v181 且有 1 个未跟踪 v181 fixture；两边建议并行，Node v463 不是它们的 pre-approval blocker。
+v463 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。

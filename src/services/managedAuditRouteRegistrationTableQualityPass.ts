@@ -1,5 +1,14 @@
 import type { AppConfig } from "../config.js";
 import {
+  evaluateAuditJsonMarkdownRouteCatalogIntegrity,
+  type AuditJsonMarkdownRouteCatalogIntegrityResult,
+} from "../routes/auditJsonMarkdownRouteCatalogIntegrity.js";
+import { auditJsonMarkdownRouteGroups } from "../routes/auditJsonMarkdownRouteGroups.js";
+import {
+  auditJsonMarkdownRouteGroupSourceAnchors,
+  auditJsonMarkdownRoutes,
+} from "../routes/auditJsonMarkdownRoutes.js";
+import {
   countPassedReportChecks,
   countReportChecks,
   renderEntries,
@@ -40,11 +49,21 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
     directRegisterAuditJsonMarkdownRouteCallsAfter: number;
     registrationTableAdded: true;
     registrationTableRouteCount: number;
+    routeGroupCatalogAdded: true;
+    routeGroupCount: number;
+    sourceAnchorCount: number;
     registerAuditRoutesLoopCount: number;
   };
   checks: {
     planAllowsOptimizationPass: boolean;
     registrationTableAdded: boolean;
+    catalogIntegrityReady: boolean;
+    routeGroupCatalogAdded: boolean;
+    routeGroupCountAligned: boolean;
+    routeTableMatchesCatalog: boolean;
+    sourceAnchorsAligned: boolean;
+    uniqueRoutePaths: boolean;
+    noEmptyRouteGroups: boolean;
     directRouteRegistrationReduced: boolean;
     routeCountPreserved: boolean;
     apiPathsPreserved: boolean;
@@ -59,6 +78,10 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
     checkCount: number;
     passedCheckCount: number;
     routeRegistrationCount: number;
+    routeGroupCount: number;
+    sourceAnchorCount: number;
+    duplicateRoutePathCount: number;
+    emptyRouteGroupCount: number;
     removedDirectRegistrationCallCount: number;
     productionBlockerCount: number;
     warningCount: number;
@@ -67,6 +90,7 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
   productionBlockers: RouteRegistrationTableQualityPassMessage[];
   warnings: RouteRegistrationTableQualityPassMessage[];
   recommendations: RouteRegistrationTableQualityPassMessage[];
+  catalogIntegrity: AuditJsonMarkdownRouteCatalogIntegrityResult;
   evidenceEndpoints: {
     routeRegistrationTableQualityPassJson: string;
     routeRegistrationTableQualityPassMarkdown: string;
@@ -80,11 +104,16 @@ export interface ManagedAuditRouteRegistrationTableQualityPassProfile {
 interface RouteRegistrationTableQualityPassMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
-  source: "managed-audit-route-registration-table-quality-pass" | "runtime-config" | "v237-plan";
+  source:
+    | "managed-audit-route-registration-table-quality-pass"
+    | "audit-route-catalog-integrity"
+    | "runtime-config"
+    | "v237-plan";
   message: string;
 }
 
-const ROUTE_REGISTRATION_TABLE_COUNT = 44;
+const ROUTE_REGISTRATION_TABLE_COUNT = 198;
+const ROUTE_GROUP_COUNT = 49;
 const ENDPOINTS = Object.freeze({
   routeRegistrationTableQualityPassJson: "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
   routeRegistrationTableQualityPassMarkdown:
@@ -97,6 +126,11 @@ const ENDPOINTS = Object.freeze({
 export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
   config: AppConfig;
 }): ManagedAuditRouteRegistrationTableQualityPassProfile {
+  const catalogIntegrity = evaluateAuditJsonMarkdownRouteCatalogIntegrity({
+    groups: auditJsonMarkdownRouteGroups,
+    routes: auditJsonMarkdownRoutes,
+    sourceAnchors: auditJsonMarkdownRouteGroupSourceAnchors,
+  });
   const refactorScope = {
     sourcePlan: "docs/plans/v237-post-readiness-gate-roadmap.md" as const,
     sourceVersion: "Node v239" as const,
@@ -110,16 +144,26 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
   };
   const codeShape = {
     auditRoutesBeforeLineCount: 457,
-    auditRoutesAfterLineCount: 29,
+    auditRoutesAfterLineCount: 57,
     directRegisterAuditJsonMarkdownRouteCallsBefore: 41,
-    directRegisterAuditJsonMarkdownRouteCallsAfter: 1,
+    directRegisterAuditJsonMarkdownRouteCallsAfter: 0,
     registrationTableAdded: true as const,
-    registrationTableRouteCount: ROUTE_REGISTRATION_TABLE_COUNT,
+    registrationTableRouteCount: catalogIntegrity.summary.routeCount,
+    routeGroupCatalogAdded: true as const,
+    routeGroupCount: catalogIntegrity.summary.groupCount,
+    sourceAnchorCount: catalogIntegrity.summary.sourceAnchorCount,
     registerAuditRoutesLoopCount: 1,
   };
   const checks = {
     planAllowsOptimizationPass: true,
     registrationTableAdded: codeShape.registrationTableAdded,
+    catalogIntegrityReady: catalogIntegrity.ready,
+    routeGroupCatalogAdded: codeShape.routeGroupCatalogAdded,
+    routeGroupCountAligned: codeShape.routeGroupCount === ROUTE_GROUP_COUNT,
+    routeTableMatchesCatalog: catalogIntegrity.checks.routeTableMatchesCatalog,
+    sourceAnchorsAligned: catalogIntegrity.checks.sourceAnchorsMatchGroupCount,
+    uniqueRoutePaths: catalogIntegrity.checks.uniqueRoutePaths,
+    noEmptyRouteGroups: catalogIntegrity.checks.noEmptyGroups,
     directRouteRegistrationReduced:
       codeShape.directRegisterAuditJsonMarkdownRouteCallsAfter < codeShape.directRegisterAuditJsonMarkdownRouteCallsBefore,
     routeCountPreserved: codeShape.registrationTableRouteCount === ROUTE_REGISTRATION_TABLE_COUNT,
@@ -171,6 +215,10 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
       checkCount: countReportChecks(checks),
       passedCheckCount: countPassedReportChecks(checks),
       routeRegistrationCount: codeShape.registrationTableRouteCount,
+      routeGroupCount: codeShape.routeGroupCount,
+      sourceAnchorCount: codeShape.sourceAnchorCount,
+      duplicateRoutePathCount: catalogIntegrity.summary.duplicateRoutePaths.length,
+      emptyRouteGroupCount: catalogIntegrity.summary.emptyGroupIds.length,
       removedDirectRegistrationCallCount:
         codeShape.directRegisterAuditJsonMarkdownRouteCallsBefore
         - codeShape.directRegisterAuditJsonMarkdownRouteCallsAfter,
@@ -181,6 +229,7 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
     productionBlockers,
     warnings,
     recommendations,
+    catalogIntegrity,
     evidenceEndpoints: { ...ENDPOINTS },
     qualityDigest,
     nextActions: [
@@ -233,6 +282,10 @@ export function renderManagedAuditRouteRegistrationTableQualityPassMarkdown(
     "",
     ...renderMessages(profile.recommendations, "No route registration table quality recommendations."),
     "",
+    "## Catalog Integrity",
+    "",
+    ...renderEntries(profile.catalogIntegrity.summary),
+    "",
     "## Evidence Endpoints",
     "",
     ...renderEntries(profile.evidenceEndpoints),
@@ -258,6 +311,30 @@ function collectProductionBlockers(
       code: "REGISTRATION_TABLE_NOT_ADDED",
       source: "managed-audit-route-registration-table-quality-pass",
       message: "The audit JSON/Markdown routes must be registered from a configuration table.",
+    },
+    {
+      condition: checks.catalogIntegrityReady,
+      code: "CATALOG_INTEGRITY_NOT_READY",
+      source: "audit-route-catalog-integrity",
+      message: "The audit JSON/Markdown route catalog integrity evaluator must report ready.",
+    },
+    {
+      condition: checks.routeGroupCatalogAdded && checks.routeGroupCountAligned,
+      code: "ROUTE_GROUP_CATALOG_NOT_ALIGNED",
+      source: "audit-route-catalog-integrity",
+      message: "The audit route group catalog must contain the expected 49 route groups.",
+    },
+    {
+      condition: checks.routeTableMatchesCatalog && checks.uniqueRoutePaths && checks.noEmptyRouteGroups,
+      code: "CATALOG_ROUTE_TABLE_MISMATCH",
+      source: "audit-route-catalog-integrity",
+      message: "The flattened route table must match the catalog and keep unique non-empty groups.",
+    },
+    {
+      condition: checks.sourceAnchorsAligned,
+      code: "SOURCE_ANCHORS_NOT_ALIGNED",
+      source: "audit-route-catalog-integrity",
+      message: "Temporary source anchors must stay aligned with the route group catalog until the final anchor cleanup.",
     },
     {
       condition: checks.directRouteRegistrationReduced,

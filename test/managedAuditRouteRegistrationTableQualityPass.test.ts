@@ -7,7 +7,7 @@ import {
 } from "../src/services/managedAuditRouteRegistrationTableQualityPass.js";
 
 describe("managed audit route registration table quality pass", () => {
-  it("records the v240 route registration table refactor without changing production readiness", () => {
+  it("records the current route catalog integrity without changing production readiness", () => {
     const profile = loadManagedAuditRouteRegistrationTableQualityPass({
       config: loadTestConfig(),
     });
@@ -35,16 +35,26 @@ describe("managed audit route registration table quality pass", () => {
       },
       codeShape: {
         auditRoutesBeforeLineCount: 457,
-        auditRoutesAfterLineCount: 29,
+        auditRoutesAfterLineCount: 57,
         directRegisterAuditJsonMarkdownRouteCallsBefore: 41,
-        directRegisterAuditJsonMarkdownRouteCallsAfter: 1,
+        directRegisterAuditJsonMarkdownRouteCallsAfter: 0,
         registrationTableAdded: true,
-        registrationTableRouteCount: 44,
+        registrationTableRouteCount: 198,
+        routeGroupCatalogAdded: true,
+        routeGroupCount: 49,
+        sourceAnchorCount: 49,
         registerAuditRoutesLoopCount: 1,
       },
       checks: {
         planAllowsOptimizationPass: true,
         registrationTableAdded: true,
+        catalogIntegrityReady: true,
+        routeGroupCatalogAdded: true,
+        routeGroupCountAligned: true,
+        routeTableMatchesCatalog: true,
+        sourceAnchorsAligned: true,
+        uniqueRoutePaths: true,
+        noEmptyRouteGroups: true,
         directRouteRegistrationReduced: true,
         routeCountPreserved: true,
         apiPathsPreserved: true,
@@ -56,11 +66,23 @@ describe("managed audit route registration table quality pass", () => {
         readyForManagedAuditRouteRegistrationTableQualityPass: true,
       },
       summary: {
-        routeRegistrationCount: 44,
-        removedDirectRegistrationCallCount: 40,
+        routeRegistrationCount: 198,
+        routeGroupCount: 49,
+        sourceAnchorCount: 49,
+        duplicateRoutePathCount: 0,
+        emptyRouteGroupCount: 0,
+        removedDirectRegistrationCallCount: 41,
         productionBlockerCount: 0,
         warningCount: 1,
         recommendationCount: 2,
+      },
+      catalogIntegrity: {
+        ready: true,
+        summary: {
+          groupCount: 49,
+          routeCount: 198,
+          sourceAnchorCount: 49,
+        },
       },
     });
     expect(profile.qualityDigest).toMatch(/^[a-f0-9]{64}$/);
@@ -117,12 +139,15 @@ describe("managed audit route registration table quality pass", () => {
         readyForProductionAudit: false,
         checks: {
           registrationTableAdded: true,
+          catalogIntegrityReady: true,
           directRouteRegistrationReduced: true,
         },
       });
       expect(qualityMarkdown.statusCode).toBe(200);
       expect(qualityMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(qualityMarkdown.body).toContain("# Managed audit route registration table quality pass");
+      expect(qualityMarkdown.body).toContain("routeGroupCount: 49");
+      expect(qualityMarkdown.body).toContain("routeCount: 198");
       expect(qualityMarkdown.body).toContain("QUALITY_PASS_ONLY");
       expect(storeProfile.statusCode).toBe(200);
       expect(storeProfile.json()).toMatchObject({

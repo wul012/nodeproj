@@ -43,7 +43,7 @@ describe("managed audit manual sandbox connection dry-run command package", () =
         sourceVersion: "Node v240",
         qualityPassState: "verified-quality-pass",
         routeRegistrationMode: "configuration-table",
-        auditRoutesAfterLineCount: 29,
+        auditRoutesAfterLineCount: 57,
         readyForRouteRegistrationTableQualityPass: true,
         connectsManagedAudit: false,
       },

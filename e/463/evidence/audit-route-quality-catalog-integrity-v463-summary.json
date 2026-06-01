@@ -1,0 +1,38 @@
+{
+  "version": "v463",
+  "title": "audit route quality catalog integrity",
+  "nodeBase": {
+    "commit": "389a50e",
+    "tag": "v462"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "ffb2fd7f",
+      "tag": "v196-order-platform-shard-readiness-v1-contract-operator-checklist",
+      "status": "dirty: v197-like checklist snapshot files and docs"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "989d13d",
+      "tag": "mini-kv-v181-route-catalog-integrity-window",
+      "status": "dirty: untracked fixtures/release/shard-readiness-v181.json"
+    },
+    "nodeDecision": "recommended parallel; v463 consumes Node catalog integrity only"
+  },
+  "catalogQuality": {
+    "routeGroupCount": 49,
+    "routeRegistrationCount": 198,
+    "sourceAnchorCount": 49,
+    "duplicateRoutePathCount": 0,
+    "emptyRouteGroupCount": 0,
+    "routeTableMatchesCatalog": true,
+    "sourceAnchorsAligned": true
+  },
+  "validation": {
+    "focusedRouteQualityTests": "passed: 4 files / 10 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "fullVitest": "deferred to v464 final validation"
+  }
+}
