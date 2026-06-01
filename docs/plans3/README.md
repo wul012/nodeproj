@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v481-post-java-mini-kv-current-route-catalog-cleanup-evidence-intake-roadmap.md
+docs/plans3/v482-post-java-mini-kv-current-route-catalog-cleanup-evidence-report-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v482 已完成 Java / mini-kv current route catalog cleanup evidence report。
+docs/plans3/v482-post-java-mini-kv-current-route-catalog-cleanup-evidence-report-roadmap.md
 Node v481 已完成 Java / mini-kv current route catalog cleanup evidence intake。
 docs/plans3/v481-post-java-mini-kv-current-route-catalog-cleanup-evidence-intake-roadmap.md
 Node v480 已完成 Java / mini-kv route catalog cleanup evidence batch closeout。
@@ -237,6 +239,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v482 已完成 Java / mini-kv current route catalog cleanup evidence report。
+目标是把 v481 冻结证据挂到现有 cleanup route group，并保持路由目录一致。
+v482 前置检查显示 Java 有 v215-like 本地改动、mini-kv 有 v201-like 本地改动；两边仍建议并行，Node 只消费 v481 frozen evidence。
+v482 focused route/intake/catalog tests、typecheck、build、Fastify inject smoke 已通过；总 route count 更新为 202，Java/mini-kv domain route count 更新为 38。
+
 Node v481 已完成 Java / mini-kv current route catalog cleanup evidence intake。
 目标是冻结并读取 Java v211/v214 与 mini-kv v199/v200 的当前 clean sibling evidence。
 v481 前置检查显示 Java 已到 v214 且 clean/pushed，mini-kv 已到 v200 且 clean/pushed；两边建议并行，Node 不作为 Java v215+ 或 mini-kv v201+ 前置批准阻碍。

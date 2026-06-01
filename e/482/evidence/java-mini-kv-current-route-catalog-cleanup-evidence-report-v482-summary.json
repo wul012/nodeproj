@@ -1,0 +1,49 @@
+{
+  "version": "v482",
+  "title": "Java / mini-kv current route catalog cleanup evidence report",
+  "generatedAt": "2026-06-01T13:40:22.759Z",
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 202,
+    "javaMiniKvDomainRouteCount": 38,
+    "cleanupHandoffRouteGroupRouteCount": 4
+  },
+  "report": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-current-evidence-report.v1",
+    "reportState": "ready",
+    "activeNodeVersion": "Node v482",
+    "sourceNodeVersion": "Node v481",
+    "ready": true,
+    "summary": {
+      "fileCount": 6,
+      "presentFileCount": 6,
+      "checkCount": 18,
+      "passedCheckCount": 18,
+      "javaCatalogedArtifactCount": 6,
+      "javaConsumerReadTargetCount": 6,
+      "miniKvV199ArchivedNodeVersionCount": 97,
+      "miniKvV200HistoricalFixtureCount": 56,
+      "miniKvV200BoundaryGroupCount": 39
+    },
+    "checks": {
+      "javaV211FilePresent": true,
+      "javaV211HandoffBundleReady": true,
+      "javaV211HandoffBundleCountsStable": true,
+      "javaV211FixtureFilePresent": true,
+      "javaV211FixtureReady": true,
+      "javaV211FixtureGetOnly": true,
+      "javaV214FilePresent": true,
+      "javaV214IntegrityReady": true,
+      "javaV214IntegrityGuardsComplete": true,
+      "miniKvV199FilePresent": true,
+      "miniKvV199CloseoutReady": true,
+      "miniKvV199PreservesNodeV480Window": true,
+      "miniKvV200FilePresent": true,
+      "miniKvV200AuditReady": true,
+      "miniKvV200UsesV199Baseline": true,
+      "miniKvV200AuditNotePresent": true,
+      "miniKvV200AuditNoteMatchesFixture": true,
+      "noRuntimeAuthorityOpened": true
+    }
+  }
+}
