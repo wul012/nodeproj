@@ -1,0 +1,35 @@
+{
+  "version": "v503",
+  "title": "Java / mini-kv route catalog cleanup readiness handoff evidence report archive",
+  "generatedAt": "2026-06-01T23:45:48.734Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "checkCount": 16,
+  "passedCheckCount": 16,
+  "activeNodeVersion": "Node v502",
+  "sourceNodeVersion": "Node v501",
+  "javaLatestCleanVersion": "Java v231",
+  "miniKvLatestCleanVersion": "v212",
+  "files": {
+    "json": {
+      "path": "e/503/evidence/java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-report-v502-http.json",
+      "sizeBytes": 15970,
+      "sha256": "5808bb8aced78f0a1c10720ba4c6bc61a95034eba351e0942c65b7dc7838e675"
+    },
+    "markdown": {
+      "path": "e/503/evidence/java-mini-kv-route-catalog-cleanup-readiness-handoff-evidence-report-v502-http.md",
+      "sizeBytes": 8267,
+      "sha256": "16e7c155615704008906eeec7d069e38cd70b0e200beb020278c087c607529df"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}

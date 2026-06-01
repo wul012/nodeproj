@@ -140,6 +140,7 @@
 500: Java / mini-kv route catalog cleanup consumer readiness batch closeout archive verification route
 501: Java / mini-kv route catalog cleanup readiness handoff evidence intake
 502: Java / mini-kv route catalog cleanup readiness handoff evidence report
+503: Java / mini-kv route catalog cleanup readiness handoff evidence report archive
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
