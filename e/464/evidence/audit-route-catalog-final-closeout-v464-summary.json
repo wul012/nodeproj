@@ -1,0 +1,37 @@
+{
+  "version": "v464",
+  "title": "audit route catalog final closeout",
+  "nodeBase": {
+    "commit": "49741a2",
+    "tag": "v463"
+  },
+  "crossProjectPrecheck": {
+    "java": {
+      "path": "D:\\javaproj",
+      "commit": "64d1dfdb",
+      "tag": "v198-order-platform-shard-readiness-v196-operator-checklist-historical-snapshot-compatibility",
+      "status": "clean"
+    },
+    "miniKv": {
+      "path": "D:\\C\\mini-kv",
+      "commit": "989d13d",
+      "tag": "mini-kv-v181-route-catalog-integrity-window",
+      "status": "dirty: v182-like local source/test/docs changes plus .playwright-mcp"
+    },
+    "nodeDecision": "recommended parallel; v464 is Node closeout and validation only"
+  },
+  "closeout": {
+    "remainingRouteTableSourceTests": 1,
+    "remainingRouteTableSourceTestFiles": [
+      "test/auditJsonMarkdownRouteGroups.test.ts"
+    ],
+    "serviceRouteImportCycleFixed": true,
+    "runtimeCatalogIntegrityMode": "default current snapshot; tests can inject live AuditJsonMarkdownRouteCatalogIntegrityResult"
+  },
+  "validation": {
+    "focusedCloseoutTests": "passed: 7 files / 17 tests",
+    "typecheck": "passed",
+    "build": "passed",
+    "fullVitest": "passed: 393 files / 1221 tests"
+  }
+}

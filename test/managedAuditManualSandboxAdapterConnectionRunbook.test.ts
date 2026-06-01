@@ -7,6 +7,8 @@ import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxAdapterConnectionRunbook,
 } from "../src/services/managedAuditManualSandboxAdapterConnectionRunbook.js";
+import { managedAuditSandboxAdapterAuditJsonMarkdownRoutes } from "../src/routes/auditManagedAuditSandboxAdapterRoutes.js";
+import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
 describe("managed audit manual sandbox adapter connection runbook", () => {
   it("turns the v225 package into a machine-readable manual runbook without connecting audit", () => {
@@ -147,7 +149,6 @@ describe("managed audit manual sandbox adapter connection runbook", () => {
         headers: completeHeaders(),
       });
       const routeEntryPointSource = readFileSync("src/routes/auditRoutes.ts", "utf8");
-      const routeTableSource = readFileSync("src/routes/auditJsonMarkdownRoutes.ts", "utf8");
 
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
@@ -161,8 +162,10 @@ describe("managed audit manual sandbox adapter connection runbook", () => {
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Managed audit manual sandbox adapter connection runbook");
       expect(markdown.body).toContain("RUNBOOK_ONLY_NO_CONNECTION");
-      expect(routeTableSource).toContain("...managedAuditSandboxAdapterAuditJsonMarkdownRoutes");
-      expect(routeTableSource).not.toContain("loadManagedAuditManualSandboxAdapterConnectionRunbook");
+      expectAuditRouteGroupRegisteredThroughCatalog({
+        routes: managedAuditSandboxAdapterAuditJsonMarkdownRoutes,
+        sourceAnchor: "...managedAuditSandboxAdapterAuditJsonMarkdownRoutes",
+      });
       expect(routeEntryPointSource).toContain("registerAuditJsonMarkdownRoutes(app, deps, auditJsonMarkdownRoutes)");
       expect(routeEntryPointSource).not.toContain("/api/v1/audit/managed-audit-manual-sandbox-adapter-connection-runbook");
     } finally {

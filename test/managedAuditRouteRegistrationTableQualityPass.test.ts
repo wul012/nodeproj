@@ -2,6 +2,12 @@ import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
+import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
+import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import {
+  auditJsonMarkdownRouteGroupSourceAnchors,
+  auditJsonMarkdownRoutes,
+} from "../src/routes/auditJsonMarkdownRoutes.js";
 import {
   loadManagedAuditRouteRegistrationTableQualityPass,
 } from "../src/services/managedAuditRouteRegistrationTableQualityPass.js";
@@ -10,6 +16,7 @@ describe("managed audit route registration table quality pass", () => {
   it("records the current route catalog integrity without changing production readiness", () => {
     const profile = loadManagedAuditRouteRegistrationTableQualityPass({
       config: loadTestConfig(),
+      catalogIntegrity: currentCatalogIntegrity(),
     });
 
     expect(profile).toMatchObject({
@@ -93,6 +100,7 @@ describe("managed audit route registration table quality pass", () => {
       config: loadTestConfig({
         UPSTREAM_ACTIONS_ENABLED: "true",
       }),
+      catalogIntegrity: currentCatalogIntegrity(),
     });
 
     expect(profile.qualityPassState).toBe("blocked");
@@ -100,6 +108,32 @@ describe("managed audit route registration table quality pass", () => {
     expect(profile.checks.upstreamActionsStillDisabled).toBe(false);
     expect(profile.productionBlockers.map((blocker) => blocker.code)).toContain("UPSTREAM_ACTIONS_ENABLED");
     expect(profile.connectsManagedAudit).toBe(false);
+  });
+
+  it("blocks when the supplied catalog integrity is not ready", () => {
+    const catalogIntegrity = currentCatalogIntegrity();
+    const profile = loadManagedAuditRouteRegistrationTableQualityPass({
+      config: loadTestConfig(),
+      catalogIntegrity: {
+        ...catalogIntegrity,
+        ready: false,
+        checks: {
+          ...catalogIntegrity.checks,
+          uniqueRoutePaths: false,
+        },
+        summary: {
+          ...catalogIntegrity.summary,
+          duplicateRoutePaths: ["/api/v1/audit/duplicate"],
+        },
+      },
+    });
+
+    expect(profile.qualityPassState).toBe("blocked");
+    expect(profile.readyForManagedAuditRouteRegistrationTableQualityPass).toBe(false);
+    expect(profile.checks.catalogIntegrityReady).toBe(false);
+    expect(profile.checks.uniqueRoutePaths).toBe(false);
+    expect(profile.summary.duplicateRoutePathCount).toBe(1);
+    expect(profile.productionBlockers.map((blocker) => blocker.code)).toContain("CATALOG_INTEGRITY_NOT_READY");
   });
 
   it("exposes table quality routes and preserves representative existing audit routes", async () => {
@@ -195,5 +229,13 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     AUDIT_STORE_URL: "managed-audit://contract-only",
     PORT: "4341",
     ...overrides,
+  });
+}
+
+function currentCatalogIntegrity() {
+  return evaluateAuditJsonMarkdownRouteCatalogIntegrity({
+    groups: auditJsonMarkdownRouteGroups,
+    routes: auditJsonMarkdownRoutes,
+    sourceAnchors: auditJsonMarkdownRouteGroupSourceAnchors,
   });
 }
