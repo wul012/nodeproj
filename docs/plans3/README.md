@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v485-post-java-mini-kv-current-route-catalog-cleanup-evidence-archive-verification-route-roadmap.md
+docs/plans3/v486-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v486 已完成 Java / mini-kv route catalog cleanup verification checklist evidence intake。
+docs/plans3/v486-post-java-mini-kv-route-catalog-cleanup-verification-checklist-evidence-intake-roadmap.md
 Node v485 已完成 Java / mini-kv current route catalog cleanup evidence archive verification route。
 docs/plans3/v485-post-java-mini-kv-current-route-catalog-cleanup-evidence-archive-verification-route-roadmap.md
 Node v484 已完成 Java / mini-kv current route catalog cleanup evidence archive verification。
@@ -245,6 +247,11 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
+Node v486 已完成 Java / mini-kv route catalog cleanup verification checklist evidence intake。
+目标是冻结并读取 Java v215-v217 checklist evidence 与 mini-kv v201 post-closeout continuity evidence。
+v486 前置检查显示 Java 已完成 v217 tag 但有 v218-like 本地改动，mini-kv 已完成 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 只消费 tagged/frozen evidence。
+v486 新增 typed intake 和 focused fallback test，不新增 route，不启动 sibling 服务，不开启 runtime execution。
+
 Node v485 已完成 Java / mini-kv current route catalog cleanup evidence archive verification route。
 目标是将 v484 verifier 暴露到现有 cleanup route group，并更新 route count 到 203。
 v485 前置检查显示 Java 已到 v217 tag 但有 v218-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。

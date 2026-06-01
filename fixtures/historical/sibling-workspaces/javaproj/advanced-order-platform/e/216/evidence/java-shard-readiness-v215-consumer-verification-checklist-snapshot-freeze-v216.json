@@ -1,0 +1,32 @@
+{
+  "receiptId": "java-shard-readiness-v215-consumer-verification-checklist-snapshot-freeze-receipt-v216",
+  "version": "Java v216",
+  "status": "passed",
+  "scope": "v215 consumer verification checklist snapshot freeze",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v216 freezes the v215 consumer verification checklist behind a snapshot helper so later guards can depend on a stable historical baseline.",
+  "frozenSnapshot": "OpsShardReadinessV1ContractConsumerVerificationChecklistSnapshot.v215Checklist",
+  "serviceReturn": "OpsShardReadinessV1ContractConsumerVerificationChecklistService.checklist",
+  "guards": [
+    "service returns the frozen v215 checklist snapshot",
+    "snapshot preserves the v211 handoff bundle endpoint and receipt",
+    "snapshot exposes seven verification items",
+    "snapshot exposes five required evidence paths",
+    "snapshot exposes seven verification checks",
+    "snapshot keeps the v215 evidence path unchanged"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerVerificationChecklistSnapshotTests,OpsShardReadinessV1ContractConsumerVerificationChecklistServiceTests,OpsShardReadinessV1ContractConsumerVerificationChecklistIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

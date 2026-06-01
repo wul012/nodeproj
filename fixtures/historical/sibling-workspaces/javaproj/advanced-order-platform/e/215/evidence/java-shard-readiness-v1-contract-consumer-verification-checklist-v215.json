@@ -1,0 +1,42 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-verification-checklist-receipt-v215",
+  "version": "Java v215",
+  "status": "passed",
+  "scope": "v1 contract consumer verification checklist",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v215 adds a read-only consumer verification checklist endpoint that freezes the evidence a Node consumer must review before using the v211 handoff bundle.",
+  "endpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-verification-checklist",
+  "fixtureEndpoint": "/contracts/java-shard-readiness-v1-contract-consumer-verification-checklist-v215.fixture.json",
+  "handoffBundleEndpoint": "/api/v1/ops/shard-readiness/v1-contract-consumer-handoff-bundle",
+  "catalogedArtifactCount": 6,
+  "verificationItems": [
+    "read-v208-endpoint-catalog-before-consuming-v211-bundle",
+    "confirm-v211-bundle-required-evidence-count-is-nine",
+    "confirm-v211-bundle-handoff-evidence-count-is-four",
+    "confirm-probes-are-get-only",
+    "confirm-upstream-actions-remain-disabled",
+    "confirm-node-does-not-start-or-stop-java-or-mini-kv",
+    "archive-v215-checklist-receipt-before-any-node-consumption"
+  ],
+  "requiredEvidence": [
+    "e/208/evidence/java-shard-readiness-v1-contract-endpoint-catalog-v208.json",
+    "e/211/evidence/java-shard-readiness-v1-contract-consumer-handoff-bundle-v211.json",
+    "e/212/evidence/java-shard-readiness-v211-consumer-handoff-bundle-snapshot-freeze-v212.json",
+    "e/213/evidence/java-shard-readiness-v211-consumer-handoff-bundle-historical-compatibility-v213.json",
+    "e/214/evidence/java-shard-readiness-v1-contract-consumer-handoff-bundle-integrity-v214.json"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerVerificationChecklistServiceTests,OpsShardReadinessV1ContractConsumerVerificationChecklistIntegrationTests,OpsShardReadinessV1ContractEndpointPairsTests,OpsShardReadinessV1ContractEndpointPairIntegrityTests,OpsShardReadinessEvidenceEndpointsTests,OpsShardReadinessRoutePathsTests,OpsShardReadinessV1ContractControllerSplitTests,OpsEvidenceServiceTests,OpsShardReadinessHistoricalEndpointSnapshotCompatibilityTests,OpsShardReadinessV1ContractConsumerHandoffBundleIntegrityTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}
