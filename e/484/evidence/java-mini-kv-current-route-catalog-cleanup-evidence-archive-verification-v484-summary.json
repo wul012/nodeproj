@@ -1,0 +1,70 @@
+{
+  "version": "v484",
+  "title": "Java / mini-kv current route catalog cleanup evidence archive verification",
+  "generatedAt": "2026-06-01T13:47:14.674Z",
+  "profile": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-current-evidence-archive-verification.v1",
+    "archiveVerificationState": "ready",
+    "activeNodeVersion": "Node v484",
+    "sourceNodeVersion": "Node v483",
+    "ready": true,
+    "sourceReport": {
+      "profileVersion": "java-mini-kv-route-catalog-cleanup-current-evidence-report.v1",
+      "activeNodeVersion": "Node v482",
+      "sourceNodeVersion": "Node v481",
+      "ready": true,
+      "checkCount": 18,
+      "passedCheckCount": 18,
+      "javaCatalogedArtifactCount": 6,
+      "miniKvV200ReleaseVersion": "v200",
+      "miniKvV200BoundaryGroupCount": 39,
+      "executionAllowed": false
+    },
+    "summary": {
+      "archiveFileCount": 3,
+      "presentArchiveFileCount": 3,
+      "checkCount": 16,
+      "passedCheckCount": 16,
+      "sourceCheckCount": 18,
+      "sourcePassedCheckCount": 18
+    },
+    "checks": {
+      "archiveFilesPresent": true,
+      "jsonReadable": true,
+      "markdownReadable": true,
+      "summaryReadable": true,
+      "summaryDigestsMatchFiles": true,
+      "jsonProfileVersionValid": true,
+      "jsonSourceVersionsMatch": true,
+      "jsonReportReady": true,
+      "jsonChecksAllPassed": true,
+      "jsonCurrentEvidenceVersionsMatch": true,
+      "markdownRecordsCurrentReport": true,
+      "markdownRecordsJavaAndMiniKvEvidence": true,
+      "summaryMatchesJson": true,
+      "noRuntimeExecutionOpened": true,
+      "noSiblingServiceStartup": true,
+      "readyForRouteCatalogCleanupCurrentEvidenceArchiveVerification": true
+    },
+    "archiveFiles": {
+      "json": {
+        "path": "e/483/evidence/java-mini-kv-current-route-catalog-cleanup-evidence-report-v482-http.json",
+        "exists": true,
+        "sizeBytes": 12591,
+        "sha256": "a78a6296af920ef1a736aeb3f3f5470347de8559966d0c18a66c08e6db8051c1"
+      },
+      "markdown": {
+        "path": "e/483/evidence/java-mini-kv-current-route-catalog-cleanup-evidence-report-v482-http.md",
+        "exists": true,
+        "sizeBytes": 6885,
+        "sha256": "dee44d3f2d1aa05723f142912e37b53a96dc0c25bb0b31458e8eeb6b487efcb2"
+      },
+      "summary": {
+        "path": "e/483/evidence/java-mini-kv-current-route-catalog-cleanup-evidence-report-v483-archive-summary.json",
+        "exists": true,
+        "sizeBytes": 1153,
+        "sha256": "04e5d2395eb403a289a7904752b9ebd6f7b78737fd4830b6a158da02d0a3d3a8"
+      }
+    }
+  }
+}
