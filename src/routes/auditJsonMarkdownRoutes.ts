@@ -39,18 +39,6 @@ import {
   renderManagedAuditExternalAdapterConnectionReadinessReviewMarkdown,
 } from "../services/managedAuditExternalAdapterConnectionReadinessReview.js";
 import {
-  loadManagedAuditIdentityApprovalBindingContract,
-  renderManagedAuditIdentityApprovalBindingContractMarkdown,
-} from "../services/managedAuditIdentityApprovalBindingContract.js";
-import {
-  loadManagedAuditIdentityApprovalProvenanceDryRunPacket,
-  renderManagedAuditIdentityApprovalProvenanceDryRunPacketMarkdown,
-} from "../services/managedAuditIdentityApprovalProvenanceDryRunPacket.js";
-import {
-  loadManagedAuditIdentityApprovalProvenancePacketVerificationReport,
-  renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown,
-} from "../services/managedAuditIdentityApprovalProvenancePacketVerificationReport.js";
-import {
   loadManagedAuditLocalAdapterCandidateDryRun,
   renderManagedAuditLocalAdapterCandidateDryRunMarkdown,
 } from "../services/managedAuditLocalAdapterCandidateDryRun.js";
@@ -232,6 +220,7 @@ import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMi
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
 import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterRoutes.js";
 import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
+import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditManagedAuditIdentityApprovalRoutes.js";
 import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditMinimalReadOnlyIntegrationRoutes.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
@@ -277,29 +266,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditPersistenceAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-identity-approval-binding-contract", (deps) => loadManagedAuditIdentityApprovalBindingContract({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-    auditLog: deps.auditLog,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditIdentityApprovalBindingContractMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-identity-approval-provenance-dry-run-packet", (deps) => loadManagedAuditIdentityApprovalProvenanceDryRunPacket({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-    auditLog: deps.auditLog,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditIdentityApprovalProvenanceDryRunPacketMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-identity-approval-provenance-packet-verification-report", (deps) => loadManagedAuditIdentityApprovalProvenancePacketVerificationReport({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-    auditLog: deps.auditLog,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown),
+  ...managedAuditIdentityApprovalAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-packet-restore-drill-plan", (deps) => loadManagedAuditPacketRestoreDrillPlan({
     config: deps.config,
