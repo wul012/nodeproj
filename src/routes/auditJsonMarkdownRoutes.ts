@@ -151,17 +151,9 @@ import {
   renderManagedAuditManualSandboxConnectionRehearsalPacketReviewMarkdown,
 } from "../services/managedAuditManualSandboxConnectionRehearsalPacketReview.js";
 import {
-  loadManagedAuditPacketRestoreDrillPlan,
-  renderManagedAuditPacketRestoreDrillPlanMarkdown,
-} from "../services/managedAuditPacketRestoreDrillPlan.js";
-import {
   createManagedAuditReadinessSummary,
   renderManagedAuditReadinessSummaryMarkdown,
 } from "../services/managedAuditReadinessSummary.js";
-import {
-  loadManagedAuditRestoreDrillArchiveVerification,
-  renderManagedAuditRestoreDrillArchiveVerificationMarkdown,
-} from "../services/managedAuditRestoreDrillArchiveVerification.js";
 import {
   loadManagedAuditRouteHelperQualityPass,
   renderManagedAuditRouteHelperQualityPassMarkdown,
@@ -222,6 +214,7 @@ import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditA
 import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
 import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditManagedAuditIdentityApprovalRoutes.js";
 import { managedAuditPersistenceAuditJsonMarkdownRoutes } from "./auditManagedAuditPersistenceRoutes.js";
+import { managedAuditRestoreDrillAuditJsonMarkdownRoutes } from "./auditManagedAuditRestoreDrillRoutes.js";
 import { minimalReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditMinimalReadOnlyIntegrationRoutes.js";
 import { minimalShardReadinessAuditJsonMarkdownRoutes } from "./auditMinimalShardReadinessRoutes.js";
 import { sandboxEndpointCredentialResolverAuditJsonMarkdownRoutes } from "./auditSandboxEndpointCredentialResolverRoutes.js";
@@ -268,17 +261,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditIdentityApprovalAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-packet-restore-drill-plan", (deps) => loadManagedAuditPacketRestoreDrillPlan({
-    config: deps.config,
-    runtime: deps.auditStoreRuntime,
-    auditLog: deps.auditLog,
-    orderPlatform: deps.orderPlatform,
-    miniKv: deps.miniKv,
-  }), renderManagedAuditPacketRestoreDrillPlanMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-restore-drill-archive-verification", (deps) => loadManagedAuditRestoreDrillArchiveVerification({
-    config: deps.config,
-  }), renderManagedAuditRestoreDrillArchiveVerificationMarkdown),
+  ...managedAuditRestoreDrillAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-dry-run-adapter-candidate", (deps) => loadManagedAuditDryRunAdapterCandidate({
     config: deps.config,
