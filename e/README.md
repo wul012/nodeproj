@@ -131,6 +131,7 @@
 491: Java / mini-kv route catalog cleanup consumer readiness evidence intake
 492: Java / mini-kv route catalog cleanup consumer readiness evidence report
 493: Java / mini-kv route catalog cleanup consumer readiness evidence report archive
+494: Java / mini-kv route catalog cleanup consumer readiness evidence archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
