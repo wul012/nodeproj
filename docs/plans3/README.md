@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v453-post-managed-audit-manual-sandbox-connection-readiness-route-group-split-roadmap.md
+docs/plans3/v454-post-managed-audit-manual-sandbox-connection-command-route-group-split-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v454 已完成 managed audit manual sandbox connection command route group split。
+docs/plans3/v454-post-managed-audit-manual-sandbox-connection-command-route-group-split-roadmap.md
 Node v453 已完成 managed audit manual sandbox connection readiness route group split。
 docs/plans3/v453-post-managed-audit-manual-sandbox-connection-readiness-route-group-split-roadmap.md
 Node v452 已完成 managed audit manual sandbox connection packet route group split。
@@ -181,10 +183,10 @@ docs/plans3/v371-post-minimal-shard-readiness-live-read-gate-roadmap.md
 ## 当前状态
 
 ```text
-Node v453 已完成 managed audit manual sandbox connection readiness route group split。
-目标是把 preflight/rehearsal/precondition/envelope/readiness JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
-v453 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
-Java / mini-kv 推荐并行继续，Node v453 不是上游 pre-approval blocker。
+Node v454 已完成 managed audit manual sandbox connection command route group split。
+目标是把 operator-window/dry-run-command JSON/Markdown route 注册从中央 route 表抽到独立 domain route group。
+v454 不新增 approval/evidence gate，不改变 API path/response，不启动/停止 sibling 服务。
+Java / mini-kv 推荐并行继续，Node v454 不是上游 pre-approval blocker。
 ```
 
 历史 v274 及以前的计划保留在 `docs/plans/`；v275-v367 保留在 `docs/plans2/`。
