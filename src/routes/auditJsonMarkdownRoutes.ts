@@ -15,14 +15,6 @@ import {
   renderFileAuditRestartEvidenceMarkdown,
 } from "../services/fileAuditRestartEvidence.js";
 import {
-  loadManagedAuditAdapterDisabledShell,
-  renderManagedAuditAdapterDisabledShellMarkdown,
-} from "../services/managedAuditAdapterDisabledShell.js";
-import {
-  loadManagedAuditAdapterImplementationPrecheckPacket,
-  renderManagedAuditAdapterImplementationPrecheckPacketMarkdown,
-} from "../services/managedAuditAdapterImplementationPrecheckPacket.js";
-import {
   loadManagedAuditExternalAdapterConnectionReadinessReview,
   renderManagedAuditExternalAdapterConnectionReadinessReviewMarkdown,
 } from "../services/managedAuditExternalAdapterConnectionReadinessReview.js";
@@ -191,6 +183,7 @@ import { javaMiniKvDeclaredOperatorLifecycleAuditJsonMarkdownRoutes } from "./au
 import { javaMiniKvRuntimeExecutionAuditJsonMarkdownRoutes } from "./auditJavaMiniKvRuntimeExecutionRoutes.js";
 import { javaMiniKvShardReadinessEvidenceAuditJsonMarkdownRoutes } from "./auditJavaMiniKvShardReadinessEvidenceRoutes.js";
 import { managedAuditAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterRoutes.js";
+import { managedAuditAdapterImplementationAuditJsonMarkdownRoutes } from "./auditManagedAuditAdapterImplementationRoutes.js";
 import { managedAuditDisabledReadOnlyIntegrationAuditJsonMarkdownRoutes } from "./auditManagedAuditDisabledReadOnlyIntegrationRoutes.js";
 import { managedAuditDryRunAdapterAuditJsonMarkdownRoutes } from "./auditManagedAuditDryRunAdapterRoutes.js";
 import { managedAuditIdentityApprovalAuditJsonMarkdownRoutes } from "./auditManagedAuditIdentityApprovalRoutes.js";
@@ -249,13 +242,7 @@ export const auditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistratio
 
   ...managedAuditRouteQualityAuditJsonMarkdownRoutes,
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-adapter-implementation-precheck-packet", (deps) => loadManagedAuditAdapterImplementationPrecheckPacket({
-    config: deps.config,
-  }), renderManagedAuditAdapterImplementationPrecheckPacketMarkdown),
-
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-adapter-disabled-shell", (deps) => loadManagedAuditAdapterDisabledShell({
-    config: deps.config,
-  }), renderManagedAuditAdapterDisabledShellMarkdown),
+  ...managedAuditAdapterImplementationAuditJsonMarkdownRoutes,
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-local-adapter-candidate-dry-run", (deps) => loadManagedAuditLocalAdapterCandidateDryRun({
     config: deps.config,
