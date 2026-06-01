@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v495-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-archive-verification-route-roadmap.md
+docs/plans3/v496-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v496 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout。
+docs/plans3/v496-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-batch-closeout-roadmap.md
 Node v495 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence archive verification route。
 docs/plans3/v495-post-java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-archive-verification-route-roadmap.md
 Node v494 已完成 Java / mini-kv route catalog cleanup consumer readiness evidence archive verification。
@@ -294,6 +296,11 @@ Node v495 已完成 Java / mini-kv route catalog cleanup consumer readiness evid
 目标是将 v494 verifier 暴露到现有 cleanup route group，并完成 v491-v495 五版链。
 v495 focused route/catalog tests、typecheck、build 已通过；总 route count 更新为 207，Java/mini-kv domain route count 更新为 43。
 v495 不启动 sibling 服务，不开启 runtime execution。
+
+Node v496 已完成 Java / mini-kv route catalog cleanup consumer readiness batch closeout。
+目标是收口 v491-v495 五版链，核对计划、解释、讲解、archive、verifier、route 和 catalog counts。
+v496 focused closeout test、typecheck 已通过；v496 不新增 route，不启动 sibling 服务，不开启 runtime execution。
+Java / mini-kv 继续 recommended parallel，Node 不等待 fresh sibling evidence。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

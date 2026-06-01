@@ -1,0 +1,67 @@
+{
+  "version": "v496",
+  "title": "Java / mini-kv route catalog cleanup consumer readiness batch closeout",
+  "generatedAt": "2026-06-01T23:27:25.271Z",
+  "ready": true,
+  "closedVersions": [
+    "v491",
+    "v492",
+    "v493",
+    "v494",
+    "v495"
+  ],
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 207,
+    "javaMiniKvDomainGroupCount": 5,
+    "javaMiniKvDomainRouteCount": 43,
+    "cleanupHandoffRouteGroupRouteCount": 9
+  },
+  "summary": {
+    "fileCount": 22,
+    "presentFileCount": 22,
+    "closedVersionCount": 5,
+    "checkCount": 15,
+    "passedCheckCount": 15,
+    "routeCount": 207,
+    "javaMiniKvDomainRouteCount": 43,
+    "cleanupHandoffRouteGroupRouteCount": 9,
+    "sourceArchiveCheckCount": 21,
+    "sourceArchivePassedCheckCount": 21
+  },
+  "sourceArchive": {
+    "version": "v493",
+    "ready": true,
+    "checkCount": 21,
+    "passedCheckCount": 21,
+    "activeNodeVersion": "Node v492",
+    "sourceNodeVersion": "Node v491",
+    "jsonSha256": "d4bcf6c7468791b40c87e3db563a591c4208094776b784a1b9a0b7d40954224c",
+    "markdownSha256": "f3199992d62705cbdd36f7c07fa76d27cf7d495bf9e6b519c732f73bb2a69a5f",
+    "executionAllowed": false,
+    "startsJavaService": false,
+    "startsMiniKvService": false
+  },
+  "checks": {
+    "closedVersionCountReady": true,
+    "v491ArtifactsPresent": true,
+    "v492ArtifactsPresent": true,
+    "v493ArchiveArtifactsPresent": true,
+    "v493ArchiveReady": true,
+    "v493ArchiveChecksPassed": true,
+    "v494VerifierArtifactsPresent": true,
+    "v495RouteArtifactsPresent": true,
+    "routeCatalogCountsRecorded": true,
+    "cleanupRouteGroupCountRecorded": true,
+    "consumerArchiveVerifierRouteRecorded": true,
+    "javaDirtyWorktreeExcluded": true,
+    "miniKvRollingCurrentRejectedForBaseline": true,
+    "noRuntimeAuthorityOpened": true,
+    "readyForRouteCatalogCleanupConsumerReadinessBatchCloseout": true
+  },
+  "crossProjectMode": {
+    "java": "recommended-parallel-dirty-current-worktree-excluded",
+    "miniKv": "recommended-parallel-clean-v210-observed",
+    "nodeWaitsForFreshSiblingEvidence": false
+  }
+}
