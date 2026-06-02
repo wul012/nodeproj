@@ -146,6 +146,7 @@
 506: Audit route catalog CI count alignment
 507: Java / mini-kv route catalog cleanup fresh baseline evidence intake
 508: Java / mini-kv route catalog cleanup fresh baseline evidence report
+509: Java / mini-kv route catalog cleanup fresh baseline evidence report archive
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
