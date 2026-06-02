@@ -1,0 +1,57 @@
+import {
+  renderEntries,
+  renderList,
+} from "./liveProbeReportUtils.js";
+import type {
+  JavaMiniKvRouteCatalogCleanupTwentyVersionRunCloseout,
+} from "./javaMiniKvRouteCatalogCleanupTwentyVersionRunCloseout.js";
+
+export function renderJavaMiniKvRouteCatalogCleanupTwentyVersionRunCloseoutMarkdown(
+  closeout: JavaMiniKvRouteCatalogCleanupTwentyVersionRunCloseout,
+): string {
+  return [
+    "# Java / mini-kv route catalog cleanup twenty-version run closeout",
+    "",
+    `- Service: ${closeout.service}`,
+    `- Generated at: ${closeout.generatedAt}`,
+    `- Profile version: ${closeout.profileVersion}`,
+    `- Closeout state: ${closeout.closeoutState}`,
+    `- Ready: ${closeout.readyForRouteCatalogCleanupTwentyVersionRunCloseout}`,
+    `- Active Node version: ${closeout.activeNodeVersion}`,
+    `- Source Node version: ${closeout.sourceNodeVersion}`,
+    `- Execution allowed: ${closeout.executionAllowed}`,
+    "",
+    "## Cross-Project Mode",
+    "",
+    ...renderEntries(closeout.crossProjectMode),
+    "",
+    "## Completed Versions",
+    "",
+    ...closeout.completedVersions.map((version) => `- ${version}`),
+    "",
+    "## Remaining Versions",
+    "",
+    ...closeout.remainingVersions.map((version) => `- ${version}`),
+    "",
+    "## Route Catalog",
+    "",
+    ...renderEntries(closeout.routeCatalog),
+    "",
+    "## Stability Verifier",
+    "",
+    ...renderEntries(closeout.stabilityVerifier),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(closeout.summary),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(closeout.checks),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(closeout.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
