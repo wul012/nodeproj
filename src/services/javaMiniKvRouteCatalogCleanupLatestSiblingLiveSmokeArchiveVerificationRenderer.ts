@@ -1,0 +1,55 @@
+import { renderEntries, renderList } from "./liveProbeReportUtils.js";
+import type {
+  JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationProfile,
+} from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification.js";
+
+export function renderJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationMarkdown(
+  profile: JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationProfile,
+): string {
+  return [
+    "# Java / mini-kv route catalog cleanup latest sibling live smoke archive verification",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Archive verification state: ${profile.archiveVerificationState}`,
+    `- Ready: ${profile.readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Source Live Smoke",
+    "",
+    ...renderEntries(profile.sourceLiveSmoke),
+    "",
+    "## Record Summary",
+    "",
+    ...renderEntries(profile.recordSummary),
+    "",
+    "## Cleanup Proof",
+    "",
+    ...renderEntries(profile.cleanupProof),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Archive Files",
+    "",
+    ...Object.entries(profile.archiveFiles).flatMap(([key, file]) => [
+      `- ${key}: ${file.exists ? "present" : "missing"}`,
+      `  - Path: ${file.path}`,
+      `  - Size bytes: ${file.sizeBytes}`,
+      `  - SHA-256: ${file.sha256 ?? "missing"}`,
+    ]),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}

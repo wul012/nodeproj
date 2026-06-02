@@ -183,6 +183,7 @@
 543: Java / mini-kv route catalog cleanup latest sibling evidence archive verification route
 544: Java / mini-kv route catalog cleanup latest sibling live smoke preflight
 545: Java / mini-kv route catalog cleanup latest sibling live smoke
+546: Java / mini-kv route catalog cleanup latest sibling live smoke archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

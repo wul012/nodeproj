@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v545-post-java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-roadmap.md
+docs/plans3/v546-post-java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v546 已完成 Java / mini-kv route catalog cleanup latest sibling live smoke archive verification。
+docs/plans3/v546-post-java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-roadmap.md
 Node v545 已完成 Java / mini-kv route catalog cleanup latest sibling live smoke。
 docs/plans3/v545-post-java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-roadmap.md
 Node v544 已完成 Java / mini-kv route catalog cleanup latest sibling live smoke preflight。
