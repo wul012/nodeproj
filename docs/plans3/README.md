@@ -5,12 +5,44 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v522-post-java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-roadmap.md
+docs/plans3/v538-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v538 已完成 Java / mini-kv route catalog cleanup latest sibling evidence intake。
+docs/plans3/v538-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-intake-roadmap.md
+Node v537 已完成 Java / mini-kv route catalog cleanup extended run final closeout。
+docs/plans3/v537-post-java-mini-kv-route-catalog-cleanup-extended-run-final-closeout-roadmap.md
+Node v536 已完成 Java / mini-kv route catalog cleanup CI/catalog health closeout archive verification route。
+docs/plans3/v536-post-java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-archive-verification-route-roadmap.md
+Node v535 已完成 Java / mini-kv route catalog cleanup CI/catalog health closeout archive verification。
+docs/plans3/v535-post-java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-archive-verification-roadmap.md
+Node v534 已完成 Java / mini-kv route catalog cleanup CI/catalog health closeout route archive。
+docs/plans3/v534-post-java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-route-archive-roadmap.md
+Node v533 已完成 Java / mini-kv route catalog cleanup CI/catalog health closeout route。
+docs/plans3/v533-post-java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-route-roadmap.md
+Node v532 已完成 Java / mini-kv route catalog cleanup CI/catalog health closeout。
+docs/plans3/v532-post-java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-roadmap.md
+Node v531 已完成 Java / mini-kv route catalog cleanup expanded stability closeout archive verification route。
+docs/plans3/v531-post-java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-archive-verification-route-roadmap.md
+Node v530 已完成 Java / mini-kv route catalog cleanup expanded stability closeout archive verification。
+docs/plans3/v530-post-java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-archive-verification-roadmap.md
+Node v529 已完成 Java / mini-kv route catalog cleanup expanded stability closeout route archive。
+docs/plans3/v529-post-java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-route-archive-roadmap.md
+Node v528 已完成 Java / mini-kv route catalog cleanup expanded stability closeout route。
+docs/plans3/v528-post-java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-route-roadmap.md
+Node v527 已完成 Java / mini-kv route catalog cleanup expanded stability closeout。
+docs/plans3/v527-post-java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-roadmap.md
+Node v526 已完成 Java / mini-kv route catalog cleanup twenty-version run closeout archive verification route。
+docs/plans3/v526-post-java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-archive-verification-route-roadmap.md
+Node v525 已完成 Java / mini-kv route catalog cleanup twenty-version run closeout archive verification。
+docs/plans3/v525-post-java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-archive-verification-roadmap.md
+Node v524 已完成 Java / mini-kv route catalog cleanup twenty-version run closeout route archive。
+docs/plans3/v524-post-java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-route-archive-roadmap.md
+Node v523 已完成 Java / mini-kv route catalog cleanup twenty-version run closeout route。
+docs/plans3/v523-post-java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-route-roadmap.md
 Node v522 已完成 Java / mini-kv route catalog cleanup twenty-version run closeout。
 docs/plans3/v522-post-java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-roadmap.md
 Node v521 已完成 Java / mini-kv route catalog cleanup fresh baseline stability closeout archive verification route。
@@ -558,6 +590,11 @@ Node v537 已完成 Java / mini-kv route catalog cleanup extended run final clos
 目标是总结 v523-v537 十五版扩展，确认 v536 public verifier gate、route quality pass、route catalog 223/59/25 与 CI observation。
 v537 不新增 route、不启动 sibling 服务、不需要 fresh sibling evidence；Java / mini-kv 继续 recommended parallel。
 若后续最新 CI 从 in-progress 转为真实失败，应优先修复该失败。
+
+Node v538 已完成 Java / mini-kv route catalog cleanup latest sibling evidence intake。
+目标是冻结并消费 Java v274 与 mini-kv v247 最新 clean sibling evidence，同时保持 v538 为 internal intake，不新增 route。
+v538 focused intake tests 覆盖 normal path 和 forced historical fallback；结果 4/4 files、4/4 snippets、13/13 checks。
+Java / mini-kv 继续 recommended parallel；Node 已消费最新 clean evidence，不把 sibling 项目作为 v538 前置阻碍。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

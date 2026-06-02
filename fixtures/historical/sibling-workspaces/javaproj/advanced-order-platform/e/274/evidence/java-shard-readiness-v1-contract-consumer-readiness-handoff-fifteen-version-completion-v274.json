@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-fifteen-version-completion-receipt-v274",
+  "version": "Java v274",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff fifteen-version completion",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v274 completes the v260-v274 fifteen-version run while keeping the frozen Java v225 readiness handoff separate from post-handoff catalog evidence.",
+  "guards": [
+    "v260 through v274 remain cataloged as the current fifteen-version run",
+    "catalog versions remain continuous from v226 through the current post-handoff receipt",
+    "frozen v225 handoff remains separate from post-handoff evidence paths",
+    "fifteen-version completion path is versioned to v274"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffFifteenVersionCompletionTests,OpsShardReadinessV1ContractConsumerReadinessHandoffCatalogFifteenVersionCloseoutTests,OpsShardReadinessV1ContractConsumerReadinessHandoffPostHandoffIsolationTests,OpsShardReadinessV1ContractConsumerReadinessHandoffFrozenPayloadStabilityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffV1EndpointRegistryStabilityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffArchiveQualityCloseoutTests,OpsShardReadinessV1ContractConsumerReadinessHandoffJsonMetadataCompletenessTests,OpsShardReadinessV1ContractConsumerReadinessHandoffJsonGuardCompletenessTests,OpsShardReadinessV1ContractConsumerReadinessHandoffHtmlArchiveVersionAlignmentTests,OpsShardReadinessV1ContractConsumerReadinessHandoffScreenshotArtifactCompletenessTests,OpsShardReadinessV1ContractConsumerReadinessHandoffBrowserSnapshotCompletenessTests\" test",
+    "mvn -q test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}
