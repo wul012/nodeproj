@@ -1,0 +1,277 @@
+import { describe, expect, it } from "vitest";
+
+import { buildApp } from "../src/app.js";
+import { loadConfig } from "../src/config.js";
+
+describe("ops promotion decision core routes", () => {
+  it("records the current blocked promotion review", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const response = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "decision-admin",
+          note: "capture blocked review",
+        },
+      });
+
+      expect(response.statusCode).toBe(201);
+      expect(response.json()).toMatchObject({
+        service: "orderops-node",
+        sequence: 1,
+        reviewer: "decision-admin",
+        note: "capture blocked review",
+        outcome: "blocked",
+        readyForPromotion: false,
+        digest: {
+          algorithm: "sha256",
+        },
+        review: {
+          decision: "blocked",
+          readyForPromotion: false,
+          summary: {
+            readinessState: "blocked",
+            runbookState: "blocked",
+            baselineState: "unset",
+          },
+        },
+      });
+      expect(response.json().digest.value).toMatch(/^[a-f0-9]{64}$/);
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("verifies a recorded promotion decision digest", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "decision-auditor",
+          note: "verify digest",
+        },
+      });
+      const verification = await app.inject({
+        method: "GET",
+        url: `/api/v1/ops/promotion-decisions/${decision.json().id}/verification`,
+      });
+      const missing = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/missing-decision/verification",
+      });
+
+      expect(decision.statusCode).toBe(201);
+      expect(verification.statusCode).toBe(200);
+      expect(verification.json()).toMatchObject({
+        service: "orderops-node",
+        decisionId: decision.json().id,
+        sequence: 1,
+        valid: true,
+        storedDigest: decision.json().digest,
+        recomputedDigest: decision.json().digest,
+        record: {
+          reviewer: "decision-auditor",
+          note: "verify digest",
+          outcome: "blocked",
+          readyForPromotion: false,
+          reviewDecision: "blocked",
+          reviewReadyForPromotion: false,
+          readinessState: "blocked",
+          runbookState: "blocked",
+          baselineState: "unset",
+        },
+      });
+      expect(verification.json().coveredFields).toEqual([
+        "sequence",
+        "createdAt",
+        "reviewer",
+        "note",
+        "outcome",
+        "readyForPromotion",
+        "review",
+      ]);
+      expect(verification.json().verifiedAt).toEqual(expect.any(String));
+      expect(missing.statusCode).toBe(404);
+      expect(missing.json()).toMatchObject({
+        error: "OPS_PROMOTION_DECISION_NOT_FOUND",
+      });
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("renders a promotion decision evidence report as JSON or Markdown", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const decision = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "evidence-reviewer",
+          note: "build evidence report",
+        },
+      });
+      const jsonReport = await app.inject({
+        method: "GET",
+        url: `/api/v1/ops/promotion-decisions/${decision.json().id}/evidence`,
+      });
+      const markdownReport = await app.inject({
+        method: "GET",
+        url: `/api/v1/ops/promotion-decisions/${decision.json().id}/evidence?format=markdown`,
+      });
+      const missing = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/missing-decision/evidence",
+      });
+
+      expect(decision.statusCode).toBe(201);
+      expect(jsonReport.statusCode).toBe(200);
+      expect(jsonReport.json()).toMatchObject({
+        service: "orderops-node",
+        decisionId: decision.json().id,
+        sequence: 1,
+        title: "Promotion decision #1 evidence",
+        verdict: "verified-blocked",
+        summary: {
+          reviewer: "evidence-reviewer",
+          note: "build evidence report",
+          outcome: "blocked",
+          readyForPromotion: false,
+          digestValid: true,
+          digestAlgorithm: "sha256",
+          digest: decision.json().digest.value,
+          readinessState: "blocked",
+          runbookState: "blocked",
+          baselineState: "unset",
+        },
+        verification: {
+          valid: true,
+          storedDigest: decision.json().digest,
+          recomputedDigest: decision.json().digest,
+        },
+        decision: {
+          id: decision.json().id,
+        },
+      });
+      expect(jsonReport.json().summary.blockerReasons).toBeGreaterThan(0);
+      expect(jsonReport.json().summary.reviewReasons).toBeGreaterThan(0);
+      expect(jsonReport.json().nextActions.length).toBeGreaterThan(0);
+      expect(markdownReport.statusCode).toBe(200);
+      expect(markdownReport.headers["content-type"]).toContain("text/markdown");
+      expect(markdownReport.body).toContain("# Promotion decision #1 evidence");
+      expect(markdownReport.body).toContain("- Verdict: verified-blocked");
+      expect(markdownReport.body).toContain("- Digest valid: true");
+      expect(markdownReport.body).toContain("## Verification");
+      expect(missing.statusCode).toBe(404);
+      expect(missing.json()).toMatchObject({
+        error: "OPS_PROMOTION_DECISION_NOT_FOUND",
+      });
+    } finally {
+      await app.close();
+    }
+  });
+
+  it("checks promotion decision ledger integrity across records", async () => {
+    const app = await buildApp(loadConfig({ LOG_LEVEL: "silent" }));
+
+    try {
+      const empty = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/integrity",
+      });
+      const first = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "integrity-reviewer",
+          note: "first integrity record",
+        },
+      });
+      const second = await app.inject({
+        method: "POST",
+        url: "/api/v1/ops/promotion-decisions",
+        payload: {
+          reviewer: "integrity-reviewer",
+          note: "second integrity record",
+        },
+      });
+      const integrity = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/integrity",
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: "/api/v1/ops/promotion-decisions/integrity?format=markdown",
+      });
+
+      expect(empty.statusCode).toBe(200);
+      expect(empty.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        totalRecords: 0,
+        checks: {
+          digestsValid: true,
+          sequencesContiguous: true,
+          sequenceOrder: "empty",
+        },
+      });
+      expect(empty.json().rootDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(first.statusCode).toBe(201);
+      expect(second.statusCode).toBe(201);
+      expect(integrity.statusCode).toBe(200);
+      expect(integrity.json()).toMatchObject({
+        service: "orderops-node",
+        valid: true,
+        totalRecords: 2,
+        oldestSequence: 1,
+        newestSequence: 2,
+        checks: {
+          digestsValid: true,
+          sequencesContiguous: true,
+          sequenceOrder: "contiguous",
+        },
+      });
+      expect(integrity.json().rootDigest).toMatchObject({
+        algorithm: "sha256",
+      });
+      expect(integrity.json().rootDigest.value).toMatch(/^[a-f0-9]{64}$/);
+      expect(integrity.json().records.map((record: { sequence: number }) => record.sequence)).toEqual([1, 2]);
+      expect(integrity.json().records[0]).toMatchObject({
+        id: first.json().id,
+        sequence: 1,
+        digestValid: true,
+        storedDigest: first.json().digest,
+        recomputedDigest: first.json().digest,
+      });
+      expect(integrity.json().records[0].previousChainDigest).toBeUndefined();
+      expect(integrity.json().records[0].chainDigest).toMatch(/^[a-f0-9]{64}$/);
+      expect(integrity.json().records[1]).toMatchObject({
+        id: second.json().id,
+        sequence: 2,
+        digestValid: true,
+        storedDigest: second.json().digest,
+        recomputedDigest: second.json().digest,
+        previousChainDigest: integrity.json().records[0].chainDigest,
+      });
+      expect(integrity.json().records[1].chainDigest).toBe(integrity.json().rootDigest.value);
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body).toContain("# Promotion decision ledger integrity");
+      expect(markdown.body).toContain("- Valid: true");
+      expect(markdown.body).toContain(`- Root digest: sha256:${integrity.json().rootDigest.value}`);
+      expect(markdown.body).toContain("## Checks");
+      expect(markdown.body).toContain("### Decision 1");
+      expect(markdown.body).toContain("### Decision 2");
+      expect(markdown.body).toContain(`- Previous chain digest: ${integrity.json().records[0].chainDigest}`);
+    } finally {
+      await app.close();
+    }
+  });
+
+});
