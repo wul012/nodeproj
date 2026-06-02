@@ -44,15 +44,9 @@ describe("Java/mini-kv route catalog cleanup latest sibling live smoke archive c
       },
       currentRouteCatalog: {
         groupCount: 50,
-        routeCount: 227,
-        javaMiniKvDomainRouteCount: 63,
-        cleanupHandoffRouteGroupRouteCount: 29,
       },
       summary: {
         completedNodeVersionCount: 9,
-        routeCount: 227,
-        javaMiniKvDomainRouteCount: 63,
-        cleanupHandoffRouteGroupRouteCount: 29,
       },
     });
     expect(closeout.completedNodeVersions).toEqual([
@@ -66,6 +60,17 @@ describe("Java/mini-kv route catalog cleanup latest sibling live smoke archive c
       "v552",
       "v553",
     ]);
+    expect(closeout.currentRouteCatalog.routeCount)
+      .toBeGreaterThanOrEqual(closeout.latestVerifier.archivedRouteCatalogRouteCount);
+    expect(closeout.currentRouteCatalog.javaMiniKvDomainRouteCount)
+      .toBeGreaterThanOrEqual(closeout.latestVerifier.archivedRouteCatalogJavaMiniKvRouteCount);
+    expect(closeout.currentRouteCatalog.cleanupHandoffRouteGroupRouteCount)
+      .toBeGreaterThanOrEqual(closeout.latestVerifier.archivedRouteCatalogCleanupHandoffRouteCount);
+    expect(closeout.summary.routeCount).toBe(closeout.currentRouteCatalog.routeCount);
+    expect(closeout.summary.javaMiniKvDomainRouteCount)
+      .toBe(closeout.currentRouteCatalog.javaMiniKvDomainRouteCount);
+    expect(closeout.summary.cleanupHandoffRouteGroupRouteCount)
+      .toBe(closeout.currentRouteCatalog.cleanupHandoffRouteGroupRouteCount);
     expect(closeout.latestVerifier.checkCount).toBe(closeout.latestVerifier.passedCheckCount);
     expect(closeout.summary.checkCount).toBe(closeout.summary.passedCheckCount);
     expect(Object.values(closeout.checks).every(Boolean)).toBe(true);

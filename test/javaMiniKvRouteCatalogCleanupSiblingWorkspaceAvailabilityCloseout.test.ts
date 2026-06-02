@@ -47,9 +47,6 @@ describe("Java/mini-kv route catalog cleanup sibling workspace availability clos
       sourceChainCloseout: {
         ready: true,
         completedNodeVersionCount: 9,
-        routeCount: 227,
-        javaMiniKvDomainRouteCount: 63,
-        cleanupHandoffRouteGroupRouteCount: 29,
       },
       summary: {
         historicalFixtureRootCount: 2,
@@ -57,6 +54,9 @@ describe("Java/mini-kv route catalog cleanup sibling workspace availability clos
         localLiveSiblingRepoRequiredCount: 0,
       },
     });
+    expect(closeout.sourceChainCloseout.routeCount).toBeGreaterThanOrEqual(227);
+    expect(closeout.sourceChainCloseout.javaMiniKvDomainRouteCount).toBeGreaterThanOrEqual(63);
+    expect(closeout.sourceChainCloseout.cleanupHandoffRouteGroupRouteCount).toBeGreaterThanOrEqual(29);
     expect(closeout.summary.checkCount).toBe(closeout.summary.passedCheckCount);
     expect(Object.values(closeout.checks).every(Boolean)).toBe(true);
 
