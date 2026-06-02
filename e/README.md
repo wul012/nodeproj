@@ -162,6 +162,7 @@
 522: Java / mini-kv route catalog cleanup twenty-version run closeout
 523: Java / mini-kv route catalog cleanup twenty-version run closeout route
 524: Java / mini-kv route catalog cleanup twenty-version run closeout route archive
+525: Java / mini-kv route catalog cleanup twenty-version run closeout archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
