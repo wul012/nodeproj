@@ -519,6 +519,11 @@ Node v529 已完成 Java / mini-kv route catalog cleanup expanded stability clos
 v529 归档结果：JSON 200、Markdown 200、ready=true、9/9 checks、route snapshot 219/55/21。
 v530 应读取 archive summary 并校验 SHA-256、source version、ready flag 与 runtime boundary。
 
+Node v530 已完成 Java / mini-kv route catalog cleanup expanded stability closeout archive verification。
+目标是读取 e/529 archive，校验 SHA-256、source version、ready=true、9/9 checks、planned segment、route snapshot 219/55/21 与 runtime boundary。
+v530 不新增 route，不启动 sibling 服务；v531 可以公开该 verifier。
+Java / mini-kv 继续 recommended parallel。
+
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
 v489 前置检查显示 Java 已到 v221 tag 但有 v222-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
