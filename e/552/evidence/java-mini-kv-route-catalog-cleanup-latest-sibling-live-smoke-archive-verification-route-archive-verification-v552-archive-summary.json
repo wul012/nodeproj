@@ -1,0 +1,73 @@
+{
+  "version": "v552",
+  "title": "Java / mini-kv route catalog cleanup latest sibling live smoke archive verification route archive verification route archive",
+  "generatedAt": "2026-06-02T08:47:52.901Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "archiveVerificationState": "ready",
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "activeNodeVersion": "Node v549",
+  "sourceNodeVersion": "Node v548",
+  "sourceRouteArchive": {
+    "ready": true,
+    "archiveVerificationState": "ready",
+    "statusCodeJson": 200,
+    "statusCodeMarkdown": 200,
+    "activeNodeVersion": "Node v546",
+    "sourceNodeVersion": "Node v545",
+    "checkCount": 24,
+    "passedCheckCount": 24,
+    "routeCount": 226,
+    "javaMiniKvDomainRouteCount": 62,
+    "cleanupHandoffRouteGroupRouteCount": 28
+  },
+  "sourceVerifier": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification.v1",
+    "activeNodeVersion": "Node v546",
+    "sourceNodeVersion": "Node v545",
+    "ready": true,
+    "archiveVerificationState": "ready",
+    "checkCount": 24,
+    "passedCheckCount": 24,
+    "sourceRecordCount": 9,
+    "sourcePassedRecordCount": 9,
+    "sourceCleanupPassed": true,
+    "sourceAfterListeningSocketCount": 0,
+    "localHttpProxyBypass": "--noproxy *"
+  },
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 227,
+    "javaMiniKvDomainRouteCount": 63,
+    "cleanupHandoffRouteGroupRouteCount": 29
+  },
+  "files": {
+    "json": {
+      "path": "e/552/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification-v551-http.json",
+      "sizeBytes": 3889,
+      "sha256": "a794dc94a908b5316fffbe658d6229cf982b7abcba997bce47c8152a0af00f55"
+    },
+    "markdown": {
+      "path": "e/552/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification-v551-http.md",
+      "sizeBytes": 2971,
+      "sha256": "a0373604d96c95f496601d1ec1897cf5f072933ea7b95c1f519c4fe646be5273"
+    }
+  },
+  "boundaries": {
+    "archiveVerificationOnly": true,
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "mutatesJavaState": false,
+    "mutatesMiniKvState": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "executionAllowed": false
+  }
+}

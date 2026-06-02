@@ -175,8 +175,8 @@ export function loadJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVe
     checks,
     nextActions: ready
       ? [
-        "Expose this route archive verification through the cleanup route group in Node v551.",
-        "Use this verified route archive before any later live-smoke closeout.",
+        "Archive this public verifier route output before building a follow-up route archive verifier.",
+        "Use the verified v548 route archive baseline before any later live-smoke closeout.",
       ]
       : [
         "Repair the v548 route archive files before exposing the verifier route.",

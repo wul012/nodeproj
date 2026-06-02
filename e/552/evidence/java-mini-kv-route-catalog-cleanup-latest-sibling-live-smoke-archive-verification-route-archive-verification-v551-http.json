@@ -1,0 +1,101 @@
+{
+  "service": "orderops-node",
+  "title": "Java / mini-kv route catalog cleanup latest sibling live smoke archive verification route archive verification",
+  "generatedAt": "2026-06-02T08:47:52.893Z",
+  "profileVersion": "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification.v1",
+  "activeNodeVersion": "Node v549",
+  "sourceNodeVersion": "Node v548",
+  "archiveVerificationState": "ready",
+  "readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification": true,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "archiveVerificationOnly": true,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "mutatesJavaState": false,
+  "mutatesMiniKvState": false,
+  "connectsManagedAudit": false,
+  "credentialValueRead": false,
+  "rawEndpointUrlParsed": false,
+  "executionAllowed": false,
+  "archiveFiles": {
+    "json": {
+      "path": "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v547-http.json",
+      "exists": true,
+      "sizeBytes": 5287,
+      "sha256": "0a9fb309d43e2e1a182820eceefcf0f0a4cfde55905b4375e877dcc6f717a2ab"
+    },
+    "markdown": {
+      "path": "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v547-http.md",
+      "exists": true,
+      "sizeBytes": 4057,
+      "sha256": "b7fbb86a95aa4a9b8a382223233aa0f8006ff798a082a31d78375091a0459154"
+    },
+    "summary": {
+      "path": "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v548-archive-summary.json",
+      "exists": true,
+      "sizeBytes": 2455,
+      "sha256": "a539d145c578e3537302443258b6b80f8c056f2d49aff9b983e7fa38d76dbef3"
+    }
+  },
+  "sourceRouteArchive": {
+    "ready": true,
+    "archiveVerificationState": "ready",
+    "statusCodeJson": 200,
+    "statusCodeMarkdown": 200,
+    "activeNodeVersion": "Node v546",
+    "sourceNodeVersion": "Node v545",
+    "checkCount": 24,
+    "passedCheckCount": 24,
+    "routeCount": 226,
+    "javaMiniKvDomainRouteCount": 62,
+    "cleanupHandoffRouteGroupRouteCount": 28
+  },
+  "sourceVerifier": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification.v1",
+    "activeNodeVersion": "Node v546",
+    "sourceNodeVersion": "Node v545",
+    "ready": true,
+    "archiveVerificationState": "ready",
+    "checkCount": 24,
+    "passedCheckCount": 24,
+    "sourceRecordCount": 9,
+    "sourcePassedRecordCount": 9,
+    "sourceCleanupPassed": true,
+    "sourceAfterListeningSocketCount": 0,
+    "localHttpProxyBypass": "--noproxy *"
+  },
+  "summary": {
+    "archiveFileCount": 3,
+    "presentArchiveFileCount": 3,
+    "checkCount": 18,
+    "passedCheckCount": 18,
+    "sourceCheckCount": 24,
+    "sourcePassedCheckCount": 24
+  },
+  "checks": {
+    "archiveFilesPresent": true,
+    "jsonReadable": true,
+    "markdownReadable": true,
+    "summaryReadable": true,
+    "summaryDigestsMatchFiles": true,
+    "jsonProfileVersionValid": true,
+    "jsonSourceVersionsMatch": true,
+    "jsonVerifierReady": true,
+    "jsonChecksAllPassed": true,
+    "jsonSourceLiveSmokeStillReady": true,
+    "summaryStatusCodesPassed": true,
+    "summaryMatchesJson": true,
+    "summaryRouteCatalogCountsMatchSourceArchive": true,
+    "currentRouteCatalogCoversSourceArchive": true,
+    "markdownRecordsRouteArchive": true,
+    "markdownRecordsProxyAndCleanupChecks": true,
+    "noRuntimeAuthorityOpened": true,
+    "readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification": true
+  },
+  "nextActions": [
+    "Archive this public verifier route output before building a follow-up route archive verifier.",
+    "Use the verified v548 route archive baseline before any later live-smoke closeout."
+  ]
+}
