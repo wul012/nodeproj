@@ -1,0 +1,78 @@
+{
+  "service": "orderops-node",
+  "title": "Java / mini-kv route catalog cleanup fresh baseline stability closeout",
+  "generatedAt": "2026-06-02T02:22:11.043Z",
+  "profileVersion": "java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout.v1",
+  "closeoutState": "ready",
+  "activeNodeVersion": "Node v517",
+  "sourceNodeVersion": "Node v516",
+  "readyForRouteCatalogCleanupFreshBaselineStabilityCloseout": true,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "closeoutOnly": true,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "crossProjectMode": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "nodeWaitsForFreshSiblingEvidence": false
+  },
+  "closedVersions": [
+    "v512",
+    "v513",
+    "v514",
+    "v515",
+    "v516"
+  ],
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 215,
+    "javaMiniKvDomainRouteCount": 51,
+    "cleanupHandoffRouteGroupRouteCount": 17
+  },
+  "sourceArchive": {
+    "version": "v514",
+    "ready": true,
+    "checkCount": 14,
+    "passedCheckCount": 14,
+    "routeCount": 213,
+    "javaMiniKvDomainRouteCount": 49,
+    "cleanupHandoffRouteGroupRouteCount": 15,
+    "executionAllowed": false
+  },
+  "archiveVerification": {
+    "ready": true,
+    "checkCount": 17,
+    "passedCheckCount": 17,
+    "activeNodeVersion": "Node v515",
+    "sourceNodeVersion": "Node v514"
+  },
+  "checks": {
+    "currentCatalogCountsReady": true,
+    "currentJavaMiniKvRouteCountReady": true,
+    "cleanupRouteGroupCountReady": true,
+    "sourceArchiveReady": true,
+    "sourceArchiveChecksPassed": true,
+    "archiveVerifierReady": true,
+    "verifierRouteRegistered": true,
+    "javaMiniKvParallelRecommended": true,
+    "noRuntimeAuthorityOpened": true,
+    "readyForRouteCatalogCleanupFreshBaselineStabilityCloseout": true
+  },
+  "summary": {
+    "closedVersionCount": 5,
+    "checkCount": 10,
+    "passedCheckCount": 10,
+    "routeCount": 215,
+    "javaMiniKvDomainRouteCount": 51,
+    "cleanupHandoffRouteGroupRouteCount": 17,
+    "sourceArchiveCheckCount": 14,
+    "sourceArchivePassedCheckCount": 14
+  },
+  "nextActions": [
+    "Expose this stability closeout as a JSON/Markdown route in Node v518.",
+    "Archive and verify the stability closeout once before the final closeout segment."
+  ]
+}

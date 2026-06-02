@@ -1,0 +1,64 @@
+{
+  "version": "v519",
+  "title": "Java / mini-kv route catalog cleanup fresh baseline stability closeout archive",
+  "generatedAt": "2026-06-02T02:22:11.053Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "closeoutState": "ready",
+  "checkCount": 10,
+  "passedCheckCount": 10,
+  "activeNodeVersion": "Node v517",
+  "sourceNodeVersion": "Node v516",
+  "closedVersions": [
+    "v512",
+    "v513",
+    "v514",
+    "v515",
+    "v516"
+  ],
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 215,
+    "javaMiniKvDomainRouteCount": 51,
+    "cleanupHandoffRouteGroupRouteCount": 17
+  },
+  "sourceArchive": {
+    "version": "v514",
+    "ready": true,
+    "checkCount": 14,
+    "passedCheckCount": 14,
+    "routeCount": 213,
+    "javaMiniKvDomainRouteCount": 49,
+    "cleanupHandoffRouteGroupRouteCount": 15,
+    "executionAllowed": false
+  },
+  "archiveVerification": {
+    "ready": true,
+    "checkCount": 17,
+    "passedCheckCount": 17,
+    "activeNodeVersion": "Node v515",
+    "sourceNodeVersion": "Node v514"
+  },
+  "files": {
+    "json": {
+      "path": "e/519/evidence/java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout-v518-http.json",
+      "sizeBytes": 2383,
+      "sha256": "c6d66a472e27ba35c466fb390cc1b479f1176170c8ece0cfc3ea4f94d859f33a"
+    },
+    "markdown": {
+      "path": "e/519/evidence/java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout-v518-http.md",
+      "sizeBytes": 1813,
+      "sha256": "0a13197171afe21a3386bea76857e83b6eac9771a7eea3aa5669a56793650234"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}
