@@ -1,0 +1,82 @@
+{
+  "version": "v524",
+  "title": "Java / mini-kv route catalog cleanup twenty-version run closeout route archive",
+  "generatedAt": "2026-06-02T02:51:04.938Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "closeoutState": "ready",
+  "checkCount": 9,
+  "passedCheckCount": 9,
+  "activeNodeVersion": "Node v522",
+  "sourceNodeVersion": "Node v521",
+  "completedVersions": [
+    "v506",
+    "v507",
+    "v508",
+    "v509",
+    "v510",
+    "v511",
+    "v512",
+    "v513",
+    "v514",
+    "v515",
+    "v516",
+    "v517",
+    "v518",
+    "v519",
+    "v520",
+    "v521"
+  ],
+  "remainingVersions": [
+    "v523",
+    "v524",
+    "v525",
+    "v526",
+    "v527",
+    "v528",
+    "v529",
+    "v530",
+    "v531",
+    "v532",
+    "v533",
+    "v534",
+    "v535",
+    "v536",
+    "v537"
+  ],
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 217,
+    "javaMiniKvDomainRouteCount": 53,
+    "cleanupHandoffRouteGroupRouteCount": 19
+  },
+  "stabilityVerifier": {
+    "ready": true,
+    "checkCount": 15,
+    "passedCheckCount": 15,
+    "activeNodeVersion": "Node v520",
+    "sourceNodeVersion": "Node v519"
+  },
+  "files": {
+    "json": {
+      "path": "e/524/evidence/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-v523-http.json",
+      "sizeBytes": 2651,
+      "sha256": "8e51042d93605ac3b3cd2816099bfe5d007288e3f6ba19c64b0d296672c9f216"
+    },
+    "markdown": {
+      "path": "e/524/evidence/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-v523-http.md",
+      "sizeBytes": 1994,
+      "sha256": "ea60f9829a087a5f9b307c506be6d93b35bc3a2b8f5acba63694497924c5ed57"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}
