@@ -170,6 +170,7 @@
 530: Java / mini-kv route catalog cleanup expanded stability closeout archive verification
 531: Java / mini-kv route catalog cleanup expanded stability closeout archive verification route
 532: Java / mini-kv route catalog cleanup CI/catalog health closeout
+533: Java / mini-kv route catalog cleanup CI/catalog health closeout route
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

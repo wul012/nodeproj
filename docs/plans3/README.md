@@ -534,6 +534,11 @@ Node v532 已完成 Java / mini-kv route catalog cleanup CI/catalog health close
 v532 结果：v530 archive verifier ready=true、16/16 checks、route quality pass ready=true、route catalog 221/57/23。
 v533 应公开该 closeout route；Java / mini-kv 继续 recommended parallel。
 
+Node v533 已完成 Java / mini-kv route catalog cleanup CI/catalog health closeout route。
+目标是把 v532 CI/catalog health closeout 暴露为 JSON/Markdown route。
+v533 route catalog count 更新为 222，Java/mini-kv domain route count 更新为 58，cleanup handoff route group 更新为 24。
+v534 应归档该 route 输出；Java / mini-kv 继续 recommended parallel。
+
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
 v489 前置检查显示 Java 已到 v221 tag 但有 v222-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
