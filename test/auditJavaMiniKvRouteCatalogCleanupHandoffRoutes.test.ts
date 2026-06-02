@@ -59,6 +59,9 @@ import {
 import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_FRESH_BASELINE_STABILITY_CLOSEOUT_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupFreshBaselineStabilityCloseoutReport.js";
+import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_FRESH_BASELINE_STABILITY_CLOSEOUT_ARCHIVE_VERIFICATION_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupFreshBaselineStabilityCloseoutArchiveVerification.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
@@ -77,7 +80,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(18);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(19);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -978,6 +981,59 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         .toContain("# Java / mini-kv route catalog cleanup fresh baseline stability closeout");
       expect(markdown.body).toContain("routeCount: 215");
       expect(markdown.body).toContain("archiveVerifierReady: true");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes fresh baseline stability archive verification through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_FRESH_BASELINE_STABILITY_CLOSEOUT_ARCHIVE_VERIFICATION_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_FRESH_BASELINE_STABILITY_CLOSEOUT_ARCHIVE_VERIFICATION_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout-archive-verification.v1",
+        archiveVerificationState: "ready",
+        activeNodeVersion: "Node v520",
+        sourceNodeVersion: "Node v519",
+        readyForRouteCatalogCleanupFreshBaselineStabilityCloseoutArchiveVerification: true,
+        archiveVerificationOnly: true,
+        executionAllowed: false,
+        startsJavaService: false,
+        startsMiniKvService: false,
+        sourceReport: {
+          activeNodeVersion: "Node v517",
+          sourceNodeVersion: "Node v516",
+          ready: true,
+          checkCount: 10,
+          passedCheckCount: 10,
+          routeCount: 215,
+          javaMiniKvDomainRouteCount: 51,
+          cleanupHandoffRouteGroupRouteCount: 17,
+        },
+        summary: {
+          archiveFileCount: 3,
+          presentArchiveFileCount: 3,
+          checkCount: 15,
+          passedCheckCount: 15,
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body)
+        .toContain("# Java / mini-kv route catalog cleanup fresh baseline stability closeout archive verification");
+      expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
+      expect(markdown.body).toContain("jsonRouteCatalogSnapshotValid: true");
     } finally {
       await app.close();
     }

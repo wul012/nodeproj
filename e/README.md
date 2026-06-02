@@ -158,6 +158,7 @@
 518: Java / mini-kv route catalog cleanup fresh baseline stability closeout report
 519: Java / mini-kv route catalog cleanup fresh baseline stability closeout report archive
 520: Java / mini-kv route catalog cleanup fresh baseline stability closeout archive verification
+521: Java / mini-kv route catalog cleanup fresh baseline stability closeout archive verification route
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
