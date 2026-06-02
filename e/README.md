@@ -215,6 +215,7 @@
 575: Java/mini-kv consumer readiness batch closeout archive artifact coverage
 576: Java/mini-kv consumer readiness Java evidence parser coverage
 577: Java/mini-kv consumer readiness evidence file builder coverage
+578: Java/mini-kv consumer readiness multi-version archive index coverage
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
