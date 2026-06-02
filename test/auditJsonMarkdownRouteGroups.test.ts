@@ -4,6 +4,9 @@ import { describe, expect, it } from "vitest";
 
 import { auditJsonMarkdownRoutes } from "../src/routes/auditJsonMarkdownRoutes.js";
 import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import {
+  EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
+} from "../src/routes/auditJsonMarkdownRouteCatalogSummary.js";
 
 describe("audit JSON/Markdown route group catalog", () => {
   it("keeps the central route table as a flat catalog consumer with unique groups and paths", () => {
@@ -14,7 +17,7 @@ describe("audit JSON/Markdown route group catalog", () => {
 
     expect(auditJsonMarkdownRouteGroups).toHaveLength(50);
     expect(new Set(groupIds).size).toBe(groupIds.length);
-    expect(paths).toHaveLength(205);
+    expect(paths).toHaveLength(EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount);
     expect(new Set(paths).size).toBe(paths.length);
     expect(paths[0]).toBe("/api/v1/audit/store-profile");
     expect(paths.at(-1)).toBe("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification");

@@ -6,6 +6,9 @@ import {
   createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot,
   evaluateAuditJsonMarkdownRouteCatalogIntegrity,
 } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
+import {
+  EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
+} from "../src/routes/auditJsonMarkdownRouteCatalogSummary.js";
 import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
 import {
   auditJsonMarkdownRoutes,
@@ -27,29 +30,7 @@ describe("audit JSON/Markdown route catalog integrity", () => {
       uniqueRoutePaths: true,
       routeTableMatchesCatalog: true,
     });
-    expect(result.summary).toMatchObject({
-      groupCount: 50,
-      routeCount: 201,
-      domainGroupCounts: {
-        foundational: 1,
-        "managed-audit": 16,
-        "credential-resolver": 24,
-        "java-mini-kv": 5,
-        "minimal-integration": 2,
-        sandbox: 2,
-      },
-      domainRouteCounts: {
-        foundational: 6,
-        "managed-audit": 52,
-        "credential-resolver": 70,
-        "java-mini-kv": 37,
-        "minimal-integration": 18,
-        sandbox: 18,
-      },
-      firstRoutePath: "/api/v1/audit/store-profile",
-      lastRoutePath:
-        "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification",
-    });
+    expect(result.summary).toMatchObject(EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY);
     expect(createExpectedAuditJsonMarkdownRouteCatalogIntegritySnapshot()).toEqual(result);
   });
 

@@ -143,6 +143,7 @@
 503: Java / mini-kv route catalog cleanup readiness handoff evidence report archive
 504: Java / mini-kv route catalog cleanup readiness handoff evidence archive verification
 505: Java / mini-kv route catalog cleanup readiness handoff evidence archive verification route
+506: Audit route catalog CI count alignment
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
