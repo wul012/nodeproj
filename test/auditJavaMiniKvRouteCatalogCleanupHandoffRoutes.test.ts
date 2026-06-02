@@ -86,6 +86,9 @@ import {
 import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_SIBLING_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupLatestSiblingEvidenceArchiveVerification.js";
+import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_SIBLING_LIVE_SMOKE_ARCHIVE_VERIFICATION_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
@@ -104,7 +107,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(27);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(28);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -1493,6 +1496,66 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         .toContain("# Java / mini-kv route catalog cleanup latest sibling evidence archive verification");
       expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
       expect(markdown.body).toContain("routeCount: 224");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes latest sibling live smoke archive verification through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_SIBLING_LIVE_SMOKE_ARCHIVE_VERIFICATION_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_SIBLING_LIVE_SMOKE_ARCHIVE_VERIFICATION_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification.v1",
+        archiveVerificationState: "ready",
+        activeNodeVersion: "Node v546",
+        sourceNodeVersion: "Node v545",
+        readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification: true,
+        archiveVerificationOnly: true,
+        executionAllowed: false,
+        startsJavaService: false,
+        startsMiniKvService: false,
+        sourceLiveSmoke: {
+          activeNodeVersion: "Node v545",
+          sourceNodeVersion: "Node v544",
+          ready: true,
+          recordCount: 9,
+          passedRecordCount: 9,
+          checkCount: 14,
+          passedCheckCount: 14,
+          cleanupPassed: true,
+          afterListeningSocketCount: 0,
+        },
+        recordSummary: {
+          nodeRecordCount: 3,
+          javaRecordCount: 2,
+          miniKvRecordCount: 4,
+          proxyBypassHttpRecordCount: 5,
+        },
+        summary: {
+          archiveFileCount: 4,
+          presentArchiveFileCount: 4,
+          checkCount: 24,
+          passedCheckCount: 24,
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body)
+        .toContain("# Java / mini-kv route catalog cleanup latest sibling live smoke archive verification");
+      expect(markdown.body).toContain("localProxyBypassRecorded: true");
+      expect(markdown.body).toContain("cleanupProofPassed: true");
     } finally {
       await app.close();
     }
