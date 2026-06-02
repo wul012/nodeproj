@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v538-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-intake-roadmap.md
+docs/plans3/v539-post-node-evidence-ci-test-budget-stabilization-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v539 已完成 Node Evidence CI test budget stabilization。
+docs/plans3/v539-post-node-evidence-ci-test-budget-stabilization-roadmap.md
 Node v538 已完成 Java / mini-kv route catalog cleanup latest sibling evidence intake。
 docs/plans3/v538-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-intake-roadmap.md
 Node v537 已完成 Java / mini-kv route catalog cleanup extended run final closeout。
@@ -595,6 +597,11 @@ Node v538 已完成 Java / mini-kv route catalog cleanup latest sibling evidence
 目标是冻结并消费 Java v274 与 mini-kv v247 最新 clean sibling evidence，同时保持 v538 为 internal intake，不新增 route。
 v538 focused intake tests 覆盖 normal path 和 forced historical fallback；结果 4/4 files、4/4 snippets、13/13 checks。
 Java / mini-kv 继续 recommended parallel；Node 已消费最新 clean evidence，不把 sibling 项目作为 v538 前置阻碍。
+
+Node v539 已完成 Node Evidence CI test budget stabilization。
+目标是修复 v538 最新 CI 的 timeout-only 失败：Test 阶段无断言失败，但 job 触达 10 分钟 workflow 上限。
+v539 只把 Node Evidence job timeout 从 10 分钟提高到 20 分钟，保持完整 `npm test`、build 和 smoke gate 不变。
+Java / mini-kv 继续 recommended parallel；这是 Node-owned CI 预算调整，不需要新的 sibling evidence。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

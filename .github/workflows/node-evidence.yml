@@ -30,7 +30,7 @@ jobs:
   node-evidence:
     name: Typecheck, test, build, and safe smoke
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       HOST: 127.0.0.1
       PORT: "4190"

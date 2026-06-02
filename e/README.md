@@ -176,6 +176,7 @@
 536: Java / mini-kv route catalog cleanup CI/catalog health closeout archive verification route
 537: Java / mini-kv route catalog cleanup extended run final closeout
 538: Java / mini-kv route catalog cleanup latest sibling evidence intake
+539: Node Evidence CI test budget stabilization
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
