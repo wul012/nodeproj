@@ -20,6 +20,7 @@ describe("Java/mini-kv consumer readiness multi-version archive index", () => {
       ["576", "Java/mini-kv consumer readiness Java evidence parser coverage"],
       ["577", "Java/mini-kv consumer readiness evidence file builder coverage"],
       ["578", "Java/mini-kv consumer readiness multi-version archive index coverage"],
+      ["579", "Java/mini-kv consumer readiness maturity artifact presence coverage"],
     ] as const) {
       expect(archiveIndex).toContain(`${version}: ${title}`);
     }
