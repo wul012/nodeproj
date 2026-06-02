@@ -90,6 +90,9 @@ import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_SIBLING_LIVE_SMOKE_ARCHIVE_VERIFICATION_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification.js";
 import {
+  JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_SIBLING_WORKSPACE_AVAILABILITY_CLOSEOUT_ROUTE_PATH,
+} from "../src/services/javaMiniKvRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseout.js";
+import {
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_SIBLING_LIVE_SMOKE_ARCHIVE_VERIFICATION_ROUTE_ARCHIVE_VERIFICATION_ROUTE_PATH,
 } from "../src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification.js";
 
@@ -110,7 +113,7 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(29);
+      expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(30);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
       });
@@ -1611,6 +1614,60 @@ describe("Java/mini-kv route catalog cleanup handoff audit route group", () => {
         .toContain("# Java / mini-kv route catalog cleanup latest sibling live smoke archive verification route archive verification");
       expect(markdown.body).toContain("summaryRouteCatalogCountsMatchSourceArchive: true");
       expect(markdown.body).toContain("currentRouteCatalogCoversSourceArchive: true");
+    } finally {
+      await app.close();
+    }
+  }, 60000);
+
+  it("exposes sibling workspace availability closeout through the same route group", async () => {
+    const app = await buildApp(loadTestConfig());
+    try {
+      const json = await app.inject({
+        method: "GET",
+        url: JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_SIBLING_WORKSPACE_AVAILABILITY_CLOSEOUT_ROUTE_PATH,
+        headers: completeHeaders(),
+      });
+      const markdown = await app.inject({
+        method: "GET",
+        url: `${JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_SIBLING_WORKSPACE_AVAILABILITY_CLOSEOUT_ROUTE_PATH}?format=markdown`,
+        headers: completeHeaders(),
+      });
+
+      expect(json.statusCode).toBe(200);
+      expect(json.json()).toMatchObject({
+        profileVersion: "java-mini-kv-route-catalog-cleanup-sibling-workspace-availability-closeout.v1",
+        closeoutState: "ready",
+        activeNodeVersion: "Node v556",
+        sourceNodeVersion: "Node v555",
+        readyForRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseout: true,
+        closeoutOnly: true,
+        executionAllowed: false,
+        startsJavaService: false,
+        startsMiniKvService: false,
+        siblingWorkspaceMode: {
+          localLiveSiblingReposBundledInWorkspace: false,
+          liveSiblingStartupRequiredByDefault: false,
+          historicalFixturesAvailable: true,
+          nodeMayUseLiveSiblingReposWhenProvided: true,
+        },
+        upstreamBoundary: {
+          java: "recommended-parallel",
+          miniKv: "recommended-parallel",
+          nodeWaitsForFreshSiblingEvidence: false,
+          defaultEvidenceMode: "historical-fixture",
+        },
+        summary: {
+          historicalFixtureRootCount: 2,
+          presentHistoricalFixtureRootCount: 2,
+          localLiveSiblingRepoRequiredCount: 0,
+        },
+      });
+      expect(markdown.statusCode).toBe(200);
+      expect(markdown.headers["content-type"]).toContain("text/markdown");
+      expect(markdown.body)
+        .toContain("# Java / mini-kv route catalog cleanup sibling workspace availability closeout");
+      expect(markdown.body).toContain("liveSiblingStartupRequiredByDefault: false");
+      expect(markdown.body).toContain("Keep Java and mini-kv progress parallel");
     } finally {
       await app.close();
     }

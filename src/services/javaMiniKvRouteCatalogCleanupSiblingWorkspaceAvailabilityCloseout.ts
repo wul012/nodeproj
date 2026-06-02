@@ -11,6 +11,9 @@ export {
   renderJavaMiniKvRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseoutMarkdown,
 } from "./javaMiniKvRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseoutRenderer.js";
 
+export const JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_SIBLING_WORKSPACE_AVAILABILITY_CLOSEOUT_ROUTE_PATH =
+  "/api/v1/audit/java-mini-kv-route-catalog-cleanup-sibling-workspace-availability-closeout";
+
 const JAVA_HISTORICAL_FIXTURE_ROOT =
   "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform";
 const MINI_KV_HISTORICAL_FIXTURE_ROOT =
