@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v510-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-archive-verification-roadmap.md
+docs/plans3/v511-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-archive-verification-route-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v511 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence archive verification route。
+docs/plans3/v511-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-archive-verification-route-roadmap.md
 Node v510 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence archive verification。
 docs/plans3/v510-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-archive-verification-roadmap.md
 Node v509 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence report archive。
@@ -399,6 +401,11 @@ Node v510 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence
 目标是读取 v509 archive，校验 SHA-256、ready=true、9/9 checks、Java v239、mini-kv v220、route counts 212/48/14 与 runtime boundary。
 v510 不新增 route，不启动 sibling 服务；v511 可以公开该 verifier。
 Java / mini-kv 推荐并行。
+
+Node v511 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence archive verification route。
+目标是把 v510 verifier 暴露为 JSON/Markdown route。
+v511 route catalog count 更新为 213，Java/mini-kv domain route count 更新为 49，cleanup handoff route group 更新为 15。
+v512 应批量收口 v507-v511，而不是继续复制同一 archive verifier 链。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
