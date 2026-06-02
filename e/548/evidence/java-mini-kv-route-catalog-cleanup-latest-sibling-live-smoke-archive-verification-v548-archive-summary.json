@@ -1,0 +1,77 @@
+{
+  "version": "v548",
+  "title": "Java / mini-kv route catalog cleanup latest sibling live smoke archive verification route archive",
+  "generatedAt": "2026-06-02T08:23:05.688Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "archiveVerificationState": "ready",
+  "checkCount": 24,
+  "passedCheckCount": 24,
+  "activeNodeVersion": "Node v546",
+  "sourceNodeVersion": "Node v545",
+  "sourceLiveSmoke": {
+    "activeNodeVersion": "Node v545",
+    "sourceNodeVersion": "Node v544",
+    "recordCount": 9,
+    "passedRecordCount": 9,
+    "checkCount": 14,
+    "passedCheckCount": 14,
+    "cleanupPassed": true,
+    "afterListeningSocketCount": 0,
+    "localHttpProxyBypass": "--noproxy *"
+  },
+  "cleanupProof": {
+    "profileVersion": "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-cleanup-proof.v1",
+    "startedProcessCount": 4,
+    "startedProjects": [
+      "mini-kv",
+      "java-maven",
+      "java-runtime",
+      "node"
+    ],
+    "startedPorts": [
+      6524,
+      8080,
+      8080,
+      4190
+    ],
+    "beforeListeningSocketCount": 0,
+    "afterListeningSocketCount": 0,
+    "distRemoved": true,
+    "cleanupPassed": true
+  },
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 226,
+    "javaMiniKvDomainRouteCount": 62,
+    "cleanupHandoffRouteGroupRouteCount": 28
+  },
+  "files": {
+    "json": {
+      "path": "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v547-http.json",
+      "sizeBytes": 5287,
+      "sha256": "0a9fb309d43e2e1a182820eceefcf0f0a4cfde55905b4375e877dcc6f717a2ab"
+    },
+    "markdown": {
+      "path": "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v547-http.md",
+      "sizeBytes": 4057,
+      "sha256": "b7fbb86a95aa4a9b8a382223233aa0f8006ff798a082a31d78375091a0459154"
+    }
+  },
+  "boundaries": {
+    "archiveVerificationOnly": true,
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "mutatesJavaState": false,
+    "mutatesMiniKvState": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "executionAllowed": false
+  }
+}
