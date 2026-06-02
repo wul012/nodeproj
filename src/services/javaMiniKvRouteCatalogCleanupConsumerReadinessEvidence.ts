@@ -1,15 +1,10 @@
 import {
-  JAVA_V220_CONSUMER_EVIDENCE_DIGEST,
-  JAVA_V220_CONSUMER_EVIDENCE_DIGEST_FIXTURE,
-  JAVA_V221_CONSUMER_EVIDENCE_DIGEST_SNAPSHOT_FREEZE,
-  JAVA_V222_CONSUMER_EVIDENCE_DIGEST_HISTORICAL_COMPATIBILITY,
-  JAVA_V223_CONSUMER_EVIDENCE_DIGEST_INTEGRITY,
-  JAVA_V224_CONSUMER_READINESS_COMPLETION,
-} from "./javaMiniKvRouteCatalogCleanupConsumerReadinessEvidencePaths.js";
-import {
   createConsumerReadinessEvidenceFiles,
   createMiniKvLatestAuditNoteSnippets,
 } from "./javaMiniKvRouteCatalogCleanupConsumerReadinessFileBuilders.js";
+import {
+  loadJavaConsumerReadinessEvidenceParts,
+} from "./javaMiniKvRouteCatalogCleanupConsumerReadinessJavaEvidence.js";
 import {
   MINI_KV_EXPECTED_DIGESTS,
   MINI_KV_POST_CLOSEOUT_RELEASES,
@@ -47,29 +42,13 @@ export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence():
   JavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence {
   const files = createConsumerReadinessEvidenceFiles();
   const snippets = createMiniKvLatestAuditNoteSnippets();
-  const javaV220ConsumerEvidenceDigest =
-    createJavaConsumerEvidenceDigest(readJsonObject(JAVA_V220_CONSUMER_EVIDENCE_DIGEST));
-  const javaV220ConsumerEvidenceDigestFixture =
-    createJavaConsumerEvidenceDigestFixture(readJsonObject(JAVA_V220_CONSUMER_EVIDENCE_DIGEST_FIXTURE));
-  const javaV221ConsumerEvidenceDigestSnapshotFreeze =
-    createJavaConsumerReadinessGuard(readJsonObject(JAVA_V221_CONSUMER_EVIDENCE_DIGEST_SNAPSHOT_FREEZE));
-  const javaV222ConsumerEvidenceDigestHistoricalCompatibility =
-    createJavaConsumerReadinessGuard(readJsonObject(JAVA_V222_CONSUMER_EVIDENCE_DIGEST_HISTORICAL_COMPATIBILITY));
-  const javaV223ConsumerEvidenceDigestIntegrity =
-    createJavaConsumerReadinessGuard(readJsonObject(JAVA_V223_CONSUMER_EVIDENCE_DIGEST_INTEGRITY));
-  const javaV224ConsumerReadinessCompletion =
-    createJavaConsumerReadinessGuard(readJsonObject(JAVA_V224_CONSUMER_READINESS_COMPLETION));
+  const javaEvidence = loadJavaConsumerReadinessEvidenceParts();
   const miniKvPostCloseoutReleases = MINI_KV_POST_CLOSEOUT_RELEASES.map((version) =>
     createMiniKvPostCloseoutRelease(readJsonObject(`D:/C/mini-kv/fixtures/release/shard-readiness-v${version}.json`)));
   const miniKvLatestAuditNote = createMiniKvLatestAuditNote(files, snippets);
   const checks = createChecks({
     files,
-    javaV220ConsumerEvidenceDigest,
-    javaV220ConsumerEvidenceDigestFixture,
-    javaV221ConsumerEvidenceDigestSnapshotFreeze,
-    javaV222ConsumerEvidenceDigestHistoricalCompatibility,
-    javaV223ConsumerEvidenceDigestIntegrity,
-    javaV224ConsumerReadinessCompletion,
+    ...javaEvidence,
     miniKvPostCloseoutReleases,
     miniKvLatestAuditNote,
   });
@@ -78,12 +57,7 @@ export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence():
   return {
     files,
     snippets,
-    javaV220ConsumerEvidenceDigest,
-    javaV220ConsumerEvidenceDigestFixture,
-    javaV221ConsumerEvidenceDigestSnapshotFreeze,
-    javaV222ConsumerEvidenceDigestHistoricalCompatibility,
-    javaV223ConsumerEvidenceDigestIntegrity,
-    javaV224ConsumerReadinessCompletion,
+    ...javaEvidence,
     miniKvPostCloseoutReleases,
     miniKvLatestAuditNote,
     checks,
@@ -93,78 +67,17 @@ export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence():
       checkCount: countReportChecks(checks),
       passedCheckCount: countPassedReportChecks(checks),
       javaGuardCount:
-        javaV221ConsumerEvidenceDigestSnapshotFreeze.guardCount
-        + javaV222ConsumerEvidenceDigestHistoricalCompatibility.guardCount
-        + javaV223ConsumerEvidenceDigestIntegrity.guardCount
-        + javaV224ConsumerReadinessCompletion.guardCount,
-      javaDigestEvidenceCount: javaV220ConsumerEvidenceDigest.digestEvidenceCount,
+        javaEvidence.javaV221ConsumerEvidenceDigestSnapshotFreeze.guardCount
+        + javaEvidence.javaV222ConsumerEvidenceDigestHistoricalCompatibility.guardCount
+        + javaEvidence.javaV223ConsumerEvidenceDigestIntegrity.guardCount
+        + javaEvidence.javaV224ConsumerReadinessCompletion.guardCount,
+      javaDigestEvidenceCount: javaEvidence.javaV220ConsumerEvidenceDigest.digestEvidenceCount,
       miniKvVersionedReleaseCount: miniKvPostCloseoutReleases.length,
       miniKvLatestVersionedRelease: latestMiniKv?.releaseVersion ?? null,
       miniKvLatestObservedAuditRelease: "v210",
       miniKvLatestVersionedFixtureCount: latestMiniKv?.historicalFixtureCount ?? 0,
       miniKvBoundaryGroupCount: latestMiniKv?.groupCount ?? null,
     },
-  };
-}
-
-function createJavaConsumerEvidenceDigest(source: Record<string, unknown>): JavaConsumerEvidenceDigest {
-  return {
-    version: stringField(source, "version"),
-    status: stringField(source, "status"),
-    scope: stringField(source, "scope"),
-    readOnly: booleanField(source, "readOnly"),
-    executionAllowed: booleanField(source, "executionAllowed"),
-    receiptId: stringField(source, "receiptId"),
-    endpoint: stringField(source, "endpoint"),
-    fixtureEndpoint: stringField(source, "fixtureEndpoint"),
-    verificationChecklistEndpoint: stringField(source, "verificationChecklistEndpoint"),
-    digestEvidenceCount: stringArrayField(source, "digestEvidence").length,
-    digestCheckCount: stringArrayField(source, "digestChecks").length,
-    validationCount: stringArrayField(source, "validation").length,
-    boundaryRuntimeClosed: javaBoundaryRuntimeClosed(objectField(source, "boundary")),
-  };
-}
-
-function createJavaConsumerEvidenceDigestFixture(
-  source: Record<string, unknown>,
-): JavaConsumerEvidenceDigestFixture {
-  return {
-    project: stringField(source, "project"),
-    version: stringField(source, "version"),
-    contractName: stringField(source, "contractName"),
-    readOnly: booleanField(source, "readOnly"),
-    executionAllowed: booleanField(source, "executionAllowed"),
-    shardEnabled: booleanField(source, "shardEnabled"),
-    evidenceDigestEndpoint: stringField(source, "evidenceDigestEndpoint"),
-    evidenceDigestFixtureEndpoint: stringField(source, "evidenceDigestFixtureEndpoint"),
-    verificationChecklistEndpoint: stringField(source, "verificationChecklistEndpoint"),
-    verificationChecklistFixtureEndpoint: stringField(source, "verificationChecklistFixtureEndpoint"),
-    checklistItemCount: numberField(source, "checklistItemCount"),
-    requiredEvidenceCount: numberField(source, "requiredEvidenceCount"),
-    verificationCheckCount: numberField(source, "verificationCheckCount"),
-    digestEvidenceCount: stringArrayField(source, "digestEvidence").length,
-    digestCheckCount: stringArrayField(source, "digestChecks").length,
-    blockedOperationCount: stringArrayField(source, "blockedOperations").length,
-    probesAreGetOnly: booleanField(source, "probesAreGetOnly"),
-    upstreamActionsAllowed: booleanField(source, "upstreamActionsAllowed"),
-    startsJavaService: booleanField(source, "startsJavaService"),
-    startsMiniKvService: booleanField(source, "startsMiniKvService"),
-    nodeMayStartOrStopJavaOrMiniKv: booleanField(source, "nodeMayStartOrStopJavaOrMiniKv"),
-    status: stringField(source, "status"),
-  };
-}
-
-function createJavaConsumerReadinessGuard(source: Record<string, unknown>): JavaConsumerReadinessGuard {
-  return {
-    version: stringField(source, "version"),
-    status: stringField(source, "status"),
-    scope: stringField(source, "scope"),
-    readOnly: booleanField(source, "readOnly"),
-    executionAllowed: booleanField(source, "executionAllowed"),
-    receiptId: stringField(source, "receiptId"),
-    guardCount: stringArrayField(source, "guards").length,
-    validationCount: stringArrayField(source, "validation").length,
-    boundaryRuntimeClosed: javaBoundaryRuntimeClosed(objectField(source, "boundary")),
   };
 }
 
@@ -356,14 +269,4 @@ function miniKvReleaseChainSequential(releases: MiniKvPostCloseoutReleaseEvidenc
       && release.historicalFixtureCount === 58 + index
       && release.archivedNodeVersionCount >= 97;
   });
-}
-
-function javaBoundaryRuntimeClosed(boundary: Record<string, unknown>): boolean {
-  return booleanField(boundary, "writeRoutingAllowed") === false
-    && booleanField(boundary, "activeShardRouterAllowed") === false
-    && booleanField(boundary, "credentialValueRead") === false
-    && booleanField(boundary, "rawEndpointParsed") === false
-    && booleanField(boundary, "managedAuditConnectionAllowed") === false
-    && booleanField(boundary, "deploymentOrRollbackAllowed") === false
-    && booleanField(boundary, "nodeMayStartOrStopJavaOrMiniKv") === false;
 }

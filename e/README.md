@@ -205,6 +205,7 @@
 565: Java/mini-kv consumer readiness support constant coverage
 566: Java/mini-kv consumer readiness type ownership split
 567: Java/mini-kv consumer readiness evidence file builder split
+568: Java/mini-kv consumer readiness Java evidence parser split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
