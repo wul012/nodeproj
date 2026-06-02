@@ -4,12 +4,17 @@ import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import { evaluateAuditJsonMarkdownRouteCatalogIntegrity } from "../src/routes/auditJsonMarkdownRouteCatalogIntegrity.js";
 import { auditJsonMarkdownRouteGroups } from "../src/routes/auditJsonMarkdownRouteGroups.js";
+import {
+  EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
+} from "../src/routes/auditJsonMarkdownRouteCatalogSummary.js";
 import { auditJsonMarkdownRoutes } from "../src/routes/auditJsonMarkdownRoutes.js";
 import {
   loadManagedAuditRouteRegistrationTableQualityPass,
 } from "../src/services/managedAuditRouteRegistrationTableQualityPass.js";
 
 describe("managed audit route registration table quality pass", () => {
+  const expectedCatalog = EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY;
+
   it("records the current route catalog integrity without changing production readiness", () => {
     const profile = loadManagedAuditRouteRegistrationTableQualityPass({
       config: loadTestConfig(),
@@ -43,9 +48,9 @@ describe("managed audit route registration table quality pass", () => {
         directRegisterAuditJsonMarkdownRouteCallsBefore: 41,
         directRegisterAuditJsonMarkdownRouteCallsAfter: 0,
         registrationTableAdded: true,
-        registrationTableRouteCount: 228,
+        registrationTableRouteCount: expectedCatalog.routeCount,
         routeGroupCatalogAdded: true,
-        routeGroupCount: 50,
+        routeGroupCount: expectedCatalog.groupCount,
         registerAuditRoutesLoopCount: 1,
       },
       checks: {
@@ -68,8 +73,8 @@ describe("managed audit route registration table quality pass", () => {
         readyForManagedAuditRouteRegistrationTableQualityPass: true,
       },
       summary: {
-        routeRegistrationCount: 228,
-        routeGroupCount: 50,
+        routeRegistrationCount: expectedCatalog.routeCount,
+        routeGroupCount: expectedCatalog.groupCount,
         duplicateRoutePathCount: 0,
         emptyRouteGroupCount: 0,
         removedDirectRegistrationCallCount: 41,
@@ -80,8 +85,8 @@ describe("managed audit route registration table quality pass", () => {
       catalogIntegrity: {
         ready: true,
         summary: {
-          groupCount: 50,
-          routeCount: 228,
+          groupCount: expectedCatalog.groupCount,
+          routeCount: expectedCatalog.routeCount,
         },
       },
     });
@@ -173,8 +178,8 @@ describe("managed audit route registration table quality pass", () => {
       expect(qualityMarkdown.statusCode).toBe(200);
       expect(qualityMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(qualityMarkdown.body).toContain("# Managed audit route registration table quality pass");
-      expect(qualityMarkdown.body).toContain("routeGroupCount: 50");
-      expect(qualityMarkdown.body).toContain("routeCount: 228");
+      expect(qualityMarkdown.body).toContain(`routeGroupCount: ${expectedCatalog.groupCount}`);
+      expect(qualityMarkdown.body).toContain(`routeCount: ${expectedCatalog.routeCount}`);
       expect(qualityMarkdown.body).toContain("QUALITY_PASS_ONLY");
       expect(storeProfile.statusCode).toBe(200);
       expect(storeProfile.json()).toMatchObject({

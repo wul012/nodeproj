@@ -4,6 +4,9 @@ import {
   type AuditJsonMarkdownRouteCatalogIntegrityResult,
 } from "../routes/auditJsonMarkdownRouteCatalogIntegrity.js";
 import {
+  EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
+} from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
+import {
   countPassedReportChecks,
   countReportChecks,
   renderEntries,
@@ -104,8 +107,6 @@ interface RouteRegistrationTableQualityPassMessage {
   message: string;
 }
 
-const ROUTE_REGISTRATION_TABLE_COUNT = 228;
-const ROUTE_GROUP_COUNT = 50;
 const ENDPOINTS = Object.freeze({
   routeRegistrationTableQualityPassJson: "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
   routeRegistrationTableQualityPassMarkdown:
@@ -147,13 +148,15 @@ export function loadManagedAuditRouteRegistrationTableQualityPass(input: {
     registrationTableAdded: codeShape.registrationTableAdded,
     catalogIntegrityReady: catalogIntegrity.ready,
     routeGroupCatalogAdded: codeShape.routeGroupCatalogAdded,
-    routeGroupCountAligned: codeShape.routeGroupCount === ROUTE_GROUP_COUNT,
+    routeGroupCountAligned:
+      codeShape.routeGroupCount === EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount,
     routeTableMatchesCatalog: catalogIntegrity.checks.routeTableMatchesCatalog,
     uniqueRoutePaths: catalogIntegrity.checks.uniqueRoutePaths,
     noEmptyRouteGroups: catalogIntegrity.checks.noEmptyGroups,
     directRouteRegistrationReduced:
       codeShape.directRegisterAuditJsonMarkdownRouteCallsAfter < codeShape.directRegisterAuditJsonMarkdownRouteCallsBefore,
-    routeCountPreserved: codeShape.registrationTableRouteCount === ROUTE_REGISTRATION_TABLE_COUNT,
+    routeCountPreserved:
+      codeShape.registrationTableRouteCount === EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
     apiPathsPreserved: !refactorScope.apiPathsChanged,
     responseShapePreserved: !refactorScope.responseShapeChanged,
     businessProfilesUnchanged: !refactorScope.businessProfilesChanged,
