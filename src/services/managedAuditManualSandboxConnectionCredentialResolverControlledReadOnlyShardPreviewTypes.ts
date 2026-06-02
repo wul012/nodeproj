@@ -1,0 +1,140 @@
+export type PreviewProject = "advanced-order-platform" | "mini-kv";
+export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
+export type PreviewTransport = "http-json" | "tcp-command";
+export type PreviewMessageSource = "java-shard-preview" | "mini-kv-shard-preview" | "runtime-boundary" | "next-plan";
+
+export interface ControlledReadOnlyShardPreviewObservationPreview {
+  version: string | null;
+  releaseVersion: string | null;
+  shardEnabled: boolean | null;
+  shardCount: number | null;
+  slotCount: number | null;
+  routingMode: string | null;
+  status: string | null;
+  shardMapCount: number | null;
+  keyRoutingSampleCount: number | null;
+}
+
+export interface ControlledReadOnlyShardPreviewObservation {
+  project: PreviewProject;
+  attempted: boolean;
+  status: PreviewStatus;
+  transport: PreviewTransport;
+  endpoint: string;
+  command: string | null;
+  statusCode: number | null;
+  latencyMs: number | null;
+  errorCode: string | null;
+  errorMessage: string | null;
+  evidence: Record<string, unknown> | null;
+  preview: ControlledReadOnlyShardPreviewObservationPreview;
+  requiredFieldCount: number;
+  presentRequiredFieldCount: number;
+  missingRequiredFields: string[];
+  readOnlySafe: boolean;
+  executionBlocked: boolean;
+  shardShapeValid: boolean;
+  statusAccepted: boolean;
+  boundarySafe: boolean;
+  readyForPreview: boolean;
+}
+
+export interface ControlledReadOnlyShardPreviewMessage {
+  code: string;
+  severity: "blocker" | "warning" | "recommendation";
+  source: PreviewMessageSource;
+  message: string;
+}
+
+export interface ControlledReadOnlyShardPreviewChecks {
+  upstreamProbesEnabledForPreview: boolean;
+  upstreamActionsDisabled: boolean;
+  javaPreviewAttempted: boolean;
+  javaPreviewPassed: boolean;
+  javaReadOnlySafe: boolean;
+  javaExecutionBlocked: boolean;
+  miniKvPreviewAttempted: boolean;
+  miniKvPreviewPassed: boolean;
+  miniKvReadOnlySafe: boolean;
+  miniKvExecutionBlocked: boolean;
+  miniKvBoundarySafe: boolean;
+  bothPreviewsReady: boolean;
+  nodeDoesNotStartUpstreams: boolean;
+  nodeDoesNotStopUpstreams: boolean;
+  nodeDoesNotMutateSiblingState: boolean;
+  noActiveShardRouter: boolean;
+  noWriteRouting: boolean;
+  noLoadRestoreCompact: boolean;
+  noManagedAuditConnection: boolean;
+  noCredentialValueRead: boolean;
+  previewDigestStable: boolean;
+  productionWindowStillBlocked: boolean;
+  readyForControlledReadOnlyShardPreview: boolean;
+}
+
+export interface ControlledReadOnlyShardPreviewSummary {
+  checkCount: number;
+  passedCheckCount: number;
+  attemptedReadCount: number;
+  passedReadCount: number;
+  failedReadCount: number;
+  skippedReadCount: number;
+  productionBlockerCount: number;
+  warningCount: number;
+  recommendationCount: number;
+}
+
+export interface ControlledReadOnlyShardPreviewProfile {
+  service: "orderops-node";
+  title: string;
+  generatedAt: string;
+  profileVersion: "managed-audit-manual-sandbox-connection-credential-resolver-controlled-read-only-shard-preview.v1";
+  previewState: "controlled-read-only-shard-preview-ready" | "blocked";
+  previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
+  readyForControlledReadOnlyShardPreview: boolean;
+  activeNodeVersion: "Node v581";
+  sourceNodeVersion: "Node v580";
+  consumesNodeV580MaturityRunCloseout: true;
+  previewOnly: true;
+  liveReadOnly: true;
+  executionAllowed: false;
+  startsJavaService: false;
+  startsMiniKvService: false;
+  stopsJavaService: false;
+  stopsMiniKvService: false;
+  mutatesJavaState: false;
+  mutatesMiniKvState: false;
+  activeShardRouterAllowed: false;
+  writeRoutingAllowed: false;
+  loadRestoreCompactAllowed: false;
+  connectsManagedAudit: false;
+  credentialValueRead: false;
+  rawEndpointUrlParsed: false;
+  reads: {
+    java: ControlledReadOnlyShardPreviewObservation;
+    miniKv: ControlledReadOnlyShardPreviewObservation;
+  };
+  preview: {
+    java: ControlledReadOnlyShardPreviewObservationPreview;
+    miniKv: ControlledReadOnlyShardPreviewObservationPreview;
+    combinedSlotCount: number | null;
+    combinedShardCount: number | null;
+    bothReadOnly: boolean;
+    bothExecutionBlocked: boolean;
+    previewDigest: string;
+  };
+  checks: ControlledReadOnlyShardPreviewChecks;
+  summary: ControlledReadOnlyShardPreviewSummary;
+  productionBlockers: ControlledReadOnlyShardPreviewMessage[];
+  warnings: ControlledReadOnlyShardPreviewMessage[];
+  recommendations: ControlledReadOnlyShardPreviewMessage[];
+  evidenceEndpoints: {
+    controlledReadOnlyShardPreviewJson: string;
+    controlledReadOnlyShardPreviewMarkdown: string;
+    javaShardReadinessEndpoint: string;
+    miniKvShardJsonCommand: "SHARDJSON";
+    sourceNodeV580ArchiveIndex: "e/README.md";
+    nextNodeVersion: "Node v582";
+  };
+  nextActions: string[];
+}

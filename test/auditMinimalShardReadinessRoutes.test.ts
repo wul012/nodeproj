@@ -6,7 +6,7 @@ import { minimalShardReadinessAuditJsonMarkdownRoutes } from "../src/routes/audi
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 const LATEST_MINIMAL_SHARD_READINESS_ROUTE =
-  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate-archive-verification";
+  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-controlled-read-only-shard-preview";
 
 describe("minimal shard readiness audit route group", () => {
   it("keeps contract, live-read, compatibility, and regular-gate routes registered through the shared route table", async () => {
@@ -24,7 +24,7 @@ describe("minimal shard readiness audit route group", () => {
         headers: completeHeaders(),
       });
 
-      expect(paths).toHaveLength(6);
+      expect(paths).toHaveLength(7);
       expect(paths[0]).toBe(
         "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-shard-readiness-contract-consumer-gate",
       );
@@ -34,19 +34,20 @@ describe("minimal shard readiness audit route group", () => {
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        activeNodeVersion: "Node v375",
-        sourceNodeVersion: "Node v374",
-        archiveVerificationOnly: true,
-        rerunsLiveRead: false,
+        activeNodeVersion: "Node v581",
+        sourceNodeVersion: "Node v580",
+        previewOnly: true,
         startsJavaService: false,
         startsMiniKvService: false,
         stopsJavaService: false,
         stopsMiniKvService: false,
+        activeShardRouterAllowed: false,
+        writeRoutingAllowed: false,
         executionAllowed: false,
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
-      expect(markdown.body).toContain("minimal shard readiness regular gate archive verification");
+      expect(markdown.body).toContain("controlled read-only shard preview");
       expect(markdown.body).toContain("Starts Java service: false");
     } finally {
       await app.close();

@@ -3,6 +3,11 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerificationMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification.js";
 import {
+  CONTROLLED_READ_ONLY_SHARD_PREVIEW_ROUTE,
+  loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview,
+  renderManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewMarkdown,
+} from "../services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview.js";
+import {
   loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate,
   renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateMarkdown,
 } from "../services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGate.js";
@@ -53,4 +58,10 @@ export const minimalShardReadinessAuditJsonMarkdownRoutes: readonly AuditJsonMar
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-minimal-shard-readiness-regular-gate-archive-verification", (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerification({
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerificationMarkdown),
+
+  auditJsonMarkdownRoute(CONTROLLED_READ_ONLY_SHARD_PREVIEW_ROUTE, (deps) => loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview({
+    config: deps.config,
+    orderPlatform: deps.orderPlatform,
+    miniKv: deps.miniKv,
+  }), renderManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewMarkdown),
 ];
