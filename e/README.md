@@ -221,6 +221,7 @@
 581: Controlled read-only Java/mini-kv shard preview
 582: Promotion decision test suite split
 583: Promotion release/deployment test suite split
+584: Promotion handoff test suite split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
