@@ -5,8 +5,11 @@ import {
   JAVA_V222_CONSUMER_EVIDENCE_DIGEST_HISTORICAL_COMPATIBILITY,
   JAVA_V223_CONSUMER_EVIDENCE_DIGEST_INTEGRITY,
   JAVA_V224_CONSUMER_READINESS_COMPLETION,
-  MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE,
 } from "./javaMiniKvRouteCatalogCleanupConsumerReadinessEvidencePaths.js";
+import {
+  createConsumerReadinessEvidenceFiles,
+  createMiniKvLatestAuditNoteSnippets,
+} from "./javaMiniKvRouteCatalogCleanupConsumerReadinessFileBuilders.js";
 import {
   MINI_KV_EXPECTED_DIGESTS,
   MINI_KV_POST_CLOSEOUT_RELEASES,
@@ -14,15 +17,12 @@ import {
 } from "./javaMiniKvRouteCatalogCleanupConsumerReadinessMiniKvSupport.js";
 import {
   booleanField,
-  evidenceFile,
   numberField,
   objectField,
   readJsonObject,
-  snippet,
   snippetMatched,
   stringArrayField,
   stringField,
-  type HistoricalEvidenceFile,
 } from "./historicalEvidenceReportUtils.js";
 import type {
   JavaConsumerEvidenceDigest,
@@ -45,47 +45,8 @@ export type {
 
 export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence():
   JavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence {
-  const miniKvFiles = Object.fromEntries(MINI_KV_POST_CLOSEOUT_RELEASES.map((version) => [
-    `miniKvv${version}PostCloseoutContinuity`,
-    evidenceFile(
-      `mini-kv-v${version}-post-closeout-continuity`,
-      `D:/C/mini-kv/fixtures/release/shard-readiness-v${version}.json`,
-    ),
-  ])) as Record<`miniKv${MiniKvPostCloseoutReleaseVersion}PostCloseoutContinuity`, HistoricalEvidenceFile>;
-  const files = {
-    javaV220ConsumerEvidenceDigest:
-      evidenceFile("java-v220-consumer-evidence-digest", JAVA_V220_CONSUMER_EVIDENCE_DIGEST),
-    javaV220ConsumerEvidenceDigestFixture:
-      evidenceFile("java-v220-consumer-evidence-digest-fixture", JAVA_V220_CONSUMER_EVIDENCE_DIGEST_FIXTURE),
-    javaV221ConsumerEvidenceDigestSnapshotFreeze:
-      evidenceFile("java-v221-consumer-evidence-digest-snapshot-freeze",
-        JAVA_V221_CONSUMER_EVIDENCE_DIGEST_SNAPSHOT_FREEZE),
-    javaV222ConsumerEvidenceDigestHistoricalCompatibility:
-      evidenceFile("java-v222-consumer-evidence-digest-historical-compatibility",
-        JAVA_V222_CONSUMER_EVIDENCE_DIGEST_HISTORICAL_COMPATIBILITY),
-    javaV223ConsumerEvidenceDigestIntegrity:
-      evidenceFile("java-v223-consumer-evidence-digest-integrity", JAVA_V223_CONSUMER_EVIDENCE_DIGEST_INTEGRITY),
-    javaV224ConsumerReadinessCompletion:
-      evidenceFile("java-v224-consumer-readiness-completion", JAVA_V224_CONSUMER_READINESS_COMPLETION),
-    miniKvV210RouteCatalogCleanupPostCloseoutAuditNote:
-      evidenceFile("mini-kv-v210-route-catalog-cleanup-post-closeout-audit-note",
-        MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE),
-    ...miniKvFiles,
-  };
-  const snippets = {
-    miniKvV210RollingFixture:
-      snippet("mini-kv-v210-rolling-fixture", MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE,
-        "rolling fixture is v210"),
-    miniKvV210FallbackV209:
-      snippet("mini-kv-v210-fallback-v209", MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE,
-        "fallback `v209`"),
-    miniKvV210AllTestsPassed:
-      snippet("mini-kv-v210-all-tests-passed", MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE,
-        "all 71 tests passed"),
-    miniKvV210TcpSmoke:
-      snippet("mini-kv-v210-tcp-smoke", MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE,
-        "TCP smoke returned v210"),
-  };
+  const files = createConsumerReadinessEvidenceFiles();
+  const snippets = createMiniKvLatestAuditNoteSnippets();
   const javaV220ConsumerEvidenceDigest =
     createJavaConsumerEvidenceDigest(readJsonObject(JAVA_V220_CONSUMER_EVIDENCE_DIGEST));
   const javaV220ConsumerEvidenceDigestFixture =
