@@ -1,0 +1,70 @@
+{
+  "version": "v534",
+  "title": "Java / mini-kv route catalog cleanup CI/catalog health closeout route archive",
+  "generatedAt": "2026-06-02T03:24:16.294Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "closeoutState": "ready",
+  "checkCount": 10,
+  "passedCheckCount": 10,
+  "activeNodeVersion": "Node v532",
+  "sourceNodeVersion": "Node v531",
+  "plannedSegment": [
+    "v532",
+    "v533",
+    "v534",
+    "v535",
+    "v536"
+  ],
+  "closedGate": {
+    "versionSpan": "v527-v531",
+    "publicVerifierRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-archive-verification",
+    "archiveVerifierReady": true,
+    "archiveVerifierCheckCount": 16,
+    "archiveVerifierPassedCheckCount": 16
+  },
+  "routeQuality": {
+    "ready": true,
+    "routeRegistrationCount": 221,
+    "routeGroupCount": 50,
+    "catalogIntegrityReady": true,
+    "routeTableMatchesCatalog": true
+  },
+  "ciObservation": {
+    "checkedBeforeVersion": "Node v532",
+    "lastKnownSuccessfulVersion": "Node v525",
+    "latestObservedVersions": [
+      "Node v530",
+      "Node v531"
+    ],
+    "conclusion": "no-new-failure-observed"
+  },
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 221,
+    "javaMiniKvDomainRouteCount": 57,
+    "cleanupHandoffRouteGroupRouteCount": 23
+  },
+  "files": {
+    "json": {
+      "path": "e/534/evidence/java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-v533-http.json",
+      "sizeBytes": 2634,
+      "sha256": "e43dcf169042550ffb8b59cf526dfec663e697cb969dabcdf5ecbaf0ca24f78a"
+    },
+    "markdown": {
+      "path": "e/534/evidence/java-mini-kv-route-catalog-cleanup-ci-catalog-health-closeout-v533-http.md",
+      "sizeBytes": 2043,
+      "sha256": "060a7789faf01670882374fabe5e2e0d98e8238c148e0cb0464d858e929b75f5"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}
