@@ -201,6 +201,7 @@
 561: Latest sibling live smoke route archive verifier current catalog count helper split
 562: Latest sibling live smoke route archive verifier support helper coverage
 563: Java/mini-kv consumer readiness mini-kv support constant split
+564: Java/mini-kv consumer readiness evidence path support split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
