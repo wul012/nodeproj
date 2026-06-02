@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v542-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification-roadmap.md
+docs/plans3/v543-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification-route-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v543 已完成 Java / mini-kv route catalog cleanup latest sibling evidence archive verification route。
+docs/plans3/v543-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification-route-roadmap.md
 Node v542 已完成 Java / mini-kv route catalog cleanup latest sibling evidence archive verification。
 docs/plans3/v542-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification-roadmap.md
 Node v541 已完成 Java / mini-kv route catalog cleanup latest sibling evidence report archive。
@@ -623,6 +625,11 @@ Node v542 已完成 Java / mini-kv route catalog cleanup latest sibling evidence
 目标是验证 v541 JSON/Markdown/archive summary 的 SHA-256、ready=true、Java v274、mini-kv v247、route catalog 224/60/26 与 runtime boundary。
 v542 新增 verifier service、renderer 和 focused test；不新增 route，不启动 Java/mini-kv。
 v543 应公开该 verifier route 并更新 route catalog count。
+
+Node v543 已完成 Java / mini-kv route catalog cleanup latest sibling evidence archive verification route。
+目标是公开 v542 verifier 为 JSON/Markdown route，作为后续 closeout 或 live-smoke preflight 的稳定证据 gate。
+v543 route catalog count 更新为 225，Java/mini-kv domain route count 更新为 61，cleanup handoff route group 更新为 27。
+v543 不启动 Java/mini-kv；下一步如做 live smoke，必须先写明 owner、ports、startup、cleanup 和 fail-closed 规则。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
