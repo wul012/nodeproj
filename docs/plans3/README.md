@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v507-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-intake-roadmap.md
+docs/plans3/v508-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-report-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v508 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence report route。
+docs/plans3/v508-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-report-roadmap.md
 Node v507 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence intake。
 docs/plans3/v507-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-intake-roadmap.md
 Node v506 已完成 audit route catalog CI count alignment。
@@ -378,6 +380,11 @@ Node v507 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence
 目标是消费 Java v232-v239 与 mini-kv v213-v220 clean evidence，并把 mini-kv v220 rolling fixture 冻结为 Node historical fixture。
 v507 focused evidence tests 覆盖 normal path 和 forced historical fallback；结果 16/16 files、9/9 checks。
 v507 不新增 route，不启动 sibling 服务，不开启 runtime execution；v508 可以生成 report route。
+
+Node v508 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence report route。
+目标是把 v507 intake 暴露为 JSON/Markdown audit route，便于 v509 归档。
+v508 route catalog count 更新为 212，Java/mini-kv domain route count 更新为 48，cleanup handoff route group 更新为 14。
+Java / mini-kv 推荐并行，Node 不需要新的上游证据或运行时授权。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

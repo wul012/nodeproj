@@ -1,0 +1,70 @@
+import {
+  renderEntries,
+  renderList,
+} from "./liveProbeReportUtils.js";
+import type {
+  JavaMiniKvRouteCatalogCleanupFreshBaselineEvidenceReport,
+} from "./javaMiniKvRouteCatalogCleanupFreshBaselineEvidenceReport.js";
+
+export function renderJavaMiniKvRouteCatalogCleanupFreshBaselineEvidenceReportMarkdown(
+  report: JavaMiniKvRouteCatalogCleanupFreshBaselineEvidenceReport,
+): string {
+  return [
+    "# Java / mini-kv route catalog cleanup fresh baseline evidence report",
+    "",
+    `- Service: ${report.service}`,
+    `- Generated at: ${report.generatedAt}`,
+    `- Profile version: ${report.profileVersion}`,
+    `- Report state: ${report.reportState}`,
+    `- Ready: ${report.readyForRouteCatalogCleanupFreshBaselineEvidenceReport}`,
+    `- Active Node version: ${report.activeNodeVersion}`,
+    `- Source Node version: ${report.sourceNodeVersion}`,
+    `- Execution allowed: ${report.executionAllowed}`,
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(report.summary),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(report.checks),
+    "",
+    "## Java v232-v239 Readiness Handoff Receipts",
+    "",
+    ...report.evidence.javaReceipts.flatMap((receipt) => [
+      `- ${receipt.version}: ${receipt.scope}`,
+      `  - status: ${receipt.status}`,
+      `  - guardCount: ${receipt.guardCount}`,
+      `  - validationCount: ${receipt.validationCount}`,
+      `  - boundaryRuntimeClosed: ${receipt.boundaryRuntimeClosed}`,
+    ]),
+    "",
+    "## mini-kv v213-v220 Post-Closeout Continuity",
+    "",
+    ...report.evidence.miniKvReleases.flatMap((release) => [
+      `- ${release.releaseVersion}: ${release.status}`,
+      `  - previousConsumedReleaseVersion: ${release.previousConsumedReleaseVersion}`,
+      `  - sourceFrozenReleaseVersion: ${release.sourceFrozenReleaseVersion}`,
+      `  - stageSequence: ${release.stageSequence}`,
+      `  - historicalFixtureCount: ${release.historicalFixtureCount}`,
+      `  - evidenceDigest: ${release.evidenceDigest}`,
+    ]),
+    "",
+    "## Evidence Files",
+    "",
+    ...Object.values(report.evidence.files).flatMap((file) => [
+      `- ${file.id}: ${file.exists ? "present" : "missing"}`,
+      `  - Resolved path: ${file.resolvedPath}`,
+      `  - SHA-256: ${file.digest ?? "missing"}`,
+    ]),
+    "",
+    "## Evidence Endpoints",
+    "",
+    ...renderEntries(report.evidenceEndpoints),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(report.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
