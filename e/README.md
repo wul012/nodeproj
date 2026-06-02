@@ -203,6 +203,7 @@
 563: Java/mini-kv consumer readiness mini-kv support constant split
 564: Java/mini-kv consumer readiness evidence path support split
 565: Java/mini-kv consumer readiness support constant coverage
+566: Java/mini-kv consumer readiness type ownership split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
