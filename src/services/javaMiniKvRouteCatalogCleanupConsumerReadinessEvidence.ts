@@ -1,4 +1,9 @@
 import {
+  MINI_KV_EXPECTED_DIGESTS,
+  MINI_KV_POST_CLOSEOUT_RELEASES,
+  type MiniKvPostCloseoutReleaseVersion,
+} from "./javaMiniKvRouteCatalogCleanupConsumerReadinessMiniKvSupport.js";
+import {
   booleanField,
   evidenceFile,
   numberField,
@@ -27,28 +32,6 @@ export const JAVA_V224_CONSUMER_READINESS_COMPLETION =
   "D:/javaproj/advanced-order-platform/e/224/evidence/java-shard-readiness-v1-contract-consumer-readiness-completion-v224.json";
 export const MINI_KV_V210_ROUTE_CATALOG_CLEANUP_POST_CLOSEOUT_AUDIT_NOTE =
   "D:/C/mini-kv/e/210/解释/说明.md";
-
-const MINI_KV_RELEASES = [202, 203, 204, 205, 206, 207, 208, 209] as const;
-const MINI_KV_EXPECTED_DIGESTS: Record<MiniKvPostCloseoutReleaseVersion, string> = {
-  v202: "fnv1a64:cd0c634b2fc44eff",
-  v203: "fnv1a64:bed1ac036b8f548e",
-  v204: "fnv1a64:670b62f7c203b814",
-  v205: "fnv1a64:c00dd62f28564fed",
-  v206: "fnv1a64:1e5f3dc941b1a90e",
-  v207: "fnv1a64:16dd9ba05e5b3fe4",
-  v208: "fnv1a64:ef5973d3894665a6",
-  v209: "fnv1a64:6c283479e8bb1988",
-};
-
-type MiniKvPostCloseoutReleaseVersion =
-  | "v202"
-  | "v203"
-  | "v204"
-  | "v205"
-  | "v206"
-  | "v207"
-  | "v208"
-  | "v209";
 
 export interface JavaConsumerEvidenceDigest {
   version: string | null;
@@ -202,7 +185,7 @@ export interface JavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence {
 
 export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence():
   JavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence {
-  const miniKvFiles = Object.fromEntries(MINI_KV_RELEASES.map((version) => [
+  const miniKvFiles = Object.fromEntries(MINI_KV_POST_CLOSEOUT_RELEASES.map((version) => [
     `miniKvv${version}PostCloseoutContinuity`,
     evidenceFile(
       `mini-kv-v${version}-post-closeout-continuity`,
@@ -255,7 +238,7 @@ export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidence():
     createJavaConsumerReadinessGuard(readJsonObject(JAVA_V223_CONSUMER_EVIDENCE_DIGEST_INTEGRITY));
   const javaV224ConsumerReadinessCompletion =
     createJavaConsumerReadinessGuard(readJsonObject(JAVA_V224_CONSUMER_READINESS_COMPLETION));
-  const miniKvPostCloseoutReleases = MINI_KV_RELEASES.map((version) =>
+  const miniKvPostCloseoutReleases = MINI_KV_POST_CLOSEOUT_RELEASES.map((version) =>
     createMiniKvPostCloseoutRelease(readJsonObject(`D:/C/mini-kv/fixtures/release/shard-readiness-v${version}.json`)));
   const miniKvLatestAuditNote = createMiniKvLatestAuditNote(files, snippets);
   const checks = createChecks({
@@ -482,10 +465,10 @@ function createChecks(input: {
     javaV224CompletionReady:
       javaGuardReady(javaV224, "Java v224", "v1 contract consumer readiness completion", 5),
     miniKvVersionedReleaseFilesPresent:
-      MINI_KV_RELEASES.every((version) =>
+      MINI_KV_POST_CLOSEOUT_RELEASES.every((version) =>
         input.files[`miniKvv${version}PostCloseoutContinuity` as const].exists),
     miniKvPostCloseoutReleaseChainReady:
-      miniKvReleases.length === MINI_KV_RELEASES.length
+      miniKvReleases.length === MINI_KV_POST_CLOSEOUT_RELEASES.length
       && miniKvReleases.every((release) =>
         release.status === "node-route-catalog-cleanup-post-closeout-continuity-read-only"
         && release.readOnly === true
@@ -542,8 +525,8 @@ function javaGuardReady(
 
 function miniKvReleaseChainSequential(releases: MiniKvPostCloseoutReleaseEvidence[]): boolean {
   return releases.every((release, index) => {
-    const version = `v${MINI_KV_RELEASES[index]}`;
-    const previousVersion = index === 0 ? "v201" : `v${MINI_KV_RELEASES[index - 1]}`;
+    const version = `v${MINI_KV_POST_CLOSEOUT_RELEASES[index]}`;
+    const previousVersion = index === 0 ? "v201" : `v${MINI_KV_POST_CLOSEOUT_RELEASES[index - 1]}`;
     return release.releaseVersion === version
       && release.previousConsumedReleaseVersion === previousVersion
       && release.sourceFrozenReleaseVersion === previousVersion
