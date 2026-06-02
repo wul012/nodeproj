@@ -1,3 +1,9 @@
+import {
+  javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
+} from "../routes/auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.js";
+import {
+  EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
+} from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
 import type {
   LatestSiblingLiveSmokeArchiveFileReference,
 } from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationSupport.js";
@@ -39,4 +45,13 @@ export function routeCatalogCountsCover(
   return current.routeCount >= archived.routeCount
     && current.javaMiniKvDomainRouteCount >= archived.javaMiniKvDomainRouteCount
     && current.cleanupHandoffRouteGroupRouteCount >= archived.cleanupHandoffRouteGroupRouteCount;
+}
+
+export function currentLatestSiblingLiveSmokeRouteCatalogCounts(): LatestSiblingLiveSmokeRouteCatalogCounts {
+  return {
+    routeCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
+    javaMiniKvDomainRouteCount:
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"],
+    cleanupHandoffRouteGroupRouteCount: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length,
+  };
 }
