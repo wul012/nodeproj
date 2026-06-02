@@ -1,8 +1,17 @@
-import { createHash } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
-import path from "node:path";
-
 import type { AppConfig } from "../config.js";
+import {
+  CONSUMER_READINESS_BATCH_CLOSEOUT_REQUIRED_ARTIFACTS as REQUIRED_ARTIFACTS,
+} from "./javaMiniKvRouteCatalogCleanupConsumerReadinessBatchCloseoutArtifacts.js";
+import {
+  fileReference,
+  numberValue,
+  objectField,
+  readJsonFile,
+  readTextFile,
+  stringValue,
+  valueAt,
+  type BatchCloseoutFileReference,
+} from "./javaMiniKvRouteCatalogCleanupConsumerReadinessBatchCloseoutFileSupport.js";
 import { countPassedReportChecks, countReportChecks } from "./liveProbeReportUtils.js";
 
 export {
@@ -12,19 +21,7 @@ export {
 export const JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_CONSUMER_READINESS_EVIDENCE_ARCHIVE_VERIFICATION_ROUTE_PATH =
   "/api/v1/audit/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-archive-verification";
 
-const ARCHIVE_JSON =
-  "e/493/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-v492-http.json";
-const ARCHIVE_MARKDOWN =
-  "e/493/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-v492-http.md";
-const ARCHIVE_SUMMARY =
-  "e/493/evidence/java-mini-kv-route-catalog-cleanup-consumer-readiness-evidence-report-v493-archive-summary.json";
-
-export interface ConsumerReadinessArchiveFileReference {
-  path: string;
-  exists: boolean;
-  sizeBytes: number;
-  sha256: string | null;
-}
+export type ConsumerReadinessArchiveFileReference = BatchCloseoutFileReference;
 
 export interface JavaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceArchiveVerificationProfile {
   service: "orderops-node";
@@ -94,13 +91,13 @@ export function loadJavaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceArchiv
   void input.config;
   const projectRoot = input.projectRoot ?? process.cwd();
   const archiveFiles = {
-    json: fileReference(projectRoot, ARCHIVE_JSON),
-    markdown: fileReference(projectRoot, ARCHIVE_MARKDOWN),
-    summary: fileReference(projectRoot, ARCHIVE_SUMMARY),
+    json: fileReference(projectRoot, REQUIRED_ARTIFACTS.v493ArchiveJson),
+    markdown: fileReference(projectRoot, REQUIRED_ARTIFACTS.v493ArchiveMarkdown),
+    summary: fileReference(projectRoot, REQUIRED_ARTIFACTS.v493ArchiveSummary),
   };
-  const json = readJsonFile(projectRoot, ARCHIVE_JSON);
-  const markdown = readTextFile(projectRoot, ARCHIVE_MARKDOWN);
-  const summaryJson = readJsonFile(projectRoot, ARCHIVE_SUMMARY);
+  const json = readJsonFile(projectRoot, REQUIRED_ARTIFACTS.v493ArchiveJson);
+  const markdown = readTextFile(projectRoot, REQUIRED_ARTIFACTS.v493ArchiveMarkdown);
+  const summaryJson = readJsonFile(projectRoot, REQUIRED_ARTIFACTS.v493ArchiveSummary);
   const sourceReport = createSourceReport(json);
   const checks = createChecks({
     archiveFiles,
@@ -227,67 +224,4 @@ function createChecks(input: {
       && valueAt(input.json, "startsMiniKvService") === false,
     readyForRouteCatalogCleanupConsumerReadinessEvidenceArchiveVerification: false,
   };
-}
-
-function fileReference(projectRoot: string, relativePath: string): ConsumerReadinessArchiveFileReference {
-  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
-  if (!existsSync(absolutePath)) {
-    return { path: relativePath, exists: false, sizeBytes: 0, sha256: null };
-  }
-  const content = readFileSync(absolutePath);
-  return {
-    path: relativePath,
-    exists: true,
-    sizeBytes: statSync(absolutePath).size,
-    sha256: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function readJsonFile(projectRoot: string, relativePath: string): Record<string, unknown> | null {
-  const text = readTextFile(projectRoot, relativePath);
-  if (text.length === 0) {
-    return null;
-  }
-  try {
-    const parsed = JSON.parse(text) as unknown;
-    return parsed !== null && typeof parsed === "object" && !Array.isArray(parsed)
-      ? parsed as Record<string, unknown>
-      : null;
-  } catch {
-    return null;
-  }
-}
-
-function readTextFile(projectRoot: string, relativePath: string): string {
-  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
-  if (!existsSync(absolutePath)) {
-    return "";
-  }
-  return readFileSync(absolutePath, "utf8");
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function objectField(source: Record<string, unknown> | null, key: string): Record<string, unknown> {
-  const value = source?.[key];
-  return value !== null && typeof value === "object" && !Array.isArray(value)
-    ? value as Record<string, unknown>
-    : {};
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
 }

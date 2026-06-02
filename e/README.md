@@ -210,6 +210,7 @@
 570: Java/mini-kv consumer readiness batch closeout artifact manifest coverage
 571: Java/mini-kv consumer readiness batch closeout file support split
 572: Java/mini-kv consumer readiness batch closeout file support coverage
+573: Java/mini-kv consumer readiness archive verifier support reuse
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
