@@ -1,0 +1,12 @@
+﻿{
+    "ready":  true,
+    "smokeState":  "ready",
+    "checkCount":  14,
+    "passedCheckCount":  14,
+    "recordCount":  9,
+    "passedRecordCount":  9,
+    "failedRecordCount":  0,
+    "cleanupPassed":  true,
+    "afterListeningSocketCount":  0,
+    "failure":  null
+}

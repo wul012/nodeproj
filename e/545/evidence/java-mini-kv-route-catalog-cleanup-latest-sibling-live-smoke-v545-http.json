@@ -1,0 +1,393 @@
+﻿{
+    "service":  "orderops-node",
+    "title":  "Java / mini-kv route catalog cleanup latest sibling live smoke",
+    "generatedAt":  "2026-06-02T07:58:33.8352104Z",
+    "profileVersion":  "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke.v1",
+    "activeNodeVersion":  "Node v545",
+    "sourceNodeVersion":  "Node v544",
+    "smokeState":  "ready",
+    "readyForRouteCatalogCleanupLatestSiblingLiveSmoke":  true,
+    "readyForProductionAudit":  false,
+    "readyForProductionWindow":  false,
+    "readyForProductionOperations":  false,
+    "startsJavaService":  true,
+    "startsMiniKvService":  true,
+    "mutatesJavaState":  false,
+    "mutatesMiniKvState":  false,
+    "connectsManagedAudit":  false,
+    "credentialValueRead":  false,
+    "rawEndpointUrlParsed":  false,
+    "executionAllowed":  false,
+    "liveSmokeWindow":  {
+                            "nodeBaseUrl":  "http://127.0.0.1:4190",
+                            "javaBaseUrl":  "http://127.0.0.1:8080",
+                            "miniKvTarget":  "127.0.0.1:6524",
+                            "sourcePreflight":  "Node v544",
+                            "operatorAuthorization":  "user-granted-cross-project-local-start-permission",
+                            "mingwRuntimePathAddedForMiniKv":  true,
+                            "localHttpProxyBypass":  "--noproxy *"
+                        },
+    "startedProcesses":  [
+                             {
+                                 "project":  "mini-kv",
+                                 "pid":  31024,
+                                 "command":  ".\\cmake-build-debug\\minikv_server.exe 6524 127.0.0.1",
+                                 "port":  6524
+                             },
+                             {
+                                 "project":  "java-maven",
+                                 "pid":  36292,
+                                 "command":  "mvn spring-boot:run -Dspring-boot.run.profiles=local",
+                                 "port":  8080
+                             },
+                             {
+                                 "project":  "java-runtime",
+                                 "pid":  25988,
+                                 "command":  "spring-boot runtime listening owner from startup log",
+                                 "port":  8080
+                             },
+                             {
+                                 "project":  "node",
+                                 "pid":  33836,
+                                 "command":  "node dist/server.js with v545 safe loopback env",
+                                 "port":  4190
+                             }
+                         ],
+    "records":  [
+                    {
+                        "id":  "node-health",
+                        "project":  "node",
+                        "protocol":  "http",
+                        "methodOrCommand":  "GET",
+                        "target":  "http://127.0.0.1:4190/health",
+                        "status":  "pass",
+                        "statusCode":  200,
+                        "curlError":  "",
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "proxyBypassUsed":  true,
+                        "evidenceDigest":  "af6acc03e89ac9a8fce9eadae4db15980ac35d53f66a18e07e379296ef174a0f",
+                        "evidencePreview":  "{\"service\":\"orderops-node\",\"status\":\"ok\",\"uptimeSeconds\":2,\"pid\":33836,\"version\":\"v22.20.0\"}",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "expected":  "HTTP 200 health",
+                                          "bodyHasStatusSignal":  true
+                                      }
+                    },
+                    {
+                        "id":  "node-latest-sibling-archive-verifier-json",
+                        "project":  "node",
+                        "protocol":  "http",
+                        "methodOrCommand":  "GET",
+                        "target":  "http://127.0.0.1:4190/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification",
+                        "status":  "pass",
+                        "statusCode":  200,
+                        "curlError":  "",
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "proxyBypassUsed":  true,
+                        "evidenceDigest":  "34c25535a74b9b9194c9f350cf374057ea74372c9dd45b6fb60f2cdca961844e",
+                        "evidencePreview":  "{\"service\":\"orderops-node\",\"title\":\"Java / mini-kv route catalog cleanup latest sibling evidence archive verification\",\"generatedAt\":\"2026-06-02T07:58:29.886Z\",\"profileVersion\":\"java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification.v1\",\"activeNodeVersion\":\"Node v542\",\"sourceNodeVersion\":\"Node v541\",\"archiveVerificationState\":\"ready\",\"readyForRouteCatalogCleanupLatestSiblingEvidenceArchiveVerification\":true,\"readyForProductionAudit\":false,\"readyForProductionWindow\":false,\"readyForProductionOperations\":false,\"archiveVerificationOnly\":true,\"startsJavaService\":false,\"startsMiniKvService\":false,\"mutatesJavaState\":false,\"mutatesMiniKvState\":false,\"connectsManagedAudit\":fa...",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "profileVersion":  "java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification.v1",
+                                          "ready":  true,
+                                          "checkCount":  17,
+                                          "passedCheckCount":  17
+                                      }
+                    },
+                    {
+                        "id":  "node-latest-sibling-archive-verifier-markdown",
+                        "project":  "node",
+                        "protocol":  "http",
+                        "methodOrCommand":  "GET",
+                        "target":  "http://127.0.0.1:4190/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification?format=markdown",
+                        "status":  "pass",
+                        "statusCode":  200,
+                        "curlError":  "",
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "proxyBypassUsed":  true,
+                        "evidenceDigest":  "a81ea30ccad03b0f33c9357bbfb3570bfb794fb3484464f1eabefab4df895517",
+                        "evidencePreview":  "# Java / mini-kv route catalog cleanup latest sibling evidence archive verification\n\n- Service: orderops-node\n- Generated at: 2026-06-02T07:58:29.960Z\n- Profile version: java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification.v1\n- Archive verification state: ready\n- Ready: true\n- Active Node version: Node v542\n- Source Node version: Node v541\n- Execution allowed: false\n\n## Source Report\n\n- profileVersion: java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-report.v1\n- activeNodeVersion: Node v540\n- sourceNodeVersion: Node v538\n- ciStabilizationVersion: Node v539\n- ready: true\n- reportState: ready\n- checkCount: 13\n- passedCheckCount: 13\n- javaLatestCleanVersion:...",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "expected":  "Markdown renders latest sibling archive verifier"
+                                      }
+                    },
+                    {
+                        "id":  "java-health",
+                        "project":  "java",
+                        "protocol":  "http",
+                        "methodOrCommand":  "GET",
+                        "target":  "http://127.0.0.1:8080/actuator/health",
+                        "status":  "pass",
+                        "statusCode":  200,
+                        "curlError":  "",
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "proxyBypassUsed":  true,
+                        "evidenceDigest":  "b9613659d8f4412c778e34293d5b865fb188c5814379ee3bfb8c819432e70020",
+                        "evidencePreview":  "{\"status\":\"UP\",\"groups\":[\"liveness\",\"readiness\"]}",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "status":  "UP",
+                                          "groups":  [
+                                                         "liveness",
+                                                         "readiness"
+                                                     ]
+                                      }
+                    },
+                    {
+                        "id":  "java-ops-evidence",
+                        "project":  "java",
+                        "protocol":  "http",
+                        "methodOrCommand":  "GET",
+                        "target":  "http://127.0.0.1:8080/api/v1/ops/evidence",
+                        "status":  "pass",
+                        "statusCode":  200,
+                        "curlError":  "",
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "proxyBypassUsed":  true,
+                        "evidenceDigest":  "465bdcf3161abc9840c878bb872415577eec7e717599122e9479f4ed5ce5a2ed",
+                        "evidencePreview":  "{\"sampledAt\":\"2026-06-02T07:58:30.033601300Z\",\"evidenceVersion\":\"java-ops-evidence.v1\",\"service\":{\"name\":\"advanced-order-platform\",\"version\":\"0.1.0-SNAPSHOT\",\"profiles\":[\"local\"],\"startedAt\":\"2026-06-02T07:58:26.856970900Z\",\"uptimeSeconds\":3},\"healthProbe\":{\"endpoint\":\"/actuator/health\",\"method\":\"GET\",\"expectedStatus\":\"UP\",\"evidenceEndpoint\":\"/api/v1/ops/evidence\",\"additionalProbeEndpoints\":[\"/api/v1/ops/overview\",\"/api/v1/ops/shard-readiness\",\"/api/v1/ops/shard-readiness/hardening\",\"/api/v1/ops/shard-readiness/echo\",\"/api/v1/ops/shard-readiness/v1-contract-alignment\",\"/api/v1/ops/shard-readiness/v1-contract-alignment-handoff\",\"/api/v1/ops/shard-readiness/v1-contract-evidence-packet\",\"/api/v...",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "evidenceVersion":  "java-ops-evidence.v1",
+                                          "readOnly":  true,
+                                          "executionAllowed":  false,
+                                          "readyForReadOnlyLiveProbe":  true,
+                                          "endpointCount":  94
+                                      }
+                    },
+                    {
+                        "id":  "mini-kv-health",
+                        "project":  "mini-kv",
+                        "protocol":  "tcp-inline",
+                        "methodOrCommand":  "HEALTH",
+                        "target":  "127.0.0.1:6524",
+                        "status":  "pass",
+                        "exitCode":  0,
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "evidenceDigest":  "b9c5cd332d93c175f3b1702a5a34e0caa67eff3e74cc7b56ab8345f0a11d3e66",
+                        "evidencePreview":  "connected to mini-kv at 127.0.0.1:6524\nsocket timeout: 5000 ms\nconnect retries: 10, retry delay: 100 ms\nmini-kv@127.0.0.1:6524\u003e OK live_keys=0 wal_enabled=no compact_recommended=na total_commands=2 successful_commands=2 error_commands=0 total_latency_ns=56700 avg_latency_ns=28350 max_latency_ns=54900 command_breakdown=HEALTH:1/1/0/54900/54900/54900;QUIT:1/1/0/1800/1800/1800 connection_stats_available=yes active_connections=1 total_connections=2 peak_connections=1\nmini-kv@127.0.0.1:6524\u003e BYE",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "expected":  "HEALTH response returned"
+                                      }
+                    },
+                    {
+                        "id":  "mini-kv-command-catalog",
+                        "project":  "mini-kv",
+                        "protocol":  "tcp-inline",
+                        "methodOrCommand":  "COMMANDSJSON",
+                        "target":  "127.0.0.1:6524",
+                        "status":  "pass",
+                        "exitCode":  0,
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "evidenceDigest":  "9df1c9938a71b0bf7e94219b6b82f503989f22db4173b6b4c36ea96f26743f0f",
+                        "evidencePreview":  "connected to mini-kv at 127.0.0.1:6524\nsocket timeout: 5000 ms\nconnect retries: 10, retry delay: 100 ms\nmini-kv@127.0.0.1:6524\u003e {\"commands\":[{\"name\":\"PING\",\"category\":\"meta\",\"mutates_store\":false,\"touches_wal\":false,\"stable\":true,\"description\":\"Liveness check with optional echo message\"},{\"name\":\"SET\",\"category\":\"write\",\"mutates_store\":true,\"touches_wal\":true,\"stable\":true,\"description\":\"Set or update a key value\"},{\"name\":\"SETNXEX\",\"category\":\"write\",\"mutates_store\":true,\"touches_wal\":true,\"stable\":true,\"description\":\"Claim a key with value and TTL only when absent\"},{\"name\":\"GET\",\"category\":\"read\",\"mutates_store\":false,\"touches_wal\":false,\"stable\":true,\"description\":\"Read a key value\"},{\"n...",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "includesShardJson":  true
+                                      }
+                    },
+                    {
+                        "id":  "mini-kv-shard-readiness",
+                        "project":  "mini-kv",
+                        "protocol":  "tcp-inline",
+                        "methodOrCommand":  "SHARDJSON",
+                        "target":  "127.0.0.1:6524",
+                        "status":  "pass",
+                        "exitCode":  0,
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "evidenceDigest":  "9efbcb4ce41dadcfb50a358e9a10b65f8565a99da3f750abc87cd340dd90d62e",
+                        "evidencePreview":  "connected to mini-kv at 127.0.0.1:6524\nsocket timeout: 5000 ms\nconnect retries: 10, retry delay: 100 ms\nmini-kv@127.0.0.1:6524\u003e {\"contract\":\"shard-readiness.v1\",\"evidenceType\":\"shard_readiness\",\"project\":\"mini-kv\",\"version\":\"0.102.0\",\"releaseVersion\":\"v144\",\"readOnly\":true,\"executionAllowed\":false,\"shardEnabled\":false,\"shardCount\":1,\"slotCount\":16,\"routingMode\":\"single-shard-readiness-prototype\",\"evidencePath\":\"fixtures/release/shard-readiness.json\",\"status\":\"prototype-ready-read-only\",\"shardMap\":[{\"shardId\":\"shard-0\",\"slotStart\":0,\"slotEnd\":15,\"storagePath\":\"not-created\",\"readOnly\":true,\"writesAllowed\":false}],\"keyRoutingSamples\":[{\"key\":\"orderops:alpha\",\"slot\":5,\"shardId\":\"shard-0\"},{\"key\"...",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "includesV247OrReadOnlySignal":  true
+                                      }
+                    },
+                    {
+                        "id":  "mini-kv-quit",
+                        "project":  "mini-kv",
+                        "protocol":  "tcp-inline",
+                        "methodOrCommand":  "QUIT",
+                        "target":  "127.0.0.1:6524",
+                        "status":  "pass",
+                        "exitCode":  0,
+                        "readOnly":  true,
+                        "mutatesState":  false,
+                        "evidenceDigest":  "261fa6237ad8115cff739fc4ffceb1c24507b311917c138e2f331740aafd0127",
+                        "evidencePreview":  "connected to mini-kv at 127.0.0.1:6524\nsocket timeout: 5000 ms\nconnect retries: 10, retry delay: 100 ms\nmini-kv@127.0.0.1:6524\u003e BYE",
+                        "assertion":  {
+                                          "passed":  true,
+                                          "expected":  "client exits cleanly"
+                                      }
+                    }
+                ],
+    "checks":  {
+                   "portPrecheckPassed":  true,
+                   "nodeBuildPassed":  true,
+                   "miniKvStartedAndReady":  true,
+                   "javaStartedAndReady":  true,
+                   "nodeStartedAndReady":  true,
+                   "allRecordsPassed":  true,
+                   "recordsAreReadOnly":  true,
+                   "noWriteHttpMethods":  true,
+                   "noForbiddenMiniKvCommands":  true,
+                   "proxyBypassUsedForLocalHttp":  true,
+                   "cleanupPassed":  true,
+                   "distRemoved":  true,
+                   "productionOperationsStillBlocked":  true,
+                   "executionAllowedStillFalse":  true
+               },
+    "summary":  {
+                    "recordCount":  9,
+                    "passedRecordCount":  9,
+                    "failedRecordCount":  0,
+                    "checkCount":  14,
+                    "passedCheckCount":  14,
+                    "cleanupPassed":  true,
+                    "afterListeningSocketCount":  0
+                },
+    "failure":  null,
+    "events":  [
+                   {
+                       "at":  "2026-06-02T07:58:05.1754299Z",
+                       "name":  "port-precheck-started",
+                       "details":  {
+                                       "ports":  [
+                                                     4190,
+                                                     8080,
+                                                     6524
+                                                 ]
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:05.8948690Z",
+                       "name":  "port-precheck-passed",
+                       "details":  {
+                                       "ports":  [
+                                                     4190,
+                                                     8080,
+                                                     6524
+                                                 ]
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:05.8978741Z",
+                       "name":  "node-build-started",
+                       "details":  {
+                                       "command":  "npm.cmd run build"
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:15.5480638Z",
+                       "name":  "node-build-passed",
+                       "details":  {
+                                       "log":  ".tmp/v545-live-smoke/node-build.log"
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:15.5775889Z",
+                       "name":  "mini-kv-started",
+                       "details":  {
+                                       "port":  6524,
+                                       "pathIncludesMingw":  true,
+                                       "pid":  31024
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:16.1470991Z",
+                       "name":  "mini-kv-ready",
+                       "details":  {
+                                       "port":  6524
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:16.1672685Z",
+                       "name":  "java-started",
+                       "details":  {
+                                       "port":  8080,
+                                       "pid":  36292
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:28.1901077Z",
+                       "name":  "java-ready",
+                       "details":  {
+                                       "port":  8080,
+                                       "proxyBypassUsed":  true
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:28.2091084Z",
+                       "name":  "node-started",
+                       "details":  {
+                                       "port":  4190,
+                                       "pid":  33836
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:29.7956172Z",
+                       "name":  "node-ready",
+                       "details":  {
+                                       "port":  4190,
+                                       "proxyBypassUsed":  true
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:30.3647587Z",
+                       "name":  "cleanup-started",
+                       "details":  {
+                                       "started":  [
+                                                       {
+                                                           "project":  "mini-kv",
+                                                           "pid":  31024,
+                                                           "command":  ".\\cmake-build-debug\\minikv_server.exe 6524 127.0.0.1",
+                                                           "port":  6524
+                                                       },
+                                                       {
+                                                           "project":  "java-maven",
+                                                           "pid":  36292,
+                                                           "command":  "mvn spring-boot:run -Dspring-boot.run.profiles=local",
+                                                           "port":  8080
+                                                       },
+                                                       {
+                                                           "project":  "java-runtime",
+                                                           "pid":  25988,
+                                                           "command":  "spring-boot runtime listening owner from startup log",
+                                                           "port":  8080
+                                                       },
+                                                       {
+                                                           "project":  "node",
+                                                           "pid":  33836,
+                                                           "command":  "node dist/server.js with v545 safe loopback env",
+                                                           "port":  4190
+                                                       }
+                                                   ]
+                                   }
+                   },
+                   {
+                       "at":  "2026-06-02T07:58:33.8182058Z",
+                       "name":  "cleanup-finished",
+                       "details":  {
+                                       "afterListeningSockets":  [
+
+                                                                 ],
+                                       "cleanupPassed":  true
+                                   }
+                   }
+               ],
+    "cleanupProofPath":  "e/545/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-v545-cleanup-proof.json",
+    "nextActions":  [
+                        "Archive and verify v545 live smoke evidence in Node v546.",
+                        "Keep Java and mini-kv changes untouched; this smoke only reads local loopback services.",
+                        "Preserve local HTTP proxy bypass in future live smoke scripts."
+                    ]
+}

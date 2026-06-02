@@ -1,0 +1,38 @@
+﻿{
+    "profileVersion":  "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-cleanup-proof.v1",
+    "generatedAt":  "2026-06-02T07:58:33.8052036Z",
+    "startedProcesses":  [
+                             {
+                                 "project":  "mini-kv",
+                                 "pid":  31024,
+                                 "command":  ".\\cmake-build-debug\\minikv_server.exe 6524 127.0.0.1",
+                                 "port":  6524
+                             },
+                             {
+                                 "project":  "java-maven",
+                                 "pid":  36292,
+                                 "command":  "mvn spring-boot:run -Dspring-boot.run.profiles=local",
+                                 "port":  8080
+                             },
+                             {
+                                 "project":  "java-runtime",
+                                 "pid":  25988,
+                                 "command":  "spring-boot runtime listening owner from startup log",
+                                 "port":  8080
+                             },
+                             {
+                                 "project":  "node",
+                                 "pid":  33836,
+                                 "command":  "node dist/server.js with v545 safe loopback env",
+                                 "port":  4190
+                             }
+                         ],
+    "beforeListeningSockets":  [
+
+                               ],
+    "afterListeningSockets":  [
+
+                              ],
+    "distRemoved":  true,
+    "cleanupPassed":  true
+}
