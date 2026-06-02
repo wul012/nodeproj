@@ -27,6 +27,9 @@ const ARCHIVE_MARKDOWN =
   "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v547-http.md";
 const ARCHIVE_SUMMARY =
   "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v548-archive-summary.json";
+const SOURCE_ROUTE_ARCHIVE_ROUTE_COUNT = 226;
+const SOURCE_ROUTE_ARCHIVE_JAVA_MINI_KV_ROUTE_COUNT = 62;
+const SOURCE_ROUTE_ARCHIVE_CLEANUP_HANDOFF_ROUTE_COUNT = 28;
 
 export interface JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationProfile {
   service: "orderops-node";
@@ -102,7 +105,8 @@ export interface JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerif
     jsonSourceLiveSmokeStillReady: boolean;
     summaryStatusCodesPassed: boolean;
     summaryMatchesJson: boolean;
-    summaryRouteCatalogCountsMatchCurrent: boolean;
+    summaryRouteCatalogCountsMatchSourceArchive: boolean;
+    currentRouteCatalogCoversSourceArchive: boolean;
     markdownRecordsRouteArchive: boolean;
     markdownRecordsProxyAndCleanupChecks: boolean;
     noRuntimeAuthorityOpened: boolean;
@@ -171,7 +175,7 @@ export function loadJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVe
     checks,
     nextActions: ready
       ? [
-        "Expose this route archive verification through the cleanup route group in Node v550.",
+        "Expose this route archive verification through the cleanup route group in Node v551.",
         "Use this verified route archive before any later live-smoke closeout.",
       ]
       : [
@@ -263,12 +267,16 @@ function createChecks(input: {
       && input.sourceRouteArchive.archiveVerificationState === input.sourceVerifier.archiveVerificationState
       && input.sourceRouteArchive.checkCount === input.sourceVerifier.checkCount
       && input.sourceRouteArchive.passedCheckCount === input.sourceVerifier.passedCheckCount,
-    summaryRouteCatalogCountsMatchCurrent:
-      input.sourceRouteArchive.routeCount === EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount
-      && input.sourceRouteArchive.javaMiniKvDomainRouteCount
-        === EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"]
-      && input.sourceRouteArchive.cleanupHandoffRouteGroupRouteCount
-        === javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length,
+    summaryRouteCatalogCountsMatchSourceArchive:
+      input.sourceRouteArchive.routeCount === SOURCE_ROUTE_ARCHIVE_ROUTE_COUNT
+      && input.sourceRouteArchive.javaMiniKvDomainRouteCount === SOURCE_ROUTE_ARCHIVE_JAVA_MINI_KV_ROUTE_COUNT
+      && input.sourceRouteArchive.cleanupHandoffRouteGroupRouteCount === SOURCE_ROUTE_ARCHIVE_CLEANUP_HANDOFF_ROUTE_COUNT,
+    currentRouteCatalogCoversSourceArchive:
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= input.sourceRouteArchive.routeCount
+      && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"]
+        >= input.sourceRouteArchive.javaMiniKvDomainRouteCount
+      && javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length
+        >= input.sourceRouteArchive.cleanupHandoffRouteGroupRouteCount,
     markdownRecordsRouteArchive:
       input.markdown.includes("# Java / mini-kv route catalog cleanup latest sibling live smoke archive verification")
       && input.markdown.includes("Archive verification state: ready"),

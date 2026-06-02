@@ -70,7 +70,8 @@ describe("Java/mini-kv route catalog cleanup latest sibling live smoke archive v
         verification,
       );
     expect(markdown).toContain("summaryDigestsMatchFiles: true");
-    expect(markdown).toContain("summaryRouteCatalogCountsMatchCurrent: true");
+    expect(markdown).toContain("summaryRouteCatalogCountsMatchSourceArchive: true");
+    expect(markdown).toContain("currentRouteCatalogCoversSourceArchive: true");
     expect(markdown).toContain("noRuntimeAuthorityOpened: true");
   });
 });
