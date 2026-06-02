@@ -43,7 +43,7 @@ describe("managed audit route registration table quality pass", () => {
         directRegisterAuditJsonMarkdownRouteCallsBefore: 41,
         directRegisterAuditJsonMarkdownRouteCallsAfter: 0,
         registrationTableAdded: true,
-        registrationTableRouteCount: 223,
+        registrationTableRouteCount: 224,
         routeGroupCatalogAdded: true,
         routeGroupCount: 50,
         registerAuditRoutesLoopCount: 1,
@@ -68,7 +68,7 @@ describe("managed audit route registration table quality pass", () => {
         readyForManagedAuditRouteRegistrationTableQualityPass: true,
       },
       summary: {
-        routeRegistrationCount: 223,
+        routeRegistrationCount: 224,
         routeGroupCount: 50,
         duplicateRoutePathCount: 0,
         emptyRouteGroupCount: 0,
@@ -81,7 +81,7 @@ describe("managed audit route registration table quality pass", () => {
         ready: true,
         summary: {
           groupCount: 50,
-          routeCount: 223,
+          routeCount: 224,
         },
       },
     });
@@ -174,7 +174,7 @@ describe("managed audit route registration table quality pass", () => {
       expect(qualityMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(qualityMarkdown.body).toContain("# Managed audit route registration table quality pass");
       expect(qualityMarkdown.body).toContain("routeGroupCount: 50");
-      expect(qualityMarkdown.body).toContain("routeCount: 223");
+      expect(qualityMarkdown.body).toContain("routeCount: 224");
       expect(qualityMarkdown.body).toContain("QUALITY_PASS_ONLY");
       expect(storeProfile.statusCode).toBe(200);
       expect(storeProfile.json()).toMatchObject({

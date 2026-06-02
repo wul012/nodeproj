@@ -30,7 +30,7 @@ describe("Java/mini-kv route catalog cleanup extended run final closeout", () =>
       },
       routeQuality: {
         ready: true,
-        routeRegistrationCount: 223,
+        routeRegistrationCount: 224,
         routeGroupCount: 50,
         catalogIntegrityReady: true,
         routeTableMatchesCatalog: true,
