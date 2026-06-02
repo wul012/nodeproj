@@ -166,6 +166,7 @@
 526: Java / mini-kv route catalog cleanup twenty-version run closeout archive verification route
 527: Java / mini-kv route catalog cleanup expanded stability closeout
 528: Java / mini-kv route catalog cleanup expanded stability closeout route
+529: Java / mini-kv route catalog cleanup expanded stability closeout route archive
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

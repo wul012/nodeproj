@@ -1,0 +1,56 @@
+{
+  "version": "v529",
+  "title": "Java / mini-kv route catalog cleanup expanded stability closeout route archive",
+  "generatedAt": "2026-06-02T03:06:11.911Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-expanded-stability-closeout",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-expanded-stability-closeout?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "closeoutState": "ready",
+  "checkCount": 9,
+  "passedCheckCount": 9,
+  "activeNodeVersion": "Node v527",
+  "sourceNodeVersion": "Node v526",
+  "plannedSegment": [
+    "v527",
+    "v528",
+    "v529",
+    "v530",
+    "v531"
+  ],
+  "closedGate": {
+    "versionSpan": "v522-v526",
+    "publicVerifierRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-archive-verification",
+    "archiveVerifierReady": true,
+    "archiveVerifierCheckCount": 16,
+    "archiveVerifierPassedCheckCount": 16,
+    "sourceCompletedVersionCount": 16,
+    "sourceRemainingVersionCount": 15
+  },
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 219,
+    "javaMiniKvDomainRouteCount": 55,
+    "cleanupHandoffRouteGroupRouteCount": 21
+  },
+  "files": {
+    "json": {
+      "path": "e/529/evidence/java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-v528-http.json",
+      "sizeBytes": 2256,
+      "sha256": "3f8f918855584256e666d5820363ab4e5bbee47318340ab73045ca5f3ec6995a"
+    },
+    "markdown": {
+      "path": "e/529/evidence/java-mini-kv-route-catalog-cleanup-expanded-stability-closeout-v528-http.md",
+      "sizeBytes": 1738,
+      "sha256": "ba7caca60b756eec52ad90edc343b4aa144c4521515b0891edb878281e6a1224"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "executionAllowed": false
+  }
+}

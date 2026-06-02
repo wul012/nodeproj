@@ -1,0 +1,68 @@
+{
+  "service": "orderops-node",
+  "title": "Java / mini-kv route catalog cleanup expanded stability closeout",
+  "generatedAt": "2026-06-02T03:06:11.904Z",
+  "profileVersion": "java-mini-kv-route-catalog-cleanup-expanded-stability-closeout.v1",
+  "closeoutState": "ready",
+  "activeNodeVersion": "Node v527",
+  "sourceNodeVersion": "Node v526",
+  "readyForRouteCatalogCleanupExpandedStabilityCloseout": true,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "closeoutOnly": true,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "executionAllowed": false,
+  "crossProjectMode": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "nodeWaitsForFreshSiblingEvidence": false
+  },
+  "closedGate": {
+    "versionSpan": "v522-v526",
+    "publicVerifierRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout-archive-verification",
+    "archiveVerifierReady": true,
+    "archiveVerifierCheckCount": 16,
+    "archiveVerifierPassedCheckCount": 16,
+    "sourceCompletedVersionCount": 16,
+    "sourceRemainingVersionCount": 15
+  },
+  "plannedSegment": [
+    "v527",
+    "v528",
+    "v529",
+    "v530",
+    "v531"
+  ],
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 219,
+    "javaMiniKvDomainRouteCount": 55,
+    "cleanupHandoffRouteGroupRouteCount": 21
+  },
+  "checks": {
+    "closedGateReady": true,
+    "verifierRouteRegistered": true,
+    "plannedSegmentCountReady": true,
+    "currentRouteCatalogReady": true,
+    "currentJavaMiniKvRouteCountReady": true,
+    "cleanupHandoffRouteGroupReady": true,
+    "javaMiniKvParallelRecommended": true,
+    "noRuntimeAuthorityOpened": true,
+    "readyForRouteCatalogCleanupExpandedStabilityCloseout": true
+  },
+  "summary": {
+    "plannedSegmentVersionCount": 5,
+    "checkCount": 9,
+    "passedCheckCount": 9,
+    "routeCount": 219,
+    "javaMiniKvDomainRouteCount": 55,
+    "cleanupHandoffRouteGroupRouteCount": 21
+  },
+  "nextActions": [
+    "Expose this expanded stability closeout as a JSON/Markdown route in Node v528.",
+    "Archive the v528 route output in Node v529.",
+    "Verify and expose the expanded stability archive verification in Node v530-v531."
+  ]
+}
