@@ -13,6 +13,12 @@ import {
   stringValue,
   valueAt,
 } from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationSupport.js";
+import {
+  archiveFileDigestsMatchSummary,
+  routeCatalogCountsCover,
+  routeCatalogCountsMatch,
+  type LatestSiblingLiveSmokeRouteCatalogCounts,
+} from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeRouteArchiveVerifierSupport.js";
 
 export {
   renderJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerificationMarkdown,
@@ -27,12 +33,16 @@ const ARCHIVE_MARKDOWN =
   "e/552/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification-v551-http.md";
 const ARCHIVE_SUMMARY =
   "e/552/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification-v552-archive-summary.json";
-const ARCHIVED_ROUTE_CATALOG_ROUTE_COUNT = 227;
-const ARCHIVED_ROUTE_CATALOG_JAVA_MINI_KV_ROUTE_COUNT = 63;
-const ARCHIVED_ROUTE_CATALOG_CLEANUP_HANDOFF_ROUTE_COUNT = 29;
-const SOURCE_ROUTE_ARCHIVE_ROUTE_COUNT = 226;
-const SOURCE_ROUTE_ARCHIVE_JAVA_MINI_KV_ROUTE_COUNT = 62;
-const SOURCE_ROUTE_ARCHIVE_CLEANUP_HANDOFF_ROUTE_COUNT = 28;
+const ARCHIVED_ROUTE_CATALOG_COUNTS = {
+  routeCount: 227,
+  javaMiniKvDomainRouteCount: 63,
+  cleanupHandoffRouteGroupRouteCount: 29,
+} as const;
+const SOURCE_ROUTE_ARCHIVE_COUNTS = {
+  routeCount: 226,
+  javaMiniKvDomainRouteCount: 62,
+  cleanupHandoffRouteGroupRouteCount: 28,
+} as const;
 
 export interface JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerificationProfile {
   service: "orderops-node";
@@ -215,9 +225,7 @@ function createChecks(input: {
     markdownReadable: input.markdown.length > 0,
     summaryReadable: input.summaryJson !== null,
     summaryDigestsMatchFiles:
-      input.archiveFiles.json.sha256 === stringValue(valueAt(input.summaryJson, "files", "json", "sha256"))
-      && input.archiveFiles.markdown.sha256
-        === stringValue(valueAt(input.summaryJson, "files", "markdown", "sha256")),
+      archiveFileDigestsMatchSummary(input.archiveFiles, input.summaryJson),
     jsonProfileVersionValid:
       valueAt(input.json, "profileVersion")
       === "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-route-archive-verification.v1",
@@ -238,23 +246,11 @@ function createChecks(input: {
       input.sourceRouteArchive.checkCount === 18
       && input.sourceRouteArchive.checkCount === input.sourceRouteArchive.passedCheckCount,
     sourceArchiveCountsMatchV548Baseline:
-      input.sourceRouteArchive.sourceArchiveRouteCount === SOURCE_ROUTE_ARCHIVE_ROUTE_COUNT
-      && input.sourceRouteArchive.sourceArchiveJavaMiniKvRouteCount === SOURCE_ROUTE_ARCHIVE_JAVA_MINI_KV_ROUTE_COUNT
-      && input.sourceRouteArchive.sourceArchiveCleanupHandoffRouteCount
-        === SOURCE_ROUTE_ARCHIVE_CLEANUP_HANDOFF_ROUTE_COUNT,
+      routeCatalogCountsMatch(sourceArchiveCounts(input.sourceRouteArchive), SOURCE_ROUTE_ARCHIVE_COUNTS),
     archivedRouteCatalogCountsMatchV552Baseline:
-      input.sourceRouteArchive.archivedRouteCatalogRouteCount === ARCHIVED_ROUTE_CATALOG_ROUTE_COUNT
-      && input.sourceRouteArchive.archivedRouteCatalogJavaMiniKvRouteCount
-        === ARCHIVED_ROUTE_CATALOG_JAVA_MINI_KV_ROUTE_COUNT
-      && input.sourceRouteArchive.archivedRouteCatalogCleanupHandoffRouteCount
-        === ARCHIVED_ROUTE_CATALOG_CLEANUP_HANDOFF_ROUTE_COUNT,
+      routeCatalogCountsMatch(archivedRouteCatalogCounts(input.sourceRouteArchive), ARCHIVED_ROUTE_CATALOG_COUNTS),
     currentRouteCatalogCoversArchivedRouteCatalog:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount
-        >= input.sourceRouteArchive.archivedRouteCatalogRouteCount
-      && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"]
-        >= input.sourceRouteArchive.archivedRouteCatalogJavaMiniKvRouteCount
-      && javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length
-        >= input.sourceRouteArchive.archivedRouteCatalogCleanupHandoffRouteCount,
+      routeCatalogCountsCover(currentRouteCatalogCounts(), archivedRouteCatalogCounts(input.sourceRouteArchive)),
     markdownRecordsRouteArchiveVerification:
       input.markdown.includes(
         "# Java / mini-kv route catalog cleanup latest sibling live smoke archive verification route archive verification",
@@ -273,5 +269,34 @@ function createChecks(input: {
       && valueAt(input.json, "executionAllowed") === false,
     readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerification:
       false,
+  };
+}
+
+function sourceArchiveCounts(
+  sourceRouteArchive: JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerificationProfile["sourceRouteArchive"],
+): LatestSiblingLiveSmokeRouteCatalogCounts {
+  return {
+    routeCount: sourceRouteArchive.sourceArchiveRouteCount,
+    javaMiniKvDomainRouteCount: sourceRouteArchive.sourceArchiveJavaMiniKvRouteCount,
+    cleanupHandoffRouteGroupRouteCount: sourceRouteArchive.sourceArchiveCleanupHandoffRouteCount,
+  };
+}
+
+function archivedRouteCatalogCounts(
+  sourceRouteArchive: JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerificationProfile["sourceRouteArchive"],
+): LatestSiblingLiveSmokeRouteCatalogCounts {
+  return {
+    routeCount: sourceRouteArchive.archivedRouteCatalogRouteCount,
+    javaMiniKvDomainRouteCount: sourceRouteArchive.archivedRouteCatalogJavaMiniKvRouteCount,
+    cleanupHandoffRouteGroupRouteCount: sourceRouteArchive.archivedRouteCatalogCleanupHandoffRouteCount,
+  };
+}
+
+function currentRouteCatalogCounts(): LatestSiblingLiveSmokeRouteCatalogCounts {
+  return {
+    routeCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
+    javaMiniKvDomainRouteCount:
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"],
+    cleanupHandoffRouteGroupRouteCount: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length,
   };
 }

@@ -13,6 +13,12 @@ import {
   stringValue,
   valueAt,
 } from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationSupport.js";
+import {
+  archiveFileDigestsMatchSummary,
+  routeCatalogCountsCover,
+  routeCatalogCountsMatch,
+  type LatestSiblingLiveSmokeRouteCatalogCounts,
+} from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeRouteArchiveVerifierSupport.js";
 
 export {
   renderJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationMarkdown,
@@ -27,9 +33,11 @@ const ARCHIVE_MARKDOWN =
   "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v547-http.md";
 const ARCHIVE_SUMMARY =
   "e/548/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification-v548-archive-summary.json";
-const SOURCE_ROUTE_ARCHIVE_ROUTE_COUNT = 226;
-const SOURCE_ROUTE_ARCHIVE_JAVA_MINI_KV_ROUTE_COUNT = 62;
-const SOURCE_ROUTE_ARCHIVE_CLEANUP_HANDOFF_ROUTE_COUNT = 28;
+const SOURCE_ROUTE_ARCHIVE_COUNTS = {
+  routeCount: 226,
+  javaMiniKvDomainRouteCount: 62,
+  cleanupHandoffRouteGroupRouteCount: 28,
+} as const;
 
 export interface JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationProfile {
   service: "orderops-node";
@@ -237,8 +245,7 @@ function createChecks(input: {
     markdownReadable: input.markdown.length > 0,
     summaryReadable: input.summaryJson !== null,
     summaryDigestsMatchFiles:
-      stringValue(valueAt(input.summaryJson, "files", "json", "sha256")) === input.archiveFiles.json.sha256
-      && stringValue(valueAt(input.summaryJson, "files", "markdown", "sha256")) === input.archiveFiles.markdown.sha256,
+      archiveFileDigestsMatchSummary(input.archiveFiles, input.summaryJson),
     jsonProfileVersionValid:
       input.sourceVerifier.profileVersion
         === "java-mini-kv-route-catalog-cleanup-latest-sibling-live-smoke-archive-verification.v1",
@@ -268,15 +275,9 @@ function createChecks(input: {
       && input.sourceRouteArchive.checkCount === input.sourceVerifier.checkCount
       && input.sourceRouteArchive.passedCheckCount === input.sourceVerifier.passedCheckCount,
     summaryRouteCatalogCountsMatchSourceArchive:
-      input.sourceRouteArchive.routeCount === SOURCE_ROUTE_ARCHIVE_ROUTE_COUNT
-      && input.sourceRouteArchive.javaMiniKvDomainRouteCount === SOURCE_ROUTE_ARCHIVE_JAVA_MINI_KV_ROUTE_COUNT
-      && input.sourceRouteArchive.cleanupHandoffRouteGroupRouteCount === SOURCE_ROUTE_ARCHIVE_CLEANUP_HANDOFF_ROUTE_COUNT,
+      routeCatalogCountsMatch(input.sourceRouteArchive, SOURCE_ROUTE_ARCHIVE_COUNTS),
     currentRouteCatalogCoversSourceArchive:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= input.sourceRouteArchive.routeCount
-      && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"]
-        >= input.sourceRouteArchive.javaMiniKvDomainRouteCount
-      && javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length
-        >= input.sourceRouteArchive.cleanupHandoffRouteGroupRouteCount,
+      routeCatalogCountsCover(currentRouteCatalogCounts(), input.sourceRouteArchive),
     markdownRecordsRouteArchive:
       input.markdown.includes("# Java / mini-kv route catalog cleanup latest sibling live smoke archive verification")
       && input.markdown.includes("Archive verification state: ready"),
@@ -294,5 +295,14 @@ function createChecks(input: {
       && valueAt(input.json, "rawEndpointUrlParsed") === false
       && valueAt(input.json, "executionAllowed") === false,
     readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification: false,
+  };
+}
+
+function currentRouteCatalogCounts(): LatestSiblingLiveSmokeRouteCatalogCounts {
+  return {
+    routeCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
+    javaMiniKvDomainRouteCount:
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"],
+    cleanupHandoffRouteGroupRouteCount: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length,
   };
 }
