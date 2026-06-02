@@ -208,6 +208,7 @@
 568: Java/mini-kv consumer readiness Java evidence parser split
 569: Java/mini-kv consumer readiness batch closeout artifact manifest split
 570: Java/mini-kv consumer readiness batch closeout artifact manifest coverage
+571: Java/mini-kv consumer readiness batch closeout file support split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
