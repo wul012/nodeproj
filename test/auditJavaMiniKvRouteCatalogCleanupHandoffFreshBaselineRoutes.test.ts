@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildApp,
+  cleanupHandoffRouteCounts,
   completeHeaders,
+  expectMarkdownRouteCount,
   expectJavaMiniKvRouteCatalogCleanupHandoffRouteGroupRegistered,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_HANDOFF_EVIDENCE_ROUTE_PATH,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ROUTE_PATH,
@@ -132,7 +134,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
           miniKvLatestCleanVersion: "v220",
         },
         routeCatalog: {
-          routeCount: 212,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineArchiveVerification,
           javaMiniKvDomainRouteCount: 48,
           cleanupHandoffRouteGroupRouteCount: 14,
         },
@@ -148,7 +150,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
       expect(markdown.body)
         .toContain("# Java / mini-kv route catalog cleanup fresh baseline evidence archive verification");
       expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
-      expect(markdown.body).toContain("routeCount: 212");
+      expectMarkdownRouteCount(markdown.body, cleanupHandoffRouteCounts.freshBaselineArchiveVerification);
     } finally {
       await app.close();
     }
@@ -180,7 +182,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
         startsJavaService: false,
         startsMiniKvService: false,
         routeCatalog: {
-          routeCount: 213,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineBatchCloseout,
           javaMiniKvDomainRouteCount: 49,
           cleanupHandoffRouteGroupRouteCount: 15,
         },
@@ -192,7 +194,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
         },
         summary: {
           closedVersionCount: 5,
-          routeCount: 213,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineBatchCloseout,
           javaMiniKvDomainRouteCount: 49,
           cleanupHandoffRouteGroupRouteCount: 15,
         },
@@ -200,7 +202,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Java / mini-kv route catalog cleanup fresh baseline batch closeout");
-      expect(markdown.body).toContain("routeCount: 213");
+      expectMarkdownRouteCount(markdown.body, cleanupHandoffRouteCounts.freshBaselineBatchCloseout);
       expect(markdown.body).toContain("v510VerifierReady: true");
     } finally {
       await app.close();
@@ -238,7 +240,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
           ready: true,
           checkCount: 14,
           passedCheckCount: 14,
-          routeCount: 213,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineBatchCloseout,
           javaMiniKvDomainRouteCount: 49,
           cleanupHandoffRouteGroupRouteCount: 15,
         },
@@ -284,7 +286,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
         closeoutOnly: true,
         executionAllowed: false,
         routeCatalog: {
-          routeCount: 215,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineStabilityCloseout,
           javaMiniKvDomainRouteCount: 51,
           cleanupHandoffRouteGroupRouteCount: 17,
         },
@@ -296,7 +298,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
         },
         summary: {
           closedVersionCount: 5,
-          routeCount: 215,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineStabilityCloseout,
           javaMiniKvDomainRouteCount: 51,
           cleanupHandoffRouteGroupRouteCount: 17,
         },
@@ -305,7 +307,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body)
         .toContain("# Java / mini-kv route catalog cleanup fresh baseline stability closeout");
-      expect(markdown.body).toContain("routeCount: 215");
+      expectMarkdownRouteCount(markdown.body, cleanupHandoffRouteCounts.freshBaselineStabilityCloseout);
       expect(markdown.body).toContain("archiveVerifierReady: true");
     } finally {
       await app.close();
@@ -343,7 +345,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
           ready: true,
           checkCount: 10,
           passedCheckCount: 10,
-          routeCount: 215,
+          routeCount: cleanupHandoffRouteCounts.freshBaselineStabilityCloseout,
           javaMiniKvDomainRouteCount: 51,
           cleanupHandoffRouteGroupRouteCount: 17,
         },

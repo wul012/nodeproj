@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildApp,
+  cleanupHandoffRouteCounts,
   completeHeaders,
   expectJavaMiniKvRouteCatalogCleanupHandoffRouteGroupRegistered,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_HANDOFF_EVIDENCE_ROUTE_PATH,
@@ -66,7 +67,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
         summary: {
           completedVersionCount: 16,
           remainingVersionCount: 15,
-          routeCount: 217,
+          routeCount: cleanupHandoffRouteCounts.twentyVersionRunCloseout,
           javaMiniKvDomainRouteCount: 53,
           cleanupHandoffRouteGroupRouteCount: 19,
         },
@@ -115,7 +116,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
           passedCheckCount: 9,
           completedVersionCount: 16,
           remainingVersionCount: 15,
-          routeCount: 217,
+          routeCount: cleanupHandoffRouteCounts.twentyVersionRunCloseout,
           javaMiniKvDomainRouteCount: 53,
           cleanupHandoffRouteGroupRouteCount: 19,
         },
@@ -170,7 +171,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
         },
         summary: {
           plannedSegmentVersionCount: 5,
-          routeCount: 219,
+          routeCount: cleanupHandoffRouteCounts.expandedStabilityCloseout,
           javaMiniKvDomainRouteCount: 55,
           cleanupHandoffRouteGroupRouteCount: 21,
         },
@@ -218,7 +219,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
           checkCount: 9,
           passedCheckCount: 9,
           plannedSegmentVersionCount: 5,
-          routeCount: 219,
+          routeCount: cleanupHandoffRouteCounts.expandedStabilityCloseout,
           javaMiniKvDomainRouteCount: 55,
           cleanupHandoffRouteGroupRouteCount: 21,
         },
@@ -278,7 +279,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
         },
         summary: {
           plannedSegmentVersionCount: 5,
-          routeCount: 221,
+          routeCount: cleanupHandoffRouteCounts.ciCatalogHealthCloseout,
           javaMiniKvDomainRouteCount: 57,
           cleanupHandoffRouteGroupRouteCount: 23,
         },
@@ -326,7 +327,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
           checkCount: 10,
           passedCheckCount: 10,
           plannedSegmentVersionCount: 5,
-          routeCount: 221,
+          routeCount: cleanupHandoffRouteCounts.ciCatalogHealthCloseout,
           javaMiniKvDomainRouteCount: 57,
           cleanupHandoffRouteGroupRouteCount: 23,
           routeQualityReady: true,

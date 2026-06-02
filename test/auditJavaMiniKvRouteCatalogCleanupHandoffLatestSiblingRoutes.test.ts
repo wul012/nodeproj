@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildApp,
+  cleanupHandoffRouteCounts,
   completeHeaders,
+  expectMarkdownRouteCount,
   expectJavaMiniKvRouteCatalogCleanupHandoffRouteGroupRegistered,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_HANDOFF_EVIDENCE_ROUTE_PATH,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ROUTE_PATH,
@@ -75,7 +77,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
           currentCleanupHandoffRouteGroupRouteCount: 26,
         },
         routeCatalog: {
-          routeCount: 224,
+          routeCount: cleanupHandoffRouteCounts.latestSiblingEvidence,
           javaMiniKvDomainRouteCount: 60,
           cleanupHandoffRouteGroupRouteCount: 26,
         },
@@ -138,7 +140,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
           miniKvLatestCleanVersion: "v247",
         },
         routeCatalog: {
-          routeCount: 224,
+          routeCount: cleanupHandoffRouteCounts.latestSiblingEvidence,
           javaMiniKvDomainRouteCount: 60,
           cleanupHandoffRouteGroupRouteCount: 26,
         },
@@ -154,7 +156,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
       expect(markdown.body)
         .toContain("# Java / mini-kv route catalog cleanup latest sibling evidence archive verification");
       expect(markdown.body).toContain("summaryDigestsMatchFiles: true");
-      expect(markdown.body).toContain("routeCount: 224");
+      expectMarkdownRouteCount(markdown.body, cleanupHandoffRouteCounts.latestSiblingEvidence);
     } finally {
       await app.close();
     }
@@ -250,7 +252,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
           ready: true,
           statusCodeJson: 200,
           statusCodeMarkdown: 200,
-          routeCount: 226,
+          routeCount: cleanupHandoffRouteCounts.latestSiblingLiveSmokeRouteArchiveVerification,
           javaMiniKvDomainRouteCount: 62,
           cleanupHandoffRouteGroupRouteCount: 28,
         },

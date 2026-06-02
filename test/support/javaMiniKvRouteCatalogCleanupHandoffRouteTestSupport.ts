@@ -98,6 +98,22 @@ export {
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./auditJsonMarkdownRouteCatalogTestSupport.js";
 
+export const cleanupHandoffRouteCounts = {
+  consumerReadinessBatchCloseout: 207,
+  freshBaselineArchiveVerification: 212,
+  freshBaselineBatchCloseout: 213,
+  freshBaselineStabilityCloseout: 215,
+  twentyVersionRunCloseout: 217,
+  expandedStabilityCloseout: 219,
+  ciCatalogHealthCloseout: 221,
+  latestSiblingEvidence: 224,
+  latestSiblingLiveSmokeRouteArchiveVerification: 226,
+} as const;
+
+export function expectMarkdownRouteCount(markdownBody: string, routeCount: number): void {
+  expect(markdownBody).toContain(`routeCount: ${routeCount}`);
+}
+
 export function expectJavaMiniKvRouteCatalogCleanupHandoffRouteGroupRegistered(): void {
   expect(javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes).toHaveLength(30);
   expectAuditRouteGroupRegisteredThroughCatalog({

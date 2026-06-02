@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 
 import {
   buildApp,
+  cleanupHandoffRouteCounts,
   completeHeaders,
+  expectMarkdownRouteCount,
   expectJavaMiniKvRouteCatalogCleanupHandoffRouteGroupRegistered,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_HANDOFF_EVIDENCE_ROUTE_PATH,
   JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_LATEST_EVIDENCE_ROUTE_PATH,
@@ -163,7 +165,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
         readyForRouteCatalogCleanupConsumerReadinessBatchCloseout: true,
         executionAllowed: false,
         routeCatalog: {
-          routeCount: 207,
+          routeCount: cleanupHandoffRouteCounts.consumerReadinessBatchCloseout,
           javaMiniKvDomainRouteCount: 43,
           cleanupHandoffRouteGroupRouteCount: 9,
         },
@@ -177,7 +179,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Java / mini-kv route catalog cleanup consumer readiness batch closeout");
-      expect(markdown.body).toContain("routeCount: 207");
+      expectMarkdownRouteCount(markdown.body, cleanupHandoffRouteCounts.consumerReadinessBatchCloseout);
       expect(markdown.body).toContain("javaDirtyWorktreeExcluded: true");
     } finally {
       await app.close();
@@ -213,7 +215,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
           ready: true,
           checkCount: 15,
           passedCheckCount: 15,
-          routeCountAtCloseout: 207,
+          routeCountAtCloseout: cleanupHandoffRouteCounts.consumerReadinessBatchCloseout,
         },
         summary: {
           archiveFileCount: 3,
