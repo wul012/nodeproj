@@ -134,6 +134,38 @@ describe("managed audit route registration table quality pass", () => {
     expect(profile.productionBlockers.map((blocker) => blocker.code)).toContain("CATALOG_INTEGRITY_NOT_READY");
   });
 
+  it("reports catalog count drift with current expected counts", () => {
+    const catalogIntegrity = currentCatalogIntegrity();
+    const profile = loadManagedAuditRouteRegistrationTableQualityPass({
+      config: loadTestConfig(),
+      catalogIntegrity: {
+        ...catalogIntegrity,
+        summary: {
+          ...catalogIntegrity.summary,
+          groupCount: expectedCatalog.groupCount + 1,
+          routeCount: expectedCatalog.routeCount + 1,
+        },
+      },
+    });
+
+    expect(profile.qualityPassState).toBe("blocked");
+    expect(profile.readyForManagedAuditRouteRegistrationTableQualityPass).toBe(false);
+    expect(profile.checks.routeGroupCountAligned).toBe(false);
+    expect(profile.checks.routeCountPreserved).toBe(false);
+    expect(profile.productionBlockers).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: "ROUTE_GROUP_CATALOG_NOT_ALIGNED",
+          message: expect.stringContaining(`expected ${expectedCatalog.groupCount} route groups`),
+        }),
+        expect.objectContaining({
+          code: "ROUTE_REGISTRATION_COUNT_NOT_PRESERVED",
+          message: expect.stringContaining(`expected ${expectedCatalog.routeCount} JSON/Markdown routes`),
+        }),
+      ]),
+    );
+  });
+
   it("exposes table quality routes and preserves representative existing audit routes", async () => {
     const app = await buildApp(loadTestConfig());
 

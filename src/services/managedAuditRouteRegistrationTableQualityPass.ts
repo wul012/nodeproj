@@ -311,7 +311,19 @@ function collectProductionBlockers(
       condition: checks.routeGroupCatalogAdded && checks.routeGroupCountAligned,
       code: "ROUTE_GROUP_CATALOG_NOT_ALIGNED",
       source: "audit-route-catalog-integrity",
-      message: "The audit route group catalog must contain the expected 49 route groups.",
+      message:
+        `The audit route group catalog must contain the expected ${
+          EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount
+        } route groups.`,
+    },
+    {
+      condition: checks.routeCountPreserved,
+      code: "ROUTE_REGISTRATION_COUNT_NOT_PRESERVED",
+      source: "managed-audit-route-registration-table-quality-pass",
+      message:
+        `The audit route registration table must preserve the expected ${
+          EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount
+        } JSON/Markdown routes.`,
     },
     {
       condition: checks.routeTableMatchesCatalog && checks.uniqueRoutePaths && checks.noEmptyRouteGroups,
