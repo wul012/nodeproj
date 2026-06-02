@@ -1,0 +1,47 @@
+{
+  "version": "v541",
+  "title": "Java / mini-kv route catalog cleanup latest sibling evidence report archive",
+  "generatedAt": "2026-06-02T06:41:47.314Z",
+  "sourceRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-evidence",
+  "sourceMarkdownRoute": "/api/v1/audit/java-mini-kv-route-catalog-cleanup-latest-sibling-evidence?format=markdown",
+  "statusCodes": {
+    "json": 200,
+    "markdown": 200
+  },
+  "ready": true,
+  "reportState": "ready",
+  "checkCount": 13,
+  "passedCheckCount": 13,
+  "activeNodeVersion": "Node v540",
+  "sourceNodeVersion": "Node v538",
+  "ciStabilizationVersion": "Node v539",
+  "javaLatestCleanVersion": "Java v274",
+  "miniKvLatestCleanVersion": "v247",
+  "miniKvEvidenceDigest": "fnv1a64:9fb71e13c517fff8",
+  "routeCatalog": {
+    "groupCount": 50,
+    "routeCount": 224,
+    "javaMiniKvDomainRouteCount": 60,
+    "cleanupHandoffRouteGroupRouteCount": 26
+  },
+  "files": {
+    "json": {
+      "path": "e/541/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-report-v540-http.json",
+      "sizeBytes": 11222,
+      "sha256": "21c9bc81b389ffb10491f0140a9dc8306addae7165094443c1c0a300271f44b9"
+    },
+    "markdown": {
+      "path": "e/541/evidence/java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-report-v540-http.md",
+      "sizeBytes": 5300,
+      "sha256": "82cfd646fae277ddf254957cb503de00b59f57130b887ed20137b3050dbaac92"
+    }
+  },
+  "boundaries": {
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "mutatesJavaState": false,
+    "mutatesMiniKvState": false,
+    "connectsManagedAudit": false,
+    "executionAllowed": false
+  }
+}
