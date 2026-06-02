@@ -499,6 +499,11 @@ Node v525 已完成 Java / mini-kv route catalog cleanup twenty-version run clos
 v525 不新增 route，不启动 sibling 服务；v526 可以公开该 verifier。
 Java / mini-kv 继续 recommended parallel。
 
+Node v526 已完成 Java / mini-kv route catalog cleanup twenty-version run closeout archive verification route。
+目标是把 v525 verifier 暴露为 JSON/Markdown route。
+v526 route catalog count 更新为 219，Java/mini-kv domain route count 更新为 55，cleanup handoff route group 更新为 21。
+v527 应开始 expanded stability closeout；Java / mini-kv 继续 recommended parallel。
+
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
 v489 前置检查显示 Java 已到 v221 tag 但有 v222-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
