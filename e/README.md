@@ -154,6 +154,7 @@
 514: Java / mini-kv route catalog cleanup fresh baseline batch closeout report archive
 515: Java / mini-kv route catalog cleanup fresh baseline batch closeout archive verification
 516: Java / mini-kv route catalog cleanup fresh baseline batch closeout archive verification route
+517: Java / mini-kv route catalog cleanup fresh baseline stability closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

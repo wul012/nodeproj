@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v516-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-archive-verification-route-roadmap.md
+docs/plans3/v517-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v517 已完成 Java / mini-kv route catalog cleanup fresh baseline stability closeout。
+docs/plans3/v517-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-stability-closeout-roadmap.md
 Node v516 已完成 Java / mini-kv route catalog cleanup fresh baseline batch closeout archive verification route。
 docs/plans3/v516-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-archive-verification-route-roadmap.md
 Node v515 已完成 Java / mini-kv route catalog cleanup fresh baseline batch closeout archive verification。
@@ -441,6 +443,11 @@ Node v516 已完成 Java / mini-kv route catalog cleanup fresh baseline batch cl
 目标是把 v515 verifier 暴露为 JSON/Markdown route。
 v516 route catalog count 更新为 215，Java/mini-kv domain route count 更新为 51，cleanup handoff route group 更新为 17。
 v517 应开始稳定性收口，而不是继续延伸同一 archive chain。
+
+Node v517 已完成 Java / mini-kv route catalog cleanup fresh baseline stability closeout。
+目标是记录 v516 后的 live route catalog 215/51/17，同时保留 v514 archive snapshot 213/49/15。
+v517 不新增 route，不启动 sibling 服务；v518 可以公开该 closeout。
+Java / mini-kv 推荐并行。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
