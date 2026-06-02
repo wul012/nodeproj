@@ -223,6 +223,7 @@
 583: Promotion release/deployment test suite split
 584: Promotion handoff test suite split
 585: Promotion approved full-chain test split
+586: Java/mini-kv cleanup handoff route test split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
