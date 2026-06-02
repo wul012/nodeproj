@@ -179,6 +179,7 @@
 539: Node Evidence CI test budget stabilization
 540: Java / mini-kv route catalog cleanup latest sibling evidence report
 541: Java / mini-kv route catalog cleanup latest sibling evidence report archive
+542: Java / mini-kv route catalog cleanup latest sibling evidence archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

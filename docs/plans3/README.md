@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v541-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-report-archive-roadmap.md
+docs/plans3/v542-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v542 已完成 Java / mini-kv route catalog cleanup latest sibling evidence archive verification。
+docs/plans3/v542-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-archive-verification-roadmap.md
 Node v541 已完成 Java / mini-kv route catalog cleanup latest sibling evidence report archive。
 docs/plans3/v541-post-java-mini-kv-route-catalog-cleanup-latest-sibling-evidence-report-archive-roadmap.md
 Node v540 已完成 Java / mini-kv route catalog cleanup latest sibling evidence report。
@@ -616,6 +618,11 @@ Node v541 已完成 Java / mini-kv route catalog cleanup latest sibling evidence
 目标是通过本地 Fastify inject 归档 v540 JSON/Markdown route 输出和 SHA-256 summary。
 v541 归档结果：JSON 200、Markdown 200、ready=true、13/13 source checks、route catalog 224/60/26。
 v541 未启动 Java/mini-kv，临时归档脚本已删除。
+
+Node v542 已完成 Java / mini-kv route catalog cleanup latest sibling evidence archive verification。
+目标是验证 v541 JSON/Markdown/archive summary 的 SHA-256、ready=true、Java v274、mini-kv v247、route catalog 224/60/26 与 runtime boundary。
+v542 新增 verifier service、renderer 和 focused test；不新增 route，不启动 Java/mini-kv。
+v543 应公开该 verifier route 并更新 route catalog count。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
