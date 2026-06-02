@@ -1,0 +1,50 @@
+import { renderEntries, renderList } from "./liveProbeReportUtils.js";
+import type {
+  JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseoutProfile,
+} from "./javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseout.js";
+
+export function renderJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseoutMarkdown(
+  profile: JavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseoutProfile,
+): string {
+  return [
+    "# Java / mini-kv route catalog cleanup latest sibling live smoke archive chain closeout",
+    "",
+    `- Service: ${profile.service}`,
+    `- Generated at: ${profile.generatedAt}`,
+    `- Profile version: ${profile.profileVersion}`,
+    `- Closeout state: ${profile.closeoutState}`,
+    `- Ready: ${profile.readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseout}`,
+    `- Active Node version: ${profile.activeNodeVersion}`,
+    `- Source Node version: ${profile.sourceNodeVersion}`,
+    `- Execution allowed: ${profile.executionAllowed}`,
+    "",
+    "## Completed Node Versions",
+    "",
+    ...profile.completedNodeVersions.map((version) => `- ${version}`),
+    "",
+    "## Necessity Proof",
+    "",
+    ...renderEntries(profile.necessityProof),
+    "",
+    "## Latest Verifier",
+    "",
+    ...renderEntries(profile.latestVerifier),
+    "",
+    "## Current Route Catalog",
+    "",
+    ...renderEntries(profile.currentRouteCatalog),
+    "",
+    "## Checks",
+    "",
+    ...renderEntries(profile.checks),
+    "",
+    "## Summary",
+    "",
+    ...renderEntries(profile.summary),
+    "",
+    "## Next Actions",
+    "",
+    ...renderList(profile.nextActions, "No next actions."),
+    "",
+  ].join("\n");
+}
