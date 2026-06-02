@@ -554,6 +554,11 @@ Node v536 已完成 Java / mini-kv route catalog cleanup CI/catalog health close
 v536 route catalog count 更新为 223，Java/mini-kv domain route count 更新为 59，cleanup handoff route group 更新为 25。
 v537 应做 final summary、cleanup、CI review 与 worktree closeout。
 
+Node v537 已完成 Java / mini-kv route catalog cleanup extended run final closeout。
+目标是总结 v523-v537 十五版扩展，确认 v536 public verifier gate、route quality pass、route catalog 223/59/25 与 CI observation。
+v537 不新增 route、不启动 sibling 服务、不需要 fresh sibling evidence；Java / mini-kv 继续 recommended parallel。
+若后续最新 CI 从 in-progress 转为真实失败，应优先修复该失败。
+
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。
 v489 前置检查显示 Java 已到 v221 tag 但有 v222-like 本地改动，mini-kv 已到 v201 tag 但有 v202-like 本地改动；两边建议并行，Node 不消费 dirty evidence。
