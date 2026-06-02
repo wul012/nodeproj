@@ -1,0 +1,293 @@
+import { createHash } from "node:crypto";
+import { existsSync, readFileSync, statSync } from "node:fs";
+import path from "node:path";
+
+import type { AppConfig } from "../config.js";
+import { countPassedReportChecks, countReportChecks } from "./liveProbeReportUtils.js";
+
+export {
+  renderJavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationMarkdown,
+} from "./javaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationRenderer.js";
+
+export const JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_FRESH_BASELINE_BATCH_CLOSEOUT_ARCHIVE_VERIFICATION_ROUTE_PATH =
+  "/api/v1/audit/java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-archive-verification";
+
+const ARCHIVE_JSON =
+  "e/514/evidence/java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-v513-http.json";
+const ARCHIVE_MARKDOWN =
+  "e/514/evidence/java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-v513-http.md";
+const ARCHIVE_SUMMARY =
+  "e/514/evidence/java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-v514-archive-summary.json";
+
+export interface FreshBaselineBatchCloseoutArchiveFileReference {
+  path: string;
+  exists: boolean;
+  sizeBytes: number;
+  sha256: string | null;
+}
+
+export interface JavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationProfile {
+  service: "orderops-node";
+  title: string;
+  generatedAt: string;
+  profileVersion: "java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-archive-verification.v1";
+  activeNodeVersion: "Node v515";
+  sourceNodeVersion: "Node v514";
+  archiveVerificationState: "ready" | "blocked";
+  readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification: boolean;
+  readyForProductionAudit: false;
+  readyForProductionWindow: false;
+  readyForProductionOperations: false;
+  archiveVerificationOnly: true;
+  startsJavaService: false;
+  startsMiniKvService: false;
+  executionAllowed: false;
+  archiveFiles: {
+    json: FreshBaselineBatchCloseoutArchiveFileReference;
+    markdown: FreshBaselineBatchCloseoutArchiveFileReference;
+    summary: FreshBaselineBatchCloseoutArchiveFileReference;
+  };
+  sourceReport: {
+    profileVersion: string;
+    activeNodeVersion: string;
+    sourceNodeVersion: string;
+    ready: boolean;
+    checkCount: number;
+    passedCheckCount: number;
+    closedVersionCount: number;
+    routeCount: number;
+    javaMiniKvDomainRouteCount: number;
+    cleanupHandoffRouteGroupRouteCount: number;
+    executionAllowed: boolean;
+    startsJavaService: boolean;
+    startsMiniKvService: boolean;
+  };
+  summary: {
+    archiveFileCount: number;
+    presentArchiveFileCount: number;
+    checkCount: number;
+    passedCheckCount: number;
+    sourceCheckCount: number;
+    sourcePassedCheckCount: number;
+  };
+  checks: {
+    archiveFilesPresent: boolean;
+    jsonReadable: boolean;
+    markdownReadable: boolean;
+    summaryReadable: boolean;
+    summaryDigestsMatchFiles: boolean;
+    jsonProfileVersionValid: boolean;
+    jsonSourceVersionsMatch: boolean;
+    jsonCloseoutReady: boolean;
+    jsonChecksAllPassed: boolean;
+    jsonClosedVersionsMatch: boolean;
+    jsonRouteCatalogSnapshotValid: boolean;
+    markdownRecordsBatchCloseout: boolean;
+    markdownRecordsClosedVersionsAndVerifier: boolean;
+    summaryMatchesJson: boolean;
+    noRuntimeExecutionOpened: boolean;
+    noSiblingServiceStartup: boolean;
+    readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification: boolean;
+  };
+  nextActions: string[];
+}
+
+export function loadJavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification(
+  input: { config: AppConfig; projectRoot?: string },
+): JavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationProfile {
+  void input.config;
+  const projectRoot = input.projectRoot ?? process.cwd();
+  const archiveFiles = {
+    json: fileReference(projectRoot, ARCHIVE_JSON),
+    markdown: fileReference(projectRoot, ARCHIVE_MARKDOWN),
+    summary: fileReference(projectRoot, ARCHIVE_SUMMARY),
+  };
+  const json = readJsonFile(projectRoot, ARCHIVE_JSON);
+  const markdown = readTextFile(projectRoot, ARCHIVE_MARKDOWN);
+  const summaryJson = readJsonFile(projectRoot, ARCHIVE_SUMMARY);
+  const sourceReport = createSourceReport(json);
+  const checks = createChecks({ archiveFiles, json, markdown, summaryJson, sourceReport });
+  checks.readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification = Object.entries(checks)
+    .filter(([key]) => key !== "readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification")
+    .every(([, value]) => value);
+  const ready = checks.readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification;
+
+  return {
+    service: "orderops-node",
+    title: "Java / mini-kv route catalog cleanup fresh baseline batch closeout archive verification",
+    generatedAt: new Date().toISOString(),
+    profileVersion: "java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout-archive-verification.v1",
+    activeNodeVersion: "Node v515",
+    sourceNodeVersion: "Node v514",
+    archiveVerificationState: ready ? "ready" : "blocked",
+    readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification: ready,
+    readyForProductionAudit: false,
+    readyForProductionWindow: false,
+    readyForProductionOperations: false,
+    archiveVerificationOnly: true,
+    startsJavaService: false,
+    startsMiniKvService: false,
+    executionAllowed: false,
+    archiveFiles,
+    sourceReport,
+    summary: {
+      archiveFileCount: Object.keys(archiveFiles).length,
+      presentArchiveFileCount: Object.values(archiveFiles).filter((file) => file.exists).length,
+      checkCount: countReportChecks(checks),
+      passedCheckCount: countPassedReportChecks(checks),
+      sourceCheckCount: sourceReport.checkCount,
+      sourcePassedCheckCount: sourceReport.passedCheckCount,
+    },
+    checks,
+    nextActions: ready
+      ? [
+        "Expose this archive verification through the cleanup route group in Node v516.",
+        "Start the next stabilization batch after the verifier route is published.",
+      ]
+      : [
+        "Repair v514 archive files before exposing archive verification.",
+        "Do not regenerate the archive from a later closeout route snapshot.",
+      ],
+  };
+}
+
+function createSourceReport(
+  json: Record<string, unknown> | null,
+): JavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationProfile["sourceReport"] {
+  return {
+    profileVersion: stringValue(valueAt(json, "profileVersion")),
+    activeNodeVersion: stringValue(valueAt(json, "activeNodeVersion")),
+    sourceNodeVersion: stringValue(valueAt(json, "sourceNodeVersion")),
+    ready: valueAt(json, "readyForRouteCatalogCleanupFreshBaselineBatchCloseout") === true,
+    checkCount: numberValue(valueAt(json, "summary", "checkCount")),
+    passedCheckCount: numberValue(valueAt(json, "summary", "passedCheckCount")),
+    closedVersionCount: numberValue(valueAt(json, "summary", "closedVersionCount")),
+    routeCount: numberValue(valueAt(json, "routeCatalog", "routeCount")),
+    javaMiniKvDomainRouteCount: numberValue(valueAt(json, "routeCatalog", "javaMiniKvDomainRouteCount")),
+    cleanupHandoffRouteGroupRouteCount:
+      numberValue(valueAt(json, "routeCatalog", "cleanupHandoffRouteGroupRouteCount")),
+    executionAllowed: valueAt(json, "executionAllowed") === true,
+    startsJavaService: valueAt(json, "startsJavaService") === true,
+    startsMiniKvService: valueAt(json, "startsMiniKvService") === true,
+  };
+}
+
+function createChecks(input: {
+  archiveFiles: JavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationProfile["archiveFiles"];
+  json: Record<string, unknown> | null;
+  markdown: string;
+  summaryJson: Record<string, unknown> | null;
+  sourceReport: JavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationProfile["sourceReport"];
+}): JavaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationProfile["checks"] {
+  const summaryFiles = objectField(input.summaryJson, "files");
+  const summaryJsonFile = objectField(summaryFiles, "json");
+  const summaryMarkdownFile = objectField(summaryFiles, "markdown");
+
+  return {
+    archiveFilesPresent: Object.values(input.archiveFiles).every((file) => file.exists),
+    jsonReadable: input.json !== null,
+    markdownReadable: input.markdown.length > 0,
+    summaryReadable: input.summaryJson !== null,
+    summaryDigestsMatchFiles:
+      stringValue(valueAt(summaryJsonFile, "sha256")) === input.archiveFiles.json.sha256
+      && stringValue(valueAt(summaryMarkdownFile, "sha256")) === input.archiveFiles.markdown.sha256,
+    jsonProfileVersionValid:
+      input.sourceReport.profileVersion === "java-mini-kv-route-catalog-cleanup-fresh-baseline-batch-closeout.v1",
+    jsonSourceVersionsMatch:
+      input.sourceReport.activeNodeVersion === "Node v512"
+      && input.sourceReport.sourceNodeVersion === "Node v511",
+    jsonCloseoutReady: input.sourceReport.ready,
+    jsonChecksAllPassed:
+      input.sourceReport.checkCount === 14
+      && input.sourceReport.checkCount === input.sourceReport.passedCheckCount,
+    jsonClosedVersionsMatch:
+      input.sourceReport.closedVersionCount === 5
+      && JSON.stringify(valueAt(input.json, "closedVersions")) === "[\"v507\",\"v508\",\"v509\",\"v510\",\"v511\"]",
+    jsonRouteCatalogSnapshotValid:
+      input.sourceReport.routeCount === 213
+      && input.sourceReport.javaMiniKvDomainRouteCount === 49
+      && input.sourceReport.cleanupHandoffRouteGroupRouteCount === 15,
+    markdownRecordsBatchCloseout:
+      input.markdown.includes("# Java / mini-kv route catalog cleanup fresh baseline batch closeout")
+      && input.markdown.includes("Active Node version: Node v512"),
+    markdownRecordsClosedVersionsAndVerifier:
+      input.markdown.includes("- v507")
+      && input.markdown.includes("- v511")
+      && input.markdown.includes("v510VerifierReady: true"),
+    summaryMatchesJson:
+      valueAt(input.summaryJson, "ready") === input.sourceReport.ready
+      && valueAt(input.summaryJson, "checkCount") === input.sourceReport.checkCount
+      && valueAt(input.summaryJson, "passedCheckCount") === input.sourceReport.passedCheckCount,
+    noRuntimeExecutionOpened:
+      input.sourceReport.executionAllowed === false
+      && valueAt(input.json, "readyForProductionOperations") === false,
+    noSiblingServiceStartup:
+      input.sourceReport.startsJavaService === false
+      && input.sourceReport.startsMiniKvService === false,
+    readyForRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerification: false,
+  };
+}
+
+function fileReference(projectRoot: string, relativePath: string):
+  FreshBaselineBatchCloseoutArchiveFileReference {
+  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
+  if (!existsSync(absolutePath)) {
+    return { path: relativePath, exists: false, sizeBytes: 0, sha256: null };
+  }
+  const content = readFileSync(absolutePath);
+  return {
+    path: relativePath,
+    exists: true,
+    sizeBytes: statSync(absolutePath).size,
+    sha256: createHash("sha256").update(content).digest("hex"),
+  };
+}
+
+function readJsonFile(projectRoot: string, relativePath: string): Record<string, unknown> | null {
+  const text = readTextFile(projectRoot, relativePath);
+  if (text.length === 0) {
+    return null;
+  }
+  try {
+    const parsed = JSON.parse(text) as unknown;
+    return parsed !== null && typeof parsed === "object" && !Array.isArray(parsed)
+      ? parsed as Record<string, unknown>
+      : null;
+  } catch {
+    return null;
+  }
+}
+
+function readTextFile(projectRoot: string, relativePath: string): string {
+  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
+  if (!existsSync(absolutePath)) {
+    return "";
+  }
+  return readFileSync(absolutePath, "utf8");
+}
+
+function valueAt(source: unknown, ...keys: string[]): unknown {
+  let value = source;
+  for (const key of keys) {
+    if (value === null || typeof value !== "object") {
+      return undefined;
+    }
+    value = (value as Record<string, unknown>)[key];
+  }
+  return value;
+}
+
+function objectField(source: Record<string, unknown> | null, key: string): Record<string, unknown> {
+  const value = source?.[key];
+  return value !== null && typeof value === "object" && !Array.isArray(value)
+    ? value as Record<string, unknown>
+    : {};
+}
+
+function stringValue(value: unknown): string {
+  return typeof value === "string" ? value : "";
+}
+
+function numberValue(value: unknown): number {
+  return typeof value === "number" && Number.isFinite(value) ? value : 0;
+}
