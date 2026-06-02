@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-artifact-presence-receipt-v238",
+  "version": "Java v238",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff artifact presence",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v238 verifies the v225 readiness handoff artifact set remains present: static fixture, evidence JSON, browser snapshot, HTML page, PNG screenshot, and Chinese explanation.",
+  "guards": [
+    "static contracts fixture exists under src/main/resources",
+    "v225 evidence JSON exists under e/225/evidence",
+    "v225 browser snapshot exists under e/225/evidence",
+    "v225 HTML evidence page exists under e/225",
+    "v225 PNG screenshot and Chinese explanation remain archived"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffArtifactPresenceTests,OpsShardReadinessV1ContractConsumerReadinessHandoffFixtureParityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffRouteInventoryTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

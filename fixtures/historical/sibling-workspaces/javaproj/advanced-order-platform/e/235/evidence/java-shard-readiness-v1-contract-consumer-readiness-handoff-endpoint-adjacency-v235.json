@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-endpoint-adjacency-receipt-v235",
+  "version": "Java v235",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff endpoint adjacency",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v235 verifies the readiness handoff remains directly after the evidence digest in v1 pairs and directly before the read-only catalog group in the rolling evidence registry.",
+  "guards": [
+    "readiness handoff live pair is adjacent after evidence digest live pair",
+    "readiness handoff fixture pair is adjacent after evidence digest fixture pair",
+    "endpoint catalog, consumer bundle, checklist, digest, handoff, and read-only catalog remain in sequence",
+    "readiness handoff remains the last v1 contract pair before the read-only group",
+    "endpoint and fixture inventories preserve the same adjacency"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffEndpointAdjacencyTests,OpsShardReadinessV1ContractEndpointPairsTests,OpsShardReadinessEvidenceEndpointsTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

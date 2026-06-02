@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-fixture-parity-receipt-v233",
+  "version": "Java v233",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff fixture parity",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v233 compares the static readiness handoff fixture against the frozen v225 handoff response as JSON and requires exact parity.",
+  "guards": [
+    "static readiness handoff fixture is loaded from classpath static/contracts",
+    "fixture JSON equals ObjectMapper valueToTree of the frozen v225 handoff response",
+    "fixture endpoint in the response equals the service fixture endpoint constant",
+    "evidence path in the response equals the service evidence path constant",
+    "MockMvc integration still serves the readiness handoff endpoint and fixture"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffFixtureParityTests,OpsShardReadinessV1ContractConsumerReadinessHandoffRouteInventoryTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

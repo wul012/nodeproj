@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-controller-mapping-receipt-v232",
+  "version": "Java v232",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff controller mapping",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v232 verifies the controller method, GetMapping route, response type, and constructor injection order for the readiness handoff endpoint.",
+  "guards": [
+    "controller method consumerReadinessHandoff returns OpsShardReadinessV1ContractConsumerReadinessHandoffResponse",
+    "controller method GetMapping value equals V1_CONTRACT_CONSUMER_READINESS_HANDOFF",
+    "controller constructor keeps the readiness handoff service after the evidence digest service",
+    "controller split tests still recognize the readiness handoff route",
+    "MockMvc integration still serves the readiness handoff endpoint and fixture"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffControllerMappingTests,OpsShardReadinessV1ContractControllerSplitTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrationTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-receipt-uniqueness-receipt-v236",
+  "version": "Java v236",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff receipt uniqueness",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v236 verifies the consumer handoff chain has unique receipt IDs and unique evidence paths across bundle, checklist, digest, and readiness handoff layers.",
+  "guards": [
+    "v211 consumer handoff bundle receipt is unique",
+    "v215 consumer verification checklist receipt is unique",
+    "v220 consumer evidence digest receipt is unique",
+    "v225 consumer readiness handoff receipt is unique",
+    "consumer chain evidence paths are unique and point to their versioned e/ directories"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffReceiptUniquenessTests,OpsShardReadinessV1ContractConsumerReadinessHandoffEvidenceChainTests,OpsShardReadinessV1ContractConsumerReadinessHandoffSnapshotTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

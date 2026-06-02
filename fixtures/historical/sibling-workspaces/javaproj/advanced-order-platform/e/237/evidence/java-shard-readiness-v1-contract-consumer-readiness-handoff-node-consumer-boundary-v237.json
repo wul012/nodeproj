@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-node-consumer-boundary-receipt-v237",
+  "version": "Java v237",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff node consumer boundary",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v237 verifies Node consumers may read readiness evidence but may not start or stop Java or mini-kv, write routing, read credentials, parse raw endpoints, open managed audit connections, deploy, or roll back.",
+  "guards": [
+    "checklist, digest, and readiness handoff all deny nodeMayStartOrStopJavaOrMiniKv",
+    "readiness handoff denies startsJavaService and startsMiniKvService",
+    "readiness handoff denies write routing and active shard router",
+    "readiness handoff denies credential value read, raw endpoint parsing, managed audit connection, deployment, and rollback",
+    "handoff checks and blocked operations explicitly expose the Node no-start/no-stop rule"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffNodeConsumerBoundaryTests,OpsShardReadinessV1ContractConsumerReadinessHandoffBoundaryMatrixTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrityTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}

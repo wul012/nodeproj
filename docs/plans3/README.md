@@ -5,12 +5,14 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v506-post-audit-route-catalog-ci-count-alignment-roadmap.md
+docs/plans3/v507-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-intake-roadmap.md
 ```
 
 上一入口：
 
 ```text
+Node v507 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence intake。
+docs/plans3/v507-post-java-mini-kv-route-catalog-cleanup-fresh-baseline-evidence-intake-roadmap.md
 Node v506 已完成 audit route catalog CI count alignment。
 docs/plans3/v506-post-audit-route-catalog-ci-count-alignment-roadmap.md
 Node v505 已完成 Java / mini-kv route catalog cleanup readiness handoff evidence archive verification route。
@@ -371,6 +373,11 @@ Node v506 已完成 audit route catalog CI count alignment。
 目标是修复 GitHub Actions 全量测试中两个 stale route-count 断言，避免 route catalog 真实增长后 CI 仍按旧数字 201/205/37 判断。
 v506 将 `auditJsonMarkdownRouteCatalogIntegrity` 与 `auditJsonMarkdownRouteGroups` 测试改为消费统一 `EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY`，当前总 route count 为 211，Java/mini-kv domain route count 为 47。
 v506 focused catalog tests 已通过；下一段推荐从 Node v507 开始消费 Java v232-v239 和 mini-kv v213-v220 clean evidence。
+
+Node v507 已完成 Java / mini-kv route catalog cleanup fresh baseline evidence intake。
+目标是消费 Java v232-v239 与 mini-kv v213-v220 clean evidence，并把 mini-kv v220 rolling fixture 冻结为 Node historical fixture。
+v507 focused evidence tests 覆盖 normal path 和 forced historical fallback；结果 16/16 files、9/9 checks。
+v507 不新增 route，不启动 sibling 服务，不开启 runtime execution；v508 可以生成 report route。
 
 Node v489 已完成 Java / mini-kv route catalog cleanup verification checklist evidence archive verification。
 目标是验证 e/488 的 JSON/Markdown/archive summary，确认 SHA-256、source version、ready=true、18/18 checks 与 runtime boundary。

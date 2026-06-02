@@ -1,0 +1,29 @@
+{
+  "receiptId": "java-shard-readiness-v1-contract-consumer-readiness-handoff-boundary-matrix-receipt-v234",
+  "version": "Java v234",
+  "status": "passed",
+  "scope": "v1 contract consumer readiness handoff boundary matrix",
+  "readOnly": true,
+  "executionAllowed": false,
+  "summary": "v234 verifies the checklist, digest, and readiness handoff layers share the same closed execution boundary and exact blocked-operation list.",
+  "guards": [
+    "Java v215 checklist remains read-only and execution denied",
+    "Java v220 digest remains read-only and execution denied",
+    "Java v225 readiness handoff remains read-only and execution denied",
+    "all three layers deny Java/mini-kv start, write routing, active shard routing, credential read, raw endpoint parsing, managed audit connections, deployment, rollback, and Node process control",
+    "all three layers carry the exact same blocked operations list"
+  ],
+  "validation": [
+    "mvn -q \"-Dtest=OpsShardReadinessV1ContractConsumerReadinessHandoffBoundaryMatrixTests,OpsShardReadinessV1ContractConsumerReadinessHandoffIntegrityTests,OpsShardReadinessV1ContractConsumerVerificationChecklistServiceTests,OpsShardReadinessV1ContractConsumerEvidenceDigestServiceTests\" test",
+    "Playwright browser snapshot and screenshot"
+  ],
+  "boundary": {
+    "writeRoutingAllowed": false,
+    "activeShardRouterAllowed": false,
+    "credentialValueRead": false,
+    "rawEndpointParsed": false,
+    "managedAuditConnectionAllowed": false,
+    "deploymentOrRollbackAllowed": false,
+    "nodeMayStartOrStopJavaOrMiniKv": false
+  }
+}
