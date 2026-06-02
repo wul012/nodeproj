@@ -15,4 +15,4 @@ Validation completed:
 - focused v549 test;
 - TypeScript typecheck.
 
-Next step: v550 should expose this verifier through the cleanup route group.
+Next step: v550 stabilizes the extended closeout route-count assertion after v547 CI; v551 can expose this verifier through the cleanup route group.

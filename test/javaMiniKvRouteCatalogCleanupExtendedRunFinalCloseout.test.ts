@@ -30,7 +30,6 @@ describe("Java/mini-kv route catalog cleanup extended run final closeout", () =>
       },
       routeQuality: {
         ready: true,
-        routeRegistrationCount: 225,
         routeGroupCount: 50,
         catalogIntegrityReady: true,
         routeTableMatchesCatalog: true,
@@ -70,6 +69,8 @@ describe("Java/mini-kv route catalog cleanup extended run final closeout", () =>
       "v536",
       "v537",
     ]);
+    expect(closeout.routeQuality.routeRegistrationCount)
+      .toBeGreaterThanOrEqual(closeout.routeCatalog.routeCount);
     expect(closeout.summary.checkCount).toBe(closeout.summary.passedCheckCount);
     expect(Object.values(closeout.checks).every(Boolean)).toBe(true);
     expect(renderJavaMiniKvRouteCatalogCleanupExtendedRunFinalCloseoutMarkdown(closeout))

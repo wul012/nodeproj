@@ -33,4 +33,4 @@ The service builds:
 
 ## Boundary
 
-v549 does not start sibling services, does not run live smoke, and does not expose a route. v550 can expose this verifier.
+v549 does not start sibling services, does not run live smoke, and does not expose a route. v550 stabilizes the extended closeout route-count assertion after v547 CI; v551 can expose this verifier.
