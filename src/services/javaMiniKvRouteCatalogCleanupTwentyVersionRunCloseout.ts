@@ -12,6 +12,9 @@ import {
 
 const ROUTE_FILE = "src/routes/auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.ts";
 
+export const JAVA_MINI_KV_ROUTE_CATALOG_CLEANUP_TWENTY_VERSION_RUN_CLOSEOUT_ROUTE_PATH =
+  "/api/v1/audit/java-mini-kv-route-catalog-cleanup-twenty-version-run-closeout";
+
 export interface JavaMiniKvRouteCatalogCleanupTwentyVersionRunCloseout {
   service: "orderops-node";
   title: string;

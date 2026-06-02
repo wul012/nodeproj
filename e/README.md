@@ -160,6 +160,7 @@
 520: Java / mini-kv route catalog cleanup fresh baseline stability closeout archive verification
 521: Java / mini-kv route catalog cleanup fresh baseline stability closeout archive verification route
 522: Java / mini-kv route catalog cleanup twenty-version run closeout
+523: Java / mini-kv route catalog cleanup twenty-version run closeout route
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
