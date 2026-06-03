@@ -78,8 +78,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v609",
-    sourceNodeVersion: "Node v608",
+    activeNodeVersion: "Node v610",
+    sourceNodeVersion: "Node v609",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -125,11 +125,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v610",
+      nextNodeVersion: "Node v611",
     },
     nextActions: ready
       ? [
-        "Use Node v610 to add controlled source-matrix handoff note digest scope coverage without routing activation.",
+        "Use Node v611 to add controlled source-matrix handoff notes summary coverage without routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

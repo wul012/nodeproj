@@ -280,6 +280,25 @@ describe("controlled read-only shard preview review artifacts", () => {
       coveredLineCount: 5,
     });
   });
+
+  it("keeps the handoff note digest stable for the same summary export", () => {
+    const consumer = createSourceMatrixConsumer(readySourceMatrix());
+    const driftSummary = createSourceMatrixDriftSummary(readySourceMatrix(), consumer);
+    const checklist = createSourceMatrixReviewChecklist(driftSummary);
+    const digest = createSourceMatrixReviewDigest(checklist);
+    const snapshot = createSourceMatrixArchiveSnapshot(digest);
+    const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+
+    const first = createSourceMatrixHandoffNotes(summaryExport);
+    const second = createSourceMatrixHandoffNotes(summaryExport);
+
+    expect(first.handoffDigest).toEqual(second.handoffDigest);
+    expect(first.handoffDigest).toMatchObject({
+      algorithm: "sha256",
+      scope: "read-only-handoff-notes",
+      coveredNoteCount: 4,
+    });
+  });
 });
 
 function readySourceMatrix(): ControlledReadOnlyShardPreviewSourceMatrix {
