@@ -15,6 +15,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -492,6 +493,49 @@ export function createSourceMatrixHandoffSummaryConsumerExport(
     gateCount: consumer.gateCount,
     passedGateCount: consumer.passedGateCount,
     blockedReasonCount: consumer.blockedReasonCodes.length,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixHandoffSummaryConsumerReceipt(
+  consumerExport: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt {
+  const receiptLines = [
+    `exportState=${consumerExport.exportState}`,
+    `exportDigest=${consumerExport.exportDigest.value}`,
+    `exportLines=${consumerExport.exportLineCount}`,
+    `blockedReasons=${consumerExport.blockedReasonCount}`,
+    `routingActivation=${consumerExport.requiresRoutingActivation}`,
+  ];
+
+  return {
+    receiptVersion: "Node v615",
+    inputExportVersion: "Node v614",
+    receiptState: consumerExport.readyForReadOnlySummaryConsumerExport
+      ? "ready-for-read-only-summary-consumer-receipt"
+      : "blocked",
+    readyForReadOnlySummaryConsumerReceipt: consumerExport.readyForReadOnlySummaryConsumerExport,
+    exportState: consumerExport.exportState,
+    exportDigestValue: consumerExport.exportDigest.value,
+    receiptDigest: {
+      algorithm: "sha256",
+      scope: "handoff-summary-consumer-receipt",
+      value: sha256StableJson({
+        receiptVersion: "Node v615",
+        inputExportVersion: "Node v614",
+        receiptLines,
+      }),
+      coveredExportLineCount: consumerExport.exportLineCount,
+      coveredBlockedReasonCount: consumerExport.blockedReasonCount,
+    },
+    receiptLines,
+    receiptLineCount: receiptLines.length,
+    exportLineCount: consumerExport.exportLineCount,
+    blockedReasonCount: consumerExport.blockedReasonCount,
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,

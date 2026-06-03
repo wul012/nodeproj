@@ -7,6 +7,7 @@ import {
   createSourceMatrixHandoffSummary,
   createSourceMatrixHandoffSummaryConsumer,
   createSourceMatrixHandoffSummaryConsumerExport,
+  createSourceMatrixHandoffSummaryConsumerReceipt,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -28,6 +29,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
     const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
     const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const handoffSummaryConsumerReceipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
 
     expect(consumer).toMatchObject({
       decision: "ready-for-controlled-read-only-consumption",
@@ -251,6 +253,36 @@ describe("controlled read-only shard preview review artifacts", () => {
       "blockedReasons=none",
       "routingActivation=false",
     ]);
+    expect(handoffSummaryConsumerReceipt).toMatchObject({
+      receiptVersion: "Node v615",
+      inputExportVersion: "Node v614",
+      receiptState: "ready-for-read-only-summary-consumer-receipt",
+      readyForReadOnlySummaryConsumerReceipt: true,
+      exportState: "ready-for-read-only-summary-consumer-export",
+      exportDigestValue: handoffSummaryConsumerExport.exportDigest.value,
+      receiptDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-receipt",
+        coveredExportLineCount: 5,
+        coveredBlockedReasonCount: 0,
+      },
+      receiptLineCount: 5,
+      exportLineCount: 5,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+    expect(handoffSummaryConsumerReceipt.receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceipt.receiptLines).toEqual([
+      "exportState=ready-for-read-only-summary-consumer-export",
+      `exportDigest=${handoffSummaryConsumerExport.exportDigest.value}`,
+      "exportLines=5",
+      "blockedReasons=0",
+      "routingActivation=false",
+    ]);
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -264,6 +296,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
     const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
     const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const handoffSummaryConsumerReceipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
 
     expect(consumer).toMatchObject({
       decision: "blocked",
@@ -415,6 +448,27 @@ describe("controlled read-only shard preview review artifacts", () => {
       mutatesSiblingState: false,
     });
     expect(handoffSummaryConsumerExport.exportDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceipt).toMatchObject({
+      receiptState: "blocked",
+      readyForReadOnlySummaryConsumerReceipt: false,
+      exportState: "blocked",
+      exportDigestValue: handoffSummaryConsumerExport.exportDigest.value,
+      receiptDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-receipt",
+        coveredExportLineCount: 5,
+        coveredBlockedReasonCount: 2,
+      },
+      receiptLineCount: 5,
+      exportLineCount: 5,
+      blockedReasonCount: 2,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+    expect(handoffSummaryConsumerReceipt.receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {
