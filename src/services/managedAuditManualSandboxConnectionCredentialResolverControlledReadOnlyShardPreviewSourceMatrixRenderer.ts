@@ -91,6 +91,8 @@ export function renderControlledReadOnlyShardPreviewSourceMatrixSections(
     `- Routing promotion allowed: ${profile.preview.sourceMatrixConsumptionPlan.promotionHold.routingPromotionAllowed}`,
     `- Write promotion allowed: ${profile.preview.sourceMatrixConsumptionPlan.promotionHold.writePromotionAllowed}`,
     `- Service startup allowed: ${profile.preview.sourceMatrixConsumptionPlan.promotionHold.serviceStartupAllowed}`,
+    `- Promotion hold closure criterion count: ${profile.preview.sourceMatrixConsumptionPlan.promotionHold.closureCriterionCount}`,
+    `- Promotion hold closure criteria: ${profile.preview.sourceMatrixConsumptionPlan.promotionHold.closureCriteria.join("; ") || "none"}`,
     `- Requires approval: ${profile.preview.sourceMatrixConsumptionPlan.requiresApproval}`,
     `- Requires routing activation: ${profile.preview.sourceMatrixConsumptionPlan.requiresRoutingActivation}`,
     `- Requires fresh sibling evidence: ${profile.preview.sourceMatrixConsumptionPlan.requiresFreshSiblingEvidence}`,

@@ -171,6 +171,8 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
     routingPromotionAllowed: false;
     writePromotionAllowed: false;
     serviceStartupAllowed: false;
+    closureCriteria: string[];
+    closureCriterionCount: number;
   };
   planDigest: {
     algorithm: "sha256";

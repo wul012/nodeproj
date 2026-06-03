@@ -238,6 +238,7 @@ function createConsumptionPlanPromotionHold(
     : riskSummary.reviewRequired
       ? "review-read-only-risk"
       : "consume-read-only-plan";
+  const closureCriteria = createPromotionHoldClosureCriteria(holdState, riskSummary.riskReasonCodes);
 
   return {
     holdState,
@@ -246,7 +247,40 @@ function createConsumptionPlanPromotionHold(
     routingPromotionAllowed: false,
     writePromotionAllowed: false,
     serviceStartupAllowed: false,
+    closureCriteria,
+    closureCriterionCount: closureCriteria.length,
   };
+}
+
+function createPromotionHoldClosureCriteria(
+  holdState: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["promotionHold"]["holdState"],
+  reasonCodes: readonly string[],
+): string[] {
+  if (holdState === "repair-required") {
+    return [
+      `repairRiskReasons=${reasonCodes.join("|") || "none"}`,
+      "confirmRoutingPromotionAllowed=false",
+      "confirmWritePromotionAllowed=false",
+      "confirmServiceStartupAllowed=false",
+    ];
+  }
+
+  if (holdState === "read-only-review-required") {
+    return [
+      `reviewRiskReasons=${reasonCodes.join("|") || "none"}`,
+      "confirmReadOnlyPlanConsumptionOnly=true",
+      "confirmRoutingPromotionAllowed=false",
+      "confirmWritePromotionAllowed=false",
+      "confirmServiceStartupAllowed=false",
+    ];
+  }
+
+  return [
+    "confirmReadOnlyPlanConsumptionOnly=true",
+    "confirmRoutingPromotionAllowed=false",
+    "confirmWritePromotionAllowed=false",
+    "confirmServiceStartupAllowed=false",
+  ];
 }
 
 function createConsumptionPlanStepRecord(

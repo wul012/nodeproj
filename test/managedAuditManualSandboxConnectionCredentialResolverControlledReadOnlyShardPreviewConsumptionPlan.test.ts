@@ -90,6 +90,14 @@ describe("controlled read-only shard preview consumption plan", () => {
         routingPromotionAllowed: false,
         writePromotionAllowed: false,
         serviceStartupAllowed: false,
+        closureCriteria: [
+          "reviewRiskReasons=PLAN_HAS_REVIEW_STEPS",
+          "confirmReadOnlyPlanConsumptionOnly=true",
+          "confirmRoutingPromotionAllowed=false",
+          "confirmWritePromotionAllowed=false",
+          "confirmServiceStartupAllowed=false",
+        ],
+        closureCriterionCount: 5,
       },
       planDigest: {
         algorithm: "sha256",
@@ -181,6 +189,13 @@ describe("controlled read-only shard preview consumption plan", () => {
         routingPromotionAllowed: false,
         writePromotionAllowed: false,
         serviceStartupAllowed: false,
+        closureCriteria: [
+          "repairRiskReasons=PLAN_HAS_BLOCKED_STEPS|PLAN_HAS_BLOCKING_FINDINGS",
+          "confirmRoutingPromotionAllowed=false",
+          "confirmWritePromotionAllowed=false",
+          "confirmServiceStartupAllowed=false",
+        ],
+        closureCriterionCount: 4,
       },
       planDigest: {
         algorithm: "sha256",
