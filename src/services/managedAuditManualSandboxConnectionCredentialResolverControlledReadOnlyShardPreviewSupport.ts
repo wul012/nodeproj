@@ -221,13 +221,14 @@ export function collectRecommendations(
 ): ControlledReadOnlyShardPreviewMessage[] {
   const blockedReasons = sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none";
   const stepRecordSummary = formatPlanStepRecordSummary(sourceMatrixConsumptionPlan);
+  const safetySummary = formatPlanSafetySummary(sourceMatrixConsumptionPlan);
   return [{
     code: ready ? "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY" : "REPAIR_SOURCE_MATRIX_CONSUMPTION_PLAN",
     severity: "recommendation",
     source: "next-plan",
     message: ready
-      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled.`
-      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}.`,
+      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled; safety ${safetySummary}.`
+      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}; safety ${safetySummary}.`,
   }];
 }
 
@@ -238,12 +239,14 @@ export function createNextActions(
   if (ready) {
     return [
       `Consume sourceMatrixConsumptionPlan.planStepRecords (${formatPlanStepRecordSummary(sourceMatrixConsumptionPlan)}) without routing activation.`,
+      `Preserve sourceMatrixConsumptionPlan.stepSafetySummary (${formatPlanSafetySummary(sourceMatrixConsumptionPlan)}) before any follow-up review.`,
       "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
     ];
   }
 
   return [
     `Repair sourceMatrixConsumptionPlan before consumption; blocked reasons: ${sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none"}.`,
+    `Preserve sourceMatrixConsumptionPlan.stepSafetySummary (${formatPlanSafetySummary(sourceMatrixConsumptionPlan)}) while repairing the plan.`,
     "Do not start, stop, write, restore, load, compact, or activate routing from this Node preview.",
   ];
 }
@@ -254,6 +257,15 @@ function formatPlanStepRecordSummary(
   return sourceMatrixConsumptionPlan.planStepRecords
     .map((step) => `${step.code}:${step.status}`)
     .join(", ") || "none";
+}
+
+function formatPlanSafetySummary(
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+): string {
+  return [
+    `routingActivationAllowedSteps=${sourceMatrixConsumptionPlan.stepSafetySummary.routingActivationAllowedStepCount}`,
+    `writesAllowedSteps=${sourceMatrixConsumptionPlan.stepSafetySummary.writesAllowedStepCount}`,
+  ].join(", ");
 }
 
 export function createSummary(

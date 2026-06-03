@@ -551,8 +551,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
         message: expect.stringContaining("4 source matrix plan step records"),
       }),
     ]);
+    expect(profile.recommendations[0]?.message)
+      .toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("observe-sources:ready"),
+      expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
       expect.stringContaining("independently started services"),
     ]);
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
@@ -648,8 +651,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
         message: expect.stringContaining("SOURCE_NOT_READY"),
       }),
     ]);
+    expect(profile.recommendations[0]?.message)
+      .toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("SOURCE_NOT_READY"),
+      expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
       expect.stringContaining("Do not start"),
     ]);
     expect(javaCalls).toBe(0);
