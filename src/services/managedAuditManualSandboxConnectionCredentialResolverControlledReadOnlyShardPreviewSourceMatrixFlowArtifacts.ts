@@ -142,6 +142,11 @@ export function createSourceMatrixConsumptionPlan(
     routingActivationAllowedStepCount: planStepRecords.filter((step) => step.routingActivationAllowed).length,
     writesAllowedStepCount: planStepRecords.filter((step) => step.writesAllowed).length,
   };
+  const riskSummary = createConsumptionPlanRiskSummary(
+    stepStatusSummary,
+    stepSafetySummary,
+    driftSummary.blockingFindingCount,
+  );
 
   return {
     planVersion: "Node v638",
@@ -162,6 +167,7 @@ export function createSourceMatrixConsumptionPlan(
     planStepRecordCount: planStepRecords.length,
     stepStatusSummary,
     stepSafetySummary,
+    riskSummary,
     planDigest: {
       algorithm: "sha256",
       scope: "source-matrix-consumption-plan",
@@ -174,6 +180,7 @@ export function createSourceMatrixConsumptionPlan(
         planStepRecords,
         stepStatusSummary,
         stepSafetySummary,
+        riskSummary,
       }),
       coveredStepCount: planSteps.length,
     },
@@ -182,6 +189,36 @@ export function createSourceMatrixConsumptionPlan(
     requiresFreshSiblingEvidence: false,
     startsServices: false,
     mutatesSiblingState: false,
+  };
+}
+
+function createConsumptionPlanRiskSummary(
+  stepStatusSummary: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["stepStatusSummary"],
+  stepSafetySummary: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["stepSafetySummary"],
+  blockingFindingCount: number,
+): ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["riskSummary"] {
+  const unsafeStepCount =
+    stepSafetySummary.routingActivationAllowedStepCount + stepSafetySummary.writesAllowedStepCount;
+  const riskReasonCodes = [
+    stepStatusSummary.blockedStepCount > 0 ? "PLAN_HAS_BLOCKED_STEPS" : null,
+    stepStatusSummary.reviewStepCount > 0 ? "PLAN_HAS_REVIEW_STEPS" : null,
+    unsafeStepCount > 0 ? "PLAN_HAS_UNSAFE_STEPS" : null,
+    blockingFindingCount > 0 ? "PLAN_HAS_BLOCKING_FINDINGS" : null,
+  ].filter((reason): reason is string => reason !== null);
+  const riskLevel = unsafeStepCount > 0
+    ? "unsafe"
+    : stepStatusSummary.blockedStepCount > 0 || blockingFindingCount > 0
+      ? "blocked"
+      : stepStatusSummary.reviewStepCount > 0
+        ? "review"
+        : "none";
+
+  return {
+    riskLevel,
+    reviewRequired: stepStatusSummary.reviewStepCount > 0,
+    blocked: riskLevel === "blocked" || riskLevel === "unsafe",
+    unsafeStepCount,
+    riskReasonCodes,
   };
 }
 

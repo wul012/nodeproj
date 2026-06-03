@@ -290,6 +290,7 @@
 650: Controlled read-only shard preview plan safety guidance
 651: Controlled read-only shard preview checks split
 652: Controlled read-only shard preview checks contract
+653: Controlled read-only shard preview consumption plan risk summary
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -160,6 +160,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Blocked step count: 0");
       expect(markdown.body).toContain("Routing activation allowed step count: 0");
       expect(markdown.body).toContain("Writes allowed step count: 0");
+      expect(markdown.body).toContain("Risk level: review");
+      expect(markdown.body).toContain("Review required: true");
+      expect(markdown.body).toContain("Unsafe step count: 0");
+      expect(markdown.body).toContain("Risk reason codes: PLAN_HAS_REVIEW_STEPS");
       expect(markdown.body).toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
     } finally {
       await app.close();

@@ -202,6 +202,13 @@ describe("managed audit manual sandbox connection credential resolver controlled
             routingActivationAllowedStepCount: 0,
             writesAllowedStepCount: 0,
           },
+          riskSummary: {
+            riskLevel: "review",
+            reviewRequired: true,
+            blocked: false,
+            unsafeStepCount: 0,
+            riskReasonCodes: ["PLAN_HAS_REVIEW_STEPS"],
+          },
           planDigest: {
             algorithm: "sha256",
             scope: "source-matrix-consumption-plan",
@@ -730,6 +737,16 @@ describe("managed audit manual sandbox connection credential resolver controlled
       stepSafetySummary: {
         routingActivationAllowedStepCount: 0,
         writesAllowedStepCount: 0,
+      },
+      riskSummary: {
+        riskLevel: "blocked",
+        reviewRequired: false,
+        blocked: true,
+        unsafeStepCount: 0,
+        riskReasonCodes: [
+          "PLAN_HAS_BLOCKED_STEPS",
+          "PLAN_HAS_BLOCKING_FINDINGS",
+        ],
       },
       planDigest: {
         algorithm: "sha256",
