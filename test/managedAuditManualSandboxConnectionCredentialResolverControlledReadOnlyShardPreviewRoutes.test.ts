@@ -50,8 +50,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v627",
-        sourceNodeVersion: "Node v626",
+        activeNodeVersion: "Node v638",
+        sourceNodeVersion: "Node v637",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -67,6 +67,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Source Matrix");
       expect(markdown.body).toContain("## Source Matrix Consumer");
       expect(markdown.body).toContain("## Source Matrix Drift Summary");
+      expect(markdown.body).toContain("## Source Matrix Consumption Plan");
       expect(markdown.body).toContain("## Source Matrix Review Checklist");
       expect(markdown.body).toContain("## Source Matrix Review Digest");
       expect(markdown.body).toContain("## Source Matrix Archive Snapshot");
@@ -90,6 +91,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
+      expect(markdown.body).toContain("Plan state: ready-for-read-only-consumption-plan");
+      expect(markdown.body).toContain("Ready for read-only consumption plan: true");
+      expect(markdown.body).toContain("Plan digest scope: source-matrix-consumption-plan");
       expect(markdown.body).toContain("Checklist state: ready-for-controlled-review");
       expect(markdown.body).toContain("Ready for controlled review archive: true");
       expect(markdown.body).toContain("Archive state: ready-for-controlled-review-archive");

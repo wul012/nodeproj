@@ -15,6 +15,8 @@ import * as sourceMatrixFlowArtifacts
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow builders", () => {
+    expect(reviewArtifacts.createSourceMatrixConsumptionPlan)
+      .toBe(sourceMatrixFlowArtifacts.createSourceMatrixConsumptionPlan);
     expect(reviewArtifacts.createSourceMatrixConsumer).toBe(sourceMatrixFlowArtifacts.createSourceMatrixConsumer);
     expect(reviewArtifacts.createSourceMatrixDriftSummary).toBe(sourceMatrixFlowArtifacts.createSourceMatrixDriftSummary);
   });

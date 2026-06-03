@@ -36,6 +36,7 @@ import {
   createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
   createSourceMatrixHandoffNotes,
+  createSourceMatrixConsumptionPlan,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -69,6 +70,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   const sourceMatrix = createSourceMatrix(java, miniKv);
   const sourceMatrixConsumer = createSourceMatrixConsumer(sourceMatrix);
   const sourceMatrixDriftSummary = createSourceMatrixDriftSummary(sourceMatrix, sourceMatrixConsumer);
+  const sourceMatrixConsumptionPlan = createSourceMatrixConsumptionPlan(sourceMatrixConsumer, sourceMatrixDriftSummary);
   const sourceMatrixReviewChecklist = createSourceMatrixReviewChecklist(sourceMatrixDriftSummary);
   const sourceMatrixReviewDigest = createSourceMatrixReviewDigest(sourceMatrixReviewChecklist);
   const sourceMatrixArchiveSnapshot = createSourceMatrixArchiveSnapshot(sourceMatrixReviewDigest);
@@ -124,8 +126,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v627",
-    sourceNodeVersion: "Node v626",
+    activeNodeVersion: "Node v638",
+    sourceNodeVersion: "Node v637",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -153,6 +155,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrix,
       sourceMatrixConsumer,
       sourceMatrixDriftSummary,
+      sourceMatrixConsumptionPlan,
       sourceMatrixReviewChecklist,
       sourceMatrixReviewDigest,
       sourceMatrixArchiveSnapshot,
@@ -185,11 +188,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v628",
+      nextNodeVersion: "Node v639",
     },
     nextActions: ready
       ? [
-        "Use Node v628 to close out or prepare the next controlled read-only shard preview batch without routing activation.",
+        "Use Node v639 to consume the read-only source matrix plan without routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

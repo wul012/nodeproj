@@ -1,6 +1,8 @@
+import { sha256StableJson } from "./liveProbeReportUtils.js";
 import type {
   ControlledReadOnlyShardPreviewSource,
   ControlledReadOnlyShardPreviewSourceMatrix,
+  ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
   ControlledReadOnlyShardPreviewSourceMatrixConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixDriftFinding,
   ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
@@ -96,6 +98,62 @@ export function createSourceMatrixDriftSummary(
     comparableFindingCount: findings.filter((finding) =>
       finding.status === "aligned" || finding.status === "drift-detected").length,
     findings,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixConsumptionPlan(
+  sourceMatrixConsumer: ControlledReadOnlyShardPreviewSourceMatrixConsumer,
+  driftSummary: ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
+): ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
+  const readyForReadOnlyConsumptionPlan =
+    sourceMatrixConsumer.readyForControlledReadOnlyConsumption
+    && driftSummary.readyForControlledDriftReview
+    && driftSummary.blockingFindingCount === 0;
+  const planSteps = readyForReadOnlyConsumptionPlan
+    ? [
+      `observeSources=${sourceMatrixConsumer.observedSources.join("|") || "none"}`,
+      `compareRoutingModes=${sourceMatrixConsumer.comparison.routingModes.join("|") || "none"}`,
+      `reviewDriftFindings=${driftSummary.driftFindingCount}`,
+      "keepRoutingActivation=false",
+    ]
+    : [
+      `blockedReasons=${sourceMatrixConsumer.blockedReasonCodes.join("|") || "none"}`,
+      `blockingFindings=${driftSummary.blockingFindingCount}`,
+      "keepRoutingActivation=false",
+    ];
+
+  return {
+    planVersion: "Node v638",
+    inputConsumerVersion: "Node v599",
+    inputDriftSummaryVersion: "Node v600",
+    planState: readyForReadOnlyConsumptionPlan ? "ready-for-read-only-consumption-plan" : "blocked",
+    readyForReadOnlyConsumptionPlan,
+    reviewMode: "read-only-drift-review",
+    observedSources: sourceMatrixConsumer.observedSources,
+    missingSources: sourceMatrixConsumer.missingSources,
+    routingModes: sourceMatrixConsumer.comparison.routingModes,
+    blockedReasonCodes: sourceMatrixConsumer.blockedReasonCodes,
+    driftFindingCount: driftSummary.driftFindingCount,
+    blockingFindingCount: driftSummary.blockingFindingCount,
+    planSteps,
+    planStepCount: planSteps.length,
+    planDigest: {
+      algorithm: "sha256",
+      scope: "source-matrix-consumption-plan",
+      value: sha256StableJson({
+        planVersion: "Node v638",
+        inputConsumerVersion: "Node v599",
+        inputDriftSummaryVersion: "Node v600",
+        planState: readyForReadOnlyConsumptionPlan ? "ready-for-read-only-consumption-plan" : "blocked",
+        planSteps,
+      }),
+      coveredStepCount: planSteps.length,
+    },
+    requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,
     startsServices: false,
