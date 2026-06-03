@@ -21,6 +21,7 @@ export {
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
   createSourceMatrixHandoffRouteCoverage,
+  createSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
