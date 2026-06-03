@@ -11,6 +11,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverage,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummary,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
@@ -463,6 +464,52 @@ export function createSourceMatrixHandoffRouteCoverageArchiveSummary(
     passedGateCount: verification.passedGateCount,
     archivedSectionCount: verification.archivedSectionCount,
     blockedReasonCount: verification.blockedReasonCodes.length,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt(
+  summary: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummary,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt {
+  const receiptLines = [
+    `summaryState=${summary.summaryState}`,
+    `summaryDigest=${summary.summaryDigest.value}`,
+    `summaryLines=${summary.summaryLineCount}`,
+    `blockedReasons=${summary.blockedReasonCount}`,
+    `routingActivation=${summary.requiresRoutingActivation}`,
+  ];
+
+  return {
+    receiptVersion: "Node v625",
+    inputSummaryVersion: "Node v624",
+    receiptState: summary.readyForReadOnlyHandoffRouteCoverageArchiveSummary
+      ? "ready-for-read-only-handoff-route-coverage-archive-summary-receipt"
+      : "blocked",
+    readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceipt:
+      summary.readyForReadOnlyHandoffRouteCoverageArchiveSummary,
+    summaryState: summary.summaryState,
+    summaryDigestValue: summary.summaryDigest.value,
+    receiptDigest: {
+      algorithm: "sha256",
+      scope: "handoff-route-coverage-archive-summary-receipt",
+      value: sha256StableJson({
+        receiptVersion: "Node v625",
+        inputSummaryVersion: "Node v624",
+        receiptLines,
+      }),
+      coveredSummaryLineCount: summary.summaryLineCount,
+      coveredBlockedReasonCount: summary.blockedReasonCount,
+    },
+    receiptLines,
+    receiptLineCount: receiptLines.length,
+    summaryLineCount: summary.summaryLineCount,
+    gateCount: summary.gateCount,
+    passedGateCount: summary.passedGateCount,
+    blockedReasonCount: summary.blockedReasonCount,
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,

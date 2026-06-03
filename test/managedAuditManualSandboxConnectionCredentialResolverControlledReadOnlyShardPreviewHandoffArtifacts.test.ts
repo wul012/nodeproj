@@ -19,6 +19,7 @@ import {
   createSourceMatrixHandoffRouteCoverage,
   createSourceMatrixHandoffRouteCoverageArchiveSnapshot,
   createSourceMatrixHandoffRouteCoverageArchiveSummary,
+  createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
   createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
@@ -55,6 +56,8 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       createSourceMatrixHandoffRouteCoverageArchiveVerification(handoffRouteCoverageArchiveSnapshot);
     const handoffRouteCoverageArchiveSummary =
       createSourceMatrixHandoffRouteCoverageArchiveSummary(handoffRouteCoverageArchiveVerification);
+    const handoffRouteCoverageArchiveSummaryReceipt =
+      createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt(handoffRouteCoverageArchiveSummary);
 
     expect(handoffSummary).toMatchObject({
       summaryVersion: "Node v611",
@@ -273,6 +276,31 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       mutatesSiblingState: false,
     });
     expect(handoffRouteCoverageArchiveSummary.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffRouteCoverageArchiveSummaryReceipt).toMatchObject({
+      receiptVersion: "Node v625",
+      inputSummaryVersion: "Node v624",
+      receiptState: "ready-for-read-only-handoff-route-coverage-archive-summary-receipt",
+      readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceipt: true,
+      summaryState: "ready-for-read-only-handoff-route-coverage-archive-summary",
+      summaryDigestValue: handoffRouteCoverageArchiveSummary.summaryDigest.value,
+      receiptDigest: {
+        algorithm: "sha256",
+        scope: "handoff-route-coverage-archive-summary-receipt",
+        coveredSummaryLineCount: 6,
+        coveredBlockedReasonCount: 0,
+      },
+      receiptLineCount: 5,
+      summaryLineCount: 6,
+      gateCount: 7,
+      passedGateCount: 7,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+    expect(handoffRouteCoverageArchiveSummaryReceipt.receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("fails closed when the handoff notes are blocked", () => {
@@ -297,6 +325,8 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       createSourceMatrixHandoffRouteCoverageArchiveVerification(handoffRouteCoverageArchiveSnapshot);
     const handoffRouteCoverageArchiveSummary =
       createSourceMatrixHandoffRouteCoverageArchiveSummary(handoffRouteCoverageArchiveVerification);
+    const handoffRouteCoverageArchiveSummaryReceipt =
+      createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt(handoffRouteCoverageArchiveSummary);
 
     expect(handoffSummary).toMatchObject({
       summaryState: "blocked",
@@ -460,6 +490,27 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(handoffRouteCoverageArchiveSummaryReceipt).toMatchObject({
+      receiptState: "blocked",
+      readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceipt: false,
+      summaryState: "blocked",
+      receiptDigest: {
+        algorithm: "sha256",
+        scope: "handoff-route-coverage-archive-summary-receipt",
+        coveredSummaryLineCount: 6,
+        coveredBlockedReasonCount: 1,
+      },
+      receiptLineCount: 5,
+      summaryLineCount: 6,
+      gateCount: 7,
+      passedGateCount: 6,
+      blockedReasonCount: 1,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("keeps the handoff summary digest stable for the same handoff notes", () => {
@@ -543,6 +594,32 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       algorithm: "sha256",
       scope: "handoff-route-coverage-archive-summary-lines",
       coveredLineCount: 6,
+    });
+  });
+
+  it("keeps the handoff route coverage archive summary receipt digest stable for the same summary", () => {
+    const handoffNotes = createHandoffNotes(readySourceMatrix());
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
+    const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const receipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
+    const receiptSnapshot = createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(receipt);
+    const receiptVerification = createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(receiptSnapshot);
+    const coverage = createSourceMatrixHandoffRouteCoverage(receiptVerification);
+    const coverageVerification = createSourceMatrixHandoffRouteCoverageVerification(coverage);
+    const snapshot = createSourceMatrixHandoffRouteCoverageArchiveSnapshot(coverageVerification);
+    const verification = createSourceMatrixHandoffRouteCoverageArchiveVerification(snapshot);
+    const summary = createSourceMatrixHandoffRouteCoverageArchiveSummary(verification);
+
+    const first = createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt(summary);
+    const second = createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt(summary);
+
+    expect(first.receiptDigest).toEqual(second.receiptDigest);
+    expect(first.receiptDigest).toMatchObject({
+      algorithm: "sha256",
+      scope: "handoff-route-coverage-archive-summary-receipt",
+      coveredSummaryLineCount: 6,
+      coveredBlockedReasonCount: 0,
     });
   });
 });
