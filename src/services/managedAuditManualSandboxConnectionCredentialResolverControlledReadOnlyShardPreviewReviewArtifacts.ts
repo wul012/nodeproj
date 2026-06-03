@@ -17,6 +17,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -588,6 +589,42 @@ export function createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(
   };
 }
 
+export function createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
+  snapshot: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification {
+  const gates = {
+    snapshotReady: snapshot.readyForReadOnlySummaryConsumerReceiptArchive,
+    snapshotDigestPresent: snapshot.snapshotDigest.value.length === 64,
+    archivedSectionsComplete: snapshot.archivedSectionCount === HANDOFF_SUMMARY_CONSUMER_RECEIPT_ARCHIVED_SECTIONS.length,
+    excludesRawCredential: !snapshot.includesRawCredential,
+    excludesRuntimePayload: !snapshot.includesRuntimePayload,
+    readOnlyVerificationOnly: true as const,
+  };
+  const gateValues = Object.values(gates);
+  const readyForReadOnlySummaryConsumerReceiptArchiveVerification = gateValues.every(Boolean);
+
+  return {
+    verificationVersion: "Node v617",
+    inputSnapshotVersion: "Node v616",
+    verificationState: readyForReadOnlySummaryConsumerReceiptArchiveVerification
+      ? "ready-for-read-only-summary-consumer-receipt-archive-verification"
+      : "blocked",
+    readyForReadOnlySummaryConsumerReceiptArchiveVerification,
+    gateCount: gateValues.length,
+    passedGateCount: gateValues.filter(Boolean).length,
+    gates,
+    blockedReasonCodes: createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerificationBlockedReasons(gates),
+    snapshotDigestValue: snapshot.snapshotDigest.value,
+    archivedSectionCount: snapshot.archivedSectionCount,
+    blockedReasonCount: snapshot.blockedReasonCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 function createSourceMatrixConsumerBlockedReasons(
   gates: ControlledReadOnlyShardPreviewSourceMatrixConsumer["gates"],
 ): string[] {
@@ -609,6 +646,18 @@ function createSourceMatrixHandoffSummaryConsumerBlockedReasons(
     gates.summaryDigestScopeDeclared ? null : "HANDOFF_SUMMARY_DIGEST_SCOPE_UNDECLARED",
     gates.allAudiencesCovered ? null : "HANDOFF_SUMMARY_AUDIENCE_COVERAGE_MISMATCH",
     gates.noActionRequired ? null : "HANDOFF_SUMMARY_ACTION_REQUIRED",
+  ].filter((reason): reason is string => reason !== null);
+}
+
+function createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerificationBlockedReasons(
+  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification["gates"],
+): string[] {
+  return [
+    gates.snapshotReady ? null : "HANDOFF_RECEIPT_ARCHIVE_SNAPSHOT_NOT_READY",
+    gates.snapshotDigestPresent ? null : "HANDOFF_RECEIPT_ARCHIVE_SNAPSHOT_DIGEST_MISSING",
+    gates.archivedSectionsComplete ? null : "HANDOFF_RECEIPT_ARCHIVE_SECTIONS_INCOMPLETE",
+    gates.excludesRawCredential ? null : "HANDOFF_RECEIPT_ARCHIVE_RAW_CREDENTIAL_INCLUDED",
+    gates.excludesRuntimePayload ? null : "HANDOFF_RECEIPT_ARCHIVE_RUNTIME_PAYLOAD_INCLUDED",
   ].filter((reason): reason is string => reason !== null);
 }
 

@@ -9,6 +9,7 @@ import {
   createSourceMatrixHandoffSummaryConsumerExport,
   createSourceMatrixHandoffSummaryConsumerReceipt,
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+  createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -33,6 +34,10 @@ describe("controlled read-only shard preview review artifacts", () => {
     const handoffSummaryConsumerReceipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
     const handoffSummaryConsumerReceiptArchiveSnapshot =
       createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(handoffSummaryConsumerReceipt);
+    const handoffSummaryConsumerReceiptArchiveVerification =
+      createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
+        handoffSummaryConsumerReceiptArchiveSnapshot,
+      );
 
     expect(consumer).toMatchObject({
       decision: "ready-for-controlled-read-only-consumption",
@@ -314,6 +319,31 @@ describe("controlled read-only shard preview review artifacts", () => {
       mutatesSiblingState: false,
     });
     expect(handoffSummaryConsumerReceiptArchiveSnapshot.snapshotDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceiptArchiveVerification).toMatchObject({
+      verificationVersion: "Node v617",
+      inputSnapshotVersion: "Node v616",
+      verificationState: "ready-for-read-only-summary-consumer-receipt-archive-verification",
+      readyForReadOnlySummaryConsumerReceiptArchiveVerification: true,
+      gateCount: 6,
+      passedGateCount: 6,
+      blockedReasonCodes: [],
+      gates: {
+        snapshotReady: true,
+        snapshotDigestPresent: true,
+        archivedSectionsComplete: true,
+        excludesRawCredential: true,
+        excludesRuntimePayload: true,
+        readOnlyVerificationOnly: true,
+      },
+      snapshotDigestValue: handoffSummaryConsumerReceiptArchiveSnapshot.snapshotDigest.value,
+      archivedSectionCount: 3,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -330,6 +360,10 @@ describe("controlled read-only shard preview review artifacts", () => {
     const handoffSummaryConsumerReceipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
     const handoffSummaryConsumerReceiptArchiveSnapshot =
       createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(handoffSummaryConsumerReceipt);
+    const handoffSummaryConsumerReceiptArchiveVerification =
+      createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
+        handoffSummaryConsumerReceiptArchiveSnapshot,
+      );
 
     expect(consumer).toMatchObject({
       decision: "blocked",
@@ -523,6 +557,29 @@ describe("controlled read-only shard preview review artifacts", () => {
       mutatesSiblingState: false,
     });
     expect(handoffSummaryConsumerReceiptArchiveSnapshot.snapshotDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceiptArchiveVerification).toMatchObject({
+      verificationState: "blocked",
+      readyForReadOnlySummaryConsumerReceiptArchiveVerification: false,
+      gateCount: 6,
+      passedGateCount: 5,
+      blockedReasonCodes: ["HANDOFF_RECEIPT_ARCHIVE_SNAPSHOT_NOT_READY"],
+      gates: {
+        snapshotReady: false,
+        snapshotDigestPresent: true,
+        archivedSectionsComplete: true,
+        excludesRawCredential: true,
+        excludesRuntimePayload: true,
+        readOnlyVerificationOnly: true,
+      },
+      snapshotDigestValue: handoffSummaryConsumerReceiptArchiveSnapshot.snapshotDigest.value,
+      archivedSectionCount: 3,
+      blockedReasonCount: 2,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {
