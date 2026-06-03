@@ -84,6 +84,10 @@ export function renderControlledReadOnlyShardPreviewSourceMatrixSections(
     "### Consumption Plan Steps",
     ...profile.preview.sourceMatrixConsumptionPlan.planSteps.map((step) => `- ${step}`),
     "",
+    "### Consumption Plan Step Records",
+    ...profile.preview.sourceMatrixConsumptionPlan.planStepRecords.map((step) =>
+      `- ${step.order}. ${step.code}: ${step.status}; ${step.evidence}; routingActivationAllowed=${step.routingActivationAllowed}; writesAllowed=${step.writesAllowed}`),
+    "",
     "## Source Matrix Review Checklist",
     `- Checklist version: ${profile.preview.sourceMatrixReviewChecklist.checklistVersion}`,
     `- Input drift summary version: ${profile.preview.sourceMatrixReviewChecklist.inputDriftSummaryVersion}`,

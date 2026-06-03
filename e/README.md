@@ -280,6 +280,7 @@
 640: Controlled read-only shard preview plan-aware recommendations
 641: Controlled read-only shard preview plan-backed next actions
 642: Controlled read-only shard preview next actions Markdown
+643: Controlled read-only shard preview structured consumption plan steps
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -153,6 +153,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Next Actions");
       expect(markdown.body).toContain("Consume sourceMatrixConsumptionPlan.planSteps");
       expect(markdown.body).toContain("observeSources=java|miniKv");
+      expect(markdown.body).toContain("### Consumption Plan Step Records");
+      expect(markdown.body).toContain("3. review-drift-findings: needs-review");
     } finally {
       await app.close();
     }

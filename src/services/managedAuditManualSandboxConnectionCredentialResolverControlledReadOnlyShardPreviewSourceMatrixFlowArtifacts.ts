@@ -3,6 +3,7 @@ import type {
   ControlledReadOnlyShardPreviewSource,
   ControlledReadOnlyShardPreviewSourceMatrix,
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+  ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep,
   ControlledReadOnlyShardPreviewSourceMatrixConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixDriftFinding,
   ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
@@ -113,18 +114,25 @@ export function createSourceMatrixConsumptionPlan(
     sourceMatrixConsumer.readyForControlledReadOnlyConsumption
     && driftSummary.readyForControlledDriftReview
     && driftSummary.blockingFindingCount === 0;
-  const planSteps = readyForReadOnlyConsumptionPlan
+  const planStepRecords: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep[] = readyForReadOnlyConsumptionPlan
     ? [
-      `observeSources=${sourceMatrixConsumer.observedSources.join("|") || "none"}`,
-      `compareRoutingModes=${sourceMatrixConsumer.comparison.routingModes.join("|") || "none"}`,
-      `reviewDriftFindings=${driftSummary.driftFindingCount}`,
-      "keepRoutingActivation=false",
+      createConsumptionPlanStepRecord(1, "observe-sources", "ready",
+        `observeSources=${sourceMatrixConsumer.observedSources.join("|") || "none"}`),
+      createConsumptionPlanStepRecord(2, "compare-routing-modes", "ready",
+        `compareRoutingModes=${sourceMatrixConsumer.comparison.routingModes.join("|") || "none"}`),
+      createConsumptionPlanStepRecord(3, "review-drift-findings",
+        driftSummary.driftFindingCount > 0 ? "needs-review" : "ready",
+        `reviewDriftFindings=${driftSummary.driftFindingCount}`),
+      createConsumptionPlanStepRecord(4, "keep-routing-disabled", "ready", "keepRoutingActivation=false"),
     ]
     : [
-      `blockedReasons=${sourceMatrixConsumer.blockedReasonCodes.join("|") || "none"}`,
-      `blockingFindings=${driftSummary.blockingFindingCount}`,
-      "keepRoutingActivation=false",
+      createConsumptionPlanStepRecord(1, "repair-blocked-reasons", "blocked",
+        `blockedReasons=${sourceMatrixConsumer.blockedReasonCodes.join("|") || "none"}`),
+      createConsumptionPlanStepRecord(2, "review-blocking-findings", "blocked",
+        `blockingFindings=${driftSummary.blockingFindingCount}`),
+      createConsumptionPlanStepRecord(3, "keep-routing-disabled", "ready", "keepRoutingActivation=false"),
     ];
+  const planSteps = planStepRecords.map((step) => step.evidence);
 
   return {
     planVersion: "Node v638",
@@ -141,6 +149,8 @@ export function createSourceMatrixConsumptionPlan(
     blockingFindingCount: driftSummary.blockingFindingCount,
     planSteps,
     planStepCount: planSteps.length,
+    planStepRecords,
+    planStepRecordCount: planStepRecords.length,
     planDigest: {
       algorithm: "sha256",
       scope: "source-matrix-consumption-plan",
@@ -150,6 +160,7 @@ export function createSourceMatrixConsumptionPlan(
         inputDriftSummaryVersion: "Node v600",
         planState: readyForReadOnlyConsumptionPlan ? "ready-for-read-only-consumption-plan" : "blocked",
         planSteps,
+        planStepRecords,
       }),
       coveredStepCount: planSteps.length,
     },
@@ -158,6 +169,22 @@ export function createSourceMatrixConsumptionPlan(
     requiresFreshSiblingEvidence: false,
     startsServices: false,
     mutatesSiblingState: false,
+  };
+}
+
+function createConsumptionPlanStepRecord(
+  order: number,
+  code: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep["code"],
+  status: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep["status"],
+  evidence: string,
+): ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep {
+  return {
+    order,
+    code,
+    status,
+    evidence,
+    routingActivationAllowed: false,
+    writesAllowed: false,
   };
 }
 

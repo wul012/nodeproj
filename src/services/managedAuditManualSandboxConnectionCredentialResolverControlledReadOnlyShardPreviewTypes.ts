@@ -114,6 +114,23 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
   mutatesSiblingState: false;
 }
 
+export type ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStepCode =
+  | "observe-sources"
+  | "compare-routing-modes"
+  | "review-drift-findings"
+  | "keep-routing-disabled"
+  | "repair-blocked-reasons"
+  | "review-blocking-findings";
+
+export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep {
+  order: number;
+  code: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStepCode;
+  status: "ready" | "needs-review" | "blocked";
+  evidence: string;
+  routingActivationAllowed: false;
+  writesAllowed: false;
+}
+
 export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
   planVersion: "Node v638";
   inputConsumerVersion: "Node v599";
@@ -129,6 +146,8 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
   blockingFindingCount: number;
   planSteps: string[];
   planStepCount: number;
+  planStepRecords: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep[];
+  planStepRecordCount: number;
   planDigest: {
     algorithm: "sha256";
     scope: "source-matrix-consumption-plan";
