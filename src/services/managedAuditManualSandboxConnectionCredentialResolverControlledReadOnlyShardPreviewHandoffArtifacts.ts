@@ -13,6 +13,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummary,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
@@ -564,6 +565,50 @@ export function createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchi
   };
 }
 
+export function createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification(
+  snapshot: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification {
+  const gates = {
+    snapshotReady: snapshot.readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceiptArchive,
+    snapshotDigestPresent: snapshot.snapshotDigest.value.length === 64,
+    archivedSectionsComplete: snapshot.archivedSectionCount
+      === HANDOFF_ROUTE_COVERAGE_ARCHIVE_SUMMARY_RECEIPT_ARCHIVED_SECTIONS.length
+      && snapshot.archivedSections.length === snapshot.archivedSectionCount
+      && snapshot.snapshotDigest.coveredSectionCount === snapshot.archivedSectionCount,
+    excludesRawCredential: !snapshot.includesRawCredential,
+    excludesRuntimePayload: !snapshot.includesRuntimePayload,
+    noRoutingActivationRequired: !snapshot.requiresRoutingActivation,
+    noFreshSiblingEvidenceRequired: !snapshot.requiresFreshSiblingEvidence,
+    readOnlyVerificationOnly: true as const,
+  };
+  const gateValues = Object.values(gates);
+  const readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification = gateValues.every(Boolean);
+
+  return {
+    verificationVersion: "Node v627",
+    inputSnapshotVersion: "Node v626",
+    verificationState: readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification
+      ? "ready-for-read-only-handoff-route-coverage-archive-summary-receipt-archive-verification"
+      : "blocked",
+    readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
+    gateCount: gateValues.length,
+    passedGateCount: gateValues.filter(Boolean).length,
+    gates,
+    blockedReasonCodes:
+      createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerificationBlockedReasons(gates),
+    snapshotDigestValue: snapshot.snapshotDigest.value,
+    archivedSectionCount: snapshot.archivedSectionCount,
+    receiptLineCount: snapshot.receiptLineCount,
+    summaryLineCount: snapshot.summaryLineCount,
+    blockedReasonCount: snapshot.blockedReasonCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 function createSourceMatrixHandoffSummaryConsumerBlockedReasons(
   gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer["gates"],
 ): string[] {
@@ -610,6 +655,24 @@ function createSourceMatrixHandoffRouteCoverageArchiveVerificationBlockedReasons
     gates.verificationGatesPreserved ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_GATES_NOT_PRESERVED",
     gates.noRoutingActivationRequired ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_ROUTING_ACTIVATION_REQUIRED",
     gates.noFreshSiblingEvidenceRequired ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_FRESH_SIBLING_EVIDENCE_REQUIRED",
+  ].filter((reason): reason is string => reason !== null);
+}
+
+function createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerificationBlockedReasons(
+  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification["gates"],
+): string[] {
+  return [
+    gates.snapshotReady ? null : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_SNAPSHOT_NOT_READY",
+    gates.snapshotDigestPresent ? null : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_DIGEST_MISSING",
+    gates.archivedSectionsComplete ? null : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_SECTIONS_INCOMPLETE",
+    gates.excludesRawCredential ? null : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_RAW_CREDENTIAL_INCLUDED",
+    gates.excludesRuntimePayload ? null : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_RUNTIME_PAYLOAD_INCLUDED",
+    gates.noRoutingActivationRequired
+      ? null
+      : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_ROUTING_ACTIVATION_REQUIRED",
+    gates.noFreshSiblingEvidenceRequired
+      ? null
+      : "HANDOFF_ROUTE_COVERAGE_SUMMARY_RECEIPT_ARCHIVE_FRESH_SIBLING_EVIDENCE_REQUIRED",
   ].filter((reason): reason is string => reason !== null);
 }
 

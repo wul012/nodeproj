@@ -32,6 +32,7 @@ import {
   createSourceMatrixHandoffRouteCoverageArchiveSummary,
   createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
   createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+  createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
   createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
   createSourceMatrixHandoffNotes,
@@ -102,6 +103,10 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot(
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
     );
+  const sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification =
+    createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification(
+      sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+    );
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -119,8 +124,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v626",
-    sourceNodeVersion: "Node v625",
+    activeNodeVersion: "Node v627",
+    sourceNodeVersion: "Node v626",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -166,6 +171,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrixHandoffRouteCoverageArchiveSummary,
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+      sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
       previewDigest,
     },
     checks,
@@ -179,11 +185,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v627",
+      nextNodeVersion: "Node v628",
     },
     nextActions: ready
       ? [
-        "Use Node v627 to verify the controlled handoff route coverage archive summary receipt archive snapshot without routing activation.",
+        "Use Node v628 to close out or prepare the next controlled read-only shard preview batch without routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [
