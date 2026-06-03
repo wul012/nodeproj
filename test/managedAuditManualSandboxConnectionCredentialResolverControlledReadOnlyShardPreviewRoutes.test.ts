@@ -155,6 +155,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("observeSources=java|miniKv");
       expect(markdown.body).toContain("### Consumption Plan Step Records");
       expect(markdown.body).toContain("3. review-drift-findings: needs-review");
+      expect(markdown.body).toContain("Ready step count: 3");
+      expect(markdown.body).toContain("Review step count: 1");
+      expect(markdown.body).toContain("Blocked step count: 0");
     } finally {
       await app.close();
     }
