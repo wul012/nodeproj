@@ -121,13 +121,14 @@ export function collectRecommendations(
   const safetySummary = formatPlanSafetySummary(sourceMatrixConsumptionPlan);
   const riskSummary = formatPlanRiskSummary(sourceMatrixConsumptionPlan);
   const promotionHold = formatPlanPromotionHold(sourceMatrixConsumptionPlan);
+  const reviewScope = formatReadOnlyReviewScope(sourceMatrixConsumptionPlan);
   return [{
     code: ready ? "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY" : "REPAIR_SOURCE_MATRIX_CONSUMPTION_PLAN",
     severity: "recommendation",
     source: "next-plan",
     message: ready
-      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled; safety ${safetySummary}; risk ${riskSummary}; promotionHold ${promotionHold}.`
-      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}; safety ${safetySummary}; risk ${riskSummary}; promotionHold ${promotionHold}.`,
+      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled; safety ${safetySummary}; risk ${riskSummary}; promotionHold ${promotionHold}; reviewScope ${reviewScope}.`
+      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}; safety ${safetySummary}; risk ${riskSummary}; promotionHold ${promotionHold}; reviewScope ${reviewScope}.`,
   }];
 }
 
@@ -141,6 +142,7 @@ export function createNextActions(
       `Preserve sourceMatrixConsumptionPlan.stepSafetySummary (${formatPlanSafetySummary(sourceMatrixConsumptionPlan)}) before any follow-up review.`,
       `Review sourceMatrixConsumptionPlan.riskSummary (${formatPlanRiskSummary(sourceMatrixConsumptionPlan)}) before promoting beyond read-only preview.`,
       `Keep sourceMatrixConsumptionPlan.promotionHold (${formatPlanPromotionHold(sourceMatrixConsumptionPlan)}) active until read-only review closes.`,
+      `Limit sourceMatrixConsumptionPlan.readOnlyReviewScope (${formatReadOnlyReviewScope(sourceMatrixConsumptionPlan)}) to read-only operations.`,
       "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
     ];
   }
@@ -150,6 +152,7 @@ export function createNextActions(
     `Preserve sourceMatrixConsumptionPlan.stepSafetySummary (${formatPlanSafetySummary(sourceMatrixConsumptionPlan)}) while repairing the plan.`,
     `Resolve sourceMatrixConsumptionPlan.riskSummary (${formatPlanRiskSummary(sourceMatrixConsumptionPlan)}) before consumption.`,
     `Keep sourceMatrixConsumptionPlan.promotionHold (${formatPlanPromotionHold(sourceMatrixConsumptionPlan)}) closed while repairing the plan.`,
+    `Limit sourceMatrixConsumptionPlan.readOnlyReviewScope (${formatReadOnlyReviewScope(sourceMatrixConsumptionPlan)}) while repairing the plan.`,
     "Do not start, stop, write, restore, load, compact, or activate routing from this Node preview.",
   ];
 }
@@ -194,5 +197,15 @@ function formatPlanPromotionHold(
     `serviceStartupAllowed=${sourceMatrixConsumptionPlan.promotionHold.serviceStartupAllowed}`,
     `closureCriterionCount=${sourceMatrixConsumptionPlan.promotionHold.closureCriterionCount}`,
     `reasons=${sourceMatrixConsumptionPlan.promotionHold.reasonCodes.join("|") || "none"}`,
+  ].join(", ");
+}
+
+function formatReadOnlyReviewScope(
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+): string {
+  return [
+    `state=${sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeState}`,
+    `allowed=${sourceMatrixConsumptionPlan.readOnlyReviewScope.allowedOperations.join("|") || "none"}`,
+    `forbidden=${sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.join("|") || "none"}`,
   ].join(", ");
 }

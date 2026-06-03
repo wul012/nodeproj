@@ -506,11 +506,14 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.recommendations[0]?.message)
       .toContain("state=read-only-review-required, nextAllowedAction=review-read-only-risk");
     expect(profile.recommendations[0]?.message).toContain("closureCriterionCount=5");
+    expect(profile.recommendations[0]?.message)
+      .toContain("state=ready-for-read-only-review, allowed=consume-plan-step-records|review-risk-summary|verify-promotion-hold-closure");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("observe-sources:ready"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
       expect.stringContaining("level=review, reviewRequired=true, blocked=false, unsafeSteps=0"),
       expect.stringContaining("state=read-only-review-required, nextAllowedAction=review-read-only-risk"),
+      expect.stringContaining("state=ready-for-read-only-review"),
       expect.stringContaining("independently started services"),
     ]);
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
@@ -614,11 +617,14 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.recommendations[0]?.message)
       .toContain("state=repair-required, nextAllowedAction=repair-plan-risk");
     expect(profile.recommendations[0]?.message).toContain("closureCriterionCount=4");
+    expect(profile.recommendations[0]?.message)
+      .toContain("state=repair-before-read-only-review, allowed=repair-plan-risk|review-promotion-hold-closure");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("SOURCE_NOT_READY"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
       expect.stringContaining("level=blocked, reviewRequired=false, blocked=true, unsafeSteps=0"),
       expect.stringContaining("state=repair-required, nextAllowedAction=repair-plan-risk"),
+      expect.stringContaining("state=repair-before-read-only-review"),
       expect.stringContaining("Do not start"),
     ]);
     expect(javaCalls).toBe(0);

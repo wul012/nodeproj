@@ -304,6 +304,7 @@
 664: Controlled read-only shard preview consumption plan promotion hold closure guidance
 665: Controlled read-only shard preview consumption plan read-only review scope
 666: Controlled read-only shard preview consumption plan read-only review scope gate
+667: Controlled read-only shard preview consumption plan read-only review scope guidance
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
