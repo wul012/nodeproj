@@ -322,6 +322,7 @@
 682: Controlled read-only shard preview route coverage archive receipt types split
 683: Controlled read-only shard preview source matrix types split
 684: Controlled read-only shard preview support types split
+685: Controlled read-only shard preview type module catalog
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
