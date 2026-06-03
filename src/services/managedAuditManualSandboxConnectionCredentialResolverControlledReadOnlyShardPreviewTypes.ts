@@ -1,12 +1,22 @@
 import type {
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewConsumptionPlanTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
+  ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewDecisionTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStep,
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlanStepCode,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewConsumptionPlanTypes.js";
+
+export type {
+  ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
+  ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem,
+  ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewDecisionTypes.js";
 
 export type PreviewProject = "advanced-order-platform" | "mini-kv";
 export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
@@ -118,54 +128,6 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
   blockingFindingCount: number;
   comparableFindingCount: number;
   findings: ControlledReadOnlyShardPreviewSourceMatrixDriftFinding[];
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem {
-  order: number;
-  check:
-    | "confirm-source-matrix-consumer"
-    | "review-controlled-drift-findings"
-    | "confirm-routing-remains-disabled"
-    | "confirm-sibling-projects-can-continue";
-  status: "ready" | "needs-review" | "blocked";
-  severity: "info" | "warning" | "blocker";
-  evidence: string;
-  operatorAction: string;
-  routingActivationAllowed: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist {
-  checklistVersion: "Node v601";
-  inputDriftSummaryVersion: "Node v600";
-  checklistState: "ready-for-controlled-review" | "blocked";
-  readyForOperatorReview: boolean;
-  itemCount: number;
-  readyItemCount: number;
-  reviewItemCount: number;
-  blockedItemCount: number;
-  items: ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem[];
-  requiresApproval: false;
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixReviewDigest {
-  digestVersion: "Node v602";
-  inputChecklistVersion: "Node v601";
-  algorithm: "sha256";
-  value: string;
-  coveredFields: string[];
-  readyForControlledReviewArchive: boolean;
-  checklistState: ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist["checklistState"];
-  itemCount: number;
-  blockedItemCount: number;
-  requiresApproval: false;
   requiresRoutingActivation: false;
   requiresFreshSiblingEvidence: false;
   startsServices: false;
