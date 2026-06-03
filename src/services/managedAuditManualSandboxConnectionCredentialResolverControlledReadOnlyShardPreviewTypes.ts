@@ -26,6 +26,10 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverage,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageArchiveTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
@@ -69,6 +73,12 @@ export type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerificationGates,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageTypes.js";
+
+export type {
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerificationGates,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageArchiveTypes.js";
 
 export type PreviewProject = "advanced-order-platform" | "mini-kv";
 export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
@@ -180,59 +190,6 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
   blockingFindingCount: number;
   comparableFindingCount: number;
   findings: ControlledReadOnlyShardPreviewSourceMatrixDriftFinding[];
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot {
-  snapshotVersion: "Node v622";
-  inputVerificationVersion: "Node v621";
-  snapshotState: "ready-for-read-only-handoff-route-coverage-archive" | "blocked";
-  readyForReadOnlyHandoffRouteCoverageArchive: boolean;
-  coverageDigestValue: string;
-  snapshotDigest: {
-    algorithm: "sha256";
-    scope: "handoff-route-coverage-archive-snapshot";
-    value: string;
-    coveredSectionCount: number;
-  };
-  archivedSections: string[];
-  archivedSectionCount: number;
-  verificationGateCount: number;
-  verificationPassedGateCount: number;
-  requiresApproval: false;
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerificationGates {
-  snapshotReady: boolean;
-  snapshotDigestPresent: boolean;
-  archivedSectionsComplete: boolean;
-  verificationGatesPreserved: boolean;
-  noRoutingActivationRequired: boolean;
-  noFreshSiblingEvidenceRequired: boolean;
-  readOnlyVerificationOnly: true;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification {
-  verificationVersion: "Node v623";
-  inputSnapshotVersion: "Node v622";
-  verificationState: "ready-for-read-only-handoff-route-coverage-archive-verification" | "blocked";
-  readyForReadOnlyHandoffRouteCoverageArchiveVerification: boolean;
-  gateCount: number;
-  passedGateCount: number;
-  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerificationGates;
-  blockedReasonCodes: string[];
-  snapshotDigestValue: string;
-  archivedSectionCount: number;
-  verificationGateCount: number;
-  verificationPassedGateCount: number;
-  requiresApproval: false;
   requiresRoutingActivation: false;
   requiresFreshSiblingEvidence: false;
   startsServices: false;
