@@ -4,6 +4,8 @@ import * as archiveHandoffArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewArchiveHandoffArtifacts.js";
 import * as handoffArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
+import * as consumptionPlanArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewConsumptionPlanArtifacts.js";
 import * as reviewArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewArtifacts.js";
 import * as reviewDecisionArtifacts
@@ -14,9 +16,9 @@ import * as sourceMatrixFlowArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixFlowArtifacts.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
-  it("re-exports source matrix flow builders", () => {
+  it("re-exports source matrix flow and consumption plan builders", () => {
     expect(reviewArtifacts.createSourceMatrixConsumptionPlan)
-      .toBe(sourceMatrixFlowArtifacts.createSourceMatrixConsumptionPlan);
+      .toBe(consumptionPlanArtifacts.createSourceMatrixConsumptionPlan);
     expect(reviewArtifacts.createSourceMatrixConsumer).toBe(sourceMatrixFlowArtifacts.createSourceMatrixConsumer);
     expect(reviewArtifacts.createSourceMatrixDriftSummary).toBe(sourceMatrixFlowArtifacts.createSourceMatrixDriftSummary);
   });
