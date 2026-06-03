@@ -119,6 +119,7 @@ describe("controlled read-only shard preview review artifacts", () => {
       digestValue: digest.value,
       summaryDigest: {
         algorithm: "sha256",
+        scope: "archive-snapshot-summary-lines",
         coveredLineCount: 5,
       },
       summaryLineCount: 5,
@@ -204,6 +205,7 @@ describe("controlled read-only shard preview review artifacts", () => {
       digestValue: digest.value,
       summaryDigest: {
         algorithm: "sha256",
+        scope: "archive-snapshot-summary-lines",
         coveredLineCount: 5,
       },
       summaryLineCount: 5,
@@ -213,6 +215,24 @@ describe("controlled read-only shard preview review artifacts", () => {
       includesRuntimePayload: false,
     });
     expect(summaryExport.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
+  });
+
+  it("keeps the summary export digest stable for the same snapshot", () => {
+    const consumer = createSourceMatrixConsumer(readySourceMatrix());
+    const driftSummary = createSourceMatrixDriftSummary(readySourceMatrix(), consumer);
+    const checklist = createSourceMatrixReviewChecklist(driftSummary);
+    const digest = createSourceMatrixReviewDigest(checklist);
+    const snapshot = createSourceMatrixArchiveSnapshot(digest);
+
+    const first = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+    const second = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+
+    expect(first.summaryDigest).toEqual(second.summaryDigest);
+    expect(first.summaryDigest).toMatchObject({
+      algorithm: "sha256",
+      scope: "archive-snapshot-summary-lines",
+      coveredLineCount: 5,
+    });
   });
 });
 

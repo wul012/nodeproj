@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v606",
-      sourceNodeVersion: "Node v605",
+      activeNodeVersion: "Node v607",
+      sourceNodeVersion: "Node v606",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -235,6 +235,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
           readyForSummaryExport: true,
           summaryDigest: {
             algorithm: "sha256",
+            scope: "archive-snapshot-summary-lines",
             coveredLineCount: 5,
           },
           summaryLineCount: 5,
@@ -370,6 +371,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       readyForSummaryExport: false,
       summaryDigest: {
         algorithm: "sha256",
+        scope: "archive-snapshot-summary-lines",
         coveredLineCount: 5,
       },
       summaryLineCount: 5,
@@ -407,8 +409,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v606",
-        sourceNodeVersion: "Node v605",
+        activeNodeVersion: "Node v607",
+        sourceNodeVersion: "Node v606",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -435,6 +437,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Ready for controlled review archive: true");
       expect(markdown.body).toContain("Archive state: ready-for-controlled-review-archive");
       expect(markdown.body).toContain("Export state: ready-for-summary-export");
+      expect(markdown.body).toContain("Summary digest scope: archive-snapshot-summary-lines");
       expect(markdown.body).toContain("Summary digest covered line count: 5");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");

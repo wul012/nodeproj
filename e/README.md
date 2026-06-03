@@ -244,6 +244,7 @@
 604: Controlled read-only shard preview review artifacts test split
 605: Controlled read-only shard preview archive snapshot summary export
 606: Controlled read-only shard preview summary export digest
+607: Controlled read-only shard preview summary export digest scope
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

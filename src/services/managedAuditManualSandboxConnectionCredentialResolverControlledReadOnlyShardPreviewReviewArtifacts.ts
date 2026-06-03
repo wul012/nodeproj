@@ -283,6 +283,7 @@ export function createSourceMatrixArchiveSnapshotSummaryExport(
     digestValue: snapshot.digestValue,
     summaryDigest: {
       algorithm: "sha256",
+      scope: "archive-snapshot-summary-lines",
       value: sha256StableJson({
         exportVersion: "Node v605",
         inputArchiveSnapshotVersion: "Node v603",
