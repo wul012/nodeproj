@@ -295,6 +295,7 @@
 655: Controlled read-only shard preview consumption plan risk guidance
 656: Controlled read-only shard preview consumption plan test split
 657: Controlled read-only shard preview consumption plan promotion hold
+658: Controlled read-only shard preview consumption plan promotion hold gate
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

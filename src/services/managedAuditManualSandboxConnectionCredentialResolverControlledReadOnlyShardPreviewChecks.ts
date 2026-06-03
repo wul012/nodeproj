@@ -45,6 +45,10 @@ export function createChecks(
     sourceMatrixConsumptionPlanRiskAccepted:
       !sourceMatrixConsumptionPlan.riskSummary.blocked
       && sourceMatrixConsumptionPlan.riskSummary.riskLevel !== "unsafe",
+    sourceMatrixConsumptionPlanPromotionHoldSafe:
+      sourceMatrixConsumptionPlan.promotionHold.routingPromotionAllowed === false
+      && sourceMatrixConsumptionPlan.promotionHold.writePromotionAllowed === false
+      && sourceMatrixConsumptionPlan.promotionHold.serviceStartupAllowed === false,
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -65,6 +69,7 @@ export function collectProductionBlockers(
     [checks.sourceMatrixConsumptionPlanHasNoBlockedSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_BLOCKED_STEPS", "next-plan", "Source matrix consumption plan must not contain blocked steps."],
     [checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS", "next-plan", "Source matrix consumption plan must not allow routing activation or writes."],
     [checks.sourceMatrixConsumptionPlanRiskAccepted, "SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED", "next-plan", "Source matrix consumption plan risk summary must not be blocked or unsafe."],
+    [checks.sourceMatrixConsumptionPlanPromotionHoldSafe, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_UNSAFE", "next-plan", "Source matrix consumption plan promotion hold must deny routing promotion, writes, and service startup."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 

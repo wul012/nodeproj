@@ -38,7 +38,13 @@ describe("controlled read-only shard preview checks", () => {
         unsafeStepCount: 2,
         riskReasonCodes: ["PLAN_HAS_UNSAFE_STEPS"],
       },
-    };
+      promotionHold: {
+        ...profile.preview.sourceMatrixConsumptionPlan.promotionHold,
+        routingPromotionAllowed: true,
+        writePromotionAllowed: true,
+        serviceStartupAllowed: true,
+      },
+    } as unknown as typeof profile.preview.sourceMatrixConsumptionPlan;
     const checks = createChecks(
       config,
       profile.reads.java,
@@ -51,10 +57,13 @@ describe("controlled read-only shard preview checks", () => {
     expect(checks.sourceMatrixConsumptionPlanHasNoBlockedSteps).toBe(true);
     expect(checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps).toBe(false);
     expect(checks.sourceMatrixConsumptionPlanRiskAccepted).toBe(false);
+    expect(checks.sourceMatrixConsumptionPlanPromotionHoldSafe).toBe(false);
 
     const blockers = collectProductionBlockers(checks);
     expect(blockers.map((blocker) => blocker.code)).toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS");
     expect(blockers.map((blocker) => blocker.code)).toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED");
+    expect(blockers.map((blocker) => blocker.code))
+      .toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_UNSAFE");
 
     checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
       .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
