@@ -523,12 +523,13 @@ describe("managed audit manual sandbox connection credential resolver controlled
         noLoadRestoreCompact: true,
         noManagedAuditConnection: true,
         sourceMatrixConsumptionPlanReady: true,
+        sourceMatrixConsumptionPlanHasNoBlockedSteps: true,
         productionWindowStillBlocked: true,
         readyForControlledReadOnlyShardPreview: true,
       },
       summary: {
-        checkCount: 24,
-        passedCheckCount: 24,
+        checkCount: 25,
+        passedCheckCount: 25,
         attemptedReadCount: 2,
         passedReadCount: 2,
         failedReadCount: 0,
@@ -633,6 +634,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       "JAVA_PREVIEW_NOT_ATTEMPTED",
       "MINI_KV_PREVIEW_NOT_ATTEMPTED",
       "SOURCE_MATRIX_CONSUMPTION_PLAN_BLOCKED",
+      "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_BLOCKED_STEPS",
     ]));
     expect(profile.recommendations).toEqual([
       expect.objectContaining({
