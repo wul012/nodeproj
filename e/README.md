@@ -286,6 +286,7 @@
 646: Controlled read-only shard preview no blocked plan steps gate
 647: Controlled read-only shard preview step safety summary
 648: Minimal shard readiness route version expectation fix
+649: Controlled read-only shard preview unsafe plan step gate
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

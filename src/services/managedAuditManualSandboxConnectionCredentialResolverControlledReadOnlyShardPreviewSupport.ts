@@ -170,6 +170,9 @@ export function createChecks(
     sourceMatrixConsumptionPlanReady: sourceMatrixConsumptionPlan.readyForReadOnlyConsumptionPlan,
     sourceMatrixConsumptionPlanHasNoBlockedSteps:
       sourceMatrixConsumptionPlan.stepStatusSummary.blockedStepCount === 0,
+    sourceMatrixConsumptionPlanHasNoUnsafeSteps:
+      sourceMatrixConsumptionPlan.stepSafetySummary.routingActivationAllowedStepCount === 0
+      && sourceMatrixConsumptionPlan.stepSafetySummary.writesAllowedStepCount === 0,
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -188,6 +191,7 @@ export function collectProductionBlockers(
     [checks.miniKvBoundarySafe, "MINI_KV_BOUNDARY_UNSAFE", "mini-kv-shard-preview", "mini-kv must keep write/admin/load/restore/compact boundaries closed."],
     [checks.sourceMatrixConsumptionPlanReady, "SOURCE_MATRIX_CONSUMPTION_PLAN_BLOCKED", "next-plan", "Source matrix consumption plan must be ready before preview can be consumed."],
     [checks.sourceMatrixConsumptionPlanHasNoBlockedSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_BLOCKED_STEPS", "next-plan", "Source matrix consumption plan must not contain blocked steps."],
+    [checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS", "next-plan", "Source matrix consumption plan must not allow routing activation or writes."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 
