@@ -145,6 +145,23 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist {
   mutatesSiblingState: false;
 }
 
+export interface ControlledReadOnlyShardPreviewSourceMatrixReviewDigest {
+  digestVersion: "Node v602";
+  inputChecklistVersion: "Node v601";
+  algorithm: "sha256";
+  value: string;
+  coveredFields: string[];
+  readyForControlledReviewArchive: boolean;
+  checklistState: ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist["checklistState"];
+  itemCount: number;
+  blockedItemCount: number;
+  requiresApproval: false;
+  requiresRoutingActivation: false;
+  requiresFreshSiblingEvidence: false;
+  startsServices: false;
+  mutatesSiblingState: false;
+}
+
 export interface ControlledReadOnlyShardPreviewObservation {
   project: PreviewProject;
   attempted: boolean;
@@ -222,8 +239,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v601";
-  sourceNodeVersion: "Node v600";
+  activeNodeVersion: "Node v602";
+  sourceNodeVersion: "Node v601";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -255,6 +272,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     sourceMatrixConsumer: ControlledReadOnlyShardPreviewSourceMatrixConsumer;
     sourceMatrixDriftSummary: ControlledReadOnlyShardPreviewSourceMatrixDriftSummary;
     sourceMatrixReviewChecklist: ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist;
+    sourceMatrixReviewDigest: ControlledReadOnlyShardPreviewSourceMatrixReviewDigest;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -268,7 +286,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v602";
+    nextNodeVersion: "Node v603";
   };
   nextActions: string[];
 }

@@ -14,6 +14,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
   ControlledReadOnlyShardPreviewSourceMatrixEntry,
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
+  ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem,
   ControlledReadOnlyShardPreviewSummary,
   PreviewMessageSource,
@@ -40,6 +41,14 @@ const REQUIRED_FIELDS = Object.freeze([
   "status",
 ]);
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
+const REVIEW_DIGEST_COVERED_FIELDS = Object.freeze([
+  "checklistVersion",
+  "checklistState",
+  "readyForOperatorReview",
+  "itemCounts",
+  "items",
+  "safetyBoundaries",
+]);
 
 export function assessObservation(
   project: PreviewProject,
@@ -442,6 +451,54 @@ export function createSourceMatrixReviewChecklist(
     reviewItemCount: items.filter((item) => item.status === "needs-review").length,
     blockedItemCount,
     items,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixReviewDigest(
+  checklist: ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
+): ControlledReadOnlyShardPreviewSourceMatrixReviewDigest {
+  const material = {
+    checklistVersion: checklist.checklistVersion,
+    checklistState: checklist.checklistState,
+    readyForOperatorReview: checklist.readyForOperatorReview,
+    itemCounts: {
+      itemCount: checklist.itemCount,
+      readyItemCount: checklist.readyItemCount,
+      reviewItemCount: checklist.reviewItemCount,
+      blockedItemCount: checklist.blockedItemCount,
+    },
+    items: checklist.items.map((item) => ({
+      order: item.order,
+      check: item.check,
+      status: item.status,
+      severity: item.severity,
+      evidence: item.evidence,
+      routingActivationAllowed: item.routingActivationAllowed,
+    })),
+    safetyBoundaries: {
+      requiresApproval: checklist.requiresApproval,
+      requiresRoutingActivation: checklist.requiresRoutingActivation,
+      requiresFreshSiblingEvidence: checklist.requiresFreshSiblingEvidence,
+      startsServices: checklist.startsServices,
+      mutatesSiblingState: checklist.mutatesSiblingState,
+    },
+  };
+
+  return {
+    digestVersion: "Node v602",
+    inputChecklistVersion: "Node v601",
+    algorithm: "sha256",
+    value: sha256StableJson(material),
+    coveredFields: [...REVIEW_DIGEST_COVERED_FIELDS],
+    readyForControlledReviewArchive: checklist.readyForOperatorReview && checklist.blockedItemCount === 0,
+    checklistState: checklist.checklistState,
+    itemCount: checklist.itemCount,
+    blockedItemCount: checklist.blockedItemCount,
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,
