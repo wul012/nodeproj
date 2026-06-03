@@ -99,6 +99,22 @@ describe("controlled read-only shard preview consumption plan", () => {
         ],
         closureCriterionCount: 5,
       },
+      readOnlyReviewScope: {
+        scopeState: "ready-for-read-only-review",
+        allowedOperations: [
+          "consume-plan-step-records",
+          "review-risk-summary",
+          "verify-promotion-hold-closure",
+        ],
+        forbiddenOperations: [
+          "activate-shard-router",
+          "enable-write-routing",
+          "start-sibling-services",
+          "mutate-sibling-state",
+        ],
+        allowedOperationCount: 3,
+        forbiddenOperationCount: 4,
+      },
       planDigest: {
         algorithm: "sha256",
         scope: "source-matrix-consumption-plan",
@@ -196,6 +212,21 @@ describe("controlled read-only shard preview consumption plan", () => {
           "confirmServiceStartupAllowed=false",
         ],
         closureCriterionCount: 4,
+      },
+      readOnlyReviewScope: {
+        scopeState: "repair-before-read-only-review",
+        allowedOperations: [
+          "repair-plan-risk",
+          "review-promotion-hold-closure",
+        ],
+        forbiddenOperations: [
+          "activate-shard-router",
+          "enable-write-routing",
+          "start-sibling-services",
+          "mutate-sibling-state",
+        ],
+        allowedOperationCount: 2,
+        forbiddenOperationCount: 4,
       },
       planDigest: {
         algorithm: "sha256",

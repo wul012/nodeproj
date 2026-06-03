@@ -302,6 +302,7 @@
 662: Controlled read-only shard preview consumption plan artifact builder split
 663: Controlled read-only shard preview consumption plan barrel contract
 664: Controlled read-only shard preview consumption plan promotion hold closure guidance
+665: Controlled read-only shard preview consumption plan read-only review scope
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -174,6 +174,13 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
     closureCriteria: string[];
     closureCriterionCount: number;
   };
+  readOnlyReviewScope: {
+    scopeState: "ready-for-read-only-consumption" | "ready-for-read-only-review" | "repair-before-read-only-review";
+    allowedOperations: string[];
+    forbiddenOperations: string[];
+    allowedOperationCount: number;
+    forbiddenOperationCount: number;
+  };
   planDigest: {
     algorithm: "sha256";
     scope: "source-matrix-consumption-plan";

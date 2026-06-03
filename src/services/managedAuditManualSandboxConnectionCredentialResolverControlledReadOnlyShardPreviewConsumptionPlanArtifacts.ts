@@ -48,6 +48,7 @@ export function createSourceMatrixConsumptionPlan(
     driftSummary.blockingFindingCount,
   );
   const promotionHold = createConsumptionPlanPromotionHold(riskSummary);
+  const readOnlyReviewScope = createReadOnlyReviewScope(riskSummary);
 
   return {
     planVersion: "Node v638",
@@ -70,6 +71,7 @@ export function createSourceMatrixConsumptionPlan(
     stepSafetySummary,
     riskSummary,
     promotionHold,
+    readOnlyReviewScope,
     planDigest: {
       algorithm: "sha256",
       scope: "source-matrix-consumption-plan",
@@ -84,6 +86,7 @@ export function createSourceMatrixConsumptionPlan(
         stepSafetySummary,
         riskSummary,
         promotionHold,
+        readOnlyReviewScope,
       }),
       coveredStepCount: planSteps.length,
     },
@@ -92,6 +95,33 @@ export function createSourceMatrixConsumptionPlan(
     requiresFreshSiblingEvidence: false,
     startsServices: false,
     mutatesSiblingState: false,
+  };
+}
+
+function createReadOnlyReviewScope(
+  riskSummary: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["riskSummary"],
+): ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["readOnlyReviewScope"] {
+  const scopeState = riskSummary.blocked
+    ? "repair-before-read-only-review"
+    : riskSummary.reviewRequired
+      ? "ready-for-read-only-review"
+      : "ready-for-read-only-consumption";
+  const allowedOperations = riskSummary.blocked
+    ? ["repair-plan-risk", "review-promotion-hold-closure"]
+    : ["consume-plan-step-records", "review-risk-summary", "verify-promotion-hold-closure"];
+  const forbiddenOperations = [
+    "activate-shard-router",
+    "enable-write-routing",
+    "start-sibling-services",
+    "mutate-sibling-state",
+  ];
+
+  return {
+    scopeState,
+    allowedOperations,
+    forbiddenOperations,
+    allowedOperationCount: allowedOperations.length,
+    forbiddenOperationCount: forbiddenOperations.length,
   };
 }
 
@@ -198,4 +228,3 @@ function createConsumptionPlanStepRecord(
     writesAllowed: false,
   };
 }
-
