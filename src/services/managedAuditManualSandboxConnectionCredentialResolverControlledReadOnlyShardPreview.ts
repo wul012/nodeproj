@@ -27,6 +27,7 @@ import {
   createSourceMatrixHandoffSummaryConsumerReceipt,
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+  createSourceMatrixHandoffRouteCoverage,
   createSourceMatrixHandoffNotes,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
@@ -79,6 +80,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
       sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
     );
+  const sourceMatrixHandoffRouteCoverage =
+    createSourceMatrixHandoffRouteCoverage(sourceMatrixHandoffSummaryConsumerReceiptArchiveVerification);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -96,8 +99,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v619",
-    sourceNodeVersion: "Node v618",
+    activeNodeVersion: "Node v620",
+    sourceNodeVersion: "Node v619",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -136,6 +139,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrixHandoffSummaryConsumerReceipt,
       sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
       sourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+      sourceMatrixHandoffRouteCoverage,
       previewDigest,
     },
     checks,
@@ -149,11 +153,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v620",
+      nextNodeVersion: "Node v621",
     },
     nextActions: ready
       ? [
-        "Use Node v620 to add a controlled handoff artifact route coverage digest without routing activation.",
+        "Use Node v621 to add controlled handoff route coverage verification without routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [
