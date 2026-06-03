@@ -10,6 +10,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverage,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummary,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
@@ -416,6 +417,52 @@ export function createSourceMatrixHandoffRouteCoverageArchiveVerification(
     archivedSectionCount: snapshot.archivedSectionCount,
     verificationGateCount: snapshot.verificationGateCount,
     verificationPassedGateCount: snapshot.verificationPassedGateCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixHandoffRouteCoverageArchiveSummary(
+  verification: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummary {
+  const summaryLines = [
+    `verificationState=${verification.verificationState}`,
+    `snapshotDigest=${verification.snapshotDigestValue}`,
+    `passedGates=${verification.passedGateCount}/${verification.gateCount}`,
+    `archivedSections=${verification.archivedSectionCount}`,
+    `blockedReasons=${verification.blockedReasonCodes.join("|") || "none"}`,
+    `routingActivation=${verification.requiresRoutingActivation}`,
+  ];
+
+  return {
+    summaryVersion: "Node v624",
+    inputVerificationVersion: "Node v623",
+    summaryState: verification.readyForReadOnlyHandoffRouteCoverageArchiveVerification
+      ? "ready-for-read-only-handoff-route-coverage-archive-summary"
+      : "blocked",
+    readyForReadOnlyHandoffRouteCoverageArchiveSummary:
+      verification.readyForReadOnlyHandoffRouteCoverageArchiveVerification,
+    verificationState: verification.verificationState,
+    snapshotDigestValue: verification.snapshotDigestValue,
+    summaryDigest: {
+      algorithm: "sha256",
+      scope: "handoff-route-coverage-archive-summary-lines",
+      value: sha256StableJson({
+        summaryVersion: "Node v624",
+        inputVerificationVersion: "Node v623",
+        summaryLines,
+      }),
+      coveredLineCount: summaryLines.length,
+    },
+    summaryLines,
+    summaryLineCount: summaryLines.length,
+    gateCount: verification.gateCount,
+    passedGateCount: verification.passedGateCount,
+    archivedSectionCount: verification.archivedSectionCount,
+    blockedReasonCount: verification.blockedReasonCodes.length,
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,
