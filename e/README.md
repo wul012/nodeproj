@@ -326,6 +326,9 @@
 686: Controlled read-only shard preview type module catalog renderer
 687: Controlled read-only shard preview type module catalog barrel
 688: Controlled read-only shard preview type module catalog validation
+689: Controlled read-only shard preview execution gap matrix
+690: Controlled read-only shard preview live read-only packet candidate
+691: Controlled read-only shard preview live read-only packet candidate verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

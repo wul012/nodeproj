@@ -39,6 +39,9 @@ import {
   createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
   createSourceMatrixHandoffNotes,
+  createControlledReadOnlyShardPreviewExecutionGapMatrix,
+  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
+  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
   createSourceMatrixConsumptionPlan,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
@@ -120,13 +123,26 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(java, miniKv);
   const recommendations = collectRecommendations(ready, sourceMatrixConsumptionPlan);
+  const previewState = ready ? "controlled-read-only-shard-preview-ready" : "blocked";
+  const executionGapMatrix = createControlledReadOnlyShardPreviewExecutionGapMatrix({
+    previewState,
+    readyForControlledReadOnlyShardPreview: ready,
+    executionAllowed: false,
+    writeRoutingAllowed: false,
+    loadRestoreCompactAllowed: false,
+    sourceMatrix,
+  });
+  const liveReadOnlyPacketCandidate =
+    createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate(executionGapMatrix);
+  const liveReadOnlyPacketCandidateVerification =
+    createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification(liveReadOnlyPacketCandidate);
 
   return {
     service: "orderops-node",
     title: "Managed audit manual sandbox connection credential resolver controlled read-only shard preview",
     generatedAt: new Date().toISOString(),
     profileVersion: PROFILE_VERSION,
-    previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
+    previewState,
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
     activeNodeVersion: "Node v638",
@@ -178,6 +194,9 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
+      executionGapMatrix,
+      liveReadOnlyPacketCandidate,
+      liveReadOnlyPacketCandidateVerification,
       previewDigest,
     },
     checks,

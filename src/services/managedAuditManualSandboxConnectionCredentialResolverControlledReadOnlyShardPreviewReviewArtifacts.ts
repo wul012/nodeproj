@@ -44,3 +44,15 @@ export {
 export {
   renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.js";
+
+export {
+  createControlledReadOnlyShardPreviewExecutionGapMatrix,
+  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
+  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.js";
+
+export {
+  renderControlledReadOnlyShardPreviewExecutionGapMatrixMarkdown,
+  renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateMarkdown,
+  renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerificationMarkdown,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessRenderer.js";

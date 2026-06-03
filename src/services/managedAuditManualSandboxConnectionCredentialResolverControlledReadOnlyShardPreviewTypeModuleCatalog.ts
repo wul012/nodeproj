@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v685";
+  catalogVersion: "Node v691";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v688";
+  validationVersion: "Node v691";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -162,6 +162,36 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 13,
+    id: "execution-readiness-types",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessTypes.ts",
+    owns: ["execution gap matrix", "live read-only packet candidate", "candidate verification"],
+    consumedBy: ["execution readiness artifacts", "execution readiness renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep real-execution readiness contracts together so planning, candidate, and verification share one safety vocabulary.",
+    stopCondition: "Do not split unless live packet execution and production execution gain separate builders.",
+  },
+  {
+    order: 14,
+    id: "execution-readiness-artifacts",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.ts",
+    owns: ["execution gap matrix builder", "live read-only packet candidate builder", "candidate verification builder"],
+    consumedBy: ["review artifact barrel", "execution readiness tests", "future archive pages"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep the three-step read-only execution readiness chain in one builder file until execution starts using runtime clients.",
+    stopCondition: "Do not split unless a builder begins starting services or consuming fresh runtime evidence.",
+  },
+  {
+    order: 15,
+    id: "execution-readiness-renderer",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessRenderer.ts",
+    owns: ["gap matrix markdown", "candidate markdown", "candidate verification markdown"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep execution readiness markdown isolated from runtime builders.",
+    stopCondition: "Do not split unless the renderer grows a route-specific or archive-specific lifecycle.",
+  },
+  {
+    order: 16,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -185,7 +215,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v685",
+    catalogVersion: "Node v691",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -246,7 +276,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v688",
+    validationVersion: "Node v691",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

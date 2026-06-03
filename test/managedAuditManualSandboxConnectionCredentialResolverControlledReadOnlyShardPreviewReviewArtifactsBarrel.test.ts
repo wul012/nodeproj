@@ -18,6 +18,10 @@ import * as typeModuleCatalog
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.js";
 import * as typeModuleCatalogRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.js";
+import * as executionReadinessArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.js";
+import * as executionReadinessRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -83,5 +87,21 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(typeModuleCatalog.validateControlledReadOnlyShardPreviewTypeModuleCatalog);
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown)
       .toBe(typeModuleCatalogRenderer.renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown);
+  });
+
+  it("re-exports execution readiness helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewExecutionGapMatrix)
+      .toBe(executionReadinessArtifacts.createControlledReadOnlyShardPreviewExecutionGapMatrix);
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate)
+      .toBe(executionReadinessArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate);
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification)
+      .toBe(executionReadinessArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewExecutionGapMatrixMarkdown)
+      .toBe(executionReadinessRenderer.renderControlledReadOnlyShardPreviewExecutionGapMatrixMarkdown);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateMarkdown)
+      .toBe(executionReadinessRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateMarkdown);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerificationMarkdown)
+      .toBe(executionReadinessRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerificationMarkdown);
   });
 });

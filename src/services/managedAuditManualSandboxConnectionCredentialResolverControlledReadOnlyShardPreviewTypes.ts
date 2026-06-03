@@ -50,6 +50,11 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageArchiveReceiptTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewExecutionGapMatrix,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -135,6 +140,19 @@ export type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerificationGates,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageArchiveReceiptTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewExecutionGapMatrix,
+  ControlledReadOnlyShardPreviewExecutionReadinessGate,
+  ControlledReadOnlyShardPreviewExecutionReadinessGateState,
+  ControlledReadOnlyShardPreviewExecutionReadinessScope,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateChecks,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerificationGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketProcessStep,
+  ControlledReadOnlyShardPreviewLiveReadOnlyPacketTarget,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -204,6 +222,9 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot;
     sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification:
       ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification;
+    executionGapMatrix: ControlledReadOnlyShardPreviewExecutionGapMatrix;
+    liveReadOnlyPacketCandidate: ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate;
+    liveReadOnlyPacketCandidateVerification: ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
