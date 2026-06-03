@@ -213,12 +213,13 @@ export function collectRecommendations(
   sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
 ): ControlledReadOnlyShardPreviewMessage[] {
   const blockedReasons = sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none";
+  const stepRecordSummary = formatPlanStepRecordSummary(sourceMatrixConsumptionPlan);
   return [{
     code: ready ? "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY" : "REPAIR_SOURCE_MATRIX_CONSUMPTION_PLAN",
     severity: "recommendation",
     source: "next-plan",
     message: ready
-      ? `Consume the ${sourceMatrixConsumptionPlan.planStepCount} source matrix plan steps while routing remains disabled.`
+      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled.`
       : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}.`,
   }];
 }
@@ -229,7 +230,7 @@ export function createNextActions(
 ): string[] {
   if (ready) {
     return [
-      `Consume sourceMatrixConsumptionPlan.planSteps (${sourceMatrixConsumptionPlan.planSteps.join("; ")}) without routing activation.`,
+      `Consume sourceMatrixConsumptionPlan.planStepRecords (${formatPlanStepRecordSummary(sourceMatrixConsumptionPlan)}) without routing activation.`,
       "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
     ];
   }
@@ -238,6 +239,14 @@ export function createNextActions(
     `Repair sourceMatrixConsumptionPlan before consumption; blocked reasons: ${sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none"}.`,
     "Do not start, stop, write, restore, load, compact, or activate routing from this Node preview.",
   ];
+}
+
+function formatPlanStepRecordSummary(
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+): string {
+  return sourceMatrixConsumptionPlan.planStepRecords
+    .map((step) => `${step.code}:${step.status}`)
+    .join(", ") || "none";
 }
 
 export function createSummary(

@@ -537,11 +537,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect.objectContaining({
         code: "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY",
         source: "next-plan",
-        message: expect.stringContaining("4 source matrix plan steps"),
+        message: expect.stringContaining("4 source matrix plan step records"),
       }),
     ]);
     expect(profile.nextActions).toEqual([
-      expect.stringContaining("observeSources=java|miniKv"),
+      expect.stringContaining("observe-sources:ready"),
       expect.stringContaining("independently started services"),
     ]);
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
