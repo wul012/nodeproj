@@ -73,6 +73,13 @@ export function createChecks(
       && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("enable-write-routing")
       && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("start-sibling-services")
       && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("mutate-sibling-state"),
+    sourceMatrixConsumptionPlanReadOnlyReviewScopeDigestStable:
+      /^[a-f0-9]{64}$/.test(sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.value)
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.scope === "read-only-review-scope"
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.coveredAllowedOperationCount
+        === sourceMatrixConsumptionPlan.readOnlyReviewScope.allowedOperations.length
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.coveredForbiddenOperationCount
+        === sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.length,
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -96,6 +103,7 @@ export function collectProductionBlockers(
     [checks.sourceMatrixConsumptionPlanPromotionHoldSafe, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_UNSAFE", "next-plan", "Source matrix consumption plan promotion hold must deny routing promotion, writes, and service startup."],
     [checks.sourceMatrixConsumptionPlanPromotionHoldClosureReady, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_CLOSURE_NOT_READY", "next-plan", "Source matrix consumption plan promotion hold closure criteria must be complete."],
     [checks.sourceMatrixConsumptionPlanReadOnlyReviewScopeSafe, "SOURCE_MATRIX_CONSUMPTION_PLAN_REVIEW_SCOPE_UNSAFE", "next-plan", "Source matrix consumption plan read-only review scope must preserve allowed and forbidden operation boundaries."],
+    [checks.sourceMatrixConsumptionPlanReadOnlyReviewScopeDigestStable, "SOURCE_MATRIX_CONSUMPTION_PLAN_REVIEW_SCOPE_DIGEST_UNSTABLE", "next-plan", "Source matrix consumption plan read-only review scope digest must be stable and count-aligned."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 
