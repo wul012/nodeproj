@@ -242,6 +242,7 @@
 602: Controlled read-only shard preview source matrix review digest
 603: Controlled read-only shard preview source matrix archive snapshot
 604: Controlled read-only shard preview review artifacts test split
+605: Controlled read-only shard preview archive snapshot summary export
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

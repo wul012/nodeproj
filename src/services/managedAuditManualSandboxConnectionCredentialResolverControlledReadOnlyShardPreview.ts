@@ -20,6 +20,7 @@ import {
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSupport.js";
 import {
   createSourceMatrixArchiveSnapshot,
+  createSourceMatrixArchiveSnapshotSummaryExport,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -56,6 +57,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   const sourceMatrixReviewChecklist = createSourceMatrixReviewChecklist(sourceMatrixDriftSummary);
   const sourceMatrixReviewDigest = createSourceMatrixReviewDigest(sourceMatrixReviewChecklist);
   const sourceMatrixArchiveSnapshot = createSourceMatrixArchiveSnapshot(sourceMatrixReviewDigest);
+  const sourceMatrixArchiveSnapshotSummaryExport =
+    createSourceMatrixArchiveSnapshotSummaryExport(sourceMatrixArchiveSnapshot);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -73,8 +76,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v604",
-    sourceNodeVersion: "Node v603",
+    activeNodeVersion: "Node v605",
+    sourceNodeVersion: "Node v604",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -105,6 +108,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrixReviewChecklist,
       sourceMatrixReviewDigest,
       sourceMatrixArchiveSnapshot,
+      sourceMatrixArchiveSnapshotSummaryExport,
       previewDigest,
     },
     checks,
@@ -118,11 +122,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v605",
+      nextNodeVersion: "Node v606",
     },
     nextActions: ready
       ? [
-        "Use Node v605 to add controlled source-matrix archive snapshot summary exports that still avoid routing activation.",
+        "Use Node v606 to add controlled source-matrix archive snapshot summary export coverage without routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

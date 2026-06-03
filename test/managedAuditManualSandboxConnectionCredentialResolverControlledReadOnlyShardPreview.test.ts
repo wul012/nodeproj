@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v604",
-      sourceNodeVersion: "Node v603",
+      activeNodeVersion: "Node v605",
+      sourceNodeVersion: "Node v604",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -228,6 +228,18 @@ describe("managed audit manual sandbox connection credential resolver controlled
           includesRuntimePayload: false,
           requiresRoutingActivation: false,
         },
+        sourceMatrixArchiveSnapshotSummaryExport: {
+          exportVersion: "Node v605",
+          inputArchiveSnapshotVersion: "Node v603",
+          exportState: "ready-for-summary-export",
+          readyForSummaryExport: true,
+          summaryLineCount: 5,
+          archivedSectionCount: 5,
+          blockedItemCount: 0,
+          includesRawCredential: false,
+          includesRuntimePayload: false,
+          requiresRoutingActivation: false,
+        },
       },
       checks: {
         upstreamProbesEnabledForPreview: true,
@@ -258,6 +270,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixReviewDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixArchiveSnapshot.digestValue).toBe(profile.preview.sourceMatrixReviewDigest.value);
+    expect(profile.preview.sourceMatrixArchiveSnapshotSummaryExport.digestValue)
+      .toBe(profile.preview.sourceMatrixReviewDigest.value);
   }, 60000);
 
   it("fails closed without reading upstreams when probes are disabled", async () => {
@@ -346,6 +360,16 @@ describe("managed audit manual sandbox connection credential resolver controlled
       includesRuntimePayload: false,
       requiresRoutingActivation: false,
     });
+    expect(profile.preview.sourceMatrixArchiveSnapshotSummaryExport).toMatchObject({
+      exportState: "blocked",
+      readyForSummaryExport: false,
+      summaryLineCount: 5,
+      archivedSectionCount: 5,
+      blockedItemCount: 2,
+      includesRawCredential: false,
+      includesRuntimePayload: false,
+      requiresRoutingActivation: false,
+    });
   }, 60000);
 
   it("exposes JSON and Markdown through the audit route table using mock read-only services", async () => {
@@ -374,8 +398,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v604",
-        sourceNodeVersion: "Node v603",
+        activeNodeVersion: "Node v605",
+        sourceNodeVersion: "Node v604",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -394,12 +418,14 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Source Matrix Review Checklist");
       expect(markdown.body).toContain("## Source Matrix Review Digest");
       expect(markdown.body).toContain("## Source Matrix Archive Snapshot");
+      expect(markdown.body).toContain("## Source Matrix Archive Snapshot Summary Export");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
       expect(markdown.body).toContain("Checklist state: ready-for-controlled-review");
       expect(markdown.body).toContain("Ready for controlled review archive: true");
       expect(markdown.body).toContain("Archive state: ready-for-controlled-review-archive");
+      expect(markdown.body).toContain("Export state: ready-for-summary-export");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");

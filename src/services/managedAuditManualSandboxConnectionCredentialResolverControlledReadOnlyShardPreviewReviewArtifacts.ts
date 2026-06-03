@@ -3,6 +3,7 @@ import type {
   ControlledReadOnlyShardPreviewSource,
   ControlledReadOnlyShardPreviewSourceMatrix,
   ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
   ControlledReadOnlyShardPreviewSourceMatrixConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixDriftFinding,
   ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
@@ -254,6 +255,36 @@ export function createSourceMatrixArchiveSnapshot(
     checklistState: digest.checklistState,
     itemCount: digest.itemCount,
     blockedItemCount: digest.blockedItemCount,
+    includesRawCredential: false,
+    includesRuntimePayload: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixArchiveSnapshotSummaryExport(
+  snapshot: ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
+): ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport {
+  const summaryLines = [
+    `archiveState=${snapshot.archiveState}`,
+    `digest=${snapshot.digestValue}`,
+    `archivedSections=${snapshot.archivedSectionCount}`,
+    `blockedItems=${snapshot.blockedItemCount}`,
+    `routingActivation=${snapshot.requiresRoutingActivation}`,
+  ];
+
+  return {
+    exportVersion: "Node v605",
+    inputArchiveSnapshotVersion: "Node v603",
+    exportState: snapshot.readyForControlledReviewArchive ? "ready-for-summary-export" : "blocked",
+    readyForSummaryExport: snapshot.readyForControlledReviewArchive,
+    digestValue: snapshot.digestValue,
+    summaryLines,
+    summaryLineCount: summaryLines.length,
+    archivedSectionCount: snapshot.archivedSectionCount,
+    blockedItemCount: snapshot.blockedItemCount,
     includesRawCredential: false,
     includesRuntimePayload: false,
     requiresRoutingActivation: false,

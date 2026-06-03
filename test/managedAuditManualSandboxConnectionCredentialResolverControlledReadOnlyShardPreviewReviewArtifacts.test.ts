@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   createSourceMatrixArchiveSnapshot,
+  createSourceMatrixArchiveSnapshotSummaryExport,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -18,6 +19,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const checklist = createSourceMatrixReviewChecklist(driftSummary);
     const digest = createSourceMatrixReviewDigest(checklist);
     const snapshot = createSourceMatrixArchiveSnapshot(digest);
+    const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
 
     expect(consumer).toMatchObject({
       decision: "ready-for-controlled-read-only-consumption",
@@ -109,6 +111,29 @@ describe("controlled read-only shard preview review artifacts", () => {
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(summaryExport).toMatchObject({
+      exportVersion: "Node v605",
+      inputArchiveSnapshotVersion: "Node v603",
+      exportState: "ready-for-summary-export",
+      readyForSummaryExport: true,
+      digestValue: digest.value,
+      summaryLineCount: 5,
+      archivedSectionCount: 5,
+      blockedItemCount: 0,
+      includesRawCredential: false,
+      includesRuntimePayload: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+    expect(summaryExport.summaryLines).toEqual([
+      "archiveState=ready-for-controlled-review-archive",
+      `digest=${digest.value}`,
+      "archivedSections=5",
+      "blockedItems=0",
+      "routingActivation=false",
+    ]);
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -117,6 +142,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const checklist = createSourceMatrixReviewChecklist(driftSummary);
     const digest = createSourceMatrixReviewDigest(checklist);
     const snapshot = createSourceMatrixArchiveSnapshot(digest);
+    const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
 
     expect(consumer).toMatchObject({
       decision: "blocked",
@@ -163,6 +189,16 @@ describe("controlled read-only shard preview review artifacts", () => {
       archivedSectionCount: 5,
       checklistState: "blocked",
       itemCount: 4,
+      blockedItemCount: 2,
+      includesRawCredential: false,
+      includesRuntimePayload: false,
+    });
+    expect(summaryExport).toMatchObject({
+      exportState: "blocked",
+      readyForSummaryExport: false,
+      digestValue: digest.value,
+      summaryLineCount: 5,
+      archivedSectionCount: 5,
       blockedItemCount: 2,
       includesRawCredential: false,
       includesRuntimePayload: false,
