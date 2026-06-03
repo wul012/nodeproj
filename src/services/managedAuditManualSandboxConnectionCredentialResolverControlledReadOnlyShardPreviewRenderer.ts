@@ -66,5 +66,8 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
     "",
     "## Evidence Endpoints",
     ...renderEntries(profile.evidenceEndpoints),
+    "",
+    "## Next Actions",
+    ...profile.nextActions.map((action) => `- ${action}`),
   ].join("\n");
 }

@@ -150,6 +150,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");
       expect(markdown.body).toContain("LOAD/RESTORE/COMPACT allowed: false");
+      expect(markdown.body).toContain("## Next Actions");
+      expect(markdown.body).toContain("Consume sourceMatrixConsumptionPlan.planSteps");
+      expect(markdown.body).toContain("observeSources=java|miniKv");
     } finally {
       await app.close();
     }
