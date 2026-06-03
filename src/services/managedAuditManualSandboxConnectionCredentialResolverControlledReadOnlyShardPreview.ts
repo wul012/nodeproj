@@ -10,6 +10,7 @@ import {
   createChecks,
   createPreviewDigest,
   createSourceMatrix,
+  createSourceMatrixConsumer,
   createSummary,
   failedObservation,
   JAVA_ENDPOINT,
@@ -44,6 +45,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   ]);
   const previewDigest = createPreviewDigest(java, miniKv);
   const sourceMatrix = createSourceMatrix(java, miniKv);
+  const sourceMatrixConsumer = createSourceMatrixConsumer(sourceMatrix);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -61,8 +63,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v598",
-    sourceNodeVersion: "Node v581",
+    activeNodeVersion: "Node v599",
+    sourceNodeVersion: "Node v598",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -88,6 +90,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       bothReadOnly: java.readOnlySafe && miniKv.readOnlySafe,
       bothExecutionBlocked: java.executionBlocked && miniKv.executionBlocked,
       sourceMatrix,
+      sourceMatrixConsumer,
       previewDigest,
     },
     checks,
@@ -101,11 +104,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v599",
+      nextNodeVersion: "Node v600",
     },
     nextActions: ready
       ? [
-        "Use Node v599 to add a controlled source-matrix consumer that can compare read-only shard readiness without activating routing.",
+        "Use Node v600 to add a controlled source-matrix drift summary that still avoids routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

@@ -7,7 +7,9 @@ import type {
   ControlledReadOnlyShardPreviewChecks,
   ControlledReadOnlyShardPreviewMessage,
   ControlledReadOnlyShardPreviewObservation,
+  ControlledReadOnlyShardPreviewSource,
   ControlledReadOnlyShardPreviewSourceMatrix,
+  ControlledReadOnlyShardPreviewSourceMatrixConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixEntry,
   ControlledReadOnlyShardPreviewSummary,
   PreviewMessageSource,
@@ -33,6 +35,7 @@ const REQUIRED_FIELDS = Object.freeze([
   "routingMode",
   "status",
 ]);
+const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
 
 export function assessObservation(
   project: PreviewProject,
@@ -279,12 +282,56 @@ export function createSourceMatrix(
   };
 }
 
+export function createSourceMatrixConsumer(
+  sourceMatrix: ControlledReadOnlyShardPreviewSourceMatrix,
+): ControlledReadOnlyShardPreviewSourceMatrixConsumer {
+  const observedSources = uniqueSources(sourceMatrix.sources.map((source) => source.source));
+  const missingSources = REQUIRED_MATRIX_SOURCES.filter((source) => !observedSources.includes(source));
+  const gates = {
+    observedRequiredSources: missingSources.length === 0 && observedSources.length === REQUIRED_MATRIX_SOURCES.length,
+    allSourcesReady: sourceMatrix.allSourcesReady,
+    shardCountsComparable: sourceMatrix.shardCountsComparable,
+    slotCountsComparable: sourceMatrix.slotCountsComparable,
+    routingModesDeclared: sourceMatrix.routingModes.length > 0,
+    readOnlyConsumerOnly: true as const,
+  };
+  const gateValues = Object.values(gates);
+  const readyForControlledReadOnlyConsumption = gateValues.every(Boolean);
+
+  return {
+    consumerVersion: "Node v599",
+    inputSourceVersion: "Node v598",
+    decision: readyForControlledReadOnlyConsumption ? "ready-for-controlled-read-only-consumption" : "blocked",
+    readyForControlledReadOnlyConsumption,
+    requiredSources: [...REQUIRED_MATRIX_SOURCES],
+    observedSources,
+    missingSources,
+    gateCount: gateValues.length,
+    passedGateCount: gateValues.filter(Boolean).length,
+    gates,
+    comparison: {
+      routingModes: sourceMatrix.routingModes,
+      routingModeCount: sourceMatrix.routingModes.length,
+      javaShardCount: sourceMatrix.sources.find((source) => source.source === "java")?.shardCount ?? null,
+      miniKvShardCount: sourceMatrix.sources.find((source) => source.source === "miniKv")?.shardCount ?? null,
+      shardCountDelta: sourceMatrix.shardCountDelta,
+      javaSlotCount: sourceMatrix.sources.find((source) => source.source === "java")?.slotCount ?? null,
+      miniKvSlotCount: sourceMatrix.sources.find((source) => source.source === "miniKv")?.slotCount ?? null,
+      slotCountDelta: sourceMatrix.slotCountDelta,
+    },
+    blockedReasonCodes: createSourceMatrixConsumerBlockedReasons(gates),
+    activatesRouting: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 export function sumNullable(left: number | null, right: number | null): number | null {
   return left === null || right === null ? null : left + right;
 }
 
 function createSourceMatrixEntry(
-  source: "java" | "miniKv",
+  source: ControlledReadOnlyShardPreviewSource,
   observation: ControlledReadOnlyShardPreviewObservation,
 ): ControlledReadOnlyShardPreviewSourceMatrixEntry {
   return {
@@ -304,6 +351,24 @@ function createSourceMatrixEntry(
     command: observation.command,
     latencyMs: observation.latencyMs,
   };
+}
+
+function createSourceMatrixConsumerBlockedReasons(
+  gates: ControlledReadOnlyShardPreviewSourceMatrixConsumer["gates"],
+): string[] {
+  return [
+    gates.observedRequiredSources ? null : "MISSING_REQUIRED_SOURCE",
+    gates.allSourcesReady ? null : "SOURCE_NOT_READY",
+    gates.shardCountsComparable ? null : "SHARD_COUNTS_NOT_COMPARABLE",
+    gates.slotCountsComparable ? null : "SLOT_COUNTS_NOT_COMPARABLE",
+    gates.routingModesDeclared ? null : "ROUTING_MODE_NOT_DECLARED",
+  ].filter((reason): reason is string => reason !== null);
+}
+
+function uniqueSources(
+  sources: ControlledReadOnlyShardPreviewSource[],
+): ControlledReadOnlyShardPreviewSource[] {
+  return REQUIRED_MATRIX_SOURCES.filter((source) => sources.includes(source));
 }
 
 function createObservationPreview(evidence: Record<string, unknown> | null) {

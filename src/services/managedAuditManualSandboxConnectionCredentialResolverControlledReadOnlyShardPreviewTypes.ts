@@ -2,6 +2,7 @@ export type PreviewProject = "advanced-order-platform" | "mini-kv";
 export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
 export type PreviewTransport = "http-json" | "tcp-command";
 export type PreviewMessageSource = "java-shard-preview" | "mini-kv-shard-preview" | "runtime-boundary" | "next-plan";
+export type ControlledReadOnlyShardPreviewSource = "java" | "miniKv";
 
 export interface ControlledReadOnlyShardPreviewObservationPreview {
   version: string | null;
@@ -16,7 +17,7 @@ export interface ControlledReadOnlyShardPreviewObservationPreview {
 }
 
 export interface ControlledReadOnlyShardPreviewSourceMatrixEntry {
-  source: "java" | "miniKv";
+  source: ControlledReadOnlyShardPreviewSource;
   project: PreviewProject;
   version: string | null;
   releaseVersion: string | null;
@@ -45,6 +46,44 @@ export interface ControlledReadOnlyShardPreviewSourceMatrix {
   shardCountsComparable: boolean;
   slotCountsComparable: boolean;
   allSourcesReady: boolean;
+}
+
+export interface ControlledReadOnlyShardPreviewSourceMatrixConsumerGates {
+  observedRequiredSources: boolean;
+  allSourcesReady: boolean;
+  shardCountsComparable: boolean;
+  slotCountsComparable: boolean;
+  routingModesDeclared: boolean;
+  readOnlyConsumerOnly: true;
+}
+
+export interface ControlledReadOnlyShardPreviewSourceMatrixConsumerComparison {
+  routingModes: string[];
+  routingModeCount: number;
+  javaShardCount: number | null;
+  miniKvShardCount: number | null;
+  shardCountDelta: number | null;
+  javaSlotCount: number | null;
+  miniKvSlotCount: number | null;
+  slotCountDelta: number | null;
+}
+
+export interface ControlledReadOnlyShardPreviewSourceMatrixConsumer {
+  consumerVersion: "Node v599";
+  inputSourceVersion: "Node v598";
+  decision: "ready-for-controlled-read-only-consumption" | "blocked";
+  readyForControlledReadOnlyConsumption: boolean;
+  requiredSources: ControlledReadOnlyShardPreviewSource[];
+  observedSources: ControlledReadOnlyShardPreviewSource[];
+  missingSources: ControlledReadOnlyShardPreviewSource[];
+  gateCount: number;
+  passedGateCount: number;
+  gates: ControlledReadOnlyShardPreviewSourceMatrixConsumerGates;
+  comparison: ControlledReadOnlyShardPreviewSourceMatrixConsumerComparison;
+  blockedReasonCodes: string[];
+  activatesRouting: false;
+  startsServices: false;
+  mutatesSiblingState: false;
 }
 
 export interface ControlledReadOnlyShardPreviewObservation {
@@ -124,8 +163,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v598";
-  sourceNodeVersion: "Node v581";
+  activeNodeVersion: "Node v599";
+  sourceNodeVersion: "Node v598";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -154,6 +193,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     bothReadOnly: boolean;
     bothExecutionBlocked: boolean;
     sourceMatrix: ControlledReadOnlyShardPreviewSourceMatrix;
+    sourceMatrixConsumer: ControlledReadOnlyShardPreviewSourceMatrixConsumer;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -167,7 +207,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v599";
+    nextNodeVersion: "Node v600";
   };
   nextActions: string[];
 }

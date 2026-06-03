@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v598",
-      sourceNodeVersion: "Node v581",
+      activeNodeVersion: "Node v599",
+      sourceNodeVersion: "Node v598",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -186,6 +186,39 @@ describe("managed audit manual sandbox connection credential resolver controlled
             },
           ],
         },
+        sourceMatrixConsumer: {
+          consumerVersion: "Node v599",
+          inputSourceVersion: "Node v598",
+          decision: "ready-for-controlled-read-only-consumption",
+          readyForControlledReadOnlyConsumption: true,
+          requiredSources: ["java", "miniKv"],
+          observedSources: ["java", "miniKv"],
+          missingSources: [],
+          gateCount: 6,
+          passedGateCount: 6,
+          gates: {
+            observedRequiredSources: true,
+            allSourcesReady: true,
+            shardCountsComparable: true,
+            slotCountsComparable: true,
+            routingModesDeclared: true,
+            readOnlyConsumerOnly: true,
+          },
+          comparison: {
+            routingModes: ["read-only-preview", "single-shard-readiness-prototype"],
+            routingModeCount: 2,
+            javaShardCount: 0,
+            miniKvShardCount: 1,
+            shardCountDelta: 1,
+            javaSlotCount: 0,
+            miniKvSlotCount: 16,
+            slotCountDelta: 16,
+          },
+          blockedReasonCodes: [],
+          activatesRouting: false,
+          startsServices: false,
+          mutatesSiblingState: false,
+        },
       },
       checks: {
         upstreamProbesEnabledForPreview: true,
@@ -254,6 +287,30 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(miniKvCalls).toBe(0);
     expect(profile.startsJavaService).toBe(false);
     expect(profile.startsMiniKvService).toBe(false);
+    expect(profile.preview.sourceMatrixConsumer).toMatchObject({
+      decision: "blocked",
+      readyForControlledReadOnlyConsumption: false,
+      observedSources: ["java", "miniKv"],
+      missingSources: [],
+      passedGateCount: 2,
+      gates: {
+        observedRequiredSources: true,
+        allSourcesReady: false,
+        shardCountsComparable: false,
+        slotCountsComparable: false,
+        routingModesDeclared: false,
+        readOnlyConsumerOnly: true,
+      },
+      blockedReasonCodes: [
+        "SOURCE_NOT_READY",
+        "SHARD_COUNTS_NOT_COMPARABLE",
+        "SLOT_COUNTS_NOT_COMPARABLE",
+        "ROUTING_MODE_NOT_DECLARED",
+      ],
+      activatesRouting: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   }, 60000);
 
   it("exposes JSON and Markdown through the audit route table using mock read-only services", async () => {
@@ -282,8 +339,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v598",
-        sourceNodeVersion: "Node v581",
+        activeNodeVersion: "Node v599",
+        sourceNodeVersion: "Node v598",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -297,7 +354,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("controlled read-only shard preview");
       expect(markdown.body).toContain("Preview decision: preview-java-and-mini-kv-shard-readiness");
       expect(markdown.body).toContain("## Source Matrix");
+      expect(markdown.body).toContain("## Source Matrix Consumer");
       expect(markdown.body).toContain("Ready source count: 2");
+      expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");
