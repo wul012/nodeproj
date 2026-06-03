@@ -260,6 +260,7 @@
 620: Controlled read-only shard preview handoff route coverage digest
 621: Controlled read-only shard preview handoff route coverage verification
 622: Controlled read-only shard preview handoff route coverage archive snapshot
+623: Controlled read-only shard preview handoff route coverage archive verification
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

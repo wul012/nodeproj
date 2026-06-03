@@ -22,6 +22,7 @@ export {
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
   createSourceMatrixHandoffRouteCoverage,
   createSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
 

@@ -10,6 +10,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverage,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
@@ -382,6 +383,47 @@ export function createSourceMatrixHandoffRouteCoverageArchiveSnapshot(
   };
 }
 
+export function createSourceMatrixHandoffRouteCoverageArchiveVerification(
+  snapshot: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification {
+  const gates = {
+    snapshotReady: snapshot.readyForReadOnlyHandoffRouteCoverageArchive,
+    snapshotDigestPresent: snapshot.snapshotDigest.value.length === 64,
+    archivedSectionsComplete: snapshot.archivedSectionCount === HANDOFF_ROUTE_COVERAGE_ARCHIVED_SECTIONS.length
+      && snapshot.archivedSections.length === snapshot.archivedSectionCount
+      && snapshot.snapshotDigest.coveredSectionCount === snapshot.archivedSectionCount,
+    verificationGatesPreserved: snapshot.verificationGateCount > 0
+      && snapshot.verificationPassedGateCount <= snapshot.verificationGateCount,
+    noRoutingActivationRequired: !snapshot.requiresRoutingActivation,
+    noFreshSiblingEvidenceRequired: !snapshot.requiresFreshSiblingEvidence,
+    readOnlyVerificationOnly: true as const,
+  };
+  const gateValues = Object.values(gates);
+  const readyForReadOnlyHandoffRouteCoverageArchiveVerification = gateValues.every(Boolean);
+
+  return {
+    verificationVersion: "Node v623",
+    inputSnapshotVersion: "Node v622",
+    verificationState: readyForReadOnlyHandoffRouteCoverageArchiveVerification
+      ? "ready-for-read-only-handoff-route-coverage-archive-verification"
+      : "blocked",
+    readyForReadOnlyHandoffRouteCoverageArchiveVerification,
+    gateCount: gateValues.length,
+    passedGateCount: gateValues.filter(Boolean).length,
+    gates,
+    blockedReasonCodes: createSourceMatrixHandoffRouteCoverageArchiveVerificationBlockedReasons(gates),
+    snapshotDigestValue: snapshot.snapshotDigest.value,
+    archivedSectionCount: snapshot.archivedSectionCount,
+    verificationGateCount: snapshot.verificationGateCount,
+    verificationPassedGateCount: snapshot.verificationPassedGateCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 function createSourceMatrixHandoffSummaryConsumerBlockedReasons(
   gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer["gates"],
 ): string[] {
@@ -415,6 +457,19 @@ function createSourceMatrixHandoffRouteCoverageVerificationBlockedReasons(
     gates.sectionCountCovered ? null : "HANDOFF_ROUTE_COVERAGE_SECTION_COUNT_MISMATCH",
     gates.noRoutingActivationRequired ? null : "HANDOFF_ROUTE_COVERAGE_ROUTING_ACTIVATION_REQUIRED",
     gates.noFreshSiblingEvidenceRequired ? null : "HANDOFF_ROUTE_COVERAGE_FRESH_SIBLING_EVIDENCE_REQUIRED",
+  ].filter((reason): reason is string => reason !== null);
+}
+
+function createSourceMatrixHandoffRouteCoverageArchiveVerificationBlockedReasons(
+  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveVerification["gates"],
+): string[] {
+  return [
+    gates.snapshotReady ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_SNAPSHOT_NOT_READY",
+    gates.snapshotDigestPresent ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_SNAPSHOT_DIGEST_MISSING",
+    gates.archivedSectionsComplete ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_SECTIONS_INCOMPLETE",
+    gates.verificationGatesPreserved ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_GATES_NOT_PRESERVED",
+    gates.noRoutingActivationRequired ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_ROUTING_ACTIVATION_REQUIRED",
+    gates.noFreshSiblingEvidenceRequired ? null : "HANDOFF_ROUTE_COVERAGE_ARCHIVE_FRESH_SIBLING_EVIDENCE_REQUIRED",
   ].filter((reason): reason is string => reason !== null);
 }
 

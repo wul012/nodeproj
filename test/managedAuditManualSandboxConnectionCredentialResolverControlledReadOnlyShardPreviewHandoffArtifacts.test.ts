@@ -18,6 +18,7 @@ import {
   createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
   createSourceMatrixHandoffRouteCoverage,
   createSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
 import type {
@@ -49,6 +50,8 @@ describe("controlled read-only shard preview handoff artifacts", () => {
     const handoffRouteCoverageVerification = createSourceMatrixHandoffRouteCoverageVerification(handoffRouteCoverage);
     const handoffRouteCoverageArchiveSnapshot =
       createSourceMatrixHandoffRouteCoverageArchiveSnapshot(handoffRouteCoverageVerification);
+    const handoffRouteCoverageArchiveVerification =
+      createSourceMatrixHandoffRouteCoverageArchiveVerification(handoffRouteCoverageArchiveSnapshot);
 
     expect(handoffSummary).toMatchObject({
       summaryVersion: "Node v611",
@@ -225,6 +228,24 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       mutatesSiblingState: false,
     });
     expect(handoffRouteCoverageArchiveSnapshot.snapshotDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffRouteCoverageArchiveVerification).toMatchObject({
+      verificationVersion: "Node v623",
+      inputSnapshotVersion: "Node v622",
+      verificationState: "ready-for-read-only-handoff-route-coverage-archive-verification",
+      readyForReadOnlyHandoffRouteCoverageArchiveVerification: true,
+      gateCount: 7,
+      passedGateCount: 7,
+      blockedReasonCodes: [],
+      snapshotDigestValue: handoffRouteCoverageArchiveSnapshot.snapshotDigest.value,
+      archivedSectionCount: 2,
+      verificationGateCount: 6,
+      verificationPassedGateCount: 6,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("fails closed when the handoff notes are blocked", () => {
@@ -245,6 +266,8 @@ describe("controlled read-only shard preview handoff artifacts", () => {
     const handoffRouteCoverageVerification = createSourceMatrixHandoffRouteCoverageVerification(handoffRouteCoverage);
     const handoffRouteCoverageArchiveSnapshot =
       createSourceMatrixHandoffRouteCoverageArchiveSnapshot(handoffRouteCoverageVerification);
+    const handoffRouteCoverageArchiveVerification =
+      createSourceMatrixHandoffRouteCoverageArchiveVerification(handoffRouteCoverageArchiveSnapshot);
 
     expect(handoffSummary).toMatchObject({
       summaryState: "blocked",
@@ -372,6 +395,22 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(handoffRouteCoverageArchiveVerification).toMatchObject({
+      verificationState: "blocked",
+      readyForReadOnlyHandoffRouteCoverageArchiveVerification: false,
+      gateCount: 7,
+      passedGateCount: 6,
+      blockedReasonCodes: ["HANDOFF_ROUTE_COVERAGE_ARCHIVE_SNAPSHOT_NOT_READY"],
+      snapshotDigestValue: handoffRouteCoverageArchiveSnapshot.snapshotDigest.value,
+      archivedSectionCount: 2,
+      verificationGateCount: 6,
+      verificationPassedGateCount: 5,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("keeps the handoff summary digest stable for the same handoff notes", () => {
@@ -404,6 +443,33 @@ describe("controlled read-only shard preview handoff artifacts", () => {
       algorithm: "sha256",
       scope: "handoff-summary-consumer-receipt-archive-snapshot",
       coveredSectionCount: 3,
+    });
+  });
+
+  it("keeps the handoff route coverage archive verification stable for the same snapshot", () => {
+    const handoffNotes = createHandoffNotes(readySourceMatrix());
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
+    const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const receipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
+    const receiptSnapshot = createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(receipt);
+    const receiptVerification = createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(receiptSnapshot);
+    const coverage = createSourceMatrixHandoffRouteCoverage(receiptVerification);
+    const coverageVerification = createSourceMatrixHandoffRouteCoverageVerification(coverage);
+    const snapshot = createSourceMatrixHandoffRouteCoverageArchiveSnapshot(coverageVerification);
+
+    const first = createSourceMatrixHandoffRouteCoverageArchiveVerification(snapshot);
+    const second = createSourceMatrixHandoffRouteCoverageArchiveVerification(snapshot);
+
+    expect(first).toEqual(second);
+    expect(first).toMatchObject({
+      verificationVersion: "Node v623",
+      inputSnapshotVersion: "Node v622",
+      verificationState: "ready-for-read-only-handoff-route-coverage-archive-verification",
+      gateCount: 7,
+      passedGateCount: 7,
+      blockedReasonCodes: [],
+      snapshotDigestValue: snapshot.snapshotDigest.value,
     });
   });
 });
