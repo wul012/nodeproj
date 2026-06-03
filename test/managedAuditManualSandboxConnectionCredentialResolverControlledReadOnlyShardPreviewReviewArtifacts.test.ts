@@ -147,6 +147,11 @@ describe("controlled read-only shard preview review artifacts", () => {
       inputSummaryExportVersion: "Node v605",
       handoffState: "ready-for-read-only-handoff",
       readyForReadOnlyHandoff: true,
+      handoffDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-notes",
+        coveredNoteCount: 4,
+      },
       noteCount: 4,
       actionRequiredCount: 0,
       requiresApproval: false,
@@ -161,6 +166,7 @@ describe("controlled read-only shard preview review artifacts", () => {
         { order: 4, audience: "miniKv", actionRequired: false },
       ],
     });
+    expect(handoffNotes.handoffDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -240,6 +246,11 @@ describe("controlled read-only shard preview review artifacts", () => {
     expect(handoffNotes).toMatchObject({
       handoffState: "blocked",
       readyForReadOnlyHandoff: false,
+      handoffDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-notes",
+        coveredNoteCount: 4,
+      },
       noteCount: 4,
       actionRequiredCount: 1,
       notes: [
@@ -249,6 +260,7 @@ describe("controlled read-only shard preview review artifacts", () => {
         { order: 4, audience: "miniKv", actionRequired: false },
       ],
     });
+    expect(handoffNotes.handoffDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {

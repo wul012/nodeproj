@@ -218,6 +218,12 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes {
   inputSummaryExportVersion: "Node v605";
   handoffState: "ready-for-read-only-handoff" | "blocked";
   readyForReadOnlyHandoff: boolean;
+  handoffDigest: {
+    algorithm: "sha256";
+    scope: "read-only-handoff-notes";
+    value: string;
+    coveredNoteCount: number;
+  };
   noteCount: number;
   actionRequiredCount: number;
   notes: ControlledReadOnlyShardPreviewSourceMatrixHandoffNote[];
@@ -305,8 +311,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v608";
-  sourceNodeVersion: "Node v607";
+  activeNodeVersion: "Node v609";
+  sourceNodeVersion: "Node v608";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -355,7 +361,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v609";
+    nextNodeVersion: "Node v610";
   };
   nextActions: string[];
 }

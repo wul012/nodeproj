@@ -347,6 +347,16 @@ export function createSourceMatrixHandoffNotes(
     inputSummaryExportVersion: "Node v605",
     handoffState: ready ? "ready-for-read-only-handoff" : "blocked",
     readyForReadOnlyHandoff: ready,
+    handoffDigest: {
+      algorithm: "sha256",
+      scope: "read-only-handoff-notes",
+      value: sha256StableJson({
+        notesVersion: "Node v608",
+        inputSummaryExportVersion: "Node v605",
+        notes,
+      }),
+      coveredNoteCount: notes.length,
+    },
     noteCount: notes.length,
     actionRequiredCount: notes.filter((note) => note.actionRequired).length,
     notes,
