@@ -230,6 +230,7 @@
 590: Promotion handoff package builder split
 591: Promotion handoff certificate builder split
 592: Promotion handoff receipt builder split
+593: Promotion handoff closure builder split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
