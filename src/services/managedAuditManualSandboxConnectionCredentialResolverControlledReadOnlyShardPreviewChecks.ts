@@ -56,6 +56,16 @@ export function createChecks(
       && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.includes("confirmRoutingPromotionAllowed=false")
       && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.includes("confirmWritePromotionAllowed=false")
       && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.includes("confirmServiceStartupAllowed=false"),
+    sourceMatrixConsumptionPlanReadOnlyReviewScopeSafe:
+      sourceMatrixConsumptionPlan.readOnlyReviewScope.allowedOperationCount
+        === sourceMatrixConsumptionPlan.readOnlyReviewScope.allowedOperations.length
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperationCount
+        === sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.length
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.allowedOperations.length > 0
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("activate-shard-router")
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("enable-write-routing")
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("start-sibling-services")
+      && sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.includes("mutate-sibling-state"),
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -78,6 +88,7 @@ export function collectProductionBlockers(
     [checks.sourceMatrixConsumptionPlanRiskAccepted, "SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED", "next-plan", "Source matrix consumption plan risk summary must not be blocked or unsafe."],
     [checks.sourceMatrixConsumptionPlanPromotionHoldSafe, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_UNSAFE", "next-plan", "Source matrix consumption plan promotion hold must deny routing promotion, writes, and service startup."],
     [checks.sourceMatrixConsumptionPlanPromotionHoldClosureReady, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_CLOSURE_NOT_READY", "next-plan", "Source matrix consumption plan promotion hold closure criteria must be complete."],
+    [checks.sourceMatrixConsumptionPlanReadOnlyReviewScopeSafe, "SOURCE_MATRIX_CONSUMPTION_PLAN_REVIEW_SCOPE_UNSAFE", "next-plan", "Source matrix consumption plan read-only review scope must preserve allowed and forbidden operation boundaries."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 
