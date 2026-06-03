@@ -14,6 +14,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -448,6 +449,49 @@ export function createSourceMatrixHandoffSummaryConsumer(
     summaryDigestScope: handoffSummary.summaryDigest.scope,
     coveredAudienceCount: handoffSummary.summaryDigest.coveredAudienceCount,
     actionRequiredCount: handoffSummary.actionRequiredCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixHandoffSummaryConsumerExport(
+  consumer: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport {
+  const exportLines = [
+    `decision=${consumer.decision}`,
+    `summaryDigest=${consumer.summaryDigestValue}`,
+    `passedGates=${consumer.passedGateCount}/${consumer.gateCount}`,
+    `blockedReasons=${consumer.blockedReasonCodes.join("|") || "none"}`,
+    `routingActivation=${consumer.requiresRoutingActivation}`,
+  ];
+
+  return {
+    exportVersion: "Node v614",
+    inputConsumerVersion: "Node v613",
+    exportState: consumer.readyForReadOnlySummaryConsumption
+      ? "ready-for-read-only-summary-consumer-export"
+      : "blocked",
+    readyForReadOnlySummaryConsumerExport: consumer.readyForReadOnlySummaryConsumption,
+    consumerDecision: consumer.decision,
+    summaryDigestValue: consumer.summaryDigestValue,
+    exportDigest: {
+      algorithm: "sha256",
+      scope: "handoff-summary-consumer-export-lines",
+      value: sha256StableJson({
+        exportVersion: "Node v614",
+        inputConsumerVersion: "Node v613",
+        exportLines,
+      }),
+      coveredLineCount: exportLines.length,
+    },
+    exportLines,
+    exportLineCount: exportLines.length,
+    gateCount: consumer.gateCount,
+    passedGateCount: consumer.passedGateCount,
+    blockedReasonCount: consumer.blockedReasonCodes.length,
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,

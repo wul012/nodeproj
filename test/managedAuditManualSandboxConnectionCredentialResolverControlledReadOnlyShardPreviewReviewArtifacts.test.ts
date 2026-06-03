@@ -6,6 +6,7 @@ import {
   createSourceMatrixHandoffNotes,
   createSourceMatrixHandoffSummary,
   createSourceMatrixHandoffSummaryConsumer,
+  createSourceMatrixHandoffSummaryConsumerExport,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -26,6 +27,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
     const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
     const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
 
     expect(consumer).toMatchObject({
       decision: "ready-for-controlled-read-only-consumption",
@@ -219,6 +221,36 @@ describe("controlled read-only shard preview review artifacts", () => {
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(handoffSummaryConsumerExport).toMatchObject({
+      exportVersion: "Node v614",
+      inputConsumerVersion: "Node v613",
+      exportState: "ready-for-read-only-summary-consumer-export",
+      readyForReadOnlySummaryConsumerExport: true,
+      consumerDecision: "ready-for-read-only-summary-consumption",
+      summaryDigestValue: handoffSummary.summaryDigest.value,
+      exportDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-export-lines",
+        coveredLineCount: 5,
+      },
+      exportLineCount: 5,
+      gateCount: 6,
+      passedGateCount: 6,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+    expect(handoffSummaryConsumerExport.exportDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerExport.exportLines).toEqual([
+      "decision=ready-for-read-only-summary-consumption",
+      `summaryDigest=${handoffSummary.summaryDigest.value}`,
+      "passedGates=6/6",
+      "blockedReasons=none",
+      "routingActivation=false",
+    ]);
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -231,6 +263,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
     const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
     const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
 
     expect(consumer).toMatchObject({
       decision: "blocked",
@@ -361,6 +394,27 @@ describe("controlled read-only shard preview review artifacts", () => {
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(handoffSummaryConsumerExport).toMatchObject({
+      exportState: "blocked",
+      readyForReadOnlySummaryConsumerExport: false,
+      consumerDecision: "blocked",
+      summaryDigestValue: handoffSummary.summaryDigest.value,
+      exportDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-export-lines",
+        coveredLineCount: 5,
+      },
+      exportLineCount: 5,
+      gateCount: 6,
+      passedGateCount: 4,
+      blockedReasonCount: 2,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+    expect(handoffSummaryConsumerExport.exportDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {

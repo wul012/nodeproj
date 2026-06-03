@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v613",
-      sourceNodeVersion: "Node v612",
+      activeNodeVersion: "Node v614",
+      sourceNodeVersion: "Node v613",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -294,6 +294,25 @@ describe("managed audit manual sandbox connection credential resolver controlled
           requiresRoutingActivation: false,
           requiresFreshSiblingEvidence: false,
         },
+        sourceMatrixHandoffSummaryConsumerExport: {
+          exportVersion: "Node v614",
+          inputConsumerVersion: "Node v613",
+          exportState: "ready-for-read-only-summary-consumer-export",
+          readyForReadOnlySummaryConsumerExport: true,
+          consumerDecision: "ready-for-read-only-summary-consumption",
+          exportDigest: {
+            algorithm: "sha256",
+            scope: "handoff-summary-consumer-export-lines",
+            coveredLineCount: 5,
+          },
+          exportLineCount: 5,
+          gateCount: 6,
+          passedGateCount: 6,
+          blockedReasonCount: 0,
+          requiresApproval: false,
+          requiresRoutingActivation: false,
+          requiresFreshSiblingEvidence: false,
+        },
       },
       checks: {
         upstreamProbesEnabledForPreview: true,
@@ -333,6 +352,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.preview.sourceMatrixHandoffSummary.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixHandoffSummaryConsumer.summaryDigestValue)
       .toBe(profile.preview.sourceMatrixHandoffSummary.summaryDigest.value);
+    expect(profile.preview.sourceMatrixHandoffSummaryConsumerExport.summaryDigestValue)
+      .toBe(profile.preview.sourceMatrixHandoffSummary.summaryDigest.value);
+    expect(profile.preview.sourceMatrixHandoffSummaryConsumerExport.exportDigest.value).toMatch(/^[a-f0-9]{64}$/);
   }, 60000);
 
   it("fails closed without reading upstreams when probes are disabled", async () => {
@@ -481,6 +503,23 @@ describe("managed audit manual sandbox connection credential resolver controlled
       requiresRoutingActivation: false,
       requiresFreshSiblingEvidence: false,
     });
+    expect(profile.preview.sourceMatrixHandoffSummaryConsumerExport).toMatchObject({
+      exportState: "blocked",
+      readyForReadOnlySummaryConsumerExport: false,
+      consumerDecision: "blocked",
+      exportDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-export-lines",
+        coveredLineCount: 5,
+      },
+      exportLineCount: 5,
+      gateCount: 6,
+      passedGateCount: 4,
+      blockedReasonCount: 2,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
   }, 60000);
 
   it("exposes JSON and Markdown through the audit route table using mock read-only services", async () => {
@@ -509,8 +548,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v613",
-        sourceNodeVersion: "Node v612",
+        activeNodeVersion: "Node v614",
+        sourceNodeVersion: "Node v613",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -533,6 +572,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Source Matrix Handoff Notes");
       expect(markdown.body).toContain("## Source Matrix Handoff Summary");
       expect(markdown.body).toContain("## Source Matrix Handoff Summary Consumer");
+      expect(markdown.body).toContain("## Source Matrix Handoff Summary Consumer Export");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
@@ -550,6 +590,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Summary digest covered audience count: 4");
       expect(markdown.body).toContain("Decision: ready-for-read-only-summary-consumption");
       expect(markdown.body).toContain("Ready for read-only summary consumption: true");
+      expect(markdown.body).toContain("Export state: ready-for-read-only-summary-consumer-export");
+      expect(markdown.body).toContain("Export digest scope: handoff-summary-consumer-export-lines");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");

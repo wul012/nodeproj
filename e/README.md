@@ -251,6 +251,7 @@
 611: Controlled read-only shard preview handoff summary
 612: Controlled read-only shard preview handoff summary digest
 613: Controlled read-only shard preview handoff summary consumer
+614: Controlled read-only shard preview handoff summary consumer export
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
