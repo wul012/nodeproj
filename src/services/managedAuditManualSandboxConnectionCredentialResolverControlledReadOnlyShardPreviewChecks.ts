@@ -181,6 +181,7 @@ function formatPlanPromotionHold(
     `routingPromotionAllowed=${sourceMatrixConsumptionPlan.promotionHold.routingPromotionAllowed}`,
     `writePromotionAllowed=${sourceMatrixConsumptionPlan.promotionHold.writePromotionAllowed}`,
     `serviceStartupAllowed=${sourceMatrixConsumptionPlan.promotionHold.serviceStartupAllowed}`,
+    `closureCriterionCount=${sourceMatrixConsumptionPlan.promotionHold.closureCriterionCount}`,
     `reasons=${sourceMatrixConsumptionPlan.promotionHold.reasonCodes.join("|") || "none"}`,
   ].join(", ");
 }
