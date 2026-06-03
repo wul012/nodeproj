@@ -315,6 +315,7 @@
 675: Controlled read-only shard preview archive types split
 676: Controlled read-only shard preview handoff types split
 677: Controlled read-only shard preview handoff consumer types split
+678: Controlled read-only shard preview handoff receipt archive types split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

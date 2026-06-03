@@ -18,6 +18,10 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffConsumerTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffReceiptArchiveTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
@@ -49,6 +53,12 @@ export type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerGates,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffConsumerTypes.js";
+
+export type {
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerificationGates,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffReceiptArchiveTypes.js";
 
 export type PreviewProject = "advanced-order-platform" | "mini-kv";
 export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
@@ -160,59 +170,6 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
   blockingFindingCount: number;
   comparableFindingCount: number;
   findings: ControlledReadOnlyShardPreviewSourceMatrixDriftFinding[];
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot {
-  snapshotVersion: "Node v616";
-  inputReceiptVersion: "Node v615";
-  snapshotState: "ready-for-read-only-summary-consumer-receipt-archive" | "blocked";
-  readyForReadOnlySummaryConsumerReceiptArchive: boolean;
-  receiptDigestValue: string;
-  snapshotDigest: {
-    algorithm: "sha256";
-    scope: "handoff-summary-consumer-receipt-archive-snapshot";
-    value: string;
-    coveredSectionCount: number;
-  };
-  archivedSections: string[];
-  archivedSectionCount: number;
-  receiptLineCount: number;
-  blockedReasonCount: number;
-  includesRawCredential: false;
-  includesRuntimePayload: false;
-  requiresApproval: false;
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerificationGates {
-  snapshotReady: boolean;
-  snapshotDigestPresent: boolean;
-  archivedSectionsComplete: boolean;
-  excludesRawCredential: boolean;
-  excludesRuntimePayload: boolean;
-  readOnlyVerificationOnly: true;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification {
-  verificationVersion: "Node v617";
-  inputSnapshotVersion: "Node v616";
-  verificationState: "ready-for-read-only-summary-consumer-receipt-archive-verification" | "blocked";
-  readyForReadOnlySummaryConsumerReceiptArchiveVerification: boolean;
-  gateCount: number;
-  passedGateCount: number;
-  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveVerificationGates;
-  blockedReasonCodes: string[];
-  snapshotDigestValue: string;
-  archivedSectionCount: number;
-  blockedReasonCount: number;
-  requiresApproval: false;
   requiresRoutingActivation: false;
   requiresFreshSiblingEvidence: false;
   startsServices: false;
