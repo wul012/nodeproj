@@ -5,6 +5,10 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
   ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewDecisionTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewArchiveTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
@@ -17,6 +21,11 @@ export type {
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem,
   ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewDecisionTypes.js";
+
+export type {
+  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
+  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewArchiveTypes.js";
 
 export type PreviewProject = "advanced-order-platform" | "mini-kv";
 export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
@@ -128,49 +137,6 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
   blockingFindingCount: number;
   comparableFindingCount: number;
   findings: ControlledReadOnlyShardPreviewSourceMatrixDriftFinding[];
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot {
-  snapshotVersion: "Node v603";
-  inputReviewDigestVersion: "Node v602";
-  archiveState: "ready-for-controlled-review-archive" | "blocked";
-  readyForControlledReviewArchive: boolean;
-  digestValue: string;
-  archivedSections: string[];
-  archivedSectionCount: number;
-  checklistState: ControlledReadOnlyShardPreviewSourceMatrixReviewDigest["checklistState"];
-  itemCount: number;
-  blockedItemCount: number;
-  includesRawCredential: false;
-  includesRuntimePayload: false;
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport {
-  exportVersion: "Node v605";
-  inputArchiveSnapshotVersion: "Node v603";
-  exportState: "ready-for-summary-export" | "blocked";
-  readyForSummaryExport: boolean;
-  digestValue: string;
-  summaryDigest: {
-    algorithm: "sha256";
-    scope: "archive-snapshot-summary-lines";
-    value: string;
-    coveredLineCount: number;
-  };
-  summaryLines: string[];
-  summaryLineCount: number;
-  archivedSectionCount: number;
-  blockedItemCount: number;
-  includesRawCredential: false;
-  includesRuntimePayload: false;
   requiresRoutingActivation: false;
   requiresFreshSiblingEvidence: false;
   startsServices: false;
