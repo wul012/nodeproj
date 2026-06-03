@@ -208,14 +208,18 @@ export function collectWarnings(
   return [];
 }
 
-export function collectRecommendations(ready: boolean): ControlledReadOnlyShardPreviewMessage[] {
+export function collectRecommendations(
+  ready: boolean,
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+): ControlledReadOnlyShardPreviewMessage[] {
+  const blockedReasons = sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none";
   return [{
-    code: ready ? "ARCHIVE_STABLE_PREVIEW_OUTPUT" : "OPEN_READ_ONLY_PREVIEW_WINDOW",
+    code: ready ? "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY" : "REPAIR_SOURCE_MATRIX_CONSUMPTION_PLAN",
     severity: "recommendation",
     source: "next-plan",
     message: ready
-      ? "Archive the preview output only after a stable local read-only window."
-      : "Bring Java and mini-kv up independently, then rerun the preview with probes enabled and actions disabled.",
+      ? `Consume the ${sourceMatrixConsumptionPlan.planStepCount} source matrix plan steps while routing remains disabled.`
+      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}.`,
   }];
 }
 

@@ -498,6 +498,13 @@ describe("managed audit manual sandbox connection credential resolver controlled
         recommendationCount: 1,
       },
     });
+    expect(profile.recommendations).toEqual([
+      expect.objectContaining({
+        code: "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY",
+        source: "next-plan",
+        message: expect.stringContaining("4 source matrix plan steps"),
+      }),
+    ]);
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixConsumptionPlan.planDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixReviewDigest.value).toMatch(/^[a-f0-9]{64}$/);
@@ -583,6 +590,13 @@ describe("managed audit manual sandbox connection credential resolver controlled
       "MINI_KV_PREVIEW_NOT_ATTEMPTED",
       "SOURCE_MATRIX_CONSUMPTION_PLAN_BLOCKED",
     ]));
+    expect(profile.recommendations).toEqual([
+      expect.objectContaining({
+        code: "REPAIR_SOURCE_MATRIX_CONSUMPTION_PLAN",
+        source: "next-plan",
+        message: expect.stringContaining("SOURCE_NOT_READY"),
+      }),
+    ]);
     expect(javaCalls).toBe(0);
     expect(miniKvCalls).toBe(0);
     expect(profile.startsJavaService).toBe(false);

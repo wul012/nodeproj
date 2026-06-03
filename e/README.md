@@ -277,6 +277,7 @@
 637: Controlled read-only shard preview review artifact barrel contract
 638: Controlled read-only shard preview source matrix consumption plan
 639: Controlled read-only shard preview consumption plan readiness gate
+640: Controlled read-only shard preview plan-aware recommendations
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

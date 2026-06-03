@@ -116,7 +116,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   const ready = checks.readyForControlledReadOnlyShardPreview;
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings(java, miniKv);
-  const recommendations = collectRecommendations(ready);
+  const recommendations = collectRecommendations(ready, sourceMatrixConsumptionPlan);
 
   return {
     service: "orderops-node",
