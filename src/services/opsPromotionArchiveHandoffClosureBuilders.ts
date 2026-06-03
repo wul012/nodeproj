@@ -10,7 +10,7 @@ import {
   archiveHandoffClosureNextActions,
   archiveHandoffClosureVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
-import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
+import { compareHandoffVerificationItem } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffClosure(input: {
@@ -162,20 +162,17 @@ export function createOpsPromotionHandoffClosureVerification(input: {
   }));
   const closureItemChecks = input.closure.closureItems.map((item) => {
     const expected = expectedClosure.closureItems.find((candidate) => candidate.name === item.name);
-    const validMatches = expected?.valid === item.valid;
-    const sourceMatches = expected?.source === item.source;
-    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(item.name);
-    const digestMatches = item.digest.value === expectedDigest.value;
+    const comparison = compareHandoffVerificationItem({ actual: item, expected });
 
     return {
-      name: item.name,
-      valid: expected !== undefined && validMatches && sourceMatches && digestMatches,
-      validMatches,
-      sourceMatches,
-      digestMatches,
-      closureDigest: { ...item.digest },
-      recomputedDigest: expectedDigest,
-      source: item.source,
+      name: comparison.name,
+      valid: comparison.valid,
+      validMatches: comparison.validMatches,
+      sourceMatches: comparison.sourceMatches,
+      digestMatches: comparison.digestMatches,
+      closureDigest: comparison.actualDigest,
+      recomputedDigest: comparison.recomputedDigest,
+      source: comparison.source,
     };
   });
   const checks = {

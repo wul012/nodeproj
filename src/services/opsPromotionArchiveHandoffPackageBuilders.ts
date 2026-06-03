@@ -13,7 +13,7 @@ import {
   archiveHandoffPackageNextActions,
   archiveHandoffPackageVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
-import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
+import { compareHandoffVerificationItem } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffPackage(input: {
@@ -126,20 +126,17 @@ export function createOpsPromotionHandoffPackageVerification(input: {
   }));
   const attachmentChecks = input.handoffPackage.attachments.map((attachment) => {
     const expected = expectedPackage.attachments.find((candidate) => candidate.name === attachment.name);
-    const validMatches = expected?.valid === attachment.valid;
-    const sourceMatches = expected?.source === attachment.source;
-    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(attachment.name);
-    const digestMatches = attachment.digest.value === expectedDigest.value;
+    const comparison = compareHandoffVerificationItem({ actual: attachment, expected });
 
     return {
-      name: attachment.name,
-      valid: expected !== undefined && validMatches && sourceMatches && digestMatches,
-      validMatches,
-      sourceMatches,
-      digestMatches,
-      packageDigest: { ...attachment.digest },
-      recomputedDigest: expectedDigest,
-      source: attachment.source,
+      name: comparison.name,
+      valid: comparison.valid,
+      validMatches: comparison.validMatches,
+      sourceMatches: comparison.sourceMatches,
+      digestMatches: comparison.digestMatches,
+      packageDigest: comparison.actualDigest,
+      recomputedDigest: comparison.recomputedDigest,
+      source: comparison.source,
     };
   });
   const checks = {

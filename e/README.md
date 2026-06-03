@@ -233,6 +233,7 @@
 593: Promotion handoff closure builder split
 594: Promotion handoff completion builder split
 595: Promotion handoff missing digest helper
+596: Promotion handoff verification item compare helper
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

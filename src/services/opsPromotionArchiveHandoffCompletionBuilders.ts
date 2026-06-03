@@ -11,7 +11,7 @@ import {
   archiveHandoffCompletionReferenceChecksValid,
   archiveHandoffCompletionVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
-import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
+import { compareHandoffVerificationItem } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffCompletion(input: {
@@ -130,24 +130,21 @@ export function createOpsPromotionHandoffCompletionVerification(input: {
   }));
   const completionStepChecks = input.completion.completionSteps.map((step) => {
     const expected = expectedCompletion.completionSteps.find((candidate) => candidate.name === step.name);
-    const validMatches = expected?.valid === step.valid;
+    const comparison = compareHandoffVerificationItem({ actual: step, expected });
     const readyMatches = expected?.ready === step.ready;
-    const sourceMatches = expected?.source === step.source;
     const detailMatches = expected?.detail === step.detail;
-    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(step.name);
-    const digestMatches = step.digest.value === expectedDigest.value;
 
     return {
-      name: step.name,
-      valid: expected !== undefined && validMatches && readyMatches && sourceMatches && detailMatches && digestMatches,
-      validMatches,
+      name: comparison.name,
+      valid: comparison.valid && readyMatches && detailMatches,
+      validMatches: comparison.validMatches,
       readyMatches,
-      sourceMatches,
+      sourceMatches: comparison.sourceMatches,
       detailMatches,
-      digestMatches,
-      completionDigest: { ...step.digest },
-      recomputedDigest: expectedDigest,
-      source: step.source,
+      digestMatches: comparison.digestMatches,
+      completionDigest: comparison.actualDigest,
+      recomputedDigest: comparison.recomputedDigest,
+      source: comparison.source,
       detail: step.detail,
     };
   });

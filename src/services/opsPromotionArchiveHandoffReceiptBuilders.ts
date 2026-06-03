@@ -10,7 +10,7 @@ import {
   archiveHandoffReceiptNextActions,
   archiveHandoffReceiptVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
-import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
+import { compareHandoffVerificationItem } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffReceipt(input: {
@@ -142,20 +142,17 @@ export function createOpsPromotionHandoffReceiptVerification(input: {
   }));
   const milestoneChecks = input.receipt.milestones.map((milestone) => {
     const expected = expectedReceipt.milestones.find((candidate) => candidate.name === milestone.name);
-    const validMatches = expected?.valid === milestone.valid;
-    const sourceMatches = expected?.source === milestone.source;
-    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(milestone.name);
-    const digestMatches = milestone.digest.value === expectedDigest.value;
+    const comparison = compareHandoffVerificationItem({ actual: milestone, expected });
 
     return {
-      name: milestone.name,
-      valid: expected !== undefined && validMatches && sourceMatches && digestMatches,
-      validMatches,
-      sourceMatches,
-      digestMatches,
-      receiptDigest: { ...milestone.digest },
-      recomputedDigest: expectedDigest,
-      source: milestone.source,
+      name: comparison.name,
+      valid: comparison.valid,
+      validMatches: comparison.validMatches,
+      sourceMatches: comparison.sourceMatches,
+      digestMatches: comparison.digestMatches,
+      receiptDigest: comparison.actualDigest,
+      recomputedDigest: comparison.recomputedDigest,
+      source: comparison.source,
     };
   });
   const checks = {
