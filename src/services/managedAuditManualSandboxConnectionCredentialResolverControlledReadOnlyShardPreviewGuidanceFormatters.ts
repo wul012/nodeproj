@@ -52,6 +52,8 @@ export function formatReadOnlyReviewScope(
     `state=${sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeState}`,
     `allowed=${sourceMatrixConsumptionPlan.readOnlyReviewScope.allowedOperations.join("|") || "none"}`,
     `forbidden=${sourceMatrixConsumptionPlan.readOnlyReviewScope.forbiddenOperations.join("|") || "none"}`,
+    `digestScope=${sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.scope}`,
+    `coveredAllowed=${sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.coveredAllowedOperationCount}`,
+    `coveredForbidden=${sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.coveredForbiddenOperationCount}`,
   ].join(", ");
 }
-

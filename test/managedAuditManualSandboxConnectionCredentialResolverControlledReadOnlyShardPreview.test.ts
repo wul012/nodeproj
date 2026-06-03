@@ -509,6 +509,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.recommendations[0]?.message).toContain("closureCriterionCount=5");
     expect(profile.recommendations[0]?.message)
       .toContain("state=ready-for-read-only-review, allowed=consume-plan-step-records|review-risk-summary|verify-promotion-hold-closure");
+    expect(profile.recommendations[0]?.message)
+      .toContain("digestScope=read-only-review-scope, coveredAllowed=3, coveredForbidden=4");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("observe-sources:ready"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
@@ -620,6 +622,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.recommendations[0]?.message).toContain("closureCriterionCount=4");
     expect(profile.recommendations[0]?.message)
       .toContain("state=repair-before-read-only-review, allowed=repair-plan-risk|review-promotion-hold-closure");
+    expect(profile.recommendations[0]?.message)
+      .toContain("digestScope=read-only-review-scope, coveredAllowed=2, coveredForbidden=4");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("SOURCE_NOT_READY"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
