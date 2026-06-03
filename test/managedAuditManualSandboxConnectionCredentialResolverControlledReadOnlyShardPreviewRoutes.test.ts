@@ -176,6 +176,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
         .toContain("Read-only review allowed operations: consume-plan-step-records, review-risk-summary, verify-promotion-hold-closure");
       expect(markdown.body)
         .toContain("Read-only review forbidden operations: activate-shard-router, enable-write-routing, start-sibling-services, mutate-sibling-state");
+      expect(markdown.body).toContain("Read-only review scope digest scope: read-only-review-scope");
+      expect(markdown.body)
+        .toContain("Read-only review scope digest covered forbidden operation count: 4");
       expect(markdown.body)
         .toContain("state=ready-for-read-only-review, allowed=consume-plan-step-records|review-risk-summary|verify-promotion-hold-closure");
       expect(markdown.body).toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");

@@ -180,6 +180,13 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
     forbiddenOperations: string[];
     allowedOperationCount: number;
     forbiddenOperationCount: number;
+    scopeDigest: {
+      algorithm: "sha256";
+      scope: "read-only-review-scope";
+      value: string;
+      coveredAllowedOperationCount: number;
+      coveredForbiddenOperationCount: number;
+    };
   };
   planDigest: {
     algorithm: "sha256";

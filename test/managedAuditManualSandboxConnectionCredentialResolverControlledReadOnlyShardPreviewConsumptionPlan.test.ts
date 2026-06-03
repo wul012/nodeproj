@@ -114,6 +114,12 @@ describe("controlled read-only shard preview consumption plan", () => {
         ],
         allowedOperationCount: 3,
         forbiddenOperationCount: 4,
+        scopeDigest: {
+          algorithm: "sha256",
+          scope: "read-only-review-scope",
+          coveredAllowedOperationCount: 3,
+          coveredForbiddenOperationCount: 4,
+        },
       },
       planDigest: {
         algorithm: "sha256",
@@ -227,6 +233,12 @@ describe("controlled read-only shard preview consumption plan", () => {
         ],
         allowedOperationCount: 2,
         forbiddenOperationCount: 4,
+        scopeDigest: {
+          algorithm: "sha256",
+          scope: "read-only-review-scope",
+          coveredAllowedOperationCount: 2,
+          coveredForbiddenOperationCount: 4,
+        },
       },
       planDigest: {
         algorithm: "sha256",
@@ -238,5 +250,7 @@ describe("controlled read-only shard preview consumption plan", () => {
       requiresFreshSiblingEvidence: false,
     });
     expect(profile.preview.sourceMatrixConsumptionPlan.planDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(profile.preview.sourceMatrixConsumptionPlan.readOnlyReviewScope.scopeDigest.value)
+      .toMatch(/^[a-f0-9]{64}$/);
   });
 });

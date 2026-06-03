@@ -122,6 +122,17 @@ function createReadOnlyReviewScope(
     forbiddenOperations,
     allowedOperationCount: allowedOperations.length,
     forbiddenOperationCount: forbiddenOperations.length,
+    scopeDigest: {
+      algorithm: "sha256",
+      scope: "read-only-review-scope",
+      value: sha256StableJson({
+        scopeState,
+        allowedOperations,
+        forbiddenOperations,
+      }),
+      coveredAllowedOperationCount: allowedOperations.length,
+      coveredForbiddenOperationCount: forbiddenOperations.length,
+    },
   };
 }
 
