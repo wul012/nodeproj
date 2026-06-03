@@ -1,8 +1,11 @@
 export {
-  createSourceMatrixConsumptionPlan,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixFlowArtifacts.js";
+
+export {
+  createSourceMatrixConsumptionPlan,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewConsumptionPlanArtifacts.js";
 
 export {
   createSourceMatrixReviewChecklist,
