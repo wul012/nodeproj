@@ -42,6 +42,9 @@ export function createChecks(
     sourceMatrixConsumptionPlanHasNoUnsafeSteps:
       sourceMatrixConsumptionPlan.stepSafetySummary.routingActivationAllowedStepCount === 0
       && sourceMatrixConsumptionPlan.stepSafetySummary.writesAllowedStepCount === 0,
+    sourceMatrixConsumptionPlanRiskAccepted:
+      !sourceMatrixConsumptionPlan.riskSummary.blocked
+      && sourceMatrixConsumptionPlan.riskSummary.riskLevel !== "unsafe",
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -61,6 +64,7 @@ export function collectProductionBlockers(
     [checks.sourceMatrixConsumptionPlanReady, "SOURCE_MATRIX_CONSUMPTION_PLAN_BLOCKED", "next-plan", "Source matrix consumption plan must be ready before preview can be consumed."],
     [checks.sourceMatrixConsumptionPlanHasNoBlockedSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_BLOCKED_STEPS", "next-plan", "Source matrix consumption plan must not contain blocked steps."],
     [checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS", "next-plan", "Source matrix consumption plan must not allow routing activation or writes."],
+    [checks.sourceMatrixConsumptionPlanRiskAccepted, "SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED", "next-plan", "Source matrix consumption plan risk summary must not be blocked or unsafe."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 
@@ -136,4 +140,3 @@ function formatPlanSafetySummary(
     `writesAllowedSteps=${sourceMatrixConsumptionPlan.stepSafetySummary.writesAllowedStepCount}`,
   ].join(", ");
 }
-

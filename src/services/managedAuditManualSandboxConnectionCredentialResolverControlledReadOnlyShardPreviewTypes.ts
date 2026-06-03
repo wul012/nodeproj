@@ -726,6 +726,7 @@ export interface ControlledReadOnlyShardPreviewChecks {
   sourceMatrixConsumptionPlanReady: boolean;
   sourceMatrixConsumptionPlanHasNoBlockedSteps: boolean;
   sourceMatrixConsumptionPlanHasNoUnsafeSteps: boolean;
+  sourceMatrixConsumptionPlanRiskAccepted: boolean;
   productionWindowStillBlocked: boolean;
   readyForControlledReadOnlyShardPreview: boolean;
 }
