@@ -10,6 +10,8 @@ import type {
   ControlledReadOnlyShardPreviewSource,
   ControlledReadOnlyShardPreviewSourceMatrix,
   ControlledReadOnlyShardPreviewSourceMatrixConsumer,
+  ControlledReadOnlyShardPreviewSourceMatrixDriftFinding,
+  ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
   ControlledReadOnlyShardPreviewSourceMatrixEntry,
   ControlledReadOnlyShardPreviewSummary,
   PreviewMessageSource,
@@ -326,6 +328,57 @@ export function createSourceMatrixConsumer(
   };
 }
 
+export function createSourceMatrixDriftSummary(
+  sourceMatrix: ControlledReadOnlyShardPreviewSourceMatrix,
+  sourceMatrixConsumer: ControlledReadOnlyShardPreviewSourceMatrixConsumer,
+): ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
+  const java = sourceMatrix.sources.find((source) => source.source === "java") ?? null;
+  const miniKv = sourceMatrix.sources.find((source) => source.source === "miniKv") ?? null;
+  const findings: ControlledReadOnlyShardPreviewSourceMatrixDriftFinding[] = [
+    createComparableDriftFinding("routingMode", java?.routingMode ?? null, miniKv?.routingMode ?? null,
+      "Routing modes differ across read-only shard readiness sources."),
+    createComparableDriftFinding("shardCount", java?.shardCount ?? null, miniKv?.shardCount ?? null,
+      "Shard counts differ across read-only shard readiness sources."),
+    createComparableDriftFinding("slotCount", java?.slotCount ?? null, miniKv?.slotCount ?? null,
+      "Slot counts differ across read-only shard readiness sources."),
+  ];
+
+  if (!sourceMatrixConsumer.readyForControlledReadOnlyConsumption) {
+    findings.unshift({
+      dimension: "consumerReadiness",
+      status: "blocked",
+      severity: "blocker",
+      javaValue: null,
+      miniKvValue: null,
+      message: `Source matrix consumer is blocked: ${sourceMatrixConsumer.blockedReasonCodes.join(", ") || "unknown"}.`,
+    });
+  }
+
+  const driftFindingCount = findings.filter((finding) => finding.status === "drift-detected").length;
+  const blockingFindingCount = findings.filter((finding) => finding.severity === "blocker").length;
+  const readyForControlledDriftReview =
+    sourceMatrixConsumer.readyForControlledReadOnlyConsumption && blockingFindingCount === 0;
+
+  return {
+    summaryVersion: "Node v600",
+    inputConsumerVersion: "Node v599",
+    driftState: readyForControlledDriftReview
+      ? driftFindingCount > 0 ? "controlled-drift-detected" : "aligned"
+      : "blocked",
+    readyForControlledDriftReview,
+    findingCount: findings.length,
+    driftFindingCount,
+    blockingFindingCount,
+    comparableFindingCount: findings.filter((finding) =>
+      finding.status === "aligned" || finding.status === "drift-detected").length,
+    findings,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 export function sumNullable(left: number | null, right: number | null): number | null {
   return left === null || right === null ? null : left + right;
 }
@@ -363,6 +416,44 @@ function createSourceMatrixConsumerBlockedReasons(
     gates.slotCountsComparable ? null : "SLOT_COUNTS_NOT_COMPARABLE",
     gates.routingModesDeclared ? null : "ROUTING_MODE_NOT_DECLARED",
   ].filter((reason): reason is string => reason !== null);
+}
+
+function createComparableDriftFinding(
+  dimension: Exclude<ControlledReadOnlyShardPreviewSourceMatrixDriftFinding["dimension"], "consumerReadiness">,
+  javaValue: string | number | null,
+  miniKvValue: string | number | null,
+  driftMessage: string,
+): ControlledReadOnlyShardPreviewSourceMatrixDriftFinding {
+  if (javaValue === null || miniKvValue === null) {
+    return {
+      dimension,
+      status: "not-comparable",
+      severity: "blocker",
+      javaValue,
+      miniKvValue,
+      message: "Source values are not both present, so controlled drift review is blocked.",
+    };
+  }
+
+  if (javaValue === miniKvValue) {
+    return {
+      dimension,
+      status: "aligned",
+      severity: "info",
+      javaValue,
+      miniKvValue,
+      message: "Source values are aligned.",
+    };
+  }
+
+  return {
+    dimension,
+    status: "drift-detected",
+    severity: "warning",
+    javaValue,
+    miniKvValue,
+    message: driftMessage,
+  };
 }
 
 function uniqueSources(
