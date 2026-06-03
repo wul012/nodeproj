@@ -4,6 +4,9 @@ import {
   createControlledReadOnlyShardPreviewTypeModuleCatalog,
   listControlledReadOnlyShardPreviewTypeModules,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.js";
+import {
+  renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.js";
 
 describe("controlled read-only shard preview type module catalog", () => {
   it("records stable type module ownership groups", () => {
@@ -39,5 +42,16 @@ describe("controlled read-only shard preview type module catalog", () => {
       expect(entry.maintenanceRule.length).toBeGreaterThan(0);
       expect(entry.stopCondition).toMatch(/^Do not split|^Use these ownership groups/);
     }
+  });
+
+  it("renders a stable markdown catalog for archive review", () => {
+    const markdown = renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown();
+
+    expect(markdown).toContain("# Controlled read-only shard preview type module catalog");
+    expect(markdown).toContain("- Catalog version: Node v685");
+    expect(markdown).toContain("- Module count: 13");
+    expect(markdown).toContain("### 1. source-matrix-types");
+    expect(markdown).toContain("### 13. profile-entry-types");
+    expect(markdown).toContain("- Stable profile re-export: true");
   });
 });

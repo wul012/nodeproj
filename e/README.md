@@ -323,6 +323,7 @@
 683: Controlled read-only shard preview source matrix types split
 684: Controlled read-only shard preview support types split
 685: Controlled read-only shard preview type module catalog
+686: Controlled read-only shard preview type module catalog renderer
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
