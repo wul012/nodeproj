@@ -267,6 +267,7 @@
 627: Controlled read-only shard preview handoff route coverage archive summary receipt archive verification
 628: Controlled read-only shard preview route coverage renderer split
 629: Controlled read-only shard preview handoff summary renderer split
+630: Controlled read-only shard preview source matrix renderer split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
