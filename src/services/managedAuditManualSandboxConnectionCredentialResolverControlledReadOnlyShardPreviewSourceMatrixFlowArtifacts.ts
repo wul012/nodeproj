@@ -147,6 +147,7 @@ export function createSourceMatrixConsumptionPlan(
     stepSafetySummary,
     driftSummary.blockingFindingCount,
   );
+  const promotionHold = createConsumptionPlanPromotionHold(riskSummary);
 
   return {
     planVersion: "Node v638",
@@ -168,6 +169,7 @@ export function createSourceMatrixConsumptionPlan(
     stepStatusSummary,
     stepSafetySummary,
     riskSummary,
+    promotionHold,
     planDigest: {
       algorithm: "sha256",
       scope: "source-matrix-consumption-plan",
@@ -181,6 +183,7 @@ export function createSourceMatrixConsumptionPlan(
         stepStatusSummary,
         stepSafetySummary,
         riskSummary,
+        promotionHold,
       }),
       coveredStepCount: planSteps.length,
     },
@@ -219,6 +222,30 @@ function createConsumptionPlanRiskSummary(
     blocked: riskLevel === "blocked" || riskLevel === "unsafe",
     unsafeStepCount,
     riskReasonCodes,
+  };
+}
+
+function createConsumptionPlanPromotionHold(
+  riskSummary: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["riskSummary"],
+): ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan["promotionHold"] {
+  const holdState = riskSummary.blocked
+    ? "repair-required"
+    : riskSummary.reviewRequired
+      ? "read-only-review-required"
+      : "none";
+  const nextAllowedAction = riskSummary.blocked
+    ? "repair-plan-risk"
+    : riskSummary.reviewRequired
+      ? "review-read-only-risk"
+      : "consume-read-only-plan";
+
+  return {
+    holdState,
+    nextAllowedAction,
+    reasonCodes: riskSummary.riskReasonCodes,
+    routingPromotionAllowed: false,
+    writePromotionAllowed: false,
+    serviceStartupAllowed: false,
   };
 }
 

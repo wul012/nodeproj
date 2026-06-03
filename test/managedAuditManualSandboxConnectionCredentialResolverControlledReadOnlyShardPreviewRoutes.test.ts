@@ -164,6 +164,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Review required: true");
       expect(markdown.body).toContain("Unsafe step count: 0");
       expect(markdown.body).toContain("Risk reason codes: PLAN_HAS_REVIEW_STEPS");
+      expect(markdown.body).toContain("Promotion hold state: read-only-review-required");
+      expect(markdown.body).toContain("Promotion hold next allowed action: review-read-only-risk");
+      expect(markdown.body).toContain("Routing promotion allowed: false");
+      expect(markdown.body).toContain("Write promotion allowed: false");
+      expect(markdown.body).toContain("Service startup allowed: false");
       expect(markdown.body).toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
       expect(markdown.body)
         .toContain("level=review, reviewRequired=true, blocked=false, unsafeSteps=0, reasons=PLAN_HAS_REVIEW_STEPS");

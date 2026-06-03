@@ -83,6 +83,14 @@ describe("controlled read-only shard preview consumption plan", () => {
         unsafeStepCount: 0,
         riskReasonCodes: ["PLAN_HAS_REVIEW_STEPS"],
       },
+      promotionHold: {
+        holdState: "read-only-review-required",
+        nextAllowedAction: "review-read-only-risk",
+        reasonCodes: ["PLAN_HAS_REVIEW_STEPS"],
+        routingPromotionAllowed: false,
+        writePromotionAllowed: false,
+        serviceStartupAllowed: false,
+      },
       planDigest: {
         algorithm: "sha256",
         scope: "source-matrix-consumption-plan",
@@ -163,6 +171,17 @@ describe("controlled read-only shard preview consumption plan", () => {
           "PLAN_HAS_BLOCKING_FINDINGS",
         ],
       },
+      promotionHold: {
+        holdState: "repair-required",
+        nextAllowedAction: "repair-plan-risk",
+        reasonCodes: [
+          "PLAN_HAS_BLOCKED_STEPS",
+          "PLAN_HAS_BLOCKING_FINDINGS",
+        ],
+        routingPromotionAllowed: false,
+        writePromotionAllowed: false,
+        serviceStartupAllowed: false,
+      },
       planDigest: {
         algorithm: "sha256",
         scope: "source-matrix-consumption-plan",
@@ -175,4 +194,3 @@ describe("controlled read-only shard preview consumption plan", () => {
     expect(profile.preview.sourceMatrixConsumptionPlan.planDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 });
-

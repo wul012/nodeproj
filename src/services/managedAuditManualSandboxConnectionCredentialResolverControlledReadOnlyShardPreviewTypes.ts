@@ -164,6 +164,14 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
     unsafeStepCount: number;
     riskReasonCodes: string[];
   };
+  promotionHold: {
+    holdState: "none" | "read-only-review-required" | "repair-required";
+    nextAllowedAction: "consume-read-only-plan" | "review-read-only-risk" | "repair-plan-risk";
+    reasonCodes: string[];
+    routingPromotionAllowed: false;
+    writePromotionAllowed: false;
+    serviceStartupAllowed: false;
+  };
   planDigest: {
     algorithm: "sha256";
     scope: "source-matrix-consumption-plan";
