@@ -271,6 +271,7 @@
 631: Controlled read-only shard preview handoff artifact stability test split
 632: Controlled read-only shard preview route test split
 633: Controlled read-only shard preview route coverage artifact builder split
+634: Controlled read-only shard preview archive handoff artifact builder split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
