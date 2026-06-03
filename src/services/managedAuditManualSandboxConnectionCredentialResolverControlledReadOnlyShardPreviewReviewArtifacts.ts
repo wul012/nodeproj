@@ -1,15 +1,16 @@
 import { sha256StableJson } from "./liveProbeReportUtils.js";
 import type {
   ControlledReadOnlyShardPreviewSource,
+  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
   ControlledReadOnlyShardPreviewSourceMatrix,
   ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
-  ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
   ControlledReadOnlyShardPreviewSourceMatrixConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixDriftFinding,
   ControlledReadOnlyShardPreviewSourceMatrixDriftSummary,
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem,
   ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -297,6 +298,59 @@ export function createSourceMatrixArchiveSnapshotSummaryExport(
     blockedItemCount: snapshot.blockedItemCount,
     includesRawCredential: false,
     includesRuntimePayload: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixHandoffNotes(
+  summaryExport: ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes {
+  const ready = summaryExport.readyForSummaryExport;
+  const notes = [
+    {
+      order: 1,
+      audience: "operator" as const,
+      message: ready
+        ? "Review the summary export digest and keep this as read-only handoff evidence."
+        : "Summary export is blocked; resolve blocked review items before handoff.",
+      actionRequired: !ready,
+      routingActivationAllowed: false as const,
+    },
+    {
+      order: 2,
+      audience: "node" as const,
+      message: "Do not start services, activate shard routing, or read credential values from this handoff.",
+      actionRequired: false,
+      routingActivationAllowed: false as const,
+    },
+    {
+      order: 3,
+      audience: "java" as const,
+      message: "Java may continue in parallel; Node does not require fresh Java evidence for this handoff.",
+      actionRequired: false,
+      routingActivationAllowed: false as const,
+    },
+    {
+      order: 4,
+      audience: "miniKv" as const,
+      message: "mini-kv may continue in parallel; Node does not require fresh mini-kv evidence for this handoff.",
+      actionRequired: false,
+      routingActivationAllowed: false as const,
+    },
+  ];
+
+  return {
+    notesVersion: "Node v608",
+    inputSummaryExportVersion: "Node v605",
+    handoffState: ready ? "ready-for-read-only-handoff" : "blocked",
+    readyForReadOnlyHandoff: ready,
+    noteCount: notes.length,
+    actionRequiredCount: notes.filter((note) => note.actionRequired).length,
+    notes,
+    requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,
     startsServices: false,

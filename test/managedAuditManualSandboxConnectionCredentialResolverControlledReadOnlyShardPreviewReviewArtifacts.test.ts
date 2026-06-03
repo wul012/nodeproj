@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createSourceMatrixArchiveSnapshot,
   createSourceMatrixArchiveSnapshotSummaryExport,
+  createSourceMatrixHandoffNotes,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -20,6 +21,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const digest = createSourceMatrixReviewDigest(checklist);
     const snapshot = createSourceMatrixArchiveSnapshot(digest);
     const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+    const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
 
     expect(consumer).toMatchObject({
       decision: "ready-for-controlled-read-only-consumption",
@@ -140,6 +142,25 @@ describe("controlled read-only shard preview review artifacts", () => {
       "blockedItems=0",
       "routingActivation=false",
     ]);
+    expect(handoffNotes).toMatchObject({
+      notesVersion: "Node v608",
+      inputSummaryExportVersion: "Node v605",
+      handoffState: "ready-for-read-only-handoff",
+      readyForReadOnlyHandoff: true,
+      noteCount: 4,
+      actionRequiredCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+      notes: [
+        { order: 1, audience: "operator", actionRequired: false },
+        { order: 2, audience: "node", actionRequired: false },
+        { order: 3, audience: "java", actionRequired: false },
+        { order: 4, audience: "miniKv", actionRequired: false },
+      ],
+    });
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -149,6 +170,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const digest = createSourceMatrixReviewDigest(checklist);
     const snapshot = createSourceMatrixArchiveSnapshot(digest);
     const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+    const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
 
     expect(consumer).toMatchObject({
       decision: "blocked",
@@ -215,6 +237,18 @@ describe("controlled read-only shard preview review artifacts", () => {
       includesRuntimePayload: false,
     });
     expect(summaryExport.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffNotes).toMatchObject({
+      handoffState: "blocked",
+      readyForReadOnlyHandoff: false,
+      noteCount: 4,
+      actionRequiredCount: 1,
+      notes: [
+        { order: 1, audience: "operator", actionRequired: true },
+        { order: 2, audience: "node", actionRequired: false },
+        { order: 3, audience: "java", actionRequired: false },
+        { order: 4, audience: "miniKv", actionRequired: false },
+      ],
+    });
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {

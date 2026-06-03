@@ -205,6 +205,29 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummar
   mutatesSiblingState: false;
 }
 
+export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffNote {
+  order: number;
+  audience: "operator" | "node" | "java" | "miniKv";
+  message: string;
+  actionRequired: boolean;
+  routingActivationAllowed: false;
+}
+
+export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes {
+  notesVersion: "Node v608";
+  inputSummaryExportVersion: "Node v605";
+  handoffState: "ready-for-read-only-handoff" | "blocked";
+  readyForReadOnlyHandoff: boolean;
+  noteCount: number;
+  actionRequiredCount: number;
+  notes: ControlledReadOnlyShardPreviewSourceMatrixHandoffNote[];
+  requiresApproval: false;
+  requiresRoutingActivation: false;
+  requiresFreshSiblingEvidence: false;
+  startsServices: false;
+  mutatesSiblingState: false;
+}
+
 export interface ControlledReadOnlyShardPreviewObservation {
   project: PreviewProject;
   attempted: boolean;
@@ -282,8 +305,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v607";
-  sourceNodeVersion: "Node v606";
+  activeNodeVersion: "Node v608";
+  sourceNodeVersion: "Node v607";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -318,6 +341,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     sourceMatrixReviewDigest: ControlledReadOnlyShardPreviewSourceMatrixReviewDigest;
     sourceMatrixArchiveSnapshot: ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot;
     sourceMatrixArchiveSnapshotSummaryExport: ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport;
+    sourceMatrixHandoffNotes: ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -331,7 +355,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v608";
+    nextNodeVersion: "Node v609";
   };
   nextActions: string[];
 }
