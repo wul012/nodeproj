@@ -4,6 +4,7 @@ import {
   createSourceMatrixArchiveSnapshot,
   createSourceMatrixArchiveSnapshotSummaryExport,
   createSourceMatrixHandoffNotes,
+  createSourceMatrixHandoffSummary,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
   createSourceMatrixReviewChecklist,
@@ -22,6 +23,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const snapshot = createSourceMatrixArchiveSnapshot(digest);
     const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
     const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
 
     expect(consumer).toMatchObject({
       decision: "ready-for-controlled-read-only-consumption",
@@ -167,6 +169,21 @@ describe("controlled read-only shard preview review artifacts", () => {
       ],
     });
     expect(handoffNotes.handoffDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummary).toMatchObject({
+      summaryVersion: "Node v611",
+      inputNotesVersion: "Node v608",
+      summaryState: "ready-for-read-only-handoff-summary",
+      readyForReadOnlyHandoffSummary: true,
+      audiences: ["operator", "node", "java", "miniKv"],
+      audienceCount: 4,
+      actionRequiredCount: 0,
+      handoffDigestValue: handoffNotes.handoffDigest.value,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -177,6 +194,7 @@ describe("controlled read-only shard preview review artifacts", () => {
     const snapshot = createSourceMatrixArchiveSnapshot(digest);
     const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
     const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
 
     expect(consumer).toMatchObject({
       decision: "blocked",
@@ -261,6 +279,19 @@ describe("controlled read-only shard preview review artifacts", () => {
       ],
     });
     expect(handoffNotes.handoffDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummary).toMatchObject({
+      summaryState: "blocked",
+      readyForReadOnlyHandoffSummary: false,
+      audiences: ["operator", "node", "java", "miniKv"],
+      audienceCount: 4,
+      actionRequiredCount: 1,
+      handoffDigestValue: handoffNotes.handoffDigest.value,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {

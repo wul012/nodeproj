@@ -21,6 +21,7 @@ import {
 import {
   createSourceMatrixArchiveSnapshot,
   createSourceMatrixArchiveSnapshotSummaryExport,
+  createSourceMatrixHandoffSummary,
   createSourceMatrixHandoffNotes,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
@@ -61,6 +62,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   const sourceMatrixArchiveSnapshotSummaryExport =
     createSourceMatrixArchiveSnapshotSummaryExport(sourceMatrixArchiveSnapshot);
   const sourceMatrixHandoffNotes = createSourceMatrixHandoffNotes(sourceMatrixArchiveSnapshotSummaryExport);
+  const sourceMatrixHandoffSummary = createSourceMatrixHandoffSummary(sourceMatrixHandoffNotes);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -78,8 +80,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v610",
-    sourceNodeVersion: "Node v609",
+    activeNodeVersion: "Node v611",
+    sourceNodeVersion: "Node v610",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -112,6 +114,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrixArchiveSnapshot,
       sourceMatrixArchiveSnapshotSummaryExport,
       sourceMatrixHandoffNotes,
+      sourceMatrixHandoffSummary,
       previewDigest,
     },
     checks,
@@ -125,11 +128,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v611",
+      nextNodeVersion: "Node v612",
     },
     nextActions: ready
       ? [
-        "Use Node v611 to add controlled source-matrix handoff notes summary coverage without routing activation.",
+        "Use Node v612 to add controlled source-matrix handoff summary digest coverage without routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

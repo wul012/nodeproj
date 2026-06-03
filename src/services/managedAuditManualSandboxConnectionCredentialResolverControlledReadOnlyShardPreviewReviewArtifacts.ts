@@ -10,7 +10,9 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist,
   ControlledReadOnlyShardPreviewSourceMatrixReviewChecklistItem,
   ControlledReadOnlyShardPreviewSourceMatrixReviewDigest,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -368,6 +370,30 @@ export function createSourceMatrixHandoffNotes(
   };
 }
 
+export function createSourceMatrixHandoffSummary(
+  handoffNotes: ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary {
+  const audiences = uniqueHandoffAudiences(handoffNotes.notes.map((note) => note.audience));
+  const readyForReadOnlyHandoffSummary =
+    handoffNotes.readyForReadOnlyHandoff && handoffNotes.actionRequiredCount === 0;
+
+  return {
+    summaryVersion: "Node v611",
+    inputNotesVersion: "Node v608",
+    summaryState: readyForReadOnlyHandoffSummary ? "ready-for-read-only-handoff-summary" : "blocked",
+    readyForReadOnlyHandoffSummary,
+    audiences,
+    audienceCount: audiences.length,
+    actionRequiredCount: handoffNotes.actionRequiredCount,
+    handoffDigestValue: handoffNotes.handoffDigest.value,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 function createSourceMatrixConsumerBlockedReasons(
   gates: ControlledReadOnlyShardPreviewSourceMatrixConsumer["gates"],
 ): string[] {
@@ -422,4 +448,10 @@ function uniqueSources(
   sources: ControlledReadOnlyShardPreviewSource[],
 ): ControlledReadOnlyShardPreviewSource[] {
   return REQUIRED_MATRIX_SOURCES.filter((source) => sources.includes(source));
+}
+
+function uniqueHandoffAudiences(
+  audiences: ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience[],
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience[] {
+  return audiences.filter((audience, index) => audiences.indexOf(audience) === index);
 }

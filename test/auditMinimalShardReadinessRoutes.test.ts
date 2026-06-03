@@ -34,8 +34,8 @@ describe("minimal shard readiness audit route group", () => {
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        activeNodeVersion: "Node v610",
-        sourceNodeVersion: "Node v609",
+        activeNodeVersion: "Node v611",
+        sourceNodeVersion: "Node v610",
         previewOnly: true,
         startsJavaService: false,
         startsMiniKvService: false,
@@ -56,6 +56,8 @@ describe("minimal shard readiness audit route group", () => {
       expect(markdown.body).toContain("## Source Matrix Archive Snapshot");
       expect(markdown.body).toContain("## Source Matrix Archive Snapshot Summary Export");
       expect(markdown.body).toContain("## Source Matrix Handoff Notes");
+      expect(markdown.body).toContain("## Source Matrix Handoff Summary");
+      expect(markdown.body).toContain("Summary state: blocked");
       expect(markdown.body).toContain("Starts Java service: false");
     } finally {
       await app.close();
