@@ -223,6 +223,23 @@ export function collectRecommendations(
   }];
 }
 
+export function createNextActions(
+  ready: boolean,
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+): string[] {
+  if (ready) {
+    return [
+      `Consume sourceMatrixConsumptionPlan.planSteps (${sourceMatrixConsumptionPlan.planSteps.join("; ")}) without routing activation.`,
+      "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
+    ];
+  }
+
+  return [
+    `Repair sourceMatrixConsumptionPlan before consumption; blocked reasons: ${sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none"}.`,
+    "Do not start, stop, write, restore, load, compact, or activate routing from this Node preview.",
+  ];
+}
+
 export function createSummary(
   reads: readonly ControlledReadOnlyShardPreviewObservation[],
   checks: ControlledReadOnlyShardPreviewChecks,

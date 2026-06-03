@@ -8,6 +8,7 @@ import {
   collectWarnings,
   CONTROLLED_READ_ONLY_SHARD_PREVIEW_ROUTE,
   createChecks,
+  createNextActions,
   createPreviewDigest,
   createSourceMatrix,
   createSummary,
@@ -190,15 +191,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceNodeV580ArchiveIndex: "e/README.md",
       nextNodeVersion: "Node v639",
     },
-    nextActions: ready
-      ? [
-        "Use Node v639 to consume the read-only source matrix plan without routing activation.",
-        "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
-      ]
-      : [
-        "Open a deliberate read-only window with Java and mini-kv available, then rerun this preview.",
-        "Do not start, stop, write, restore, load, compact, or activate routing from this Node preview.",
-      ],
+    nextActions: createNextActions(ready, sourceMatrixConsumptionPlan),
   };
 }
 

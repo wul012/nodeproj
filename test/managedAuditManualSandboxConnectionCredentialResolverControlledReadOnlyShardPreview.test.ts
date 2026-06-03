@@ -505,6 +505,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
         message: expect.stringContaining("4 source matrix plan steps"),
       }),
     ]);
+    expect(profile.nextActions).toEqual([
+      expect.stringContaining("observeSources=java|miniKv"),
+      expect.stringContaining("independently started services"),
+    ]);
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixConsumptionPlan.planDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixReviewDigest.value).toMatch(/^[a-f0-9]{64}$/);
@@ -596,6 +600,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
         source: "next-plan",
         message: expect.stringContaining("SOURCE_NOT_READY"),
       }),
+    ]);
+    expect(profile.nextActions).toEqual([
+      expect.stringContaining("SOURCE_NOT_READY"),
+      expect.stringContaining("Do not start"),
     ]);
     expect(javaCalls).toBe(0);
     expect(miniKvCalls).toBe(0);
