@@ -549,6 +549,32 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageA
   mutatesSiblingState: false;
 }
 
+export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot {
+  snapshotVersion: "Node v626";
+  inputReceiptVersion: "Node v625";
+  snapshotState: "ready-for-read-only-handoff-route-coverage-archive-summary-receipt-archive" | "blocked";
+  readyForReadOnlyHandoffRouteCoverageArchiveSummaryReceiptArchive: boolean;
+  receiptDigestValue: string;
+  snapshotDigest: {
+    algorithm: "sha256";
+    scope: "handoff-route-coverage-archive-summary-receipt-archive-snapshot";
+    value: string;
+    coveredSectionCount: number;
+  };
+  archivedSections: string[];
+  archivedSectionCount: number;
+  receiptLineCount: number;
+  summaryLineCount: number;
+  blockedReasonCount: number;
+  includesRawCredential: false;
+  includesRuntimePayload: false;
+  requiresApproval: false;
+  requiresRoutingActivation: false;
+  requiresFreshSiblingEvidence: false;
+  startsServices: false;
+  mutatesSiblingState: false;
+}
+
 export interface ControlledReadOnlyShardPreviewObservation {
   project: PreviewProject;
   attempted: boolean;
@@ -626,8 +652,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v625";
-  sourceNodeVersion: "Node v624";
+  activeNodeVersion: "Node v626";
+  sourceNodeVersion: "Node v625";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -682,6 +708,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummary;
     sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt:
       ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt;
+    sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot:
+      ControlledReadOnlyShardPreviewSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -695,7 +723,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v626";
+    nextNodeVersion: "Node v627";
   };
   nextActions: string[];
 }
