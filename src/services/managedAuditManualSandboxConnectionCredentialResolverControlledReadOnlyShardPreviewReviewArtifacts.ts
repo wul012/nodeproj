@@ -16,6 +16,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerExport,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -33,6 +34,11 @@ const ARCHIVED_SECTIONS = Object.freeze([
   "sourceMatrixDriftSummary",
   "sourceMatrixReviewChecklist",
   "sourceMatrixReviewDigest",
+]);
+const HANDOFF_SUMMARY_CONSUMER_RECEIPT_ARCHIVED_SECTIONS = Object.freeze([
+  "sourceMatrixHandoffSummaryConsumer",
+  "sourceMatrixHandoffSummaryConsumerExport",
+  "sourceMatrixHandoffSummaryConsumerReceipt",
 ]);
 
 export function createSourceMatrixConsumer(
@@ -536,6 +542,44 @@ export function createSourceMatrixHandoffSummaryConsumerReceipt(
     receiptLineCount: receiptLines.length,
     exportLineCount: consumerExport.exportLineCount,
     blockedReasonCount: consumerExport.blockedReasonCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
+export function createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(
+  receipt: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceipt,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot {
+  return {
+    snapshotVersion: "Node v616",
+    inputReceiptVersion: "Node v615",
+    snapshotState: receipt.readyForReadOnlySummaryConsumerReceipt
+      ? "ready-for-read-only-summary-consumer-receipt-archive"
+      : "blocked",
+    readyForReadOnlySummaryConsumerReceiptArchive: receipt.readyForReadOnlySummaryConsumerReceipt,
+    receiptDigestValue: receipt.receiptDigest.value,
+    snapshotDigest: {
+      algorithm: "sha256",
+      scope: "handoff-summary-consumer-receipt-archive-snapshot",
+      value: sha256StableJson({
+        snapshotVersion: "Node v616",
+        inputReceiptVersion: "Node v615",
+        receiptDigestValue: receipt.receiptDigest.value,
+        archivedSections: HANDOFF_SUMMARY_CONSUMER_RECEIPT_ARCHIVED_SECTIONS,
+        receiptLineCount: receipt.receiptLineCount,
+        blockedReasonCount: receipt.blockedReasonCount,
+      }),
+      coveredSectionCount: HANDOFF_SUMMARY_CONSUMER_RECEIPT_ARCHIVED_SECTIONS.length,
+    },
+    archivedSections: [...HANDOFF_SUMMARY_CONSUMER_RECEIPT_ARCHIVED_SECTIONS],
+    archivedSectionCount: HANDOFF_SUMMARY_CONSUMER_RECEIPT_ARCHIVED_SECTIONS.length,
+    receiptLineCount: receipt.receiptLineCount,
+    blockedReasonCount: receipt.blockedReasonCount,
+    includesRawCredential: false,
+    includesRuntimePayload: false,
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,

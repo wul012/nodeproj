@@ -25,6 +25,7 @@ import {
   createSourceMatrixHandoffSummaryConsumer,
   createSourceMatrixHandoffSummaryConsumerExport,
   createSourceMatrixHandoffSummaryConsumerReceipt,
+  createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
   createSourceMatrixHandoffNotes,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
@@ -71,6 +72,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     createSourceMatrixHandoffSummaryConsumerExport(sourceMatrixHandoffSummaryConsumer);
   const sourceMatrixHandoffSummaryConsumerReceipt =
     createSourceMatrixHandoffSummaryConsumerReceipt(sourceMatrixHandoffSummaryConsumerExport);
+  const sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot =
+    createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(sourceMatrixHandoffSummaryConsumerReceipt);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -88,8 +91,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v615",
-    sourceNodeVersion: "Node v614",
+    activeNodeVersion: "Node v616",
+    sourceNodeVersion: "Node v615",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -126,6 +129,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrixHandoffSummaryConsumer,
       sourceMatrixHandoffSummaryConsumerExport,
       sourceMatrixHandoffSummaryConsumerReceipt,
+      sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
       previewDigest,
     },
     checks,
@@ -139,11 +143,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v616",
+      nextNodeVersion: "Node v617",
     },
     nextActions: ready
       ? [
-        "Use Node v616 to cover the controlled source-matrix handoff summary consumer receipt digest stability.",
+        "Use Node v617 to verify the controlled source-matrix handoff summary consumer receipt archive snapshot.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [
