@@ -9,9 +9,10 @@ import {
   CONTROLLED_READ_ONLY_SHARD_PREVIEW_ROUTE,
   createChecks,
   createPreviewDigest,
-  createSourceMatrixDriftSummary,
   createSourceMatrix,
   createSourceMatrixConsumer,
+  createSourceMatrixDriftSummary,
+  createSourceMatrixReviewChecklist,
   createSummary,
   failedObservation,
   JAVA_ENDPOINT,
@@ -48,6 +49,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
   const sourceMatrix = createSourceMatrix(java, miniKv);
   const sourceMatrixConsumer = createSourceMatrixConsumer(sourceMatrix);
   const sourceMatrixDriftSummary = createSourceMatrixDriftSummary(sourceMatrix, sourceMatrixConsumer);
+  const sourceMatrixReviewChecklist = createSourceMatrixReviewChecklist(sourceMatrixDriftSummary);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -65,8 +67,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v600",
-    sourceNodeVersion: "Node v599",
+    activeNodeVersion: "Node v601",
+    sourceNodeVersion: "Node v600",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -94,6 +96,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       sourceMatrix,
       sourceMatrixConsumer,
       sourceMatrixDriftSummary,
+      sourceMatrixReviewChecklist,
       previewDigest,
     },
     checks,
@@ -107,11 +110,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v601",
+      nextNodeVersion: "Node v602",
     },
     nextActions: ready
       ? [
-        "Use Node v601 to add a controlled source-matrix review checklist that still avoids routing activation.",
+        "Use Node v602 to add a controlled source-matrix review digest that still avoids routing activation.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

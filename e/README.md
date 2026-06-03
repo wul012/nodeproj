@@ -238,6 +238,7 @@
 598: Controlled read-only shard preview source matrix
 599: Controlled read-only shard preview source matrix consumer
 600: Controlled read-only shard preview source matrix drift summary
+601: Controlled read-only shard preview source matrix review checklist
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

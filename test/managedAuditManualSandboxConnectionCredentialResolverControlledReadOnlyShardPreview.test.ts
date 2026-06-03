@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v600",
-      sourceNodeVersion: "Node v599",
+      activeNodeVersion: "Node v601",
+      sourceNodeVersion: "Node v600",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -256,6 +256,51 @@ describe("managed audit manual sandbox connection credential resolver controlled
             },
           ],
         },
+        sourceMatrixReviewChecklist: {
+          checklistVersion: "Node v601",
+          inputDriftSummaryVersion: "Node v600",
+          checklistState: "ready-for-controlled-review",
+          readyForOperatorReview: true,
+          itemCount: 4,
+          readyItemCount: 3,
+          reviewItemCount: 1,
+          blockedItemCount: 0,
+          requiresApproval: false,
+          requiresRoutingActivation: false,
+          requiresFreshSiblingEvidence: false,
+          startsServices: false,
+          mutatesSiblingState: false,
+          items: [
+            {
+              order: 1,
+              check: "confirm-source-matrix-consumer",
+              status: "ready",
+              severity: "info",
+              routingActivationAllowed: false,
+            },
+            {
+              order: 2,
+              check: "review-controlled-drift-findings",
+              status: "needs-review",
+              severity: "warning",
+              routingActivationAllowed: false,
+            },
+            {
+              order: 3,
+              check: "confirm-routing-remains-disabled",
+              status: "ready",
+              severity: "info",
+              routingActivationAllowed: false,
+            },
+            {
+              order: 4,
+              check: "confirm-sibling-projects-can-continue",
+              status: "ready",
+              severity: "info",
+              routingActivationAllowed: false,
+            },
+          ],
+        },
       },
       checks: {
         upstreamProbesEnabledForPreview: true,
@@ -382,6 +427,45 @@ describe("managed audit manual sandbox connection credential resolver controlled
         },
       ],
     });
+    expect(profile.preview.sourceMatrixReviewChecklist).toMatchObject({
+      checklistState: "blocked",
+      readyForOperatorReview: false,
+      itemCount: 4,
+      readyItemCount: 2,
+      reviewItemCount: 0,
+      blockedItemCount: 2,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+      items: [
+        {
+          order: 1,
+          check: "confirm-source-matrix-consumer",
+          status: "blocked",
+          severity: "blocker",
+        },
+        {
+          order: 2,
+          check: "review-controlled-drift-findings",
+          status: "blocked",
+          severity: "blocker",
+        },
+        {
+          order: 3,
+          check: "confirm-routing-remains-disabled",
+          status: "ready",
+          severity: "info",
+        },
+        {
+          order: 4,
+          check: "confirm-sibling-projects-can-continue",
+          status: "ready",
+          severity: "info",
+        },
+      ],
+    });
   }, 60000);
 
   it("exposes JSON and Markdown through the audit route table using mock read-only services", async () => {
@@ -410,8 +494,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v600",
-        sourceNodeVersion: "Node v599",
+        activeNodeVersion: "Node v601",
+        sourceNodeVersion: "Node v600",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -427,9 +511,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Source Matrix");
       expect(markdown.body).toContain("## Source Matrix Consumer");
       expect(markdown.body).toContain("## Source Matrix Drift Summary");
+      expect(markdown.body).toContain("## Source Matrix Review Checklist");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
+      expect(markdown.body).toContain("Checklist state: ready-for-controlled-review");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");
