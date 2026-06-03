@@ -95,13 +95,14 @@ export function collectRecommendations(
   const blockedReasons = sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none";
   const stepRecordSummary = formatPlanStepRecordSummary(sourceMatrixConsumptionPlan);
   const safetySummary = formatPlanSafetySummary(sourceMatrixConsumptionPlan);
+  const riskSummary = formatPlanRiskSummary(sourceMatrixConsumptionPlan);
   return [{
     code: ready ? "CONSUME_SOURCE_MATRIX_PLAN_READ_ONLY" : "REPAIR_SOURCE_MATRIX_CONSUMPTION_PLAN",
     severity: "recommendation",
     source: "next-plan",
     message: ready
-      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled; safety ${safetySummary}.`
-      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}; safety ${safetySummary}.`,
+      ? `Consume the ${sourceMatrixConsumptionPlan.planStepRecordCount} source matrix plan step records (${stepRecordSummary}) while routing remains disabled; safety ${safetySummary}; risk ${riskSummary}.`
+      : `Repair the source matrix consumption plan before consumption; blocked reasons: ${blockedReasons}; safety ${safetySummary}; risk ${riskSummary}.`,
   }];
 }
 
@@ -113,6 +114,7 @@ export function createNextActions(
     return [
       `Consume sourceMatrixConsumptionPlan.planStepRecords (${formatPlanStepRecordSummary(sourceMatrixConsumptionPlan)}) without routing activation.`,
       `Preserve sourceMatrixConsumptionPlan.stepSafetySummary (${formatPlanSafetySummary(sourceMatrixConsumptionPlan)}) before any follow-up review.`,
+      `Review sourceMatrixConsumptionPlan.riskSummary (${formatPlanRiskSummary(sourceMatrixConsumptionPlan)}) before promoting beyond read-only preview.`,
       "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
     ];
   }
@@ -120,6 +122,7 @@ export function createNextActions(
   return [
     `Repair sourceMatrixConsumptionPlan before consumption; blocked reasons: ${sourceMatrixConsumptionPlan.blockedReasonCodes.join(", ") || "none"}.`,
     `Preserve sourceMatrixConsumptionPlan.stepSafetySummary (${formatPlanSafetySummary(sourceMatrixConsumptionPlan)}) while repairing the plan.`,
+    `Resolve sourceMatrixConsumptionPlan.riskSummary (${formatPlanRiskSummary(sourceMatrixConsumptionPlan)}) before consumption.`,
     "Do not start, stop, write, restore, load, compact, or activate routing from this Node preview.",
   ];
 }
@@ -138,5 +141,17 @@ function formatPlanSafetySummary(
   return [
     `routingActivationAllowedSteps=${sourceMatrixConsumptionPlan.stepSafetySummary.routingActivationAllowedStepCount}`,
     `writesAllowedSteps=${sourceMatrixConsumptionPlan.stepSafetySummary.writesAllowedStepCount}`,
+  ].join(", ");
+}
+
+function formatPlanRiskSummary(
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
+): string {
+  return [
+    `level=${sourceMatrixConsumptionPlan.riskSummary.riskLevel}`,
+    `reviewRequired=${sourceMatrixConsumptionPlan.riskSummary.reviewRequired}`,
+    `blocked=${sourceMatrixConsumptionPlan.riskSummary.blocked}`,
+    `unsafeSteps=${sourceMatrixConsumptionPlan.riskSummary.unsafeStepCount}`,
+    `reasons=${sourceMatrixConsumptionPlan.riskSummary.riskReasonCodes.join("|") || "none"}`,
   ].join(", ");
 }

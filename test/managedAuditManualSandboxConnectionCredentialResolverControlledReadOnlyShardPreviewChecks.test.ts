@@ -31,6 +31,13 @@ describe("controlled read-only shard preview checks", () => {
         routingActivationAllowedStepCount: 1,
         writesAllowedStepCount: 1,
       },
+      riskSummary: {
+        riskLevel: "unsafe" as const,
+        reviewRequired: true,
+        blocked: true,
+        unsafeStepCount: 2,
+        riskReasonCodes: ["PLAN_HAS_UNSAFE_STEPS"],
+      },
     };
     const checks = createChecks(
       config,
@@ -43,9 +50,11 @@ describe("controlled read-only shard preview checks", () => {
     expect(checks.sourceMatrixConsumptionPlanReady).toBe(true);
     expect(checks.sourceMatrixConsumptionPlanHasNoBlockedSteps).toBe(true);
     expect(checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps).toBe(false);
+    expect(checks.sourceMatrixConsumptionPlanRiskAccepted).toBe(false);
 
     const blockers = collectProductionBlockers(checks);
     expect(blockers.map((blocker) => blocker.code)).toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS");
+    expect(blockers.map((blocker) => blocker.code)).toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED");
 
     checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
       .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -54,8 +63,12 @@ describe("controlled read-only shard preview checks", () => {
 
     expect(collectRecommendations(false, unsafePlan)[0]?.message)
       .toContain("routingActivationAllowedSteps=1, writesAllowedSteps=1");
+    expect(collectRecommendations(false, unsafePlan)[0]?.message)
+      .toContain("level=unsafe, reviewRequired=true, blocked=true, unsafeSteps=2, reasons=PLAN_HAS_UNSAFE_STEPS");
     expect(createNextActions(false, unsafePlan)[1])
       .toContain("routingActivationAllowedSteps=1, writesAllowedSteps=1");
+    expect(createNextActions(false, unsafePlan)[2])
+      .toContain("level=unsafe, reviewRequired=true, blocked=true, unsafeSteps=2");
   });
 
   it("keeps read-only ready guidance warning-only when both sources are inactive routing previews", async () => {
@@ -77,8 +90,8 @@ describe("controlled read-only shard preview checks", () => {
     expect(createNextActions(true, profile.preview.sourceMatrixConsumptionPlan)).toEqual([
       expect.stringContaining("without routing activation"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
+      expect.stringContaining("level=review, reviewRequired=true, blocked=false, unsafeSteps=0"),
       expect.stringContaining("independently started services"),
     ]);
   });
 });
-

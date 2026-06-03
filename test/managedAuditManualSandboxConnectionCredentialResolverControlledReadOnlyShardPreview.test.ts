@@ -561,9 +561,12 @@ describe("managed audit manual sandbox connection credential resolver controlled
     ]);
     expect(profile.recommendations[0]?.message)
       .toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
+    expect(profile.recommendations[0]?.message)
+      .toContain("level=review, reviewRequired=true, blocked=false, unsafeSteps=0, reasons=PLAN_HAS_REVIEW_STEPS");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("observe-sources:ready"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
+      expect.stringContaining("level=review, reviewRequired=true, blocked=false, unsafeSteps=0"),
       expect.stringContaining("independently started services"),
     ]);
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
@@ -662,9 +665,12 @@ describe("managed audit manual sandbox connection credential resolver controlled
     ]);
     expect(profile.recommendations[0]?.message)
       .toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
+    expect(profile.recommendations[0]?.message)
+      .toContain("level=blocked, reviewRequired=false, blocked=true, unsafeSteps=0");
     expect(profile.nextActions).toEqual([
       expect.stringContaining("SOURCE_NOT_READY"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
+      expect.stringContaining("level=blocked, reviewRequired=false, blocked=true, unsafeSteps=0"),
       expect.stringContaining("Do not start"),
     ]);
     expect(javaCalls).toBe(0);
