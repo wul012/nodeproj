@@ -310,6 +310,7 @@
 670: Controlled read-only shard preview consumption plan read-only review scope digest gate
 671: Controlled read-only shard preview consumption plan read-only review scope digest guidance
 672: Controlled read-only shard preview guidance formatter contract
+673: Controlled read-only shard preview consumption plan types split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
