@@ -74,10 +74,14 @@ describe("controlled read-only shard preview checks", () => {
       .toContain("routingActivationAllowedSteps=1, writesAllowedSteps=1");
     expect(collectRecommendations(false, unsafePlan)[0]?.message)
       .toContain("level=unsafe, reviewRequired=true, blocked=true, unsafeSteps=2, reasons=PLAN_HAS_UNSAFE_STEPS");
+    expect(collectRecommendations(false, unsafePlan)[0]?.message)
+      .toContain("routingPromotionAllowed=true, writePromotionAllowed=true, serviceStartupAllowed=true");
     expect(createNextActions(false, unsafePlan)[1])
       .toContain("routingActivationAllowedSteps=1, writesAllowedSteps=1");
     expect(createNextActions(false, unsafePlan)[2])
       .toContain("level=unsafe, reviewRequired=true, blocked=true, unsafeSteps=2");
+    expect(createNextActions(false, unsafePlan)[3])
+      .toContain("routingPromotionAllowed=true, writePromotionAllowed=true, serviceStartupAllowed=true");
   });
 
   it("keeps read-only ready guidance warning-only when both sources are inactive routing previews", async () => {
@@ -100,6 +104,7 @@ describe("controlled read-only shard preview checks", () => {
       expect.stringContaining("without routing activation"),
       expect.stringContaining("routingActivationAllowedSteps=0, writesAllowedSteps=0"),
       expect.stringContaining("level=review, reviewRequired=true, blocked=false, unsafeSteps=0"),
+      expect.stringContaining("state=read-only-review-required, nextAllowedAction=review-read-only-risk"),
       expect.stringContaining("independently started services"),
     ]);
   });

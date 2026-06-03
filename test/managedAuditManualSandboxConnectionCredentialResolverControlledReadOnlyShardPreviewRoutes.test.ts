@@ -172,6 +172,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("routingActivationAllowedSteps=0, writesAllowedSteps=0");
       expect(markdown.body)
         .toContain("level=review, reviewRequired=true, blocked=false, unsafeSteps=0, reasons=PLAN_HAS_REVIEW_STEPS");
+      expect(markdown.body)
+        .toContain("state=read-only-review-required, nextAllowedAction=review-read-only-risk");
     } finally {
       await app.close();
     }
