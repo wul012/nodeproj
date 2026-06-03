@@ -298,6 +298,7 @@
 658: Controlled read-only shard preview consumption plan promotion hold gate
 659: Controlled read-only shard preview consumption plan promotion hold guidance
 660: Controlled read-only shard preview consumption plan promotion hold closure criteria
+661: Controlled read-only shard preview consumption plan promotion hold closure gate
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

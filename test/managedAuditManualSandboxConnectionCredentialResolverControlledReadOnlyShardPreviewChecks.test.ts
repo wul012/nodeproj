@@ -43,6 +43,8 @@ describe("controlled read-only shard preview checks", () => {
         routingPromotionAllowed: true,
         writePromotionAllowed: true,
         serviceStartupAllowed: true,
+        closureCriteria: [],
+        closureCriterionCount: 0,
       },
     } as unknown as typeof profile.preview.sourceMatrixConsumptionPlan;
     const checks = createChecks(
@@ -58,12 +60,15 @@ describe("controlled read-only shard preview checks", () => {
     expect(checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps).toBe(false);
     expect(checks.sourceMatrixConsumptionPlanRiskAccepted).toBe(false);
     expect(checks.sourceMatrixConsumptionPlanPromotionHoldSafe).toBe(false);
+    expect(checks.sourceMatrixConsumptionPlanPromotionHoldClosureReady).toBe(false);
 
     const blockers = collectProductionBlockers(checks);
     expect(blockers.map((blocker) => blocker.code)).toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS");
     expect(blockers.map((blocker) => blocker.code)).toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED");
     expect(blockers.map((blocker) => blocker.code))
       .toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_UNSAFE");
+    expect(blockers.map((blocker) => blocker.code))
+      .toContain("SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_CLOSURE_NOT_READY");
 
     checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
       .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")

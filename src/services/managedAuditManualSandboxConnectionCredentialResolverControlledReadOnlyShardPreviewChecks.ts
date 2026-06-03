@@ -49,6 +49,13 @@ export function createChecks(
       sourceMatrixConsumptionPlan.promotionHold.routingPromotionAllowed === false
       && sourceMatrixConsumptionPlan.promotionHold.writePromotionAllowed === false
       && sourceMatrixConsumptionPlan.promotionHold.serviceStartupAllowed === false,
+    sourceMatrixConsumptionPlanPromotionHoldClosureReady:
+      sourceMatrixConsumptionPlan.promotionHold.closureCriterionCount
+        === sourceMatrixConsumptionPlan.promotionHold.closureCriteria.length
+      && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.length > 0
+      && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.includes("confirmRoutingPromotionAllowed=false")
+      && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.includes("confirmWritePromotionAllowed=false")
+      && sourceMatrixConsumptionPlan.promotionHold.closureCriteria.includes("confirmServiceStartupAllowed=false"),
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -70,6 +77,7 @@ export function collectProductionBlockers(
     [checks.sourceMatrixConsumptionPlanHasNoUnsafeSteps, "SOURCE_MATRIX_CONSUMPTION_PLAN_HAS_UNSAFE_STEPS", "next-plan", "Source matrix consumption plan must not allow routing activation or writes."],
     [checks.sourceMatrixConsumptionPlanRiskAccepted, "SOURCE_MATRIX_CONSUMPTION_PLAN_RISK_BLOCKED", "next-plan", "Source matrix consumption plan risk summary must not be blocked or unsafe."],
     [checks.sourceMatrixConsumptionPlanPromotionHoldSafe, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_UNSAFE", "next-plan", "Source matrix consumption plan promotion hold must deny routing promotion, writes, and service startup."],
+    [checks.sourceMatrixConsumptionPlanPromotionHoldClosureReady, "SOURCE_MATRIX_CONSUMPTION_PLAN_PROMOTION_HOLD_CLOSURE_NOT_READY", "next-plan", "Source matrix consumption plan promotion hold closure criteria must be complete."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 
