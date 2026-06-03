@@ -178,12 +178,19 @@ describe("controlled read-only shard preview review artifacts", () => {
       audienceCount: 4,
       actionRequiredCount: 0,
       handoffDigestValue: handoffNotes.handoffDigest.value,
+      summaryDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-summary",
+        coveredAudienceCount: 4,
+        coveredActionRequiredCount: 0,
+      },
       requiresApproval: false,
       requiresRoutingActivation: false,
       requiresFreshSiblingEvidence: false,
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(handoffSummary.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("fails closed when the source matrix cannot be consumed", () => {
@@ -286,12 +293,19 @@ describe("controlled read-only shard preview review artifacts", () => {
       audienceCount: 4,
       actionRequiredCount: 1,
       handoffDigestValue: handoffNotes.handoffDigest.value,
+      summaryDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-summary",
+        coveredAudienceCount: 4,
+        coveredActionRequiredCount: 1,
+      },
       requiresApproval: false,
       requiresRoutingActivation: false,
       requiresFreshSiblingEvidence: false,
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(handoffSummary.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 
   it("keeps the summary export digest stable for the same snapshot", () => {
@@ -328,6 +342,27 @@ describe("controlled read-only shard preview review artifacts", () => {
       algorithm: "sha256",
       scope: "read-only-handoff-notes",
       coveredNoteCount: 4,
+    });
+  });
+
+  it("keeps the handoff summary digest stable for the same handoff notes", () => {
+    const consumer = createSourceMatrixConsumer(readySourceMatrix());
+    const driftSummary = createSourceMatrixDriftSummary(readySourceMatrix(), consumer);
+    const checklist = createSourceMatrixReviewChecklist(driftSummary);
+    const digest = createSourceMatrixReviewDigest(checklist);
+    const snapshot = createSourceMatrixArchiveSnapshot(digest);
+    const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+    const handoffNotes = createSourceMatrixHandoffNotes(summaryExport);
+
+    const first = createSourceMatrixHandoffSummary(handoffNotes);
+    const second = createSourceMatrixHandoffSummary(handoffNotes);
+
+    expect(first.summaryDigest).toEqual(second.summaryDigest);
+    expect(first.summaryDigest).toMatchObject({
+      algorithm: "sha256",
+      scope: "read-only-handoff-summary",
+      coveredAudienceCount: 4,
+      coveredActionRequiredCount: 0,
     });
   });
 });

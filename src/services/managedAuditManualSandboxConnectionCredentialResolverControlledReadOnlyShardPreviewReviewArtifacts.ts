@@ -376,6 +376,23 @@ export function createSourceMatrixHandoffSummary(
   const audiences = uniqueHandoffAudiences(handoffNotes.notes.map((note) => note.audience));
   const readyForReadOnlyHandoffSummary =
     handoffNotes.readyForReadOnlyHandoff && handoffNotes.actionRequiredCount === 0;
+  const material = {
+    summaryVersion: "Node v611",
+    inputNotesVersion: "Node v608",
+    summaryState: readyForReadOnlyHandoffSummary ? "ready-for-read-only-handoff-summary" : "blocked",
+    readyForReadOnlyHandoffSummary,
+    audiences,
+    audienceCount: audiences.length,
+    actionRequiredCount: handoffNotes.actionRequiredCount,
+    handoffDigestValue: handoffNotes.handoffDigest.value,
+    safetyBoundaries: {
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    },
+  };
 
   return {
     summaryVersion: "Node v611",
@@ -386,6 +403,13 @@ export function createSourceMatrixHandoffSummary(
     audienceCount: audiences.length,
     actionRequiredCount: handoffNotes.actionRequiredCount,
     handoffDigestValue: handoffNotes.handoffDigest.value,
+    summaryDigest: {
+      algorithm: "sha256",
+      scope: "read-only-handoff-summary",
+      value: sha256StableJson(material),
+      coveredAudienceCount: audiences.length,
+      coveredActionRequiredCount: handoffNotes.actionRequiredCount,
+    },
     requiresApproval: false,
     requiresRoutingActivation: false,
     requiresFreshSiblingEvidence: false,

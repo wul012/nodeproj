@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v611",
-      sourceNodeVersion: "Node v610",
+      activeNodeVersion: "Node v612",
+      sourceNodeVersion: "Node v611",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -269,6 +269,12 @@ describe("managed audit manual sandbox connection credential resolver controlled
           audiences: ["operator", "node", "java", "miniKv"],
           audienceCount: 4,
           actionRequiredCount: 0,
+          summaryDigest: {
+            algorithm: "sha256",
+            scope: "read-only-handoff-summary",
+            coveredAudienceCount: 4,
+            coveredActionRequiredCount: 0,
+          },
           requiresApproval: false,
           requiresRoutingActivation: false,
           requiresFreshSiblingEvidence: false,
@@ -309,6 +315,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.preview.sourceMatrixHandoffNotes.handoffDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixHandoffSummary.handoffDigestValue)
       .toBe(profile.preview.sourceMatrixHandoffNotes.handoffDigest.value);
+    expect(profile.preview.sourceMatrixHandoffSummary.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
   }, 60000);
 
   it("fails closed without reading upstreams when probes are disabled", async () => {
@@ -432,6 +439,12 @@ describe("managed audit manual sandbox connection credential resolver controlled
       audiences: ["operator", "node", "java", "miniKv"],
       audienceCount: 4,
       actionRequiredCount: 1,
+      summaryDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-summary",
+        coveredAudienceCount: 4,
+        coveredActionRequiredCount: 1,
+      },
       requiresApproval: false,
       requiresRoutingActivation: false,
       requiresFreshSiblingEvidence: false,
@@ -464,8 +477,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v611",
-        sourceNodeVersion: "Node v610",
+        activeNodeVersion: "Node v612",
+        sourceNodeVersion: "Node v611",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -500,6 +513,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Handoff digest scope: read-only-handoff-notes");
       expect(markdown.body).toContain("Summary state: ready-for-read-only-handoff-summary");
       expect(markdown.body).toContain("Ready for read-only handoff summary: true");
+      expect(markdown.body).toContain("Summary digest scope: read-only-handoff-summary");
+      expect(markdown.body).toContain("Summary digest covered audience count: 4");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");

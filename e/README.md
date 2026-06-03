@@ -249,6 +249,7 @@
 609: Controlled read-only shard preview handoff note digest
 610: Controlled read-only shard preview handoff digest stability coverage
 611: Controlled read-only shard preview handoff summary
+612: Controlled read-only shard preview handoff summary digest
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
