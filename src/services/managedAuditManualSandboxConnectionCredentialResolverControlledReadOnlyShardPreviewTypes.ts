@@ -9,6 +9,10 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
   ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewArchiveTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
@@ -26,6 +30,13 @@ export type {
   ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot,
   ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewArchiveTypes.js";
+
+export type {
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffNote,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffTypes.js";
 
 export type PreviewProject = "advanced-order-platform" | "mini-kv";
 export type PreviewStatus = "passed-read" | "failed-read" | "skipped-probes-disabled";
@@ -137,61 +148,6 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixDriftSummary {
   blockingFindingCount: number;
   comparableFindingCount: number;
   findings: ControlledReadOnlyShardPreviewSourceMatrixDriftFinding[];
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffNote {
-  order: number;
-  audience: "operator" | "node" | "java" | "miniKv";
-  message: string;
-  actionRequired: boolean;
-  routingActivationAllowed: false;
-}
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes {
-  notesVersion: "Node v608";
-  inputSummaryExportVersion: "Node v605";
-  handoffState: "ready-for-read-only-handoff" | "blocked";
-  readyForReadOnlyHandoff: boolean;
-  handoffDigest: {
-    algorithm: "sha256";
-    scope: "read-only-handoff-notes";
-    value: string;
-    coveredNoteCount: number;
-  };
-  noteCount: number;
-  actionRequiredCount: number;
-  notes: ControlledReadOnlyShardPreviewSourceMatrixHandoffNote[];
-  requiresApproval: false;
-  requiresRoutingActivation: false;
-  requiresFreshSiblingEvidence: false;
-  startsServices: false;
-  mutatesSiblingState: false;
-}
-
-export type ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience =
-  ControlledReadOnlyShardPreviewSourceMatrixHandoffNote["audience"];
-
-export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary {
-  summaryVersion: "Node v611";
-  inputNotesVersion: "Node v608";
-  summaryState: "ready-for-read-only-handoff-summary" | "blocked";
-  readyForReadOnlyHandoffSummary: boolean;
-  audiences: ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience[];
-  audienceCount: number;
-  actionRequiredCount: number;
-  handoffDigestValue: string;
-  summaryDigest: {
-    algorithm: "sha256";
-    scope: "read-only-handoff-summary";
-    value: string;
-    coveredAudienceCount: number;
-    coveredActionRequiredCount: number;
-  };
-  requiresApproval: false;
   requiresRoutingActivation: false;
   requiresFreshSiblingEvidence: false;
   startsServices: false;

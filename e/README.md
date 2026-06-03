@@ -313,6 +313,7 @@
 673: Controlled read-only shard preview consumption plan types split
 674: Controlled read-only shard preview review decision types split
 675: Controlled read-only shard preview archive types split
+676: Controlled read-only shard preview handoff types split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
