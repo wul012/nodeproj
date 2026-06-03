@@ -79,6 +79,8 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(typeModuleCatalog.createControlledReadOnlyShardPreviewTypeModuleCatalog);
     expect(reviewArtifacts.listControlledReadOnlyShardPreviewTypeModules)
       .toBe(typeModuleCatalog.listControlledReadOnlyShardPreviewTypeModules);
+    expect(reviewArtifacts.validateControlledReadOnlyShardPreviewTypeModuleCatalog)
+      .toBe(typeModuleCatalog.validateControlledReadOnlyShardPreviewTypeModuleCatalog);
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown)
       .toBe(typeModuleCatalogRenderer.renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown);
   });

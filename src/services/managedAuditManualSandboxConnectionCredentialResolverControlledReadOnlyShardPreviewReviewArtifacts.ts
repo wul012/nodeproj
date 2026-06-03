@@ -38,6 +38,7 @@ export {
 export {
   createControlledReadOnlyShardPreviewTypeModuleCatalog,
   listControlledReadOnlyShardPreviewTypeModules,
+  validateControlledReadOnlyShardPreviewTypeModuleCatalog,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.js";
 
 export {

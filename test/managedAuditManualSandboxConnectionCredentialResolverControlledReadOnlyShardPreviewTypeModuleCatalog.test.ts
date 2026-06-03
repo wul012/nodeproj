@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import {
   createControlledReadOnlyShardPreviewTypeModuleCatalog,
   listControlledReadOnlyShardPreviewTypeModules,
+  validateControlledReadOnlyShardPreviewTypeModuleCatalog,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.js";
 import {
   renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown,
@@ -53,5 +54,39 @@ describe("controlled read-only shard preview type module catalog", () => {
     expect(markdown).toContain("### 1. source-matrix-types");
     expect(markdown).toContain("### 13. profile-entry-types");
     expect(markdown).toContain("- Stable profile re-export: true");
+  });
+
+  it("validates catalog uniqueness, order, and stable re-export coverage", () => {
+    const validation = validateControlledReadOnlyShardPreviewTypeModuleCatalog();
+
+    expect(validation).toMatchObject({
+      validationVersion: "Node v688",
+      valid: true,
+      moduleCount: 13,
+      uniqueIdCount: 13,
+      uniquePathCount: 13,
+      stableReExportModuleCount: 13,
+      sequentialOrder: true,
+      profileEntryLast: true,
+      blockedReasonCodes: [],
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
+  });
+
+  it("reports catalog boundary drift", () => {
+    const catalog = createControlledReadOnlyShardPreviewTypeModuleCatalog();
+    const driftedCatalog = {
+      ...catalog,
+      entries: catalog.entries.map((entry, index) =>
+        index === 1 ? { ...entry, id: catalog.entries[0].id } : entry
+      ),
+    };
+
+    const validation = validateControlledReadOnlyShardPreviewTypeModuleCatalog(driftedCatalog);
+
+    expect(validation.valid).toBe(false);
+    expect(validation.blockedReasonCodes).toContain("TYPE_MODULE_IDS_NOT_UNIQUE");
   });
 });

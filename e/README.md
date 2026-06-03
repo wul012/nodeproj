@@ -325,6 +325,7 @@
 685: Controlled read-only shard preview type module catalog
 686: Controlled read-only shard preview type module catalog renderer
 687: Controlled read-only shard preview type module catalog barrel
+688: Controlled read-only shard preview type module catalog validation
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
