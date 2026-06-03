@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v605",
-      sourceNodeVersion: "Node v604",
+      activeNodeVersion: "Node v606",
+      sourceNodeVersion: "Node v605",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -233,6 +233,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
           inputArchiveSnapshotVersion: "Node v603",
           exportState: "ready-for-summary-export",
           readyForSummaryExport: true,
+          summaryDigest: {
+            algorithm: "sha256",
+            coveredLineCount: 5,
+          },
           summaryLineCount: 5,
           archivedSectionCount: 5,
           blockedItemCount: 0,
@@ -272,6 +276,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.preview.sourceMatrixArchiveSnapshot.digestValue).toBe(profile.preview.sourceMatrixReviewDigest.value);
     expect(profile.preview.sourceMatrixArchiveSnapshotSummaryExport.digestValue)
       .toBe(profile.preview.sourceMatrixReviewDigest.value);
+    expect(profile.preview.sourceMatrixArchiveSnapshotSummaryExport.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
   }, 60000);
 
   it("fails closed without reading upstreams when probes are disabled", async () => {
@@ -363,6 +368,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
     expect(profile.preview.sourceMatrixArchiveSnapshotSummaryExport).toMatchObject({
       exportState: "blocked",
       readyForSummaryExport: false,
+      summaryDigest: {
+        algorithm: "sha256",
+        coveredLineCount: 5,
+      },
       summaryLineCount: 5,
       archivedSectionCount: 5,
       blockedItemCount: 2,
@@ -398,8 +407,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v605",
-        sourceNodeVersion: "Node v604",
+        activeNodeVersion: "Node v606",
+        sourceNodeVersion: "Node v605",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -426,6 +435,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Ready for controlled review archive: true");
       expect(markdown.body).toContain("Archive state: ready-for-controlled-review-archive");
       expect(markdown.body).toContain("Export state: ready-for-summary-export");
+      expect(markdown.body).toContain("Summary digest covered line count: 5");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");

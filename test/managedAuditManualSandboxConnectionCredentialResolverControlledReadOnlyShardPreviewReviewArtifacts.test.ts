@@ -117,6 +117,10 @@ describe("controlled read-only shard preview review artifacts", () => {
       exportState: "ready-for-summary-export",
       readyForSummaryExport: true,
       digestValue: digest.value,
+      summaryDigest: {
+        algorithm: "sha256",
+        coveredLineCount: 5,
+      },
       summaryLineCount: 5,
       archivedSectionCount: 5,
       blockedItemCount: 0,
@@ -127,6 +131,7 @@ describe("controlled read-only shard preview review artifacts", () => {
       startsServices: false,
       mutatesSiblingState: false,
     });
+    expect(summaryExport.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(summaryExport.summaryLines).toEqual([
       "archiveState=ready-for-controlled-review-archive",
       `digest=${digest.value}`,
@@ -197,12 +202,17 @@ describe("controlled read-only shard preview review artifacts", () => {
       exportState: "blocked",
       readyForSummaryExport: false,
       digestValue: digest.value,
+      summaryDigest: {
+        algorithm: "sha256",
+        coveredLineCount: 5,
+      },
       summaryLineCount: 5,
       archivedSectionCount: 5,
       blockedItemCount: 2,
       includesRawCredential: false,
       includesRuntimePayload: false,
     });
+    expect(summaryExport.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
   });
 });
 

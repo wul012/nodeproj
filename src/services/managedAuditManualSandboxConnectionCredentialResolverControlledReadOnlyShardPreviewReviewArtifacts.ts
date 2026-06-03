@@ -281,6 +281,15 @@ export function createSourceMatrixArchiveSnapshotSummaryExport(
     exportState: snapshot.readyForControlledReviewArchive ? "ready-for-summary-export" : "blocked",
     readyForSummaryExport: snapshot.readyForControlledReviewArchive,
     digestValue: snapshot.digestValue,
+    summaryDigest: {
+      algorithm: "sha256",
+      value: sha256StableJson({
+        exportVersion: "Node v605",
+        inputArchiveSnapshotVersion: "Node v603",
+        summaryLines,
+      }),
+      coveredLineCount: summaryLines.length,
+    },
     summaryLines,
     summaryLineCount: summaryLines.length,
     archivedSectionCount: snapshot.archivedSectionCount,

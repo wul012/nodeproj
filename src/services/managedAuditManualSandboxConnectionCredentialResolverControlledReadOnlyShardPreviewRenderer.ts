@@ -156,6 +156,8 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
     `- Export state: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.exportState}`,
     `- Ready for summary export: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.readyForSummaryExport}`,
     `- Digest value: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.digestValue}`,
+    `- Summary digest: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.summaryDigest.value}`,
+    `- Summary digest covered line count: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.summaryDigest.coveredLineCount}`,
     `- Summary lines: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.summaryLines.join("; ")}`,
     `- Summary line count: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.summaryLineCount}`,
     `- Archived section count: ${profile.preview.sourceMatrixArchiveSnapshotSummaryExport.archivedSectionCount}`,
