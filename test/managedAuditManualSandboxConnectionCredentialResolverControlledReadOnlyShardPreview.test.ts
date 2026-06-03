@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v602",
-      sourceNodeVersion: "Node v601",
+      activeNodeVersion: "Node v603",
+      sourceNodeVersion: "Node v602",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -323,6 +323,29 @@ describe("managed audit manual sandbox connection credential resolver controlled
           startsServices: false,
           mutatesSiblingState: false,
         },
+        sourceMatrixArchiveSnapshot: {
+          snapshotVersion: "Node v603",
+          inputReviewDigestVersion: "Node v602",
+          archiveState: "ready-for-controlled-review-archive",
+          readyForControlledReviewArchive: true,
+          archivedSections: [
+            "sourceMatrix",
+            "sourceMatrixConsumer",
+            "sourceMatrixDriftSummary",
+            "sourceMatrixReviewChecklist",
+            "sourceMatrixReviewDigest",
+          ],
+          archivedSectionCount: 5,
+          checklistState: "ready-for-controlled-review",
+          itemCount: 4,
+          blockedItemCount: 0,
+          includesRawCredential: false,
+          includesRuntimePayload: false,
+          requiresRoutingActivation: false,
+          requiresFreshSiblingEvidence: false,
+          startsServices: false,
+          mutatesSiblingState: false,
+        },
       },
       checks: {
         upstreamProbesEnabledForPreview: true,
@@ -352,6 +375,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
     });
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixReviewDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(profile.preview.sourceMatrixArchiveSnapshot.digestValue).toBe(profile.preview.sourceMatrixReviewDigest.value);
   }, 60000);
 
   it("fails closed without reading upstreams when probes are disabled", async () => {
@@ -504,6 +528,22 @@ describe("managed audit manual sandbox connection credential resolver controlled
       mutatesSiblingState: false,
     });
     expect(profile.preview.sourceMatrixReviewDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(profile.preview.sourceMatrixArchiveSnapshot).toMatchObject({
+      snapshotVersion: "Node v603",
+      inputReviewDigestVersion: "Node v602",
+      archiveState: "blocked",
+      readyForControlledReviewArchive: false,
+      archivedSectionCount: 5,
+      checklistState: "blocked",
+      itemCount: 4,
+      blockedItemCount: 2,
+      includesRawCredential: false,
+      includesRuntimePayload: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+      startsServices: false,
+      mutatesSiblingState: false,
+    });
   }, 60000);
 
   it("exposes JSON and Markdown through the audit route table using mock read-only services", async () => {
@@ -532,8 +572,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v602",
-        sourceNodeVersion: "Node v601",
+        activeNodeVersion: "Node v603",
+        sourceNodeVersion: "Node v602",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -551,11 +591,13 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Source Matrix Drift Summary");
       expect(markdown.body).toContain("## Source Matrix Review Checklist");
       expect(markdown.body).toContain("## Source Matrix Review Digest");
+      expect(markdown.body).toContain("## Source Matrix Archive Snapshot");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
       expect(markdown.body).toContain("Checklist state: ready-for-controlled-review");
       expect(markdown.body).toContain("Ready for controlled review archive: true");
+      expect(markdown.body).toContain("Archive state: ready-for-controlled-review-archive");
       expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");

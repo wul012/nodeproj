@@ -162,6 +162,25 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixReviewDigest {
   mutatesSiblingState: false;
 }
 
+export interface ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot {
+  snapshotVersion: "Node v603";
+  inputReviewDigestVersion: "Node v602";
+  archiveState: "ready-for-controlled-review-archive" | "blocked";
+  readyForControlledReviewArchive: boolean;
+  digestValue: string;
+  archivedSections: string[];
+  archivedSectionCount: number;
+  checklistState: ControlledReadOnlyShardPreviewSourceMatrixReviewDigest["checklistState"];
+  itemCount: number;
+  blockedItemCount: number;
+  includesRawCredential: false;
+  includesRuntimePayload: false;
+  requiresRoutingActivation: false;
+  requiresFreshSiblingEvidence: false;
+  startsServices: false;
+  mutatesSiblingState: false;
+}
+
 export interface ControlledReadOnlyShardPreviewObservation {
   project: PreviewProject;
   attempted: boolean;
@@ -239,8 +258,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v602";
-  sourceNodeVersion: "Node v601";
+  activeNodeVersion: "Node v603";
+  sourceNodeVersion: "Node v602";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -273,6 +292,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     sourceMatrixDriftSummary: ControlledReadOnlyShardPreviewSourceMatrixDriftSummary;
     sourceMatrixReviewChecklist: ControlledReadOnlyShardPreviewSourceMatrixReviewChecklist;
     sourceMatrixReviewDigest: ControlledReadOnlyShardPreviewSourceMatrixReviewDigest;
+    sourceMatrixArchiveSnapshot: ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshot;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -286,7 +306,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v603";
+    nextNodeVersion: "Node v604";
   };
   nextActions: string[];
 }

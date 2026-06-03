@@ -240,6 +240,7 @@
 600: Controlled read-only shard preview source matrix drift summary
 601: Controlled read-only shard preview source matrix review checklist
 602: Controlled read-only shard preview source matrix review digest
+603: Controlled read-only shard preview source matrix archive snapshot
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
