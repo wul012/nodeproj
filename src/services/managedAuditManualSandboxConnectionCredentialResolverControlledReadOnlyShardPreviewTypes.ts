@@ -260,6 +260,35 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary {
   mutatesSiblingState: false;
 }
 
+export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerGates {
+  inputSummaryReady: boolean;
+  summaryDigestPresent: boolean;
+  summaryDigestScopeDeclared: boolean;
+  allAudiencesCovered: boolean;
+  noActionRequired: boolean;
+  readOnlyConsumerOnly: true;
+}
+
+export interface ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer {
+  consumerVersion: "Node v613";
+  inputSummaryVersion: "Node v611";
+  decision: "ready-for-read-only-summary-consumption" | "blocked";
+  readyForReadOnlySummaryConsumption: boolean;
+  gateCount: number;
+  passedGateCount: number;
+  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumerGates;
+  blockedReasonCodes: string[];
+  summaryDigestValue: string;
+  summaryDigestScope: "read-only-handoff-summary";
+  coveredAudienceCount: number;
+  actionRequiredCount: number;
+  requiresApproval: false;
+  requiresRoutingActivation: false;
+  requiresFreshSiblingEvidence: false;
+  startsServices: false;
+  mutatesSiblingState: false;
+}
+
 export interface ControlledReadOnlyShardPreviewObservation {
   project: PreviewProject;
   attempted: boolean;
@@ -337,8 +366,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v612";
-  sourceNodeVersion: "Node v611";
+  activeNodeVersion: "Node v613";
+  sourceNodeVersion: "Node v612";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -375,6 +404,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     sourceMatrixArchiveSnapshotSummaryExport: ControlledReadOnlyShardPreviewSourceMatrixArchiveSnapshotSummaryExport;
     sourceMatrixHandoffNotes: ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes;
     sourceMatrixHandoffSummary: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary;
+    sourceMatrixHandoffSummaryConsumer: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -388,7 +418,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v613";
+    nextNodeVersion: "Node v614";
   };
   nextActions: string[];
 }

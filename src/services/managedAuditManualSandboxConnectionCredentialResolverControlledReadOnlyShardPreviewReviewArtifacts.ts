@@ -13,6 +13,7 @@ import type {
   ControlledReadOnlyShardPreviewSourceMatrixHandoffAudience,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
   ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 const REQUIRED_MATRIX_SOURCES: readonly ControlledReadOnlyShardPreviewSource[] = Object.freeze(["java", "miniKv"]);
@@ -418,6 +419,43 @@ export function createSourceMatrixHandoffSummary(
   };
 }
 
+export function createSourceMatrixHandoffSummaryConsumer(
+  handoffSummary: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummary,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer {
+  const gates = {
+    inputSummaryReady: handoffSummary.readyForReadOnlyHandoffSummary,
+    summaryDigestPresent: handoffSummary.summaryDigest.value.length === 64,
+    summaryDigestScopeDeclared: handoffSummary.summaryDigest.scope === "read-only-handoff-summary",
+    allAudiencesCovered: handoffSummary.summaryDigest.coveredAudienceCount === handoffSummary.audienceCount
+      && handoffSummary.audiences.length === handoffSummary.audienceCount,
+    noActionRequired: handoffSummary.actionRequiredCount === 0
+      && handoffSummary.summaryDigest.coveredActionRequiredCount === 0,
+    readOnlyConsumerOnly: true as const,
+  };
+  const gateValues = Object.values(gates);
+  const readyForReadOnlySummaryConsumption = gateValues.every(Boolean);
+
+  return {
+    consumerVersion: "Node v613",
+    inputSummaryVersion: "Node v611",
+    decision: readyForReadOnlySummaryConsumption ? "ready-for-read-only-summary-consumption" : "blocked",
+    readyForReadOnlySummaryConsumption,
+    gateCount: gateValues.length,
+    passedGateCount: gateValues.filter(Boolean).length,
+    gates,
+    blockedReasonCodes: createSourceMatrixHandoffSummaryConsumerBlockedReasons(gates),
+    summaryDigestValue: handoffSummary.summaryDigest.value,
+    summaryDigestScope: handoffSummary.summaryDigest.scope,
+    coveredAudienceCount: handoffSummary.summaryDigest.coveredAudienceCount,
+    actionRequiredCount: handoffSummary.actionRequiredCount,
+    requiresApproval: false,
+    requiresRoutingActivation: false,
+    requiresFreshSiblingEvidence: false,
+    startsServices: false,
+    mutatesSiblingState: false,
+  };
+}
+
 function createSourceMatrixConsumerBlockedReasons(
   gates: ControlledReadOnlyShardPreviewSourceMatrixConsumer["gates"],
 ): string[] {
@@ -427,6 +465,18 @@ function createSourceMatrixConsumerBlockedReasons(
     gates.shardCountsComparable ? null : "SHARD_COUNTS_NOT_COMPARABLE",
     gates.slotCountsComparable ? null : "SLOT_COUNTS_NOT_COMPARABLE",
     gates.routingModesDeclared ? null : "ROUTING_MODE_NOT_DECLARED",
+  ].filter((reason): reason is string => reason !== null);
+}
+
+function createSourceMatrixHandoffSummaryConsumerBlockedReasons(
+  gates: ControlledReadOnlyShardPreviewSourceMatrixHandoffSummaryConsumer["gates"],
+): string[] {
+  return [
+    gates.inputSummaryReady ? null : "HANDOFF_SUMMARY_NOT_READY",
+    gates.summaryDigestPresent ? null : "HANDOFF_SUMMARY_DIGEST_MISSING",
+    gates.summaryDigestScopeDeclared ? null : "HANDOFF_SUMMARY_DIGEST_SCOPE_UNDECLARED",
+    gates.allAudiencesCovered ? null : "HANDOFF_SUMMARY_AUDIENCE_COVERAGE_MISMATCH",
+    gates.noActionRequired ? null : "HANDOFF_SUMMARY_ACTION_REQUIRED",
   ].filter((reason): reason is string => reason !== null);
 }
 
