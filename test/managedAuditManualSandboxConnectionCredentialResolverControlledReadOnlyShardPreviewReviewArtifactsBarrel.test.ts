@@ -14,6 +14,10 @@ import * as routeCoverageArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageArtifacts.js";
 import * as sourceMatrixFlowArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixFlowArtifacts.js";
+import * as typeModuleCatalog
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.js";
+import * as typeModuleCatalogRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -68,5 +72,14 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(routeCoverageArtifacts.createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot);
     expect(reviewArtifacts.createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification)
       .toBe(routeCoverageArtifacts.createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification);
+  });
+
+  it("re-exports type module catalog helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewTypeModuleCatalog)
+      .toBe(typeModuleCatalog.createControlledReadOnlyShardPreviewTypeModuleCatalog);
+    expect(reviewArtifacts.listControlledReadOnlyShardPreviewTypeModules)
+      .toBe(typeModuleCatalog.listControlledReadOnlyShardPreviewTypeModules);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown)
+      .toBe(typeModuleCatalogRenderer.renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown);
   });
 });

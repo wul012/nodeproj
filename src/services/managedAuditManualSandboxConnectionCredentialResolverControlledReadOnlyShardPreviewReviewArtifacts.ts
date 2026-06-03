@@ -34,3 +34,12 @@ export {
   createSourceMatrixHandoffRouteCoverageArchiveVerification,
   createSourceMatrixHandoffRouteCoverageVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
+
+export {
+  createControlledReadOnlyShardPreviewTypeModuleCatalog,
+  listControlledReadOnlyShardPreviewTypeModules,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.js";
+
+export {
+  renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.js";
