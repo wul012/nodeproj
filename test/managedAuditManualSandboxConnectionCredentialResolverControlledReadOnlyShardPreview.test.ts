@@ -482,12 +482,13 @@ describe("managed audit manual sandbox connection credential resolver controlled
         noWriteRouting: true,
         noLoadRestoreCompact: true,
         noManagedAuditConnection: true,
+        sourceMatrixConsumptionPlanReady: true,
         productionWindowStillBlocked: true,
         readyForControlledReadOnlyShardPreview: true,
       },
       summary: {
-        checkCount: 23,
-        passedCheckCount: 23,
+        checkCount: 24,
+        passedCheckCount: 24,
         attemptedReadCount: 2,
         passedReadCount: 2,
         failedReadCount: 0,
@@ -498,6 +499,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       },
     });
     expect(profile.preview.previewDigest).toMatch(/^[a-f0-9]{64}$/);
+    expect(profile.preview.sourceMatrixConsumptionPlan.planDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixReviewDigest.value).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixArchiveSnapshot.digestValue).toBe(profile.preview.sourceMatrixReviewDigest.value);
     expect(profile.preview.sourceMatrixArchiveSnapshotSummaryExport.digestValue)
@@ -579,6 +581,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       "UPSTREAM_PROBES_DISABLED",
       "JAVA_PREVIEW_NOT_ATTEMPTED",
       "MINI_KV_PREVIEW_NOT_ATTEMPTED",
+      "SOURCE_MATRIX_CONSUMPTION_PLAN_BLOCKED",
     ]));
     expect(javaCalls).toBe(0);
     expect(miniKvCalls).toBe(0);

@@ -109,7 +109,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification(
       sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
     );
-  const checks = createChecks(input.config, java, miniKv, previewDigest);
+  const checks = createChecks(input.config, java, miniKv, previewDigest, sourceMatrixConsumptionPlan);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
     .every(([, value]) => value);

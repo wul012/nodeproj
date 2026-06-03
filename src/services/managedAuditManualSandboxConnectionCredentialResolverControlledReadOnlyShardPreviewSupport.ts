@@ -9,6 +9,7 @@ import type {
   ControlledReadOnlyShardPreviewObservation,
   ControlledReadOnlyShardPreviewSource,
   ControlledReadOnlyShardPreviewSourceMatrix,
+  ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
   ControlledReadOnlyShardPreviewSourceMatrixEntry,
   ControlledReadOnlyShardPreviewSummary,
   PreviewMessageSource,
@@ -142,6 +143,7 @@ export function createChecks(
   java: ControlledReadOnlyShardPreviewObservation,
   miniKv: ControlledReadOnlyShardPreviewObservation,
   previewDigest: string,
+  sourceMatrixConsumptionPlan: ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan,
 ): ControlledReadOnlyShardPreviewChecks {
   return {
     upstreamProbesEnabledForPreview: config.upstreamProbesEnabled,
@@ -165,6 +167,7 @@ export function createChecks(
     noManagedAuditConnection: !config.upstreamActionsEnabled,
     noCredentialValueRead: true,
     previewDigestStable: /^[a-f0-9]{64}$/.test(previewDigest),
+    sourceMatrixConsumptionPlanReady: sourceMatrixConsumptionPlan.readyForReadOnlyConsumptionPlan,
     productionWindowStillBlocked: true,
     readyForControlledReadOnlyShardPreview: false,
   };
@@ -181,6 +184,7 @@ export function collectProductionBlockers(
     [checks.miniKvPreviewAttempted, "MINI_KV_PREVIEW_NOT_ATTEMPTED", "mini-kv-shard-preview", "mini-kv SHARDJSON must be read exactly once."],
     [checks.miniKvPreviewPassed, "MINI_KV_PREVIEW_FAILED", "mini-kv-shard-preview", "mini-kv SHARDJSON preview must pass read-only checks."],
     [checks.miniKvBoundarySafe, "MINI_KV_BOUNDARY_UNSAFE", "mini-kv-shard-preview", "mini-kv must keep write/admin/load/restore/compact boundaries closed."],
+    [checks.sourceMatrixConsumptionPlanReady, "SOURCE_MATRIX_CONSUMPTION_PLAN_BLOCKED", "next-plan", "Source matrix consumption plan must be ready before preview can be consumed."],
     [checks.noManagedAuditConnection, "MANAGED_AUDIT_CONNECTION_OPEN", "runtime-boundary", "Managed audit connection must remain closed."],
   ];
 

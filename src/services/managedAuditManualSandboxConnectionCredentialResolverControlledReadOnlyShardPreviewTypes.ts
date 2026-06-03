@@ -688,6 +688,7 @@ export interface ControlledReadOnlyShardPreviewChecks {
   noManagedAuditConnection: boolean;
   noCredentialValueRead: boolean;
   previewDigestStable: boolean;
+  sourceMatrixConsumptionPlanReady: boolean;
   productionWindowStillBlocked: boolean;
   readyForControlledReadOnlyShardPreview: boolean;
 }
