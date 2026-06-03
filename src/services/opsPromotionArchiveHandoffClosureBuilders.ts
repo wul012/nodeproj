@@ -10,6 +10,7 @@ import {
   archiveHandoffClosureNextActions,
   archiveHandoffClosureVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
+import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffClosure(input: {
@@ -163,7 +164,7 @@ export function createOpsPromotionHandoffClosureVerification(input: {
     const expected = expectedClosure.closureItems.find((candidate) => candidate.name === item.name);
     const validMatches = expected?.valid === item.valid;
     const sourceMatches = expected?.source === item.source;
-    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: item.name }) };
+    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(item.name);
     const digestMatches = item.digest.value === expectedDigest.value;
 
     return {

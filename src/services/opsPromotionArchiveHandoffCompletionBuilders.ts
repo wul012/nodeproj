@@ -11,6 +11,7 @@ import {
   archiveHandoffCompletionReferenceChecksValid,
   archiveHandoffCompletionVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
+import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffCompletion(input: {
@@ -133,7 +134,7 @@ export function createOpsPromotionHandoffCompletionVerification(input: {
     const readyMatches = expected?.ready === step.ready;
     const sourceMatches = expected?.source === step.source;
     const detailMatches = expected?.detail === step.detail;
-    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: step.name }) };
+    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(step.name);
     const digestMatches = step.digest.value === expectedDigest.value;
 
     return {

@@ -10,6 +10,7 @@ import {
   archiveHandoffReceiptNextActions,
   archiveHandoffReceiptVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
+import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffReceipt(input: {
@@ -143,7 +144,7 @@ export function createOpsPromotionHandoffReceiptVerification(input: {
     const expected = expectedReceipt.milestones.find((candidate) => candidate.name === milestone.name);
     const validMatches = expected?.valid === milestone.valid;
     const sourceMatches = expected?.source === milestone.source;
-    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: milestone.name }) };
+    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(milestone.name);
     const digestMatches = milestone.digest.value === expectedDigest.value;
 
     return {

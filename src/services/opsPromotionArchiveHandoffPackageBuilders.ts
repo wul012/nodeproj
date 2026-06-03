@@ -13,6 +13,7 @@ import {
   archiveHandoffPackageNextActions,
   archiveHandoffPackageVerificationNextActions,
 } from "./opsPromotionArchiveValidation.js";
+import { missingHandoffVerificationDigest } from "./opsPromotionArchiveHandoffVerificationDigests.js";
 import { digestStable, stableJson } from "./stableDigest.js";
 
 export function createOpsPromotionHandoffPackage(input: {
@@ -127,7 +128,7 @@ export function createOpsPromotionHandoffPackageVerification(input: {
     const expected = expectedPackage.attachments.find((candidate) => candidate.name === attachment.name);
     const validMatches = expected?.valid === attachment.valid;
     const sourceMatches = expected?.source === attachment.source;
-    const expectedDigest = expected?.digest ?? { algorithm: "sha256" as const, value: digestStable({ missing: attachment.name }) };
+    const expectedDigest = expected?.digest ?? missingHandoffVerificationDigest(attachment.name);
     const digestMatches = attachment.digest.value === expectedDigest.value;
 
     return {
