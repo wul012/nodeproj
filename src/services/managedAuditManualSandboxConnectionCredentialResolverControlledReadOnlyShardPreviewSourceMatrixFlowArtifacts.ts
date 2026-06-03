@@ -138,6 +138,10 @@ export function createSourceMatrixConsumptionPlan(
     reviewStepCount: planStepRecords.filter((step) => step.status === "needs-review").length,
     blockedStepCount: planStepRecords.filter((step) => step.status === "blocked").length,
   };
+  const stepSafetySummary = {
+    routingActivationAllowedStepCount: planStepRecords.filter((step) => step.routingActivationAllowed).length,
+    writesAllowedStepCount: planStepRecords.filter((step) => step.writesAllowed).length,
+  };
 
   return {
     planVersion: "Node v638",
@@ -157,6 +161,7 @@ export function createSourceMatrixConsumptionPlan(
     planStepRecords,
     planStepRecordCount: planStepRecords.length,
     stepStatusSummary,
+    stepSafetySummary,
     planDigest: {
       algorithm: "sha256",
       scope: "source-matrix-consumption-plan",
@@ -168,6 +173,7 @@ export function createSourceMatrixConsumptionPlan(
         planSteps,
         planStepRecords,
         stepStatusSummary,
+        stepSafetySummary,
       }),
       coveredStepCount: planSteps.length,
     },

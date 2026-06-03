@@ -158,6 +158,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("Ready step count: 3");
       expect(markdown.body).toContain("Review step count: 1");
       expect(markdown.body).toContain("Blocked step count: 0");
+      expect(markdown.body).toContain("Routing activation allowed step count: 0");
+      expect(markdown.body).toContain("Writes allowed step count: 0");
     } finally {
       await app.close();
     }

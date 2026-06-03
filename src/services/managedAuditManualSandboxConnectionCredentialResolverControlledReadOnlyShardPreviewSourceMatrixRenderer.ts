@@ -78,6 +78,8 @@ export function renderControlledReadOnlyShardPreviewSourceMatrixSections(
     `- Ready step count: ${profile.preview.sourceMatrixConsumptionPlan.stepStatusSummary.readyStepCount}`,
     `- Review step count: ${profile.preview.sourceMatrixConsumptionPlan.stepStatusSummary.reviewStepCount}`,
     `- Blocked step count: ${profile.preview.sourceMatrixConsumptionPlan.stepStatusSummary.blockedStepCount}`,
+    `- Routing activation allowed step count: ${profile.preview.sourceMatrixConsumptionPlan.stepSafetySummary.routingActivationAllowedStepCount}`,
+    `- Writes allowed step count: ${profile.preview.sourceMatrixConsumptionPlan.stepSafetySummary.writesAllowedStepCount}`,
     `- Requires approval: ${profile.preview.sourceMatrixConsumptionPlan.requiresApproval}`,
     `- Requires routing activation: ${profile.preview.sourceMatrixConsumptionPlan.requiresRoutingActivation}`,
     `- Requires fresh sibling evidence: ${profile.preview.sourceMatrixConsumptionPlan.requiresFreshSiblingEvidence}`,

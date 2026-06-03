@@ -284,6 +284,7 @@
 644: Controlled read-only shard preview step record next action summary
 645: Controlled read-only shard preview step status summary
 646: Controlled read-only shard preview no blocked plan steps gate
+647: Controlled read-only shard preview step safety summary
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

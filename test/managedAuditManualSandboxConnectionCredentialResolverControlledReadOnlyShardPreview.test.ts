@@ -198,6 +198,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
             reviewStepCount: 1,
             blockedStepCount: 0,
           },
+          stepSafetySummary: {
+            routingActivationAllowedStepCount: 0,
+            writesAllowedStepCount: 0,
+          },
           planDigest: {
             algorithm: "sha256",
             scope: "source-matrix-consumption-plan",
@@ -715,6 +719,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
         readyStepCount: 1,
         reviewStepCount: 0,
         blockedStepCount: 2,
+      },
+      stepSafetySummary: {
+        routingActivationAllowedStepCount: 0,
+        writesAllowedStepCount: 0,
       },
       planDigest: {
         algorithm: "sha256",

@@ -153,6 +153,10 @@ export interface ControlledReadOnlyShardPreviewSourceMatrixConsumptionPlan {
     reviewStepCount: number;
     blockedStepCount: number;
   };
+  stepSafetySummary: {
+    routingActivationAllowedStepCount: number;
+    writesAllowedStepCount: number;
+  };
   planDigest: {
     algorithm: "sha256";
     scope: "source-matrix-consumption-plan";
