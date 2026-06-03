@@ -1,0 +1,296 @@
+import { describe, expect, it } from "vitest";
+
+import {
+  createSourceMatrixArchiveSnapshot,
+  createSourceMatrixArchiveSnapshotSummaryExport,
+  createSourceMatrixHandoffNotes,
+  createSourceMatrixConsumer,
+  createSourceMatrixDriftSummary,
+  createSourceMatrixReviewChecklist,
+  createSourceMatrixReviewDigest,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewArtifacts.js";
+import {
+  createSourceMatrixHandoffSummary,
+  createSourceMatrixHandoffSummaryConsumer,
+  createSourceMatrixHandoffSummaryConsumerExport,
+  createSourceMatrixHandoffSummaryConsumerReceipt,
+  createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+  createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffArtifacts.js";
+import type {
+  ControlledReadOnlyShardPreviewSourceMatrix,
+  ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
+
+import {
+  blockedSourceMatrix,
+  readySourceMatrix,
+} from "./support/controlledReadOnlyShardPreviewReviewArtifactFixtures.js";
+
+describe("controlled read-only shard preview handoff artifacts", () => {
+  it("builds the ready handoff summary consumer receipt archive chain", () => {
+    const handoffNotes = createHandoffNotes(readySourceMatrix());
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
+    const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const handoffSummaryConsumerReceipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
+    const handoffSummaryConsumerReceiptArchiveSnapshot =
+      createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(handoffSummaryConsumerReceipt);
+    const handoffSummaryConsumerReceiptArchiveVerification =
+      createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
+        handoffSummaryConsumerReceiptArchiveSnapshot,
+      );
+
+    expect(handoffSummary).toMatchObject({
+      summaryVersion: "Node v611",
+      inputNotesVersion: "Node v608",
+      summaryState: "ready-for-read-only-handoff-summary",
+      readyForReadOnlyHandoffSummary: true,
+      audiences: ["operator", "node", "java", "miniKv"],
+      audienceCount: 4,
+      actionRequiredCount: 0,
+      handoffDigestValue: handoffNotes.handoffDigest.value,
+      summaryDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-summary",
+        coveredAudienceCount: 4,
+        coveredActionRequiredCount: 0,
+      },
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+    expect(handoffSummary.summaryDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumer).toMatchObject({
+      consumerVersion: "Node v613",
+      inputSummaryVersion: "Node v611",
+      decision: "ready-for-read-only-summary-consumption",
+      readyForReadOnlySummaryConsumption: true,
+      gateCount: 6,
+      passedGateCount: 6,
+      blockedReasonCodes: [],
+      summaryDigestValue: handoffSummary.summaryDigest.value,
+      summaryDigestScope: "read-only-handoff-summary",
+      coveredAudienceCount: 4,
+      actionRequiredCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+    expect(handoffSummaryConsumerExport).toMatchObject({
+      exportVersion: "Node v614",
+      inputConsumerVersion: "Node v613",
+      exportState: "ready-for-read-only-summary-consumer-export",
+      readyForReadOnlySummaryConsumerExport: true,
+      consumerDecision: "ready-for-read-only-summary-consumption",
+      summaryDigestValue: handoffSummary.summaryDigest.value,
+      exportDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-export-lines",
+        coveredLineCount: 5,
+      },
+      exportLineCount: 5,
+      gateCount: 6,
+      passedGateCount: 6,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+    expect(handoffSummaryConsumerExport.exportDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceipt).toMatchObject({
+      receiptVersion: "Node v615",
+      inputExportVersion: "Node v614",
+      receiptState: "ready-for-read-only-summary-consumer-receipt",
+      readyForReadOnlySummaryConsumerReceipt: true,
+      exportState: "ready-for-read-only-summary-consumer-export",
+      exportDigestValue: handoffSummaryConsumerExport.exportDigest.value,
+      receiptDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-receipt",
+        coveredExportLineCount: 5,
+        coveredBlockedReasonCount: 0,
+      },
+      receiptLineCount: 5,
+      exportLineCount: 5,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+    expect(handoffSummaryConsumerReceipt.receiptDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceiptArchiveSnapshot).toMatchObject({
+      snapshotVersion: "Node v616",
+      inputReceiptVersion: "Node v615",
+      snapshotState: "ready-for-read-only-summary-consumer-receipt-archive",
+      readyForReadOnlySummaryConsumerReceiptArchive: true,
+      receiptDigestValue: handoffSummaryConsumerReceipt.receiptDigest.value,
+      snapshotDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-receipt-archive-snapshot",
+        coveredSectionCount: 3,
+      },
+      archivedSectionCount: 3,
+      receiptLineCount: 5,
+      blockedReasonCount: 0,
+      includesRawCredential: false,
+      includesRuntimePayload: false,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+    expect(handoffSummaryConsumerReceiptArchiveSnapshot.snapshotDigest.value).toMatch(/^[a-f0-9]{64}$/);
+    expect(handoffSummaryConsumerReceiptArchiveVerification).toMatchObject({
+      verificationVersion: "Node v617",
+      inputSnapshotVersion: "Node v616",
+      verificationState: "ready-for-read-only-summary-consumer-receipt-archive-verification",
+      readyForReadOnlySummaryConsumerReceiptArchiveVerification: true,
+      gateCount: 6,
+      passedGateCount: 6,
+      blockedReasonCodes: [],
+      snapshotDigestValue: handoffSummaryConsumerReceiptArchiveSnapshot.snapshotDigest.value,
+      archivedSectionCount: 3,
+      blockedReasonCount: 0,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+  });
+
+  it("fails closed when the handoff notes are blocked", () => {
+    const handoffNotes = createHandoffNotes(blockedSourceMatrix());
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
+    const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const handoffSummaryConsumerReceipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
+    const handoffSummaryConsumerReceiptArchiveSnapshot =
+      createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(handoffSummaryConsumerReceipt);
+    const handoffSummaryConsumerReceiptArchiveVerification =
+      createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
+        handoffSummaryConsumerReceiptArchiveSnapshot,
+      );
+
+    expect(handoffSummary).toMatchObject({
+      summaryState: "blocked",
+      readyForReadOnlyHandoffSummary: false,
+      audienceCount: 4,
+      actionRequiredCount: 1,
+      summaryDigest: {
+        algorithm: "sha256",
+        scope: "read-only-handoff-summary",
+        coveredAudienceCount: 4,
+        coveredActionRequiredCount: 1,
+      },
+    });
+    expect(handoffSummaryConsumer).toMatchObject({
+      decision: "blocked",
+      readyForReadOnlySummaryConsumption: false,
+      passedGateCount: 4,
+      blockedReasonCodes: [
+        "HANDOFF_SUMMARY_NOT_READY",
+        "HANDOFF_SUMMARY_ACTION_REQUIRED",
+      ],
+      summaryDigestScope: "read-only-handoff-summary",
+      coveredAudienceCount: 4,
+      actionRequiredCount: 1,
+    });
+    expect(handoffSummaryConsumerExport).toMatchObject({
+      exportState: "blocked",
+      readyForReadOnlySummaryConsumerExport: false,
+      consumerDecision: "blocked",
+      exportDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-export-lines",
+        coveredLineCount: 5,
+      },
+      exportLineCount: 5,
+      gateCount: 6,
+      passedGateCount: 4,
+      blockedReasonCount: 2,
+    });
+    expect(handoffSummaryConsumerReceipt).toMatchObject({
+      receiptState: "blocked",
+      readyForReadOnlySummaryConsumerReceipt: false,
+      exportState: "blocked",
+      receiptDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-receipt",
+        coveredExportLineCount: 5,
+        coveredBlockedReasonCount: 2,
+      },
+      receiptLineCount: 5,
+      exportLineCount: 5,
+      blockedReasonCount: 2,
+    });
+    expect(handoffSummaryConsumerReceiptArchiveSnapshot).toMatchObject({
+      snapshotState: "blocked",
+      readyForReadOnlySummaryConsumerReceiptArchive: false,
+      snapshotDigest: {
+        algorithm: "sha256",
+        scope: "handoff-summary-consumer-receipt-archive-snapshot",
+        coveredSectionCount: 3,
+      },
+      archivedSectionCount: 3,
+      blockedReasonCount: 2,
+      includesRawCredential: false,
+      includesRuntimePayload: false,
+    });
+    expect(handoffSummaryConsumerReceiptArchiveVerification).toMatchObject({
+      verificationState: "blocked",
+      readyForReadOnlySummaryConsumerReceiptArchiveVerification: false,
+      gateCount: 6,
+      passedGateCount: 5,
+      blockedReasonCodes: ["HANDOFF_RECEIPT_ARCHIVE_SNAPSHOT_NOT_READY"],
+      archivedSectionCount: 3,
+      blockedReasonCount: 2,
+      requiresApproval: false,
+      requiresRoutingActivation: false,
+      requiresFreshSiblingEvidence: false,
+    });
+  });
+
+  it("keeps the handoff summary digest stable for the same handoff notes", () => {
+    const handoffNotes = createHandoffNotes(readySourceMatrix());
+
+    const first = createSourceMatrixHandoffSummary(handoffNotes);
+    const second = createSourceMatrixHandoffSummary(handoffNotes);
+
+    expect(first.summaryDigest).toEqual(second.summaryDigest);
+    expect(first.summaryDigest).toMatchObject({
+      algorithm: "sha256",
+      scope: "read-only-handoff-summary",
+      coveredAudienceCount: 4,
+      coveredActionRequiredCount: 0,
+    });
+  });
+
+  it("keeps the handoff receipt archive snapshot digest stable for the same receipt", () => {
+    const handoffNotes = createHandoffNotes(readySourceMatrix());
+    const handoffSummary = createSourceMatrixHandoffSummary(handoffNotes);
+    const handoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(handoffSummary);
+    const handoffSummaryConsumerExport = createSourceMatrixHandoffSummaryConsumerExport(handoffSummaryConsumer);
+    const receipt = createSourceMatrixHandoffSummaryConsumerReceipt(handoffSummaryConsumerExport);
+
+    const first = createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(receipt);
+    const second = createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(receipt);
+
+    expect(first.snapshotDigest).toEqual(second.snapshotDigest);
+    expect(first.snapshotDigest).toMatchObject({
+      algorithm: "sha256",
+      scope: "handoff-summary-consumer-receipt-archive-snapshot",
+      coveredSectionCount: 3,
+    });
+  });
+});
+
+function createHandoffNotes(
+  sourceMatrix: ControlledReadOnlyShardPreviewSourceMatrix,
+): ControlledReadOnlyShardPreviewSourceMatrixHandoffNotes {
+  const consumer = createSourceMatrixConsumer(sourceMatrix);
+  const driftSummary = createSourceMatrixDriftSummary(sourceMatrix, consumer);
+  const checklist = createSourceMatrixReviewChecklist(driftSummary);
+  const digest = createSourceMatrixReviewDigest(checklist);
+  const snapshot = createSourceMatrixArchiveSnapshot(digest);
+  const summaryExport = createSourceMatrixArchiveSnapshotSummaryExport(snapshot);
+  return createSourceMatrixHandoffNotes(summaryExport);
+}

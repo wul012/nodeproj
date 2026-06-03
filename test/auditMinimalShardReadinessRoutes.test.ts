@@ -34,8 +34,8 @@ describe("minimal shard readiness audit route group", () => {
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        activeNodeVersion: "Node v618",
-        sourceNodeVersion: "Node v617",
+        activeNodeVersion: "Node v619",
+        sourceNodeVersion: "Node v618",
         previewOnly: true,
         startsJavaService: false,
         startsMiniKvService: false,

@@ -256,6 +256,7 @@
 616: Controlled read-only shard preview handoff summary consumer receipt archive snapshot
 617: Controlled read-only shard preview handoff summary consumer receipt archive verification
 618: Controlled read-only shard preview handoff artifact builder split
+619: Controlled read-only shard preview handoff artifact test split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
