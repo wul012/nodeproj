@@ -319,6 +319,7 @@
 679: Controlled read-only shard preview route coverage types split
 680: Controlled read-only shard preview route coverage archive types split
 681: Controlled read-only shard preview route coverage archive summary types split
+682: Controlled read-only shard preview route coverage archive receipt types split
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
