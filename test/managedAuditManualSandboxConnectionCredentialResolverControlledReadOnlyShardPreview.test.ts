@@ -84,8 +84,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       previewState: "controlled-read-only-shard-preview-ready",
       previewDecision: "preview-java-and-mini-kv-shard-readiness",
       readyForControlledReadOnlyShardPreview: true,
-      activeNodeVersion: "Node v581",
-      sourceNodeVersion: "Node v580",
+      activeNodeVersion: "Node v598",
+      sourceNodeVersion: "Node v581",
       consumesNodeV580MaturityRunCloseout: true,
       previewOnly: true,
       liveReadOnly: true,
@@ -144,6 +144,48 @@ describe("managed audit manual sandbox connection credential resolver controlled
         combinedShardCount: 1,
         bothReadOnly: true,
         bothExecutionBlocked: true,
+        sourceMatrix: {
+          sourceCount: 2,
+          readySourceCount: 2,
+          failedSourceCount: 0,
+          skippedSourceCount: 0,
+          routingModes: ["read-only-preview", "single-shard-readiness-prototype"],
+          shardCountDelta: 1,
+          slotCountDelta: 16,
+          shardCountsComparable: true,
+          slotCountsComparable: true,
+          allSourcesReady: true,
+          sources: [
+            {
+              source: "java",
+              project: "advanced-order-platform",
+              version: "Java v289",
+              status: "passed-read",
+              readyForPreview: true,
+              readOnlySafe: true,
+              executionBlocked: true,
+              shardCount: 0,
+              slotCount: 0,
+              routingMode: "read-only-preview",
+              endpoint: "GET /api/v1/ops/shard-readiness",
+              command: null,
+            },
+            {
+              source: "miniKv",
+              project: "mini-kv",
+              version: "0.262.0",
+              releaseVersion: "v262",
+              status: "passed-read",
+              readyForPreview: true,
+              readOnlySafe: true,
+              executionBlocked: true,
+              shardCount: 1,
+              slotCount: 16,
+              routingMode: "single-shard-readiness-prototype",
+              command: "SHARDJSON",
+            },
+          ],
+        },
       },
       checks: {
         upstreamProbesEnabledForPreview: true,
@@ -240,8 +282,8 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(json.json()).toMatchObject({
         previewState: "controlled-read-only-shard-preview-ready",
         previewDecision: "preview-java-and-mini-kv-shard-readiness",
-        activeNodeVersion: "Node v581",
-        sourceNodeVersion: "Node v580",
+        activeNodeVersion: "Node v598",
+        sourceNodeVersion: "Node v581",
         previewOnly: true,
         executionAllowed: false,
         startsJavaService: false,
@@ -254,6 +296,9 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("controlled read-only shard preview");
       expect(markdown.body).toContain("Preview decision: preview-java-and-mini-kv-shard-readiness");
+      expect(markdown.body).toContain("## Source Matrix");
+      expect(markdown.body).toContain("Ready source count: 2");
+      expect(markdown.body).toContain("Routing modes: read-only-preview, single-shard-readiness-prototype");
       expect(markdown.body).toContain("Command: SHARDJSON");
       expect(markdown.body).toContain("Starts Java service: false");
       expect(markdown.body).toContain("LOAD/RESTORE/COMPACT allowed: false");

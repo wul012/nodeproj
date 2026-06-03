@@ -9,6 +9,7 @@ import {
   CONTROLLED_READ_ONLY_SHARD_PREVIEW_ROUTE,
   createChecks,
   createPreviewDigest,
+  createSourceMatrix,
   createSummary,
   failedObservation,
   JAVA_ENDPOINT,
@@ -42,6 +43,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     readMiniKvPreview(input.config, input.miniKv),
   ]);
   const previewDigest = createPreviewDigest(java, miniKv);
+  const sourceMatrix = createSourceMatrix(java, miniKv);
   const checks = createChecks(input.config, java, miniKv, previewDigest);
   checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
     .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
@@ -59,8 +61,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
     previewDecision: ready ? "preview-java-and-mini-kv-shard-readiness" : "blocked",
     readyForControlledReadOnlyShardPreview: ready,
-    activeNodeVersion: "Node v581",
-    sourceNodeVersion: "Node v580",
+    activeNodeVersion: "Node v598",
+    sourceNodeVersion: "Node v581",
     consumesNodeV580MaturityRunCloseout: true,
     previewOnly: true,
     liveReadOnly: true,
@@ -85,6 +87,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       combinedShardCount: sumNullable(java.preview.shardCount, miniKv.preview.shardCount),
       bothReadOnly: java.readOnlySafe && miniKv.readOnlySafe,
       bothExecutionBlocked: java.executionBlocked && miniKv.executionBlocked,
+      sourceMatrix,
       previewDigest,
     },
     checks,
@@ -98,11 +101,11 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       javaShardReadinessEndpoint: JAVA_ENDPOINT,
       miniKvShardJsonCommand: MINI_KV_COMMAND,
       sourceNodeV580ArchiveIndex: "e/README.md",
-      nextNodeVersion: "Node v582",
+      nextNodeVersion: "Node v599",
     },
     nextActions: ready
       ? [
-        "Use Node v582 to add a focused archive/smoke verifier for this preview output only if the preview route remains stable.",
+        "Use Node v599 to add a controlled source-matrix consumer that can compare read-only shard readiness without activating routing.",
         "Keep Java and mini-kv as independently started services; Node still only reads their readiness surfaces.",
       ]
       : [

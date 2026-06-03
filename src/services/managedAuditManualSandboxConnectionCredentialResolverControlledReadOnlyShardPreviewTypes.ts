@@ -15,6 +15,38 @@ export interface ControlledReadOnlyShardPreviewObservationPreview {
   keyRoutingSampleCount: number | null;
 }
 
+export interface ControlledReadOnlyShardPreviewSourceMatrixEntry {
+  source: "java" | "miniKv";
+  project: PreviewProject;
+  version: string | null;
+  releaseVersion: string | null;
+  status: PreviewStatus;
+  readyForPreview: boolean;
+  readOnlySafe: boolean;
+  executionBlocked: boolean;
+  shardEnabled: boolean | null;
+  shardCount: number | null;
+  slotCount: number | null;
+  routingMode: string | null;
+  endpoint: string;
+  command: string | null;
+  latencyMs: number | null;
+}
+
+export interface ControlledReadOnlyShardPreviewSourceMatrix {
+  sources: ControlledReadOnlyShardPreviewSourceMatrixEntry[];
+  sourceCount: number;
+  readySourceCount: number;
+  failedSourceCount: number;
+  skippedSourceCount: number;
+  routingModes: string[];
+  shardCountDelta: number | null;
+  slotCountDelta: number | null;
+  shardCountsComparable: boolean;
+  slotCountsComparable: boolean;
+  allSourcesReady: boolean;
+}
+
 export interface ControlledReadOnlyShardPreviewObservation {
   project: PreviewProject;
   attempted: boolean;
@@ -92,8 +124,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
   previewState: "controlled-read-only-shard-preview-ready" | "blocked";
   previewDecision: "preview-java-and-mini-kv-shard-readiness" | "blocked";
   readyForControlledReadOnlyShardPreview: boolean;
-  activeNodeVersion: "Node v581";
-  sourceNodeVersion: "Node v580";
+  activeNodeVersion: "Node v598";
+  sourceNodeVersion: "Node v581";
   consumesNodeV580MaturityRunCloseout: true;
   previewOnly: true;
   liveReadOnly: true;
@@ -121,6 +153,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     combinedShardCount: number | null;
     bothReadOnly: boolean;
     bothExecutionBlocked: boolean;
+    sourceMatrix: ControlledReadOnlyShardPreviewSourceMatrix;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;
@@ -134,7 +167,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     javaShardReadinessEndpoint: string;
     miniKvShardJsonCommand: "SHARDJSON";
     sourceNodeV580ArchiveIndex: "e/README.md";
-    nextNodeVersion: "Node v582";
+    nextNodeVersion: "Node v599";
   };
   nextActions: string[];
 }

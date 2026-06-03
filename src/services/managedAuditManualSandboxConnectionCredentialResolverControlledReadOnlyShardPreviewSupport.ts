@@ -7,6 +7,8 @@ import type {
   ControlledReadOnlyShardPreviewChecks,
   ControlledReadOnlyShardPreviewMessage,
   ControlledReadOnlyShardPreviewObservation,
+  ControlledReadOnlyShardPreviewSourceMatrix,
+  ControlledReadOnlyShardPreviewSourceMatrixEntry,
   ControlledReadOnlyShardPreviewSummary,
   PreviewMessageSource,
   PreviewProject,
@@ -247,8 +249,61 @@ export function createPreviewDigest(
   });
 }
 
+export function createSourceMatrix(
+  java: ControlledReadOnlyShardPreviewObservation,
+  miniKv: ControlledReadOnlyShardPreviewObservation,
+): ControlledReadOnlyShardPreviewSourceMatrix {
+  const sources = [
+    createSourceMatrixEntry("java", java),
+    createSourceMatrixEntry("miniKv", miniKv),
+  ];
+  const javaShardCount = java.preview.shardCount;
+  const miniKvShardCount = miniKv.preview.shardCount;
+  const javaSlotCount = java.preview.slotCount;
+  const miniKvSlotCount = miniKv.preview.slotCount;
+
+  return {
+    sources,
+    sourceCount: sources.length,
+    readySourceCount: sources.filter((source) => source.readyForPreview).length,
+    failedSourceCount: sources.filter((source) => source.status === "failed-read").length,
+    skippedSourceCount: sources.filter((source) => source.status === "skipped-probes-disabled").length,
+    routingModes: Array.from(
+      new Set(sources.map((source) => source.routingMode).filter((mode): mode is string => mode !== null)),
+    ),
+    shardCountDelta: javaShardCount === null || miniKvShardCount === null ? null : miniKvShardCount - javaShardCount,
+    slotCountDelta: javaSlotCount === null || miniKvSlotCount === null ? null : miniKvSlotCount - javaSlotCount,
+    shardCountsComparable: javaShardCount !== null && miniKvShardCount !== null,
+    slotCountsComparable: javaSlotCount !== null && miniKvSlotCount !== null,
+    allSourcesReady: sources.every((source) => source.readyForPreview),
+  };
+}
+
 export function sumNullable(left: number | null, right: number | null): number | null {
   return left === null || right === null ? null : left + right;
+}
+
+function createSourceMatrixEntry(
+  source: "java" | "miniKv",
+  observation: ControlledReadOnlyShardPreviewObservation,
+): ControlledReadOnlyShardPreviewSourceMatrixEntry {
+  return {
+    source,
+    project: observation.project,
+    version: observation.preview.version,
+    releaseVersion: observation.preview.releaseVersion,
+    status: observation.status,
+    readyForPreview: observation.readyForPreview,
+    readOnlySafe: observation.readOnlySafe,
+    executionBlocked: observation.executionBlocked,
+    shardEnabled: observation.preview.shardEnabled,
+    shardCount: observation.preview.shardCount,
+    slotCount: observation.preview.slotCount,
+    routingMode: observation.preview.routingMode,
+    endpoint: observation.endpoint,
+    command: observation.command,
+    latencyMs: observation.latencyMs,
+  };
 }
 
 function createObservationPreview(evidence: Record<string, unknown> | null) {

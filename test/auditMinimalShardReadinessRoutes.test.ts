@@ -34,8 +34,8 @@ describe("minimal shard readiness audit route group", () => {
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        activeNodeVersion: "Node v581",
-        sourceNodeVersion: "Node v580",
+        activeNodeVersion: "Node v598",
+        sourceNodeVersion: "Node v581",
         previewOnly: true,
         startsJavaService: false,
         startsMiniKvService: false,
@@ -48,6 +48,7 @@ describe("minimal shard readiness audit route group", () => {
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("controlled read-only shard preview");
+      expect(markdown.body).toContain("## Source Matrix");
       expect(markdown.body).toContain("Starts Java service: false");
     } finally {
       await app.close();
