@@ -84,6 +84,18 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
       nextAction: profile.preview.liveReadOnlyPacketCandidateVerification.nextAction,
     }),
     "",
+    "## Live Read-Only Window Stage Ledger",
+    ...renderEntries({
+      ledgerVersion: profile.preview.liveReadOnlyWindowStageLedger.ledgerVersion,
+      ledgerState: profile.preview.liveReadOnlyWindowStageLedger.ledgerState,
+      readyForManualLiveReadOnlyWindow:
+        profile.preview.liveReadOnlyWindowStageLedger.readyForManualLiveReadOnlyWindow,
+      stageCount: profile.preview.liveReadOnlyWindowStageLedger.stageCount,
+      readyStageCount: profile.preview.liveReadOnlyWindowStageLedger.readyStageCount,
+      cleanupRequiredStageCount: profile.preview.liveReadOnlyWindowStageLedger.cleanupRequiredStageCount,
+      ledgerDigest: profile.preview.liveReadOnlyWindowStageLedger.ledgerDigest,
+    }),
+    "",
     "## Checks",
     ...renderEntries(profile.checks),
     "",

@@ -329,6 +329,26 @@
 689: Controlled read-only shard preview execution gap matrix
 690: Controlled read-only shard preview live read-only packet candidate
 691: Controlled read-only shard preview live read-only packet candidate verification
+692: Controlled read-only shard preview window owner binding
+693: Controlled read-only shard preview Node read target spec
+694: Controlled read-only shard preview Java read target spec
+695: Controlled read-only shard preview mini-kv read target spec
+696: Controlled read-only shard preview forbidden operation policy
+697: Controlled read-only shard preview window evidence manifest
+698: Controlled read-only shard preview process cleanup record
+699: Controlled read-only shard preview window readiness verification
+700: Controlled read-only shard preview operator runbook
+701: Controlled read-only shard preview operator runbook verification
+702: Controlled read-only shard preview window archive snapshot
+703: Controlled read-only shard preview window archive verification
+704: Controlled read-only shard preview window archive summary
+705: Controlled read-only shard preview window archive summary receipt
+706: Controlled read-only shard preview window receipt archive
+707: Controlled read-only shard preview window receipt archive verification
+708: Controlled read-only shard preview live read-only go/no-go
+709: Controlled read-only shard preview post-window evidence spec
+710: Controlled read-only shard preview next action handoff
+711: Controlled read-only shard preview twenty-version closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

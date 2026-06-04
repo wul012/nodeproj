@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v691";
+  catalogVersion: "Node v711";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v691";
+  validationVersion: "Node v711";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -192,6 +192,36 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 16,
+    id: "live-read-only-window-stage-ledger-types",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerTypes.ts",
+    owns: ["manual window stage ledger", "twenty-version stage records", "stage ledger gates"],
+    consumedBy: ["stage ledger artifacts", "stage ledger renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep the twenty-stage live read-only window ledger contract isolated from packet candidate verification.",
+    stopCondition: "Do not split unless individual stage families gain independent builders.",
+  },
+  {
+    order: 17,
+    id: "live-read-only-window-stage-ledger-artifacts",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerArtifacts.ts",
+    owns: ["stage ledger builder", "stage safety gates", "ledger digest"],
+    consumedBy: ["review artifact barrel", "stage ledger tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep live read-only window stage creation and validation together while it remains a planning artifact.",
+    stopCondition: "Do not split unless a stage begins executing runtime clients.",
+  },
+  {
+    order: 18,
+    id: "live-read-only-window-stage-ledger-renderer",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerRenderer.ts",
+    owns: ["stage ledger markdown", "stage summary rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep stage ledger Markdown separate from builder logic.",
+    stopCondition: "Do not split unless stage rendering gains route-specific behavior.",
+  },
+  {
+    order: 19,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -215,7 +245,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v691",
+    catalogVersion: "Node v711",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -276,7 +306,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v691",
+    validationVersion: "Node v711",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

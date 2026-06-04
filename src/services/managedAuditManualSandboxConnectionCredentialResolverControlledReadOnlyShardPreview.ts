@@ -42,6 +42,7 @@ import {
   createControlledReadOnlyShardPreviewExecutionGapMatrix,
   createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
   createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
   createSourceMatrixConsumptionPlan,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
@@ -136,6 +137,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate(executionGapMatrix);
   const liveReadOnlyPacketCandidateVerification =
     createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification(liveReadOnlyPacketCandidate);
+  const liveReadOnlyWindowStageLedger =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger(liveReadOnlyPacketCandidateVerification);
 
   return {
     service: "orderops-node",
@@ -197,6 +200,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       executionGapMatrix,
       liveReadOnlyPacketCandidate,
       liveReadOnlyPacketCandidateVerification,
+      liveReadOnlyWindowStageLedger,
       previewDigest,
     },
     checks,
