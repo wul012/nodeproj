@@ -30,6 +30,10 @@ import * as runbookArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookArtifacts.js";
 import * as runbookRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookRenderer.js";
+import * as rehearsalArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
+import * as rehearsalRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -125,5 +129,12 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(runbookArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage);
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackageMarkdown)
       .toBe(runbookRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackageMarkdown);
+  });
+
+  it("re-exports live read-only window rehearsal packet helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket)
+      .toBe(rehearsalArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacketMarkdown)
+      .toBe(rehearsalRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacketMarkdown);
   });
 });

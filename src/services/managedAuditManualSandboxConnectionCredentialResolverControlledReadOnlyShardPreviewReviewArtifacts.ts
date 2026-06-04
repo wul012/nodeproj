@@ -72,3 +72,11 @@ export {
 export {
   renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackageMarkdown,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookRenderer.js";
+
+export {
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
+
+export {
+  renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacketMarkdown,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalRenderer.js";

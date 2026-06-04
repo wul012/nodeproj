@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v731";
+  catalogVersion: "Node v751";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v731";
+  validationVersion: "Node v751";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -252,6 +252,36 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 22,
+    id: "live-read-only-window-rehearsal-types",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalTypes.ts",
+    owns: ["manual rehearsal packet", "rehearsal steps", "rehearsal gates"],
+    consumedBy: ["rehearsal artifacts", "rehearsal renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep rehearsal packet contracts separate from operator runbook contracts.",
+    stopCondition: "Do not split unless evidence slots, cleanup slots, or failure taxonomy gain independent builders.",
+  },
+  {
+    order: 23,
+    id: "live-read-only-window-rehearsal-artifacts",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.ts",
+    owns: ["rehearsal packet builder", "rehearsal safety gates", "packet digest"],
+    consumedBy: ["review artifact barrel", "rehearsal packet tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep rehearsal step generation and validation together while it remains non-executing.",
+    stopCondition: "Do not split unless the packet starts consuming live runtime evidence.",
+  },
+  {
+    order: 24,
+    id: "live-read-only-window-rehearsal-renderer",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalRenderer.ts",
+    owns: ["rehearsal packet markdown", "rehearsal step rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep rehearsal Markdown separate from packet generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  },
+  {
+    order: 25,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -275,7 +305,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v731",
+    catalogVersion: "Node v751",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -336,7 +366,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v731",
+    validationVersion: "Node v751",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

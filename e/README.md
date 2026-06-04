@@ -369,6 +369,26 @@
 729: Controlled read-only shard preview receipt archive verification
 730: Controlled read-only shard preview go/no-go decision packet
 731: Controlled read-only shard preview runbook package closeout
+732: Controlled read-only shard preview rehearsal source package precheck
+733: Controlled read-only shard preview rehearsal owner dry run
+734: Controlled read-only shard preview rehearsal Node target dry run
+735: Controlled read-only shard preview rehearsal Java target dry run
+736: Controlled read-only shard preview rehearsal mini-kv target dry run
+737: Controlled read-only shard preview rehearsal header policy check
+738: Controlled read-only shard preview rehearsal command allowlist check
+739: Controlled read-only shard preview rehearsal forbidden operation check
+740: Controlled read-only shard preview rehearsal evidence slot dry run
+741: Controlled read-only shard preview rehearsal cleanup slot dry run
+742: Controlled read-only shard preview rehearsal readiness verification dry run
+743: Controlled read-only shard preview rehearsal order verification
+744: Controlled read-only shard preview rehearsal alignment verification
+745: Controlled read-only shard preview rehearsal archive snapshot dry run
+746: Controlled read-only shard preview rehearsal archive verification dry run
+747: Controlled read-only shard preview rehearsal summary line dry run
+748: Controlled read-only shard preview rehearsal receipt metadata dry run
+749: Controlled read-only shard preview rehearsal receipt archive boundary check
+750: Controlled read-only shard preview rehearsal go/no-go scope check
+751: Controlled read-only shard preview rehearsal packet closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

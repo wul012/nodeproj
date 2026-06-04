@@ -13,10 +13,10 @@ describe("controlled read-only shard preview type module catalog", () => {
   it("records stable type module ownership groups", () => {
     const catalog = createControlledReadOnlyShardPreviewTypeModuleCatalog();
 
-    expect(catalog.catalogVersion).toBe("Node v731");
+    expect(catalog.catalogVersion).toBe("Node v751");
     expect(catalog.publicEntryPoint)
       .toBe("managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts");
-    expect(catalog.moduleCount).toBe(22);
+    expect(catalog.moduleCount).toBe(25);
     expect(catalog.stableReExportModuleCount).toBe(catalog.moduleCount);
     expect(catalog.stopCondition).toContain("add a new type module only when");
   });
@@ -49,13 +49,14 @@ describe("controlled read-only shard preview type module catalog", () => {
     const markdown = renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown();
 
     expect(markdown).toContain("# Controlled read-only shard preview type module catalog");
-    expect(markdown).toContain("- Catalog version: Node v731");
-    expect(markdown).toContain("- Module count: 22");
+    expect(markdown).toContain("- Catalog version: Node v751");
+    expect(markdown).toContain("- Module count: 25");
     expect(markdown).toContain("### 1. source-matrix-types");
     expect(markdown).toContain("### 13. execution-readiness-types");
     expect(markdown).toContain("### 16. live-read-only-window-stage-ledger-types");
     expect(markdown).toContain("### 19. live-read-only-window-runbook-types");
-    expect(markdown).toContain("### 22. profile-entry-types");
+    expect(markdown).toContain("### 22. live-read-only-window-rehearsal-types");
+    expect(markdown).toContain("### 25. profile-entry-types");
     expect(markdown).toContain("- Stable profile re-export: true");
   });
 
@@ -63,12 +64,12 @@ describe("controlled read-only shard preview type module catalog", () => {
     const validation = validateControlledReadOnlyShardPreviewTypeModuleCatalog();
 
     expect(validation).toMatchObject({
-      validationVersion: "Node v731",
+      validationVersion: "Node v751",
       valid: true,
-      moduleCount: 22,
-      uniqueIdCount: 22,
-      uniquePathCount: 22,
-      stableReExportModuleCount: 22,
+      moduleCount: 25,
+      uniqueIdCount: 25,
+      uniquePathCount: 25,
+      stableReExportModuleCount: 25,
       sequentialOrder: true,
       profileEntryLast: true,
       blockedReasonCodes: [],

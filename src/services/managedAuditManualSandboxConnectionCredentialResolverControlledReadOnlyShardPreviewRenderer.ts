@@ -108,6 +108,18 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
       packageDigest: profile.preview.liveReadOnlyWindowRunbookPackage.packageDigest,
     }),
     "",
+    "## Live Read-Only Window Rehearsal Packet",
+    ...renderEntries({
+      packetVersion: profile.preview.liveReadOnlyWindowRehearsalPacket.packetVersion,
+      packetState: profile.preview.liveReadOnlyWindowRehearsalPacket.packetState,
+      readyForManualLiveReadOnlyRehearsal:
+        profile.preview.liveReadOnlyWindowRehearsalPacket.readyForManualLiveReadOnlyRehearsal,
+      stepCount: profile.preview.liveReadOnlyWindowRehearsalPacket.stepCount,
+      evidenceSlotCount: profile.preview.liveReadOnlyWindowRehearsalPacket.evidenceSlotCount,
+      failureClassCount: profile.preview.liveReadOnlyWindowRehearsalPacket.failureClassCount,
+      packetDigest: profile.preview.liveReadOnlyWindowRehearsalPacket.packetDigest,
+    }),
+    "",
     "## Checks",
     ...renderEntries(profile.checks),
     "",

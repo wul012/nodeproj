@@ -118,6 +118,26 @@
 483-java-mini-kv-latest-route-catalog-cleanup-evidence-archive-verification-v478.md
 484-java-mini-kv-latest-route-catalog-cleanup-evidence-archive-verification-route-v479.md
 485-java-mini-kv-route-catalog-cleanup-evidence-batch-closeout-v480.md
+737-controlled-read-only-shard-preview-rehearsal-source-package-precheck-v732.md
+738-controlled-read-only-shard-preview-rehearsal-owner-dry-run-v733.md
+739-controlled-read-only-shard-preview-rehearsal-node-target-dry-run-v734.md
+740-controlled-read-only-shard-preview-rehearsal-java-target-dry-run-v735.md
+741-controlled-read-only-shard-preview-rehearsal-mini-kv-target-dry-run-v736.md
+742-controlled-read-only-shard-preview-rehearsal-header-policy-check-v737.md
+743-controlled-read-only-shard-preview-rehearsal-command-allowlist-check-v738.md
+744-controlled-read-only-shard-preview-rehearsal-forbidden-operation-check-v739.md
+745-controlled-read-only-shard-preview-rehearsal-evidence-slot-dry-run-v740.md
+746-controlled-read-only-shard-preview-rehearsal-cleanup-slot-dry-run-v741.md
+747-controlled-read-only-shard-preview-rehearsal-readiness-verification-dry-run-v742.md
+748-controlled-read-only-shard-preview-rehearsal-order-verification-v743.md
+749-controlled-read-only-shard-preview-rehearsal-alignment-verification-v744.md
+750-controlled-read-only-shard-preview-rehearsal-archive-snapshot-dry-run-v745.md
+751-controlled-read-only-shard-preview-rehearsal-archive-verification-dry-run-v746.md
+752-controlled-read-only-shard-preview-rehearsal-summary-line-dry-run-v747.md
+753-controlled-read-only-shard-preview-rehearsal-receipt-metadata-dry-run-v748.md
+754-controlled-read-only-shard-preview-rehearsal-receipt-archive-boundary-check-v749.md
+755-controlled-read-only-shard-preview-rehearsal-go-no-go-scope-check-v750.md
+756-controlled-read-only-shard-preview-rehearsal-packet-closeout-v751.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。
