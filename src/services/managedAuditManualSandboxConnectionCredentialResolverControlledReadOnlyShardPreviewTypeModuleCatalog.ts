@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v751";
+  catalogVersion: "Node v771";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v751";
+  validationVersion: "Node v771";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -282,6 +282,39 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 25,
+    id: "live-read-only-window-command-worksheet-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.ts",
+    owns: ["manual command worksheet", "command templates", "worksheet gates"],
+    consumedBy: ["command worksheet artifacts", "command worksheet renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep manual command worksheet contracts separate from rehearsal packet contracts.",
+    stopCondition: "Do not split unless command templates, evidence capture, or cleanup capture gain independent builders.",
+  },
+  {
+    order: 26,
+    id: "live-read-only-window-command-worksheet-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetArtifacts.ts",
+    owns: ["command worksheet builder", "worksheet safety gates", "worksheet digest"],
+    consumedBy: ["review artifact barrel", "command worksheet tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep command worksheet step generation and validation together while it remains non-executing.",
+    stopCondition: "Do not split unless the worksheet starts consuming live runtime evidence.",
+  },
+  {
+    order: 27,
+    id: "live-read-only-window-command-worksheet-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetRenderer.ts",
+    owns: ["command worksheet markdown", "command template rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep command worksheet Markdown separate from worksheet generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  },
+  {
+    order: 28,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -305,7 +338,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v751",
+    catalogVersion: "Node v771",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -366,7 +399,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v751",
+    validationVersion: "Node v771",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

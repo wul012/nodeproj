@@ -64,6 +64,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -187,6 +190,15 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetStep,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetStepKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTarget,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -262,6 +274,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     liveReadOnlyWindowStageLedger: ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger;
     liveReadOnlyWindowRunbookPackage: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage;
     liveReadOnlyWindowRehearsalPacket: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket;
+    liveReadOnlyWindowCommandWorksheet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

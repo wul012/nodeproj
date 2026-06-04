@@ -34,6 +34,10 @@ import * as rehearsalArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
 import * as rehearsalRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalRenderer.js";
+import * as commandWorksheetArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetArtifacts.js";
+import * as commandWorksheetRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -136,5 +140,12 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(rehearsalArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket);
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacketMarkdown)
       .toBe(rehearsalRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacketMarkdown);
+  });
+
+  it("re-exports live read-only window command worksheet helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet)
+      .toBe(commandWorksheetArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown)
+      .toBe(commandWorksheetRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown);
   });
 });

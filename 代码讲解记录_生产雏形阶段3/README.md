@@ -138,6 +138,26 @@
 754-controlled-read-only-shard-preview-rehearsal-receipt-archive-boundary-check-v749.md
 755-controlled-read-only-shard-preview-rehearsal-go-no-go-scope-check-v750.md
 756-controlled-read-only-shard-preview-rehearsal-packet-closeout-v751.md
+757-controlled-read-only-shard-preview-command-worksheet-source-rehearsal-check-v752.md
+758-controlled-read-only-shard-preview-command-worksheet-environment-lock-check-v753.md
+759-controlled-read-only-shard-preview-command-worksheet-node-health-read-template-v754.md
+760-controlled-read-only-shard-preview-command-worksheet-node-markdown-read-template-v755.md
+761-controlled-read-only-shard-preview-command-worksheet-java-shard-readiness-template-v756.md
+762-controlled-read-only-shard-preview-command-worksheet-mini-kv-shardjson-template-v757.md
+763-controlled-read-only-shard-preview-command-worksheet-header-redaction-template-v758.md
+764-controlled-read-only-shard-preview-command-worksheet-mini-kv-allowlist-template-v759.md
+765-controlled-read-only-shard-preview-command-worksheet-forbidden-operation-confirmation-v760.md
+766-controlled-read-only-shard-preview-command-worksheet-node-evidence-capture-v761.md
+767-controlled-read-only-shard-preview-command-worksheet-java-evidence-capture-v762.md
+768-controlled-read-only-shard-preview-command-worksheet-mini-kv-evidence-capture-v763.md
+769-controlled-read-only-shard-preview-command-worksheet-node-cleanup-capture-v764.md
+770-controlled-read-only-shard-preview-command-worksheet-sibling-cleanup-capture-v765.md
+771-controlled-read-only-shard-preview-command-worksheet-node-failure-triage-v766.md
+772-controlled-read-only-shard-preview-command-worksheet-java-mini-kv-failure-triage-v767.md
+773-controlled-read-only-shard-preview-command-worksheet-archive-snapshot-record-v768.md
+774-controlled-read-only-shard-preview-command-worksheet-archive-verification-record-v769.md
+775-controlled-read-only-shard-preview-command-worksheet-go-no-go-record-v770.md
+776-controlled-read-only-shard-preview-command-worksheet-closeout-v771.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

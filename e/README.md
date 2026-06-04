@@ -389,6 +389,26 @@
 749: Controlled read-only shard preview rehearsal receipt archive boundary check
 750: Controlled read-only shard preview rehearsal go/no-go scope check
 751: Controlled read-only shard preview rehearsal packet closeout
+752: Controlled read-only shard preview command worksheet source rehearsal check
+753: Controlled read-only shard preview command worksheet environment lock check
+754: Controlled read-only shard preview command worksheet Node health read template
+755: Controlled read-only shard preview command worksheet Node Markdown read template
+756: Controlled read-only shard preview command worksheet Java shard readiness template
+757: Controlled read-only shard preview command worksheet mini-kv SHARDJSON template
+758: Controlled read-only shard preview command worksheet header redaction template
+759: Controlled read-only shard preview command worksheet mini-kv allowlist template
+760: Controlled read-only shard preview command worksheet forbidden operation confirmation
+761: Controlled read-only shard preview command worksheet Node evidence capture
+762: Controlled read-only shard preview command worksheet Java evidence capture
+763: Controlled read-only shard preview command worksheet mini-kv evidence capture
+764: Controlled read-only shard preview command worksheet Node cleanup capture
+765: Controlled read-only shard preview command worksheet sibling cleanup capture
+766: Controlled read-only shard preview command worksheet Node failure triage
+767: Controlled read-only shard preview command worksheet Java and mini-kv failure triage
+768: Controlled read-only shard preview command worksheet archive snapshot record
+769: Controlled read-only shard preview command worksheet archive verification record
+770: Controlled read-only shard preview command worksheet go/no-go record
+771: Controlled read-only shard preview command worksheet closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

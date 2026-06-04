@@ -45,6 +45,7 @@ import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
   createSourceMatrixConsumptionPlan,
   createSourceMatrixConsumer,
   createSourceMatrixDriftSummary,
@@ -145,6 +146,8 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
     createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage(liveReadOnlyWindowStageLedger);
   const liveReadOnlyWindowRehearsalPacket =
     createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket(liveReadOnlyWindowRunbookPackage);
+  const liveReadOnlyWindowCommandWorksheet =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet(liveReadOnlyWindowRehearsalPacket);
 
   return {
     service: "orderops-node",
@@ -209,6 +212,7 @@ export async function loadManagedAuditManualSandboxConnectionCredentialResolverC
       liveReadOnlyWindowStageLedger,
       liveReadOnlyWindowRunbookPackage,
       liveReadOnlyWindowRehearsalPacket,
+      liveReadOnlyWindowCommandWorksheet,
       previewDigest,
     },
     checks,

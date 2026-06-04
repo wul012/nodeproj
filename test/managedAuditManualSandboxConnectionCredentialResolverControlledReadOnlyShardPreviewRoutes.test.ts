@@ -88,6 +88,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("## Source Matrix Handoff Route Coverage Archive Summary Receipt Archive Snapshot");
       expect(markdown.body)
         .toContain("## Source Matrix Handoff Route Coverage Archive Summary Receipt Archive Verification");
+      expect(markdown.body).toContain("## Live Read-Only Window Rehearsal Packet");
+      expect(markdown.body).toContain("## Live Read-Only Window Command Worksheet");
+      expect(markdown.body).toContain("readyForManualCommandReview: true");
+      expect(markdown.body).toContain("commandTemplateCount: 20");
+      expect(markdown.body).toContain("containsSecretValue: false");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
