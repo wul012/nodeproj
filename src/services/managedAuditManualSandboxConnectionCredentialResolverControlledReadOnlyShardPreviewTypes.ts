@@ -58,6 +58,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -165,6 +168,14 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackageGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookSection,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookSectionKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -238,6 +249,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     liveReadOnlyPacketCandidate: ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate;
     liveReadOnlyPacketCandidateVerification: ControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification;
     liveReadOnlyWindowStageLedger: ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger;
+    liveReadOnlyWindowRunbookPackage: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

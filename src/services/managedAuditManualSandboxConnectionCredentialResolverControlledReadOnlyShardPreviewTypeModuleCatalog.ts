@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v711";
+  catalogVersion: "Node v731";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v711";
+  validationVersion: "Node v731";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -222,6 +222,36 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 19,
+    id: "live-read-only-window-runbook-types",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookTypes.ts",
+    owns: ["operator runbook package", "runbook sections", "runbook gates"],
+    consumedBy: ["runbook artifacts", "runbook renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep operator runbook package contracts separate from stage ledger contracts.",
+    stopCondition: "Do not split unless target manifest, evidence schema, or archive handoff gain independent builders.",
+  },
+  {
+    order: 20,
+    id: "live-read-only-window-runbook-artifacts",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookArtifacts.ts",
+    owns: ["runbook package builder", "runbook mapping gates", "package digest"],
+    consumedBy: ["review artifact barrel", "runbook package tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep runbook section generation and gate validation together while it remains a planning package.",
+    stopCondition: "Do not split unless the package starts consuming live runtime evidence.",
+  },
+  {
+    order: 21,
+    id: "live-read-only-window-runbook-renderer",
+    modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookRenderer.ts",
+    owns: ["runbook package markdown", "runbook section rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep runbook Markdown separate from package generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  },
+  {
+    order: 22,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -245,7 +275,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v711",
+    catalogVersion: "Node v731",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -306,7 +336,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v711",
+    validationVersion: "Node v731",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

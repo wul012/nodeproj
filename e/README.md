@@ -349,6 +349,26 @@
 709: Controlled read-only shard preview post-window evidence spec
 710: Controlled read-only shard preview next action handoff
 711: Controlled read-only shard preview twenty-version closeout
+712: Controlled read-only shard preview owner binding checklist
+713: Controlled read-only shard preview Node target checklist
+714: Controlled read-only shard preview Java target checklist
+715: Controlled read-only shard preview mini-kv target checklist
+716: Controlled read-only shard preview operator header policy
+717: Controlled read-only shard preview mini-kv command allowlist
+718: Controlled read-only shard preview forbidden operation checklist
+719: Controlled read-only shard preview evidence record schema
+720: Controlled read-only shard preview cleanup record schema
+721: Controlled read-only shard preview window readiness checklist
+722: Controlled read-only shard preview operator runbook order
+723: Controlled read-only shard preview runbook alignment check
+724: Controlled read-only shard preview archive snapshot inputs
+725: Controlled read-only shard preview archive verification inputs
+726: Controlled read-only shard preview archive summary lines
+727: Controlled read-only shard preview summary receipt metadata
+728: Controlled read-only shard preview receipt archive boundary
+729: Controlled read-only shard preview receipt archive verification
+730: Controlled read-only shard preview go/no-go decision packet
+731: Controlled read-only shard preview runbook package closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

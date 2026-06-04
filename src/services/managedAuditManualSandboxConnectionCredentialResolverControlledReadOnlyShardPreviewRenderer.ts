@@ -96,6 +96,18 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
       ledgerDigest: profile.preview.liveReadOnlyWindowStageLedger.ledgerDigest,
     }),
     "",
+    "## Live Read-Only Window Runbook Package",
+    ...renderEntries({
+      packageVersion: profile.preview.liveReadOnlyWindowRunbookPackage.packageVersion,
+      packageState: profile.preview.liveReadOnlyWindowRunbookPackage.packageState,
+      readyForOperatorLiveReadOnlyWindow:
+        profile.preview.liveReadOnlyWindowRunbookPackage.readyForOperatorLiveReadOnlyWindow,
+      sectionCount: profile.preview.liveReadOnlyWindowRunbookPackage.sectionCount,
+      cleanupRequiredSectionCount:
+        profile.preview.liveReadOnlyWindowRunbookPackage.cleanupRequiredSectionCount,
+      packageDigest: profile.preview.liveReadOnlyWindowRunbookPackage.packageDigest,
+    }),
+    "",
     "## Checks",
     ...renderEntries(profile.checks),
     "",
