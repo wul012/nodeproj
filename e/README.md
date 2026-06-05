@@ -474,6 +474,31 @@
 834: Controlled read-only shard preview evidence intake review package policy archive targets
 835: Controlled read-only shard preview evidence intake review package renderer maintenance boundary
 836: Controlled read-only shard preview evidence intake review package closeout
+837: Controlled read-only shard preview manual evidence entry worksheet source packet ready
+838: Controlled read-only shard preview manual evidence entry worksheet control count
+839: Controlled read-only shard preview manual evidence entry worksheet version order
+840: Controlled read-only shard preview manual evidence entry worksheet source record mapping
+841: Controlled read-only shard preview manual evidence entry worksheet pending capture state
+842: Controlled read-only shard preview manual evidence entry worksheet required fields
+843: Controlled read-only shard preview manual evidence entry worksheet acceptance criteria
+844: Controlled read-only shard preview manual evidence entry worksheet redaction rules
+845: Controlled read-only shard preview manual evidence entry worksheet manual input state
+846: Controlled read-only shard preview manual evidence entry worksheet runtime payload exclusion
+847: Controlled read-only shard preview manual evidence entry worksheet synthetic evidence rejection
+848: Controlled read-only shard preview manual evidence entry worksheet target coverage
+849: Controlled read-only shard preview manual evidence entry worksheet cleanup coverage
+850: Controlled read-only shard preview manual evidence entry worksheet failure class coverage
+851: Controlled read-only shard preview manual evidence entry worksheet secret exclusion
+852: Controlled read-only shard preview manual evidence entry worksheet read-only boundary
+853: Controlled read-only shard preview manual evidence entry worksheet write block
+854: Controlled read-only shard preview manual evidence entry worksheet service start block
+855: Controlled read-only shard preview manual evidence entry worksheet production execution block
+856: Controlled read-only shard preview manual evidence entry worksheet Node target
+857: Controlled read-only shard preview manual evidence entry worksheet Java target
+858: Controlled read-only shard preview manual evidence entry worksheet mini-kv target
+859: Controlled read-only shard preview manual evidence entry worksheet policy/archive targets
+860: Controlled read-only shard preview manual evidence entry worksheet catalog maintenance boundary
+861: Controlled read-only shard preview manual evidence entry worksheet closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -50,6 +50,10 @@ import * as evidenceIntakeReviewPackageArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageArtifacts.js";
 import * as evidenceIntakeReviewPackageRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageRenderer.js";
+import * as manualEvidenceEntryWorksheetArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetArtifacts.js";
+import * as manualEvidenceEntryWorksheetRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -184,5 +188,14 @@ describe("controlled read-only shard preview review artifact barrel", () => {
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageMarkdown)
       .toBe(evidenceIntakeReviewPackageRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageMarkdown);
+  });
+
+  it("re-exports live read-only window manual evidence entry worksheet helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet)
+      .toBe(manualEvidenceEntryWorksheetArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetMarkdown)
+      .toBe(manualEvidenceEntryWorksheetRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetMarkdown);
   });
 });

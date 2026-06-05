@@ -76,6 +76,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -234,6 +237,14 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetSlot,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetSlotKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -315,6 +326,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger;
     liveReadOnlyWindowEvidenceIntakeReviewPackage:
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage;
+    liveReadOnlyWindowManualEvidenceEntryWorksheet:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

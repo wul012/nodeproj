@@ -223,6 +223,31 @@
 839-controlled-read-only-shard-preview-evidence-intake-review-package-policy-archive-targets-v834.md
 840-controlled-read-only-shard-preview-evidence-intake-review-package-renderer-maintenance-boundary-v835.md
 841-controlled-read-only-shard-preview-evidence-intake-review-package-closeout-v836.md
+842-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-source-packet-ready-v837.md
+843-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-control-count-v838.md
+844-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-version-order-v839.md
+845-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-source-record-mapping-v840.md
+846-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-pending-capture-state-v841.md
+847-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-required-fields-v842.md
+848-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-acceptance-criteria-v843.md
+849-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-redaction-rules-v844.md
+850-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-manual-input-state-v845.md
+851-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-runtime-payload-exclusion-v846.md
+852-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-synthetic-evidence-rejection-v847.md
+853-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-target-coverage-v848.md
+854-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-cleanup-coverage-v849.md
+855-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-failure-class-coverage-v850.md
+856-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-secret-exclusion-v851.md
+857-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-read-only-boundary-v852.md
+858-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-write-block-v853.md
+859-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-service-start-block-v854.md
+860-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-production-execution-block-v855.md
+861-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-node-target-v856.md
+862-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-java-target-v857.md
+863-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-mini-kv-target-v858.md
+864-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-policy-archive-targets-v859.md
+865-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-catalog-maintenance-boundary-v860.md
+866-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-closeout-v861.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

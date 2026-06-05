@@ -1,3 +1,7 @@
+import {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogEntryBuilder.js";
+
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
   order: number;
   id: string;
@@ -10,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v836";
+  catalogVersion: "Node v861";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v836";
+  validationVersion: "Node v861";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -425,6 +429,47 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 38,
+    id: "live-read-only-window-manual-evidence-entry-worksheet-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetTypes.ts",
+    owns: ["manual evidence entry worksheet", "blank worksheet slots", "worksheet gates"],
+    consumedBy: ["manual evidence entry worksheet artifacts", "manual evidence entry worksheet renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep blank manual-entry worksheet contracts separate from review package contracts.",
+    stopCondition: "Do not split unless actual entered evidence values or importer state gain their own lifecycle.",
+  },
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 39,
+    id: "live-read-only-window-manual-evidence-entry-worksheet-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetArtifacts.ts",
+    owns: ["manual evidence entry worksheet builder", "blank slot gates", "worksheet digest"],
+    consumedBy: ["review artifact barrel", "manual evidence entry worksheet tests", "profile assembly"],
+    maintenanceRule: "Use the catalog entry builder for new catalog entries to avoid repeating the full entry shape.",
+    stopCondition: "Do not split unless the worksheet starts accepting actual operator-entered evidence values.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 40,
+    id: "live-read-only-window-manual-evidence-entry-worksheet-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetRenderer.ts",
+    owns: ["manual evidence entry worksheet markdown", "blank slot rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep worksheet Markdown separate from worksheet generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 41,
+    id: "type-module-catalog-entry-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogEntryBuilder.ts",
+    owns: ["type module catalog entry defaults", "catalog entry boilerplate removal"],
+    consumedBy: ["type module catalog", "future catalog entry additions"],
+    maintenanceRule: "Use the builder for newly added catalog entries so ownership declarations stay compact.",
+    stopCondition: "Do not split unless catalog entry validation gains a separate lifecycle.",
+  }),
+  {
+    order: 42,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -448,7 +493,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v836",
+    catalogVersion: "Node v861",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -509,7 +554,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v836",
+    validationVersion: "Node v861",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
