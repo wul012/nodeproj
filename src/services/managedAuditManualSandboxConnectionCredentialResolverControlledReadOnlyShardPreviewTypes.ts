@@ -70,6 +70,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -210,6 +213,14 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerEntry,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerEntryKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -287,6 +298,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
     liveReadOnlyWindowRehearsalPacket: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket;
     liveReadOnlyWindowCommandWorksheet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet;
     liveReadOnlyWindowEvidencePacket: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket;
+    liveReadOnlyWindowEvidenceIntakeLedger:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

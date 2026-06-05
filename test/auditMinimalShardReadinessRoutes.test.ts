@@ -72,6 +72,12 @@ describe("minimal shard readiness audit route group", () => {
       expect(markdown.body).toContain("## Source Matrix Handoff Route Coverage Archive Summary Receipt Archive Snapshot");
       expect(markdown.body)
         .toContain("## Source Matrix Handoff Route Coverage Archive Summary Receipt Archive Verification");
+      expect(markdown.body).toContain("## Live Read-Only Window Evidence Intake Ledger");
+      expect(markdown.body).toContain("ledgerState: blocked");
+      expect(markdown.body).toContain("readyForManualEvidenceIntake: false");
+      expect(markdown.body).toContain("entryCount: 20");
+      expect(markdown.body).toContain("importsRuntimePayload: false");
+      expect(markdown.body).toContain("acceptsSyntheticEvidence: false");
       expect(markdown.body).toContain("Summary state: blocked");
       expect(markdown.body).toContain("Summary digest scope: read-only-handoff-summary");
       expect(markdown.body).toContain("Decision: blocked");

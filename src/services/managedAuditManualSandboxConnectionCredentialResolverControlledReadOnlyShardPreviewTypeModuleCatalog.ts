@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v791";
+  catalogVersion: "Node v811";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v791";
+  validationVersion: "Node v811";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -348,6 +348,39 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 31,
+    id: "live-read-only-window-evidence-intake-ledger-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerTypes.ts",
+    owns: ["manual evidence intake ledger", "intake entries", "intake ledger gates"],
+    consumedBy: ["evidence intake ledger artifacts", "evidence intake ledger renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep evidence intake contracts separate from pending evidence packet contracts.",
+    stopCondition: "Do not split unless manual-entry persistence or captured evidence import gains its own lifecycle.",
+  },
+  {
+    order: 32,
+    id: "live-read-only-window-evidence-intake-ledger-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerArtifacts.ts",
+    owns: ["intake ledger builder", "manual intake safety gates", "intake ledger digest"],
+    consumedBy: ["review artifact barrel", "evidence intake ledger tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep manual evidence intake validation with the ledger digest while it remains non-executing.",
+    stopCondition: "Do not split unless the ledger starts consuming actual captured runtime evidence files.",
+  },
+  {
+    order: 33,
+    id: "live-read-only-window-evidence-intake-ledger-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerRenderer.ts",
+    owns: ["evidence intake ledger markdown", "manual intake entry rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep intake ledger Markdown separate from ledger generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  },
+  {
+    order: 34,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -371,7 +404,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v791",
+    catalogVersion: "Node v811",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -432,7 +465,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v791",
+    validationVersion: "Node v811",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

@@ -151,6 +151,25 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
       evidencePacketDigest: profile.preview.liveReadOnlyWindowEvidencePacket.evidencePacketDigest,
     }),
     "",
+    "## Live Read-Only Window Evidence Intake Ledger",
+    ...renderEntries({
+      ledgerVersion: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.ledgerVersion,
+      ledgerState: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.ledgerState,
+      readyForManualEvidenceIntake:
+        profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.readyForManualEvidenceIntake,
+      entryCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.entryCount,
+      requiredFieldCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.requiredFieldCount,
+      acceptanceCriterionCount:
+        profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.acceptanceCriterionCount,
+      cleanupEntryCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.cleanupEntryCount,
+      targetCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.targetCount,
+      importsRuntimePayload: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.importsRuntimePayload,
+      acceptsSyntheticEvidence:
+        profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.acceptsSyntheticEvidence,
+      containsSecretValue: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.containsSecretValue,
+      ledgerDigest: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.ledgerDigest,
+    }),
+    "",
     "## Checks",
     ...renderEntries(profile.checks),
     "",

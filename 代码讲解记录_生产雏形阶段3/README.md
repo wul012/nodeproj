@@ -178,6 +178,26 @@
 794-controlled-read-only-shard-preview-evidence-packet-archive-verification-record-v789.md
 795-controlled-read-only-shard-preview-evidence-packet-go-no-go-receipt-record-v790.md
 796-controlled-read-only-shard-preview-evidence-packet-closeout-v791.md
+797-controlled-read-only-shard-preview-evidence-intake-ledger-source-packet-review-v792.md
+798-controlled-read-only-shard-preview-evidence-intake-ledger-operator-context-entry-v793.md
+799-controlled-read-only-shard-preview-evidence-intake-ledger-node-health-entry-v794.md
+800-controlled-read-only-shard-preview-evidence-intake-ledger-node-markdown-entry-v795.md
+801-controlled-read-only-shard-preview-evidence-intake-ledger-java-shard-readiness-entry-v796.md
+802-controlled-read-only-shard-preview-evidence-intake-ledger-mini-kv-shardjson-entry-v797.md
+803-controlled-read-only-shard-preview-evidence-intake-ledger-header-redaction-entry-v798.md
+804-controlled-read-only-shard-preview-evidence-intake-ledger-mini-kv-allowlist-entry-v799.md
+805-controlled-read-only-shard-preview-evidence-intake-ledger-forbidden-operation-entry-v800.md
+806-controlled-read-only-shard-preview-evidence-intake-ledger-node-acceptance-entry-v801.md
+807-controlled-read-only-shard-preview-evidence-intake-ledger-java-acceptance-entry-v802.md
+808-controlled-read-only-shard-preview-evidence-intake-ledger-mini-kv-acceptance-entry-v803.md
+809-controlled-read-only-shard-preview-evidence-intake-ledger-node-cleanup-entry-v804.md
+810-controlled-read-only-shard-preview-evidence-intake-ledger-sibling-cleanup-entry-v805.md
+811-controlled-read-only-shard-preview-evidence-intake-ledger-node-failure-triage-entry-v806.md
+812-controlled-read-only-shard-preview-evidence-intake-ledger-sibling-failure-triage-entry-v807.md
+813-controlled-read-only-shard-preview-evidence-intake-ledger-archive-snapshot-entry-v808.md
+814-controlled-read-only-shard-preview-evidence-intake-ledger-archive-verification-entry-v809.md
+815-controlled-read-only-shard-preview-evidence-intake-ledger-go-no-go-receipt-entry-v810.md
+816-controlled-read-only-shard-preview-evidence-intake-ledger-closeout-v811.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

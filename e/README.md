@@ -429,6 +429,26 @@
 789: Controlled read-only shard preview evidence packet archive verification record
 790: Controlled read-only shard preview evidence packet go/no-go receipt record
 791: Controlled read-only shard preview evidence packet closeout
+792: Controlled read-only shard preview evidence intake ledger source packet review
+793: Controlled read-only shard preview evidence intake ledger operator context entry
+794: Controlled read-only shard preview evidence intake ledger Node health entry
+795: Controlled read-only shard preview evidence intake ledger Node Markdown entry
+796: Controlled read-only shard preview evidence intake ledger Java shard readiness entry
+797: Controlled read-only shard preview evidence intake ledger mini-kv SHARDJSON entry
+798: Controlled read-only shard preview evidence intake ledger header redaction entry
+799: Controlled read-only shard preview evidence intake ledger mini-kv allowlist entry
+800: Controlled read-only shard preview evidence intake ledger forbidden operation entry
+801: Controlled read-only shard preview evidence intake ledger Node acceptance entry
+802: Controlled read-only shard preview evidence intake ledger Java acceptance entry
+803: Controlled read-only shard preview evidence intake ledger mini-kv acceptance entry
+804: Controlled read-only shard preview evidence intake ledger Node cleanup entry
+805: Controlled read-only shard preview evidence intake ledger sibling cleanup entry
+806: Controlled read-only shard preview evidence intake ledger Node failure triage entry
+807: Controlled read-only shard preview evidence intake ledger sibling failure triage entry
+808: Controlled read-only shard preview evidence intake ledger archive snapshot entry
+809: Controlled read-only shard preview evidence intake ledger archive verification entry
+810: Controlled read-only shard preview evidence intake ledger go/no-go receipt entry
+811: Controlled read-only shard preview evidence intake ledger closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
