@@ -73,6 +73,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -221,6 +224,16 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageControl,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageControlKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageControlScope,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageLedgerGate,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -300,6 +313,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
     liveReadOnlyWindowEvidencePacket: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket;
     liveReadOnlyWindowEvidenceIntakeLedger:
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger;
+    liveReadOnlyWindowEvidenceIntakeReviewPackage:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

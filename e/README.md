@@ -449,6 +449,31 @@
 809: Controlled read-only shard preview evidence intake ledger archive verification entry
 810: Controlled read-only shard preview evidence intake ledger go/no-go receipt entry
 811: Controlled read-only shard preview evidence intake ledger closeout
+812: Controlled read-only shard preview evidence intake review package source packet ready
+813: Controlled read-only shard preview evidence intake review package control count
+814: Controlled read-only shard preview evidence intake review package version order
+815: Controlled read-only shard preview evidence intake review package source record mapping
+816: Controlled read-only shard preview evidence intake review package pending capture state
+817: Controlled read-only shard preview evidence intake review package required fields
+818: Controlled read-only shard preview evidence intake review package acceptance criteria
+819: Controlled read-only shard preview evidence intake review package redaction rules
+820: Controlled read-only shard preview evidence intake review package manual input state
+821: Controlled read-only shard preview evidence intake review package runtime payload exclusion
+822: Controlled read-only shard preview evidence intake review package synthetic evidence rejection
+823: Controlled read-only shard preview evidence intake review package target coverage
+824: Controlled read-only shard preview evidence intake review package cleanup coverage
+825: Controlled read-only shard preview evidence intake review package failure class coverage
+826: Controlled read-only shard preview evidence intake review package secret exclusion
+827: Controlled read-only shard preview evidence intake review package read-only boundary
+828: Controlled read-only shard preview evidence intake review package write block
+829: Controlled read-only shard preview evidence intake review package service start block
+830: Controlled read-only shard preview evidence intake review package production execution block
+831: Controlled read-only shard preview evidence intake review package Node target
+832: Controlled read-only shard preview evidence intake review package Java target
+833: Controlled read-only shard preview evidence intake review package mini-kv target
+834: Controlled read-only shard preview evidence intake review package policy archive targets
+835: Controlled read-only shard preview evidence intake review package renderer maintenance boundary
+836: Controlled read-only shard preview evidence intake review package closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

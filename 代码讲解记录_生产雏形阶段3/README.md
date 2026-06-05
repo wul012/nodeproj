@@ -198,6 +198,31 @@
 814-controlled-read-only-shard-preview-evidence-intake-ledger-archive-verification-entry-v809.md
 815-controlled-read-only-shard-preview-evidence-intake-ledger-go-no-go-receipt-entry-v810.md
 816-controlled-read-only-shard-preview-evidence-intake-ledger-closeout-v811.md
+817-controlled-read-only-shard-preview-evidence-intake-review-package-source-packet-ready-v812.md
+818-controlled-read-only-shard-preview-evidence-intake-review-package-control-count-v813.md
+819-controlled-read-only-shard-preview-evidence-intake-review-package-version-order-v814.md
+820-controlled-read-only-shard-preview-evidence-intake-review-package-source-record-mapping-v815.md
+821-controlled-read-only-shard-preview-evidence-intake-review-package-pending-capture-state-v816.md
+822-controlled-read-only-shard-preview-evidence-intake-review-package-required-fields-v817.md
+823-controlled-read-only-shard-preview-evidence-intake-review-package-acceptance-criteria-v818.md
+824-controlled-read-only-shard-preview-evidence-intake-review-package-redaction-rules-v819.md
+825-controlled-read-only-shard-preview-evidence-intake-review-package-manual-input-state-v820.md
+826-controlled-read-only-shard-preview-evidence-intake-review-package-runtime-payload-exclusion-v821.md
+827-controlled-read-only-shard-preview-evidence-intake-review-package-synthetic-evidence-rejection-v822.md
+828-controlled-read-only-shard-preview-evidence-intake-review-package-target-coverage-v823.md
+829-controlled-read-only-shard-preview-evidence-intake-review-package-cleanup-coverage-v824.md
+830-controlled-read-only-shard-preview-evidence-intake-review-package-failure-class-coverage-v825.md
+831-controlled-read-only-shard-preview-evidence-intake-review-package-secret-exclusion-v826.md
+832-controlled-read-only-shard-preview-evidence-intake-review-package-read-only-boundary-v827.md
+833-controlled-read-only-shard-preview-evidence-intake-review-package-write-block-v828.md
+834-controlled-read-only-shard-preview-evidence-intake-review-package-service-start-block-v829.md
+835-controlled-read-only-shard-preview-evidence-intake-review-package-production-execution-block-v830.md
+836-controlled-read-only-shard-preview-evidence-intake-review-package-node-target-v831.md
+837-controlled-read-only-shard-preview-evidence-intake-review-package-java-target-v832.md
+838-controlled-read-only-shard-preview-evidence-intake-review-package-mini-kv-target-v833.md
+839-controlled-read-only-shard-preview-evidence-intake-review-package-policy-archive-targets-v834.md
+840-controlled-read-only-shard-preview-evidence-intake-review-package-renderer-maintenance-boundary-v835.md
+841-controlled-read-only-shard-preview-evidence-intake-review-package-closeout-v836.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

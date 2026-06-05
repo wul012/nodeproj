@@ -1,6 +1,7 @@
 import { formatValue, renderEntries, renderMessages } from "./liveProbeReportUtils.js";
 import { renderControlledReadOnlyShardPreviewHandoffSummarySections } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffSummaryRenderer.js";
 import { renderControlledReadOnlyShardPreviewHandoffRouteCoverageSections } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageRenderer.js";
+import { renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.js";
 import { renderControlledReadOnlyShardPreviewSourceMatrixSections } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixRenderer.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
@@ -49,127 +50,7 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
     ...renderControlledReadOnlyShardPreviewSourceMatrixSections(profile),
     ...renderControlledReadOnlyShardPreviewHandoffSummarySections(profile),
     ...renderControlledReadOnlyShardPreviewHandoffRouteCoverageSections(profile),
-    "## Execution Gap Matrix",
-    ...renderEntries({
-      matrixVersion: profile.preview.executionGapMatrix.matrixVersion,
-      matrixState: profile.preview.executionGapMatrix.matrixState,
-      readyForLiveReadOnlyPacketPlanning:
-        profile.preview.executionGapMatrix.readyForLiveReadOnlyPacketPlanning,
-      readyForLiveReadOnlyExecution: profile.preview.executionGapMatrix.readyForLiveReadOnlyExecution,
-      readyForProductionExecution: profile.preview.executionGapMatrix.readyForProductionExecution,
-      gateCount: profile.preview.executionGapMatrix.gateCount,
-      actionRequiredGateCount: profile.preview.executionGapMatrix.actionRequiredGateCount,
-      productionExecutionBlockerCount: profile.preview.executionGapMatrix.productionExecutionBlockerCount,
-    }),
-    "",
-    "## Live Read-Only Packet Candidate",
-    ...renderEntries({
-      candidateVersion: profile.preview.liveReadOnlyPacketCandidate.candidateVersion,
-      candidateState: profile.preview.liveReadOnlyPacketCandidate.candidateState,
-      readyForManualLiveReadOnlyWindow:
-        profile.preview.liveReadOnlyPacketCandidate.readyForManualLiveReadOnlyWindow,
-      processStepCount: profile.preview.liveReadOnlyPacketCandidate.processStepCount,
-      readTargetCount: profile.preview.liveReadOnlyPacketCandidate.readTargetCount,
-      candidateDigest: profile.preview.liveReadOnlyPacketCandidate.candidateDigest,
-    }),
-    "",
-    "## Live Read-Only Packet Candidate Verification",
-    ...renderEntries({
-      verificationVersion: profile.preview.liveReadOnlyPacketCandidateVerification.verificationVersion,
-      verificationState: profile.preview.liveReadOnlyPacketCandidateVerification.verificationState,
-      readyForManualLiveReadOnlyWindow:
-        profile.preview.liveReadOnlyPacketCandidateVerification.readyForManualLiveReadOnlyWindow,
-      passedGateCount: profile.preview.liveReadOnlyPacketCandidateVerification.passedGateCount,
-      gateCount: profile.preview.liveReadOnlyPacketCandidateVerification.gateCount,
-      nextAction: profile.preview.liveReadOnlyPacketCandidateVerification.nextAction,
-    }),
-    "",
-    "## Live Read-Only Window Stage Ledger",
-    ...renderEntries({
-      ledgerVersion: profile.preview.liveReadOnlyWindowStageLedger.ledgerVersion,
-      ledgerState: profile.preview.liveReadOnlyWindowStageLedger.ledgerState,
-      readyForManualLiveReadOnlyWindow:
-        profile.preview.liveReadOnlyWindowStageLedger.readyForManualLiveReadOnlyWindow,
-      stageCount: profile.preview.liveReadOnlyWindowStageLedger.stageCount,
-      readyStageCount: profile.preview.liveReadOnlyWindowStageLedger.readyStageCount,
-      cleanupRequiredStageCount: profile.preview.liveReadOnlyWindowStageLedger.cleanupRequiredStageCount,
-      ledgerDigest: profile.preview.liveReadOnlyWindowStageLedger.ledgerDigest,
-    }),
-    "",
-    "## Live Read-Only Window Runbook Package",
-    ...renderEntries({
-      packageVersion: profile.preview.liveReadOnlyWindowRunbookPackage.packageVersion,
-      packageState: profile.preview.liveReadOnlyWindowRunbookPackage.packageState,
-      readyForOperatorLiveReadOnlyWindow:
-        profile.preview.liveReadOnlyWindowRunbookPackage.readyForOperatorLiveReadOnlyWindow,
-      sectionCount: profile.preview.liveReadOnlyWindowRunbookPackage.sectionCount,
-      cleanupRequiredSectionCount:
-        profile.preview.liveReadOnlyWindowRunbookPackage.cleanupRequiredSectionCount,
-      packageDigest: profile.preview.liveReadOnlyWindowRunbookPackage.packageDigest,
-    }),
-    "",
-    "## Live Read-Only Window Rehearsal Packet",
-    ...renderEntries({
-      packetVersion: profile.preview.liveReadOnlyWindowRehearsalPacket.packetVersion,
-      packetState: profile.preview.liveReadOnlyWindowRehearsalPacket.packetState,
-      readyForManualLiveReadOnlyRehearsal:
-        profile.preview.liveReadOnlyWindowRehearsalPacket.readyForManualLiveReadOnlyRehearsal,
-      stepCount: profile.preview.liveReadOnlyWindowRehearsalPacket.stepCount,
-      evidenceSlotCount: profile.preview.liveReadOnlyWindowRehearsalPacket.evidenceSlotCount,
-      failureClassCount: profile.preview.liveReadOnlyWindowRehearsalPacket.failureClassCount,
-      packetDigest: profile.preview.liveReadOnlyWindowRehearsalPacket.packetDigest,
-    }),
-    "",
-    "## Live Read-Only Window Command Worksheet",
-    ...renderEntries({
-      worksheetVersion: profile.preview.liveReadOnlyWindowCommandWorksheet.worksheetVersion,
-      worksheetState: profile.preview.liveReadOnlyWindowCommandWorksheet.worksheetState,
-      readyForManualCommandReview:
-        profile.preview.liveReadOnlyWindowCommandWorksheet.readyForManualCommandReview,
-      stepCount: profile.preview.liveReadOnlyWindowCommandWorksheet.stepCount,
-      commandTemplateCount: profile.preview.liveReadOnlyWindowCommandWorksheet.commandTemplateCount,
-      targetCount: profile.preview.liveReadOnlyWindowCommandWorksheet.targetCount,
-      evidenceSlotCount: profile.preview.liveReadOnlyWindowCommandWorksheet.evidenceSlotCount,
-      cleanupSlotCount: profile.preview.liveReadOnlyWindowCommandWorksheet.cleanupSlotCount,
-      containsSecretValue: profile.preview.liveReadOnlyWindowCommandWorksheet.containsSecretValue,
-      worksheetDigest: profile.preview.liveReadOnlyWindowCommandWorksheet.worksheetDigest,
-    }),
-    "",
-    "## Live Read-Only Window Evidence Packet",
-    ...renderEntries({
-      evidencePacketVersion: profile.preview.liveReadOnlyWindowEvidencePacket.evidencePacketVersion,
-      packetState: profile.preview.liveReadOnlyWindowEvidencePacket.packetState,
-      readyForManualEvidenceCapture:
-        profile.preview.liveReadOnlyWindowEvidencePacket.readyForManualEvidenceCapture,
-      recordCount: profile.preview.liveReadOnlyWindowEvidencePacket.recordCount,
-      commandEvidenceRecordCount:
-        profile.preview.liveReadOnlyWindowEvidencePacket.commandEvidenceRecordCount,
-      cleanupRecordCount: profile.preview.liveReadOnlyWindowEvidencePacket.cleanupRecordCount,
-      targetCount: profile.preview.liveReadOnlyWindowEvidencePacket.targetCount,
-      runtimePayloadCaptured: profile.preview.liveReadOnlyWindowEvidencePacket.runtimePayloadCaptured,
-      containsSecretValue: profile.preview.liveReadOnlyWindowEvidencePacket.containsSecretValue,
-      evidencePacketDigest: profile.preview.liveReadOnlyWindowEvidencePacket.evidencePacketDigest,
-    }),
-    "",
-    "## Live Read-Only Window Evidence Intake Ledger",
-    ...renderEntries({
-      ledgerVersion: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.ledgerVersion,
-      ledgerState: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.ledgerState,
-      readyForManualEvidenceIntake:
-        profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.readyForManualEvidenceIntake,
-      entryCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.entryCount,
-      requiredFieldCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.requiredFieldCount,
-      acceptanceCriterionCount:
-        profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.acceptanceCriterionCount,
-      cleanupEntryCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.cleanupEntryCount,
-      targetCount: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.targetCount,
-      importsRuntimePayload: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.importsRuntimePayload,
-      acceptsSyntheticEvidence:
-        profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.acceptsSyntheticEvidence,
-      containsSecretValue: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.containsSecretValue,
-      ledgerDigest: profile.preview.liveReadOnlyWindowEvidenceIntakeLedger.ledgerDigest,
-    }),
-    "",
+    ...renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(profile),
     "## Checks",
     ...renderEntries(profile.checks),
     "",

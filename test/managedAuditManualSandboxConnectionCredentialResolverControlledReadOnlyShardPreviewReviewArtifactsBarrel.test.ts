@@ -46,6 +46,10 @@ import * as evidenceIntakeLedgerArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerArtifacts.js";
 import * as evidenceIntakeLedgerRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerRenderer.js";
+import * as evidenceIntakeReviewPackageArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageArtifacts.js";
+import * as evidenceIntakeReviewPackageRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -171,5 +175,14 @@ describe("controlled read-only shard preview review artifact barrel", () => {
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerMarkdown)
       .toBe(evidenceIntakeLedgerRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerMarkdown);
+  });
+
+  it("re-exports live read-only window evidence intake review package helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage)
+      .toBe(evidenceIntakeReviewPackageArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageMarkdown)
+      .toBe(evidenceIntakeReviewPackageRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageMarkdown);
   });
 });

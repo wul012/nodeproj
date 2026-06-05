@@ -78,6 +78,11 @@ describe("minimal shard readiness audit route group", () => {
       expect(markdown.body).toContain("entryCount: 20");
       expect(markdown.body).toContain("importsRuntimePayload: false");
       expect(markdown.body).toContain("acceptsSyntheticEvidence: false");
+      expect(markdown.body).toContain("## Live Read-Only Window Evidence Intake Review Package");
+      expect(markdown.body).toContain("packageState: blocked");
+      expect(markdown.body).toContain("readyForOperatorIntakeReview: false");
+      expect(markdown.body).toContain("readyForManualEvidenceEntry: false");
+      expect(markdown.body).toContain("controlCount: 25");
       expect(markdown.body).toContain("Summary state: blocked");
       expect(markdown.body).toContain("Summary digest scope: read-only-handoff-summary");
       expect(markdown.body).toContain("Decision: blocked");

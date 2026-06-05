@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v811";
+  catalogVersion: "Node v836";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v811";
+  validationVersion: "Node v836";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -381,6 +381,50 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 34,
+    id: "live-read-only-window-evidence-intake-review-package-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageTypes.ts",
+    owns: ["manual evidence intake review package", "review controls", "review package gates"],
+    consumedBy: ["evidence intake review package artifacts", "evidence intake review package renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep operator intake review contracts separate from the manual intake ledger.",
+    stopCondition: "Do not split unless captured evidence import, operator form state, or review controls gain separate lifecycles.",
+  },
+  {
+    order: 35,
+    id: "live-read-only-window-evidence-intake-review-package-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageArtifacts.ts",
+    owns: ["review package builder", "operator intake review gates", "review package digest"],
+    consumedBy: ["review artifact barrel", "evidence intake review package tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep review control generation and gate validation together while it remains non-importing.",
+    stopCondition: "Do not split unless the package starts consuming actual manually entered evidence.",
+  },
+  {
+    order: 36,
+    id: "live-read-only-window-evidence-intake-review-package-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageRenderer.ts",
+    owns: ["review package markdown", "operator intake control rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep review package Markdown separate from review package generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  },
+  {
+    order: 37,
+    id: "live-read-only-window-profile-sections-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.ts",
+    owns: ["live-window profile markdown sections", "main renderer split boundary"],
+    consumedBy: ["controlled read-only shard preview renderer", "route markdown smoke tests"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep live-window route sections out of the top-level renderer as the chain grows.",
+    stopCondition: "Do not split unless a live-window subsection gains route-specific behavior.",
+  },
+  {
+    order: 38,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -404,7 +448,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v811",
+    catalogVersion: "Node v836",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -465,7 +509,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v811",
+    validationVersion: "Node v836",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
