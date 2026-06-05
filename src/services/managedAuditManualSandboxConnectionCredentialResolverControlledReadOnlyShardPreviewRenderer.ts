@@ -135,6 +135,22 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
       worksheetDigest: profile.preview.liveReadOnlyWindowCommandWorksheet.worksheetDigest,
     }),
     "",
+    "## Live Read-Only Window Evidence Packet",
+    ...renderEntries({
+      evidencePacketVersion: profile.preview.liveReadOnlyWindowEvidencePacket.evidencePacketVersion,
+      packetState: profile.preview.liveReadOnlyWindowEvidencePacket.packetState,
+      readyForManualEvidenceCapture:
+        profile.preview.liveReadOnlyWindowEvidencePacket.readyForManualEvidenceCapture,
+      recordCount: profile.preview.liveReadOnlyWindowEvidencePacket.recordCount,
+      commandEvidenceRecordCount:
+        profile.preview.liveReadOnlyWindowEvidencePacket.commandEvidenceRecordCount,
+      cleanupRecordCount: profile.preview.liveReadOnlyWindowEvidencePacket.cleanupRecordCount,
+      targetCount: profile.preview.liveReadOnlyWindowEvidencePacket.targetCount,
+      runtimePayloadCaptured: profile.preview.liveReadOnlyWindowEvidencePacket.runtimePayloadCaptured,
+      containsSecretValue: profile.preview.liveReadOnlyWindowEvidencePacket.containsSecretValue,
+      evidencePacketDigest: profile.preview.liveReadOnlyWindowEvidencePacket.evidencePacketDigest,
+    }),
+    "",
     "## Checks",
     ...renderEntries(profile.checks),
     "",

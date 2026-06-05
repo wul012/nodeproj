@@ -38,6 +38,10 @@ import * as commandWorksheetArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetArtifacts.js";
 import * as commandWorksheetRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetRenderer.js";
+import * as evidencePacketArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketArtifacts.js";
+import * as evidencePacketRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -147,5 +151,12 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(commandWorksheetArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet);
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown)
       .toBe(commandWorksheetRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown);
+  });
+
+  it("re-exports live read-only window evidence packet helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket)
+      .toBe(evidencePacketArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketMarkdown)
+      .toBe(evidencePacketRenderer.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketMarkdown);
   });
 });

@@ -88,3 +88,11 @@ export {
 export {
   renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetRenderer.js";
+
+export {
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketArtifacts.js";
+
+export {
+  renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketMarkdown,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRenderer.js";

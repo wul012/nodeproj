@@ -158,6 +158,26 @@
 774-controlled-read-only-shard-preview-command-worksheet-archive-verification-record-v769.md
 775-controlled-read-only-shard-preview-command-worksheet-go-no-go-record-v770.md
 776-controlled-read-only-shard-preview-command-worksheet-closeout-v771.md
+777-controlled-read-only-shard-preview-evidence-packet-source-worksheet-check-v772.md
+778-controlled-read-only-shard-preview-evidence-packet-operator-context-record-v773.md
+779-controlled-read-only-shard-preview-evidence-packet-node-health-record-v774.md
+780-controlled-read-only-shard-preview-evidence-packet-node-markdown-record-v775.md
+781-controlled-read-only-shard-preview-evidence-packet-java-shard-readiness-record-v776.md
+782-controlled-read-only-shard-preview-evidence-packet-mini-kv-shardjson-record-v777.md
+783-controlled-read-only-shard-preview-evidence-packet-header-redaction-record-v778.md
+784-controlled-read-only-shard-preview-evidence-packet-mini-kv-allowlist-record-v779.md
+785-controlled-read-only-shard-preview-evidence-packet-forbidden-operation-record-v780.md
+786-controlled-read-only-shard-preview-evidence-packet-node-acceptance-rule-v781.md
+787-controlled-read-only-shard-preview-evidence-packet-java-acceptance-rule-v782.md
+788-controlled-read-only-shard-preview-evidence-packet-mini-kv-acceptance-rule-v783.md
+789-controlled-read-only-shard-preview-evidence-packet-node-cleanup-record-v784.md
+790-controlled-read-only-shard-preview-evidence-packet-sibling-cleanup-record-v785.md
+791-controlled-read-only-shard-preview-evidence-packet-node-failure-triage-record-v786.md
+792-controlled-read-only-shard-preview-evidence-packet-sibling-failure-triage-record-v787.md
+793-controlled-read-only-shard-preview-evidence-packet-archive-snapshot-record-v788.md
+794-controlled-read-only-shard-preview-evidence-packet-archive-verification-record-v789.md
+795-controlled-read-only-shard-preview-evidence-packet-go-no-go-receipt-record-v790.md
+796-controlled-read-only-shard-preview-evidence-packet-closeout-v791.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

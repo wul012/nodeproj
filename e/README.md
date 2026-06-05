@@ -409,6 +409,26 @@
 769: Controlled read-only shard preview command worksheet archive verification record
 770: Controlled read-only shard preview command worksheet go/no-go record
 771: Controlled read-only shard preview command worksheet closeout
+772: Controlled read-only shard preview evidence packet source worksheet check
+773: Controlled read-only shard preview evidence packet operator context record
+774: Controlled read-only shard preview evidence packet Node health record
+775: Controlled read-only shard preview evidence packet Node Markdown record
+776: Controlled read-only shard preview evidence packet Java shard readiness record
+777: Controlled read-only shard preview evidence packet mini-kv SHARDJSON record
+778: Controlled read-only shard preview evidence packet header redaction record
+779: Controlled read-only shard preview evidence packet mini-kv allowlist record
+780: Controlled read-only shard preview evidence packet forbidden operation record
+781: Controlled read-only shard preview evidence packet Node acceptance rule
+782: Controlled read-only shard preview evidence packet Java acceptance rule
+783: Controlled read-only shard preview evidence packet mini-kv acceptance rule
+784: Controlled read-only shard preview evidence packet Node cleanup record
+785: Controlled read-only shard preview evidence packet sibling cleanup record
+786: Controlled read-only shard preview evidence packet Node failure triage record
+787: Controlled read-only shard preview evidence packet sibling failure triage record
+788: Controlled read-only shard preview evidence packet archive snapshot record
+789: Controlled read-only shard preview evidence packet archive verification record
+790: Controlled read-only shard preview evidence packet go/no-go receipt record
+791: Controlled read-only shard preview evidence packet closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

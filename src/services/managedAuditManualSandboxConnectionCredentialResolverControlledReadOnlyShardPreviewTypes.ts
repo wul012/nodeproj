@@ -67,6 +67,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -199,6 +202,14 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRecord,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRecordKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -275,6 +286,7 @@ export interface ControlledReadOnlyShardPreviewProfile {
     liveReadOnlyWindowRunbookPackage: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage;
     liveReadOnlyWindowRehearsalPacket: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket;
     liveReadOnlyWindowCommandWorksheet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet;
+    liveReadOnlyWindowEvidencePacket: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

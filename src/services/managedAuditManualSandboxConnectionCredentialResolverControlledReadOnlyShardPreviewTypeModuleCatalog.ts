@@ -10,7 +10,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v771";
+  catalogVersion: "Node v791";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -19,7 +19,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v771";
+  validationVersion: "Node v791";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -315,6 +315,39 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
   },
   {
     order: 28,
+    id: "live-read-only-window-evidence-packet-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.ts",
+    owns: ["manual evidence packet", "pending capture records", "evidence packet gates"],
+    consumedBy: ["evidence packet artifacts", "evidence packet renderer", "profile types"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep manual evidence packet contracts separate from command worksheet contracts.",
+    stopCondition: "Do not split unless record capture, archive verification, or go/no-go receipts gain independent builders.",
+  },
+  {
+    order: 29,
+    id: "live-read-only-window-evidence-packet-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketArtifacts.ts",
+    owns: ["evidence packet builder", "pending capture validation", "evidence packet digest"],
+    consumedBy: ["review artifact barrel", "evidence packet tests", "profile assembly"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep evidence record generation and validation together while it remains pending manual capture.",
+    stopCondition: "Do not split unless the packet starts importing actual live evidence files.",
+  },
+  {
+    order: 30,
+    id: "live-read-only-window-evidence-packet-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRenderer.ts",
+    owns: ["evidence packet markdown", "pending capture record rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    exportsViaStableProfileTypes: true,
+    maintenanceRule: "Keep evidence packet Markdown separate from packet generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  },
+  {
+    order: 31,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -338,7 +371,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v771",
+    catalogVersion: "Node v791",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -399,7 +432,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v771",
+    validationVersion: "Node v791",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

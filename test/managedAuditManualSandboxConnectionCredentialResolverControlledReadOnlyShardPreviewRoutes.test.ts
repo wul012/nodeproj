@@ -93,6 +93,10 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("readyForManualCommandReview: true");
       expect(markdown.body).toContain("commandTemplateCount: 20");
       expect(markdown.body).toContain("containsSecretValue: false");
+      expect(markdown.body).toContain("## Live Read-Only Window Evidence Packet");
+      expect(markdown.body).toContain("readyForManualEvidenceCapture: true");
+      expect(markdown.body).toContain("commandEvidenceRecordCount: 4");
+      expect(markdown.body).toContain("runtimePayloadCaptured: false");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
