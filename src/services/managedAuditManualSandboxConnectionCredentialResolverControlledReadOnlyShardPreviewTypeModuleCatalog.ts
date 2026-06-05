@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v886";
+  catalogVersion: "Node v911";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v886";
+  validationVersion: "Node v911";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -508,8 +508,48 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep import preflight Markdown separate from import preflight generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 46,
+    id: "live-read-only-window-operator-evidence-value-draft-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.ts",
+    owns: ["operator evidence value draft", "value draft slots", "value draft gates"],
+    consumedBy: ["operator evidence value draft artifacts", "operator evidence value draft renderer", "profile types"],
+    maintenanceRule: "Keep value draft contracts separate from import preflight contracts and future actual value import.",
+    stopCondition: "Do not split unless actual supplied evidence values gain a persistent importer lifecycle.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 47,
+    id: "live-read-only-window-operator-evidence-value-draft-slot-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftSlotBuilder.ts",
+    owns: ["value draft slot templates", "preflight slot to value draft slot mapping"],
+    consumedBy: ["operator evidence value draft artifacts", "operator evidence value draft tests"],
+    maintenanceRule: "Keep twenty-five value draft templates out of the artifact gate builder.",
+    stopCondition: "Do not split unless multiple value draft template families appear.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 48,
+    id: "live-read-only-window-operator-evidence-value-draft-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftArtifacts.ts",
+    owns: ["operator evidence value draft builder", "value draft gates", "value draft digest"],
+    consumedBy: ["review artifact barrel", "operator evidence value draft tests", "profile assembly"],
+    maintenanceRule: "Keep value draft gate calculation compact by delegating slot templates to the slot builder.",
+    stopCondition: "Do not split unless the draft starts consuming actual operator-supplied values.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 49,
+    id: "live-read-only-window-operator-evidence-value-draft-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftRenderer.ts",
+    owns: ["operator evidence value draft markdown", "value draft slot rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep value draft Markdown separate from value draft generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 50,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -533,7 +573,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v886",
+    catalogVersion: "Node v911",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -594,7 +634,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v886",
+    validationVersion: "Node v911",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

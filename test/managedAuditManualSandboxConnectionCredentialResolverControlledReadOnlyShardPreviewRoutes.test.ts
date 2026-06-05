@@ -114,6 +114,11 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("readyForOperatorEvidenceImportPreflight: true");
       expect(markdown.body).toContain("readyForEvidenceImport: false");
       expect(markdown.body).toContain("preflightSlotCount: 25");
+      expect(markdown.body).toContain("## Live Read-Only Window Operator Evidence Value Draft");
+      expect(markdown.body).toContain("valueDraftState: ready-for-operator-evidence-value-draft");
+      expect(markdown.body).toContain("readyForOperatorEvidenceValueDraft: true");
+      expect(markdown.body).toContain("valueDraftSlotCount: 25");
+      expect(markdown.body).toContain("draftFieldCount: 51");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

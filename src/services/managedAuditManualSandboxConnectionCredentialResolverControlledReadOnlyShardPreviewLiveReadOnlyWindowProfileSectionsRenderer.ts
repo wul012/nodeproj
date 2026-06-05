@@ -212,5 +212,40 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
         profile.preview.liveReadOnlyWindowOperatorEvidenceImportPreflight.importPreflightDigest,
     }),
     "",
+    "## Live Read-Only Window Operator Evidence Value Draft",
+    ...renderEntries({
+      valueDraftVersion: profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.valueDraftVersion,
+      sourceImportPreflightVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.sourceImportPreflightVersion,
+      valueDraftState: profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.valueDraftState,
+      readyForOperatorEvidenceValueDraft:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.readyForOperatorEvidenceValueDraft,
+      readyForManualEvidenceEntry:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.readyForManualEvidenceEntry,
+      readyForEvidenceImport: profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.readyForEvidenceImport,
+      valueDraftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.valueDraftSlotCount,
+      ledgerValueDraftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.ledgerValueDraftSlotCount,
+      targetValueDraftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.targetValueDraftSlotCount,
+      policyArchiveValueDraftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.policyArchiveValueDraftSlotCount,
+      maintenanceValueDraftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.maintenanceValueDraftSlotCount,
+      closeoutValueDraftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.closeoutValueDraftSlotCount,
+      scopeCount: profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.scopeCount,
+      draftFieldCount: profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.draftFieldCount,
+      importsRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.importsRuntimePayload,
+      acceptsSyntheticEvidence:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.acceptsSyntheticEvidence,
+      containsSecretValue:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.containsSecretValue,
+      valueDraftDigest:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.valueDraftDigest,
+    }),
+    "",
   ];
 }

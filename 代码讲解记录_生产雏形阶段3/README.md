@@ -273,6 +273,31 @@
 889-controlled-read-only-shard-preview-operator-evidence-import-preflight-policy-archive-targets-v884.md
 890-controlled-read-only-shard-preview-operator-evidence-import-preflight-catalog-maintenance-boundary-v885.md
 891-controlled-read-only-shard-preview-operator-evidence-import-preflight-closeout-v886.md
+892-controlled-read-only-shard-preview-operator-evidence-value-draft-source-packet-ready-v887.md
+893-controlled-read-only-shard-preview-operator-evidence-value-draft-control-count-v888.md
+894-controlled-read-only-shard-preview-operator-evidence-value-draft-version-order-v889.md
+895-controlled-read-only-shard-preview-operator-evidence-value-draft-source-record-mapping-v890.md
+896-controlled-read-only-shard-preview-operator-evidence-value-draft-pending-capture-state-v891.md
+897-controlled-read-only-shard-preview-operator-evidence-value-draft-required-fields-v892.md
+898-controlled-read-only-shard-preview-operator-evidence-value-draft-acceptance-criteria-v893.md
+899-controlled-read-only-shard-preview-operator-evidence-value-draft-redaction-rules-v894.md
+900-controlled-read-only-shard-preview-operator-evidence-value-draft-manual-input-state-v895.md
+901-controlled-read-only-shard-preview-operator-evidence-value-draft-runtime-payload-exclusion-v896.md
+902-controlled-read-only-shard-preview-operator-evidence-value-draft-synthetic-evidence-rejection-v897.md
+903-controlled-read-only-shard-preview-operator-evidence-value-draft-target-coverage-v898.md
+904-controlled-read-only-shard-preview-operator-evidence-value-draft-cleanup-coverage-v899.md
+905-controlled-read-only-shard-preview-operator-evidence-value-draft-failure-class-coverage-v900.md
+906-controlled-read-only-shard-preview-operator-evidence-value-draft-secret-exclusion-v901.md
+907-controlled-read-only-shard-preview-operator-evidence-value-draft-read-only-boundary-v902.md
+908-controlled-read-only-shard-preview-operator-evidence-value-draft-write-block-v903.md
+909-controlled-read-only-shard-preview-operator-evidence-value-draft-service-start-block-v904.md
+910-controlled-read-only-shard-preview-operator-evidence-value-draft-production-execution-block-v905.md
+911-controlled-read-only-shard-preview-operator-evidence-value-draft-node-target-v906.md
+912-controlled-read-only-shard-preview-operator-evidence-value-draft-java-target-v907.md
+913-controlled-read-only-shard-preview-operator-evidence-value-draft-mini-kv-target-v908.md
+914-controlled-read-only-shard-preview-operator-evidence-value-draft-policy-archive-targets-v909.md
+915-controlled-read-only-shard-preview-operator-evidence-value-draft-catalog-maintenance-boundary-v910.md
+916-controlled-read-only-shard-preview-operator-evidence-value-draft-closeout-v911.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

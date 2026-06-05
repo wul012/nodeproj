@@ -58,6 +58,10 @@ import * as operatorEvidenceImportPreflightArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightArtifacts.js";
 import * as operatorEvidenceImportPreflightRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightRenderer.js";
+import * as operatorEvidenceValueDraftArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftArtifacts.js";
+import * as operatorEvidenceValueDraftRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -210,5 +214,14 @@ describe("controlled read-only shard preview review artifact barrel", () => {
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightMarkdown)
       .toBe(operatorEvidenceImportPreflightRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value draft helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft)
+      .toBe(operatorEvidenceValueDraftArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftMarkdown)
+      .toBe(operatorEvidenceValueDraftRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftMarkdown);
   });
 });

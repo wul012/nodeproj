@@ -82,6 +82,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -256,6 +259,14 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftSlot,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftSlotKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -341,6 +352,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet;
     liveReadOnlyWindowOperatorEvidenceImportPreflight:
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight;
+    liveReadOnlyWindowOperatorEvidenceValueDraft:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

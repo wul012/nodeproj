@@ -524,6 +524,31 @@
 884: Controlled read-only shard preview operator evidence import preflight policy/archive targets
 885: Controlled read-only shard preview operator evidence import preflight catalog maintenance boundary
 886: Controlled read-only shard preview operator evidence import preflight closeout
+887: Controlled read-only shard preview operator evidence value draft source packet ready
+888: Controlled read-only shard preview operator evidence value draft control count
+889: Controlled read-only shard preview operator evidence value draft version order
+890: Controlled read-only shard preview operator evidence value draft source record mapping
+891: Controlled read-only shard preview operator evidence value draft pending capture state
+892: Controlled read-only shard preview operator evidence value draft required fields
+893: Controlled read-only shard preview operator evidence value draft acceptance criteria
+894: Controlled read-only shard preview operator evidence value draft redaction rules
+895: Controlled read-only shard preview operator evidence value draft manual input state
+896: Controlled read-only shard preview operator evidence value draft runtime payload exclusion
+897: Controlled read-only shard preview operator evidence value draft synthetic evidence rejection
+898: Controlled read-only shard preview operator evidence value draft target coverage
+899: Controlled read-only shard preview operator evidence value draft cleanup coverage
+900: Controlled read-only shard preview operator evidence value draft failure class coverage
+901: Controlled read-only shard preview operator evidence value draft secret exclusion
+902: Controlled read-only shard preview operator evidence value draft read-only boundary
+903: Controlled read-only shard preview operator evidence value draft write block
+904: Controlled read-only shard preview operator evidence value draft service start block
+905: Controlled read-only shard preview operator evidence value draft production execution block
+906: Controlled read-only shard preview operator evidence value draft Node target
+907: Controlled read-only shard preview operator evidence value draft Java target
+908: Controlled read-only shard preview operator evidence value draft mini-kv target
+909: Controlled read-only shard preview operator evidence value draft policy/archive targets
+910: Controlled read-only shard preview operator evidence value draft catalog maintenance boundary
+911: Controlled read-only shard preview operator evidence value draft closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
