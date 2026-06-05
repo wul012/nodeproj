@@ -248,6 +248,31 @@
 864-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-policy-archive-targets-v859.md
 865-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-catalog-maintenance-boundary-v860.md
 866-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-closeout-v861.md
+867-controlled-read-only-shard-preview-operator-evidence-import-preflight-source-packet-ready-v862.md
+868-controlled-read-only-shard-preview-operator-evidence-import-preflight-control-count-v863.md
+869-controlled-read-only-shard-preview-operator-evidence-import-preflight-version-order-v864.md
+870-controlled-read-only-shard-preview-operator-evidence-import-preflight-source-record-mapping-v865.md
+871-controlled-read-only-shard-preview-operator-evidence-import-preflight-pending-capture-state-v866.md
+872-controlled-read-only-shard-preview-operator-evidence-import-preflight-required-fields-v867.md
+873-controlled-read-only-shard-preview-operator-evidence-import-preflight-acceptance-criteria-v868.md
+874-controlled-read-only-shard-preview-operator-evidence-import-preflight-redaction-rules-v869.md
+875-controlled-read-only-shard-preview-operator-evidence-import-preflight-manual-input-state-v870.md
+876-controlled-read-only-shard-preview-operator-evidence-import-preflight-runtime-payload-exclusion-v871.md
+877-controlled-read-only-shard-preview-operator-evidence-import-preflight-synthetic-evidence-rejection-v872.md
+878-controlled-read-only-shard-preview-operator-evidence-import-preflight-target-coverage-v873.md
+879-controlled-read-only-shard-preview-operator-evidence-import-preflight-cleanup-coverage-v874.md
+880-controlled-read-only-shard-preview-operator-evidence-import-preflight-failure-class-coverage-v875.md
+881-controlled-read-only-shard-preview-operator-evidence-import-preflight-secret-exclusion-v876.md
+882-controlled-read-only-shard-preview-operator-evidence-import-preflight-read-only-boundary-v877.md
+883-controlled-read-only-shard-preview-operator-evidence-import-preflight-write-block-v878.md
+884-controlled-read-only-shard-preview-operator-evidence-import-preflight-service-start-block-v879.md
+885-controlled-read-only-shard-preview-operator-evidence-import-preflight-production-execution-block-v880.md
+886-controlled-read-only-shard-preview-operator-evidence-import-preflight-node-target-v881.md
+887-controlled-read-only-shard-preview-operator-evidence-import-preflight-java-target-v882.md
+888-controlled-read-only-shard-preview-operator-evidence-import-preflight-mini-kv-target-v883.md
+889-controlled-read-only-shard-preview-operator-evidence-import-preflight-policy-archive-targets-v884.md
+890-controlled-read-only-shard-preview-operator-evidence-import-preflight-catalog-maintenance-boundary-v885.md
+891-controlled-read-only-shard-preview-operator-evidence-import-preflight-closeout-v886.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

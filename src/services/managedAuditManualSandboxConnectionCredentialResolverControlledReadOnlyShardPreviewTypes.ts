@@ -79,6 +79,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -245,6 +248,14 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightSlot,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightSlotKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -328,6 +339,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage;
     liveReadOnlyWindowManualEvidenceEntryWorksheet:
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet;
+    liveReadOnlyWindowOperatorEvidenceImportPreflight:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

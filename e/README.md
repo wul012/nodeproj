@@ -499,6 +499,31 @@
 859: Controlled read-only shard preview manual evidence entry worksheet policy/archive targets
 860: Controlled read-only shard preview manual evidence entry worksheet catalog maintenance boundary
 861: Controlled read-only shard preview manual evidence entry worksheet closeout
+862: Controlled read-only shard preview operator evidence import preflight source packet ready
+863: Controlled read-only shard preview operator evidence import preflight control count
+864: Controlled read-only shard preview operator evidence import preflight version order
+865: Controlled read-only shard preview operator evidence import preflight source record mapping
+866: Controlled read-only shard preview operator evidence import preflight pending capture state
+867: Controlled read-only shard preview operator evidence import preflight required fields
+868: Controlled read-only shard preview operator evidence import preflight acceptance criteria
+869: Controlled read-only shard preview operator evidence import preflight redaction rules
+870: Controlled read-only shard preview operator evidence import preflight manual input state
+871: Controlled read-only shard preview operator evidence import preflight runtime payload exclusion
+872: Controlled read-only shard preview operator evidence import preflight synthetic evidence rejection
+873: Controlled read-only shard preview operator evidence import preflight target coverage
+874: Controlled read-only shard preview operator evidence import preflight cleanup coverage
+875: Controlled read-only shard preview operator evidence import preflight failure class coverage
+876: Controlled read-only shard preview operator evidence import preflight secret exclusion
+877: Controlled read-only shard preview operator evidence import preflight read-only boundary
+878: Controlled read-only shard preview operator evidence import preflight write block
+879: Controlled read-only shard preview operator evidence import preflight service start block
+880: Controlled read-only shard preview operator evidence import preflight production execution block
+881: Controlled read-only shard preview operator evidence import preflight Node target
+882: Controlled read-only shard preview operator evidence import preflight Java target
+883: Controlled read-only shard preview operator evidence import preflight mini-kv target
+884: Controlled read-only shard preview operator evidence import preflight policy/archive targets
+885: Controlled read-only shard preview operator evidence import preflight catalog maintenance boundary
+886: Controlled read-only shard preview operator evidence import preflight closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。
