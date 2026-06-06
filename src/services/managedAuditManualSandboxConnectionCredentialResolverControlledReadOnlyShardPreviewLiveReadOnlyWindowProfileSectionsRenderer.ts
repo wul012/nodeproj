@@ -339,5 +339,70 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope.valueSupplyEnvelopeDigest,
     }),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Approval Packet Draft",
+    ...renderEntries({
+      approvalPacketDraftVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalPacketDraftVersion,
+      sourceValueSupplyEnvelopeVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.sourceValueSupplyEnvelopeVersion,
+      javaValueSupplyEvidenceVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.javaValueSupplyEvidenceVersion,
+      miniKvValueSupplyEvidenceVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.miniKvValueSupplyEvidenceVersion,
+      draftState:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.draftState,
+      readyForValueSupplyApprovalPacketDraft:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft
+          .readyForValueSupplyApprovalPacketDraft,
+      readyForOperatorValueSupply:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.readyForOperatorValueSupply,
+      readyForOperatorValueSubmission:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft
+          .readyForOperatorValueSubmission,
+      readyForEvidenceImport:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.readyForEvidenceImport,
+      readyForRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.readyForRuntimePayload,
+      draftSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.draftSlotCount,
+      javaEvidenceSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.javaEvidenceSlotCount,
+      miniKvEvidenceSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.miniKvEvidenceSlotCount,
+      nodeValueSupplyEnvelopeSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.nodeValueSupplyEnvelopeSlotCount,
+      presentFileCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.presentFileCount,
+      matchedSnippetCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.matchedSnippetCount,
+      historicalFixtureResolvedFileCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft
+          .historicalFixtureResolvedFileCount,
+      approvalFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalFieldCount,
+      reviewRecordFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.reviewRecordFieldCount,
+      suppliedValueCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.suppliedValueCount,
+      acceptedValueCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.acceptedValueCount,
+      importedValueCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.importedValueCount,
+      approvalCaptured:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalCaptured,
+      approvalGrantPresent:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalGrantPresent,
+      signedApprovalPresent:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.signedApprovalPresent,
+      importsRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.importsRuntimePayload,
+      acceptsSyntheticEvidence:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.acceptsSyntheticEvidence,
+      containsSecretValue:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.containsSecretValue,
+      approvalPacketDraftDigest:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalPacketDraftDigest,
+    }),
+    "",
   ];
 }

@@ -28,6 +28,9 @@ import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeArtifacts.js";
 import {
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
+} from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.js";
+import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
 import {
@@ -79,5 +82,11 @@ export function controlledReadOnlyShardPreviewOperatorEvidenceValueDraftFixture(
 export function controlledReadOnlyShardPreviewOperatorEvidenceFreshSiblingIntakeFixture(ready: boolean) {
   return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake(
     controlledReadOnlyShardPreviewOperatorEvidenceValueDraftFixture(ready),
+  );
+}
+
+export function controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeFixture(ready: boolean) {
+  return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope(
+    controlledReadOnlyShardPreviewOperatorEvidenceFreshSiblingIntakeFixture(ready),
   );
 }

@@ -70,6 +70,10 @@ import * as operatorEvidenceValueSupplyEnvelopeArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.js";
 import * as operatorEvidenceValueSupplyEnvelopeRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeRenderer.js";
+import * as operatorEvidenceValueSupplyApprovalPacketDraftArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftArtifacts.js";
+import * as operatorEvidenceValueSupplyApprovalPacketDraftRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -251,5 +255,16 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeMarkdown)
       .toBe(operatorEvidenceValueSupplyEnvelopeRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value supply approval packet draft helpers", () => {
+    expect(reviewArtifacts
+      .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft)
+      .toBe(operatorEvidenceValueSupplyApprovalPacketDraftArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft);
+    expect(reviewArtifacts
+      .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftMarkdown)
+      .toBe(operatorEvidenceValueSupplyApprovalPacketDraftRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftMarkdown);
   });
 });

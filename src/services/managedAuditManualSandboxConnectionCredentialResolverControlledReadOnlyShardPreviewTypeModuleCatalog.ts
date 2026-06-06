@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v961";
+  catalogVersion: "Node v986";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v961";
+  validationVersion: "Node v986";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -648,8 +648,68 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep value supply envelope Markdown separate from value supply envelope generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 60,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-draft-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftTypes.ts",
+    owns: ["approval packet draft", "approval draft slots", "approval draft gates"],
+    consumedBy: ["approval packet draft artifacts", "approval packet draft renderer", "profile types"],
+    maintenanceRule: "Keep approval packet draft contracts separate from value supply envelope contracts and any future actual value importer.",
+    stopCondition: "Do not split unless signed approval capture and operator value import gain separate lifecycles.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 61,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-draft-evidence",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftEvidence.ts",
+    owns: ["Java v658 value-supply evidence paths", "mini-kv v610 value-supply evidence paths", "approval draft snippet fingerprints"],
+    consumedBy: ["approval packet draft artifacts", "approval packet draft tests"],
+    maintenanceRule: "Keep fresh external value-supply evidence paths and snippet fingerprints outside the approval draft gate builder.",
+    stopCondition: "Do not split unless Java and mini-kv value-supply closeouts begin separate approval packet lifecycles.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 62,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-draft-policy-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftPolicyCatalog.ts",
+    owns: ["approval field catalog", "review record field catalog", "fail-closed value policy"],
+    consumedBy: ["approval packet draft slot builder", "approval packet draft tests"],
+    maintenanceRule: "Use the policy catalog to keep approval, redaction, provenance, missing, and malformed value rules out of slot templates.",
+    stopCondition: "Do not split unless policy families become independently versioned.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 63,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-draft-slot-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftSlotBuilder.ts",
+    owns: ["approval packet draft slot templates", "value supply envelope to approval draft mapping"],
+    consumedBy: ["approval packet draft artifacts", "approval packet draft tests"],
+    maintenanceRule: "Keep twenty-five approval draft templates out of the artifact gate builder.",
+    stopCondition: "Do not split unless multiple approval packet template families appear.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 64,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-draft-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftArtifacts.ts",
+    owns: ["approval packet draft builder", "approval packet draft gates", "approval packet draft digest"],
+    consumedBy: ["review artifact barrel", "approval packet draft tests", "profile assembly"],
+    maintenanceRule: "Keep approval packet draft gate calculation compact by delegating paths, snippets, policies, and slot templates.",
+    stopCondition: "Do not split unless the draft starts consuming signed operator approvals.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 65,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-draft-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftRenderer.ts",
+    owns: ["approval packet draft markdown", "approval packet draft file and slot rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep approval packet draft Markdown separate from draft generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 66,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -673,7 +733,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v961",
+    catalogVersion: "Node v986",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -734,7 +794,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v961",
+    validationVersion: "Node v986",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
