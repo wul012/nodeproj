@@ -549,6 +549,31 @@
 909: Controlled read-only shard preview operator evidence value draft policy/archive targets
 910: Controlled read-only shard preview operator evidence value draft catalog maintenance boundary
 911: Controlled read-only shard preview operator evidence value draft closeout
+912: Controlled read-only shard preview operator evidence fresh sibling intake Java closeout profile
+913: Controlled read-only shard preview operator evidence fresh sibling intake Java closeout source version
+914: Controlled read-only shard preview operator evidence fresh sibling intake Java Node v886 alignment
+915: Controlled read-only shard preview operator evidence fresh sibling intake Java import lock
+916: Controlled read-only shard preview operator evidence fresh sibling intake Java ready field
+917: Controlled read-only shard preview operator evidence fresh sibling intake Java evidence import block
+918: Controlled read-only shard preview operator evidence fresh sibling intake Java manual entry block
+919: Controlled read-only shard preview operator evidence fresh sibling intake Java production execution block
+920: Controlled read-only shard preview operator evidence fresh sibling intake Java closeout route test
+921: Controlled read-only shard preview operator evidence fresh sibling intake Java status test
+922: Controlled read-only shard preview operator evidence fresh sibling intake Java ready assertion
+923: Controlled read-only shard preview operator evidence fresh sibling intake Java import block assertion
+924: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv contract
+925: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv command
+926: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv Node plan link
+927: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv release stage
+928: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv slot count
+929: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv zero imported values
+930: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv preflight readiness
+931: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv evidence import false
+932: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv WAL boundary
+933: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv command test
+934: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv store unchanged test
+935: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv release explanation
+936: Controlled read-only shard preview operator evidence fresh sibling intake batch closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

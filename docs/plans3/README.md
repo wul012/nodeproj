@@ -5,6 +5,7 @@
 ## 当前有效入口
 
 ```text
+docs/plans3/v936-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-closeout-roadmap.md
 docs/plans3/v911-controlled-read-only-shard-preview-operator-evidence-value-draft-closeout-roadmap.md
 docs/plans3/v886-controlled-read-only-shard-preview-operator-evidence-import-preflight-closeout-roadmap.md
 docs/plans3/v861-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-closeout-roadmap.md
@@ -14,6 +15,11 @@ docs/plans3/v549-post-java-mini-kv-route-catalog-cleanup-latest-sibling-live-smo
 上一入口：
 
 ```text
+Node v936 已完成 controlled read-only shard preview operator evidence fresh sibling intake closeout。
+docs/plans3/v936-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-closeout-roadmap.md
+v936 前置检查显示 Node v911、Java v608、mini-kv v560 均 clean/synced；Java 和 mini-kv 建议并行，Node 只读消费 frozen historical sibling evidence。
+v936 不做真实执行、不启动 sibling 服务、不导入 operator values；下一步应先设计 disabled-by-default value-supply envelope。
+
 Node v911 已完成 controlled read-only shard preview operator evidence value draft closeout。
 docs/plans3/v911-controlled-read-only-shard-preview-operator-evidence-value-draft-closeout-roadmap.md
 Node v886 已完成 controlled read-only shard preview operator evidence import preflight closeout。

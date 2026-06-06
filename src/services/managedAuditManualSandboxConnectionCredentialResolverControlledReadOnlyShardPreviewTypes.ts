@@ -85,6 +85,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -267,6 +270,15 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeSlot,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeSlotKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeVersion,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingProject,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -354,6 +366,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight;
     liveReadOnlyWindowOperatorEvidenceValueDraft:
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft;
+    liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

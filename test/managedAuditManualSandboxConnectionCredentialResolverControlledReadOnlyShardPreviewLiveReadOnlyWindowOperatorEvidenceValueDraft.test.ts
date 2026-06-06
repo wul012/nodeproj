@@ -1,61 +1,28 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  createControlledReadOnlyShardPreviewExecutionGapMatrix,
-  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
-  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightArtifacts.js";
-import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftArtifacts.js";
 import {
   renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftRenderer.js";
 import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookArtifacts.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerArtifacts.js";
-import {
   loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview.js";
 
-import {
-  blockedSourceMatrix,
-  readySourceMatrix,
-} from "./support/controlledReadOnlyShardPreviewReviewArtifactFixtures.js";
 import {
   fakeMiniKv,
   fakeOrderPlatform,
   loadTestConfig,
 } from "./support/controlledReadOnlyShardPreviewServiceFixtures.js";
+import {
+  controlledReadOnlyShardPreviewOperatorEvidenceImportPreflightFixture,
+} from "./support/controlledReadOnlyShardPreviewLiveWindowFixtureFactory.js";
 
 describe("controlled read-only shard preview live read-only window operator evidence value draft", () => {
   it("builds a twenty-five-version operator evidence value draft from the import preflight", () => {
     const valueDraft = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft(
-      preflightFromSourceMatrix(true),
+      controlledReadOnlyShardPreviewOperatorEvidenceImportPreflightFixture(true),
     );
 
     expect(valueDraft).toMatchObject({
@@ -135,7 +102,7 @@ describe("controlled read-only shard preview live read-only window operator evid
 
   it("fails closed when the source import preflight is blocked", () => {
     const valueDraft = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft(
-      preflightFromSourceMatrix(false),
+      controlledReadOnlyShardPreviewOperatorEvidenceImportPreflightFixture(false),
     );
 
     expect(valueDraft).toMatchObject({
@@ -162,7 +129,7 @@ describe("controlled read-only shard preview live read-only window operator evid
 
   it("renders stable operator evidence value draft markdown for archive review", () => {
     const valueDraft = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft(
-      preflightFromSourceMatrix(true),
+      controlledReadOnlyShardPreviewOperatorEvidenceImportPreflightFixture(true),
     );
     const markdown =
       renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftMarkdown(valueDraft);
@@ -205,27 +172,3 @@ describe("controlled read-only shard preview live read-only window operator evid
     });
   });
 });
-
-function preflightFromSourceMatrix(ready: boolean) {
-  const matrix = createControlledReadOnlyShardPreviewExecutionGapMatrix({
-    previewState: ready ? "controlled-read-only-shard-preview-ready" : "blocked",
-    readyForControlledReadOnlyShardPreview: ready,
-    executionAllowed: false,
-    writeRoutingAllowed: false,
-    loadRestoreCompactAllowed: false,
-    sourceMatrix: ready ? readySourceMatrix() : blockedSourceMatrix(),
-  });
-  const candidate = createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate(matrix);
-  const verification = createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification(candidate);
-  const stageLedger = createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger(verification);
-  const runbookPackage = createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage(stageLedger);
-  const rehearsalPacket = createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket(runbookPackage);
-  const commandWorksheet = createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet(rehearsalPacket);
-  const evidencePacket = createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket(commandWorksheet);
-  const intakeLedger = createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger(evidencePacket);
-  const reviewPackage = createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage(intakeLedger);
-  const worksheet =
-    createControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet(reviewPackage);
-
-  return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight(worksheet);
-}

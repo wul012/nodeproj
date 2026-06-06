@@ -298,6 +298,31 @@
 914-controlled-read-only-shard-preview-operator-evidence-value-draft-policy-archive-targets-v909.md
 915-controlled-read-only-shard-preview-operator-evidence-value-draft-catalog-maintenance-boundary-v910.md
 916-controlled-read-only-shard-preview-operator-evidence-value-draft-closeout-v911.md
+917-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-closeout-profile-v912.md
+918-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-closeout-source-version-v913.md
+919-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-node-v886-alignment-v914.md
+920-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-import-lock-v915.md
+921-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-ready-field-v916.md
+922-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-evidence-import-block-v917.md
+923-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-manual-entry-block-v918.md
+924-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-production-execution-block-v919.md
+925-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-route-test-v920.md
+926-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-status-test-v921.md
+927-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-ready-test-v922.md
+928-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-java-import-block-test-v923.md
+929-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-contract-v924.md
+930-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-command-v925.md
+931-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-node-plan-v926.md
+932-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-stage-v927.md
+933-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-slot-count-v928.md
+934-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-imported-value-zero-v929.md
+935-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-ready-preflight-v930.md
+936-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-evidence-import-false-v931.md
+937-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-no-wal-v932.md
+938-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-command-test-v933.md
+939-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-store-unchanged-test-v934.md
+940-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-release-explanation-v935.md
+941-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-batch-closeout-v936.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

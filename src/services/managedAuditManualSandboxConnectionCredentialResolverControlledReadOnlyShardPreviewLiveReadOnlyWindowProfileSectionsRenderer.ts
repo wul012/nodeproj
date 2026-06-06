@@ -247,5 +247,48 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueDraft.valueDraftDigest,
     }),
     "",
+    "## Live Read-Only Window Operator Evidence Fresh Sibling Intake",
+    ...renderEntries({
+      freshSiblingIntakeVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.freshSiblingIntakeVersion,
+      sourceValueDraftVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.sourceValueDraftVersion,
+      javaEvidenceVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.javaEvidenceVersion,
+      miniKvEvidenceVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.miniKvEvidenceVersion,
+      intakeState: profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.intakeState,
+      readyForFreshSiblingEvidenceIntake:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.readyForFreshSiblingEvidenceIntake,
+      readyForOperatorValueSupply:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.readyForOperatorValueSupply,
+      readyForEvidenceImport:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.readyForEvidenceImport,
+      intakeSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.intakeSlotCount,
+      javaEvidenceSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.javaEvidenceSlotCount,
+      miniKvEvidenceSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.miniKvEvidenceSlotCount,
+      nodeValueDraftAlignmentSlotCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.nodeValueDraftAlignmentSlotCount,
+      fileCount: profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.fileCount,
+      presentFileCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.presentFileCount,
+      snippetCount: profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.snippetCount,
+      matchedSnippetCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.matchedSnippetCount,
+      historicalFixtureResolvedFileCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.historicalFixtureResolvedFileCount,
+      importsRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.importsRuntimePayload,
+      acceptsSyntheticEvidence:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.acceptsSyntheticEvidence,
+      containsSecretValue:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.containsSecretValue,
+      freshSiblingIntakeDigest:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.freshSiblingIntakeDigest,
+    }),
+    "",
   ];
 }

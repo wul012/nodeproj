@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v911";
+  catalogVersion: "Node v936";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v911";
+  validationVersion: "Node v936";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -36,7 +36,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
   modulesWithMaintenanceRuleCount: number;
   modulesWithStopConditionCount: number;
   blockedReasonCodes: string[];
-  requiresFreshSiblingEvidence: false;
+  requiresFreshSiblingEvidence: true;
   startsServices: false;
   mutatesSiblingState: false;
 }
@@ -548,8 +548,58 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep value draft Markdown separate from value draft generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 50,
+    id: "live-read-only-window-operator-evidence-fresh-sibling-intake-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeTypes.ts",
+    owns: ["fresh sibling evidence intake", "Java v608 and mini-kv v560 source gates", "fresh intake slots"],
+    consumedBy: ["operator evidence fresh sibling intake artifacts", "operator evidence fresh sibling intake renderer", "profile types"],
+    maintenanceRule: "Keep fresh sibling evidence contracts separate from value draft contracts and future value supply.",
+    stopCondition: "Do not split unless Java and mini-kv evidence intake begin separate lifecycles.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 51,
+    id: "live-read-only-window-operator-evidence-fresh-sibling-intake-evidence",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeEvidence.ts",
+    owns: ["fresh sibling evidence file paths", "historical fixture snippets", "Java and mini-kv source fingerprints"],
+    consumedBy: ["operator evidence fresh sibling intake artifacts", "operator evidence fresh sibling intake tests"],
+    maintenanceRule: "Keep external evidence paths and snippet fingerprints outside the gate builder.",
+    stopCondition: "Do not split unless evidence path catalogs grow beyond Java v608 and mini-kv v560.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 52,
+    id: "live-read-only-window-operator-evidence-fresh-sibling-intake-slot-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeSlotBuilder.ts",
+    owns: ["fresh sibling intake slot templates", "value draft slot to sibling evidence mapping"],
+    consumedBy: ["operator evidence fresh sibling intake artifacts", "operator evidence fresh sibling intake tests"],
+    maintenanceRule: "Keep twenty-five fresh sibling slot templates out of the artifact gate builder.",
+    stopCondition: "Do not split unless multiple sibling evidence template families appear.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 53,
+    id: "live-read-only-window-operator-evidence-fresh-sibling-intake-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeArtifacts.ts",
+    owns: ["fresh sibling intake builder", "fresh evidence gates", "fresh intake digest"],
+    consumedBy: ["review artifact barrel", "operator evidence fresh sibling intake tests", "profile assembly"],
+    maintenanceRule: "Keep fresh sibling gate calculation compact by delegating path/snippet and slot templates.",
+    stopCondition: "Do not split unless the intake starts consuming actual operator-supplied values.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 54,
+    id: "live-read-only-window-operator-evidence-fresh-sibling-intake-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeRenderer.ts",
+    owns: ["fresh sibling intake markdown", "fresh evidence file and slot rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep fresh sibling Markdown separate from fresh intake generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 55,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -573,7 +623,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v911",
+    catalogVersion: "Node v936",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -634,7 +684,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v911",
+    validationVersion: "Node v936",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
@@ -647,7 +697,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
     modulesWithMaintenanceRuleCount,
     modulesWithStopConditionCount,
     blockedReasonCodes,
-    requiresFreshSiblingEvidence: false,
+    requiresFreshSiblingEvidence: true,
     startsServices: false,
     mutatesSiblingState: false,
   };
