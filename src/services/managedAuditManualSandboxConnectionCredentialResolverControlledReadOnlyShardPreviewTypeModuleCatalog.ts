@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v936";
+  catalogVersion: "Node v961";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v936";
+  validationVersion: "Node v961";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -598,8 +598,58 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep fresh sibling Markdown separate from fresh intake generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 55,
+    id: "live-read-only-window-operator-evidence-value-supply-envelope-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeTypes.ts",
+    owns: ["operator evidence value supply envelope", "value supply envelope slots", "value supply envelope gates"],
+    consumedBy: ["operator evidence value supply envelope artifacts", "operator evidence value supply envelope renderer", "profile types"],
+    maintenanceRule: "Keep value supply envelope contracts separate from fresh sibling intake and future actual value import.",
+    stopCondition: "Do not split unless actual supplied evidence values gain a persistent import lifecycle.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 56,
+    id: "live-read-only-window-operator-evidence-value-supply-envelope-evidence",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeEvidence.ts",
+    owns: ["Java v633 value draft evidence paths", "mini-kv v585 value draft evidence paths", "value supply envelope snippet fingerprints"],
+    consumedBy: ["operator evidence value supply envelope artifacts", "operator evidence value supply envelope tests"],
+    maintenanceRule: "Keep external value draft evidence paths and snippet fingerprints outside the envelope gate builder.",
+    stopCondition: "Do not split unless Java and mini-kv value draft evidence begin separate lifecycles.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 57,
+    id: "live-read-only-window-operator-evidence-value-supply-envelope-slot-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeSlotBuilder.ts",
+    owns: ["value supply envelope slot templates", "fresh sibling intake to value supply envelope mapping"],
+    consumedBy: ["operator evidence value supply envelope artifacts", "operator evidence value supply envelope tests"],
+    maintenanceRule: "Keep twenty-five value supply envelope templates out of the artifact gate builder.",
+    stopCondition: "Do not split unless multiple value supply envelope template families appear.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 58,
+    id: "live-read-only-window-operator-evidence-value-supply-envelope-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.ts",
+    owns: ["value supply envelope builder", "value supply envelope gates", "value supply envelope digest"],
+    consumedBy: ["review artifact barrel", "operator evidence value supply envelope tests", "profile assembly"],
+    maintenanceRule: "Keep value supply envelope gate calculation compact by delegating paths/snippets and slot templates.",
+    stopCondition: "Do not split unless the envelope starts consuming actual operator-supplied values.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 59,
+    id: "live-read-only-window-operator-evidence-value-supply-envelope-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeRenderer.ts",
+    owns: ["value supply envelope markdown", "value supply envelope file and slot rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep value supply envelope Markdown separate from value supply envelope generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 60,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -623,7 +673,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v936",
+    catalogVersion: "Node v961",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -684,7 +734,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v936",
+    validationVersion: "Node v961",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

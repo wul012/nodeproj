@@ -574,6 +574,31 @@
 934: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv store unchanged test
 935: Controlled read-only shard preview operator evidence fresh sibling intake mini-kv release explanation
 936: Controlled read-only shard preview operator evidence fresh sibling intake batch closeout
+937: Controlled read-only shard preview operator evidence value supply envelope Java closeout profile
+938: Controlled read-only shard preview operator evidence value supply envelope Java response version
+939: Controlled read-only shard preview operator evidence value supply envelope Java version range
+940: Controlled read-only shard preview operator evidence value supply envelope Java ready field
+941: Controlled read-only shard preview operator evidence value supply envelope Java actual value state
+942: Controlled read-only shard preview operator evidence value supply envelope Java import block
+943: Controlled read-only shard preview operator evidence value supply envelope Java manual entry block
+944: Controlled read-only shard preview operator evidence value supply envelope Java live execution block
+945: Controlled read-only shard preview operator evidence value supply envelope Java production execution block
+946: Controlled read-only shard preview operator evidence value supply envelope Java closeout route test
+947: Controlled read-only shard preview operator evidence value supply envelope Java ready test
+948: Controlled read-only shard preview operator evidence value supply envelope Java import false test
+949: Controlled read-only shard preview operator evidence value supply envelope mini-kv contract
+950: Controlled read-only shard preview operator evidence value supply envelope mini-kv command
+951: Controlled read-only shard preview operator evidence value supply envelope mini-kv Node plan
+952: Controlled read-only shard preview operator evidence value supply envelope mini-kv v585 stage
+953: Controlled read-only shard preview operator evidence value supply envelope mini-kv slot count
+954: Controlled read-only shard preview operator evidence value supply envelope mini-kv accepted value zero
+955: Controlled read-only shard preview operator evidence value supply envelope mini-kv imported value zero
+956: Controlled read-only shard preview operator evidence value supply envelope mini-kv actual value state
+957: Controlled read-only shard preview operator evidence value supply envelope mini-kv ready true
+958: Controlled read-only shard preview operator evidence value supply envelope mini-kv import false
+959: Controlled read-only shard preview operator evidence value supply envelope mini-kv adapter disabled
+960: Controlled read-only shard preview operator evidence value supply envelope mini-kv no write test
+961: Controlled read-only shard preview operator evidence value supply envelope batch closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

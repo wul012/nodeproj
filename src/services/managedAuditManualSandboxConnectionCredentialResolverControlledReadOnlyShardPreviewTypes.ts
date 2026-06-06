@@ -88,6 +88,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -279,6 +282,16 @@ export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingProject,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeTypes.js";
 
+export type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeEvidenceVersion,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeGates,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeProject,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeSlot,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeSlotKind,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeVersion,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeTypes.js";
+
 export interface ControlledReadOnlyShardPreviewProfile {
   service: "orderops-node";
   title: string;
@@ -368,6 +381,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft;
     liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake:
       ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake;
+    liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope:
+      ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

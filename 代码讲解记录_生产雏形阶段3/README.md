@@ -323,6 +323,31 @@
 939-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-store-unchanged-test-v934.md
 940-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-mini-kv-release-explanation-v935.md
 941-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-batch-closeout-v936.md
+942-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-closeout-profile-v937.md
+943-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-response-version-v938.md
+944-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-version-range-v939.md
+945-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-ready-field-v940.md
+946-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-actual-value-state-v941.md
+947-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-import-block-v942.md
+948-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-manual-entry-block-v943.md
+949-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-live-execution-block-v944.md
+950-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-production-execution-block-v945.md
+951-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-closeout-route-test-v946.md
+952-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-ready-test-v947.md
+953-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-java-import-false-test-v948.md
+954-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-contract-v949.md
+955-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-command-v950.md
+956-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-node-plan-v951.md
+957-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-stage-v952.md
+958-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-slot-count-v953.md
+959-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-accepted-zero-v954.md
+960-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-imported-zero-v955.md
+961-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-actual-state-v956.md
+962-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-ready-true-v957.md
+963-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-import-false-v958.md
+964-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-adapter-disabled-v959.md
+965-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-mini-kv-no-write-test-v960.md
+966-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-batch-closeout-v961.md
 ```
 
 历史 v274 及以前的代码讲解保留在 `代码讲解记录_生产雏形阶段/`；v275-v367 保留在 `代码讲解记录_生产雏形阶段2/`。

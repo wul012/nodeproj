@@ -126,6 +126,16 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("intakeSlotCount: 25");
       expect(markdown.body).toContain("matchedSnippetCount: 25");
       expect(markdown.body).toContain("historicalFixtureResolvedFileCount: 7");
+      expect(markdown.body).toContain("## Live Read-Only Window Operator Evidence Value Supply Envelope");
+      expect(markdown.body).toContain("envelopeState: ready-for-value-supply-envelope-review");
+      expect(markdown.body).toContain("readyForValueSupplyEnvelopeReview: true");
+      expect(markdown.body).toContain("readyForOperatorValueSupply: false");
+      expect(markdown.body).toContain("envelopeSlotCount: 25");
+      expect(markdown.body).toContain("javaValueDraftEvidenceVersion: Java v633");
+      expect(markdown.body).toContain("miniKvValueDraftEvidenceVersion: mini-kv v585");
+      expect(markdown.body).toContain("suppliedValueCount: 0");
+      expect(markdown.body).toContain("acceptedValueCount: 0");
+      expect(markdown.body).toContain("importedValueCount: 0");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

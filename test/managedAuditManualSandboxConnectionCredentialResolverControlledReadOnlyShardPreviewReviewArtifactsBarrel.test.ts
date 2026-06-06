@@ -66,6 +66,10 @@ import * as operatorEvidenceFreshSiblingIntakeArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeArtifacts.js";
 import * as operatorEvidenceFreshSiblingIntakeRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeRenderer.js";
+import * as operatorEvidenceValueSupplyEnvelopeArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.js";
+import * as operatorEvidenceValueSupplyEnvelopeRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -237,5 +241,15 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeMarkdown)
       .toBe(operatorEvidenceFreshSiblingIntakeRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value supply envelope helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope)
+      .toBe(operatorEvidenceValueSupplyEnvelopeArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope);
+    expect(reviewArtifacts
+      .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeMarkdown)
+      .toBe(operatorEvidenceValueSupplyEnvelopeRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeMarkdown);
   });
 });

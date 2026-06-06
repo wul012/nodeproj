@@ -5,7 +5,7 @@
 ## 当前有效入口
 
 ```text
-docs/plans3/v936-controlled-read-only-shard-preview-operator-evidence-fresh-sibling-intake-closeout-roadmap.md
+docs/plans3/v961-controlled-read-only-shard-preview-operator-evidence-value-supply-envelope-closeout-roadmap.md
 docs/plans3/v911-controlled-read-only-shard-preview-operator-evidence-value-draft-closeout-roadmap.md
 docs/plans3/v886-controlled-read-only-shard-preview-operator-evidence-import-preflight-closeout-roadmap.md
 docs/plans3/v861-controlled-read-only-shard-preview-manual-evidence-entry-worksheet-closeout-roadmap.md
