@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1011";
+  catalogVersion: "Node v1036";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1011";
+  validationVersion: "Node v1036";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -758,8 +758,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep approval packet review Markdown separate from review package generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 71,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateTypes.ts",
+    owns: ["signed approval template", "template fields", "template clauses", "template gates"],
+    consumedBy: ["signed approval template builder", "signed approval template validator", "profile types"],
+    maintenanceRule: "Keep signed approval template contracts separate from review package contracts and capture logic.",
+    stopCondition: "Do not split unless fields, clauses, and capture preflight become independently versioned.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 72,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-field-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateFieldCatalog.ts",
+    owns: ["signed approval template field templates", "source review control bindings"],
+    consumedBy: ["signed approval template builder", "signed approval template tests"],
+    maintenanceRule: "Keep twenty-five required template fields declarative and out of gate code.",
+    stopCondition: "Do not split unless identity, source evidence, policy, and execution-lock fields diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 73,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-clause-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateClauseCatalog.ts",
+    owns: ["signed approval template clauses", "rejection codes", "non-execution clauses"],
+    consumedBy: ["signed approval template builder", "signed approval template tests"],
+    maintenanceRule: "Keep rejection and non-execution clauses declarative so template builder stays focused.",
+    stopCondition: "Do not split unless rejection clauses and non-execution clauses gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 74,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateBuilder.ts",
+    owns: ["review control to template field mapping", "template field to clause mapping"],
+    consumedBy: ["signed approval template artifacts", "signed approval template tests"],
+    maintenanceRule: "Keep mapping separate from gate validation and digest generation.",
+    stopCondition: "Do not split unless multiple review packages feed one signed approval template.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 75,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateValidator.ts",
+    owns: ["signed approval template gates", "signed approval template blocker reasons"],
+    consumedBy: ["signed approval template artifacts", "signed approval template tests"],
+    maintenanceRule: "Keep gate logic separate from field and clause construction.",
+    stopCondition: "Do not split unless validation starts consuming signed approval capture payloads.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 76,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateArtifacts.ts",
+    owns: ["signed approval template builder", "template counts", "template digest"],
+    consumedBy: ["review artifact barrel", "signed approval template tests", "profile assembly"],
+    maintenanceRule: "Keep artifact assembly compact by delegating mapping and validation.",
+    stopCondition: "Do not split unless the template starts accepting capture input.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 77,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-template-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateRenderer.ts",
+    owns: ["signed approval template markdown", "template field and clause rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep signed approval template Markdown separate from template generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 78,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -783,7 +853,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1011",
+    catalogVersion: "Node v1036",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -844,7 +914,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1011",
+    validationVersion: "Node v1036",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

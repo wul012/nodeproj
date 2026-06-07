@@ -469,5 +469,74 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalPacketReviewDigest,
     }),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Template",
+    ...renderEntries({
+      signedApprovalTemplateVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .signedApprovalTemplateVersion,
+      sourceApprovalPacketReviewVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .sourceApprovalPacketReviewVersion,
+      templateState:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.templateState,
+      readyForSignedApprovalTemplatePreflight:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .readyForSignedApprovalTemplatePreflight,
+      readyForSignedApprovalCapture:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .readyForSignedApprovalCapture,
+      readyForOperatorValueSupply:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.readyForOperatorValueSupply,
+      readyForOperatorValueSubmission:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .readyForOperatorValueSubmission,
+      readyForEvidenceImport:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.readyForEvidenceImport,
+      readyForRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.readyForRuntimePayload,
+      templateFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.templateFieldCount,
+      templateClauseCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.templateClauseCount,
+      identityFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.identityFieldCount,
+      sourceEvidenceFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.sourceEvidenceFieldCount,
+      policyFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.policyFieldCount,
+      executionLockFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.executionLockFieldCount,
+      requiredFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.requiredFieldCount,
+      readyFieldCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.readyFieldCount,
+      readyClauseCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.readyClauseCount,
+      missingFieldBlockerCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.missingFieldBlockerCount,
+      rejectionClauseCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.rejectionClauseCount,
+      nonExecutionClauseCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.nonExecutionClauseCount,
+      templateValueProvidedCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .templateValueProvidedCount,
+      approvalCaptured:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.approvalCaptured,
+      approvalGrantPresent:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.approvalGrantPresent,
+      signedApprovalPresent:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.signedApprovalPresent,
+      importsRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.importsRuntimePayload,
+      acceptsSyntheticEvidence:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.acceptsSyntheticEvidence,
+      containsSecretValue:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate.containsSecretValue,
+      signedApprovalTemplateDigest:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
+          .signedApprovalTemplateDigest,
+    }),
+    "",
   ];
 }

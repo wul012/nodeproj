@@ -1,0 +1,123 @@
+import { renderEntries } from "./liveProbeReportUtils.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateClause,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateField,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateTypes.js";
+
+export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateMarkdown(
+  template: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate,
+): string {
+  return [
+    "# Controlled read-only shard preview live read-only window operator evidence value supply signed approval template",
+    "",
+    `- Signed approval template version: ${template.signedApprovalTemplateVersion}`,
+    `- Source approval packet review version: ${template.sourceApprovalPacketReviewVersion}`,
+    `- Template state: ${template.templateState}`,
+    `- Ready for signed approval template preflight: ${template.readyForSignedApprovalTemplatePreflight}`,
+    `- Ready for signed approval capture: ${template.readyForSignedApprovalCapture}`,
+    `- Ready for operator value supply: ${template.readyForOperatorValueSupply}`,
+    `- Ready for operator value submission: ${template.readyForOperatorValueSubmission}`,
+    `- Ready for evidence import: ${template.readyForEvidenceImport}`,
+    `- Ready for runtime payload: ${template.readyForRuntimePayload}`,
+    `- Ready for live execution: ${template.readyForLiveExecution}`,
+    `- Ready for production execution: ${template.readyForProductionExecution}`,
+    `- Template field count: ${template.templateFieldCount}`,
+    `- Template clause count: ${template.templateClauseCount}`,
+    `- Identity field count: ${template.identityFieldCount}`,
+    `- Source evidence field count: ${template.sourceEvidenceFieldCount}`,
+    `- Policy field count: ${template.policyFieldCount}`,
+    `- Execution lock field count: ${template.executionLockFieldCount}`,
+    `- Required field count: ${template.requiredFieldCount}`,
+    `- Ready field count: ${template.readyFieldCount}`,
+    `- Ready clause count: ${template.readyClauseCount}`,
+    `- Missing field blocker count: ${template.missingFieldBlockerCount}`,
+    `- Rejection clause count: ${template.rejectionClauseCount}`,
+    `- Non-execution clause count: ${template.nonExecutionClauseCount}`,
+    `- Supplied value count: ${template.suppliedValueCount}`,
+    `- Accepted value count: ${template.acceptedValueCount}`,
+    `- Imported value count: ${template.importedValueCount}`,
+    `- Template value provided count: ${template.templateValueProvidedCount}`,
+    `- Approval captured: ${template.approvalCaptured}`,
+    `- Approval grant present: ${template.approvalGrantPresent}`,
+    `- Signed approval present: ${template.signedApprovalPresent}`,
+    `- Source approval packet review digest: ${template.sourceApprovalPacketReviewDigest}`,
+    `- Passed gates: ${template.passedGateCount}/${template.gateCount}`,
+    `- Imports runtime payload: ${template.importsRuntimePayload}`,
+    `- Accepts synthetic evidence: ${template.acceptsSyntheticEvidence}`,
+    `- Contains secret value: ${template.containsSecretValue}`,
+    `- Signed approval template digest: ${template.signedApprovalTemplateDigest}`,
+    "",
+    "## Gates",
+    ...renderEntries(template.gates),
+    "",
+    "## Fields",
+    ...template.fields.flatMap(renderField),
+    "## Clauses",
+    ...template.clauses.flatMap(renderClause),
+    "## Blocked Reasons",
+    ...(template.blockedReasonCodes.length === 0
+      ? ["- none"]
+      : template.blockedReasonCodes.map((reason) => `- ${reason}`)),
+  ].join("\n");
+}
+
+function renderField(
+  field: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateField,
+): string[] {
+  return [
+    `### ${field.order}. ${field.nodeVersion} ${field.code}`,
+    `- Field name: ${field.fieldName}`,
+    `- Kind: ${field.kind}`,
+    `- Value class: ${field.valueClass}`,
+    `- Source review control: ${field.sourceReviewControlCode}`,
+    `- Source review control ready: ${field.sourceReviewControlReady}`,
+    `- Source manual review required: ${field.sourceManualReviewRequired}`,
+    `- Source auto approval blocked: ${field.sourceAutoApprovalBlocked}`,
+    `- Required review control field: ${field.requiredReviewControlFieldName}`,
+    `- Required review control field present: ${field.requiredReviewControlFieldPresent}`,
+    `- Missing field blocker code: ${field.missingFieldBlockerCode}`,
+    `- Field purpose: ${field.fieldPurpose}`,
+    `- Required: ${field.required}`,
+    `- Capture allowed now: ${field.captureAllowedNow}`,
+    `- Value provided: ${field.valueProvided}`,
+    `- Contains secret value: ${field.containsSecretValue}`,
+    `- Ready for signed approval template field: ${field.readyForSignedApprovalTemplateField}`,
+    `- Ready for signed approval capture: ${field.readyForSignedApprovalCapture}`,
+    `- Ready for operator value supply: ${field.readyForOperatorValueSupply}`,
+    `- Ready for evidence import: ${field.readyForEvidenceImport}`,
+    `- Ready for runtime payload: ${field.readyForRuntimePayload}`,
+    `- Writes allowed: ${field.writesAllowed}`,
+    `- Starts services: ${field.startsServices}`,
+    `- Mutates sibling state: ${field.mutatesSiblingState}`,
+    "",
+  ];
+}
+
+function renderClause(
+  clause: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateClause,
+): string[] {
+  return [
+    `### ${clause.order}. ${clause.nodeVersion} ${clause.code}`,
+    `- Kind: ${clause.kind}`,
+    `- Source template field: ${clause.sourceTemplateFieldCode}`,
+    `- Source template field ready: ${clause.sourceTemplateFieldReady}`,
+    `- Rejection code: ${clause.rejectionCode}`,
+    `- Clause text: ${clause.clauseText}`,
+    `- Rejects missing field: ${clause.rejectsMissingField}`,
+    `- Blocks unsigned approval: ${clause.blocksUnsignedApproval}`,
+    `- Blocks auto approval: ${clause.blocksAutoApproval}`,
+    `- Blocks runtime payload: ${clause.blocksRuntimePayload}`,
+    `- Blocks writes: ${clause.blocksWrites}`,
+    `- Blocks sibling mutation: ${clause.blocksSiblingMutation}`,
+    `- Ready for signed approval template clause: ${clause.readyForSignedApprovalTemplateClause}`,
+    `- Ready for signed approval capture: ${clause.readyForSignedApprovalCapture}`,
+    `- Ready for operator value supply: ${clause.readyForOperatorValueSupply}`,
+    `- Ready for evidence import: ${clause.readyForEvidenceImport}`,
+    `- Ready for runtime payload: ${clause.readyForRuntimePayload}`,
+    `- Writes allowed: ${clause.writesAllowed}`,
+    `- Starts services: ${clause.startsServices}`,
+    `- Mutates sibling state: ${clause.mutatesSiblingState}`,
+    "",
+  ];
+}
