@@ -98,6 +98,10 @@ import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadine
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessArtifacts.js";
 import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessRenderer.js";
+import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightArtifacts.js";
+import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -356,5 +360,16 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessMarkdown)
       .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value supply signed approval capture artifact draft review package preflight helpers", () => {
+    expect(reviewArtifacts
+      .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight)
+      .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight);
+    expect(reviewArtifacts
+      .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightMarkdown)
+      .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightMarkdown);
   });
 });

@@ -757,6 +757,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Review Package Preflight",
+    ...renderSignedApprovalCaptureArtifactDraftReviewPackagePreflightProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
+    ),
+    "",
   ];
 }
 
@@ -863,5 +868,65 @@ function renderSignedApprovalCaptureArtifactDraftReadinessProfileEntries(
     containsSecretValue: readiness.containsSecretValue,
     signedApprovalCaptureArtifactDraftReadinessDigest:
       readiness.signedApprovalCaptureArtifactDraftReadinessDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftReviewPackagePreflightProfileEntries(
+  preflight:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftReviewPackagePreflightVersion:
+      preflight.signedApprovalCaptureArtifactDraftReviewPackagePreflightVersion,
+    sourceSignedApprovalCaptureArtifactDraftReadinessVersion:
+      preflight.sourceSignedApprovalCaptureArtifactDraftReadinessVersion,
+    artifactDraftReviewPackagePreflightState:
+      preflight.artifactDraftReviewPackagePreflightState,
+    readyForSignedApprovalArtifactDraftReviewPackagePreflight:
+      preflight.readyForSignedApprovalArtifactDraftReviewPackagePreflight,
+    readyForManualSignedApprovalDraftReviewPackage:
+      preflight.readyForManualSignedApprovalDraftReviewPackage,
+    readyForManualSignedApprovalDraftReview:
+      preflight.readyForManualSignedApprovalDraftReview,
+    readyForSignedApprovalArtifactDraft: preflight.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: preflight.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: preflight.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: preflight.readyForOperatorValueSubmission,
+    readyForEvidenceImport: preflight.readyForEvidenceImport,
+    readyForRuntimePayload: preflight.readyForRuntimePayload,
+    packageSlotCount: preflight.packageSlotCount,
+    packageGuardCount: preflight.packageGuardCount,
+    identityReviewPackageSlotCount: preflight.identityReviewPackageSlotCount,
+    digestBindingReviewPackageSlotCount: preflight.digestBindingReviewPackageSlotCount,
+    signatureEnvelopeReviewPackageSlotCount: preflight.signatureEnvelopeReviewPackageSlotCount,
+    sourceEvidenceReviewPackageSlotCount: preflight.sourceEvidenceReviewPackageSlotCount,
+    valueBindingReviewPackageSlotCount: preflight.valueBindingReviewPackageSlotCount,
+    policyReviewPackageSlotCount: preflight.policyReviewPackageSlotCount,
+    executionLockReviewPackageSlotCount: preflight.executionLockReviewPackageSlotCount,
+    archiveCloseoutReviewPackageSlotCount: preflight.archiveCloseoutReviewPackageSlotCount,
+    digestModeReviewPackageSlotCount: preflight.digestModeReviewPackageSlotCount,
+    readyPackageSlotCount: preflight.readyPackageSlotCount,
+    readyPackageGuardCount: preflight.readyPackageGuardCount,
+    digestBindingReviewPackageGuardCount: preflight.digestBindingReviewPackageGuardCount,
+    signatureEnvelopeReviewPackageGuardCount: preflight.signatureEnvelopeReviewPackageGuardCount,
+    policyReviewPackageGuardCount: preflight.policyReviewPackageGuardCount,
+    executionLockReviewPackageGuardCount: preflight.executionLockReviewPackageGuardCount,
+    archiveCloseoutReviewPackageGuardCount: preflight.archiveCloseoutReviewPackageGuardCount,
+    packageSlotMaterializedCount: preflight.packageSlotMaterializedCount,
+    packageArtifactCreated: preflight.packageArtifactCreated,
+    signedDraftTextCount: preflight.signedDraftTextCount,
+    draftSignaturePayloadCount: preflight.draftSignaturePayloadCount,
+    approvalCaptured: preflight.approvalCaptured,
+    approvalGrantPresent: preflight.approvalGrantPresent,
+    signedApprovalPresent: preflight.signedApprovalPresent,
+    gateCount: preflight.gateCount,
+    passedGateCount: preflight.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftReadinessDigest:
+      preflight.sourceSignedApprovalCaptureArtifactDraftReadinessDigest,
+    importsRuntimePayload: preflight.importsRuntimePayload,
+    acceptsSyntheticEvidence: preflight.acceptsSyntheticEvidence,
+    containsSecretValue: preflight.containsSecretValue,
+    signedApprovalCaptureArtifactDraftReviewPackagePreflightDigest:
+      preflight.signedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
   });
 }

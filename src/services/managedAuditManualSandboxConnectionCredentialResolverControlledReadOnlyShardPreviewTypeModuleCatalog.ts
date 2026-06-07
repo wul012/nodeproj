@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1136";
+  catalogVersion: "Node v1161";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1136";
+  validationVersion: "Node v1161";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1108,8 +1108,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep artifact draft readiness Markdown separate from readiness generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 106,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightTypes.ts",
+    owns: ["signed approval artifact draft review package preflight public types", "review package preflight gate contract"],
+    consumedBy: ["artifact draft review package preflight builder", "artifact draft review package preflight renderer", "profile entry types"],
+    maintenanceRule: "Keep review package slots and guards separate from artifact draft readiness contracts.",
+    stopCondition: "Do not split unless slots and guards need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 107,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-slot-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightSlotCatalog.ts",
+    owns: ["twenty-five review package preflight slots", "source readiness lane and control bindings"],
+    consumedBy: ["artifact draft review package preflight builder", "artifact draft review package preflight tests"],
+    maintenanceRule: "Keep package slot text declarative and out of builder logic.",
+    stopCondition: "Do not split unless identity, digest, signature, evidence, policy, and lock slots diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 108,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-guard-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightGuardCatalog.ts",
+    owns: ["twenty-five review package preflight guards", "package materialization blocker codes"],
+    consumedBy: ["artifact draft review package preflight builder", "artifact draft review package preflight tests"],
+    maintenanceRule: "Keep guard text and blocker codes declarative so validation can stay mechanical.",
+    stopCondition: "Do not split unless guard families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 109,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightBuilder.ts",
+    owns: ["readiness lane to package slot mapping", "package slot to guard mapping"],
+    consumedBy: ["artifact draft review package preflight artifacts", "artifact draft review package preflight tests"],
+    maintenanceRule: "Keep source mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple readiness packages feed one review package preflight.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 110,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightValidator.ts",
+    owns: ["artifact draft review package preflight gates", "artifact draft review package preflight blocked reasons"],
+    consumedBy: ["artifact draft review package preflight artifacts", "artifact draft review package preflight tests"],
+    maintenanceRule: "Keep gate logic separate from slot and guard construction.",
+    stopCondition: "Do not split unless validation starts consuming a real manual draft artifact.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 111,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightArtifacts.ts",
+    owns: ["artifact draft review package preflight builder orchestration", "review package slot counts", "review package preflight digest"],
+    consumedBy: ["review artifact barrel", "artifact draft review package preflight tests", "profile assembly"],
+    maintenanceRule: "Keep review package preflight assembly compact by delegating mapping and validation.",
+    stopCondition: "Do not split unless this package starts accepting submitted signed draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 112,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-review-package-preflight-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightRenderer.ts",
+    owns: ["artifact draft review package preflight markdown", "package slot and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep review package preflight Markdown separate from package generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 113,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1133,7 +1203,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1136",
+    catalogVersion: "Node v1161",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1194,7 +1264,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1136",
+    validationVersion: "Node v1161",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

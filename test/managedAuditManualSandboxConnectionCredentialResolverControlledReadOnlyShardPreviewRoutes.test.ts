@@ -220,6 +220,24 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("draftArtifactMaterializedCount: 0");
       expect(markdown.body).toContain("draftSignaturePayloadCount: 0");
       expect(markdown.body).toContain("signedApprovalCaptureArtifactDraftReadinessVersion: Node v1136");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Review Package Preflight");
+      expect(markdown.body)
+        .toContain("artifactDraftReviewPackagePreflightState: ready-for-signed-approval-artifact-draft-review-package-preflight");
+      expect(markdown.body).toContain("readyForSignedApprovalArtifactDraftReviewPackagePreflight: true");
+      expect(markdown.body).toContain("readyForManualSignedApprovalDraftReviewPackage: true");
+      expect(markdown.body).toContain("readyForSignedApprovalArtifactDraft: false");
+      expect(markdown.body).toContain("readyForSignedApprovalCapture: false");
+      expect(markdown.body).toContain("packageSlotCount: 25");
+      expect(markdown.body).toContain("packageGuardCount: 25");
+      expect(markdown.body).toContain("archiveCloseoutReviewPackageSlotCount: 1");
+      expect(markdown.body).toContain("digestModeReviewPackageSlotCount: 5");
+      expect(markdown.body).toContain("readyPackageSlotCount: 25");
+      expect(markdown.body).toContain("readyPackageGuardCount: 25");
+      expect(markdown.body).toContain("packageSlotMaterializedCount: 0");
+      expect(markdown.body).toContain("signedDraftTextCount: 0");
+      expect(markdown.body).toContain("draftSignaturePayloadCount: 0");
+      expect(markdown.body).toContain("signedApprovalCaptureArtifactDraftReviewPackagePreflightVersion: Node v1161");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
