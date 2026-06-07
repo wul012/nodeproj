@@ -43,6 +43,9 @@ import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightArtifacts.js";
 import {
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight,
+} from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightArtifacts.js";
+import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
 import {
@@ -126,5 +129,13 @@ export function controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedA
 ) {
   return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight(
     controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalTemplateFixture(ready),
+  );
+}
+
+export function controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightFixture(
+  ready: boolean,
+) {
+  return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight(
+    controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCapturePreflightFixture(ready),
   );
 }

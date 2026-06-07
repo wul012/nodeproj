@@ -86,6 +86,10 @@ import * as operatorEvidenceValueSupplySignedApprovalCapturePreflightArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightArtifacts.js";
 import * as operatorEvidenceValueSupplySignedApprovalCapturePreflightRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightRenderer.js";
+import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightArtifacts.js";
+import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -311,5 +315,16 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightMarkdown)
       .toBe(operatorEvidenceValueSupplySignedApprovalCapturePreflightRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value supply signed approval capture artifact preflight helpers", () => {
+    expect(reviewArtifacts
+      .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight)
+      .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight);
+    expect(reviewArtifacts
+      .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightMarkdown)
+      .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightMarkdown);
   });
 });
