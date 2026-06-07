@@ -752,6 +752,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Readiness",
+    ...renderSignedApprovalCaptureArtifactDraftReadinessProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
+    ),
+    "",
   ];
 }
 
@@ -803,5 +808,60 @@ function renderSignedApprovalCaptureArtifactDraftPreflightProfileEntries(
     containsSecretValue: draftPreflight.containsSecretValue,
     signedApprovalCaptureArtifactDraftPreflightDigest:
       draftPreflight.signedApprovalCaptureArtifactDraftPreflightDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftReadinessProfileEntries(
+  readiness:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftReadinessVersion:
+      readiness.signedApprovalCaptureArtifactDraftReadinessVersion,
+    sourceSignedApprovalCaptureArtifactDraftPreflightVersion:
+      readiness.sourceSignedApprovalCaptureArtifactDraftPreflightVersion,
+    artifactDraftReadinessState: readiness.artifactDraftReadinessState,
+    readyForSignedApprovalArtifactDraftReadiness:
+      readiness.readyForSignedApprovalArtifactDraftReadiness,
+    readyForManualSignedApprovalDraftReview: readiness.readyForManualSignedApprovalDraftReview,
+    readyForSignedApprovalArtifactDraft: readiness.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: readiness.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: readiness.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: readiness.readyForOperatorValueSubmission,
+    readyForEvidenceImport: readiness.readyForEvidenceImport,
+    readyForRuntimePayload: readiness.readyForRuntimePayload,
+    readinessLaneCount: readiness.readinessLaneCount,
+    readinessControlCount: readiness.readinessControlCount,
+    identityReadinessLaneCount: readiness.identityReadinessLaneCount,
+    digestBindingReadinessLaneCount: readiness.digestBindingReadinessLaneCount,
+    signatureEnvelopeReadinessLaneCount: readiness.signatureEnvelopeReadinessLaneCount,
+    sourceEvidenceReadinessLaneCount: readiness.sourceEvidenceReadinessLaneCount,
+    valueBindingReadinessLaneCount: readiness.valueBindingReadinessLaneCount,
+    policyReadinessLaneCount: readiness.policyReadinessLaneCount,
+    executionLockReadinessLaneCount: readiness.executionLockReadinessLaneCount,
+    archiveCloseoutReadinessLaneCount: readiness.archiveCloseoutReadinessLaneCount,
+    readyReadinessLaneCount: readiness.readyReadinessLaneCount,
+    readyReadinessControlCount: readiness.readyReadinessControlCount,
+    digestBindingReadinessControlCount: readiness.digestBindingReadinessControlCount,
+    signatureEnvelopeReadinessControlCount: readiness.signatureEnvelopeReadinessControlCount,
+    policyReadinessControlCount: readiness.policyReadinessControlCount,
+    executionLockReadinessControlCount: readiness.executionLockReadinessControlCount,
+    archiveCloseoutReadinessControlCount: readiness.archiveCloseoutReadinessControlCount,
+    manualDraftMaterializedCount: readiness.manualDraftMaterializedCount,
+    draftArtifactCreated: readiness.draftArtifactCreated,
+    draftArtifactMaterializedCount: readiness.draftArtifactMaterializedCount,
+    draftSignaturePayloadCount: readiness.draftSignaturePayloadCount,
+    approvalCaptured: readiness.approvalCaptured,
+    approvalGrantPresent: readiness.approvalGrantPresent,
+    signedApprovalPresent: readiness.signedApprovalPresent,
+    gateCount: readiness.gateCount,
+    passedGateCount: readiness.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftPreflightDigest:
+      readiness.sourceSignedApprovalCaptureArtifactDraftPreflightDigest,
+    importsRuntimePayload: readiness.importsRuntimePayload,
+    acceptsSyntheticEvidence: readiness.acceptsSyntheticEvidence,
+    containsSecretValue: readiness.containsSecretValue,
+    signedApprovalCaptureArtifactDraftReadinessDigest:
+      readiness.signedApprovalCaptureArtifactDraftReadinessDigest,
   });
 }
