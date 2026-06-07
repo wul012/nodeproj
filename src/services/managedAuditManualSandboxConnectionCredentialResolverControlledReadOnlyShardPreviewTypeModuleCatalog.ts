@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1161";
+  catalogVersion: "Node v1186";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1161";
+  validationVersion: "Node v1186";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1178,8 +1178,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep review package preflight Markdown separate from package generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 113,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessTypes.ts",
+    owns: ["signed approval artifact draft authoring readiness public types", "authoring readiness gate contract"],
+    consumedBy: ["artifact draft authoring readiness builder", "artifact draft authoring readiness renderer", "profile entry types"],
+    maintenanceRule: "Keep authoring requirements and blockers separate from review package preflight contracts.",
+    stopCondition: "Do not split unless requirements and blockers need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 114,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-requirement-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessRequirementCatalog.ts",
+    owns: ["twenty-five artifact draft authoring requirements", "source review package slot and guard bindings"],
+    consumedBy: ["artifact draft authoring readiness builder", "artifact draft authoring readiness tests"],
+    maintenanceRule: "Keep authoring requirement text declarative and out of builder logic.",
+    stopCondition: "Do not split unless identity, digest, signature, evidence, policy, and lock requirements diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 115,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-blocker-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessBlockerCatalog.ts",
+    owns: ["twenty-five artifact draft authoring blockers", "authoring materialization blocker codes"],
+    consumedBy: ["artifact draft authoring readiness builder", "artifact draft authoring readiness tests"],
+    maintenanceRule: "Keep blocker derivation separate from requirement mapping so missing authoring inputs fail closed.",
+    stopCondition: "Do not split unless blocker families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 116,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessBuilder.ts",
+    owns: ["review package slot to authoring requirement mapping", "authoring requirement to blocker mapping"],
+    consumedBy: ["artifact draft authoring readiness artifacts", "artifact draft authoring readiness tests"],
+    maintenanceRule: "Keep source mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple review package preflights feed one authoring readiness package.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 117,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessValidator.ts",
+    owns: ["artifact draft authoring readiness gates", "artifact draft authoring readiness blocked reasons"],
+    consumedBy: ["artifact draft authoring readiness artifacts", "artifact draft authoring readiness tests"],
+    maintenanceRule: "Keep gate logic separate from requirement and blocker construction.",
+    stopCondition: "Do not split unless validation starts consuming signed draft text or detached signature material.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 118,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessArtifacts.ts",
+    owns: ["artifact draft authoring readiness builder orchestration", "authoring readiness counts", "authoring readiness digest"],
+    consumedBy: ["review artifact barrel", "artifact draft authoring readiness tests", "profile assembly"],
+    maintenanceRule: "Keep authoring readiness assembly compact by delegating mapping and validation.",
+    stopCondition: "Do not split unless this package starts accepting submitted draft artifacts.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 119,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-authoring-readiness-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessRenderer.ts",
+    owns: ["artifact draft authoring readiness markdown", "authoring requirement and blocker rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep authoring readiness Markdown separate from authoring readiness generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 120,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1203,7 +1273,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1161",
+    catalogVersion: "Node v1186",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1264,7 +1334,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1161",
+    validationVersion: "Node v1186",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

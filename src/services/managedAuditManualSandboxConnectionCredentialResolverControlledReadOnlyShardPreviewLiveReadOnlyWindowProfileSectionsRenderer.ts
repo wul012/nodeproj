@@ -762,6 +762,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Authoring Readiness",
+    ...renderSignedApprovalCaptureArtifactDraftAuthoringReadinessProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
+    ),
+    "",
   ];
 }
 
@@ -928,5 +933,64 @@ function renderSignedApprovalCaptureArtifactDraftReviewPackagePreflightProfileEn
     containsSecretValue: preflight.containsSecretValue,
     signedApprovalCaptureArtifactDraftReviewPackagePreflightDigest:
       preflight.signedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftAuthoringReadinessProfileEntries(
+  readiness:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftAuthoringReadinessVersion:
+      readiness.signedApprovalCaptureArtifactDraftAuthoringReadinessVersion,
+    sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightVersion:
+      readiness.sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightVersion,
+    artifactDraftAuthoringReadinessState: readiness.artifactDraftAuthoringReadinessState,
+    readyForSignedApprovalArtifactDraftAuthoringReadiness:
+      readiness.readyForSignedApprovalArtifactDraftAuthoringReadiness,
+    readyForHumanSignedApprovalDraftArtifactAuthoring:
+      readiness.readyForHumanSignedApprovalDraftArtifactAuthoring,
+    readyForManualSignedApprovalDraftReviewPackage:
+      readiness.readyForManualSignedApprovalDraftReviewPackage,
+    readyForSignedApprovalArtifactDraft: readiness.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: readiness.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: readiness.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: readiness.readyForOperatorValueSubmission,
+    readyForEvidenceImport: readiness.readyForEvidenceImport,
+    readyForRuntimePayload: readiness.readyForRuntimePayload,
+    authoringRequirementCount: readiness.authoringRequirementCount,
+    authoringBlockerCount: readiness.authoringBlockerCount,
+    identityAuthoringRequirementCount: readiness.identityAuthoringRequirementCount,
+    digestBindingAuthoringRequirementCount: readiness.digestBindingAuthoringRequirementCount,
+    signatureEnvelopeAuthoringRequirementCount: readiness.signatureEnvelopeAuthoringRequirementCount,
+    sourceEvidenceAuthoringRequirementCount: readiness.sourceEvidenceAuthoringRequirementCount,
+    valueBindingAuthoringRequirementCount: readiness.valueBindingAuthoringRequirementCount,
+    policyAuthoringRequirementCount: readiness.policyAuthoringRequirementCount,
+    executionLockAuthoringRequirementCount: readiness.executionLockAuthoringRequirementCount,
+    archiveCloseoutAuthoringRequirementCount: readiness.archiveCloseoutAuthoringRequirementCount,
+    digestModeAuthoringRequirementCount: readiness.digestModeAuthoringRequirementCount,
+    readyAuthoringRequirementCount: readiness.readyAuthoringRequirementCount,
+    readyAuthoringBlockerCount: readiness.readyAuthoringBlockerCount,
+    digestBindingAuthoringBlockerCount: readiness.digestBindingAuthoringBlockerCount,
+    signatureEnvelopeAuthoringBlockerCount: readiness.signatureEnvelopeAuthoringBlockerCount,
+    policyAuthoringBlockerCount: readiness.policyAuthoringBlockerCount,
+    executionLockAuthoringBlockerCount: readiness.executionLockAuthoringBlockerCount,
+    archiveCloseoutAuthoringBlockerCount: readiness.archiveCloseoutAuthoringBlockerCount,
+    authoringInstructionMaterializedCount: readiness.authoringInstructionMaterializedCount,
+    draftArtifactCreated: readiness.draftArtifactCreated,
+    signedDraftTextCount: readiness.signedDraftTextCount,
+    draftSignaturePayloadCount: readiness.draftSignaturePayloadCount,
+    approvalCaptured: readiness.approvalCaptured,
+    approvalGrantPresent: readiness.approvalGrantPresent,
+    signedApprovalPresent: readiness.signedApprovalPresent,
+    gateCount: readiness.gateCount,
+    passedGateCount: readiness.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest:
+      readiness.sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
+    importsRuntimePayload: readiness.importsRuntimePayload,
+    acceptsSyntheticEvidence: readiness.acceptsSyntheticEvidence,
+    containsSecretValue: readiness.containsSecretValue,
+    signedApprovalCaptureArtifactDraftAuthoringReadinessDigest:
+      readiness.signedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
   });
 }
