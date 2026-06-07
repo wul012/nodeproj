@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v986";
+  catalogVersion: "Node v1011";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v986";
+  validationVersion: "Node v1011";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -708,8 +708,58 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep approval packet draft Markdown separate from draft generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 66,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-review-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewTypes.ts",
+    owns: ["approval packet review package", "review controls", "review gates"],
+    consumedBy: ["approval packet review artifacts", "approval packet review renderer", "profile types"],
+    maintenanceRule: "Keep approval review contracts separate from the approval draft and any future signed approval capture.",
+    stopCondition: "Do not split unless review controls and signed approval templates gain separate lifecycles.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 67,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-review-control-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewControlCatalog.ts",
+    owns: ["approval review control templates", "review questions", "acceptance criteria"],
+    consumedBy: ["approval packet review slot builder", "approval packet review tests"],
+    maintenanceRule: "Keep the twenty-five review controls declarative so gate code stays compact.",
+    stopCondition: "Do not split unless approval field, policy, source evidence, and execution controls become independently versioned.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 68,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-review-slot-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewSlotBuilder.ts",
+    owns: ["approval draft slot to review control mapping", "review field and policy coverage checks"],
+    consumedBy: ["approval packet review artifacts", "approval packet review tests"],
+    maintenanceRule: "Keep source draft mapping separate from review package gates.",
+    stopCondition: "Do not split unless multiple source approval draft families feed the same review package.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 69,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-review-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewArtifacts.ts",
+    owns: ["approval packet review builder", "review package gates", "review package digest"],
+    consumedBy: ["review artifact barrel", "approval packet review tests", "profile assembly"],
+    maintenanceRule: "Keep review package gate calculation compact by delegating control templates and slot mapping.",
+    stopCondition: "Do not split unless the review package starts consuming actual signed approvals.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 70,
+    id: "live-read-only-window-operator-evidence-value-supply-approval-packet-review-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewRenderer.ts",
+    owns: ["approval packet review markdown", "review control rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep approval packet review Markdown separate from review package generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 71,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -733,7 +783,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v986",
+    catalogVersion: "Node v1011",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -794,7 +844,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v986",
+    validationVersion: "Node v1011",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

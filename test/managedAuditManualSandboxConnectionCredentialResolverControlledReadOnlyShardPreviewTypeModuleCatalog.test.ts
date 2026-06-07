@@ -13,10 +13,10 @@ describe("controlled read-only shard preview type module catalog", () => {
   it("records stable type module ownership groups", () => {
     const catalog = createControlledReadOnlyShardPreviewTypeModuleCatalog();
 
-    expect(catalog.catalogVersion).toBe("Node v986");
+    expect(catalog.catalogVersion).toBe("Node v1011");
     expect(catalog.publicEntryPoint)
       .toBe("managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts");
-    expect(catalog.moduleCount).toBe(66);
+    expect(catalog.moduleCount).toBe(71);
     expect(catalog.stableReExportModuleCount).toBe(catalog.moduleCount);
     expect(catalog.stopCondition).toContain("add a new type module only when");
   });
@@ -49,8 +49,8 @@ describe("controlled read-only shard preview type module catalog", () => {
     const markdown = renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown();
 
     expect(markdown).toContain("# Controlled read-only shard preview type module catalog");
-    expect(markdown).toContain("- Catalog version: Node v986");
-    expect(markdown).toContain("- Module count: 66");
+    expect(markdown).toContain("- Catalog version: Node v1011");
+    expect(markdown).toContain("- Module count: 71");
     expect(markdown).toContain("### 1. source-matrix-types");
     expect(markdown).toContain("### 13. execution-readiness-types");
     expect(markdown).toContain("### 16. live-read-only-window-stage-ledger-types");
@@ -99,7 +99,17 @@ describe("controlled read-only shard preview type module catalog", () => {
       .toContain("### 64. live-read-only-window-operator-evidence-value-supply-approval-packet-draft-artifacts");
     expect(markdown)
       .toContain("### 65. live-read-only-window-operator-evidence-value-supply-approval-packet-draft-renderer");
-    expect(markdown).toContain("### 66. profile-entry-types");
+    expect(markdown)
+      .toContain("### 66. live-read-only-window-operator-evidence-value-supply-approval-packet-review-types");
+    expect(markdown)
+      .toContain("### 67. live-read-only-window-operator-evidence-value-supply-approval-packet-review-control-catalog");
+    expect(markdown)
+      .toContain("### 68. live-read-only-window-operator-evidence-value-supply-approval-packet-review-slot-builder");
+    expect(markdown)
+      .toContain("### 69. live-read-only-window-operator-evidence-value-supply-approval-packet-review-artifacts");
+    expect(markdown)
+      .toContain("### 70. live-read-only-window-operator-evidence-value-supply-approval-packet-review-renderer");
+    expect(markdown).toContain("### 71. profile-entry-types");
     expect(markdown).toContain("- Stable profile re-export: true");
   });
 
@@ -107,12 +117,12 @@ describe("controlled read-only shard preview type module catalog", () => {
     const validation = validateControlledReadOnlyShardPreviewTypeModuleCatalog();
 
     expect(validation).toMatchObject({
-      validationVersion: "Node v986",
+      validationVersion: "Node v1011",
       valid: true,
-      moduleCount: 66,
-      uniqueIdCount: 66,
-      uniquePathCount: 66,
-      stableReExportModuleCount: 66,
+      moduleCount: 71,
+      uniqueIdCount: 71,
+      uniquePathCount: 71,
+      stableReExportModuleCount: 71,
       sequentialOrder: true,
       profileEntryLast: true,
       blockedReasonCodes: [],

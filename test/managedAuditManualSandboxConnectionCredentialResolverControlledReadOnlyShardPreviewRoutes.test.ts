@@ -147,6 +147,15 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("approvalCaptured: false");
       expect(markdown.body).toContain("approvalGrantPresent: false");
       expect(markdown.body).toContain("signedApprovalPresent: false");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Approval Packet Review");
+      expect(markdown.body).toContain("reviewPackageState: ready-for-value-supply-approval-packet-review");
+      expect(markdown.body).toContain("readyForValueSupplyApprovalPacketReview: true");
+      expect(markdown.body).toContain("readyForSignedApprovalCapture: false");
+      expect(markdown.body).toContain("reviewControlCount: 25");
+      expect(markdown.body).toContain("manualReviewRequiredControlCount: 25");
+      expect(markdown.body).toContain("autoApprovalBlockedControlCount: 25");
+      expect(markdown.body).toContain("approvalPacketReviewVersion: Node v1011");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

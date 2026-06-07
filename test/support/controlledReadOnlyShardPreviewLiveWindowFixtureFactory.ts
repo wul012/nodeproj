@@ -31,6 +31,12 @@ import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.js";
 import {
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft,
+} from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftArtifacts.js";
+import {
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview,
+} from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewArtifacts.js";
+import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
 import {
@@ -88,5 +94,17 @@ export function controlledReadOnlyShardPreviewOperatorEvidenceFreshSiblingIntake
 export function controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeFixture(ready: boolean) {
   return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope(
     controlledReadOnlyShardPreviewOperatorEvidenceFreshSiblingIntakeFixture(ready),
+  );
+}
+
+export function controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketDraftFixture(ready: boolean) {
+  return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft(
+    controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeFixture(ready),
+  );
+}
+
+export function controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketReviewFixture(ready: boolean) {
+  return createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview(
+    controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketDraftFixture(ready),
   );
 }

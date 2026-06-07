@@ -74,6 +74,10 @@ import * as operatorEvidenceValueSupplyApprovalPacketDraftArtifacts
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftArtifacts.js";
 import * as operatorEvidenceValueSupplyApprovalPacketDraftRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftRenderer.js";
+import * as operatorEvidenceValueSupplyApprovalPacketReviewArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewArtifacts.js";
+import * as operatorEvidenceValueSupplyApprovalPacketReviewRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -266,5 +270,16 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftMarkdown)
       .toBe(operatorEvidenceValueSupplyApprovalPacketDraftRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value supply approval packet review helpers", () => {
+    expect(reviewArtifacts
+      .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview)
+      .toBe(operatorEvidenceValueSupplyApprovalPacketReviewArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview);
+    expect(reviewArtifacts
+      .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewMarkdown)
+      .toBe(operatorEvidenceValueSupplyApprovalPacketReviewRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewMarkdown);
   });
 });

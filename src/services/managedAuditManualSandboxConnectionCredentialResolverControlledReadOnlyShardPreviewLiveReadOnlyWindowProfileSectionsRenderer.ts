@@ -404,5 +404,70 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalPacketDraftDigest,
     }),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Approval Packet Review",
+    ...renderEntries({
+      approvalPacketReviewVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalPacketReviewVersion,
+      sourceApprovalPacketDraftVersion:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.sourceApprovalPacketDraftVersion,
+      reviewPackageState:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.reviewPackageState,
+      readyForValueSupplyApprovalPacketReview:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .readyForValueSupplyApprovalPacketReview,
+      readyForSignedApprovalCapture:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.readyForSignedApprovalCapture,
+      readyForOperatorValueSupply:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.readyForOperatorValueSupply,
+      readyForOperatorValueSubmission:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .readyForOperatorValueSubmission,
+      readyForEvidenceImport:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.readyForEvidenceImport,
+      readyForRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.readyForRuntimePayload,
+      reviewControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.reviewControlCount,
+      approvalFieldReviewControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .approvalFieldReviewControlCount,
+      policyReviewControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.policyReviewControlCount,
+      sourceEvidenceReviewControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .sourceEvidenceReviewControlCount,
+      executionLockReviewControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .executionLockReviewControlCount,
+      closeoutReviewControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.closeoutReviewControlCount,
+      manualReviewRequiredControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .manualReviewRequiredControlCount,
+      autoApprovalBlockedControlCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview
+          .autoApprovalBlockedControlCount,
+      suppliedValueCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.suppliedValueCount,
+      acceptedValueCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.acceptedValueCount,
+      importedValueCount:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.importedValueCount,
+      approvalCaptured:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalCaptured,
+      approvalGrantPresent:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalGrantPresent,
+      signedApprovalPresent:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.signedApprovalPresent,
+      importsRuntimePayload:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.importsRuntimePayload,
+      acceptsSyntheticEvidence:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.acceptsSyntheticEvidence,
+      containsSecretValue:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.containsSecretValue,
+      approvalPacketReviewDigest:
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalPacketReviewDigest,
+    }),
+    "",
   ];
 }
