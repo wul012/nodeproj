@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1036";
+  catalogVersion: "Node v1061";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1036";
+  validationVersion: "Node v1061";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -828,8 +828,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep signed approval template Markdown separate from template generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 78,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightTypes.ts",
+    owns: ["signed approval capture preflight public types", "capture preflight gate contract"],
+    consumedBy: ["capture preflight builder", "capture preflight renderer", "profile entry types"],
+    maintenanceRule: "Keep capture preflight shape separate from signed approval template shape.",
+    stopCondition: "Do not split unless capture inputs and capture attestations need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 79,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-input-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightInputCatalog.ts",
+    owns: ["capture preflight input templates", "source template field bindings"],
+    consumedBy: ["capture preflight builder", "capture preflight tests"],
+    maintenanceRule: "Keep twenty-five capture preflight inputs declarative and out of gate code.",
+    stopCondition: "Do not split unless identity, source evidence, signature policy, and execution-lock inputs diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 80,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-attestation-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightAttestationCatalog.ts",
+    owns: ["capture preflight attestations", "capture preflight rejection codes"],
+    consumedBy: ["capture preflight builder", "capture preflight tests"],
+    maintenanceRule: "Keep attestation text separate so the builder only maps inputs to attestations.",
+    stopCondition: "Do not split unless policy attestations and no-execution attestations gain separate cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 81,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightBuilder.ts",
+    owns: ["template field to capture input mapping", "capture input to attestation mapping"],
+    consumedBy: ["capture preflight artifacts", "capture preflight tests"],
+    maintenanceRule: "Keep mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple signed approval templates feed one capture preflight.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 82,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightValidator.ts",
+    owns: ["capture preflight gates", "capture preflight blocker reasons"],
+    consumedBy: ["capture preflight artifacts", "capture preflight tests"],
+    maintenanceRule: "Keep gate logic separate from capture input and attestation construction.",
+    stopCondition: "Do not split unless validation starts consuming signed approval capture artifacts.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 83,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightArtifacts.ts",
+    owns: ["capture preflight builder orchestration", "capture preflight counts", "capture preflight digest"],
+    consumedBy: ["review artifact barrel", "capture preflight tests", "profile assembly"],
+    maintenanceRule: "Keep artifact assembly compact by delegating mapping and validation.",
+    stopCondition: "Do not split unless capture preflight starts accepting submitted signatures.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 84,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-preflight-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightRenderer.ts",
+    owns: ["capture preflight markdown", "capture input and attestation rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep capture preflight Markdown separate from capture preflight generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 85,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -853,7 +923,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1036",
+    catalogVersion: "Node v1061",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -914,7 +984,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1036",
+    validationVersion: "Node v1061",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

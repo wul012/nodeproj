@@ -165,6 +165,16 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("templateClauseCount: 25");
       expect(markdown.body).toContain("missingFieldBlockerCount: 25");
       expect(markdown.body).toContain("signedApprovalTemplateVersion: Node v1036");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Preflight");
+      expect(markdown.body).toContain("preflightState: ready-for-signed-approval-capture-preflight");
+      expect(markdown.body).toContain("readyForSignedApprovalCapturePreflight: true");
+      expect(markdown.body).toContain("readyForSignedApprovalCapture: false");
+      expect(markdown.body).toContain("captureInputCount: 25");
+      expect(markdown.body).toContain("captureAttestationCount: 25");
+      expect(markdown.body).toContain("missingInputBlockerCount: 25");
+      expect(markdown.body).toContain("rawSignatureMaterialCount: 0");
+      expect(markdown.body).toContain("signedApprovalCapturePreflightVersion: Node v1061");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

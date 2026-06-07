@@ -1,0 +1,126 @@
+import { renderEntries } from "./liveProbeReportUtils.js";
+import type {
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightAttestation,
+  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightInput,
+} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightTypes.js";
+
+export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightMarkdown(
+  preflight: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight,
+): string {
+  return [
+    "# Controlled read-only shard preview live read-only window operator evidence value supply signed approval capture preflight",
+    "",
+    `- Signed approval capture preflight version: ${preflight.signedApprovalCapturePreflightVersion}`,
+    `- Source signed approval template version: ${preflight.sourceSignedApprovalTemplateVersion}`,
+    `- Preflight state: ${preflight.preflightState}`,
+    `- Ready for signed approval capture preflight: ${preflight.readyForSignedApprovalCapturePreflight}`,
+    `- Ready for signed approval capture: ${preflight.readyForSignedApprovalCapture}`,
+    `- Ready for operator value supply: ${preflight.readyForOperatorValueSupply}`,
+    `- Ready for operator value submission: ${preflight.readyForOperatorValueSubmission}`,
+    `- Ready for evidence import: ${preflight.readyForEvidenceImport}`,
+    `- Ready for runtime payload: ${preflight.readyForRuntimePayload}`,
+    `- Ready for live execution: ${preflight.readyForLiveExecution}`,
+    `- Ready for production execution: ${preflight.readyForProductionExecution}`,
+    `- Capture input count: ${preflight.captureInputCount}`,
+    `- Capture attestation count: ${preflight.captureAttestationCount}`,
+    `- Identity input count: ${preflight.identityInputCount}`,
+    `- Digest binding input count: ${preflight.digestBindingInputCount}`,
+    `- Source evidence input count: ${preflight.sourceEvidenceInputCount}`,
+    `- Value binding input count: ${preflight.valueBindingInputCount}`,
+    `- Execution lock input count: ${preflight.executionLockInputCount}`,
+    `- Required input count: ${preflight.requiredInputCount}`,
+    `- Ready input count: ${preflight.readyInputCount}`,
+    `- Ready attestation count: ${preflight.readyAttestationCount}`,
+    `- Missing input blocker count: ${preflight.missingInputBlockerCount}`,
+    `- Digest binding attestation count: ${preflight.digestBindingAttestationCount}`,
+    `- Policy attestation count: ${preflight.policyAttestationCount}`,
+    `- No-execution attestation count: ${preflight.noExecutionAttestationCount}`,
+    `- Capture value provided count: ${preflight.captureValueProvidedCount}`,
+    `- Raw signature material count: ${preflight.rawSignatureMaterialCount}`,
+    `- Approval captured: ${preflight.approvalCaptured}`,
+    `- Approval grant present: ${preflight.approvalGrantPresent}`,
+    `- Signed approval present: ${preflight.signedApprovalPresent}`,
+    `- Source signed approval template digest: ${preflight.sourceSignedApprovalTemplateDigest}`,
+    `- Source approval packet review digest: ${preflight.sourceApprovalPacketReviewDigest}`,
+    `- Passed gates: ${preflight.passedGateCount}/${preflight.gateCount}`,
+    `- Imports runtime payload: ${preflight.importsRuntimePayload}`,
+    `- Accepts synthetic evidence: ${preflight.acceptsSyntheticEvidence}`,
+    `- Contains secret value: ${preflight.containsSecretValue}`,
+    `- Signed approval capture preflight digest: ${preflight.signedApprovalCapturePreflightDigest}`,
+    "",
+    "## Gates",
+    ...renderEntries(preflight.gates),
+    "",
+    "## Inputs",
+    ...preflight.inputs.flatMap(renderInput),
+    "## Attestations",
+    ...preflight.attestations.flatMap(renderAttestation),
+    "## Blocked Reasons",
+    ...(preflight.blockedReasonCodes.length === 0
+      ? ["- none"]
+      : preflight.blockedReasonCodes.map((reason) => `- ${reason}`)),
+  ].join("\n");
+}
+
+function renderInput(
+  input: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightInput,
+): string[] {
+  return [
+    `### ${input.order}. ${input.nodeVersion} ${input.code}`,
+    `- Input name: ${input.inputName}`,
+    `- Kind: ${input.kind}`,
+    `- Value mode: ${input.valueMode}`,
+    `- Source template field: ${input.sourceTemplateFieldCode}`,
+    `- Source template field ready: ${input.sourceTemplateFieldReady}`,
+    `- Source template field required: ${input.sourceTemplateFieldRequired}`,
+    `- Source template capture blocked: ${input.sourceTemplateCaptureBlocked}`,
+    `- Required template field: ${input.requiredTemplateFieldName}`,
+    `- Required template field present: ${input.requiredTemplateFieldPresent}`,
+    `- Capture blocker code: ${input.captureBlockerCode}`,
+    `- Input purpose: ${input.inputPurpose}`,
+    `- Required for capture preflight: ${input.requiredForCapturePreflight}`,
+    `- Capture value provided: ${input.captureValueProvided}`,
+    `- Captured now: ${input.capturedNow}`,
+    `- Raw signature material present: ${input.rawSignatureMaterialPresent}`,
+    `- Approval grant emitted: ${input.approvalGrantEmitted}`,
+    `- Ready for signed approval capture preflight input: ${input.readyForSignedApprovalCapturePreflightInput}`,
+    `- Ready for signed approval capture: ${input.readyForSignedApprovalCapture}`,
+    `- Ready for operator value supply: ${input.readyForOperatorValueSupply}`,
+    `- Ready for evidence import: ${input.readyForEvidenceImport}`,
+    `- Ready for runtime payload: ${input.readyForRuntimePayload}`,
+    `- Writes allowed: ${input.writesAllowed}`,
+    `- Starts services: ${input.startsServices}`,
+    `- Mutates sibling state: ${input.mutatesSiblingState}`,
+    "",
+  ];
+}
+
+function renderAttestation(
+  attestation:
+    ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightAttestation,
+): string[] {
+  return [
+    `### ${attestation.order}. ${attestation.nodeVersion} ${attestation.code}`,
+    `- Kind: ${attestation.kind}`,
+    `- Source capture input: ${attestation.sourceCaptureInputCode}`,
+    `- Source capture input ready: ${attestation.sourceCaptureInputReady}`,
+    `- Rejection code: ${attestation.rejectionCode}`,
+    `- Attestation text: ${attestation.attestationText}`,
+    `- Rejects missing input: ${attestation.rejectsMissingInput}`,
+    `- Blocks unsigned capture: ${attestation.blocksUnsignedCapture}`,
+    `- Blocks auto capture: ${attestation.blocksAutoCapture}`,
+    `- Blocks runtime payload: ${attestation.blocksRuntimePayload}`,
+    `- Blocks writes: ${attestation.blocksWrites}`,
+    `- Blocks sibling mutation: ${attestation.blocksSiblingMutation}`,
+    `- Ready for signed approval capture preflight attestation: ${attestation.readyForSignedApprovalCapturePreflightAttestation}`,
+    `- Ready for signed approval capture: ${attestation.readyForSignedApprovalCapture}`,
+    `- Ready for operator value supply: ${attestation.readyForOperatorValueSupply}`,
+    `- Ready for evidence import: ${attestation.readyForEvidenceImport}`,
+    `- Ready for runtime payload: ${attestation.readyForRuntimePayload}`,
+    `- Writes allowed: ${attestation.writesAllowed}`,
+    `- Starts services: ${attestation.startsServices}`,
+    `- Mutates sibling state: ${attestation.mutatesSiblingState}`,
+    "",
+  ];
+}
