@@ -322,6 +322,19 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("comparedDraftTextPackageCount: 0");
       expect(markdown.body)
         .toContain("signedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightVersion: Node v1286");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Preflight");
+      expect(markdown.body)
+        .toContain("artifactDraftTextPackageComparisonPreflightState: ready-for-signed-approval-artifact-draft-text-package-comparison-preflight");
+      expect(markdown.body).toContain("readyForSignedApprovalArtifactDraftTextPackageComparisonPreflight: true");
+      expect(markdown.body).toContain("comparisonLaneCount: 25");
+      expect(markdown.body).toContain("acceptanceControlCount: 25");
+      expect(markdown.body).toContain("digestModeComparisonLaneCount: 5");
+      expect(markdown.body).toContain("readyComparisonLaneCount: 25");
+      expect(markdown.body).toContain("readyAcceptanceControlCount: 25");
+      expect(markdown.body).toContain("actualDraftTextPackageComparisonCount: 0");
+      expect(markdown.body)
+        .toContain("signedApprovalCaptureArtifactDraftTextPackageComparisonPreflightVersion: Node v1311");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
