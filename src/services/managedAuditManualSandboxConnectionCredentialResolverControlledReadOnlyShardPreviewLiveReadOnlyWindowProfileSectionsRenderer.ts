@@ -772,6 +772,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Intake",
+    ...renderSignedApprovalCaptureArtifactDraftTextPackageIntakeProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake,
+    ),
+    "",
   ];
 }
 
@@ -1056,5 +1061,67 @@ function renderSignedApprovalCaptureArtifactDraftInstructionPreflightProfileEntr
     containsSecretValue: preflight.containsSecretValue,
     signedApprovalCaptureArtifactDraftInstructionPreflightDigest:
       preflight.signedApprovalCaptureArtifactDraftInstructionPreflightDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftTextPackageIntakeProfileEntries(
+  intake:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftTextPackageIntakeVersion:
+      intake.signedApprovalCaptureArtifactDraftTextPackageIntakeVersion,
+    sourceSignedApprovalCaptureArtifactDraftInstructionPreflightVersion:
+      intake.sourceSignedApprovalCaptureArtifactDraftInstructionPreflightVersion,
+    artifactDraftTextPackageIntakeState: intake.artifactDraftTextPackageIntakeState,
+    readyForSignedApprovalArtifactDraftTextPackageIntake:
+      intake.readyForSignedApprovalArtifactDraftTextPackageIntake,
+    readyForHumanSignedApprovalDraftTextPackageSubmission:
+      intake.readyForHumanSignedApprovalDraftTextPackageSubmission,
+    readyForHumanSignedApprovalDraftInstructionAuthoring:
+      intake.readyForHumanSignedApprovalDraftInstructionAuthoring,
+    readyForSignedApprovalArtifactDraft: intake.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: intake.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: intake.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: intake.readyForOperatorValueSubmission,
+    readyForEvidenceImport: intake.readyForEvidenceImport,
+    readyForRuntimePayload: intake.readyForRuntimePayload,
+    intakeFieldCount: intake.intakeFieldCount,
+    intakeGuardCount: intake.intakeGuardCount,
+    identityIntakeFieldCount: intake.identityIntakeFieldCount,
+    digestBindingIntakeFieldCount: intake.digestBindingIntakeFieldCount,
+    signatureEnvelopeIntakeFieldCount: intake.signatureEnvelopeIntakeFieldCount,
+    sourceEvidenceIntakeFieldCount: intake.sourceEvidenceIntakeFieldCount,
+    valueBindingIntakeFieldCount: intake.valueBindingIntakeFieldCount,
+    policyIntakeFieldCount: intake.policyIntakeFieldCount,
+    executionLockIntakeFieldCount: intake.executionLockIntakeFieldCount,
+    archiveCloseoutIntakeFieldCount: intake.archiveCloseoutIntakeFieldCount,
+    digestModeIntakeFieldCount: intake.digestModeIntakeFieldCount,
+    readyIntakeFieldCount: intake.readyIntakeFieldCount,
+    readyIntakeGuardCount: intake.readyIntakeGuardCount,
+    digestBindingIntakeGuardCount: intake.digestBindingIntakeGuardCount,
+    signatureEnvelopeIntakeGuardCount: intake.signatureEnvelopeIntakeGuardCount,
+    policyIntakeGuardCount: intake.policyIntakeGuardCount,
+    executionLockIntakeGuardCount: intake.executionLockIntakeGuardCount,
+    archiveCloseoutIntakeGuardCount: intake.archiveCloseoutIntakeGuardCount,
+    expectedDraftTextPackageFieldCount: intake.expectedDraftTextPackageFieldCount,
+    actualDraftTextPackageFieldCount: intake.actualDraftTextPackageFieldCount,
+    acceptedDraftTextPackageCount: intake.acceptedDraftTextPackageCount,
+    draftInstructionMaterializedCount: intake.draftInstructionMaterializedCount,
+    draftArtifactCreated: intake.draftArtifactCreated,
+    signedDraftTextCount: intake.signedDraftTextCount,
+    draftSignaturePayloadCount: intake.draftSignaturePayloadCount,
+    approvalCaptured: intake.approvalCaptured,
+    approvalGrantPresent: intake.approvalGrantPresent,
+    signedApprovalPresent: intake.signedApprovalPresent,
+    gateCount: intake.gateCount,
+    passedGateCount: intake.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest:
+      intake.sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest,
+    importsRuntimePayload: intake.importsRuntimePayload,
+    acceptsSyntheticEvidence: intake.acceptsSyntheticEvidence,
+    containsSecretValue: intake.containsSecretValue,
+    signedApprovalCaptureArtifactDraftTextPackageIntakeDigest:
+      intake.signedApprovalCaptureArtifactDraftTextPackageIntakeDigest,
   });
 }

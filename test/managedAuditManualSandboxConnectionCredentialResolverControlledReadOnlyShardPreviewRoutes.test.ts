@@ -274,6 +274,22 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("signedDraftTextCount: 0");
       expect(markdown.body).toContain("draftSignaturePayloadCount: 0");
       expect(markdown.body).toContain("signedApprovalCaptureArtifactDraftInstructionPreflightVersion: Node v1211");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Intake");
+      expect(markdown.body)
+        .toContain("artifactDraftTextPackageIntakeState: ready-for-signed-approval-artifact-draft-text-package-intake");
+      expect(markdown.body).toContain("readyForSignedApprovalArtifactDraftTextPackageIntake: true");
+      expect(markdown.body).toContain("readyForHumanSignedApprovalDraftTextPackageSubmission: true");
+      expect(markdown.body).toContain("intakeFieldCount: 25");
+      expect(markdown.body).toContain("intakeGuardCount: 25");
+      expect(markdown.body).toContain("archiveCloseoutIntakeFieldCount: 1");
+      expect(markdown.body).toContain("digestModeIntakeFieldCount: 5");
+      expect(markdown.body).toContain("readyIntakeFieldCount: 25");
+      expect(markdown.body).toContain("readyIntakeGuardCount: 25");
+      expect(markdown.body).toContain("expectedDraftTextPackageFieldCount: 25");
+      expect(markdown.body).toContain("actualDraftTextPackageFieldCount: 0");
+      expect(markdown.body).toContain("acceptedDraftTextPackageCount: 0");
+      expect(markdown.body).toContain("signedApprovalCaptureArtifactDraftTextPackageIntakeVersion: Node v1236");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

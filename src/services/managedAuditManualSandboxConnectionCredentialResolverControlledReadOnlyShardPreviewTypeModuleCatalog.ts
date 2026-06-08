@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1211";
+  catalogVersion: "Node v1236";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1211";
+  validationVersion: "Node v1236";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1318,8 +1318,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep instruction preflight Markdown separate from instruction preflight generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 127,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeTypes.ts",
+    owns: ["artifact draft text package intake public types", "intake field, guard, and gate contracts"],
+    consumedBy: ["artifact draft text package intake builders", "stable preview profile types"],
+    maintenanceRule: "Keep text package intake types separate from instruction preflight types.",
+    stopCondition: "Do not split unless fields and guards need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 128,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-field-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeFieldCatalog.ts",
+    owns: ["twenty-five artifact draft text package intake fields", "instruction slot to intake field mapping"],
+    consumedBy: ["artifact draft text package intake builder", "artifact draft text package intake tests"],
+    maintenanceRule: "Derive intake fields from instruction slots to avoid duplicated slice drift.",
+    stopCondition: "Do not split unless intake field families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 129,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-guard-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeGuardCatalog.ts",
+    owns: ["twenty-five artifact draft text package intake guards", "missing intake field blocker codes"],
+    consumedBy: ["artifact draft text package intake builder", "artifact draft text package intake tests"],
+    maintenanceRule: "Keep intake guard derivation separate from field readiness mapping.",
+    stopCondition: "Do not split unless guard families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 130,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeBuilder.ts",
+    owns: ["instruction preflight to text package intake field mapping", "intake field to guard mapping"],
+    consumedBy: ["artifact draft text package intake artifacts", "artifact draft text package intake tests"],
+    maintenanceRule: "Keep source instruction preflight mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple instruction preflights feed one text package intake.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 131,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeValidator.ts",
+    owns: ["artifact draft text package intake gates", "artifact draft text package intake blocked reasons"],
+    consumedBy: ["artifact draft text package intake artifacts", "artifact draft text package intake tests"],
+    maintenanceRule: "Keep text package intake gate logic separate from field and guard construction.",
+    stopCondition: "Do not split unless validation starts accepting concrete signed draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 132,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeArtifacts.ts",
+    owns: ["artifact draft text package intake assembly", "text package intake counts", "text package intake digest"],
+    consumedBy: ["review artifact barrel", "artifact draft text package intake tests", "profile assembly"],
+    maintenanceRule: "Keep text package intake assembly compact by delegating catalog mapping and validation.",
+    stopCondition: "Do not split unless this package starts accepting submitted draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 133,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-intake-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeRenderer.ts",
+    owns: ["artifact draft text package intake markdown", "intake field and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep text package intake Markdown separate from text package intake generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 134,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1343,7 +1413,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1211",
+    catalogVersion: "Node v1236",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1404,7 +1474,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1211",
+    validationVersion: "Node v1236",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
