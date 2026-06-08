@@ -767,6 +767,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Instruction Preflight",
+    ...renderSignedApprovalCaptureArtifactDraftInstructionPreflightProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
+    ),
+    "",
   ];
 }
 
@@ -992,5 +997,64 @@ function renderSignedApprovalCaptureArtifactDraftAuthoringReadinessProfileEntrie
     containsSecretValue: readiness.containsSecretValue,
     signedApprovalCaptureArtifactDraftAuthoringReadinessDigest:
       readiness.signedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftInstructionPreflightProfileEntries(
+  preflight:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftInstructionPreflightVersion:
+      preflight.signedApprovalCaptureArtifactDraftInstructionPreflightVersion,
+    sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessVersion:
+      preflight.sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessVersion,
+    artifactDraftInstructionPreflightState: preflight.artifactDraftInstructionPreflightState,
+    readyForSignedApprovalArtifactDraftInstructionPreflight:
+      preflight.readyForSignedApprovalArtifactDraftInstructionPreflight,
+    readyForHumanSignedApprovalDraftInstructionAuthoring:
+      preflight.readyForHumanSignedApprovalDraftInstructionAuthoring,
+    readyForHumanSignedApprovalDraftArtifactAuthoring:
+      preflight.readyForHumanSignedApprovalDraftArtifactAuthoring,
+    readyForSignedApprovalArtifactDraft: preflight.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: preflight.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: preflight.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: preflight.readyForOperatorValueSubmission,
+    readyForEvidenceImport: preflight.readyForEvidenceImport,
+    readyForRuntimePayload: preflight.readyForRuntimePayload,
+    instructionSlotCount: preflight.instructionSlotCount,
+    instructionGuardCount: preflight.instructionGuardCount,
+    identityInstructionSlotCount: preflight.identityInstructionSlotCount,
+    digestBindingInstructionSlotCount: preflight.digestBindingInstructionSlotCount,
+    signatureEnvelopeInstructionSlotCount: preflight.signatureEnvelopeInstructionSlotCount,
+    sourceEvidenceInstructionSlotCount: preflight.sourceEvidenceInstructionSlotCount,
+    valueBindingInstructionSlotCount: preflight.valueBindingInstructionSlotCount,
+    policyInstructionSlotCount: preflight.policyInstructionSlotCount,
+    executionLockInstructionSlotCount: preflight.executionLockInstructionSlotCount,
+    archiveCloseoutInstructionSlotCount: preflight.archiveCloseoutInstructionSlotCount,
+    digestModeInstructionSlotCount: preflight.digestModeInstructionSlotCount,
+    readyInstructionSlotCount: preflight.readyInstructionSlotCount,
+    readyInstructionGuardCount: preflight.readyInstructionGuardCount,
+    digestBindingInstructionGuardCount: preflight.digestBindingInstructionGuardCount,
+    signatureEnvelopeInstructionGuardCount: preflight.signatureEnvelopeInstructionGuardCount,
+    policyInstructionGuardCount: preflight.policyInstructionGuardCount,
+    executionLockInstructionGuardCount: preflight.executionLockInstructionGuardCount,
+    archiveCloseoutInstructionGuardCount: preflight.archiveCloseoutInstructionGuardCount,
+    draftInstructionMaterializedCount: preflight.draftInstructionMaterializedCount,
+    draftArtifactCreated: preflight.draftArtifactCreated,
+    signedDraftTextCount: preflight.signedDraftTextCount,
+    draftSignaturePayloadCount: preflight.draftSignaturePayloadCount,
+    approvalCaptured: preflight.approvalCaptured,
+    approvalGrantPresent: preflight.approvalGrantPresent,
+    signedApprovalPresent: preflight.signedApprovalPresent,
+    gateCount: preflight.gateCount,
+    passedGateCount: preflight.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest:
+      preflight.sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
+    importsRuntimePayload: preflight.importsRuntimePayload,
+    acceptsSyntheticEvidence: preflight.acceptsSyntheticEvidence,
+    containsSecretValue: preflight.containsSecretValue,
+    signedApprovalCaptureArtifactDraftInstructionPreflightDigest:
+      preflight.signedApprovalCaptureArtifactDraftInstructionPreflightDigest,
   });
 }

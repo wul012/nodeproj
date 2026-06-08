@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1186";
+  catalogVersion: "Node v1211";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1186";
+  validationVersion: "Node v1211";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1248,8 +1248,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep authoring readiness Markdown separate from authoring readiness generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 120,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightTypes.ts",
+    owns: ["artifact draft instruction preflight public types", "instruction slot, guard, and gate contracts"],
+    consumedBy: ["artifact draft instruction preflight builders", "stable preview profile types"],
+    maintenanceRule: "Keep instruction preflight types separate from authoring readiness types.",
+    stopCondition: "Do not split unless instruction slots start accepting concrete signed draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 121,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-slot-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightSlotCatalog.ts",
+    owns: ["twenty-five artifact draft instruction slots", "authoring requirement to instruction slot mapping"],
+    consumedBy: ["artifact draft instruction preflight builder", "artifact draft instruction preflight tests"],
+    maintenanceRule: "Derive instruction slots from the authoring readiness catalog to avoid duplicate slice drift.",
+    stopCondition: "Do not split unless instruction slot families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 122,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-guard-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightGuardCatalog.ts",
+    owns: ["twenty-five artifact draft instruction guards", "missing instruction slot blocker codes"],
+    consumedBy: ["artifact draft instruction preflight builder", "artifact draft instruction preflight tests"],
+    maintenanceRule: "Keep instruction guard derivation separate from slot readiness mapping.",
+    stopCondition: "Do not split unless guard families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 123,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightBuilder.ts",
+    owns: ["authoring readiness to instruction slot mapping", "instruction slot to guard mapping"],
+    consumedBy: ["artifact draft instruction preflight artifacts", "artifact draft instruction preflight tests"],
+    maintenanceRule: "Keep source authoring readiness mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple authoring readiness sources feed one instruction preflight.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 124,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightValidator.ts",
+    owns: ["artifact draft instruction preflight gates", "artifact draft instruction preflight blocked reasons"],
+    consumedBy: ["artifact draft instruction preflight artifacts", "artifact draft instruction preflight tests"],
+    maintenanceRule: "Keep instruction preflight gate logic separate from slot and guard construction.",
+    stopCondition: "Do not split unless validation starts consuming concrete draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 125,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightArtifacts.ts",
+    owns: ["artifact draft instruction preflight assembly", "instruction preflight counts", "instruction preflight digest"],
+    consumedBy: ["review artifact barrel", "artifact draft instruction preflight tests", "profile assembly"],
+    maintenanceRule: "Keep instruction preflight assembly compact by delegating catalog mapping and validation.",
+    stopCondition: "Do not split unless this package starts creating a signed draft artifact.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 126,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-instruction-preflight-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightRenderer.ts",
+    owns: ["artifact draft instruction preflight markdown", "instruction slot and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep instruction preflight Markdown separate from instruction preflight generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 127,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1273,7 +1343,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1186",
+    catalogVersion: "Node v1211",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1334,7 +1404,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1186",
+    validationVersion: "Node v1211",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

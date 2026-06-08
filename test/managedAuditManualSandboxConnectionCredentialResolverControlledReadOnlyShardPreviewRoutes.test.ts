@@ -256,6 +256,24 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("signedDraftTextCount: 0");
       expect(markdown.body).toContain("draftSignaturePayloadCount: 0");
       expect(markdown.body).toContain("signedApprovalCaptureArtifactDraftAuthoringReadinessVersion: Node v1186");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Instruction Preflight");
+      expect(markdown.body)
+        .toContain("artifactDraftInstructionPreflightState: ready-for-signed-approval-artifact-draft-instruction-preflight");
+      expect(markdown.body).toContain("readyForSignedApprovalArtifactDraftInstructionPreflight: true");
+      expect(markdown.body).toContain("readyForHumanSignedApprovalDraftInstructionAuthoring: true");
+      expect(markdown.body).toContain("readyForHumanSignedApprovalDraftArtifactAuthoring: true");
+      expect(markdown.body).toContain("instructionSlotCount: 25");
+      expect(markdown.body).toContain("instructionGuardCount: 25");
+      expect(markdown.body).toContain("archiveCloseoutInstructionSlotCount: 1");
+      expect(markdown.body).toContain("digestModeInstructionSlotCount: 5");
+      expect(markdown.body).toContain("readyInstructionSlotCount: 25");
+      expect(markdown.body).toContain("readyInstructionGuardCount: 25");
+      expect(markdown.body).toContain("draftInstructionMaterializedCount: 0");
+      expect(markdown.body).toContain("draftArtifactCreated: false");
+      expect(markdown.body).toContain("signedDraftTextCount: 0");
+      expect(markdown.body).toContain("draftSignaturePayloadCount: 0");
+      expect(markdown.body).toContain("signedApprovalCaptureArtifactDraftInstructionPreflightVersion: Node v1211");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");
