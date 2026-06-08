@@ -335,6 +335,21 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("actualDraftTextPackageComparisonCount: 0");
       expect(markdown.body)
         .toContain("signedApprovalCaptureArtifactDraftTextPackageComparisonPreflightVersion: Node v1311");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Acceptance Precheck");
+      expect(markdown.body)
+        .toContain("artifactDraftTextPackageComparisonAcceptancePrecheckState: ready-for-signed-approval-artifact-draft-text-package-comparison-acceptance-precheck");
+      expect(markdown.body).toContain("readyForSignedApprovalArtifactDraftTextPackageComparisonAcceptancePrecheck: true");
+      expect(markdown.body).toContain("readyForOfflineSignedApprovalDraftTextPackageAcceptancePrecheck: true");
+      expect(markdown.body).toContain("checkpointCount: 10");
+      expect(markdown.body).toContain("guardCount: 10");
+      expect(markdown.body).toContain("sourceComparisonLaneCount: 25");
+      expect(markdown.body).toContain("sourceAcceptanceControlCount: 25");
+      expect(markdown.body).toContain("readyCheckpointCount: 10");
+      expect(markdown.body).toContain("readyGuardCount: 10");
+      expect(markdown.body).toContain("actualDraftTextPackageAcceptanceEvidenceCount: 0");
+      expect(markdown.body)
+        .toContain("signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckVersion: Node v1321");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

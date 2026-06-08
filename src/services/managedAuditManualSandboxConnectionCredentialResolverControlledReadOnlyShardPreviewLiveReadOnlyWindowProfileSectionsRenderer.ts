@@ -792,6 +792,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Acceptance Precheck",
+    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
+    ),
+    "",
   ];
 }
 
@@ -1336,5 +1341,71 @@ function renderSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightP
     containsSecretValue: preflight.containsSecretValue,
     signedApprovalCaptureArtifactDraftTextPackageComparisonPreflightDigest:
       preflight.signedApprovalCaptureArtifactDraftTextPackageComparisonPreflightDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckProfileEntries(
+  precheck:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckVersion:
+      precheck.signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckVersion,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightVersion:
+      precheck.sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightVersion,
+    artifactDraftTextPackageComparisonAcceptancePrecheckState:
+      precheck.artifactDraftTextPackageComparisonAcceptancePrecheckState,
+    readyForSignedApprovalArtifactDraftTextPackageComparisonAcceptancePrecheck:
+      precheck.readyForSignedApprovalArtifactDraftTextPackageComparisonAcceptancePrecheck,
+    readyForOfflineSignedApprovalDraftTextPackageAcceptancePrecheck:
+      precheck.readyForOfflineSignedApprovalDraftTextPackageAcceptancePrecheck,
+    readyForOfflineSignedApprovalDraftTextPackageComparison:
+      precheck.readyForOfflineSignedApprovalDraftTextPackageComparison,
+    readyForManualSignedApprovalDraftTextPackageSubmission:
+      precheck.readyForManualSignedApprovalDraftTextPackageSubmission,
+    readyForSignedApprovalArtifactDraft: precheck.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: precheck.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: precheck.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: precheck.readyForOperatorValueSubmission,
+    readyForEvidenceImport: precheck.readyForEvidenceImport,
+    readyForRuntimePayload: precheck.readyForRuntimePayload,
+    checkpointCount: precheck.checkpointCount,
+    guardCount: precheck.guardCount,
+    sourceComparisonLaneCount: precheck.sourceComparisonLaneCount,
+    sourceAcceptanceControlCount: precheck.sourceAcceptanceControlCount,
+    readyCheckpointCount: precheck.readyCheckpointCount,
+    readyGuardCount: precheck.readyGuardCount,
+    sourceReadinessCheckpointCount: precheck.sourceReadinessCheckpointCount,
+    identityCheckpointCount: precheck.identityCheckpointCount,
+    digestBindingCheckpointCount: precheck.digestBindingCheckpointCount,
+    signatureEnvelopeCheckpointCount: precheck.signatureEnvelopeCheckpointCount,
+    sourceEvidenceCheckpointCount: precheck.sourceEvidenceCheckpointCount,
+    operatorValueCheckpointCount: precheck.operatorValueCheckpointCount,
+    policyCheckpointCount: precheck.policyCheckpointCount,
+    executionLockCheckpointCount: precheck.executionLockCheckpointCount,
+    approvalGrantReviewCheckpointCount: precheck.approvalGrantReviewCheckpointCount,
+    archiveCloseoutCheckpointCount: precheck.archiveCloseoutCheckpointCount,
+    expectedDraftTextPackageAcceptanceCheckpointCount:
+      precheck.expectedDraftTextPackageAcceptanceCheckpointCount,
+    actualDraftTextPackageAcceptanceEvidenceCount:
+      precheck.actualDraftTextPackageAcceptanceEvidenceCount,
+    submittedDraftTextPackageCount: precheck.submittedDraftTextPackageCount,
+    comparedDraftTextPackageCount: precheck.comparedDraftTextPackageCount,
+    acceptedDraftTextPackageCount: precheck.acceptedDraftTextPackageCount,
+    rejectedDraftTextPackageCount: precheck.rejectedDraftTextPackageCount,
+    signedDraftTextCount: precheck.signedDraftTextCount,
+    draftSignaturePayloadCount: precheck.draftSignaturePayloadCount,
+    approvalCaptured: precheck.approvalCaptured,
+    approvalGrantPresent: precheck.approvalGrantPresent,
+    signedApprovalPresent: precheck.signedApprovalPresent,
+    gateCount: precheck.gateCount,
+    passedGateCount: precheck.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightDigest:
+      precheck.sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightDigest,
+    importsRuntimePayload: precheck.importsRuntimePayload,
+    acceptsSyntheticEvidence: precheck.acceptsSyntheticEvidence,
+    containsSecretValue: precheck.containsSecretValue,
+    signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest:
+      precheck.signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest,
   });
 }

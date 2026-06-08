@@ -13,10 +13,10 @@ describe("controlled read-only shard preview type module catalog", () => {
   it("records stable type module ownership groups", () => {
     const catalog = createControlledReadOnlyShardPreviewTypeModuleCatalog();
 
-    expect(catalog.catalogVersion).toBe("Node v1311");
+    expect(catalog.catalogVersion).toBe("Node v1321");
     expect(catalog.publicEntryPoint)
       .toBe("managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts");
-    expect(catalog.moduleCount).toBe(155);
+    expect(catalog.moduleCount).toBe(162);
     expect(catalog.stableReExportModuleCount).toBe(catalog.moduleCount);
     expect(catalog.stopCondition).toContain("add a new type module only when");
   });
@@ -49,8 +49,8 @@ describe("controlled read-only shard preview type module catalog", () => {
     const markdown = renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown();
 
     expect(markdown).toContain("# Controlled read-only shard preview type module catalog");
-    expect(markdown).toContain("- Catalog version: Node v1311");
-    expect(markdown).toContain("- Module count: 155");
+    expect(markdown).toContain("- Catalog version: Node v1321");
+    expect(markdown).toContain("- Module count: 162");
     expect(markdown).toContain("### 1. source-matrix-types");
     expect(markdown).toContain("### 13. execution-readiness-types");
     expect(markdown).toContain("### 16. live-read-only-window-stage-ledger-types");
@@ -277,7 +277,21 @@ describe("controlled read-only shard preview type module catalog", () => {
       .toContain("### 153. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-preflight-artifacts");
     expect(markdown)
       .toContain("### 154. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-preflight-renderer");
-    expect(markdown).toContain("### 155. profile-entry-types");
+    expect(markdown)
+      .toContain("### 155. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-types");
+    expect(markdown)
+      .toContain("### 156. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-check-catalog");
+    expect(markdown)
+      .toContain("### 157. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-guard-catalog");
+    expect(markdown)
+      .toContain("### 158. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-builder");
+    expect(markdown)
+      .toContain("### 159. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-validator");
+    expect(markdown)
+      .toContain("### 160. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-artifacts");
+    expect(markdown)
+      .toContain("### 161. live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-renderer");
+    expect(markdown).toContain("### 162. profile-entry-types");
     expect(markdown).toContain("- Stable profile re-export: true");
   });
 
@@ -285,12 +299,12 @@ describe("controlled read-only shard preview type module catalog", () => {
     const validation = validateControlledReadOnlyShardPreviewTypeModuleCatalog();
 
     expect(validation).toMatchObject({
-      validationVersion: "Node v1311",
+      validationVersion: "Node v1321",
       valid: true,
-      moduleCount: 155,
-      uniqueIdCount: 155,
-      uniquePathCount: 155,
-      stableReExportModuleCount: 155,
+      moduleCount: 162,
+      uniqueIdCount: 162,
+      uniquePathCount: 162,
+      stableReExportModuleCount: 162,
       sequentialOrder: true,
       profileEntryLast: true,
       blockedReasonCodes: [],

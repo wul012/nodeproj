@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1311";
+  catalogVersion: "Node v1321";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1311";
+  validationVersion: "Node v1321";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1598,8 +1598,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep comparison preflight Markdown separate from comparison preflight generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 155,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckTypes.ts",
+    owns: ["artifact draft text package comparison acceptance precheck public types", "checkpoint, guard, and gate contracts"],
+    consumedBy: ["artifact draft text package comparison acceptance precheck builders", "stable preview profile types"],
+    maintenanceRule: "Keep acceptance precheck types separate from comparison preflight types.",
+    stopCondition: "Do not split unless acceptance checkpoints and guards need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 156,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-check-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckCheckCatalog.ts",
+    owns: ["ten artifact draft text package acceptance precheck checkpoints", "comparison lane family coverage"],
+    consumedBy: ["artifact draft text package comparison acceptance precheck builder", "artifact draft text package comparison acceptance precheck tests"],
+    maintenanceRule: "Keep acceptance precheck checkpoint templates separate from guard derivation.",
+    stopCondition: "Do not split unless checkpoint families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 157,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-guard-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckGuardCatalog.ts",
+    owns: ["ten artifact draft text package acceptance precheck guards", "missing acceptance evidence blocker codes"],
+    consumedBy: ["artifact draft text package comparison acceptance precheck builder", "artifact draft text package comparison acceptance precheck tests"],
+    maintenanceRule: "Derive guards from checkpoint templates to avoid duplicated release slices.",
+    stopCondition: "Do not split unless guard families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 158,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckBuilder.ts",
+    owns: ["comparison preflight to acceptance checkpoint mapping", "checkpoint to guard mapping"],
+    consumedBy: ["artifact draft text package comparison acceptance precheck artifacts", "artifact draft text package comparison acceptance precheck tests"],
+    maintenanceRule: "Keep source comparison preflight mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple comparison preflights feed one acceptance precheck.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 159,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckValidator.ts",
+    owns: ["artifact draft text package comparison acceptance precheck gates", "acceptance precheck blocked reasons"],
+    consumedBy: ["artifact draft text package comparison acceptance precheck artifacts", "artifact draft text package comparison acceptance precheck tests"],
+    maintenanceRule: "Keep acceptance precheck gate logic separate from checkpoint and guard construction.",
+    stopCondition: "Do not split unless validation starts accepting compared draft text packages.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 160,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckArtifacts.ts",
+    owns: ["artifact draft text package comparison acceptance precheck assembly", "acceptance precheck counts", "acceptance precheck digest"],
+    consumedBy: ["review artifact barrel", "artifact draft text package comparison acceptance precheck tests", "profile assembly"],
+    maintenanceRule: "Keep acceptance precheck assembly compact by delegating catalog mapping and validation.",
+    stopCondition: "Do not split unless this package starts accepting compared draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 161,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-comparison-acceptance-precheck-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckRenderer.ts",
+    owns: ["artifact draft text package comparison acceptance precheck markdown", "checkpoint and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep acceptance precheck Markdown separate from acceptance precheck generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 162,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1623,7 +1693,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1311",
+    catalogVersion: "Node v1321",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1684,7 +1754,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1311",
+    validationVersion: "Node v1321",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
