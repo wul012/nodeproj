@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1361";
+  catalogVersion: "Node v1371";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1361";
+  validationVersion: "Node v1371";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1838,8 +1838,58 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep candidate Markdown separate from candidate generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 179,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-intake-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeTypes.ts",
+    owns: ["compared evidence candidate intake slots", "compared evidence candidate intake guards", "intake preflight gates"],
+    consumedBy: ["candidate intake catalog", "candidate intake builder", "candidate intake artifacts", "profile types"],
+    maintenanceRule: "Keep candidate intake preflight contracts together until real document intake requires a separate payload schema.",
+    stopCondition: "Do not split unless real compared evidence candidate documents become a concrete accepted payload type.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 180,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-intake-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeCatalog.ts",
+    owns: ["ten compared evidence candidate intake slot templates", "ten compared evidence candidate intake guard templates"],
+    consumedBy: ["candidate intake builder", "candidate intake tests"],
+    maintenanceRule: "Keep intake slot and guard templates declarative so source candidate coverage stays reviewable.",
+    stopCondition: "Do not split unless candidate intake slots and guards gain different release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 181,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-intake-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeBuilder.ts",
+    owns: ["candidate blueprint to intake slot mapping", "candidate intake guard construction"],
+    consumedBy: ["candidate intake artifacts", "candidate intake tests"],
+    maintenanceRule: "Keep intake slot construction separate from gate aggregation and digest generation.",
+    stopCondition: "Do not split unless multiple candidate blueprints feed one intake contract.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 182,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-intake-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeArtifacts.ts",
+    owns: ["candidate intake preflight assembly", "candidate intake gates and blocked reasons", "candidate intake digest"],
+    consumedBy: ["review artifact barrel", "candidate intake tests", "profile assembly"],
+    maintenanceRule: "Keep intake assembly compact by delegating slot and guard construction.",
+    stopCondition: "Do not split unless this package starts importing real compared evidence candidate documents.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 183,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-intake-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeRenderer.ts",
+    owns: ["candidate intake markdown", "candidate intake slot and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep candidate intake Markdown separate from candidate intake generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 184,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1863,7 +1913,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1361",
+    catalogVersion: "Node v1371",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1924,7 +1974,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1361",
+    validationVersion: "Node v1371",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
