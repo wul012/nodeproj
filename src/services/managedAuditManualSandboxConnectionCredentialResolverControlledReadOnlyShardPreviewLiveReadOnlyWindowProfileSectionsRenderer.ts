@@ -807,6 +807,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate",
+    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate,
+    ),
+    "",
   ];
 }
 
@@ -1549,5 +1554,64 @@ function renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEval
     containsSecretValue: preflight.containsSecretValue,
     signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightDigest:
       preflight.signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateProfileEntries(
+  candidate:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateVersion:
+      candidate.signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateVersion,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightVersion:
+      candidate.sourceSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightVersion,
+    artifactDraftTextPackageComparedEvidenceCandidateState:
+      candidate.artifactDraftTextPackageComparedEvidenceCandidateState,
+    readyForComparedEvidenceCandidateBlueprintContract:
+      candidate.readyForComparedEvidenceCandidateBlueprintContract,
+    readyForRealComparedPackageEvidenceCandidateIntake:
+      candidate.readyForRealComparedPackageEvidenceCandidateIntake,
+    readyForComparedEvidenceEvaluationPreflightContract:
+      candidate.readyForComparedEvidenceEvaluationPreflightContract,
+    readyForRealComparedPackageEvidenceEvaluation:
+      candidate.readyForRealComparedPackageEvidenceEvaluation,
+    readyForEvidenceImport: candidate.readyForEvidenceImport,
+    readyForRuntimePayload: candidate.readyForRuntimePayload,
+    blueprintSectionCount: candidate.blueprintSectionCount,
+    blueprintBlockerCount: candidate.blueprintBlockerCount,
+    sourceEvaluationRuleCount: candidate.sourceEvaluationRuleCount,
+    sourceEvaluationGuardCount: candidate.sourceEvaluationGuardCount,
+    readyBlueprintSectionCount: candidate.readyBlueprintSectionCount,
+    readyBlueprintBlockerCount: candidate.readyBlueprintBlockerCount,
+    candidateFieldCount: candidate.candidateFieldCount,
+    expectedCandidateFieldCountFromPreflight:
+      candidate.expectedCandidateFieldCountFromPreflight,
+    realComparedPackageEvidenceCandidateValueCount:
+      candidate.realComparedPackageEvidenceCandidateValueCount,
+    syntheticComparedPackageEvidenceCandidateValueCount:
+      candidate.syntheticComparedPackageEvidenceCandidateValueCount,
+    materializedComparedPackageEvidenceCandidateValueCount:
+      candidate.materializedComparedPackageEvidenceCandidateValueCount,
+    acceptedComparedPackageEvidenceCandidateValueCount:
+      candidate.acceptedComparedPackageEvidenceCandidateValueCount,
+    rejectedComparedPackageEvidenceCandidateValueCount:
+      candidate.rejectedComparedPackageEvidenceCandidateValueCount,
+    approvalGrantPresent: candidate.approvalGrantPresent,
+    signedApprovalPresent: candidate.signedApprovalPresent,
+    candidateBlueprintMaterializationAllowed:
+      candidate.candidateBlueprintMaterializationAllowed,
+    candidateEvaluationAllowed: candidate.candidateEvaluationAllowed,
+    executionAllowed: candidate.executionAllowed,
+    writeRoutingAllowed: candidate.writeRoutingAllowed,
+    gateCount: candidate.gateCount,
+    passedGateCount: candidate.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightDigest:
+      candidate.sourceSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightDigest,
+    importsRuntimePayload: candidate.importsRuntimePayload,
+    acceptsSyntheticEvidence: candidate.acceptsSyntheticEvidence,
+    containsSecretValue: candidate.containsSecretValue,
+    signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDigest:
+      candidate.signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDigest,
   });
 }

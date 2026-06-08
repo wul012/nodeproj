@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1351";
+  catalogVersion: "Node v1361";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1351";
+  validationVersion: "Node v1361";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1788,8 +1788,58 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep evaluation preflight Markdown separate from evaluation preflight generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 174,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateTypes.ts",
+    owns: ["compared evidence candidate public types", "candidate section, blocker, and gate contracts"],
+    consumedBy: ["compared evidence candidate builders", "stable preview profile types"],
+    maintenanceRule: "Keep candidate blueprint contracts separate from evaluation preflight contracts.",
+    stopCondition: "Do not split unless candidate sections and blockers need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 175,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateCatalog.ts",
+    owns: ["ten compared evidence candidate blueprint sections", "ten compared evidence candidate blockers"],
+    consumedBy: ["compared evidence candidate builder", "compared evidence candidate tests"],
+    maintenanceRule: "Keep candidate section and blocker templates declarative so the builder only maps preflight readiness.",
+    stopCondition: "Do not split unless candidate section families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 176,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateBuilder.ts",
+    owns: ["evaluation preflight to candidate section mapping", "candidate section to blocker mapping"],
+    consumedBy: ["compared evidence candidate artifacts", "compared evidence candidate tests"],
+    maintenanceRule: "Keep source preflight mapping separate from digest generation and profile assembly.",
+    stopCondition: "Do not split unless multiple evaluation preflights feed one candidate blueprint.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 177,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateArtifacts.ts",
+    owns: ["compared evidence candidate assembly", "candidate gates and blocked reasons", "candidate digest"],
+    consumedBy: ["review artifact barrel", "compared evidence candidate tests", "profile assembly"],
+    maintenanceRule: "Keep candidate assembly compact by delegating section and blocker construction.",
+    stopCondition: "Do not split unless this package starts accepting real compared evidence candidate payloads.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 178,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-candidate-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateRenderer.ts",
+    owns: ["compared evidence candidate markdown", "candidate section and blocker rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep candidate Markdown separate from candidate generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 179,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1813,7 +1863,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1351",
+    catalogVersion: "Node v1361",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1874,7 +1924,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1351",
+    validationVersion: "Node v1361",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
