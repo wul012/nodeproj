@@ -118,6 +118,10 @@ import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPac
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightArtifacts.js";
 import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightRenderer.js";
+import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightArtifacts
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightArtifacts.js";
+import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightRenderer
+  from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -431,5 +435,16 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightMarkdown)
       .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightMarkdown);
+  });
+
+  it("re-exports live read-only window operator evidence value supply signed approval capture artifact draft text package submission preflight helpers", () => {
+    expect(reviewArtifacts
+      .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight)
+      .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightArtifacts
+        .createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight);
+    expect(reviewArtifacts
+      .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightMarkdown)
+      .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightRenderer
+        .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightMarkdown);
   });
 });
