@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1371";
+  catalogVersion: "Node v1386";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1371";
+  validationVersion: "Node v1386";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1888,8 +1888,53 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep candidate intake Markdown separate from candidate intake generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 184,
+    id: "candidate-document-request-types",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentRequestTypes.ts",
+    owns: ["candidate document request item contracts", "candidate document request check contracts", "request package gates"],
+    consumedBy: ["candidate document request catalog", "candidate document request builder", "candidate document request artifacts", "profile types"],
+    maintenanceRule: "Keep request package contracts in a short filename because the upstream candidate intake path is already near Windows path limits.",
+    stopCondition: "Do not split unless real candidate document payload schemas become accepted runtime input.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 185,
+    id: "candidate-document-request-catalog",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentRequestCatalog.ts",
+    owns: ["fifteen candidate document request item templates", "fifteen candidate document request check templates"],
+    consumedBy: ["candidate document request builder", "candidate document request tests"],
+    maintenanceRule: "Keep request and check templates declarative so the builder only maps v1371 intake evidence.",
+    stopCondition: "Do not split unless request items and acceptance checks gain different release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 186,
+    id: "candidate-document-request-builder",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentRequestBuilder.ts",
+    owns: ["candidate intake to document request item mapping", "request item to acceptance check mapping"],
+    consumedBy: ["candidate document request artifacts", "candidate document request tests"],
+    maintenanceRule: "Keep mapping separate from gate aggregation and digest generation.",
+    stopCondition: "Do not split unless multiple intake sources feed one document request package.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 187,
+    id: "candidate-document-request-artifacts",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentRequestArtifacts.ts",
+    owns: ["candidate document request package assembly", "request package gates and blocked reasons", "request package digest"],
+    consumedBy: ["review artifact barrel", "candidate document request tests", "profile assembly"],
+    maintenanceRule: "Keep request package assembly compact by delegating item and check construction.",
+    stopCondition: "Do not split unless this package starts accepting real candidate documents.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 188,
+    id: "candidate-document-request-renderer",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentRequestRenderer.ts",
+    owns: ["candidate document request markdown", "request item and acceptance check rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep request package Markdown separate from request package generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 189,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1913,7 +1958,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1371",
+    catalogVersion: "Node v1386",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1974,7 +2019,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1371",
+    validationVersion: "Node v1386",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

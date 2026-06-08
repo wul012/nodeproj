@@ -304,3 +304,11 @@ export {
 export {
   renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeMarkdown,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeRenderer.js";
+
+export {
+  createControlledReadOnlyShardPreviewCandidateDocumentRequestPackage,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentRequestArtifacts.js";
+
+export {
+  renderControlledReadOnlyShardPreviewCandidateDocumentRequestPackageMarkdown,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentRequestRenderer.js";

@@ -817,6 +817,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Request Package",
+    ...renderComparedEvidenceCandidateDocumentRequestPackageProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage,
+    ),
+    "",
   ];
 }
 
@@ -1673,5 +1678,57 @@ function renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCand
     containsSecretValue: intake.containsSecretValue,
     signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeDigest:
       intake.signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeDigest,
+  });
+}
+
+function renderComparedEvidenceCandidateDocumentRequestPackageProfileEntries(
+  requestPackage:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage"],
+): string[] {
+  return renderEntries({
+    candidateDocumentRequestPackageVersion:
+      requestPackage.candidateDocumentRequestPackageVersion,
+    sourceCandidateIntakeVersion: requestPackage.sourceCandidateIntakeVersion,
+    candidateDocumentRequestPackageState:
+      requestPackage.candidateDocumentRequestPackageState,
+    readyForCandidateDocumentRequestPackage:
+      requestPackage.readyForCandidateDocumentRequestPackage,
+    readyForRealComparedPackageEvidenceCandidateDocument:
+      requestPackage.readyForRealComparedPackageEvidenceCandidateDocument,
+    readyForCandidateDocumentIntake: requestPackage.readyForCandidateDocumentIntake,
+    readyForCandidatePayloadImport: requestPackage.readyForCandidatePayloadImport,
+    readyForCandidateEvaluation: requestPackage.readyForCandidateEvaluation,
+    readyForApprovalGrant: requestPackage.readyForApprovalGrant,
+    readyForSignedApproval: requestPackage.readyForSignedApproval,
+    readyForRuntimePayload: requestPackage.readyForRuntimePayload,
+    requestItemCount: requestPackage.requestItemCount,
+    acceptanceCheckCount: requestPackage.acceptanceCheckCount,
+    sourceIntakeSlotCount: requestPackage.sourceIntakeSlotCount,
+    sourceIntakeGuardCount: requestPackage.sourceIntakeGuardCount,
+    readyRequestItemCount: requestPackage.readyRequestItemCount,
+    readyAcceptanceCheckCount: requestPackage.readyAcceptanceCheckCount,
+    requiredCandidateFieldCount: requestPackage.requiredCandidateFieldCount,
+    requestedCandidateFieldCount: requestPackage.requestedCandidateFieldCount,
+    realCandidateDocumentCount: requestPackage.realCandidateDocumentCount,
+    syntheticCandidateDocumentCount: requestPackage.syntheticCandidateDocumentCount,
+    stagedCandidateDocumentCount: requestPackage.stagedCandidateDocumentCount,
+    importedCandidatePayloadCount: requestPackage.importedCandidatePayloadCount,
+    evaluatedCandidatePayloadCount: requestPackage.evaluatedCandidatePayloadCount,
+    acceptedCandidatePayloadCount: requestPackage.acceptedCandidatePayloadCount,
+    rejectedCandidatePayloadCount: requestPackage.rejectedCandidatePayloadCount,
+    candidateDocumentRequestAllowed: requestPackage.candidateDocumentRequestAllowed,
+    candidateDocumentIntakeAllowed: requestPackage.candidateDocumentIntakeAllowed,
+    candidatePayloadImportAllowed: requestPackage.candidatePayloadImportAllowed,
+    candidateEvaluationAllowed: requestPackage.candidateEvaluationAllowed,
+    executionAllowed: requestPackage.executionAllowed,
+    writeRoutingAllowed: requestPackage.writeRoutingAllowed,
+    gateCount: requestPackage.gateCount,
+    passedGateCount: requestPackage.passedGateCount,
+    sourceCandidateIntakeDigest: requestPackage.sourceCandidateIntakeDigest,
+    importsRuntimePayload: requestPackage.importsRuntimePayload,
+    acceptsSyntheticEvidence: requestPackage.acceptsSyntheticEvidence,
+    containsSecretValue: requestPackage.containsSecretValue,
+    candidateDocumentRequestPackageDigest:
+      requestPackage.candidateDocumentRequestPackageDigest,
   });
 }

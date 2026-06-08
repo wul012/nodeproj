@@ -146,6 +146,10 @@ import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPac
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeArtifacts.js";
 import * as operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeRenderer
   from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeRenderer.js";
+import * as candidateDocumentRequestArtifacts
+  from "../src/services/controlledReadOnlyShardPreviewCandidateDocumentRequestArtifacts.js";
+import * as candidateDocumentRequestRenderer
+  from "../src/services/controlledReadOnlyShardPreviewCandidateDocumentRequestRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -536,5 +540,12 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeMarkdown)
       .toBe(operatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeRenderer
         .renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeMarkdown);
+  });
+
+  it("re-exports candidate document request package helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewCandidateDocumentRequestPackage)
+      .toBe(candidateDocumentRequestArtifacts.createControlledReadOnlyShardPreviewCandidateDocumentRequestPackage);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewCandidateDocumentRequestPackageMarkdown)
+      .toBe(candidateDocumentRequestRenderer.renderControlledReadOnlyShardPreviewCandidateDocumentRequestPackageMarkdown);
   });
 });
