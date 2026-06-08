@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1236";
+  catalogVersion: "Node v1261";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1236";
+  validationVersion: "Node v1261";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1388,8 +1388,78 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep text package intake Markdown separate from text package intake generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 134,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightTypes.ts",
+    owns: ["artifact draft text package review preflight public types", "review criterion, control, and gate contracts"],
+    consumedBy: ["artifact draft text package review preflight builders", "stable preview profile types"],
+    maintenanceRule: "Keep review preflight types separate from text package intake types.",
+    stopCondition: "Do not split unless criteria and controls need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 135,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-criterion-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightCriterionCatalog.ts",
+    owns: ["twenty-five artifact draft text package review criteria", "intake field to review criterion mapping"],
+    consumedBy: ["artifact draft text package review preflight builder", "artifact draft text package review preflight tests"],
+    maintenanceRule: "Derive review criteria from text package intake fields to avoid duplicated slice drift.",
+    stopCondition: "Do not split unless review criterion families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 136,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-control-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightControlCatalog.ts",
+    owns: ["twenty-five artifact draft text package review controls", "unreviewable criterion blocker codes"],
+    consumedBy: ["artifact draft text package review preflight builder", "artifact draft text package review preflight tests"],
+    maintenanceRule: "Keep review control derivation separate from criterion readiness mapping.",
+    stopCondition: "Do not split unless control families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 137,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightBuilder.ts",
+    owns: ["text package intake to review criterion mapping", "review criterion to control mapping"],
+    consumedBy: ["artifact draft text package review preflight artifacts", "artifact draft text package review preflight tests"],
+    maintenanceRule: "Keep source intake mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple text package intake sources feed one review preflight.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 138,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightValidator.ts",
+    owns: ["artifact draft text package review preflight gates", "artifact draft text package review preflight blocked reasons"],
+    consumedBy: ["artifact draft text package review preflight artifacts", "artifact draft text package review preflight tests"],
+    maintenanceRule: "Keep review preflight gate logic separate from criterion and control construction.",
+    stopCondition: "Do not split unless validation starts consuming submitted signed draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 139,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightArtifacts.ts",
+    owns: ["artifact draft text package review preflight assembly", "review preflight counts", "review preflight digest"],
+    consumedBy: ["review artifact barrel", "artifact draft text package review preflight tests", "profile assembly"],
+    maintenanceRule: "Keep review preflight assembly compact by delegating catalog mapping and validation.",
+    stopCondition: "Do not split unless this package starts reviewing submitted draft text.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 140,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-review-preflight-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightRenderer.ts",
+    owns: ["artifact draft text package review preflight markdown", "review criterion and control rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep review preflight Markdown separate from review preflight generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 141,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1413,7 +1483,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1236",
+    catalogVersion: "Node v1261",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1474,7 +1544,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1236",
+    validationVersion: "Node v1261",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
