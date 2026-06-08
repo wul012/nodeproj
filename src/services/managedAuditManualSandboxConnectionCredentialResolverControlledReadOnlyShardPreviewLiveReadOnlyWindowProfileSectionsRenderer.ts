@@ -797,6 +797,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Package Evidence Intake",
+    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
+    ),
+    "",
   ];
 }
 
@@ -1407,5 +1412,80 @@ function renderSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptance
     containsSecretValue: precheck.containsSecretValue,
     signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest:
       precheck.signedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeProfileEntries(
+  intake:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeVersion:
+      intake.signedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeVersion,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckVersion:
+      intake.sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckVersion,
+    artifactDraftTextPackageComparedPackageEvidenceIntakeState:
+      intake.artifactDraftTextPackageComparedPackageEvidenceIntakeState,
+    readyForManualComparedPackageEvidenceIntakeContract:
+      intake.readyForManualComparedPackageEvidenceIntakeContract,
+    readyForRealComparedPackageEvidenceIntake:
+      intake.readyForRealComparedPackageEvidenceIntake,
+    readyForSignedApprovalArtifactDraftTextPackageComparisonAcceptancePrecheck:
+      intake.readyForSignedApprovalArtifactDraftTextPackageComparisonAcceptancePrecheck,
+    readyForOfflineSignedApprovalDraftTextPackageAcceptancePrecheck:
+      intake.readyForOfflineSignedApprovalDraftTextPackageAcceptancePrecheck,
+    readyForSignedApprovalArtifactDraft: intake.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: intake.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: intake.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: intake.readyForOperatorValueSubmission,
+    readyForEvidenceImport: intake.readyForEvidenceImport,
+    readyForRuntimePayload: intake.readyForRuntimePayload,
+    slotCount: intake.slotCount,
+    guardCount: intake.guardCount,
+    sourceAcceptanceCheckpointCount: intake.sourceAcceptanceCheckpointCount,
+    sourceAcceptanceGuardCount: intake.sourceAcceptanceGuardCount,
+    readySlotCount: intake.readySlotCount,
+    readyGuardCount: intake.readyGuardCount,
+    sourcePrecheckEvidenceSlotCount: intake.sourcePrecheckEvidenceSlotCount,
+    manualSubmissionReferenceEvidenceSlotCount:
+      intake.manualSubmissionReferenceEvidenceSlotCount,
+    offlineComparisonResultEvidenceSlotCount:
+      intake.offlineComparisonResultEvidenceSlotCount,
+    identityBindingEvidenceSlotCount: intake.identityBindingEvidenceSlotCount,
+    digestMatchSummaryEvidenceSlotCount: intake.digestMatchSummaryEvidenceSlotCount,
+    signatureEnvelopeObservationEvidenceSlotCount:
+      intake.signatureEnvelopeObservationEvidenceSlotCount,
+    sourceEvidenceHandleEvidenceSlotCount: intake.sourceEvidenceHandleEvidenceSlotCount,
+    policyExecutionLockEvidenceSlotCount: intake.policyExecutionLockEvidenceSlotCount,
+    approvalGrantSeparationEvidenceSlotCount: intake.approvalGrantSeparationEvidenceSlotCount,
+    archiveCloseoutEvidenceSlotCount: intake.archiveCloseoutEvidenceSlotCount,
+    expectedRealComparedPackageEvidenceSlotCount:
+      intake.expectedRealComparedPackageEvidenceSlotCount,
+    realComparedPackageEvidenceCount: intake.realComparedPackageEvidenceCount,
+    manualComparedPackageEvidenceMaterializedCount:
+      intake.manualComparedPackageEvidenceMaterializedCount,
+    syntheticComparedPackageEvidenceCount: intake.syntheticComparedPackageEvidenceCount,
+    actualDraftTextPackageAcceptanceEvidenceCount:
+      intake.actualDraftTextPackageAcceptanceEvidenceCount,
+    submittedDraftTextPackageCount: intake.submittedDraftTextPackageCount,
+    comparedDraftTextPackageCount: intake.comparedDraftTextPackageCount,
+    acceptedDraftTextPackageCount: intake.acceptedDraftTextPackageCount,
+    rejectedDraftTextPackageCount: intake.rejectedDraftTextPackageCount,
+    signedDraftTextCount: intake.signedDraftTextCount,
+    draftSignaturePayloadCount: intake.draftSignaturePayloadCount,
+    approvalCaptured: intake.approvalCaptured,
+    approvalGrantPresent: intake.approvalGrantPresent,
+    signedApprovalPresent: intake.signedApprovalPresent,
+    gateCount: intake.gateCount,
+    passedGateCount: intake.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest:
+      intake.sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightDigest:
+      intake.sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightDigest,
+    importsRuntimePayload: intake.importsRuntimePayload,
+    acceptsSyntheticEvidence: intake.acceptsSyntheticEvidence,
+    containsSecretValue: intake.containsSecretValue,
+    signedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeDigest:
+      intake.signedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeDigest,
   });
 }

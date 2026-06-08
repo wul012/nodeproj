@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1321";
+  catalogVersion: "Node v1331";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1321";
+  validationVersion: "Node v1331";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1668,8 +1668,68 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep acceptance precheck Markdown separate from acceptance precheck generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 162,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-package-evidence-intake-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeTypes.ts",
+    owns: ["compared package evidence intake public types", "evidence slot, guard, and gate contracts"],
+    consumedBy: ["compared package evidence intake builders", "stable preview profile types"],
+    maintenanceRule: "Keep compared package evidence intake contracts separate from acceptance precheck contracts.",
+    stopCondition: "Do not split unless evidence slots and guards need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 163,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-package-evidence-intake-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeCatalog.ts",
+    owns: ["ten compared package evidence intake slots", "ten compared package evidence intake guards"],
+    consumedBy: ["compared package evidence intake builder", "compared package evidence intake tests"],
+    maintenanceRule: "Keep intake slot and guard templates declarative so the builder only maps source precheck readiness.",
+    stopCondition: "Do not split unless slot families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 164,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-package-evidence-intake-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeBuilder.ts",
+    owns: ["acceptance precheck to compared package evidence slot mapping", "evidence slot to guard mapping"],
+    consumedBy: ["compared package evidence intake artifacts", "compared package evidence intake tests"],
+    maintenanceRule: "Keep source acceptance precheck mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple acceptance prechecks feed one compared package evidence intake.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 165,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-package-evidence-intake-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeValidator.ts",
+    owns: ["compared package evidence intake gates", "compared package evidence intake blocked reasons"],
+    consumedBy: ["compared package evidence intake artifacts", "compared package evidence intake tests"],
+    maintenanceRule: "Keep evidence intake gate logic separate from slot and guard construction.",
+    stopCondition: "Do not split unless validation starts consuming real compared package evidence artifacts.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 166,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-package-evidence-intake-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeArtifacts.ts",
+    owns: ["compared package evidence intake assembly", "evidence intake counts", "evidence intake digest"],
+    consumedBy: ["review artifact barrel", "compared package evidence intake tests", "profile assembly"],
+    maintenanceRule: "Keep evidence intake assembly compact by delegating catalog mapping and validation.",
+    stopCondition: "Do not split unless this package starts accepting real compared package evidence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 167,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-package-evidence-intake-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeRenderer.ts",
+    owns: ["compared package evidence intake markdown", "evidence slot and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep compared package evidence intake Markdown separate from intake generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 168,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1693,7 +1753,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1321",
+    catalogVersion: "Node v1331",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1754,7 +1814,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1321",
+    validationVersion: "Node v1331",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
