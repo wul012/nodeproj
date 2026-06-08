@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1331";
+  catalogVersion: "Node v1351";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1331";
+  validationVersion: "Node v1351";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1728,8 +1728,68 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep compared package evidence intake Markdown separate from intake generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 168,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-evaluation-preflight-types",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightTypes.ts",
+    owns: ["compared evidence evaluation preflight public types", "evaluation rule, guard, and gate contracts"],
+    consumedBy: ["compared evidence evaluation preflight builders", "stable preview profile types"],
+    maintenanceRule: "Keep evaluation preflight contracts separate from compared package evidence intake contracts.",
+    stopCondition: "Do not split unless evaluation rules and guards need independent public APIs.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 169,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-evaluation-preflight-catalog",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightCatalog.ts",
+    owns: ["twenty compared evidence evaluation rules", "twenty compared evidence evaluation guards"],
+    consumedBy: ["compared evidence evaluation preflight builder", "compared evidence evaluation preflight tests"],
+    maintenanceRule: "Keep evaluation rule and guard templates declarative so the builder only maps intake readiness.",
+    stopCondition: "Do not split unless evaluation rule families gain separate release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 170,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-evaluation-preflight-builder",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightBuilder.ts",
+    owns: ["compared package evidence intake to evaluation rule mapping", "evaluation rule to guard mapping"],
+    consumedBy: ["compared evidence evaluation preflight artifacts", "compared evidence evaluation preflight tests"],
+    maintenanceRule: "Keep source intake mapping separate from validation and digest generation.",
+    stopCondition: "Do not split unless multiple intake contracts feed one compared evidence evaluation preflight.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 171,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-evaluation-preflight-validator",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightValidator.ts",
+    owns: ["compared evidence evaluation preflight gates", "compared evidence evaluation preflight blocked reasons"],
+    consumedBy: ["compared evidence evaluation preflight artifacts", "compared evidence evaluation preflight tests"],
+    maintenanceRule: "Keep evaluation preflight gate logic separate from rule and guard construction.",
+    stopCondition: "Do not split unless validation starts consuming real compared evidence candidates.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 172,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-evaluation-preflight-artifacts",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightArtifacts.ts",
+    owns: ["compared evidence evaluation preflight assembly", "evaluation preflight counts", "evaluation preflight digest"],
+    consumedBy: ["review artifact barrel", "compared evidence evaluation preflight tests", "profile assembly"],
+    maintenanceRule: "Keep evaluation preflight assembly compact by delegating catalog mapping and validation.",
+    stopCondition: "Do not split unless this package starts evaluating real compared evidence candidates.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 173,
+    id: "live-read-only-window-operator-evidence-value-supply-signed-approval-capture-artifact-draft-text-package-compared-evidence-evaluation-preflight-renderer",
+    modulePath:
+      "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightRenderer.ts",
+    owns: ["compared evidence evaluation preflight markdown", "evaluation rule and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep evaluation preflight Markdown separate from evaluation preflight generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 174,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1753,7 +1813,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1331",
+    catalogVersion: "Node v1351",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -1814,7 +1874,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1331",
+    validationVersion: "Node v1351",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

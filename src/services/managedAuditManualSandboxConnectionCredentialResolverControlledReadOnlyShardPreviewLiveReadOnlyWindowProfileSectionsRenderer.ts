@@ -802,6 +802,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Evaluation Preflight",
+    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
+    ),
+    "",
   ];
 }
 
@@ -1487,5 +1492,62 @@ function renderSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvide
     containsSecretValue: intake.containsSecretValue,
     signedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeDigest:
       intake.signedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeDigest,
+  });
+}
+
+function renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightProfileEntries(
+  preflight:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight"],
+): string[] {
+  return renderEntries({
+    signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightVersion:
+      preflight.signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightVersion,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeVersion:
+      preflight.sourceSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeVersion,
+    artifactDraftTextPackageComparedEvidenceEvaluationPreflightState:
+      preflight.artifactDraftTextPackageComparedEvidenceEvaluationPreflightState,
+    readyForComparedEvidenceEvaluationPreflightContract:
+      preflight.readyForComparedEvidenceEvaluationPreflightContract,
+    readyForRealComparedPackageEvidenceEvaluation:
+      preflight.readyForRealComparedPackageEvidenceEvaluation,
+    readyForManualComparedPackageEvidenceIntakeContract:
+      preflight.readyForManualComparedPackageEvidenceIntakeContract,
+    readyForSignedApprovalArtifactDraft: preflight.readyForSignedApprovalArtifactDraft,
+    readyForSignedApprovalCapture: preflight.readyForSignedApprovalCapture,
+    readyForOperatorValueSupply: preflight.readyForOperatorValueSupply,
+    readyForOperatorValueSubmission: preflight.readyForOperatorValueSubmission,
+    readyForEvidenceImport: preflight.readyForEvidenceImport,
+    readyForRuntimePayload: preflight.readyForRuntimePayload,
+    evaluationRuleCount: preflight.evaluationRuleCount,
+    evaluationGuardCount: preflight.evaluationGuardCount,
+    sourceIntakeSlotCount: preflight.sourceIntakeSlotCount,
+    sourceIntakeGuardCount: preflight.sourceIntakeGuardCount,
+    readyEvaluationRuleCount: preflight.readyEvaluationRuleCount,
+    readyEvaluationGuardCount: preflight.readyEvaluationGuardCount,
+    satisfiedEvaluationRuleCount: preflight.satisfiedEvaluationRuleCount,
+    expectedRealComparedPackageEvidenceCandidateFieldCount:
+      preflight.expectedRealComparedPackageEvidenceCandidateFieldCount,
+    realComparedPackageEvidenceCandidateCount:
+      preflight.realComparedPackageEvidenceCandidateCount,
+    syntheticComparedPackageEvidenceCandidateCount:
+      preflight.syntheticComparedPackageEvidenceCandidateCount,
+    candidateMaterializedCount: preflight.candidateMaterializedCount,
+    candidateAcceptedCount: preflight.candidateAcceptedCount,
+    candidateRejectedCount: preflight.candidateRejectedCount,
+    acceptedComparedPackageEvidenceCount: preflight.acceptedComparedPackageEvidenceCount,
+    approvalGrantPresent: preflight.approvalGrantPresent,
+    signedApprovalPresent: preflight.signedApprovalPresent,
+    evaluationAllowed: preflight.evaluationAllowed,
+    gateCount: preflight.gateCount,
+    passedGateCount: preflight.passedGateCount,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeDigest:
+      preflight.sourceSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeDigest,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest:
+      preflight.sourceSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckDigest,
+    importsRuntimePayload: preflight.importsRuntimePayload,
+    acceptsSyntheticEvidence: preflight.acceptsSyntheticEvidence,
+    containsSecretValue: preflight.containsSecretValue,
+    signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightDigest:
+      preflight.signedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightDigest,
   });
 }
