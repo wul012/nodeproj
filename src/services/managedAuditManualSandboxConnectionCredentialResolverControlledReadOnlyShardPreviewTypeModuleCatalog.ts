@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1456";
+  catalogVersion: "Node v1481";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1456";
+  validationVersion: "Node v1481";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -2113,8 +2113,17 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep material submission precheck Markdown separate from precheck generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 209,
+    id: "candidate-document-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentProfileSectionRenderer.ts",
+    owns: ["candidate document profile section headings", "candidate document profile entry rendering"],
+    consumedBy: ["live read-only window profile sections renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep candidate document profile rendering out of the giant live-window section renderer so future material intake sections have a local boundary.",
+    stopCondition: "Do not split unless candidate document material intake and candidate document request sections diverge into separate route surfaces.",
+  }),
+  {
+    order: 210,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2138,7 +2147,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1456",
+    catalogVersion: "Node v1481",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2199,7 +2208,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1456",
+    validationVersion: "Node v1481",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
