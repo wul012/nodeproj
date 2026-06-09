@@ -444,6 +444,23 @@ describe("managed audit manual sandbox connection credential resolver controlled
       expect(markdown.body).toContain("candidateEvaluationAllowed: false");
       expect(markdown.body)
         .toContain("candidateDocumentSubmissionPrecheckVersion: Node v1411");
+      expect(markdown.body)
+        .toContain("## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Intake Packet");
+      expect(markdown.body)
+        .toContain("candidateDocumentIntakePacketState: ready-for-reviewed-real-candidate-document-intake-packet");
+      expect(markdown.body).toContain("readyForCandidateDocumentIntakePacket: true");
+      expect(markdown.body).toContain("readyForReviewedRealCandidateDocumentIntake: false");
+      expect(markdown.body).toContain("intakeSlotCount: 10");
+      expect(markdown.body).toContain("intakeGuardCount: 10");
+      expect(markdown.body).toContain("sourceCheckpointCount: 25");
+      expect(markdown.body).toContain("sourceValidatorCount: 25");
+      expect(markdown.body).toContain("intakeCandidateFieldCount: 20");
+      expect(markdown.body).toContain("reviewedRealCandidateDocumentPresent: false");
+      expect(markdown.body).toContain("candidateDocumentIntakeAllowed: false");
+      expect(markdown.body).toContain("candidatePayloadImportAllowed: false");
+      expect(markdown.body).toContain("candidateEvaluationAllowed: false");
+      expect(markdown.body)
+        .toContain("candidateDocumentIntakePacketVersion: Node v1421");
       expect(markdown.body).toContain("Ready source count: 2");
       expect(markdown.body).toContain("Ready for controlled read-only consumption: true");
       expect(markdown.body).toContain("Drift state: controlled-drift-detected");

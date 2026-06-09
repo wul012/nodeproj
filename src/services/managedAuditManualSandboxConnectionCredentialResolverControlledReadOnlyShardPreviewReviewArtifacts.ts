@@ -320,3 +320,11 @@ export {
 export {
   renderControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckMarkdown,
 } from "./controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckRenderer.js";
+
+export {
+  createControlledReadOnlyShardPreviewCandidateDocumentIntakePacket,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentIntakePacketArtifacts.js";
+
+export {
+  renderControlledReadOnlyShardPreviewCandidateDocumentIntakePacketMarkdown,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentIntakePacketRenderer.js";

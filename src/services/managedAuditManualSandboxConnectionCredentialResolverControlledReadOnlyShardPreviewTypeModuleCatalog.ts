@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1411";
+  catalogVersion: "Node v1421";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1411";
+  validationVersion: "Node v1421";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1978,8 +1978,53 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep submission precheck Markdown separate from submission precheck generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 194,
+    id: "candidate-document-intake-packet-types",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentIntakePacketTypes.ts",
+    owns: ["candidate document intake slots", "candidate document intake guards", "intake packet gates"],
+    consumedBy: ["candidate document intake packet catalog", "candidate document intake packet builder", "candidate document intake packet artifacts", "profile types"],
+    maintenanceRule: "Keep intake packet contracts separate from submission precheck contracts so real document intake can evolve independently.",
+    stopCondition: "Do not split unless the packet starts storing actual reviewed document content.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 195,
+    id: "candidate-document-intake-packet-catalog",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentIntakePacketCatalog.ts",
+    owns: ["ten intake slot templates", "ten intake guard templates"],
+    consumedBy: ["candidate document intake packet builder", "candidate document intake packet tests"],
+    maintenanceRule: "Keep intake slot and guard templates declarative while the builder maps v1411 checkpoints.",
+    stopCondition: "Do not split unless intake slots and guards gain different release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 196,
+    id: "candidate-document-intake-packet-builder",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentIntakePacketBuilder.ts",
+    owns: ["submission precheck to intake slot mapping", "intake slot to guard mapping"],
+    consumedBy: ["candidate document intake packet artifacts", "candidate document intake packet tests"],
+    maintenanceRule: "Keep intake mapping separate from gate aggregation and digest generation.",
+    stopCondition: "Do not split unless multiple precheck packages feed one intake packet.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 197,
+    id: "candidate-document-intake-packet-artifacts",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentIntakePacketArtifacts.ts",
+    owns: ["candidate document intake packet assembly", "intake packet gates and blocked reasons", "intake packet digest"],
+    consumedBy: ["review artifact barrel", "candidate document intake packet tests", "profile assembly"],
+    maintenanceRule: "Keep intake packet assembly compact by delegating slot and guard construction.",
+    stopCondition: "Do not split unless actual reviewed document material is accepted.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 198,
+    id: "candidate-document-intake-packet-renderer",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentIntakePacketRenderer.ts",
+    owns: ["candidate document intake packet markdown", "slot and guard rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep intake packet Markdown separate from intake packet generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 199,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2003,7 +2048,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1411",
+    catalogVersion: "Node v1421",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2064,7 +2109,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1411",
+    validationVersion: "Node v1421",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

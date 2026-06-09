@@ -94,6 +94,9 @@ import {
   createControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck,
 } from "../../src/services/controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckArtifacts.js";
 import {
+  createControlledReadOnlyShardPreviewCandidateDocumentIntakePacket,
+} from "../../src/services/controlledReadOnlyShardPreviewCandidateDocumentIntakePacketArtifacts.js";
+import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
 import {
@@ -337,5 +340,13 @@ export function controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrechec
 ) {
   return createControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck(
     controlledReadOnlyShardPreviewCandidateDocumentRequestPackageFixture(ready),
+  );
+}
+
+export function controlledReadOnlyShardPreviewCandidateDocumentIntakePacketFixture(
+  ready: boolean,
+) {
+  return createControlledReadOnlyShardPreviewCandidateDocumentIntakePacket(
+    controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckFixture(ready),
   );
 }

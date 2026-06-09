@@ -827,6 +827,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Intake Packet",
+    ...renderComparedEvidenceCandidateDocumentIntakePacketProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket,
+    ),
+    "",
   ];
 }
 
@@ -1789,5 +1794,60 @@ function renderComparedEvidenceCandidateDocumentSubmissionPrecheckProfileEntries
     containsSecretValue: precheck.containsSecretValue,
     candidateDocumentSubmissionPrecheckDigest:
       precheck.candidateDocumentSubmissionPrecheckDigest,
+  });
+}
+
+function renderComparedEvidenceCandidateDocumentIntakePacketProfileEntries(
+  packet:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket"],
+): string[] {
+  return renderEntries({
+    candidateDocumentIntakePacketVersion:
+      packet.candidateDocumentIntakePacketVersion,
+    sourceCandidateDocumentSubmissionPrecheckVersion:
+      packet.sourceCandidateDocumentSubmissionPrecheckVersion,
+    candidateDocumentIntakePacketState:
+      packet.candidateDocumentIntakePacketState,
+    readyForCandidateDocumentIntakePacket:
+      packet.readyForCandidateDocumentIntakePacket,
+    readyForReviewedRealCandidateDocumentIntake:
+      packet.readyForReviewedRealCandidateDocumentIntake,
+    readyForCandidatePayloadImport: packet.readyForCandidatePayloadImport,
+    readyForCandidateEvaluation: packet.readyForCandidateEvaluation,
+    readyForApprovalGrant: packet.readyForApprovalGrant,
+    readyForSignedApproval: packet.readyForSignedApproval,
+    readyForRuntimePayload: packet.readyForRuntimePayload,
+    intakeSlotCount: packet.intakeSlotCount,
+    intakeGuardCount: packet.intakeGuardCount,
+    sourceCheckpointCount: packet.sourceCheckpointCount,
+    sourceValidatorCount: packet.sourceValidatorCount,
+    readyIntakeSlotCount: packet.readyIntakeSlotCount,
+    readyIntakeGuardCount: packet.readyIntakeGuardCount,
+    requiredCandidateFieldCount: packet.requiredCandidateFieldCount,
+    intakeCandidateFieldCount: packet.intakeCandidateFieldCount,
+    reviewedRealCandidateDocumentPresent:
+      packet.reviewedRealCandidateDocumentPresent,
+    realCandidateDocumentCount: packet.realCandidateDocumentCount,
+    syntheticCandidateDocumentCount: packet.syntheticCandidateDocumentCount,
+    stagedCandidateDocumentCount: packet.stagedCandidateDocumentCount,
+    importedCandidatePayloadCount: packet.importedCandidatePayloadCount,
+    evaluatedCandidatePayloadCount: packet.evaluatedCandidatePayloadCount,
+    acceptedCandidatePayloadCount: packet.acceptedCandidatePayloadCount,
+    rejectedCandidatePayloadCount: packet.rejectedCandidatePayloadCount,
+    candidateDocumentSubmissionAllowed: packet.candidateDocumentSubmissionAllowed,
+    candidateDocumentIntakeAllowed: packet.candidateDocumentIntakeAllowed,
+    candidatePayloadImportAllowed: packet.candidatePayloadImportAllowed,
+    candidateEvaluationAllowed: packet.candidateEvaluationAllowed,
+    executionAllowed: packet.executionAllowed,
+    writeRoutingAllowed: packet.writeRoutingAllowed,
+    gateCount: packet.gateCount,
+    passedGateCount: packet.passedGateCount,
+    sourceCandidateDocumentSubmissionPrecheckDigest:
+      packet.sourceCandidateDocumentSubmissionPrecheckDigest,
+    importsRuntimePayload: packet.importsRuntimePayload,
+    acceptsSyntheticEvidence: packet.acceptsSyntheticEvidence,
+    containsSecretValue: packet.containsSecretValue,
+    candidateDocumentIntakePacketDigest:
+      packet.candidateDocumentIntakePacketDigest,
   });
 }
