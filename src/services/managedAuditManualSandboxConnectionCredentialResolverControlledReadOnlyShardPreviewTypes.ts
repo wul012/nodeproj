@@ -157,6 +157,9 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewCandidateDocumentIntakePacket,
 } from "./controlledReadOnlyShardPreviewCandidateDocumentIntakePacketTypes.js";
+import type {
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestTypes.js";
 
 export type {
   ControlledReadOnlyShardPreviewObservationPreview,
@@ -621,6 +624,18 @@ export type {
 } from "./controlledReadOnlyShardPreviewCandidateDocumentIntakePacketTypes.js";
 
 export type {
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestCheck,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestCheckKind,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestCheckTemplate,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestGates,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestItem,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestItemKind,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestItemTemplate,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage,
+  ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestVersion,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestTypes.js";
+
+export type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControl,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControlKind,
@@ -768,6 +783,8 @@ export interface ControlledReadOnlyShardPreviewProfile {
       ControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck;
     liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket:
       ControlledReadOnlyShardPreviewCandidateDocumentIntakePacket;
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage:
+      ControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage;
     previewDigest: string;
   };
   checks: ControlledReadOnlyShardPreviewChecks;

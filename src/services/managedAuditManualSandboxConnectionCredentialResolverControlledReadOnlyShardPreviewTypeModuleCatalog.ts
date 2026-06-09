@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1421";
+  catalogVersion: "Node v1446";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1421";
+  validationVersion: "Node v1446";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -2023,8 +2023,53 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep intake packet Markdown separate from intake packet generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 199,
+    id: "candidate-document-material-request-types",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestTypes.ts",
+    owns: ["candidate document material request items", "material acceptance checks", "material request gates"],
+    consumedBy: ["candidate document material request catalog", "candidate document material request builder", "candidate document material request artifacts", "profile types"],
+    maintenanceRule: "Keep reviewed material request contracts separate from intake packet contracts so actual material intake can be introduced deliberately.",
+    stopCondition: "Do not split unless real reviewed document material is stored or parsed.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 200,
+    id: "candidate-document-material-request-catalog",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestCatalog.ts",
+    owns: ["twenty-five material request item templates", "twenty-five material acceptance check templates"],
+    consumedBy: ["candidate document material request builder", "candidate document material request tests"],
+    maintenanceRule: "Keep material request wording declarative while the builder maps v1421 slots and guards.",
+    stopCondition: "Do not split unless request items and acceptance checks gain different release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 201,
+    id: "candidate-document-material-request-builder",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestBuilder.ts",
+    owns: ["intake packet to material request mapping", "material request item to acceptance check mapping"],
+    consumedBy: ["candidate document material request artifacts", "candidate document material request tests"],
+    maintenanceRule: "Keep material request mapping separate from gate aggregation and digest generation.",
+    stopCondition: "Do not split unless multiple intake packets feed one material request package.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 202,
+    id: "candidate-document-material-request-artifacts",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestArtifacts.ts",
+    owns: ["candidate document material request package assembly", "material request gates and blocked reasons", "material request digest"],
+    consumedBy: ["review artifact barrel", "candidate document material request tests", "profile assembly"],
+    maintenanceRule: "Keep material request assembly compact by delegating item and check construction.",
+    stopCondition: "Do not split unless this package accepts external reviewed material.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 203,
+    id: "candidate-document-material-request-renderer",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestRenderer.ts",
+    owns: ["candidate document material request package markdown", "material item and check rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep material request Markdown separate from material request generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 204,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2048,7 +2093,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1421",
+    catalogVersion: "Node v1446",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2109,7 +2154,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1421",
+    validationVersion: "Node v1446",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
