@@ -13,9 +13,17 @@ import { loadProductionConnectionDryRunChangeRequest } from "../src/services/pro
 import { ProductionConnectionDryRunApprovalLedger } from "../src/services/productionConnectionDryRunApprovalLedger.js";
 import {
   loadProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchive,
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveMarkdown as renderCaptureArchiveMarkdownFromEntry,
 } from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchive.js";
+import {
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveMarkdown as renderCaptureArchiveMarkdownFromRenderer,
+} from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveMarkdownRenderer.js";
 
 describe("production live probe real-read smoke read-only window capture archive", () => {
+  it("keeps the Markdown renderer available from the stable capture archive entrypoint", () => {
+    expect(renderCaptureArchiveMarkdownFromEntry).toBe(renderCaptureArchiveMarkdownFromRenderer);
+  });
+
   it("archives skipped capture with Java v50 and mini-kv v59 references", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-capture-archive-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"));
