@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1556";
+  catalogVersion: "Node v1581";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1556";
+  validationVersion: "Node v1581";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -2185,8 +2185,35 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep signed approval capture preflight and capture artifact preflight rendering near the capture boundary.",
     stopCondition: "Do not split unless capture preflight and artifact preflight gain separate route surfaces.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 217,
+    id: "operator-evidence-value-supply-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyProfileSectionRenderer.ts",
+    owns: ["operator evidence value supply profile section ordering", "operator evidence value supply profile aggregation"],
+    consumedBy: ["live read-only window profile sections renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep operator evidence import and value supply route ordering in a small aggregator while import and envelope renderers evolve separately.",
+    stopCondition: "Do not split unless import/value draft and sibling/envelope section ordering diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 218,
+    id: "operator-evidence-value-supply-import-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyImportProfileSectionRenderer.ts",
+    owns: ["operator evidence import preflight profile section", "operator evidence value draft profile section"],
+    consumedBy: ["operator evidence value supply profile section renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep operator evidence import preflight and value draft rendering out of the live-window orchestration renderer.",
+    stopCondition: "Do not split unless import preflight and value draft gain separate route surfaces.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 219,
+    id: "operator-evidence-value-supply-envelope-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeProfileSectionRenderer.ts",
+    owns: ["operator evidence fresh sibling intake profile section", "operator evidence value supply envelope profile section"],
+    consumedBy: ["operator evidence value supply profile section renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep fresh sibling intake and value supply envelope rendering near their evidence-supply boundary.",
+    stopCondition: "Do not split unless fresh sibling intake and value supply envelope become separate route surfaces.",
+  }),
+  {
+    order: 220,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2210,7 +2237,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1556",
+    catalogVersion: "Node v1581",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2271,7 +2298,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1556",
+    validationVersion: "Node v1581",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
