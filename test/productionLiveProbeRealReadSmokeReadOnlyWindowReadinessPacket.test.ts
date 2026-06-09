@@ -13,10 +13,18 @@ import { loadProductionConnectionDryRunChangeRequest } from "../src/services/pro
 import { ProductionConnectionDryRunApprovalLedger } from "../src/services/productionConnectionDryRunApprovalLedger.js";
 import {
   loadProductionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacket,
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacketMarkdown as renderReadinessPacketMarkdownFromEntry,
 } from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacket.js";
+import {
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacketMarkdown as renderReadinessPacketMarkdownFromRenderer,
+} from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacketMarkdownRenderer.js";
 import type { UpstreamJsonResponse } from "../src/types.js";
 
 describe("production live probe real-read smoke read-only window readiness packet", () => {
+  it("keeps the Markdown renderer available from the stable readiness packet entrypoint", () => {
+    expect(renderReadinessPacketMarkdownFromEntry).toBe(renderReadinessPacketMarkdownFromRenderer);
+  });
+
   it("packages archive verification, runbook, and runbook verification into a manual review packet", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-readiness-packet-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"));
