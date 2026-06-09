@@ -1,0 +1,12 @@
+import { renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSections } from "./controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSectionRenderer.js";
+import { renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSections } from "./controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSectionRenderer.js";
+import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
+
+export function renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageProfileSections(
+  profile: ControlledReadOnlyShardPreviewProfile,
+): string[] {
+  return [
+    ...renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSections(profile),
+    ...renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSections(profile),
+  ];
+}

@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1506";
+  catalogVersion: "Node v1531";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1506";
+  validationVersion: "Node v1531";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -2131,8 +2131,35 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep signed approval artifact draft profile rendering out of the giant live-window section renderer so text package and material intake work can evolve locally.",
     stopCondition: "Do not split unless signed approval artifact draft text package sections need their own route surface.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 211,
+    id: "signed-approval-artifact-draft-text-package-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageProfileSectionRenderer.ts",
+    owns: ["signed approval artifact draft text package profile section ordering", "signed approval artifact draft text package profile aggregation"],
+    consumedBy: ["live read-only window profile sections renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep text package profile section ordering in a small aggregator so the submission and compared-evidence renderers can evolve separately.",
+    stopCondition: "Do not split unless route order and child renderer ownership diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 212,
+    id: "signed-approval-artifact-draft-text-package-submission-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSectionRenderer.ts",
+    owns: ["signed approval artifact draft text package submission headings", "signed approval artifact draft text package submission entry rendering"],
+    consumedBy: ["signed approval artifact draft text package profile section renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep intake, review, submission, comparison, and acceptance text package rendering out of the giant live-window section renderer.",
+    stopCondition: "Do not split unless text package intake and comparison acceptance need separate route surfaces.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 213,
+    id: "signed-approval-artifact-draft-text-package-compared-evidence-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSectionRenderer.ts",
+    owns: ["signed approval artifact draft compared evidence profile section headings", "signed approval artifact draft compared evidence profile entry rendering"],
+    consumedBy: ["signed approval artifact draft text package profile section renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep compared package evidence and compared evidence candidate rendering near their own candidate-intake boundary.",
+    stopCondition: "Do not split unless compared package evidence evaluation and candidate intake become separate route surfaces.",
+  }),
+  {
+    order: 214,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2156,7 +2183,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1506",
+    catalogVersion: "Node v1531",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2217,7 +2244,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1506",
+    validationVersion: "Node v1531",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
