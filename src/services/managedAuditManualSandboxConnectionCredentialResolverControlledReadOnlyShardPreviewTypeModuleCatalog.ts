@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1481";
+  catalogVersion: "Node v1506";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1481";
+  validationVersion: "Node v1506";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -2122,8 +2122,17 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep candidate document profile rendering out of the giant live-window section renderer so future material intake sections have a local boundary.",
     stopCondition: "Do not split unless candidate document material intake and candidate document request sections diverge into separate route surfaces.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 210,
+    id: "signed-approval-artifact-draft-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewSignedApprovalArtifactDraftProfileSectionRenderer.ts",
+    owns: ["signed approval artifact draft profile section headings", "signed approval artifact draft profile entry rendering"],
+    consumedBy: ["live read-only window profile sections renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep signed approval artifact draft profile rendering out of the giant live-window section renderer so text package and material intake work can evolve locally.",
+    stopCondition: "Do not split unless signed approval artifact draft text package sections need their own route surface.",
+  }),
+  {
+    order: 211,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2147,7 +2156,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1481",
+    catalogVersion: "Node v1506",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2208,7 +2217,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1481",
+    validationVersion: "Node v1506",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,
