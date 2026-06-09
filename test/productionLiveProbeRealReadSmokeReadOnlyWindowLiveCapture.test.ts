@@ -13,10 +13,18 @@ import { loadProductionConnectionDryRunChangeRequest } from "../src/services/pro
 import { ProductionConnectionDryRunApprovalLedger } from "../src/services/productionConnectionDryRunApprovalLedger.js";
 import {
   loadProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCapture,
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCaptureMarkdown as renderLiveCaptureMarkdownFromEntry,
 } from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowLiveCapture.js";
+import {
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowLiveCaptureMarkdown as renderLiveCaptureMarkdownFromRenderer,
+} from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowLiveCaptureMarkdownRenderer.js";
 import type { UpstreamJsonResponse } from "../src/types.js";
 
 describe("production live probe real-read smoke read-only window live capture", () => {
+  it("keeps the Markdown renderer available from the stable live capture entrypoint", () => {
+    expect(renderLiveCaptureMarkdownFromEntry).toBe(renderLiveCaptureMarkdownFromRenderer);
+  });
+
   it("records skipped capture when the read-only probe window is closed", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-read-only-live-capture-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"));
