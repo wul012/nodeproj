@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1386";
+  catalogVersion: "Node v1411";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1386";
+  validationVersion: "Node v1411";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -1933,8 +1933,53 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep request package Markdown separate from request package generation.",
     stopCondition: "Do not split unless route rendering and archive rendering diverge.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 189,
+    id: "candidate-document-submission-precheck-types",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckTypes.ts",
+    owns: ["candidate document submission checkpoints", "candidate document submission validators", "submission precheck gates"],
+    consumedBy: ["candidate document submission precheck catalog", "candidate document submission precheck builder", "candidate document submission precheck artifacts", "profile types"],
+    maintenanceRule: "Keep submission precheck contracts in a short filename because the upstream evidence chain is already long.",
+    stopCondition: "Do not split unless reviewed real document submission becomes accepted payload input.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 190,
+    id: "candidate-document-submission-precheck-catalog",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckCatalog.ts",
+    owns: ["twenty-five submission checkpoint templates", "twenty-five submission validator templates"],
+    consumedBy: ["candidate document submission precheck builder", "candidate document submission precheck tests"],
+    maintenanceRule: "Keep submission checkpoint and validator templates declarative so the builder maps request package coverage only.",
+    stopCondition: "Do not split unless checkpoint and validator templates gain different release cadence.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 191,
+    id: "candidate-document-submission-precheck-builder",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckBuilder.ts",
+    owns: ["request package to submission checkpoint mapping", "checkpoint to validator mapping"],
+    consumedBy: ["candidate document submission precheck artifacts", "candidate document submission precheck tests"],
+    maintenanceRule: "Keep submission mapping separate from gate aggregation and digest generation.",
+    stopCondition: "Do not split unless multiple request packages feed one submission precheck.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 192,
+    id: "candidate-document-submission-precheck-artifacts",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckArtifacts.ts",
+    owns: ["candidate document submission precheck assembly", "submission precheck gates and blocked reasons", "submission precheck digest"],
+    consumedBy: ["review artifact barrel", "candidate document submission precheck tests", "profile assembly"],
+    maintenanceRule: "Keep submission precheck assembly compact by delegating checkpoint and validator construction.",
+    stopCondition: "Do not split unless this package starts accepting reviewed real candidate document submissions.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 193,
+    id: "candidate-document-submission-precheck-renderer",
+    modulePath: "controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckRenderer.ts",
+    owns: ["candidate document submission precheck markdown", "checkpoint and validator rendering"],
+    consumedBy: ["review artifact barrel", "archive explanations", "future route surfaces"],
+    maintenanceRule: "Keep submission precheck Markdown separate from submission precheck generation.",
+    stopCondition: "Do not split unless route rendering and archive rendering diverge.",
+  }),
+  {
+    order: 194,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -1958,7 +2003,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1386",
+    catalogVersion: "Node v1411",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2019,7 +2064,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1386",
+    validationVersion: "Node v1411",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

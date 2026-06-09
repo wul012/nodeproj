@@ -150,6 +150,10 @@ import * as candidateDocumentRequestArtifacts
   from "../src/services/controlledReadOnlyShardPreviewCandidateDocumentRequestArtifacts.js";
 import * as candidateDocumentRequestRenderer
   from "../src/services/controlledReadOnlyShardPreviewCandidateDocumentRequestRenderer.js";
+import * as candidateDocumentSubmissionPrecheckArtifacts
+  from "../src/services/controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckArtifacts.js";
+import * as candidateDocumentSubmissionPrecheckRenderer
+  from "../src/services/controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckRenderer.js";
 
 describe("controlled read-only shard preview review artifact barrel", () => {
   it("re-exports source matrix flow and consumption plan builders", () => {
@@ -547,5 +551,14 @@ describe("controlled read-only shard preview review artifact barrel", () => {
       .toBe(candidateDocumentRequestArtifacts.createControlledReadOnlyShardPreviewCandidateDocumentRequestPackage);
     expect(reviewArtifacts.renderControlledReadOnlyShardPreviewCandidateDocumentRequestPackageMarkdown)
       .toBe(candidateDocumentRequestRenderer.renderControlledReadOnlyShardPreviewCandidateDocumentRequestPackageMarkdown);
+  });
+
+  it("re-exports candidate document submission precheck helpers", () => {
+    expect(reviewArtifacts.createControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck)
+      .toBe(candidateDocumentSubmissionPrecheckArtifacts
+        .createControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck);
+    expect(reviewArtifacts.renderControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckMarkdown)
+      .toBe(candidateDocumentSubmissionPrecheckRenderer
+        .renderControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckMarkdown);
   });
 });

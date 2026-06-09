@@ -822,6 +822,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Submission Precheck",
+    ...renderComparedEvidenceCandidateDocumentSubmissionPrecheckProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck,
+    ),
+    "",
   ];
 }
 
@@ -1730,5 +1735,59 @@ function renderComparedEvidenceCandidateDocumentRequestPackageProfileEntries(
     containsSecretValue: requestPackage.containsSecretValue,
     candidateDocumentRequestPackageDigest:
       requestPackage.candidateDocumentRequestPackageDigest,
+  });
+}
+
+function renderComparedEvidenceCandidateDocumentSubmissionPrecheckProfileEntries(
+  precheck:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck"],
+): string[] {
+  return renderEntries({
+    candidateDocumentSubmissionPrecheckVersion:
+      precheck.candidateDocumentSubmissionPrecheckVersion,
+    sourceCandidateDocumentRequestPackageVersion:
+      precheck.sourceCandidateDocumentRequestPackageVersion,
+    candidateDocumentSubmissionPrecheckState:
+      precheck.candidateDocumentSubmissionPrecheckState,
+    readyForCandidateDocumentSubmissionPrecheck:
+      precheck.readyForCandidateDocumentSubmissionPrecheck,
+    readyForReviewedRealCandidateDocumentSubmission:
+      precheck.readyForReviewedRealCandidateDocumentSubmission,
+    readyForCandidateDocumentIntake: precheck.readyForCandidateDocumentIntake,
+    readyForCandidatePayloadImport: precheck.readyForCandidatePayloadImport,
+    readyForCandidateEvaluation: precheck.readyForCandidateEvaluation,
+    readyForApprovalGrant: precheck.readyForApprovalGrant,
+    readyForSignedApproval: precheck.readyForSignedApproval,
+    readyForRuntimePayload: precheck.readyForRuntimePayload,
+    checkpointCount: precheck.checkpointCount,
+    validatorCount: precheck.validatorCount,
+    sourceRequestItemCount: precheck.sourceRequestItemCount,
+    sourceAcceptanceCheckCount: precheck.sourceAcceptanceCheckCount,
+    readyCheckpointCount: precheck.readyCheckpointCount,
+    readyValidatorCount: precheck.readyValidatorCount,
+    requiredCandidateFieldCount: precheck.requiredCandidateFieldCount,
+    submissionCandidateFieldCount: precheck.submissionCandidateFieldCount,
+    realCandidateDocumentCount: precheck.realCandidateDocumentCount,
+    syntheticCandidateDocumentCount: precheck.syntheticCandidateDocumentCount,
+    stagedCandidateDocumentCount: precheck.stagedCandidateDocumentCount,
+    importedCandidatePayloadCount: precheck.importedCandidatePayloadCount,
+    evaluatedCandidatePayloadCount: precheck.evaluatedCandidatePayloadCount,
+    acceptedCandidatePayloadCount: precheck.acceptedCandidatePayloadCount,
+    rejectedCandidatePayloadCount: precheck.rejectedCandidatePayloadCount,
+    candidateDocumentSubmissionAllowed: precheck.candidateDocumentSubmissionAllowed,
+    candidateDocumentIntakeAllowed: precheck.candidateDocumentIntakeAllowed,
+    candidatePayloadImportAllowed: precheck.candidatePayloadImportAllowed,
+    candidateEvaluationAllowed: precheck.candidateEvaluationAllowed,
+    executionAllowed: precheck.executionAllowed,
+    writeRoutingAllowed: precheck.writeRoutingAllowed,
+    gateCount: precheck.gateCount,
+    passedGateCount: precheck.passedGateCount,
+    sourceCandidateDocumentRequestPackageDigest:
+      precheck.sourceCandidateDocumentRequestPackageDigest,
+    importsRuntimePayload: precheck.importsRuntimePayload,
+    acceptsSyntheticEvidence: precheck.acceptsSyntheticEvidence,
+    containsSecretValue: precheck.containsSecretValue,
+    candidateDocumentSubmissionPrecheckDigest:
+      precheck.candidateDocumentSubmissionPrecheckDigest,
   });
 }
