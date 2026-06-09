@@ -336,3 +336,11 @@ export {
 export {
   renderControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackageMarkdown,
 } from "./controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestRenderer.js";
+
+export {
+  createControlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheck,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckArtifacts.js";
+
+export {
+  renderControlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckMarkdown,
+} from "./controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckRenderer.js";

@@ -100,6 +100,9 @@ import {
   createControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage,
 } from "../../src/services/controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestArtifacts.js";
 import {
+  createControlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheck,
+} from "../../src/services/controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckArtifacts.js";
+import {
   createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 } from "../../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalArtifacts.js";
 import {
@@ -359,5 +362,13 @@ export function controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPa
 ) {
   return createControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage(
     controlledReadOnlyShardPreviewCandidateDocumentIntakePacketFixture(ready),
+  );
+}
+
+export function controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckFixture(
+  ready: boolean,
+) {
+  return createControlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheck(
+    controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackageFixture(ready),
   );
 }

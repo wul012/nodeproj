@@ -837,6 +837,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections(
       profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage,
     ),
     "",
+    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Material Submission Precheck",
+    ...renderComparedEvidenceCandidateDocumentMaterialSubmissionPrecheckProfileEntries(
+      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialSubmissionPrecheck,
+    ),
+    "",
   ];
 }
 
@@ -1916,5 +1921,68 @@ function renderComparedEvidenceCandidateDocumentMaterialRequestPackageProfileEnt
     containsSecretValue: requestPackage.containsSecretValue,
     candidateDocumentMaterialRequestPackageDigest:
       requestPackage.candidateDocumentMaterialRequestPackageDigest,
+  });
+}
+
+function renderComparedEvidenceCandidateDocumentMaterialSubmissionPrecheckProfileEntries(
+  precheck:
+    ControlledReadOnlyShardPreviewProfile["preview"]["liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialSubmissionPrecheck"],
+): string[] {
+  return renderEntries({
+    candidateDocumentMaterialSubmissionPrecheckVersion:
+      precheck.candidateDocumentMaterialSubmissionPrecheckVersion,
+    sourceCandidateDocumentMaterialRequestPackageVersion:
+      precheck.sourceCandidateDocumentMaterialRequestPackageVersion,
+    candidateDocumentMaterialSubmissionPrecheckState:
+      precheck.candidateDocumentMaterialSubmissionPrecheckState,
+    readyForCandidateDocumentMaterialSubmissionPrecheck:
+      precheck.readyForCandidateDocumentMaterialSubmissionPrecheck,
+    readyForReviewedRealCandidateDocumentMaterialSubmission:
+      precheck.readyForReviewedRealCandidateDocumentMaterialSubmission,
+    readyForCandidateDocumentMaterialIntake:
+      precheck.readyForCandidateDocumentMaterialIntake,
+    readyForCandidatePayloadImport: precheck.readyForCandidatePayloadImport,
+    readyForCandidateEvaluation: precheck.readyForCandidateEvaluation,
+    readyForApprovalGrant: precheck.readyForApprovalGrant,
+    readyForSignedApproval: precheck.readyForSignedApproval,
+    readyForRuntimePayload: precheck.readyForRuntimePayload,
+    checkpointCount: precheck.checkpointCount,
+    validatorCount: precheck.validatorCount,
+    sourceMaterialRequestItemCount: precheck.sourceMaterialRequestItemCount,
+    sourceMaterialAcceptanceCheckCount:
+      precheck.sourceMaterialAcceptanceCheckCount,
+    readyCheckpointCount: precheck.readyCheckpointCount,
+    readyValidatorCount: precheck.readyValidatorCount,
+    requiredMaterialFieldCount: precheck.requiredMaterialFieldCount,
+    submissionMaterialFieldCount: precheck.submissionMaterialFieldCount,
+    reviewedRealCandidateDocumentMaterialPresent:
+      precheck.reviewedRealCandidateDocumentMaterialPresent,
+    realCandidateDocumentCount: precheck.realCandidateDocumentCount,
+    syntheticCandidateDocumentCount: precheck.syntheticCandidateDocumentCount,
+    stagedCandidateDocumentCount: precheck.stagedCandidateDocumentCount,
+    importedCandidatePayloadCount: precheck.importedCandidatePayloadCount,
+    evaluatedCandidatePayloadCount: precheck.evaluatedCandidatePayloadCount,
+    acceptedCandidatePayloadCount: precheck.acceptedCandidatePayloadCount,
+    rejectedCandidatePayloadCount: precheck.rejectedCandidatePayloadCount,
+    candidateDocumentSubmissionAllowed:
+      precheck.candidateDocumentSubmissionAllowed,
+    candidateDocumentIntakeAllowed: precheck.candidateDocumentIntakeAllowed,
+    candidateDocumentMaterialSubmissionAllowed:
+      precheck.candidateDocumentMaterialSubmissionAllowed,
+    candidateDocumentMaterialIntakeAllowed:
+      precheck.candidateDocumentMaterialIntakeAllowed,
+    candidatePayloadImportAllowed: precheck.candidatePayloadImportAllowed,
+    candidateEvaluationAllowed: precheck.candidateEvaluationAllowed,
+    executionAllowed: precheck.executionAllowed,
+    writeRoutingAllowed: precheck.writeRoutingAllowed,
+    gateCount: precheck.gateCount,
+    passedGateCount: precheck.passedGateCount,
+    sourceCandidateDocumentMaterialRequestPackageDigest:
+      precheck.sourceCandidateDocumentMaterialRequestPackageDigest,
+    importsRuntimePayload: precheck.importsRuntimePayload,
+    acceptsSyntheticEvidence: precheck.acceptsSyntheticEvidence,
+    containsSecretValue: precheck.containsSecretValue,
+    candidateDocumentMaterialSubmissionPrecheckDigest:
+      precheck.candidateDocumentMaterialSubmissionPrecheckDigest,
   });
 }
