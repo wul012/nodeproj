@@ -14,7 +14,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalogEntry {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
-  catalogVersion: "Node v1531";
+  catalogVersion: "Node v1556";
   publicEntryPoint: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts";
   moduleCount: number;
   stableReExportModuleCount: number;
@@ -23,7 +23,7 @@ export interface ControlledReadOnlyShardPreviewTypeModuleCatalog {
 }
 
 export interface ControlledReadOnlyShardPreviewTypeModuleCatalogValidation {
-  validationVersion: "Node v1531";
+  validationVersion: "Node v1556";
   valid: boolean;
   moduleCount: number;
   uniqueIdCount: number;
@@ -2158,8 +2158,35 @@ const TYPE_MODULE_CATALOG_ENTRIES: ControlledReadOnlyShardPreviewTypeModuleCatal
     maintenanceRule: "Keep compared package evidence and compared evidence candidate rendering near their own candidate-intake boundary.",
     stopCondition: "Do not split unless compared package evidence evaluation and candidate intake become separate route surfaces.",
   }),
-  {
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
     order: 214,
+    id: "operator-evidence-value-supply-approval-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts",
+    owns: ["operator evidence value supply approval profile section ordering", "operator evidence value supply approval profile aggregation"],
+    consumedBy: ["live read-only window profile sections renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep value supply approval route ordering in a small aggregator while packet and capture renderers evolve separately.",
+    stopCondition: "Do not split unless packet/template and capture section route ordering diverge.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 215,
+    id: "operator-evidence-value-supply-approval-packet-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSectionRenderer.ts",
+    owns: ["operator evidence value supply approval packet headings", "operator evidence value supply signed approval template rendering"],
+    consumedBy: ["operator evidence value supply approval profile section renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep approval packet draft, review, and signed approval template rendering out of the live-window orchestration renderer.",
+    stopCondition: "Do not split unless approval packet review and signed approval template become separate route surfaces.",
+  }),
+  createControlledReadOnlyShardPreviewTypeModuleCatalogEntry({
+    order: 216,
+    id: "operator-evidence-value-supply-signed-approval-capture-profile-section-renderer",
+    modulePath: "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSectionRenderer.ts",
+    owns: ["operator evidence value supply signed approval capture headings", "operator evidence value supply signed approval capture entry rendering"],
+    consumedBy: ["operator evidence value supply approval profile section renderer", "route profile markdown tests"],
+    maintenanceRule: "Keep signed approval capture preflight and capture artifact preflight rendering near the capture boundary.",
+    stopCondition: "Do not split unless capture preflight and artifact preflight gain separate route surfaces.",
+  }),
+  {
+    order: 217,
     id: "profile-entry-types",
     modulePath: PUBLIC_ENTRY_POINT,
     owns: ["profile aggregate", "stable type re-exports"],
@@ -2183,7 +2210,7 @@ export function createControlledReadOnlyShardPreviewTypeModuleCatalog():
   const entries = listControlledReadOnlyShardPreviewTypeModules();
 
   return {
-    catalogVersion: "Node v1531",
+    catalogVersion: "Node v1556",
     publicEntryPoint: PUBLIC_ENTRY_POINT,
     moduleCount: entries.length,
     stableReExportModuleCount: entries.filter((entry) => entry.exportsViaStableProfileTypes).length,
@@ -2244,7 +2271,7 @@ export function validateControlledReadOnlyShardPreviewTypeModuleCatalog(
   }
 
   return {
-    validationVersion: "Node v1531",
+    validationVersion: "Node v1556",
     valid: blockedReasonCodes.length === 0,
     moduleCount: catalog.entries.length,
     uniqueIdCount,

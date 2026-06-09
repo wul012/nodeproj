@@ -1,0 +1,12 @@
+import { renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSections } from "./controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSectionRenderer.js";
+import { renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections } from "./controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSectionRenderer.js";
+import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
+
+export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSections(
+  profile: ControlledReadOnlyShardPreviewProfile,
+): string[] {
+  return [
+    ...renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSections(profile),
+    ...renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections(profile),
+  ];
+}
