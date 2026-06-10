@@ -8,6 +8,9 @@ import {
 import {
   renderControlledReadOnlyShardPreviewTypeModuleCatalogMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.js";
+import {
+  TYPE_MODULE_CATALOG_ENTRY_GROUPS,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogEntries.js";
 
 describe("controlled read-only shard preview type module catalog", () => {
   it("records stable type module ownership groups", () => {
@@ -31,6 +34,22 @@ describe("controlled read-only shard preview type module catalog", () => {
       id: "profile-entry-types",
       modulePath: "managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.ts",
     });
+  });
+
+  it("keeps split entry groups contiguous and complete", () => {
+    expect(TYPE_MODULE_CATALOG_ENTRY_GROUPS.map((group) => group.id)).toEqual([
+      "foundation-and-live-window",
+      "operator-evidence-supply",
+      "signed-approval-capture-draft",
+      "signed-approval-text-package-preflight",
+      "signed-approval-text-package-evidence",
+      "candidate-document-and-profile",
+    ]);
+
+    const groupedOrders = TYPE_MODULE_CATALOG_ENTRY_GROUPS
+      .flatMap((group) => group.entries.map((entry) => entry.order));
+
+    expect(groupedOrders).toEqual(Array.from({ length: 220 }, (_, index) => index + 1));
   });
 
   it("requires every module to declare ownership and a stop condition", () => {
