@@ -13,9 +13,17 @@ import { loadProductionConnectionDryRunChangeRequest } from "../src/services/pro
 import { ProductionConnectionDryRunApprovalLedger } from "../src/services/productionConnectionDryRunApprovalLedger.js";
 import {
   loadProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerification,
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerificationMarkdown as renderCaptureArchiveVerificationMarkdownFromEntry,
 } from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerification.js";
+import {
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerificationMarkdown as renderCaptureArchiveVerificationMarkdownFromRenderer,
+} from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerificationMarkdownRenderer.js";
 
 describe("production live probe real-read smoke read-only window capture archive verification", () => {
+  it("keeps the Markdown renderer available from the stable capture archive verification entrypoint", () => {
+    expect(renderCaptureArchiveVerificationMarkdownFromEntry).toBe(renderCaptureArchiveVerificationMarkdownFromRenderer);
+  });
+
   it("verifies the skipped capture archive digest and keeps it non-pass", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-capture-archive-verification-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"));
