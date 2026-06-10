@@ -4,7 +4,10 @@ import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerification.js";
+import { loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerification as loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationCore } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationCore.js";
+import { renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationMarkdown as renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationMarkdownModule } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationRenderer.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
@@ -17,6 +20,15 @@ describe("managed audit manual sandbox connection sandbox endpoint credential re
       return;
     }
     process.env[FORCE_FALLBACK_ENV] = previousForceFallback;
+  });
+
+  it("keeps the stable entrypoint aligned with the split core and renderer modules", () => {
+    expect(loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerification).toBe(
+      loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationCore,
+    );
+    expect(renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationMarkdown).toBe(
+      renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationMarkdownModule,
+    );
   });
 
   it("verifies Node v260 with Java v105 and mini-kv v114 without resolving credentials", () => {
