@@ -13,9 +13,17 @@ import { loadProductionConnectionDryRunChangeRequest } from "../src/services/pro
 import { ProductionConnectionDryRunApprovalLedger } from "../src/services/productionConnectionDryRunApprovalLedger.js";
 import {
   loadProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReview,
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdown as renderCaptureReleaseEvidenceReviewMarkdownFromEntry,
 } from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReview.js";
+import {
+  renderProductionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdown as renderCaptureReleaseEvidenceReviewMarkdownFromRenderer,
+} from "../src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdownRenderer.js";
 
 describe("production live probe real-read smoke read-only window capture release evidence review", () => {
+  it("keeps the Markdown renderer available from the stable capture release evidence review entrypoint", () => {
+    expect(renderCaptureReleaseEvidenceReviewMarkdownFromEntry).toBe(renderCaptureReleaseEvidenceReviewMarkdownFromRenderer);
+  });
+
   it("combines v158 archive verification with Java v51 and mini-kv v60 field guides", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-release-review-"));
     const config = loadTestConfig(path.join(directory, "audit.jsonl"));
