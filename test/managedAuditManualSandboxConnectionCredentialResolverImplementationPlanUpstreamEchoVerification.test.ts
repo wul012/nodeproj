@@ -4,13 +4,25 @@ import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification.js";
+import { loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification as loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationCore } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationCore.js";
+import { renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown as renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdownModule } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationRenderer.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-upstream-echo-verification";
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
 describe("managed audit manual sandbox connection credential resolver implementation plan upstream echo verification", () => {
+  it("keeps the stable entrypoint aligned with the split core and renderer modules", () => {
+    expect(loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification).toBe(
+      loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationCore,
+    );
+    expect(renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown).toBe(
+      renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdownModule,
+    );
+  });
+
   it("verifies Java v121 and mini-kv v126 echoes without opening resolver runtime", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification({
       config: loadTestConfig(),
