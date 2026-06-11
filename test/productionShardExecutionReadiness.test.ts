@@ -6,8 +6,11 @@ import { productionShardExecutionAuditJsonMarkdownRoutes } from "../src/routes/a
 import { loadProductionShardExecutionCandidateArchiveVerification } from "../src/services/productionShardExecutionCandidateArchiveVerification.js";
 import { loadProductionShardExecutionCandidateContract } from "../src/services/productionShardExecutionCandidateContract.js";
 import { loadProductionShardExecutionCloseout } from "../src/services/productionShardExecutionCloseout.js";
+import { loadProductionShardExecutionExternalArtifactConflictTaxonomy } from "../src/services/productionShardExecutionExternalArtifactConflictTaxonomy.js";
 import { loadProductionShardExecutionExternalArtifactDryRunCloseout } from "../src/services/productionShardExecutionExternalArtifactDryRunCloseout.js";
 import { loadProductionShardExecutionExternalArtifactIntakeEnvelope } from "../src/services/productionShardExecutionExternalArtifactIntakeEnvelope.js";
+import { loadProductionShardExecutionExternalArtifactProvenancePreflight } from "../src/services/productionShardExecutionExternalArtifactProvenancePreflight.js";
+import { loadProductionShardExecutionExternalArtifactQuarantineEnvelope } from "../src/services/productionShardExecutionExternalArtifactQuarantineEnvelope.js";
 import { loadProductionShardExecutionExternalEvidenceCloseout } from "../src/services/productionShardExecutionExternalEvidenceCloseout.js";
 import { loadProductionShardExecutionFailureMatrix } from "../src/services/productionShardExecutionFailureMatrix.js";
 import { loadProductionShardExecutionHandoffReadiness } from "../src/services/productionShardExecutionHandoffReadiness.js";
@@ -16,6 +19,8 @@ import { loadProductionShardExecutionManagedAuditStoreOwnerBindingRequest } from
 import { loadProductionShardExecutionOperatorWindowWorksheet } from "../src/services/productionShardExecutionOperatorWindowWorksheet.js";
 import { loadProductionShardExecutionOwnerReceiptDryRunReconciliation } from "../src/services/productionShardExecutionOwnerReceiptDryRunReconciliation.js";
 import { loadProductionShardExecutionOwnerReceiptRequestPacket } from "../src/services/productionShardExecutionOwnerReceiptRequestPacket.js";
+import { loadProductionShardExecutionRealArtifactIntakePreflightCloseout } from "../src/services/productionShardExecutionRealArtifactIntakePreflightCloseout.js";
+import { loadProductionShardExecutionRealArtifactIntakeReadinessSwitch } from "../src/services/productionShardExecutionRealArtifactIntakeReadinessSwitch.js";
 import { loadProductionShardExecutionRouteCatalogForwardCompatibility } from "../src/services/productionShardExecutionRouteCatalogForwardCompatibility.js";
 import { loadProductionShardExecutionSignedApprovalFixtureValidation } from "../src/services/productionShardExecutionSignedApprovalFixtureValidation.js";
 import { loadProductionShardExecutionSignedApprovalIntakeContract } from "../src/services/productionShardExecutionSignedApprovalIntakeContract.js";
@@ -24,9 +29,11 @@ import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJs
 
 const EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE =
   "/api/v1/audit/production-shard-execution-external-artifact-dry-run-closeout";
+const REAL_ARTIFACT_INTAKE_PREFLIGHT_CLOSEOUT_ROUTE =
+  "/api/v1/audit/production-shard-execution-real-artifact-intake-preflight-closeout";
 
 describe("production shard execution readiness batch", () => {
-  it("builds sixteen substantial stages while keeping production execution blocked", () => {
+  it("builds twenty-one substantial stages while keeping production execution blocked", () => {
     const config = loadTestConfig();
     const profiles = [
       loadProductionShardExecutionHandoffReadiness({ config }),
@@ -45,6 +52,11 @@ describe("production shard execution readiness batch", () => {
       loadProductionShardExecutionManagedAuditStoreOwnerBindingRequest({ config }),
       loadProductionShardExecutionOwnerReceiptDryRunReconciliation({ config }),
       loadProductionShardExecutionExternalArtifactDryRunCloseout({ config }),
+      loadProductionShardExecutionRealArtifactIntakeReadinessSwitch({ config }),
+      loadProductionShardExecutionExternalArtifactProvenancePreflight({ config }),
+      loadProductionShardExecutionExternalArtifactConflictTaxonomy({ config }),
+      loadProductionShardExecutionExternalArtifactQuarantineEnvelope({ config }),
+      loadProductionShardExecutionRealArtifactIntakePreflightCloseout({ config }),
     ];
 
     expect(profiles.map((profile) => profile.stage.activeNodeVersion)).toEqual([
@@ -64,6 +76,11 @@ describe("production shard execution readiness batch", () => {
       "Node v2091",
       "Node v2092",
       "Node v2093",
+      "Node v2094",
+      "Node v2095",
+      "Node v2096",
+      "Node v2097",
+      "Node v2098",
     ]);
     expect(profiles.every((profile) => profile.readyForNextStage)).toBe(true);
     expect(profiles.every((profile) => profile.readyForProductionShardExecution === false)).toBe(true);
@@ -130,6 +147,26 @@ describe("production shard execution readiness batch", () => {
       dryRunOnly: true,
       productionAuthority: false,
     });
+    expect(profiles[16]?.stagePayload.realArtifactIntakeReadinessSwitch).toMatchObject({
+      realArtifactIntakeEnabled: false,
+      productionAuthority: false,
+    });
+    expect(profiles[17]?.stagePayload.externalArtifactProvenancePreflight).toMatchObject({
+      preflightMode: "metadata-only-no-payload-persistence",
+      realArtifactPayloadAccepted: false,
+    });
+    expect(profiles[18]?.stagePayload.externalArtifactConflictTaxonomy).toMatchObject({
+      defaultConflictAction: "quarantine-and-block-production",
+      realArtifactPayloadAccepted: false,
+    });
+    expect(
+      (profiles[19]?.stagePayload.externalArtifactQuarantineEnvelope as { quarantineSteps?: unknown[] })
+        .quarantineSteps,
+    ).toHaveLength(5);
+    expect(profiles[20]?.stagePayload.realArtifactIntakePreflightCloseout).toMatchObject({
+      preflightOnly: true,
+      productionAuthority: false,
+    });
   }, 60000);
 
   it("registers JSON and Markdown routes through the audit catalog", async () => {
@@ -138,26 +175,27 @@ describe("production shard execution readiness batch", () => {
       const paths = productionShardExecutionAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
         method: "GET",
-        url: EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE,
+        url: REAL_ARTIFACT_INTAKE_PREFLIGHT_CLOSEOUT_ROUTE,
         headers: completeHeaders(),
       });
       const markdown = await app.inject({
         method: "GET",
-        url: `${EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE}?format=markdown`,
+        url: `${REAL_ARTIFACT_INTAKE_PREFLIGHT_CLOSEOUT_ROUTE}?format=markdown`,
         headers: completeHeaders(),
       });
 
-      expect(paths).toHaveLength(16);
+      expect(paths).toHaveLength(21);
       expect(paths[0]).toBe("/api/v1/audit/production-shard-execution-handoff-readiness");
       expect(paths[5]).toBe("/api/v1/audit/production-shard-execution-closeout");
       expect(paths[10]).toBe("/api/v1/audit/production-shard-execution-external-evidence-closeout");
       expect(paths[15]).toBe(EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE);
+      expect(paths[20]).toBe(REAL_ARTIFACT_INTAKE_PREFLIGHT_CLOSEOUT_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: productionShardExecutionAuditJsonMarkdownRoutes,
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        profileVersion: "production-shard-execution-external-artifact-dry-run-closeout.v1",
+        profileVersion: "production-shard-execution-real-artifact-intake-preflight-closeout.v1",
         readyForNextStage: true,
         readyForProductionShardExecution: false,
         javaMiniKvRecommendedParallel: true,
@@ -171,8 +209,8 @@ describe("production shard execution readiness batch", () => {
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
-      expect(markdown.body).toContain("Production shard execution external artifact dry-run closeout");
-      expect(markdown.body).toContain("DRY_RUN_CLOSEOUT_STILL_BLOCKS_PRODUCTION");
+      expect(markdown.body).toContain("Production shard execution real artifact intake preflight closeout");
+      expect(markdown.body).toContain("REAL_ARTIFACT_PREFLIGHT_STILL_BLOCKS_PRODUCTION");
     } finally {
       await app.close();
     }

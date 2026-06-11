@@ -14,7 +14,12 @@ export type ProductionShardExecutionStageId =
   | "signed-approval-fixture-validation"
   | "managed-audit-store-owner-binding-request"
   | "owner-receipt-dry-run-reconciliation"
-  | "external-artifact-dry-run-closeout";
+  | "external-artifact-dry-run-closeout"
+  | "real-artifact-intake-readiness-switch"
+  | "external-artifact-provenance-preflight"
+  | "external-artifact-conflict-taxonomy"
+  | "external-artifact-quarantine-envelope"
+  | "real-artifact-intake-preflight-closeout";
 
 export type ProductionShardExecutionProfileVersion =
   | "production-shard-execution-handoff-readiness.v1"
@@ -32,7 +37,12 @@ export type ProductionShardExecutionProfileVersion =
   | "production-shard-execution-signed-approval-fixture-validation.v1"
   | "production-shard-execution-managed-audit-store-owner-binding-request.v1"
   | "production-shard-execution-owner-receipt-dry-run-reconciliation.v1"
-  | "production-shard-execution-external-artifact-dry-run-closeout.v1";
+  | "production-shard-execution-external-artifact-dry-run-closeout.v1"
+  | "production-shard-execution-real-artifact-intake-readiness-switch.v1"
+  | "production-shard-execution-external-artifact-provenance-preflight.v1"
+  | "production-shard-execution-external-artifact-conflict-taxonomy.v1"
+  | "production-shard-execution-external-artifact-quarantine-envelope.v1"
+  | "production-shard-execution-real-artifact-intake-preflight-closeout.v1";
 
 export type ProductionShardExecutionNodeVersion =
   | "Node v409"
@@ -51,7 +61,12 @@ export type ProductionShardExecutionNodeVersion =
   | "Node v2090"
   | "Node v2091"
   | "Node v2092"
-  | "Node v2093";
+  | "Node v2093"
+  | "Node v2094"
+  | "Node v2095"
+  | "Node v2096"
+  | "Node v2097"
+  | "Node v2098";
 
 export type ProductionShardExecutionReadinessState =
   | "handoff-readiness-ready"
@@ -70,6 +85,11 @@ export type ProductionShardExecutionReadinessState =
   | "managed-audit-store-owner-binding-request-ready"
   | "owner-receipt-dry-run-reconciliation-ready"
   | "external-artifact-dry-run-closeout-ready"
+  | "real-artifact-intake-readiness-switch-ready"
+  | "external-artifact-provenance-preflight-ready"
+  | "external-artifact-conflict-taxonomy-ready"
+  | "external-artifact-quarantine-envelope-ready"
+  | "real-artifact-intake-preflight-closeout-ready"
   | "blocked";
 
 export type ProductionShardExecutionDecision =
@@ -89,6 +109,11 @@ export type ProductionShardExecutionDecision =
   | "accept-managed-audit-store-owner-binding-request"
   | "accept-owner-receipt-dry-run-reconciliation"
   | "close-external-artifact-dry-run-batch"
+  | "accept-real-artifact-intake-readiness-switch"
+  | "accept-external-artifact-provenance-preflight"
+  | "accept-external-artifact-conflict-taxonomy"
+  | "accept-external-artifact-quarantine-envelope"
+  | "close-real-artifact-intake-preflight-batch"
   | "blocked";
 
 export interface ProductionShardExecutionSourceReference {

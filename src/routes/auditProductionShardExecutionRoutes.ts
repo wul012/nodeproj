@@ -19,9 +19,21 @@ import {
   renderProductionShardExecutionExternalArtifactDryRunCloseoutMarkdown,
 } from "../services/productionShardExecutionExternalArtifactDryRunCloseout.js";
 import {
+  loadProductionShardExecutionExternalArtifactConflictTaxonomy,
+  renderProductionShardExecutionExternalArtifactConflictTaxonomyMarkdown,
+} from "../services/productionShardExecutionExternalArtifactConflictTaxonomy.js";
+import {
   loadProductionShardExecutionExternalArtifactIntakeEnvelope,
   renderProductionShardExecutionExternalArtifactIntakeEnvelopeMarkdown,
 } from "../services/productionShardExecutionExternalArtifactIntakeEnvelope.js";
+import {
+  loadProductionShardExecutionExternalArtifactProvenancePreflight,
+  renderProductionShardExecutionExternalArtifactProvenancePreflightMarkdown,
+} from "../services/productionShardExecutionExternalArtifactProvenancePreflight.js";
+import {
+  loadProductionShardExecutionExternalArtifactQuarantineEnvelope,
+  renderProductionShardExecutionExternalArtifactQuarantineEnvelopeMarkdown,
+} from "../services/productionShardExecutionExternalArtifactQuarantineEnvelope.js";
 import {
   loadProductionShardExecutionFailureMatrix,
   renderProductionShardExecutionFailureMatrixMarkdown,
@@ -54,6 +66,14 @@ import {
   loadProductionShardExecutionRouteCatalogForwardCompatibility,
   renderProductionShardExecutionRouteCatalogForwardCompatibilityMarkdown,
 } from "../services/productionShardExecutionRouteCatalogForwardCompatibility.js";
+import {
+  loadProductionShardExecutionRealArtifactIntakePreflightCloseout,
+  renderProductionShardExecutionRealArtifactIntakePreflightCloseoutMarkdown,
+} from "../services/productionShardExecutionRealArtifactIntakePreflightCloseout.js";
+import {
+  loadProductionShardExecutionRealArtifactIntakeReadinessSwitch,
+  renderProductionShardExecutionRealArtifactIntakeReadinessSwitchMarkdown,
+} from "../services/productionShardExecutionRealArtifactIntakeReadinessSwitch.js";
 import {
   loadProductionShardExecutionSignedApprovalIntakeContract,
   renderProductionShardExecutionSignedApprovalIntakeContractMarkdown,
@@ -147,4 +167,29 @@ export const productionShardExecutionAuditJsonMarkdownRoutes: readonly AuditJson
     loadProductionShardExecutionExternalArtifactDryRunCloseout({
       config: deps.config,
     }), renderProductionShardExecutionExternalArtifactDryRunCloseoutMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-real-artifact-intake-readiness-switch", (deps) =>
+    loadProductionShardExecutionRealArtifactIntakeReadinessSwitch({
+      config: deps.config,
+    }), renderProductionShardExecutionRealArtifactIntakeReadinessSwitchMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-external-artifact-provenance-preflight", (deps) =>
+    loadProductionShardExecutionExternalArtifactProvenancePreflight({
+      config: deps.config,
+    }), renderProductionShardExecutionExternalArtifactProvenancePreflightMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-external-artifact-conflict-taxonomy", (deps) =>
+    loadProductionShardExecutionExternalArtifactConflictTaxonomy({
+      config: deps.config,
+    }), renderProductionShardExecutionExternalArtifactConflictTaxonomyMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-external-artifact-quarantine-envelope", (deps) =>
+    loadProductionShardExecutionExternalArtifactQuarantineEnvelope({
+      config: deps.config,
+    }), renderProductionShardExecutionExternalArtifactQuarantineEnvelopeMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-real-artifact-intake-preflight-closeout", (deps) =>
+    loadProductionShardExecutionRealArtifactIntakePreflightCloseout({
+      config: deps.config,
+    }), renderProductionShardExecutionRealArtifactIntakePreflightCloseoutMarkdown),
 ];
