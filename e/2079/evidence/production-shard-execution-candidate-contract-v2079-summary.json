@@ -1,0 +1,22 @@
+{
+  "version": "Node v2079",
+  "route": "/api/v1/audit/production-shard-execution-candidate-contract",
+  "profileVersion": "production-shard-execution-candidate-contract.v1",
+  "stageId": "candidate-contract",
+  "state": "candidate-contract-ready",
+  "decision": "accept-disabled-shard-execution-candidate-contract",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "readyForProductionOperations": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "productionBlockingControlCount": 3,
+  "warningCount": 1,
+  "recommendationCount": 1,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "50b79fc6aaa4b66b4d1dd97aaf0211c76af47dd1802dbf87fc43257572dec1e5"
+}

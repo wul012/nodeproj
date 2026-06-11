@@ -1,0 +1,22 @@
+{
+  "version": "Node v2080",
+  "route": "/api/v1/audit/production-shard-execution-failure-matrix",
+  "profileVersion": "production-shard-execution-failure-matrix.v1",
+  "stageId": "failure-matrix",
+  "state": "failure-matrix-ready",
+  "decision": "accept-failure-abort-rollback-matrix",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "readyForProductionOperations": false,
+  "checkCount": 19,
+  "passedCheckCount": 19,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "productionBlockingControlCount": 3,
+  "warningCount": 1,
+  "recommendationCount": 1,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "68b8b2c1bf0ff54df5f2834f16a14d06ffea05ddf07156535fe8fe8b48769408"
+}

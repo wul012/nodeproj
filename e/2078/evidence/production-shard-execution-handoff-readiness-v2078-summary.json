@@ -1,0 +1,22 @@
+{
+  "version": "Node v2078",
+  "route": "/api/v1/audit/production-shard-execution-handoff-readiness",
+  "profileVersion": "production-shard-execution-handoff-readiness.v1",
+  "stageId": "handoff-readiness",
+  "state": "handoff-readiness-ready",
+  "decision": "accept-runtime-pass-evidence-handoff",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "readyForProductionOperations": false,
+  "checkCount": 16,
+  "passedCheckCount": 16,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "productionBlockingControlCount": 3,
+  "warningCount": 1,
+  "recommendationCount": 1,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "d387aa6854831f4d855939c365292ac96e75fab81ce784648a43ecb04d8bc9bb"
+}
