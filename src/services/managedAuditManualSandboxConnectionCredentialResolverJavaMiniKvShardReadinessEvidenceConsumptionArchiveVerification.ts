@@ -34,7 +34,7 @@ const NEXT_PLAN = "docs/plans3/v377-post-java-mini-kv-shard-readiness-evidence-c
 const ARCHIVE_ROOT = "e/376" as const;
 const V376_BASENAME = "java-mini-kv-shard-readiness-evidence-consumption-v376";
 const CODE_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/381-java-mini-kv-shard-readiness-evidence-consumption-v376.md";
+  "代码讲解记录_生产雏形阶段3/r0000/381-java-mini-kv-shard-readiness-evidence-consumption-v376.md";
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
 interface ParsedArchiveEvidence {

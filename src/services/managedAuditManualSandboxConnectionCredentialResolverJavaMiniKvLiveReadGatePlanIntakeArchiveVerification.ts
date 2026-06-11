@@ -35,7 +35,7 @@ const NEXT_PLAN =
 const ARCHIVE_ROOT = "e/384" as const;
 const V384_BASENAME = "java-mini-kv-live-read-gate-plan-intake-v384";
 const CODE_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/389-java-mini-kv-live-read-gate-plan-intake-v384.md";
+  "代码讲解记录_生产雏形阶段3/r0000/389-java-mini-kv-live-read-gate-plan-intake-v384.md";
 
 interface ParsedArchive {
   json: Record<string, unknown> | null;

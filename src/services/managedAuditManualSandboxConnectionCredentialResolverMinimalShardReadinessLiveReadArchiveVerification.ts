@@ -33,7 +33,7 @@ const NEXT_PLAN = "docs/plans3/v372-post-minimal-shard-readiness-live-read-archi
 const ARCHIVE_ROOT = "e/371" as const;
 const V371_BASENAME = "minimal-shard-readiness-live-read-gate-v371";
 const CODE_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/376-minimal-shard-readiness-live-read-gate-v371.md";
+  "代码讲解记录_生产雏形阶段3/r0000/376-minimal-shard-readiness-live-read-gate-v371.md";
 
 interface ParsedArchiveEvidence {
   json: Record<string, unknown> | null;

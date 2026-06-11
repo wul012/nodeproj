@@ -36,7 +36,7 @@ const NEXT_PLAN =
 const ARCHIVE_ROOT = "e/386" as const;
 const V386_BASENAME = "java-mini-kv-operator-service-lifecycle-evidence-intake-v386";
 const CODE_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/391-java-mini-kv-operator-service-lifecycle-evidence-intake-v386.md";
+  "代码讲解记录_生产雏形阶段3/r0000/391-java-mini-kv-operator-service-lifecycle-evidence-intake-v386.md";
 
 interface ParsedArchive {
   json: Record<string, unknown> | null;

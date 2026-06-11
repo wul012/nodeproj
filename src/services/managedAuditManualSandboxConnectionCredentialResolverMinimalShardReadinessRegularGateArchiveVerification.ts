@@ -30,7 +30,7 @@ const NEXT_PLAN = "docs/plans3/v375-post-minimal-shard-readiness-regular-gate-ar
 const ARCHIVE_ROOT = "e/374" as const;
 const V374_BASENAME = "minimal-shard-readiness-regular-gate-v374";
 const CODE_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/379-minimal-shard-readiness-regular-gate-v374.md";
+  "代码讲解记录_生产雏形阶段3/r0000/379-minimal-shard-readiness-regular-gate-v374.md";
 
 interface ParsedArchiveEvidence {
   json: Record<string, unknown> | null;

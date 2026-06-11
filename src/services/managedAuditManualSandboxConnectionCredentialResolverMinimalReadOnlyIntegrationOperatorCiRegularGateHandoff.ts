@@ -39,7 +39,7 @@ const READ_ONLY_CONTRACT_PATH = "fixtures/upstream-contracts/read-only-integrati
 const SHARD_READINESS_CONTRACT_PATH = "fixtures/upstream-contracts/shard-readiness.v1.json";
 const V368_BASENAME = "minimal-read-only-gate-execution-archive-verification-v368";
 const V368_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/373-minimal-read-only-gate-execution-archive-verification-v368.md";
+  "代码讲解记录_生产雏形阶段3/r0000/373-minimal-read-only-gate-execution-archive-verification-v368.md";
 
 export function loadManagedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoff(
   input: { config: AppConfig; archiveRoot?: string },

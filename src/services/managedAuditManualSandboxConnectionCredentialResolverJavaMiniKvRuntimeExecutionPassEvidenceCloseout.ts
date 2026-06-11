@@ -52,7 +52,7 @@ const V408_SCREENSHOT =
 const V408_EXPLANATION =
   "e/408/解释/java-mini-kv-runtime-execution-pass-evidence-archive-verification-v408.md";
 const V408_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/413-java-mini-kv-runtime-execution-pass-evidence-archive-verification-v408.md";
+  "代码讲解记录_生产雏形阶段3/r0000/413-java-mini-kv-runtime-execution-pass-evidence-archive-verification-v408.md";
 
 export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseout(
   input: { config: AppConfig },

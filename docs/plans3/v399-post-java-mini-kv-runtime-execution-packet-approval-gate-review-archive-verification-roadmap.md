@@ -33,7 +33,7 @@ Node v399 verifies:
 - `e/398/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.html`
 - `e/398/图片/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.png`
 - `e/398/解释/java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md`
-- `代码讲解记录_生产雏形阶段3/403-java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md`
+- `代码讲解记录_生产雏形阶段3/r0000/403-java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md`
 
 ## Runtime Boundary
 

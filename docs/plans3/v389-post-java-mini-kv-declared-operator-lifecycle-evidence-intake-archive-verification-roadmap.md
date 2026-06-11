@@ -11,7 +11,7 @@ Node v389 verifies the Node v388 archive:
 - `e/388/java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.html`
 - `e/388/图片/java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.png`
 - `e/388/解释/java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.md`
-- `代码讲解记录_生产雏形阶段3/393-java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.md`
+- `代码讲解记录_生产雏形阶段3/r0000/393-java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.md`
 
 v389 is archive verification only. It proves the v388 JSON, Markdown, summary, screenshot, explanation, plan, and code walkthrough are present, then replays v388 from frozen historical fixtures. The replay preserves the runtime boundary: Java v161 and mini-kv v152 both declare operator-owned lifecycle evidence, but the runtime live-read gate is still closed and requires a separate approval record plus concrete loopback ports.
 

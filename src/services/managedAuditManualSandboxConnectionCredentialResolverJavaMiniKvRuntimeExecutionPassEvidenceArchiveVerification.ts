@@ -45,7 +45,7 @@ const SCREENSHOT =
 const EXPLANATION =
   "e/407/解释/java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-v407.md";
 const WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/412-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-v407.md";
+  "代码讲解记录_生产雏形阶段3/r0000/412-java-mini-kv-runtime-execution-approved-local-loopback-read-only-smoke-v407.md";
 
 export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceArchiveVerification(
   input: { config: AppConfig; archiveRoot?: string },

@@ -36,7 +36,7 @@ const NEXT_PLAN =
 const ARCHIVE_ROOT = "e/382" as const;
 const V382_BASENAME = "java-mini-kv-active-shard-plan-boundary-handoff-intake-v382";
 const CODE_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段3/387-java-mini-kv-active-shard-plan-boundary-handoff-intake-v382.md";
+  "代码讲解记录_生产雏形阶段3/r0000/387-java-mini-kv-active-shard-plan-boundary-handoff-intake-v382.md";
 
 interface ParsedArchive {
   json: Record<string, unknown> | null;
