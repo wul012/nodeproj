@@ -1,0 +1,25 @@
+{
+  "version": "Node v2087",
+  "route": "/api/v1/audit/production-shard-execution-owner-receipt-request-packet",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-owner-receipt-request-packet.v1",
+  "stageId": "owner-receipt-request-packet",
+  "activeNodeVersion": "Node v2087",
+  "sourceNodeVersion": "Node v2086",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "screenshotDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2087/evidence",
+    "explanation": "e/2087/解释",
+    "screenshot": "not created because this version has no browser-rendered page evidence"
+  }
+}

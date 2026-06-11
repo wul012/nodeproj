@@ -1,0 +1,25 @@
+{
+  "version": "Node v2088",
+  "route": "/api/v1/audit/production-shard-execution-external-evidence-closeout",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-external-evidence-closeout.v1",
+  "stageId": "external-evidence-closeout",
+  "activeNodeVersion": "Node v2088",
+  "sourceNodeVersion": "Node v2087",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 21,
+  "passedCheckCount": 21,
+  "sourceCount": 4,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "screenshotDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2088/evidence",
+    "explanation": "e/2088/解释",
+    "screenshot": "not created because this version has no browser-rendered page evidence"
+  }
+}
