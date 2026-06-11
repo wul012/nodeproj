@@ -1,0 +1,22 @@
+{
+  "version": "Node v2082",
+  "route": "/api/v1/audit/production-shard-execution-candidate-archive-verification",
+  "profileVersion": "production-shard-execution-candidate-archive-verification.v1",
+  "stageId": "candidate-archive-verification",
+  "state": "candidate-archive-verification-ready",
+  "decision": "verify-candidate-archive",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "readyForProductionOperations": false,
+  "checkCount": 20,
+  "passedCheckCount": 20,
+  "sourceCount": 4,
+  "productionBlockerCount": 3,
+  "productionBlockingControlCount": 3,
+  "warningCount": 1,
+  "recommendationCount": 1,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "ca58c5a4d61301b9da8f787dbe0482cd6d279ea80c28565f26f65bc4c42b8ce1"
+}

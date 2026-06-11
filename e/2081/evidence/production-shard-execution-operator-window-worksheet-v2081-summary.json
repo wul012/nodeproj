@@ -1,0 +1,22 @@
+{
+  "version": "Node v2081",
+  "route": "/api/v1/audit/production-shard-execution-operator-window-worksheet",
+  "profileVersion": "production-shard-execution-operator-window-worksheet.v1",
+  "stageId": "operator-window-worksheet",
+  "state": "operator-window-worksheet-ready",
+  "decision": "accept-operator-window-worksheet",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "readyForProductionOperations": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "productionBlockingControlCount": 3,
+  "warningCount": 1,
+  "recommendationCount": 1,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "46f38803a076a97a5a1e095e773ce3a48b72710eb7d66b99c23063388ed55267"
+}

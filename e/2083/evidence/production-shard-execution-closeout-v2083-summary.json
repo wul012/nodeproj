@@ -1,0 +1,22 @@
+{
+  "version": "Node v2083",
+  "route": "/api/v1/audit/production-shard-execution-closeout",
+  "profileVersion": "production-shard-execution-closeout.v1",
+  "stageId": "closeout",
+  "state": "closeout-ready",
+  "decision": "close-production-shard-execution-readiness-batch",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "readyForProductionOperations": false,
+  "checkCount": 22,
+  "passedCheckCount": 22,
+  "sourceCount": 5,
+  "productionBlockerCount": 3,
+  "productionBlockingControlCount": 3,
+  "warningCount": 1,
+  "recommendationCount": 1,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "a2908e365c4cc8933e477268a6877269288418622fb91b9f75dea526361d6a5a"
+}
