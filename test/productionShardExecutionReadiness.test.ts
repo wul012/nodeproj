@@ -6,22 +6,27 @@ import { productionShardExecutionAuditJsonMarkdownRoutes } from "../src/routes/a
 import { loadProductionShardExecutionCandidateArchiveVerification } from "../src/services/productionShardExecutionCandidateArchiveVerification.js";
 import { loadProductionShardExecutionCandidateContract } from "../src/services/productionShardExecutionCandidateContract.js";
 import { loadProductionShardExecutionCloseout } from "../src/services/productionShardExecutionCloseout.js";
+import { loadProductionShardExecutionExternalArtifactDryRunCloseout } from "../src/services/productionShardExecutionExternalArtifactDryRunCloseout.js";
+import { loadProductionShardExecutionExternalArtifactIntakeEnvelope } from "../src/services/productionShardExecutionExternalArtifactIntakeEnvelope.js";
 import { loadProductionShardExecutionExternalEvidenceCloseout } from "../src/services/productionShardExecutionExternalEvidenceCloseout.js";
 import { loadProductionShardExecutionFailureMatrix } from "../src/services/productionShardExecutionFailureMatrix.js";
 import { loadProductionShardExecutionHandoffReadiness } from "../src/services/productionShardExecutionHandoffReadiness.js";
 import { loadProductionShardExecutionManagedAuditStoreBindingPreflight } from "../src/services/productionShardExecutionManagedAuditStoreBindingPreflight.js";
+import { loadProductionShardExecutionManagedAuditStoreOwnerBindingRequest } from "../src/services/productionShardExecutionManagedAuditStoreOwnerBindingRequest.js";
 import { loadProductionShardExecutionOperatorWindowWorksheet } from "../src/services/productionShardExecutionOperatorWindowWorksheet.js";
+import { loadProductionShardExecutionOwnerReceiptDryRunReconciliation } from "../src/services/productionShardExecutionOwnerReceiptDryRunReconciliation.js";
 import { loadProductionShardExecutionOwnerReceiptRequestPacket } from "../src/services/productionShardExecutionOwnerReceiptRequestPacket.js";
 import { loadProductionShardExecutionRouteCatalogForwardCompatibility } from "../src/services/productionShardExecutionRouteCatalogForwardCompatibility.js";
+import { loadProductionShardExecutionSignedApprovalFixtureValidation } from "../src/services/productionShardExecutionSignedApprovalFixtureValidation.js";
 import { loadProductionShardExecutionSignedApprovalIntakeContract } from "../src/services/productionShardExecutionSignedApprovalIntakeContract.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
-const EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE =
-  "/api/v1/audit/production-shard-execution-external-evidence-closeout";
+const EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE =
+  "/api/v1/audit/production-shard-execution-external-artifact-dry-run-closeout";
 
 describe("production shard execution readiness batch", () => {
-  it("builds eleven substantial stages while keeping production execution blocked", () => {
+  it("builds sixteen substantial stages while keeping production execution blocked", () => {
     const config = loadTestConfig();
     const profiles = [
       loadProductionShardExecutionHandoffReadiness({ config }),
@@ -35,6 +40,11 @@ describe("production shard execution readiness batch", () => {
       loadProductionShardExecutionManagedAuditStoreBindingPreflight({ config }),
       loadProductionShardExecutionOwnerReceiptRequestPacket({ config }),
       loadProductionShardExecutionExternalEvidenceCloseout({ config }),
+      loadProductionShardExecutionExternalArtifactIntakeEnvelope({ config }),
+      loadProductionShardExecutionSignedApprovalFixtureValidation({ config }),
+      loadProductionShardExecutionManagedAuditStoreOwnerBindingRequest({ config }),
+      loadProductionShardExecutionOwnerReceiptDryRunReconciliation({ config }),
+      loadProductionShardExecutionExternalArtifactDryRunCloseout({ config }),
     ];
 
     expect(profiles.map((profile) => profile.stage.activeNodeVersion)).toEqual([
@@ -49,6 +59,11 @@ describe("production shard execution readiness batch", () => {
       "Node v2086",
       "Node v2087",
       "Node v2088",
+      "Node v2089",
+      "Node v2090",
+      "Node v2091",
+      "Node v2092",
+      "Node v2093",
     ]);
     expect(profiles.every((profile) => profile.readyForNextStage)).toBe(true);
     expect(profiles.every((profile) => profile.readyForProductionShardExecution === false)).toBe(true);
@@ -93,6 +108,28 @@ describe("production shard execution readiness batch", () => {
       productionAuthority: false,
       nodeSidePreconditionsReady: true,
     });
+    expect(profiles[11]?.stagePayload.externalArtifactIntakeEnvelope).toMatchObject({
+      intakeMode: "dry-run-envelope-only",
+      syntheticFixturesAreAuthoritative: false,
+    });
+    expect(profiles[11]?.stagePayload.archiveLayout).toMatchObject({
+      explanation: "f/<version>/解释",
+    });
+    expect(profiles[12]?.stagePayload.signedApprovalFixtureValidation).toMatchObject({
+      validationMode: "schema-shape-only",
+      realApprovalPresent: false,
+    });
+    expect(profiles[13]?.stagePayload.managedAuditStoreOwnerBindingRequest).toMatchObject({
+      requestMode: "owner-binding-request-only",
+      productionStoreConnected: false,
+    });
+    expect(
+      (profiles[14]?.stagePayload.ownerReceiptDryRunReconciliation as { rows?: unknown[] }).rows,
+    ).toHaveLength(3);
+    expect(profiles[15]?.stagePayload.externalArtifactDryRunCloseout).toMatchObject({
+      dryRunOnly: true,
+      productionAuthority: false,
+    });
   }, 60000);
 
   it("registers JSON and Markdown routes through the audit catalog", async () => {
@@ -101,25 +138,26 @@ describe("production shard execution readiness batch", () => {
       const paths = productionShardExecutionAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
         method: "GET",
-        url: EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE,
+        url: EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE,
         headers: completeHeaders(),
       });
       const markdown = await app.inject({
         method: "GET",
-        url: `${EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE}?format=markdown`,
+        url: `${EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE}?format=markdown`,
         headers: completeHeaders(),
       });
 
-      expect(paths).toHaveLength(11);
+      expect(paths).toHaveLength(16);
       expect(paths[0]).toBe("/api/v1/audit/production-shard-execution-handoff-readiness");
       expect(paths[5]).toBe("/api/v1/audit/production-shard-execution-closeout");
-      expect(paths[10]).toBe(EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE);
+      expect(paths[10]).toBe("/api/v1/audit/production-shard-execution-external-evidence-closeout");
+      expect(paths[15]).toBe(EXTERNAL_ARTIFACT_DRY_RUN_CLOSEOUT_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: productionShardExecutionAuditJsonMarkdownRoutes,
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        profileVersion: "production-shard-execution-external-evidence-closeout.v1",
+        profileVersion: "production-shard-execution-external-artifact-dry-run-closeout.v1",
         readyForNextStage: true,
         readyForProductionShardExecution: false,
         javaMiniKvRecommendedParallel: true,
@@ -133,8 +171,8 @@ describe("production shard execution readiness batch", () => {
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
-      expect(markdown.body).toContain("Production shard execution external evidence closeout");
-      expect(markdown.body).toContain("EXTERNAL_EVIDENCE_CLOSEOUT_STILL_BLOCKS_PRODUCTION");
+      expect(markdown.body).toContain("Production shard execution external artifact dry-run closeout");
+      expect(markdown.body).toContain("DRY_RUN_CLOSEOUT_STILL_BLOCKS_PRODUCTION");
     } finally {
       await app.close();
     }

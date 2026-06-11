@@ -9,7 +9,12 @@ export type ProductionShardExecutionStageId =
   | "signed-approval-intake-contract"
   | "managed-audit-store-binding-preflight"
   | "owner-receipt-request-packet"
-  | "external-evidence-closeout";
+  | "external-evidence-closeout"
+  | "external-artifact-intake-envelope"
+  | "signed-approval-fixture-validation"
+  | "managed-audit-store-owner-binding-request"
+  | "owner-receipt-dry-run-reconciliation"
+  | "external-artifact-dry-run-closeout";
 
 export type ProductionShardExecutionProfileVersion =
   | "production-shard-execution-handoff-readiness.v1"
@@ -22,7 +27,12 @@ export type ProductionShardExecutionProfileVersion =
   | "production-shard-execution-signed-approval-intake-contract.v1"
   | "production-shard-execution-managed-audit-store-binding-preflight.v1"
   | "production-shard-execution-owner-receipt-request-packet.v1"
-  | "production-shard-execution-external-evidence-closeout.v1";
+  | "production-shard-execution-external-evidence-closeout.v1"
+  | "production-shard-execution-external-artifact-intake-envelope.v1"
+  | "production-shard-execution-signed-approval-fixture-validation.v1"
+  | "production-shard-execution-managed-audit-store-owner-binding-request.v1"
+  | "production-shard-execution-owner-receipt-dry-run-reconciliation.v1"
+  | "production-shard-execution-external-artifact-dry-run-closeout.v1";
 
 export type ProductionShardExecutionNodeVersion =
   | "Node v409"
@@ -36,7 +46,12 @@ export type ProductionShardExecutionNodeVersion =
   | "Node v2085"
   | "Node v2086"
   | "Node v2087"
-  | "Node v2088";
+  | "Node v2088"
+  | "Node v2089"
+  | "Node v2090"
+  | "Node v2091"
+  | "Node v2092"
+  | "Node v2093";
 
 export type ProductionShardExecutionReadinessState =
   | "handoff-readiness-ready"
@@ -50,6 +65,11 @@ export type ProductionShardExecutionReadinessState =
   | "managed-audit-store-binding-preflight-ready"
   | "owner-receipt-request-packet-ready"
   | "external-evidence-closeout-ready"
+  | "external-artifact-intake-envelope-ready"
+  | "signed-approval-fixture-validation-ready"
+  | "managed-audit-store-owner-binding-request-ready"
+  | "owner-receipt-dry-run-reconciliation-ready"
+  | "external-artifact-dry-run-closeout-ready"
   | "blocked";
 
 export type ProductionShardExecutionDecision =
@@ -64,6 +84,11 @@ export type ProductionShardExecutionDecision =
   | "accept-managed-audit-store-binding-preflight"
   | "accept-owner-receipt-request-packet"
   | "close-external-evidence-precondition-batch"
+  | "accept-external-artifact-intake-envelope"
+  | "accept-signed-approval-fixture-validation"
+  | "accept-managed-audit-store-owner-binding-request"
+  | "accept-owner-receipt-dry-run-reconciliation"
+  | "close-external-artifact-dry-run-batch"
   | "blocked";
 
 export interface ProductionShardExecutionSourceReference {

@@ -42,6 +42,11 @@ const PRODUCTION_SHARD_EXECUTION_NODE_VERSIONS = [
   "Node v2086",
   "Node v2087",
   "Node v2088",
+  "Node v2089",
+  "Node v2090",
+  "Node v2091",
+  "Node v2092",
+  "Node v2093",
 ] as const satisfies readonly ProductionShardExecutionNodeVersion[];
 
 export function createProductionShardExecutionProfile(input: {

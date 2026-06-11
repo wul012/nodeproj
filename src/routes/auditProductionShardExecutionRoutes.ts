@@ -15,6 +15,14 @@ import {
   renderProductionShardExecutionExternalEvidenceCloseoutMarkdown,
 } from "../services/productionShardExecutionExternalEvidenceCloseout.js";
 import {
+  loadProductionShardExecutionExternalArtifactDryRunCloseout,
+  renderProductionShardExecutionExternalArtifactDryRunCloseoutMarkdown,
+} from "../services/productionShardExecutionExternalArtifactDryRunCloseout.js";
+import {
+  loadProductionShardExecutionExternalArtifactIntakeEnvelope,
+  renderProductionShardExecutionExternalArtifactIntakeEnvelopeMarkdown,
+} from "../services/productionShardExecutionExternalArtifactIntakeEnvelope.js";
+import {
   loadProductionShardExecutionFailureMatrix,
   renderProductionShardExecutionFailureMatrixMarkdown,
 } from "../services/productionShardExecutionFailureMatrix.js";
@@ -27,6 +35,10 @@ import {
   renderProductionShardExecutionManagedAuditStoreBindingPreflightMarkdown,
 } from "../services/productionShardExecutionManagedAuditStoreBindingPreflight.js";
 import {
+  loadProductionShardExecutionManagedAuditStoreOwnerBindingRequest,
+  renderProductionShardExecutionManagedAuditStoreOwnerBindingRequestMarkdown,
+} from "../services/productionShardExecutionManagedAuditStoreOwnerBindingRequest.js";
+import {
   loadProductionShardExecutionOperatorWindowWorksheet,
   renderProductionShardExecutionOperatorWindowWorksheetMarkdown,
 } from "../services/productionShardExecutionOperatorWindowWorksheet.js";
@@ -35,6 +47,10 @@ import {
   renderProductionShardExecutionOwnerReceiptRequestPacketMarkdown,
 } from "../services/productionShardExecutionOwnerReceiptRequestPacket.js";
 import {
+  loadProductionShardExecutionOwnerReceiptDryRunReconciliation,
+  renderProductionShardExecutionOwnerReceiptDryRunReconciliationMarkdown,
+} from "../services/productionShardExecutionOwnerReceiptDryRunReconciliation.js";
+import {
   loadProductionShardExecutionRouteCatalogForwardCompatibility,
   renderProductionShardExecutionRouteCatalogForwardCompatibilityMarkdown,
 } from "../services/productionShardExecutionRouteCatalogForwardCompatibility.js";
@@ -42,6 +58,10 @@ import {
   loadProductionShardExecutionSignedApprovalIntakeContract,
   renderProductionShardExecutionSignedApprovalIntakeContractMarkdown,
 } from "../services/productionShardExecutionSignedApprovalIntakeContract.js";
+import {
+  loadProductionShardExecutionSignedApprovalFixtureValidation,
+  renderProductionShardExecutionSignedApprovalFixtureValidationMarkdown,
+} from "../services/productionShardExecutionSignedApprovalFixtureValidation.js";
 import {
   auditJsonMarkdownRoute,
   type AuditJsonMarkdownRouteRegistration,
@@ -102,4 +122,29 @@ export const productionShardExecutionAuditJsonMarkdownRoutes: readonly AuditJson
     loadProductionShardExecutionExternalEvidenceCloseout({
       config: deps.config,
     }), renderProductionShardExecutionExternalEvidenceCloseoutMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-external-artifact-intake-envelope", (deps) =>
+    loadProductionShardExecutionExternalArtifactIntakeEnvelope({
+      config: deps.config,
+    }), renderProductionShardExecutionExternalArtifactIntakeEnvelopeMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-signed-approval-fixture-validation", (deps) =>
+    loadProductionShardExecutionSignedApprovalFixtureValidation({
+      config: deps.config,
+    }), renderProductionShardExecutionSignedApprovalFixtureValidationMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-managed-audit-store-owner-binding-request", (deps) =>
+    loadProductionShardExecutionManagedAuditStoreOwnerBindingRequest({
+      config: deps.config,
+    }), renderProductionShardExecutionManagedAuditStoreOwnerBindingRequestMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-owner-receipt-dry-run-reconciliation", (deps) =>
+    loadProductionShardExecutionOwnerReceiptDryRunReconciliation({
+      config: deps.config,
+    }), renderProductionShardExecutionOwnerReceiptDryRunReconciliationMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-external-artifact-dry-run-closeout", (deps) =>
+    loadProductionShardExecutionExternalArtifactDryRunCloseout({
+      config: deps.config,
+    }), renderProductionShardExecutionExternalArtifactDryRunCloseoutMarkdown),
 ];
