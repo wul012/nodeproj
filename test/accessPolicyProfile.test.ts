@@ -63,6 +63,8 @@ describe("access policy profile", () => {
       "archive-mutations",
       "upstream-proxy-actions",
     ]);
+    expect(profile.routePolicies.find((policy) => policy.id === "audit-read")?.pathPatterns)
+      .toContain("/api/v1/audit/code-*");
     expect(profile.productionBlockers.map((blocker) => blocker.code)).toEqual([
       "ACCESS_GUARD_NOT_ENFORCED",
     ]);

@@ -599,6 +599,26 @@
 959: Controlled read-only shard preview operator evidence value supply envelope mini-kv adapter disabled
 960: Controlled read-only shard preview operator evidence value supply envelope mini-kv no write test
 961: Controlled read-only shard preview operator evidence value supply envelope batch closeout
+2058: code walkthrough quality type contract
+2059: code walkthrough bucket scanner
+2060: code walkthrough standard section evaluator
+2061: code walkthrough placeholder and unsafe claim detector
+2062: code walkthrough quality profile builder
+2063: code walkthrough quality Markdown renderer
+2064: code walkthrough quality audit route registration
+2065: code walkthrough quality audit access policy coverage
+2066: code walkthrough quality route catalog count alignment
+2067: code walkthrough quality rule unit coverage
+2068: code walkthrough quality real repository scan coverage
+2069: code walkthrough quality route output coverage
+2070: managed-audit route quality group coverage
+2071: audit access policy regression coverage
+2072: audit route catalog regression coverage
+2073: code walkthrough enforcement floor archive note
+2074: code walkthrough foundation batch walkthrough
+2075: code walkthrough closeout batch walkthrough
+2076: code walkthrough quality validation package
+2077: code walkthrough quality gate closeout
 ```
 
 历史 v274 及以前的截图/解释保留在 `c/`；v275-v367 保留在 `d/`。

@@ -1,0 +1,23 @@
+{
+  "profileVersion": "code-walkthrough-documentation-quality-gate.v1",
+  "qualityGateState": "verified-quality-gate",
+  "ready": true,
+  "summary": {
+    "totalWalkthroughCount": 1659,
+    "enforcedWalkthroughCount": 4,
+    "enforcedCompliantWalkthroughCount": 4,
+    "legacyWalkthroughCount": 1655,
+    "rootMarkdownOverflowCount": 0,
+    "missingBucketCount": 0,
+    "misbucketedWalkthroughCount": 0,
+    "enforcedPlaceholderCount": 0,
+    "enforcedMissingRequiredShapeCount": 0,
+    "forbiddenExecutionClaimCount": 0,
+    "checkCount": 15,
+    "passedCheckCount": 15,
+    "productionBlockerCount": 0,
+    "warningCount": 1,
+    "recommendationCount": 1
+  },
+  "qualityDigest": "ada2233778980f0921bc28e9b926509ba862387f65f90540e50bbd57420a9584"
+}

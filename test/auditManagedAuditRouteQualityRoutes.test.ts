@@ -13,6 +13,11 @@ describe("managed audit route quality audit route group", () => {
     const app = await buildApp(loadTestConfig());
     try {
       const paths = managedAuditRouteQualityAuditJsonMarkdownRoutes.map((route) => route.path);
+      const documentationQualityJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/audit/code-walkthrough-documentation-quality-gate",
+        headers: completeHeaders(),
+      });
       const helperJson = await app.inject({
         method: "GET",
         url: "/api/v1/audit/managed-audit-route-helper-quality-pass",
@@ -25,11 +30,19 @@ describe("managed audit route quality audit route group", () => {
       });
 
       expect(paths).toEqual([
+        "/api/v1/audit/code-walkthrough-documentation-quality-gate",
         "/api/v1/audit/managed-audit-route-helper-quality-pass",
         "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditRouteQualityAuditJsonMarkdownRoutes,
+      });
+      expect(documentationQualityJson.statusCode).toBe(200);
+      expect(documentationQualityJson.json()).toMatchObject({
+        profileVersion: "code-walkthrough-documentation-quality-gate.v1",
+        qualityGateState: "verified-quality-gate",
+        executionAllowed: false,
+        connectsManagedAudit: false,
       });
       expect(helperJson.statusCode).toBe(200);
       expect(helperJson.json()).toMatchObject({
