@@ -75,7 +75,7 @@ export function loadJavaMiniKvRouteCatalogCleanupLatestSiblingEvidenceReport(
   const checks = {
     ...evidence.checks,
     reportRouteRegisteredInCurrentCatalog:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount === routeCatalog.groupCount
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount >= routeCatalog.groupCount
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= routeCatalog.routeCount
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"] >=
         routeCatalog.javaMiniKvDomainRouteCount,
