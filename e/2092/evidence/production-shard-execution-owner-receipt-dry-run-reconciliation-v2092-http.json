@@ -1,0 +1,209 @@
+{
+  "service": "orderops-node",
+  "title": "Production shard execution owner receipt dry-run reconciliation",
+  "generatedAt": "2026-06-11T14:39:55.815Z",
+  "profileVersion": "production-shard-execution-owner-receipt-dry-run-reconciliation.v1",
+  "stage": {
+    "stageId": "owner-receipt-dry-run-reconciliation",
+    "activeNodeVersion": "Node v2092",
+    "sourceNodeVersion": "Node v2091",
+    "state": "owner-receipt-dry-run-reconciliation-ready",
+    "decision": "accept-owner-receipt-dry-run-reconciliation",
+    "readinessDigest": "1bdc9d13918a005b2d218b7e72571ed6d6475ccccde418998a536af408370098",
+    "readyForNextStage": true
+  },
+  "sourceVersions": [
+    "Node v2091"
+  ],
+  "javaSourceVersion": "Java v167",
+  "miniKvSourceVersion": "mini-kv v158",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "candidateOnly": true,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "safety": {
+    "readOnly": true,
+    "executionAllowed": false,
+    "readyForProductionWindow": false,
+    "readyForProductionOperations": false,
+    "startsJavaService": false,
+    "startsMiniKvService": false,
+    "stopsJavaService": false,
+    "stopsMiniKvService": false,
+    "mutatesJavaState": false,
+    "mutatesMiniKvState": false,
+    "connectsManagedAudit": false,
+    "credentialValueRead": false,
+    "rawEndpointUrlParsed": false,
+    "activeShardPrototypeEnabled": false
+  },
+  "sources": [
+    {
+      "id": "node-v2091-managed-audit-store-owner-binding-request",
+      "version": "Node v2091",
+      "evidenceRole": "Store owner binding request",
+      "routeOrArtifact": "/api/v1/audit/production-shard-execution-managed-audit-store-owner-binding-request",
+      "ready": true,
+      "digest": "b64083aa4a3f11afbc7b21b6f9e99de1994ba666e5e926f833776a82edc06d84",
+      "checkCount": 18,
+      "passedCheckCount": 18,
+      "productionBlockerCount": 0
+    }
+  ],
+  "controls": [
+    {
+      "id": "owner-receipt-slots-reconciled",
+      "title": "Owner receipt slots are dry-run reconciled",
+      "owner": "cross-project",
+      "blocksNextStage": true,
+      "blocksProductionExecution": false,
+      "evidence": "java:java-abort-rollback-cleanup-owner-receipt,mini-kv:mini-kv-abort-rollback-cleanup-owner-receipt,cross-project:cross-project-cleanup-reconciliation-receipt",
+      "nextAction": "Use this reconciliation to close the dry-run batch while waiting for signed receipts.",
+      "status": "satisfied"
+    },
+    {
+      "id": "owner-receipts-remain-unsigned",
+      "title": "Owner receipts remain unsigned",
+      "owner": "node",
+      "blocksNextStage": true,
+      "blocksProductionExecution": false,
+      "evidence": "signed=false for every dry-run reconciliation row",
+      "nextAction": "Require real Java, mini-kv, and cross-project signatures before production execution.",
+      "status": "satisfied"
+    },
+    {
+      "id": "signed-production-execution-approval",
+      "title": "Signed production execution approval",
+      "owner": "operator",
+      "evidence": "No signed production execution approval artifact is present in this candidate batch.",
+      "nextAction": "Capture a signed approval artifact before any production execution window can open.",
+      "status": "pending",
+      "blocksNextStage": false,
+      "blocksProductionExecution": true
+    },
+    {
+      "id": "managed-audit-production-store",
+      "title": "Managed audit production store binding",
+      "owner": "node",
+      "evidence": "The candidate remains archive-backed and does not connect to managed audit production storage.",
+      "nextAction": "Bind immutable production execution records to a managed audit store before real execution.",
+      "status": "pending",
+      "blocksNextStage": false,
+      "blocksProductionExecution": true
+    },
+    {
+      "id": "rollback-owner-confirmation",
+      "title": "Rollback and abort owner confirmation",
+      "owner": "cross-project",
+      "evidence": "Abort and rollback semantics are documented as a candidate matrix, not signed by all service owners.",
+      "nextAction": "Have Node, Java, and mini-kv owners sign the abort and rollback responsibilities.",
+      "status": "pending",
+      "blocksNextStage": false,
+      "blocksProductionExecution": true
+    }
+  ],
+  "stagePayload": {
+    "ownerReceiptDryRunReconciliation": {
+      "reconciliationMode": "dry-run-unsigned",
+      "rows": [
+        {
+          "owner": "java",
+          "slot": "java-abort-rollback-cleanup-owner-receipt",
+          "signed": false
+        },
+        {
+          "owner": "mini-kv",
+          "slot": "mini-kv-abort-rollback-cleanup-owner-receipt",
+          "signed": false
+        },
+        {
+          "owner": "cross-project",
+          "slot": "cross-project-cleanup-reconciliation-receipt",
+          "signed": false
+        }
+      ],
+      "signedOwnerReceiptPresent": false
+    },
+    "growthStopCondition": "Do not add another receipt reconciliation unless a real owner signs or rejects one row."
+  },
+  "checks": {
+    "sourceV2091Ready": true,
+    "sourceV2091DigestValid": true,
+    "threeReceiptRowsPresent": true,
+    "javaReceiptRowPresent": true,
+    "miniKvReceiptRowPresent": true,
+    "crossProjectReceiptRowPresent": true,
+    "everyReceiptRowUnsigned": true,
+    "noReceiptClaimedAuthoritative": true,
+    "javaMiniKvParallelGuidancePreserved": true,
+    "nodeStillDoesNotBlockSiblingProgress": true,
+    "readOnlyBoundaryPreserved": true,
+    "executionStillDenied": true,
+    "productionOperationsStillDenied": true,
+    "noJavaLifecycleOwnedByNode": true,
+    "noMiniKvLifecycleOwnedByNode": true,
+    "noUpstreamMutation": true,
+    "noManagedAuditCredentialOrRawEndpoint": true,
+    "activeShardPrototypeStillDisabled": true
+  },
+  "summary": {
+    "checkCount": 18,
+    "passedCheckCount": 18,
+    "sourceCount": 1,
+    "readySourceCount": 1,
+    "controlCount": 5,
+    "nextStageBlockingControlCount": 0,
+    "productionBlockingControlCount": 3,
+    "productionBlockerCount": 3,
+    "warningCount": 1,
+    "recommendationCount": 1
+  },
+  "productionBlockers": [
+    {
+      "code": "PRODUCTION_BLOCKED_SIGNED_PRODUCTION_EXECUTION_APPROVAL",
+      "severity": "blocker",
+      "source": "operator",
+      "message": "Signed production execution approval is still pending. Capture a signed approval artifact before any production execution window can open."
+    },
+    {
+      "code": "PRODUCTION_BLOCKED_MANAGED_AUDIT_PRODUCTION_STORE",
+      "severity": "blocker",
+      "source": "node",
+      "message": "Managed audit production store binding is still pending. Bind immutable production execution records to a managed audit store before real execution."
+    },
+    {
+      "code": "PRODUCTION_BLOCKED_ROLLBACK_OWNER_CONFIRMATION",
+      "severity": "blocker",
+      "source": "cross-project",
+      "message": "Rollback and abort owner confirmation is still pending. Have Node, Java, and mini-kv owners sign the abort and rollback responsibilities."
+    }
+  ],
+  "warnings": [
+    {
+      "code": "OWNER_RECEIPT_RECONCILIATION_IS_UNSIGNED",
+      "severity": "warning",
+      "source": "node-v2092",
+      "message": "v2092 reconciles receipt slots but every row remains unsigned and non-authoritative."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "CLOSE_DRY_RUN_ARTIFACT_BATCH_NEXT",
+      "severity": "recommendation",
+      "source": "node-v2092",
+      "message": "Close the dry-run artifact intake batch and wait for real external signatures."
+    }
+  ],
+  "evidenceEndpoints": {
+    "json": "/api/v1/audit/production-shard-execution-owner-receipt-dry-run-reconciliation",
+    "markdown": "/api/v1/audit/production-shard-execution-owner-receipt-dry-run-reconciliation?format=markdown",
+    "activePlan": "docs/plans3/v2092-production-shard-execution-owner-receipt-dry-run-reconciliation-roadmap.md",
+    "nextPlan": "docs/plans3/v2093-production-shard-execution-external-artifact-dry-run-closeout-roadmap.md"
+  },
+  "nextActions": [
+    "Use v2092 to close the receipt-slot dry run without claiming signatures.",
+    "Close v2089-v2093 as a dry-run artifact intake batch.",
+    "Keep Java and mini-kv parallel so they can produce real owner receipts against these rows."
+  ]
+}

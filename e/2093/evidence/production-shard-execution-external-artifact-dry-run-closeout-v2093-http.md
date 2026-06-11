@@ -1,0 +1,193 @@
+# Production shard execution external artifact dry-run closeout
+
+- Service: orderops-node
+- Generated at: 2026-06-11T14:39:57.478Z
+- Profile version: production-shard-execution-external-artifact-dry-run-closeout.v1
+- Stage: external-artifact-dry-run-closeout
+- Active Node version: Node v2093
+- Source Node version: Node v2092
+- State: external-artifact-dry-run-closeout-ready
+- Decision: close-external-artifact-dry-run-batch
+- Ready for next stage: true
+- Ready for production shard execution: false
+- Execution allowed: false
+- Java / mini-kv recommended parallel: true
+
+## Stage
+
+- stageId: external-artifact-dry-run-closeout
+- activeNodeVersion: Node v2093
+- sourceNodeVersion: Node v2092
+- state: external-artifact-dry-run-closeout-ready
+- decision: close-external-artifact-dry-run-batch
+- readinessDigest: b395f09dd18c1650855777e11e7ba54f9567dc8780633930759db3d1c723669d
+- readyForNextStage: true
+
+## Safety Boundary
+
+- readOnly: true
+- executionAllowed: false
+- readyForProductionWindow: false
+- readyForProductionOperations: false
+- startsJavaService: false
+- startsMiniKvService: false
+- stopsJavaService: false
+- stopsMiniKvService: false
+- mutatesJavaState: false
+- mutatesMiniKvState: false
+- connectsManagedAudit: false
+- credentialValueRead: false
+- rawEndpointUrlParsed: false
+- activeShardPrototypeEnabled: false
+
+## Sources
+
+- id: node-v2089-external-artifact-intake-envelope
+- version: Node v2089
+- evidenceRole: External artifact intake envelope
+- routeOrArtifact: /api/v1/audit/production-shard-execution-external-artifact-intake-envelope
+- ready: true
+- digest: e5326f3dbc71a6b0c9187e4f95a84703bf025b633dd6cc02cac851193668e45f
+- checkCount: 18
+- passedCheckCount: 18
+- productionBlockerCount: 0
+- id: node-v2090-signed-approval-fixture-validation
+- version: Node v2090
+- evidenceRole: Signed approval fixture validation
+- routeOrArtifact: /api/v1/audit/production-shard-execution-signed-approval-fixture-validation
+- ready: true
+- digest: 0b7e8a9ccf9ebde1239df458367bc987fa3f2e60d78cf95db90aa4c987044812
+- checkCount: 20
+- passedCheckCount: 20
+- productionBlockerCount: 0
+- id: node-v2091-managed-audit-store-owner-binding-request
+- version: Node v2091
+- evidenceRole: Store owner binding request
+- routeOrArtifact: /api/v1/audit/production-shard-execution-managed-audit-store-owner-binding-request
+- ready: true
+- digest: b64083aa4a3f11afbc7b21b6f9e99de1994ba666e5e926f833776a82edc06d84
+- checkCount: 18
+- passedCheckCount: 18
+- productionBlockerCount: 0
+- id: node-v2092-owner-receipt-dry-run-reconciliation
+- version: Node v2092
+- evidenceRole: Owner receipt dry-run reconciliation
+- routeOrArtifact: /api/v1/audit/production-shard-execution-owner-receipt-dry-run-reconciliation
+- ready: true
+- digest: 1bdc9d13918a005b2d218b7e72571ed6d6475ccccde418998a536af408370098
+- checkCount: 18
+- passedCheckCount: 18
+- productionBlockerCount: 0
+
+## Controls
+
+- id: dry-run-artifact-intake-batch-closed
+- title: Dry-run artifact intake batch is closed
+- owner: node
+- blocksNextStage: true
+- blocksProductionExecution: false
+- evidence: Node v2089:e5326f3dbc71a6b0c9187e4f95a84703bf025b633dd6cc02cac851193668e45f|Node v2090:0b7e8a9ccf9ebde1239df458367bc987fa3f2e60d78cf95db90aa4c987044812|Node v2091:b64083aa4a3f11afbc7b21b6f9e99de1994ba666e5e926f833776a82edc06d84|Node v2092:1bdc9d13918a005b2d218b7e72571ed6d6475ccccde418998a536af408370098
+- nextAction: Wait for real external artifacts before adding another Node-only intake layer.
+- status: satisfied
+- id: f-folder-layout-applied
+- title: f-folder explanation and image layout is applied
+- owner: node
+- blocksNextStage: false
+- blocksProductionExecution: false
+- evidence: f/<version>/解释 for explanations; f/<version>/图片 only when image evidence exists
+- nextAction: Keep future explanations and images outside e/<version>/evidence.
+- status: satisfied
+- id: signed-production-execution-approval
+- title: Signed production execution approval
+- owner: operator
+- evidence: No signed production execution approval artifact is present in this candidate batch.
+- nextAction: Capture a signed approval artifact before any production execution window can open.
+- status: pending
+- blocksNextStage: false
+- blocksProductionExecution: true
+- id: managed-audit-production-store
+- title: Managed audit production store binding
+- owner: node
+- evidence: The candidate remains archive-backed and does not connect to managed audit production storage.
+- nextAction: Bind immutable production execution records to a managed audit store before real execution.
+- status: pending
+- blocksNextStage: false
+- blocksProductionExecution: true
+- id: rollback-owner-confirmation
+- title: Rollback and abort owner confirmation
+- owner: cross-project
+- evidence: Abort and rollback semantics are documented as a candidate matrix, not signed by all service owners.
+- nextAction: Have Node, Java, and mini-kv owners sign the abort and rollback responsibilities.
+- status: pending
+- blocksNextStage: false
+- blocksProductionExecution: true
+
+## Stage Payload
+
+- externalArtifactDryRunCloseout: {"closedSpan":"Node v2089 through Node v2093","dryRunOnly":true,"productionAuthority":false,"realArtifactsRequiredNext":["real signed production approval","real managed audit store owner binding","real Java owner receipt","real mini-kv owner receipt","real cleanup reconciliation receipt"]}
+- archiveLayout: {"evidence":"e/<version>/evidence","explanation":"f/<version>/解释","images":"f/<version>/图片 only when image evidence exists"}
+- growthStopCondition: Stop Node-only dry-run growth until at least one required real external artifact is received.
+
+## Checks
+
+- v2089Ready: true
+- v2090Ready: true
+- v2091Ready: true
+- v2092Ready: true
+- fourDryRunSourcesIncluded: true
+- allDryRunSourcesReady: true
+- allSourceDigestsValid: true
+- sourceOrderPreserved: true
+- allSourceChecksPassed: true
+- productionAuthorityStillBlocked: true
+- dryRunArtifactsRemainNonAuthoritative: true
+- fFolderLayoutAppliedForExplanations: true
+- javaMiniKvParallelGuidancePreserved: true
+- readOnlyBoundaryPreserved: true
+- executionStillDenied: true
+- productionOperationsStillDenied: true
+- noJavaLifecycleOwnedByNode: true
+- noMiniKvLifecycleOwnedByNode: true
+- noUpstreamMutation: true
+- noManagedAuditCredentialOrRawEndpoint: true
+- activeShardPrototypeStillDisabled: true
+
+## Summary
+
+- checkCount: 21
+- passedCheckCount: 21
+- sourceCount: 4
+- readySourceCount: 4
+- controlCount: 5
+- nextStageBlockingControlCount: 0
+- productionBlockingControlCount: 3
+- productionBlockerCount: 3
+- warningCount: 1
+- recommendationCount: 1
+
+## Production Blockers
+
+- PRODUCTION_BLOCKED_SIGNED_PRODUCTION_EXECUTION_APPROVAL (blocker, operator): Signed production execution approval is still pending. Capture a signed approval artifact before any production execution window can open.
+- PRODUCTION_BLOCKED_MANAGED_AUDIT_PRODUCTION_STORE (blocker, node): Managed audit production store binding is still pending. Bind immutable production execution records to a managed audit store before real execution.
+- PRODUCTION_BLOCKED_ROLLBACK_OWNER_CONFIRMATION (blocker, cross-project): Rollback and abort owner confirmation is still pending. Have Node, Java, and mini-kv owners sign the abort and rollback responsibilities.
+
+## Warnings
+
+- DRY_RUN_CLOSEOUT_STILL_BLOCKS_PRODUCTION (warning, node-v2093): v2093 closes dry-run artifact intake only; production execution remains blocked.
+
+## Recommendations
+
+- WAIT_FOR_REAL_ARTIFACT_INTAKE (recommendation, node-v2093): The next meaningful version should consume at least one real external artifact.
+
+## Evidence Endpoints
+
+- json: /api/v1/audit/production-shard-execution-external-artifact-dry-run-closeout
+- markdown: /api/v1/audit/production-shard-execution-external-artifact-dry-run-closeout?format=markdown
+- activePlan: docs/plans3/v2093-production-shard-execution-external-artifact-dry-run-closeout-roadmap.md
+- nextPlan: docs/plans3/v2094-production-shard-execution-real-artifact-intake-roadmap.md
+
+## Next Actions
+
+- Hold further Node-only artifact intake work until a real external artifact appears.
+- Keep Java and mini-kv parallel on signed owner receipt production.
+- Preserve f/<version>/解释 and f/<version>/图片 as the explanation/image archive layout.

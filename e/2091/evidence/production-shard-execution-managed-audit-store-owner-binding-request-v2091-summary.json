@@ -1,0 +1,25 @@
+{
+  "version": "Node v2091",
+  "route": "/api/v1/audit/production-shard-execution-managed-audit-store-owner-binding-request",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-managed-audit-store-owner-binding-request.v1",
+  "stageId": "managed-audit-store-owner-binding-request",
+  "activeNodeVersion": "Node v2091",
+  "sourceNodeVersion": "Node v2090",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "imageDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2091/evidence",
+    "explanation": "f/2091/解释",
+    "images": "not created because this version has no screenshot or diagram evidence"
+  }
+}

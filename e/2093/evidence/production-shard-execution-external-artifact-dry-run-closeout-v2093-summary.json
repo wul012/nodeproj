@@ -1,0 +1,25 @@
+{
+  "version": "Node v2093",
+  "route": "/api/v1/audit/production-shard-execution-external-artifact-dry-run-closeout",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-external-artifact-dry-run-closeout.v1",
+  "stageId": "external-artifact-dry-run-closeout",
+  "activeNodeVersion": "Node v2093",
+  "sourceNodeVersion": "Node v2092",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 21,
+  "passedCheckCount": 21,
+  "sourceCount": 4,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "imageDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2093/evidence",
+    "explanation": "f/2093/解释",
+    "images": "not created because this version has no screenshot or diagram evidence"
+  }
+}

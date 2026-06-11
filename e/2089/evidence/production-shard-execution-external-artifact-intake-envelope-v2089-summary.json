@@ -1,0 +1,25 @@
+{
+  "version": "Node v2089",
+  "route": "/api/v1/audit/production-shard-execution-external-artifact-intake-envelope",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-external-artifact-intake-envelope.v1",
+  "stageId": "external-artifact-intake-envelope",
+  "activeNodeVersion": "Node v2089",
+  "sourceNodeVersion": "Node v2088",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "imageDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2089/evidence",
+    "explanation": "f/2089/解释",
+    "images": "not created because this version has no screenshot or diagram evidence"
+  }
+}

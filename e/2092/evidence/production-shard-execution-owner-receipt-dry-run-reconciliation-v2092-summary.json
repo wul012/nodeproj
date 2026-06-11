@@ -1,0 +1,25 @@
+{
+  "version": "Node v2092",
+  "route": "/api/v1/audit/production-shard-execution-owner-receipt-dry-run-reconciliation",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-owner-receipt-dry-run-reconciliation.v1",
+  "stageId": "owner-receipt-dry-run-reconciliation",
+  "activeNodeVersion": "Node v2092",
+  "sourceNodeVersion": "Node v2091",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "imageDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2092/evidence",
+    "explanation": "f/2092/解释",
+    "images": "not created because this version has no screenshot or diagram evidence"
+  }
+}

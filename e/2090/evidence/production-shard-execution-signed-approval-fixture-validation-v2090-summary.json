@@ -1,0 +1,25 @@
+{
+  "version": "Node v2090",
+  "route": "/api/v1/audit/production-shard-execution-signed-approval-fixture-validation",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-signed-approval-fixture-validation.v1",
+  "stageId": "signed-approval-fixture-validation",
+  "activeNodeVersion": "Node v2090",
+  "sourceNodeVersion": "Node v2089",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 20,
+  "passedCheckCount": 20,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "imageDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2090/evidence",
+    "explanation": "f/2090/解释",
+    "images": "not created because this version has no screenshot or diagram evidence"
+  }
+}
