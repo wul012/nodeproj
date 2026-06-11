@@ -284,6 +284,7 @@ export function createAccessRoutePolicies(): AccessRoutePolicy[] {
         "/api/v1/audit/code-*",
         "/api/v1/audit/managed-*",
         "/api/v1/audit/java-mini-kv-*",
+        "/api/v1/audit/production-shard-execution-*",
       ],
       minimumRole: "auditor",
       mutatesLocalState: false,

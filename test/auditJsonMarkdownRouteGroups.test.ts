@@ -15,7 +15,7 @@ describe("audit JSON/Markdown route group catalog", () => {
     const groupIds = auditJsonMarkdownRouteGroups.map((group) => group.id);
     const paths = auditJsonMarkdownRoutes.map((route) => route.path);
 
-    expect(auditJsonMarkdownRouteGroups).toHaveLength(50);
+    expect(auditJsonMarkdownRouteGroups).toHaveLength(51);
     expect(new Set(groupIds).size).toBe(groupIds.length);
     expect(paths).toHaveLength(EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount);
     expect(new Set(paths).size).toBe(paths.length);
@@ -32,6 +32,7 @@ describe("audit JSON/Markdown route group catalog", () => {
     expect(catalogSource).not.toContain("auditJsonMarkdownRouteGroupSourceAnchors");
     expect(catalogSource).toContain("id: \"foundational\"");
     expect(catalogSource).toContain("id: \"java-mini-kv-route-catalog-cleanup-handoff\"");
+    expect(catalogSource).toContain("id: \"production-shard-execution\"");
     expect(catalogSource).toContain("id: \"sandbox-handle-review\"");
   });
 });
