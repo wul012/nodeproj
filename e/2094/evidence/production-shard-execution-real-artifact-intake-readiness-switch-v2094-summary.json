@@ -1,0 +1,15 @@
+{
+  "version": "Node v2094",
+  "route": "/api/v1/audit/production-shard-execution-real-artifact-intake-readiness-switch",
+  "profileVersion": "production-shard-execution-real-artifact-intake-readiness-switch.v1",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "checkCount": 19,
+  "passedCheckCount": 19,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "cbd63233392124cabd56cc57446d580271ed595c408caa45a49aa69fddf7b02a",
+  "generatedFrom": "app.inject after npm run build"
+}

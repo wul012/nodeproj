@@ -1,0 +1,15 @@
+{
+  "version": "Node v2097",
+  "route": "/api/v1/audit/production-shard-execution-external-artifact-quarantine-envelope",
+  "profileVersion": "production-shard-execution-external-artifact-quarantine-envelope.v1",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "8c540773b4d0f16e3c7fd690558e63a425cb7e4b98b807a07130f624d723970d",
+  "generatedFrom": "app.inject after npm run build"
+}

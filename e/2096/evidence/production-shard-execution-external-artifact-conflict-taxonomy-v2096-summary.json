@@ -1,0 +1,15 @@
+{
+  "version": "Node v2096",
+  "route": "/api/v1/audit/production-shard-execution-external-artifact-conflict-taxonomy",
+  "profileVersion": "production-shard-execution-external-artifact-conflict-taxonomy.v1",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "9f24569f9bba568b4910cdfc59383280fd30463f5e1c8276d2302d98d62b0471",
+  "generatedFrom": "app.inject after npm run build"
+}

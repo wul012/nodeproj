@@ -1,0 +1,15 @@
+{
+  "version": "Node v2095",
+  "route": "/api/v1/audit/production-shard-execution-external-artifact-provenance-preflight",
+  "profileVersion": "production-shard-execution-external-artifact-provenance-preflight.v1",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "checkCount": 19,
+  "passedCheckCount": 19,
+  "sourceCount": 1,
+  "productionBlockerCount": 3,
+  "javaMiniKvRecommendedParallel": true,
+  "nodeIsUpstreamPreApprovalBlocker": false,
+  "readinessDigest": "6e9f8bb77bd44bb6a9aa0fbb546c170b5212c4e7e2826bc9d9d6b182fced5cc7",
+  "generatedFrom": "app.inject after npm run build"
+}
