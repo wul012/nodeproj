@@ -1,0 +1,25 @@
+{
+  "version": "Node v2084",
+  "route": "/api/v1/audit/production-shard-execution-route-catalog-forward-compatibility",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-route-catalog-forward-compatibility.v1",
+  "stageId": "route-catalog-forward-compatibility",
+  "activeNodeVersion": "Node v2084",
+  "sourceNodeVersion": "Node v2083",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 18,
+  "passedCheckCount": 18,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "screenshotDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2084/evidence",
+    "explanation": "e/2084/解释",
+    "screenshot": "not created because this version has no browser-rendered page evidence"
+  }
+}

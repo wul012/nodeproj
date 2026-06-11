@@ -1,0 +1,25 @@
+{
+  "version": "Node v2085",
+  "route": "/api/v1/audit/production-shard-execution-signed-approval-intake-contract",
+  "jsonStatusCode": 200,
+  "markdownStatusCode": 200,
+  "profileVersion": "production-shard-execution-signed-approval-intake-contract.v1",
+  "stageId": "signed-approval-intake-contract",
+  "activeNodeVersion": "Node v2085",
+  "sourceNodeVersion": "Node v2084",
+  "readyForNextStage": true,
+  "readyForProductionShardExecution": false,
+  "executionAllowed": false,
+  "checkCount": 19,
+  "passedCheckCount": 19,
+  "sourceCount": 1,
+  "controlCount": 5,
+  "productionBlockerCount": 3,
+  "screenshotGenerated": false,
+  "screenshotDirectoryCreated": false,
+  "archiveLayout": {
+    "evidence": "e/2085/evidence",
+    "explanation": "e/2085/解释",
+    "screenshot": "not created because this version has no browser-rendered page evidence"
+  }
+}
