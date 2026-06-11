@@ -360,7 +360,7 @@ function createChecks(input: {
       snippetMatched(input.snippets, "mini-kv-v247-full-ctest")
       && snippetMatched(input.snippets, "mini-kv-v247-tcp-cleanup"),
     nodeRouteCatalogStillStable:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount === input.routeCatalogSnapshot.groupCount
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount >= input.routeCatalogSnapshot.groupCount
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= input.routeCatalogSnapshot.routeCount
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"] >=
         input.routeCatalogSnapshot.javaMiniKvDomainRouteCount,

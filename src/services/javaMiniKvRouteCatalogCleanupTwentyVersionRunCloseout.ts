@@ -226,7 +226,7 @@ function createChecks(input: {
     completedVersionCountReady: true,
     remainingVersionCountReady: true,
     currentRouteCatalogReady:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount === 50
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount >= 50
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= 217,
     currentJavaMiniKvRouteCountReady:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"] >= 53,

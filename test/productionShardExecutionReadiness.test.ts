@@ -6,16 +6,22 @@ import { productionShardExecutionAuditJsonMarkdownRoutes } from "../src/routes/a
 import { loadProductionShardExecutionCandidateArchiveVerification } from "../src/services/productionShardExecutionCandidateArchiveVerification.js";
 import { loadProductionShardExecutionCandidateContract } from "../src/services/productionShardExecutionCandidateContract.js";
 import { loadProductionShardExecutionCloseout } from "../src/services/productionShardExecutionCloseout.js";
+import { loadProductionShardExecutionExternalEvidenceCloseout } from "../src/services/productionShardExecutionExternalEvidenceCloseout.js";
 import { loadProductionShardExecutionFailureMatrix } from "../src/services/productionShardExecutionFailureMatrix.js";
 import { loadProductionShardExecutionHandoffReadiness } from "../src/services/productionShardExecutionHandoffReadiness.js";
+import { loadProductionShardExecutionManagedAuditStoreBindingPreflight } from "../src/services/productionShardExecutionManagedAuditStoreBindingPreflight.js";
 import { loadProductionShardExecutionOperatorWindowWorksheet } from "../src/services/productionShardExecutionOperatorWindowWorksheet.js";
+import { loadProductionShardExecutionOwnerReceiptRequestPacket } from "../src/services/productionShardExecutionOwnerReceiptRequestPacket.js";
+import { loadProductionShardExecutionRouteCatalogForwardCompatibility } from "../src/services/productionShardExecutionRouteCatalogForwardCompatibility.js";
+import { loadProductionShardExecutionSignedApprovalIntakeContract } from "../src/services/productionShardExecutionSignedApprovalIntakeContract.js";
 
 import { expectAuditRouteGroupRegisteredThroughCatalog } from "./support/auditJsonMarkdownRouteCatalogTestSupport.js";
 
-const CLOSEOUT_ROUTE = "/api/v1/audit/production-shard-execution-closeout";
+const EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE =
+  "/api/v1/audit/production-shard-execution-external-evidence-closeout";
 
 describe("production shard execution readiness batch", () => {
-  it("builds six substantial stages while keeping production execution blocked", () => {
+  it("builds eleven substantial stages while keeping production execution blocked", () => {
     const config = loadTestConfig();
     const profiles = [
       loadProductionShardExecutionHandoffReadiness({ config }),
@@ -24,6 +30,11 @@ describe("production shard execution readiness batch", () => {
       loadProductionShardExecutionOperatorWindowWorksheet({ config }),
       loadProductionShardExecutionCandidateArchiveVerification({ config }),
       loadProductionShardExecutionCloseout({ config }),
+      loadProductionShardExecutionRouteCatalogForwardCompatibility({ config }),
+      loadProductionShardExecutionSignedApprovalIntakeContract({ config }),
+      loadProductionShardExecutionManagedAuditStoreBindingPreflight({ config }),
+      loadProductionShardExecutionOwnerReceiptRequestPacket({ config }),
+      loadProductionShardExecutionExternalEvidenceCloseout({ config }),
     ];
 
     expect(profiles.map((profile) => profile.stage.activeNodeVersion)).toEqual([
@@ -33,6 +44,11 @@ describe("production shard execution readiness batch", () => {
       "Node v2081",
       "Node v2082",
       "Node v2083",
+      "Node v2084",
+      "Node v2085",
+      "Node v2086",
+      "Node v2087",
+      "Node v2088",
     ]);
     expect(profiles.every((profile) => profile.readyForNextStage)).toBe(true);
     expect(profiles.every((profile) => profile.readyForProductionShardExecution === false)).toBe(true);
@@ -60,6 +76,23 @@ describe("production shard execution readiness batch", () => {
     expect(profiles[5]?.stagePayload.closeout).toMatchObject({
       productionAuthority: false,
     });
+    expect(profiles[6]?.stagePayload.routeCatalogCompatibility).toMatchObject({
+      comparisonMode: "lower-bound-forward-compatible",
+    });
+    expect(profiles[7]?.stagePayload.signedApprovalIntakeContract).toMatchObject({
+      artifactMode: "schema-only-no-real-approval-present",
+      acceptedExecutionAuthority: false,
+    });
+    expect(
+      (profiles[8]?.stagePayload.managedAuditStorePreflight as { preflights?: unknown[] }).preflights,
+    ).toHaveLength(5);
+    expect(
+      (profiles[9]?.stagePayload.ownerReceiptRequestPacket as { receiptRequests?: unknown[] }).receiptRequests,
+    ).toHaveLength(3);
+    expect(profiles[10]?.stagePayload.externalEvidenceCloseout).toMatchObject({
+      productionAuthority: false,
+      nodeSidePreconditionsReady: true,
+    });
   }, 60000);
 
   it("registers JSON and Markdown routes through the audit catalog", async () => {
@@ -68,24 +101,25 @@ describe("production shard execution readiness batch", () => {
       const paths = productionShardExecutionAuditJsonMarkdownRoutes.map((route) => route.path);
       const json = await app.inject({
         method: "GET",
-        url: CLOSEOUT_ROUTE,
+        url: EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE,
         headers: completeHeaders(),
       });
       const markdown = await app.inject({
         method: "GET",
-        url: `${CLOSEOUT_ROUTE}?format=markdown`,
+        url: `${EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE}?format=markdown`,
         headers: completeHeaders(),
       });
 
-      expect(paths).toHaveLength(6);
+      expect(paths).toHaveLength(11);
       expect(paths[0]).toBe("/api/v1/audit/production-shard-execution-handoff-readiness");
-      expect(paths[5]).toBe(CLOSEOUT_ROUTE);
+      expect(paths[5]).toBe("/api/v1/audit/production-shard-execution-closeout");
+      expect(paths[10]).toBe(EXTERNAL_EVIDENCE_CLOSEOUT_ROUTE);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: productionShardExecutionAuditJsonMarkdownRoutes,
       });
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        profileVersion: "production-shard-execution-closeout.v1",
+        profileVersion: "production-shard-execution-external-evidence-closeout.v1",
         readyForNextStage: true,
         readyForProductionShardExecution: false,
         javaMiniKvRecommendedParallel: true,
@@ -99,8 +133,8 @@ describe("production shard execution readiness batch", () => {
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
-      expect(markdown.body).toContain("Production shard execution readiness closeout");
-      expect(markdown.body).toContain("CLOSEOUT_STILL_BLOCKS_PRODUCTION_EXECUTION");
+      expect(markdown.body).toContain("Production shard execution external evidence closeout");
+      expect(markdown.body).toContain("EXTERNAL_EVIDENCE_CLOSEOUT_STILL_BLOCKS_PRODUCTION");
     } finally {
       await app.close();
     }

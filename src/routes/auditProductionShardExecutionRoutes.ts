@@ -11,6 +11,10 @@ import {
   renderProductionShardExecutionCloseoutMarkdown,
 } from "../services/productionShardExecutionCloseout.js";
 import {
+  loadProductionShardExecutionExternalEvidenceCloseout,
+  renderProductionShardExecutionExternalEvidenceCloseoutMarkdown,
+} from "../services/productionShardExecutionExternalEvidenceCloseout.js";
+import {
   loadProductionShardExecutionFailureMatrix,
   renderProductionShardExecutionFailureMatrixMarkdown,
 } from "../services/productionShardExecutionFailureMatrix.js";
@@ -19,9 +23,25 @@ import {
   renderProductionShardExecutionHandoffReadinessMarkdown,
 } from "../services/productionShardExecutionHandoffReadiness.js";
 import {
+  loadProductionShardExecutionManagedAuditStoreBindingPreflight,
+  renderProductionShardExecutionManagedAuditStoreBindingPreflightMarkdown,
+} from "../services/productionShardExecutionManagedAuditStoreBindingPreflight.js";
+import {
   loadProductionShardExecutionOperatorWindowWorksheet,
   renderProductionShardExecutionOperatorWindowWorksheetMarkdown,
 } from "../services/productionShardExecutionOperatorWindowWorksheet.js";
+import {
+  loadProductionShardExecutionOwnerReceiptRequestPacket,
+  renderProductionShardExecutionOwnerReceiptRequestPacketMarkdown,
+} from "../services/productionShardExecutionOwnerReceiptRequestPacket.js";
+import {
+  loadProductionShardExecutionRouteCatalogForwardCompatibility,
+  renderProductionShardExecutionRouteCatalogForwardCompatibilityMarkdown,
+} from "../services/productionShardExecutionRouteCatalogForwardCompatibility.js";
+import {
+  loadProductionShardExecutionSignedApprovalIntakeContract,
+  renderProductionShardExecutionSignedApprovalIntakeContractMarkdown,
+} from "../services/productionShardExecutionSignedApprovalIntakeContract.js";
 import {
   auditJsonMarkdownRoute,
   type AuditJsonMarkdownRouteRegistration,
@@ -57,4 +77,29 @@ export const productionShardExecutionAuditJsonMarkdownRoutes: readonly AuditJson
     loadProductionShardExecutionCloseout({
       config: deps.config,
     }), renderProductionShardExecutionCloseoutMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-route-catalog-forward-compatibility", (deps) =>
+    loadProductionShardExecutionRouteCatalogForwardCompatibility({
+      config: deps.config,
+    }), renderProductionShardExecutionRouteCatalogForwardCompatibilityMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-signed-approval-intake-contract", (deps) =>
+    loadProductionShardExecutionSignedApprovalIntakeContract({
+      config: deps.config,
+    }), renderProductionShardExecutionSignedApprovalIntakeContractMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-managed-audit-store-binding-preflight", (deps) =>
+    loadProductionShardExecutionManagedAuditStoreBindingPreflight({
+      config: deps.config,
+    }), renderProductionShardExecutionManagedAuditStoreBindingPreflightMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-owner-receipt-request-packet", (deps) =>
+    loadProductionShardExecutionOwnerReceiptRequestPacket({
+      config: deps.config,
+    }), renderProductionShardExecutionOwnerReceiptRequestPacketMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/production-shard-execution-external-evidence-closeout", (deps) =>
+    loadProductionShardExecutionExternalEvidenceCloseout({
+      config: deps.config,
+    }), renderProductionShardExecutionExternalEvidenceCloseoutMarkdown),
 ];

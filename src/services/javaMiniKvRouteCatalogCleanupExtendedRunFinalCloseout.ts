@@ -239,11 +239,11 @@ function createChecks(input: {
     routeQualityReady:
       input.routeQuality.ready
       && input.routeQuality.routeRegistrationCount >= 223
-      && input.routeQuality.routeGroupCount === 50
+      && input.routeQuality.routeGroupCount >= 50
       && input.routeQuality.catalogIntegrityReady
       && input.routeQuality.routeTableMatchesCatalog,
     currentRouteCatalogReady:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount === 50
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount >= 50
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= 223,
     currentJavaMiniKvRouteCountReady:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"] >= 59,

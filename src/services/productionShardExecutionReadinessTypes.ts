@@ -4,7 +4,12 @@ export type ProductionShardExecutionStageId =
   | "failure-matrix"
   | "operator-window-worksheet"
   | "candidate-archive-verification"
-  | "closeout";
+  | "closeout"
+  | "route-catalog-forward-compatibility"
+  | "signed-approval-intake-contract"
+  | "managed-audit-store-binding-preflight"
+  | "owner-receipt-request-packet"
+  | "external-evidence-closeout";
 
 export type ProductionShardExecutionProfileVersion =
   | "production-shard-execution-handoff-readiness.v1"
@@ -12,7 +17,12 @@ export type ProductionShardExecutionProfileVersion =
   | "production-shard-execution-failure-matrix.v1"
   | "production-shard-execution-operator-window-worksheet.v1"
   | "production-shard-execution-candidate-archive-verification.v1"
-  | "production-shard-execution-closeout.v1";
+  | "production-shard-execution-closeout.v1"
+  | "production-shard-execution-route-catalog-forward-compatibility.v1"
+  | "production-shard-execution-signed-approval-intake-contract.v1"
+  | "production-shard-execution-managed-audit-store-binding-preflight.v1"
+  | "production-shard-execution-owner-receipt-request-packet.v1"
+  | "production-shard-execution-external-evidence-closeout.v1";
 
 export type ProductionShardExecutionNodeVersion =
   | "Node v409"
@@ -21,7 +31,12 @@ export type ProductionShardExecutionNodeVersion =
   | "Node v2080"
   | "Node v2081"
   | "Node v2082"
-  | "Node v2083";
+  | "Node v2083"
+  | "Node v2084"
+  | "Node v2085"
+  | "Node v2086"
+  | "Node v2087"
+  | "Node v2088";
 
 export type ProductionShardExecutionReadinessState =
   | "handoff-readiness-ready"
@@ -30,6 +45,11 @@ export type ProductionShardExecutionReadinessState =
   | "operator-window-worksheet-ready"
   | "candidate-archive-verification-ready"
   | "closeout-ready"
+  | "route-catalog-forward-compatibility-ready"
+  | "signed-approval-intake-contract-ready"
+  | "managed-audit-store-binding-preflight-ready"
+  | "owner-receipt-request-packet-ready"
+  | "external-evidence-closeout-ready"
   | "blocked";
 
 export type ProductionShardExecutionDecision =
@@ -39,6 +59,11 @@ export type ProductionShardExecutionDecision =
   | "accept-operator-window-worksheet"
   | "verify-candidate-archive"
   | "close-production-shard-execution-readiness-batch"
+  | "accept-route-catalog-forward-compatibility"
+  | "accept-signed-approval-intake-contract"
+  | "accept-managed-audit-store-binding-preflight"
+  | "accept-owner-receipt-request-packet"
+  | "close-external-evidence-precondition-batch"
   | "blocked";
 
 export interface ProductionShardExecutionSourceReference {

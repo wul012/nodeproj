@@ -29,6 +29,21 @@ const CLOSED_SAFETY_BOUNDARY: ProductionShardExecutionSafetyBoundary = {
   activeShardPrototypeEnabled: false,
 };
 
+const PRODUCTION_SHARD_EXECUTION_NODE_VERSIONS = [
+  "Node v409",
+  "Node v2078",
+  "Node v2079",
+  "Node v2080",
+  "Node v2081",
+  "Node v2082",
+  "Node v2083",
+  "Node v2084",
+  "Node v2085",
+  "Node v2086",
+  "Node v2087",
+  "Node v2088",
+] as const satisfies readonly ProductionShardExecutionNodeVersion[];
+
 export function createProductionShardExecutionProfile(input: {
   title: string;
   profileVersion: ProductionShardExecutionProfileVersion;
@@ -239,5 +254,5 @@ function uniqueNodeVersions(
 }
 
 function isNodeVersion(value: string): value is ProductionShardExecutionNodeVersion {
-  return /^Node v(409|2078|2079|2080|2081|2082|2083)$/.test(value);
+  return (PRODUCTION_SHARD_EXECUTION_NODE_VERSIONS as readonly string[]).includes(value);
 }

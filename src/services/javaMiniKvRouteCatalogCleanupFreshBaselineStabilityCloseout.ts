@@ -184,7 +184,7 @@ function createChecks(input: {
 }): JavaMiniKvRouteCatalogCleanupFreshBaselineStabilityCloseout["checks"] {
   return {
     currentCatalogCountsReady:
-      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount === 50
+      EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount >= 50
       && EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount >= 215,
     currentJavaMiniKvRouteCountReady:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"] >= 51,

@@ -43,7 +43,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling live smoke archive c
         archivedRouteCatalogCleanupHandoffRouteCount: 29,
       },
       currentRouteCatalog: {
-        groupCount: 50,
+        groupCount: 51,
       },
       summary: {
         completedNodeVersionCount: 9,
