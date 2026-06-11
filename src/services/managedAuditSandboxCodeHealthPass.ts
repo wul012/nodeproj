@@ -141,6 +141,15 @@ type CodeHealthPassChecks = {
 
 const V247_SERVICE =
   "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.ts";
+const V247_SERVICE_MODULES = Object.freeze([
+  V247_SERVICE,
+  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationConstants.ts",
+  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationCore.ts",
+  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationPolicy.ts",
+  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts",
+  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationRenderer.ts",
+  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationTypes.ts",
+]);
 const V247_TEST =
   "test/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.test.ts";
 const ROUTE_TABLE = "src/routes/auditJsonMarkdownRoutes.ts";
@@ -170,12 +179,6 @@ const LARGE_FILE_TARGETS = Object.freeze([
     currentState: "oversized-renderer" as const,
     targetMaxLineCount: 900,
     followUpAction: "Split archive renderers by gate/report/verification concern.",
-  },
-  {
-    path: V247_SERVICE,
-    currentState: "near-limit-service" as const,
-    targetMaxLineCount: 850,
-    followUpAction: "Keep future precheck/rehearsal guard logic out of the v247 verification service.",
   },
 ]);
 
@@ -344,7 +347,7 @@ function createSourceNodeV247(
 }
 
 function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["regressionCoverage"] {
-  const serviceSource = readText(V247_SERVICE);
+  const serviceSource = readV247ServiceModuleFamilyText();
   const testSource = readText(V247_TEST);
   const precheckRouteGroupSource = readText(PRECHECK_ROUTE_GROUP);
   const registeredThroughPrecheckRouteGroup =
@@ -385,6 +388,10 @@ function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["r
       serviceSource.includes("automaticUpstreamStart: false")
       && serviceSource.includes("miniKvAutoStartAllowed"),
   };
+}
+
+function readV247ServiceModuleFamilyText(): string {
+  return V247_SERVICE_MODULES.map((modulePath) => readText(modulePath)).join("\n");
 }
 
 function createLargeFileInventory(): LargeFileInventoryItem[] {

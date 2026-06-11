@@ -68,7 +68,7 @@ describe("managed audit sandbox code health pass", () => {
         readyForManagedAuditSandboxCodeHealthPass: true,
       },
       summary: {
-        largeFileCount: 4,
+        largeFileCount: 3,
         splitChecklistItemCount: 3,
         productionBlockerCount: 0,
         warningCount: 2,
@@ -81,7 +81,6 @@ describe("managed audit sandbox code health pass", () => {
       "src/routes/statusRoutes.ts",
       "src/ui/dashboard.ts",
       "src/services/opsPromotionArchiveRenderers.ts",
-      "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.ts",
     ]);
     expect(profile.largeFileInventory[0]?.lineCount).toBeLessThanOrEqual(
       profile.largeFileInventory[0]?.targetMaxLineCount ?? 1200,
