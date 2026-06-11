@@ -37,7 +37,7 @@ const ARCHIVE_ROOT = "e/392" as const;
 const V392_BASENAME =
   "java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-v392";
 const CODE_WALKTHROUGH =
-  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/397-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-v392.md";
+  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/397-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-v392.md";
 const STOP_REASON_CODES = [
   "OPERATOR_APPROVAL_RECORD_MISSING",
   "CONCRETE_LOOPBACK_PORTS_MISSING",

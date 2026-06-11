@@ -38,7 +38,7 @@ const ARCHIVE_ROOT = "e/393" as const;
 const V393_BASENAME =
   "java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification-v393";
 const CODE_WALKTHROUGH =
-  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/398-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification-v393.md";
+  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/398-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification-v393.md";
 const JAVA_WORKSPACE = "D:/javaproj/advanced-order-platform";
 const MINI_KV_WORKSPACE = "D:/C/mini-kv";
 const JAVA_V161_DECLARED_LIFECYCLE =

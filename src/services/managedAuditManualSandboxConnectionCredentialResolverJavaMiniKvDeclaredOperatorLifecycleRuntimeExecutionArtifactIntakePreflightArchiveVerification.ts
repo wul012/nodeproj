@@ -37,7 +37,7 @@ const ARCHIVE_ROOT = "e/394" as const;
 const V394_BASENAME =
   "java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394";
 const CODE_WALKTHROUGH =
-  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/399-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md";
+  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/399-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md";
 const REQUIRED_RUNTIME_GATE_ARTIFACT_COUNT = 4;
 const REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT = 6;
 const MISSING_REASON_CODES = [

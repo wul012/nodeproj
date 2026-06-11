@@ -1,4 +1,4 @@
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
 export const CONSUMER_READINESS_MATURITY_RUN = [
@@ -30,7 +30,22 @@ export function getConsumerReadinessExplanationDir(projectRoot: string, version:
 }
 
 export function listConsumerReadinessWalkthroughFiles(projectRoot = process.cwd()): string[] {
-  return readdirSync(path.join(projectRoot, "代码讲解记录_生产雏形阶段3"));
+  const walkthroughRoot = path.join(projectRoot, "代码讲解记录_生产雏形阶段3");
+  const files: string[] = [];
+  const visit = (directory: string) => {
+    for (const entry of readdirSync(directory)) {
+      const entryPath = path.join(directory, entry);
+      if (statSync(entryPath).isDirectory()) {
+        visit(entryPath);
+        continue;
+      }
+
+      files.push(path.relative(walkthroughRoot, entryPath));
+    }
+  };
+
+  visit(walkthroughRoot);
+  return files;
 }
 
 export function hasVersionedMarkdownFile(directory: string, version: string): boolean {

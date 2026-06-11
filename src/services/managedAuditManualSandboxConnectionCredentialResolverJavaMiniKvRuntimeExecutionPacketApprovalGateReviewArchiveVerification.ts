@@ -33,7 +33,7 @@ const NEXT_PLAN =
 const ARCHIVE_ROOT = "e/398" as const;
 const V398_BASENAME = "java-mini-kv-runtime-execution-packet-approval-gate-review-v398";
 const CODE_WALKTHROUGH =
-  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/403-java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md";
+  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/403-java-mini-kv-runtime-execution-packet-approval-gate-review-v398.md";
 const REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT = 6;
 const REQUIRED_APPROVAL_INPUT_COUNT = 3;
 

@@ -36,7 +36,7 @@ const NEXT_PLAN =
 const ARCHIVE_ROOT = "e/390" as const;
 const V390_BASENAME = "java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-v390";
 const CODE_WALKTHROUGH =
-  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/395-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-v390.md";
+  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/395-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-v390.md";
 const REQUIRED_RUNTIME_GATE_ARTIFACTS = [
   "operator approval record",
   "concrete loopback port assignment",

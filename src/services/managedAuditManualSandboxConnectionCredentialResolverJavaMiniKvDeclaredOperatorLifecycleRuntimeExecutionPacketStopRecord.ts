@@ -38,7 +38,7 @@ const ARCHIVE_ROOT = "e/391" as const;
 const V391_BASENAME =
   "java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification-v391";
 const CODE_WALKTHROUGH =
-  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/396-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification-v391.md";
+  "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/396-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification-v391.md";
 const REQUIRED_RUNTIME_GATE_ARTIFACT_COUNT = 4;
 const STOP_REASONS: RuntimeExecutionStopReason[] = [
   {
