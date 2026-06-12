@@ -5,12 +5,13 @@
   "profileVersion": "f-folder-explanation-quality-gate.v1",
   "qualityGateState": "verified-quality-gate",
   "readyForFFolderExplanationQualityGate": true,
+  "minChineseCharacters": 3000,
   "enforcedExplanationCount": 11,
   "enforcedCompliantExplanationCount": 11,
   "shortExplanationCount": 0,
   "shallowChineseExplanationCount": 0,
   "lowCodePathDensityCount": 0,
   "emptyImageDirCount": 0,
-  "qualityDigest": "0704638a273c4ae59a349b2a29a10f050dafad07608da02ee0ef17829d89594f",
+  "qualityDigest": "f3d925b33f092efb9b872fb2f48d545fb5758171ed05b0113b81283c023aa0e5",
   "generatedFrom": "app.inject after npm run build"
 }

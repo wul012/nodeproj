@@ -1,7 +1,7 @@
 # F-folder explanation quality gate
 
 - Service: orderops-node
-- Generated at: 2026-06-12T00:22:25.055Z
+- Generated at: 2026-06-12T00:48:53.432Z
 - Profile version: f-folder-explanation-quality-gate.v1
 - Quality gate state: verified-quality-gate
 - Ready for f-folder explanation quality gate: true
@@ -15,8 +15,8 @@
 - imageDirName: 图片
 - enforcementFloorVersion: 2094
 - activeNodeVersionRange: Node v2094-v2103
-- minBytes: 3600
-- minChineseCharacters: 900
+- minBytes: 9000
+- minChineseCharacters: 3000
 - minCodePathReferences: 4
 - historicalLegacyBlocking: false
 
@@ -58,17 +58,17 @@
 
 ## Enforced Explanations
 
-- f/2094/解释/production-shard-execution-real-artifact-intake-readiness-switch-v2094.md: bytes=6939; chinese=1415; codePaths=14; score=100; compliant=true
-- f/2095/解释/production-shard-execution-external-artifact-provenance-preflight-v2095.md: bytes=6789; chinese=1431; codePaths=14; score=100; compliant=true
-- f/2096/解释/production-shard-execution-external-artifact-conflict-taxonomy-v2096.md: bytes=6674; chinese=1422; codePaths=14; score=100; compliant=true
-- f/2097/解释/production-shard-execution-external-artifact-quarantine-envelope-v2097.md: bytes=6612; chinese=1392; codePaths=14; score=100; compliant=true
-- f/2098/解释/production-shard-execution-real-artifact-intake-preflight-closeout-v2098.md: bytes=6738; chinese=1390; codePaths=15; score=100; compliant=true
-- f/2098/解释/production-shard-execution-real-artifact-preflight-batch-v2094-v2098-code-explanation.md: bytes=5975; chinese=1175; codePaths=16; score=100; compliant=true
-- f/2099/解释/f-folder-explanation-quality-type-contract-v2099.md: bytes=6456; chinese=1439; codePaths=13; score=100; compliant=true
-- f/2100/解释/f-folder-explanation-scanner-v2100.md: bytes=6343; chinese=1414; codePaths=14; score=100; compliant=true
-- f/2101/解释/f-folder-explanation-rule-evaluator-v2101.md: bytes=6401; chinese=1425; codePaths=12; score=100; compliant=true
-- f/2102/解释/f-folder-explanation-quality-route-v2102.md: bytes=6406; chinese=1382; codePaths=12; score=100; compliant=true
-- f/2103/解释/f-folder-explanation-expansion-closeout-v2103.md: bytes=6524; chinese=1451; codePaths=13; score=100; compliant=true
+- f/2094/解释/production-shard-execution-real-artifact-intake-readiness-switch-v2094.md: bytes=16224; chinese=3374; codePaths=15; score=100; compliant=true
+- f/2095/解释/production-shard-execution-external-artifact-provenance-preflight-v2095.md: bytes=15975; chinese=3390; codePaths=15; score=100; compliant=true
+- f/2096/解释/production-shard-execution-external-artifact-conflict-taxonomy-v2096.md: bytes=15761; chinese=3381; codePaths=15; score=100; compliant=true
+- f/2097/解释/production-shard-execution-external-artifact-quarantine-envelope-v2097.md: bytes=15765; chinese=3351; codePaths=15; score=100; compliant=true
+- f/2098/解释/production-shard-execution-real-artifact-intake-preflight-closeout-v2098.md: bytes=16089; chinese=3349; codePaths=16; score=100; compliant=true
+- f/2098/解释/production-shard-execution-real-artifact-preflight-batch-v2094-v2098-code-explanation.md: bytes=15374; chinese=3260; codePaths=17; score=100; compliant=true
+- f/2099/解释/f-folder-explanation-quality-type-contract-v2099.md: bytes=13704; chinese=3169; codePaths=14; score=100; compliant=true
+- f/2100/解释/f-folder-explanation-scanner-v2100.md: bytes=15100; chinese=3538; codePaths=15; score=100; compliant=true
+- f/2101/解释/f-folder-explanation-rule-evaluator-v2101.md: bytes=13566; chinese=3127; codePaths=13; score=100; compliant=true
+- f/2102/解释/f-folder-explanation-quality-route-v2102.md: bytes=15262; chinese=3539; codePaths=13; score=100; compliant=true
+- f/2103/解释/f-folder-explanation-expansion-closeout-v2103.md: bytes=15495; chinese=3544; codePaths=14; score=100; compliant=true
 
 ## Blockers
 
@@ -93,4 +93,4 @@
 - Write enough detail to explain the code path, response model, safety boundary, verification, and next stop condition.
 - Do not create an empty image folder; use f/<version>/图片 only when actual screenshot or image evidence exists.
 
-Quality digest: 0704638a273c4ae59a349b2a29a10f050dafad07608da02ee0ef17829d89594f
+Quality digest: f3d925b33f092efb9b872fb2f48d545fb5758171ed05b0113b81283c023aa0e5
