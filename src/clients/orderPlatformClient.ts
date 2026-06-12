@@ -2,6 +2,7 @@ import { performance } from "node:perf_hooks";
 
 import { AppHttpError } from "../errors.js";
 import type { UpstreamJsonResponse } from "../types.js";
+import { noopUpstreamMetricsRecorder, type UpstreamMetricsRecorder } from "./upstreamMetrics.js";
 
 export interface OrderPlatformOpsOverview {
   sampledAt?: string;
@@ -162,6 +163,7 @@ export class OrderPlatformClient {
   constructor(
     private readonly baseUrl: string,
     private readonly timeoutMs: number,
+    private readonly metricsRecorder: UpstreamMetricsRecorder = noopUpstreamMetricsRecorder,
   ) {}
 
   health(): Promise<UpstreamJsonResponse> {
@@ -262,21 +264,47 @@ export class OrderPlatformClient {
         });
       }
 
+      this.metricsRecorder.record({
+        client: "order-platform",
+        latencyMs,
+        ok: true,
+        timeout: false,
+      });
+
       return {
         statusCode: response.status,
         latencyMs,
         data,
       };
     } catch (error) {
+      const latencyMs = Math.round(performance.now() - started);
       if (error instanceof AppHttpError) {
+        this.metricsRecorder.record({
+          client: "order-platform",
+          latencyMs,
+          ok: false,
+          timeout: error.code === "ORDER_PLATFORM_TIMEOUT",
+        });
         throw error;
       }
 
       const message = error instanceof Error ? error.message : String(error);
       if (error instanceof Error && error.name === "AbortError") {
+        this.metricsRecorder.record({
+          client: "order-platform",
+          latencyMs,
+          ok: false,
+          timeout: true,
+        });
         throw new AppHttpError(504, "ORDER_PLATFORM_TIMEOUT", `Order platform timed out after ${this.timeoutMs}ms`);
       }
 
+      this.metricsRecorder.record({
+        client: "order-platform",
+        latencyMs,
+        ok: false,
+        timeout: false,
+      });
       throw new AppHttpError(502, "ORDER_PLATFORM_UNAVAILABLE", `Order platform is unavailable: ${message}`);
     } finally {
       clearTimeout(timeout);

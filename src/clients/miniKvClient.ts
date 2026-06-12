@@ -2,6 +2,7 @@ import net from "node:net";
 import { performance } from "node:perf_hooks";
 
 import { AppHttpError } from "../errors.js";
+import { noopUpstreamMetricsRecorder, type UpstreamMetricsRecorder } from "./upstreamMetrics.js";
 
 export interface MiniKvCommandResult {
   command: string;
@@ -145,6 +146,7 @@ export class MiniKvClient {
     private readonly host: string,
     private readonly port: number,
     private readonly timeoutMs: number,
+    private readonly metricsRecorder: UpstreamMetricsRecorder = noopUpstreamMetricsRecorder,
   ) {}
 
   ping(message = "orderops"): Promise<MiniKvCommandResult> {
@@ -268,12 +270,19 @@ export class MiniKvClient {
         if (settled) {
           return;
         }
+        const latencyMs = Math.round(performance.now() - started);
         settled = true;
         socket.end();
+        this.metricsRecorder.record({
+          client: "mini-kv",
+          latencyMs,
+          ok: true,
+          timeout: false,
+        });
         resolve({
           command: trimmed,
           response,
-          latencyMs: Math.round(performance.now() - started),
+          latencyMs,
         });
       };
 
@@ -281,8 +290,15 @@ export class MiniKvClient {
         if (settled) {
           return;
         }
+        const latencyMs = Math.round(performance.now() - started);
         settled = true;
         socket.destroy();
+        this.metricsRecorder.record({
+          client: "mini-kv",
+          latencyMs,
+          ok: false,
+          timeout: error.code === "MINIKV_TIMEOUT",
+        });
         reject(error);
       };
 

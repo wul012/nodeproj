@@ -73,6 +73,8 @@ describe("access policy profile", () => {
       .toContain("/api/v1/audit/json-markdown-*");
     expect(profile.routePolicies.find((policy) => policy.id === "audit-read")?.pathPatterns)
       .toContain("/api/v1/audit/production-shard-execution-*");
+    expect(profile.routePolicies.find((policy) => policy.id === "readiness-and-status")?.pathPatterns)
+      .toContain("/api/v1/metrics");
     expect(profile.productionBlockers.map((blocker) => blocker.code)).toEqual([
       "ACCESS_GUARD_NOT_ENFORCED",
     ]);
@@ -127,6 +129,7 @@ describe("access policy profile", () => {
       expect(markdown.headers["content-type"]).toContain("text/markdown");
       expect(markdown.body).toContain("# Access policy profile");
       expect(markdown.body).toContain("### audit-read");
+      expect(markdown.body).toContain("/api/v1/metrics");
       expect(markdown.body).toContain("/api/v1/ci/*");
       expect(markdown.body).toContain("ACCESS_GUARD_NOT_ENFORCED");
       expect(markdown.body).toContain("accessPolicyProfileJson");

@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2118 - 2026-06-12
+
+- Added `/api/v1/metrics` with per-upstream request, error, timeout, and
+  latency percentile snapshots backed by a bounded in-memory ring buffer.
+- Instrumented `OrderPlatformClient` and `MiniKvClient` at their lowest I/O
+  methods, added request-id correlation on error responses, and covered the
+  endpoint in CI safe smoke.
+
 ## v2117 - 2026-06-12
 
 - Added production boundary documentation, changelog/version policy, and frozen

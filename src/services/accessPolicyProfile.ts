@@ -263,6 +263,7 @@ export function createAccessRoutePolicies(): AccessRoutePolicy[] {
         "/api/v1/production/*",
         "/api/v1/security/*",
         "/api/v1/deployment/*",
+        "/api/v1/metrics",
         "/api/v1/status-routes/*",
       ],
       minimumRole: "viewer",

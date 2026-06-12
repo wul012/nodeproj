@@ -6,6 +6,7 @@ import type { FastifyInstance } from "fastify";
 
 import { MiniKvClient } from "./clients/miniKvClient.js";
 import { OrderPlatformClient } from "./clients/orderPlatformClient.js";
+import { UpstreamMetricsRegistry } from "./clients/upstreamMetrics.js";
 import type { AppConfig } from "./config.js";
 import { isAppHttpError } from "./errors.js";
 import { registerActionPlanRoutes } from "./routes/actionPlanRoutes.js";
@@ -47,12 +48,14 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     genReqId: () => crypto.randomUUID(),
   });
 
-  app.setErrorHandler((error, _request, reply) => {
+  app.setErrorHandler((error, request, reply) => {
+    reply.header("x-orderops-request-id", request.id);
     if (isAppHttpError(error)) {
       reply.code(error.statusCode).send({
         error: error.code,
         message: error.message,
         details: error.details,
+        requestId: request.id,
       });
       return;
     }
@@ -65,14 +68,16 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     reply.code(statusCode).send({
       error: statusCode === 500 ? "INTERNAL_ERROR" : "REQUEST_ERROR",
       message: typeof errorWithStatus.message === "string" ? errorWithStatus.message : "Request failed",
+      requestId: request.id,
     });
   });
 
   const requestAccessGuards = new WeakMap<object, AuditAccessGuardContext>();
   const requestOperatorIdentities = new WeakMap<object, AuditOperatorIdentityContext>();
 
-  app.addHook("onRequest", async (_request, reply) => {
+  app.addHook("onRequest", async (request, reply) => {
     reply.header("x-orderops-service", "orderops-node");
+    reply.header("x-orderops-request-id", request.id);
     reply.header("access-control-allow-origin", "*");
   });
 
@@ -127,8 +132,9 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
       .send();
   });
 
-  const orderPlatform = new OrderPlatformClient(config.orderPlatformUrl, config.orderPlatformTimeoutMs);
-  const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs);
+  const upstreamMetrics = new UpstreamMetricsRegistry();
+  const orderPlatform = new OrderPlatformClient(config.orderPlatformUrl, config.orderPlatformTimeoutMs, upstreamMetrics);
+  const miniKv = new MiniKvClient(config.miniKvHost, config.miniKvPort, config.miniKvTimeoutMs, upstreamMetrics);
   const snapshots = new OpsSnapshotService(orderPlatform, miniKv, config.upstreamProbesEnabled);
   const auditStoreRuntime = createAuditStoreRuntime(config);
   const auditLog = auditStoreRuntime.auditLog;
@@ -229,6 +235,10 @@ export async function buildApp(config: AppConfig): Promise<FastifyInstance> {
     auditLog,
     auditStoreRuntime: auditStoreRuntime.description,
     productionConnectionDryRunApprovals,
+  });
+  app.get("/api/v1/metrics", async (_request, reply) => {
+    reply.header("cache-control", "no-store");
+    return upstreamMetrics.snapshot();
   });
   await registerOrderPlatformRoutes(app, {
     orderPlatform,

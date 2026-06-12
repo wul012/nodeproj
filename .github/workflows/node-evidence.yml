@@ -78,6 +78,11 @@ jobs:
       - name: Safe health smoke
         run: curl --fail --silent "http://${HOST}:${PORT}/health"
 
+      - name: Metrics smoke
+        run: |
+          curl --fail --silent "http://${HOST}:${PORT}/api/v1/metrics" \
+            | node -e "let data=''; process.stdin.on('data', c => data += c); process.stdin.on('end', () => { const json = JSON.parse(data); const order = json.clients?.['order-platform']; const kv = json.clients?.['mini-kv']; if (json.metricsVersion !== 'upstream-metrics.v1' || order?.requests !== 0 || kv?.requests !== 0 || order?.latencyMs?.count !== 0 || kv?.latencyMs?.count !== 0) { console.error(JSON.stringify(json, null, 2)); process.exit(1); } });"
+
       - name: Release evidence readiness smoke
         run: |
           curl --fail --silent "http://${HOST}:${PORT}/api/v1/upstream-contract-fixtures/scenario-matrix/release-evidence-readiness-gate" \

@@ -48,6 +48,14 @@ describe("access guard dry-run", () => {
         "x-orderops-roles": "viewer",
       },
     });
+    const viewerMetrics = evaluateAccessGuard({
+      method: "GET",
+      path: "/api/v1/metrics",
+      headers: {
+        "x-orderops-operator-id": "viewer-1",
+        "x-orderops-roles": "viewer",
+      },
+    });
 
     expect(anonymous).toMatchObject({
       guardVersion: "access-guard-dry-run.v1",
@@ -83,6 +91,13 @@ describe("access guard dry-run", () => {
       reason: "missing_required_role",
     });
     expect(viewerCiEvidence).toMatchObject({
+      routeGroup: "readiness",
+      requiredRole: "viewer",
+      matchedRoles: ["viewer"],
+      wouldDeny: false,
+      reason: "allowed_by_role",
+    });
+    expect(viewerMetrics).toMatchObject({
       routeGroup: "readiness",
       requiredRole: "viewer",
       matchedRoles: ["viewer"],

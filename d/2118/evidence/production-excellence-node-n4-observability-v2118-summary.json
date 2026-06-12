@@ -1,0 +1,121 @@
+{
+  "service": "orderops-node",
+  "version": "v2118",
+  "milestone": "N4 observability",
+  "generatedAt": "2026-06-12T15:45:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": true,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsMetricsEndpoint": true,
+    "addsRequestIdErrorCorrelation": true
+  },
+  "necessityProof": {
+    "blockerResolved": "Before real shard or cross-project execution, operators need a local read-only way to see whether Node has touched Java or mini-kv, whether failures are errors or timeouts, and whether latency is changing.",
+    "laterConsumer": "Future shard preview and real-read rehearsals can consume /api/v1/metrics as a diagnostic source without changing Java or mini-kv contracts.",
+    "reuseDecision": "Existing readiness and audit reports describe static gates and request audit events, but they do not aggregate upstream client attempts or latency percentiles.",
+    "growthStopCondition": "N4 stops at one shared registry and one route; new upstream clients should register in the same service instead of creating per-route observability reports."
+  },
+  "deliverables": [
+    "src/clients/upstreamMetrics.ts",
+    "src/app.ts request-id correlation and inline metrics registration",
+    "src/clients/orderPlatformClient.ts metrics instrumentation",
+    "src/clients/miniKvClient.ts metrics instrumentation",
+    "src/services/accessPolicyProfile.ts metrics route coverage",
+    ".github/workflows/node-evidence.yml metrics smoke",
+    "test/upstreamMetrics.test.ts",
+    "test/metricsRoutes.test.ts",
+    "test/accessGuard.test.ts metrics policy assertion",
+    "test/accessPolicyProfile.test.ts metrics policy assertion",
+    "d/2118/解释/production-excellence-node-n4-observability-v2118.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2089-production-excellence-node-observability-v2118.md"
+  ],
+  "runtimeContract": {
+    "endpoint": "/api/v1/metrics",
+    "method": "GET",
+    "safeDefault": "With UPSTREAM_PROBES_ENABLED=false and UPSTREAM_ACTIONS_ENABLED=false, the endpoint reports zero upstream attempts and does not touch Java or mini-kv.",
+    "clients": [
+      "order-platform",
+      "mini-kv"
+    ],
+    "latencyWindowSize": 256,
+    "latencyPercentiles": [
+      "p50",
+      "p95",
+      "p99"
+    ]
+  },
+  "verification": {
+    "focusedMetricsTests": {
+      "command": "npx vitest run test/upstreamMetrics.test.ts test/metricsRoutes.test.ts -- --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 2,
+      "testsPassed": 4
+    },
+    "focusedN4Batch": {
+      "command": "npx vitest run test/upstreamMetrics.test.ts test/metricsRoutes.test.ts test/accessPolicyProfile.test.ts test/accessGuard.test.ts -- --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 4,
+      "testsPassed": 11
+    },
+    "focusedRatchetAndN4Batch": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts test/upstreamMetrics.test.ts test/metricsRoutes.test.ts test/accessPolicyProfile.test.ts test/accessGuard.test.ts -- --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 5,
+      "testsPassed": 13
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "localHttpSmoke": {
+      "command": "node dist/server.js on 127.0.0.1:4191, then GET /health, /api/v1/metrics, and release readiness gate",
+      "result": "passed",
+      "metricsVersion": "upstream-metrics.v1",
+      "orderPlatformRequests": 0,
+      "miniKvRequests": 0,
+      "releaseReady": true,
+      "releaseExecutionAllowed": false,
+      "processStopped": true
+    },
+    "coverage": {
+      "command": "npm run test:coverage",
+      "result": "passed after ratchet correction",
+      "filesPassed": 527,
+      "testsPassed": 1620,
+      "durationSeconds": 480.08,
+      "summary": {
+        "statements": "95.8% (27431/28632)",
+        "branches": "87.38% (29070/33268)",
+        "functions": "98.38% (11835/12029)",
+        "lines": "95.76% (26579/27753)"
+      },
+      "ratchetCorrection": "The first N4 coverage run failed because the initial cut added one src/services file and one src/routes file. The registry was moved under src/clients and metrics route registration was folded into src/app.ts before the passing rerun."
+    }
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/",
+      "dist/",
+      "coverage/"
+    ],
+    "backgroundProcessesStarted": [
+      "node dist/server.js for local smoke, stopped in script finally"
+    ]
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "N4 observes Node's own client attempts and does not require fresh Java or mini-kv evidence."
+  }
+}
