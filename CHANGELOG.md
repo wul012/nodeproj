@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2130 - 2026-06-12
+
+- Migrated 6 endpoint-handle and signed-human approval prerequisite-chain
+  renderers to the shared verification report builder while preserving local
+  evidence and snippet rows.
+
 ## v2129 - 2026-06-12
 
 - Migrated 6 managed-audit credential resolver prerequisite-chain renderers to

@@ -1,87 +1,80 @@
-﻿import {
+import {
   renderEntries,
   renderList,
-  renderMessages,
 } from "./liveProbeReportUtils.js";
 import type {
   JavaV145SignedHumanApprovalArtifactContractIntakeEchoReference,
   ManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerificationProfile,
   MiniKvV138SignedHumanApprovalArtifactContractIntakeNonParticipationReceiptReference,
 } from "./managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerificationTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerificationMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerificationProfile,
 ): string {
-  return [
-    "# Managed audit manual sandbox connection credential resolver signed human approval artifact contract upstream echo verification",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Verification state: ${profile.verificationState}`,
-    `- Runtime shell chain decision: ${profile.runtimeShellChainDecision}`,
-    `- Ready for upstream echo verification: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerification}`,
-    `- Active Node verification version: ${profile.activeNodeVerificationVersion}`,
-    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
-    `- Runtime shell invocation allowed: ${profile.runtimeShellInvocationAllowed}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    "",
-    "## Source Node v314",
-    "",
-    ...renderEntries({
-      sourceVersion: profile.sourceNodeV314.sourceVersion,
-      profileVersion: profile.sourceNodeV314.profileVersion,
-      contractState: profile.sourceNodeV314.contractState,
-      readyForArtifactIntake: profile.sourceNodeV314.readyForArtifactIntake,
-      contractDigest: profile.sourceNodeV314.contractDigest,
-      nextJavaVersion: profile.sourceNodeV314.nextJavaVersion,
-      nextMiniKvVersion: profile.sourceNodeV314.nextMiniKvVersion,
-      nextNodeVerificationVersion: profile.sourceNodeV314.nextNodeVerificationVersion,
-      readyForParallelJavaV145MiniKvV138Echo: profile.sourceNodeV314.readyForParallelJavaV145MiniKvV138Echo,
-    }),
-    "",
-    "## Java v145 Echo",
-    "",
-    ...renderJavaReference(profile.upstreamEvidence.javaV145),
-    "",
-    "## mini-kv v138 Receipt",
-    "",
-    ...renderMiniKvReference(profile.upstreamEvidence.miniKvV138),
-    "",
-    "## Echo Verification",
-    "",
-    ...renderEntries(profile.echoVerification),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No signed human approval artifact contract upstream echo verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No signed human approval artifact contract upstream echo verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No signed human approval artifact contract upstream echo verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title:
+      "Managed audit manual sandbox connection credential resolver signed human approval artifact contract upstream echo verification",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Verification state", profile.verificationState],
+      ["Runtime shell chain decision", profile.runtimeShellChainDecision],
+      [
+        "Ready for upstream echo verification",
+        profile.readyForManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerification,
+      ],
+      ["Active Node verification version", profile.activeNodeVerificationVersion],
+      ["Runtime shell implemented", profile.runtimeShellImplemented],
+      ["Runtime shell invocation allowed", profile.runtimeShellInvocationAllowed],
+      ["Execution allowed", profile.executionAllowed],
+      ["Connects managed audit", profile.connectsManagedAudit],
+    ],
+    sections: [
+      { heading: "Source Node v314", lines: renderSourceNodeV314(profile.sourceNodeV314) },
+      { heading: "Java v145 Echo", lines: renderJavaReference(profile.upstreamEvidence.javaV145) },
+      { heading: "mini-kv v138 Receipt", lines: renderMiniKvReference(profile.upstreamEvidence.miniKvV138) },
+      { heading: "Echo Verification", entries: profile.echoVerification },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No signed human approval artifact contract upstream echo verification blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No signed human approval artifact contract upstream echo verification warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No signed human approval artifact contract upstream echo verification recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
+}
+
+function renderSourceNodeV314(
+  reference: ManagedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerificationProfile[
+    "sourceNodeV314"
+  ],
+): string[] {
+  return renderEntries({
+    sourceVersion: reference.sourceVersion,
+    profileVersion: reference.profileVersion,
+    contractState: reference.contractState,
+    readyForArtifactIntake: reference.readyForArtifactIntake,
+    contractDigest: reference.contractDigest,
+    nextJavaVersion: reference.nextJavaVersion,
+    nextMiniKvVersion: reference.nextMiniKvVersion,
+    nextNodeVerificationVersion: reference.nextNodeVerificationVersion,
+    readyForParallelJavaV145MiniKvV138Echo: reference.readyForParallelJavaV145MiniKvV138Echo,
+  });
 }
 
 function renderJavaReference(reference: JavaV145SignedHumanApprovalArtifactContractIntakeEchoReference): string[] {
