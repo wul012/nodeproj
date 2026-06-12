@@ -6,15 +6,13 @@ import type { AppConfig } from "../config.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditLocalAdapterCandidateVerificationReport,
   type ManagedAuditLocalAdapterCandidateVerificationReportProfile,
 } from "./managedAuditLocalAdapterCandidateVerificationReport.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface ManagedAuditExternalAdapterConnectionReadinessReviewProfile {
   service: "orderops-node";
@@ -348,69 +346,52 @@ export function loadManagedAuditExternalAdapterConnectionReadinessReview(input: 
 export function renderManagedAuditExternalAdapterConnectionReadinessReviewMarkdown(
   profile: ManagedAuditExternalAdapterConnectionReadinessReviewProfile,
 ): string {
-  return [
-    "# Managed audit external adapter connection readiness review",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Review state: ${profile.reviewState}`,
-    `- Ready for connection readiness review: ${profile.readyForManagedAuditExternalAdapterConnectionReadinessReview}`,
-    `- Ready for production audit: ${profile.readyForProductionAudit}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    `- Reads managed audit credential: ${profile.readsManagedAuditCredential}`,
-    "",
-    "## Source Node v222",
-    "",
-    ...renderEntries(profile.sourceNodeV222),
-    "",
-    "## Java v81 Guard",
-    "",
-    ...renderEntries(profile.upstreamGuards.javaV81),
-    "",
-    "## mini-kv v90 Guard",
-    "",
-    ...renderEntries(profile.upstreamGuards.miniKvV90),
-    "",
-    "## Connection Readiness",
-    "",
-    ...renderEntries(profile.connectionReadiness),
-    "",
-    "## Evidence Files",
-    "",
-    ...profile.archivedEvidence.files.flatMap(renderEvidenceFile),
-    "## Snippet Matches",
-    "",
-    ...profile.archivedEvidence.snippetMatches.flatMap(renderSnippet),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No external adapter connection readiness review blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No external adapter connection readiness review warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No external adapter connection readiness review recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Managed audit external adapter connection readiness review",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Review state", profile.reviewState],
+      ["Ready for connection readiness review", profile.readyForManagedAuditExternalAdapterConnectionReadinessReview],
+      ["Ready for production audit", profile.readyForProductionAudit],
+      ["Connects managed audit", profile.connectsManagedAudit],
+      ["Reads managed audit credential", profile.readsManagedAuditCredential],
+    ],
+    sections: [
+      { heading: "Source Node v222", entries: profile.sourceNodeV222 },
+      { heading: "Java v81 Guard", entries: profile.upstreamGuards.javaV81 },
+      { heading: "mini-kv v90 Guard", entries: profile.upstreamGuards.miniKvV90 },
+      { heading: "Connection Readiness", entries: profile.connectionReadiness },
+      {
+        heading: "Evidence Files",
+        lines: removeTrailingBlankLine(profile.archivedEvidence.files.flatMap(renderEvidenceFile)),
+      },
+      {
+        heading: "Snippet Matches",
+        lines: removeTrailingBlankLine(profile.archivedEvidence.snippetMatches.flatMap(renderSnippet)),
+      },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No external adapter connection readiness review blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No external adapter connection readiness review warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No external adapter connection readiness review recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createEvidenceFiles(): ReadinessEvidenceFile[] {
@@ -665,6 +646,10 @@ function renderSnippet(snippetMatch: ReadinessSnippetMatch): string[] {
     `- Expected text: ${snippetMatch.expectedText}`,
     "",
   ];
+}
+
+function removeTrailingBlankLine(lines: string[]): string[] {
+  return lines.at(-1) === "" ? lines.slice(0, -1) : lines;
 }
 
 function fileById(files: ReadinessEvidenceFile[], id: string): ReadinessEvidenceFile {

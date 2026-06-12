@@ -1,0 +1,97 @@
+{
+  "service": "orderops-node",
+  "version": "v2135",
+  "milestone": "N1 renderer consolidation batch 18",
+  "generatedAt": "2026-06-13T00:09:01+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 2,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalExternalEvidenceAndSnippetRows": true,
+    "defersCompactRestoreDrillPlanRenderer": true,
+    "rendererLineCountsAfterMigration": {
+      "src/services/managedAuditIdentityApprovalProvenanceDryRunPacket.ts": 737,
+      "src/services/managedAuditExternalAdapterConnectionReadinessReview.ts": 657
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 2,
+      "insertions": 97,
+      "deletions": 133,
+      "netLineReduction": 36
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The identity approval provenance dry-run packet and external adapter connection readiness review reports still duplicated the complete Markdown report frame despite matching the shared builder shape.",
+    "laterConsumer": "N1 final acceptance can now classify these managed-audit adapter/provenance reports as builder-backed before reviewing compact restore drill plan spacing or non-report worksheet renderers.",
+    "reuseDecision": "The shared builder owns the standard report frame. External evidence file rows and snippet rows remain local because they carry archived fixture-specific evidence semantics. The restore drill plan remains manual because its compact step/operation/check section spacing does not match the current builder contract.",
+    "growthStopCondition": "Do not add a builder spacing option for a single restore drill plan renderer. Reconsider only if multiple remaining full reports share the same compact section grammar and pass byte-identical comparison."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditIdentityApprovalProvenanceDryRunPacket.ts",
+    "src/services/managedAuditExternalAdapterConnectionReadinessReview.ts"
+  ],
+  "deferredCandidates": [
+    {
+      "path": "src/services/managedAuditPacketRestoreDrillPlan.ts",
+      "reason": "Old Drill Steps, Forbidden Operations, and Checks sections are adjacent without the builder's standard blank separator."
+    }
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererAndRouteBatch": {
+      "command": "npx vitest run test/managedAuditIdentityApprovalProvenanceDryRunPacket.test.ts test/managedAuditExternalAdapterConnectionReadinessReview.test.ts",
+      "result": "passed",
+      "files": 2,
+      "tests": 6
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2135-byte-identical-compare.test.ts",
+      "result": "passed",
+      "comparedRendererFiles": 2,
+      "comparedProfiles": 4,
+      "method": "Temporary Vitest loaded each legacy renderer through git show HEAD:<path>, transpiled it in-memory with TypeScript, and compared ready plus blocked profile output against the migrated renderer."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts",
+      "result": "passed after walkthrough remediation",
+      "files": 3,
+      "tests": 5,
+      "v2135WalkthroughChineseCharacters": 3000,
+      "v2135WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2135/evidence/renderer-consolidation-batch-18-v2135-summary.json",
+    "shortExplanation": "d/2135/解释/renderer-consolidation-batch-18-v2135.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2106-renderer-consolidation-batch-18-v2135.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2135 changes only Node Markdown renderer internals and archive documentation. It does not change evidence schemas, routes, contracts, fresh sibling evidence requirements, or live integration startup behavior."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2135-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
