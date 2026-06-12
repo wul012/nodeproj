@@ -1,0 +1,91 @@
+{
+  "service": "orderops-node",
+  "version": "v2134",
+  "milestone": "N1 renderer consolidation batch 17",
+  "generatedAt": "2026-06-13T00:05:01+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 2,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalArchiveAndSnippetRows": true,
+    "retainsLocalSourcePacketProjection": true,
+    "rendererLineCountsAfterMigration": {
+      "src/services/managedAuditLocalAdapterCandidateVerificationReport.ts": 512,
+      "src/services/managedAuditIdentityApprovalProvenancePacketVerificationReport.ts": 429
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 2,
+      "insertions": 95,
+      "deletions": 119,
+      "netLineReduction": 24
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "Two heavy historical verification reports still hand-wrote full Markdown report frames even though their title, meta, checks, summary, message, endpoint, and next-action sections matched the shared verification report builder shape.",
+    "laterConsumer": "N1 final acceptance can now treat the local adapter candidate verification report and identity approval provenance packet verification report as builder-backed before scanning worksheet, operator package, or command-template renderers.",
+    "reuseDecision": "The shared builder owns the repeated report frame. Archive file rows, snippet match rows, source packet fields, verification report fields, and quality optimization projections remain local because they carry version-specific evidence semantics.",
+    "growthStopCondition": "No new shared helper was added. The local trailing-blank-line normalizer remains file-local until at least three remaining line-section renderers repeat the same tail-blank contract and pass byte-identical comparison."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditLocalAdapterCandidateVerificationReport.ts",
+    "src/services/managedAuditIdentityApprovalProvenancePacketVerificationReport.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererAndRouteBatch": {
+      "command": "npx vitest run test/managedAuditLocalAdapterCandidateVerificationReport.test.ts test/managedAuditIdentityApprovalProvenancePacketVerificationReport.test.ts",
+      "result": "passed",
+      "files": 2,
+      "tests": 6
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2134-byte-identical-compare.test.ts",
+      "result": "passed",
+      "comparedRendererFiles": 2,
+      "comparedProfiles": 4,
+      "method": "Temporary Vitest loaded each legacy renderer through git show HEAD:<path>, transpiled it in-memory with TypeScript, and compared ready plus blocked profile output against the migrated renderer."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts",
+      "result": "passed after walkthrough remediation",
+      "files": 3,
+      "tests": 5,
+      "v2134WalkthroughChineseCharacters": 3057,
+      "v2134WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2134/evidence/renderer-consolidation-batch-17-v2134-summary.json",
+    "shortExplanation": "d/2134/解释/renderer-consolidation-batch-17-v2134.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2105-renderer-consolidation-batch-17-v2134.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2134 changes only Node Markdown renderer internals and archive documentation. It does not change evidence schemas, routes, contracts, fresh sibling evidence requirements, or live integration startup behavior."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2134-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

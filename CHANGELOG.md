@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2134 - 2026-06-13
+
+- Migrated the managed-audit local adapter candidate and identity approval
+  provenance packet verification reports to the shared verification report
+  builder while preserving archive/snippet and source-packet projection details.
+
 ## v2133 - 2026-06-12
 
 - Migrated 7 managed-audit credential-resolver pre-implementation,

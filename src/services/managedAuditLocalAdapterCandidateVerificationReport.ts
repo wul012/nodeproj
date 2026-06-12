@@ -6,11 +6,9 @@ import type { AppConfig } from "../config.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface ManagedAuditLocalAdapterCandidateVerificationReportProfile {
   service: "orderops-node";
@@ -272,62 +270,51 @@ export function loadManagedAuditLocalAdapterCandidateVerificationReport(input: {
 export function renderManagedAuditLocalAdapterCandidateVerificationReportMarkdown(
   profile: ManagedAuditLocalAdapterCandidateVerificationReportProfile,
 ): string {
-  return [
-    "# Managed audit local adapter candidate verification report",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Report state: ${profile.reportState}`,
-    `- Ready for verification report: ${profile.readyForManagedAuditLocalAdapterCandidateVerificationReport}`,
-    `- Ready for production audit: ${profile.readyForProductionAudit}`,
-    `- Read-only report: ${profile.readOnlyReport}`,
-    `- Source endpoint rerun performed: ${profile.sourceEndpointRerunPerformed}`,
-    `- Additional local dry-run write performed: ${profile.additionalLocalDryRunWritePerformed}`,
-    "",
-    "## Source Archive",
-    "",
-    ...renderEntries(profile.sourceArchive),
-    "",
-    "## Verification",
-    "",
-    ...renderEntries(profile.verification),
-    "",
-    "## Archived Evidence Files",
-    "",
-    ...profile.archivedEvidence.files.flatMap(renderArchiveFile),
-    "## Snippet Matches",
-    "",
-    ...profile.archivedEvidence.snippetMatches.flatMap(renderSnippet),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No local adapter candidate verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No local adapter candidate verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No local adapter candidate verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Managed audit local adapter candidate verification report",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Report state", profile.reportState],
+      ["Ready for verification report", profile.readyForManagedAuditLocalAdapterCandidateVerificationReport],
+      ["Ready for production audit", profile.readyForProductionAudit],
+      ["Read-only report", profile.readOnlyReport],
+      ["Source endpoint rerun performed", profile.sourceEndpointRerunPerformed],
+      ["Additional local dry-run write performed", profile.additionalLocalDryRunWritePerformed],
+    ],
+    sections: [
+      { heading: "Source Archive", entries: profile.sourceArchive },
+      { heading: "Verification", entries: profile.verification },
+      {
+        heading: "Archived Evidence Files",
+        lines: removeTrailingBlankLine(profile.archivedEvidence.files.flatMap(renderArchiveFile)),
+      },
+      {
+        heading: "Snippet Matches",
+        lines: removeTrailingBlankLine(profile.archivedEvidence.snippetMatches.flatMap(renderSnippet)),
+      },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No local adapter candidate verification blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No local adapter candidate verification warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No local adapter candidate verification recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createArchiveFileEvidence(): ArchiveFileEvidence[] {
@@ -531,6 +518,10 @@ function renderSnippet(snippetEvidence: ArchiveSnippetEvidence): string[] {
     `- Expected text: ${snippetEvidence.expectedText}`,
     "",
   ];
+}
+
+function removeTrailingBlankLine(lines: string[]): string[] {
+  return lines.at(-1) === "" ? lines.slice(0, -1) : lines;
 }
 
 function addMessage(

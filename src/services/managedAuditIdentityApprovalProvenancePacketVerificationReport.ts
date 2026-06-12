@@ -6,15 +6,13 @@ import type { AuditStoreRuntimeDescription } from "./auditStoreFactory.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditIdentityApprovalProvenanceDryRunPacket,
   type ManagedAuditIdentityApprovalProvenanceDryRunPacketProfile,
 } from "./managedAuditIdentityApprovalProvenanceDryRunPacket.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface ManagedAuditIdentityApprovalProvenancePacketVerificationReportProfile {
   service: "orderops-node";
@@ -199,63 +197,50 @@ export async function loadManagedAuditIdentityApprovalProvenancePacketVerificati
 export function renderManagedAuditIdentityApprovalProvenancePacketVerificationReportMarkdown(
   profile: ManagedAuditIdentityApprovalProvenancePacketVerificationReportProfile,
 ): string {
-  return [
-    "# Managed audit identity approval provenance packet verification report",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Report state: ${profile.reportState}`,
-    `- Ready for managed audit identity approval provenance packet verification report: ${profile.readyForManagedAuditIdentityApprovalProvenancePacketVerificationReport}`,
-    `- Ready for production audit: ${profile.readyForProductionAudit}`,
-    `- Ready for production window: ${profile.readyForProductionWindow}`,
-    `- Ready for production operations: ${profile.readyForProductionOperations}`,
-    `- Read-only report: ${profile.readOnlyReport}`,
-    `- Source local dry-run write observed: ${profile.sourceLocalDryRunWriteObserved}`,
-    `- Additional write surface added: ${profile.additionalWriteSurfaceAdded}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Source Packet",
-    "",
-    ...renderEntries(profile.sourcePacket),
-    "",
-    "## Verification Report",
-    "",
-    ...renderEntries(profile.verificationReport),
-    "",
-    "## Quality Optimizations",
-    "",
-    ...renderEntries(profile.qualityOptimizations),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No packet verification report blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No packet verification report warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No packet verification report recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Managed audit identity approval provenance packet verification report",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Report state", profile.reportState],
+      [
+        "Ready for managed audit identity approval provenance packet verification report",
+        profile.readyForManagedAuditIdentityApprovalProvenancePacketVerificationReport,
+      ],
+      ["Ready for production audit", profile.readyForProductionAudit],
+      ["Ready for production window", profile.readyForProductionWindow],
+      ["Ready for production operations", profile.readyForProductionOperations],
+      ["Read-only report", profile.readOnlyReport],
+      ["Source local dry-run write observed", profile.sourceLocalDryRunWriteObserved],
+      ["Additional write surface added", profile.additionalWriteSurfaceAdded],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Source Packet", entries: profile.sourcePacket },
+      { heading: "Verification Report", entries: profile.verificationReport },
+      { heading: "Quality Optimizations", entries: profile.qualityOptimizations },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No packet verification report blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No packet verification report warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No packet verification report recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createSourcePacketSummary(
