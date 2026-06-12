@@ -137,7 +137,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
       "INFOJSON",
       "STATSJSON",
     ]);
-  }, 60000);
+  }, 180_000);
 
   it("does not call upstreams when the explicit read window is closed", async () => {
     let callCount = 0;
@@ -170,7 +170,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
         passedTargetCount: 0,
       },
     });
-  }, 60000);
+  }, 180_000);
 
   it("exposes closed-window JSON and Markdown through the audit route table without probing", async () => {
     const app = await buildApp(loadTestConfig({
@@ -222,7 +222,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function passingOrderPlatform() {

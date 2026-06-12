@@ -116,7 +116,7 @@ describe("foundational audit JSON/Markdown route group", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

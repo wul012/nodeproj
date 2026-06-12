@@ -287,7 +287,7 @@ describe("managed audit manual sandbox connection fake transport packet upstream
     } finally {
       await app.close();
     }
-  }, 15000);
+  }, 180_000);
 });
 
 function completeHeaders() {

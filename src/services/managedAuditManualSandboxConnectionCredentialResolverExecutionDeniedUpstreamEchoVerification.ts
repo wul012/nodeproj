@@ -53,7 +53,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverExecuti
   const javaV127V130 = createJavaV127V130Reference();
   const miniKvV128 = createMiniKvV128Reference();
   const checks = createChecks(input.config, sourceNodeV290, javaV127V130, miniKvV128);
-  const verificationState: "blocked" = "blocked";
+  const verificationState = "blocked" as const;
   const verificationDigest = sha256StableJson({
     profileVersion: PROFILE_VERSION,
     verificationState,

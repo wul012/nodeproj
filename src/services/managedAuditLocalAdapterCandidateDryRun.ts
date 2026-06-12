@@ -501,7 +501,6 @@ async function runLocalAdapterCandidate(record: ManagedAuditLocalAdapterDryRunRe
   await mkdir(root, { recursive: true });
   const directory = await mkdtemp(path.join(root, "managed-audit-v221-"));
   const adapter = new LocalJsonlManagedAuditAdapterCandidate(directory);
-  let directoryRemoved = false;
   let result: Omit<LocalAdapterRunResult, "directoryRemoved">;
   try {
     const digestBeforeAppend = await adapter.digest();
@@ -529,11 +528,10 @@ async function runLocalAdapterCandidate(record: ManagedAuditLocalAdapterDryRunRe
     };
   } finally {
     await rm(directory, { recursive: true, force: true });
-    directoryRemoved = true;
   }
   return {
     ...result,
-    directoryRemoved,
+    directoryRemoved: true,
   };
 }
 

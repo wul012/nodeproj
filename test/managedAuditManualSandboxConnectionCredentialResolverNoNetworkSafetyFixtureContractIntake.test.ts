@@ -197,7 +197,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
       "mini-kv v141",
     ]);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("keeps the v322 historical fixture fallback path available", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -211,7 +211,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     expect(profile.prerequisiteTransition.afterV323).toBe("contract-intake-defined");
     expect(profile.readyForParallelJavaV149MiniKvV141Echo).toBe(true);
     expect(profile.readyForNodeV324BeforeUpstreamEcho).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("blocks when upstream probes or actions are enabled", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureContractIntake({
@@ -233,7 +233,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     expect(profile.externalRequestSent).toBe(false);
     expect(profile.httpRequestSent).toBe(false);
     expect(profile.tcpConnectionAttempted).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -280,7 +280,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

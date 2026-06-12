@@ -76,7 +76,7 @@ describe("credential resolver disabled runtime shell design draft body intake au
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

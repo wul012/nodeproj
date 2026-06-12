@@ -60,7 +60,7 @@ describe("workflow evidence verification", () => {
     );
     const verification = createWorkflowEvidenceVerification(
       path.join(process.cwd(), ".github", "workflows", "node-evidence.yml"),
-      `${workflow}\n- run: echo \${{ secrets.PROD_TOKEN }}\n- run: kubectl rollout restart deploy/orderops\n- run: docker push example/orderops:latest\n- run: scp dist/server.js ops@example:/srv/orderops\n- run: echo UPSTREAM_ACTIONS_ENABLED: \"true\"\n`,
+      `${workflow}\n- run: echo \${{ secrets.PROD_TOKEN }}\n- run: kubectl rollout restart deploy/orderops\n- run: docker push example/orderops:latest\n- run: scp dist/server.js ops@example:/srv/orderops\n- run: echo UPSTREAM_ACTIONS_ENABLED: "true"\n`,
     );
 
     expect(verification.valid).toBe(false);

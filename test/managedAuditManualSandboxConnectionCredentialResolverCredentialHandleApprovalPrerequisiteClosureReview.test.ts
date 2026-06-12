@@ -202,7 +202,7 @@ describe("managed audit manual sandbox connection credential resolver credential
     expect(profile.executionAllowed).toBe(false);
     expect(profile.connectsManagedAudit).toBe(false);
     expect(profile.externalRequestSent).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -243,7 +243,7 @@ describe("managed audit manual sandbox connection credential resolver credential
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

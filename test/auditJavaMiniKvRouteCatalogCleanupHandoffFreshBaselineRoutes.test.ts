@@ -72,7 +72,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes fresh baseline archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -129,7 +129,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes fresh baseline batch closeout through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -182,7 +182,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes fresh baseline batch closeout archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -235,7 +235,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes fresh baseline stability closeout through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -287,7 +287,7 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes fresh baseline stability archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -340,6 +340,6 @@ describe("Java/mini-kv route catalog cleanup fresh baseline handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
 });

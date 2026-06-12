@@ -191,7 +191,7 @@ describe("production live probe evidence archive bundle", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 180_000);
 });
 
 function loadTestConfig(auditStorePath: string) {

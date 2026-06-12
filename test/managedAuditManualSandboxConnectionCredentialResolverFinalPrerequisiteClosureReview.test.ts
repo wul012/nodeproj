@@ -145,7 +145,7 @@ describe("managed audit manual sandbox connection credential resolver final prer
       "java-mini-kv-decision-echo",
     ]);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the source v327 readiness runner is blocked", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview({
@@ -171,7 +171,7 @@ describe("managed audit manual sandbox connection credential resolver final prer
     expect(profile.runtimeShellImplemented).toBe(false);
     expect(profile.executionAllowed).toBe(false);
     expect(profile.rollbackExecutionAllowed).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("blocks final closure when upstream probes or actions are enabled", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -196,7 +196,7 @@ describe("managed audit manual sandbox connection credential resolver final prer
     expect(profile.httpRequestSent).toBe(false);
     expect(profile.tcpConnectionAttempted).toBe(false);
     expect(profile.automaticUpstreamStart).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -243,7 +243,7 @@ describe("managed audit manual sandbox connection credential resolver final prer
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

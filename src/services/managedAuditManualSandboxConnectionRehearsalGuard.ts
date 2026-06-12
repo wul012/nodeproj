@@ -782,7 +782,7 @@ function snippet(id: string, filePath: string, expectedText: string): RehearsalS
   try {
     matched = readHistoricalEvidenceFile(filePath, "utf8").includes(expectedText);
   } catch {
-    matched = false;
+    // Leave the default false when historical evidence cannot be read.
   }
 
   return {

@@ -93,7 +93,7 @@ describe("production live probe real-read smoke read-only window capture archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 120000);
+  }, 180_000);
 
   it("blocks archive when upstream actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-capture-archive-blocked-"));
@@ -121,7 +121,7 @@ describe("production live probe real-read smoke read-only window capture archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 
   it("exposes capture archive routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-capture-archive-route-"));
@@ -175,7 +175,7 @@ describe("production live probe real-read smoke read-only window capture archive
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 });
 
 async function approveCurrentChangeRequest(

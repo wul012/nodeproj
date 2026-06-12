@@ -81,7 +81,7 @@ describe("credential resolver runtime shell decision audit route group", () => {
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

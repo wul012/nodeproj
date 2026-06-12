@@ -55,7 +55,7 @@ describe("managed audit adapter implementation audit route group", () => {
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

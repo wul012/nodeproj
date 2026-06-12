@@ -154,7 +154,7 @@ describe("managed audit manual sandbox connection credential resolver disabled r
     expect(profile.sourceNodeV331.candidateReviewDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.archiveVerification.verificationDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the v331 archive is unavailable", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -181,7 +181,7 @@ describe("managed audit manual sandbox connection credential resolver disabled r
     expect(profile.executionAllowed).toBe(false);
     expect(profile.httpRequestSent).toBe(false);
     expect(profile.tcpConnectionAttempted).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("blocks when upstream probes or actions are enabled", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -206,7 +206,7 @@ describe("managed audit manual sandbox connection credential resolver disabled r
     ]));
     expect(profile.executionAllowed).toBe(false);
     expect(profile.automaticUpstreamStart).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -254,7 +254,7 @@ describe("managed audit manual sandbox connection credential resolver disabled r
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

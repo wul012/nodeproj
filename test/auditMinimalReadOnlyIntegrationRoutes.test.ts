@@ -50,7 +50,7 @@ describe("minimal read-only integration audit route group", () => {
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

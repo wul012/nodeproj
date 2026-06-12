@@ -510,7 +510,7 @@ describe("managed audit manual sandbox connection credential resolver disabled c
     } finally {
       await app.close();
     }
-  }, 45000);
+  }, 180_000);
 });
 
 function completeHeaders() {

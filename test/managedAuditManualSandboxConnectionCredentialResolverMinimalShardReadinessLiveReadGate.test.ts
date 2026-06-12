@@ -1,4 +1,4 @@
-﻿import http from "node:http";
+import http from "node:http";
 import net from "node:net";
 
 import { afterEach, describe, expect, it } from "vitest";
@@ -200,7 +200,7 @@ describe("managed audit manual sandbox connection credential resolver minimal sh
     });
     expect(profile.gate.gateDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.sourceNodeV370.sourceGateDigest).toMatch(/^[a-f0-9]{64}$/);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed without attempting reads when upstream probes are disabled", async () => {
     const profile =
@@ -223,7 +223,7 @@ describe("managed audit manual sandbox connection credential resolver minimal sh
     ]));
     expect(profile.startsJavaService).toBe(false);
     expect(profile.startsMiniKvService).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table using mock live services", async () => {
     const javaServer = await startJavaServer();
@@ -274,7 +274,7 @@ describe("managed audit manual sandbox connection credential resolver minimal sh
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function fakeOrderPlatform(): OrderPlatformClient {

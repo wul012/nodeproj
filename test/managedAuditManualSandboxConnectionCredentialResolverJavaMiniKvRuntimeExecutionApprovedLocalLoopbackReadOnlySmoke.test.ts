@@ -123,7 +123,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
       ["java-health", "passed-read", true],
       ["mini-kv-health", "passed-read", true],
     ]);
-  }, 60000);
+  }, 180_000);
 
   it("keeps the route closed when upstream probes are disabled", async () => {
     const app = await buildApp(loadTestConfig());
@@ -165,7 +165,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

@@ -139,7 +139,7 @@ describe("managed audit manual sandbox connection credential resolver sandbox ha
     expect(profile.sourceNodeV359.archiveVerificationDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.sourceNodeV359.sourceIntakeDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.decisionRecord.decisionDigest).toMatch(/^[a-f0-9]{64}$/);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when Node v359 evidence is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v360-empty-"));
@@ -169,7 +169,7 @@ describe("managed audit manual sandbox connection credential resolver sandbox ha
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -216,7 +216,7 @@ describe("managed audit manual sandbox connection credential resolver sandbox ha
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

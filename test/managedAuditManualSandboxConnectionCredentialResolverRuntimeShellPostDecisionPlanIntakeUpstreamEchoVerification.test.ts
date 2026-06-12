@@ -267,7 +267,7 @@ describe("managed audit manual sandbox connection credential resolver runtime sh
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

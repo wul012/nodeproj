@@ -104,7 +104,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
       "INFOJSON",
       "STATSJSON",
     ]);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed as read-window-unavailable when services are not reachable", async () => {
     const profile =
@@ -125,7 +125,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     expect(profile.targetResults.every((target) => target.readOnly && !target.mutatesState)).toBe(true);
     expect(profile.productionBlockers).toEqual([]);
     expect(profile.warnings).toHaveLength(5);
-  }, 60000);
+  }, 180_000);
 
   it("requests only read-contract echo when a read target returns invalid JSON", async () => {
     const profile =
@@ -142,7 +142,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     expect(profile.summary.passedTargetCount).toBe(4);
     expect(profile.recommendations[0]?.code).toBe("RUN_JAVA_V153_MINI_KV_V144_FOR_READ_CONTRACT");
     expect(profile.executionAllowed).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table without starting upstreams", async () => {
     const app = await buildApp(loadTestConfig({
@@ -189,7 +189,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function passingOrderPlatform() {

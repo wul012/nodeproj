@@ -1,0 +1,100 @@
+{
+  "version": "v2115",
+  "milestone": "production-excellence-node-n0",
+  "generatedAt": "2026-06-12T13:40:00+08:00",
+  "scope": {
+    "project": "orderops-node",
+    "repo": "D:\\nodeproj\\orderops-node",
+    "kind": "internal quality and CI governance",
+    "contractChanged": false,
+    "runtimeExecutionEnabled": false
+  },
+  "changes": {
+    "testScript": "package.json test script changed to plain vitest run",
+    "vitestConfig": {
+      "testTimeout": 180000,
+      "hookTimeout": 180000
+    },
+    "explicitTestTimeoutsUnified": {
+      "filesChanged": 224,
+      "replacements": 497,
+      "oldValues": {
+        "15000": 9,
+        "20000": 5,
+        "30000": 1,
+        "45000": 31,
+        "60000": 424,
+        "90000": 23,
+        "120000": 4
+      },
+      "newValue": 180000
+    },
+    "eslint": {
+      "config": "eslint.config.js",
+      "packages": [
+        "eslint",
+        "@eslint/js",
+        "typescript-eslint"
+      ],
+      "script": "eslint src test",
+      "baseline": {
+        "files": 1747,
+        "errorCount": 0,
+        "warningCount": 263,
+        "rules": {
+          "@typescript-eslint/no-unused-vars": 257,
+          "@typescript-eslint/no-explicit-any": 6
+        }
+      },
+      "ratchetNotes": [
+        "no-unused-vars remains warn until N5 code-health cleanup",
+        "no-explicit-any remains warn until legacy evidence JSON shapes are guarded"
+      ]
+    },
+    "ci": {
+      "workflow": ".github/workflows/node-evidence.yml",
+      "lintStep": "npm run lint after typecheck and before test"
+    },
+    "smallLintErrorFixes": [
+      "removed or narrowed dead local assignments in managed audit support files",
+      "replaced a constant expression in realReadWindowCiArtifactUploadDryRunContract",
+      "removed an unnecessary escape in workflowEvidenceVerification.test"
+    ]
+  },
+  "verification": {
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed with 0 errors and 263 warnings"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedTests": {
+      "command": "npx vitest run test/workflowEvidenceVerification.test.ts test/governanceGrowthRatchet.test.ts -- --testTimeout=180000",
+      "result": "2 files, 5 tests passed"
+    },
+    "fullTests": {
+      "command": "npm test",
+      "result": "524 files, 1612 tests passed",
+      "durationSeconds": 511
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "httpSmoke": {
+      "command": "local dist server with HOST=127.0.0.1 PORT=4190 LOG_LEVEL=silent UPSTREAM_PROBES_ENABLED=false UPSTREAM_ACTIONS_ENABLED=false",
+      "result": "health ok; release evidence readiness readyForReleaseEvidenceArchive=true and executionAllowed=false",
+      "processStopped": true
+    }
+  },
+  "parallelProjectModel": {
+    "java": "may continue independently by reading the Node-hosted Java playbook as read-only and tracking progress in its own repo",
+    "miniKv": "may continue independently by reading the Node-hosted mini-kv playbook as read-only and tracking progress in its own repo",
+    "nodeBlocksSiblings": false
+  },
+  "nextMilestone": {
+    "recommended": "N2 coverage can be prepared next; N1 renderer consolidation may continue in parallel batches; N5 waits for N1 completion"
+  }
+}

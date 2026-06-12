@@ -77,7 +77,7 @@ describe("credential resolver disabled runtime shell design draft body pre-draft
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

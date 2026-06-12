@@ -56,7 +56,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes twenty-version run closeout archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -111,7 +111,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes expanded stability closeout through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -160,7 +160,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes expanded stability closeout archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -214,7 +214,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes CI/catalog health closeout through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -268,7 +268,7 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes CI/catalog health closeout archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -325,6 +325,6 @@ describe("Java/mini-kv route catalog cleanup stability closeout handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
 });

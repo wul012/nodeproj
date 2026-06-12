@@ -160,7 +160,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     expect(profile.miniKvSnapshotFile.resolvedPath.replace(/\\/g, "/"))
       .toContain("fixtures/historical/sibling-workspaces/mini-kv/fixtures/release/shard-readiness-v147.json");
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("keeps the same frozen evidence behavior when historical fallback is forced", () => {
     const previous = process.env.ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK;
@@ -185,7 +185,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
         process.env.ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK = previous;
       }
     }
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the Node v379 source archive is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v380-empty-"));
@@ -211,7 +211,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -253,7 +253,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

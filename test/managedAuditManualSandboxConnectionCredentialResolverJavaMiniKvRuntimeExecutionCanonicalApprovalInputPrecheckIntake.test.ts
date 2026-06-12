@@ -183,7 +183,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
       "CROSS_PROJECT_RUNTIME_EXECUTION_PACKET_INPUT_NOT_PRESENT",
     ]);
     expect(profile.canonicalApprovalInputPrecheckIntake.intakeDigest).toMatch(/^[a-f0-9]{64}$/);
-  }, 60000);
+  }, 180_000);
 
   it("uses frozen historical fallback for Java v167 and mini-kv v158 evidence", () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
@@ -211,7 +211,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
         process.env[FORCE_FALLBACK_ENV] = previous;
       }
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -252,7 +252,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

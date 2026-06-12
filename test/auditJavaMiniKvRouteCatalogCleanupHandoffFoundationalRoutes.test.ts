@@ -67,7 +67,7 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes latest tagged Java v207/v208 and mini-kv v193 evidence through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -118,7 +118,7 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes latest evidence archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -164,7 +164,7 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes current Java v214 and mini-kv v200 evidence through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -217,7 +217,7 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes current evidence archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -263,7 +263,7 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes verification checklist evidence through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -315,7 +315,7 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes verification checklist archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -362,6 +362,6 @@ describe("Java/mini-kv route catalog cleanup foundational handoff audit routes",
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
 });

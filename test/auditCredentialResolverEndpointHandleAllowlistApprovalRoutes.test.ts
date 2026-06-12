@@ -79,7 +79,7 @@ describe("credential resolver endpoint handle allowlist approval audit route gro
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

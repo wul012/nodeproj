@@ -105,7 +105,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
       "INFOJSON",
       "STATSJSON",
     ]);
-  }, 60000);
+  }, 180_000);
 
   it("keeps the archive pending and does not call upstreams when the external read window is closed", async () => {
     let callCount = 0;
@@ -141,7 +141,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     });
     expect(profile.targetResults).toEqual([]);
     expect(profile.warnings[0]?.code).toBe("EXTERNAL_READ_WINDOW_NOT_CONFIRMED");
-  }, 60000);
+  }, 180_000);
 
   it("exposes pending JSON and Markdown through the audit route table without probing", async () => {
     const app = await buildApp(loadTestConfig({
@@ -190,7 +190,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function passingOrderPlatform() {

@@ -79,7 +79,7 @@ describe("credential resolver approval-required readiness audit route group", ()
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

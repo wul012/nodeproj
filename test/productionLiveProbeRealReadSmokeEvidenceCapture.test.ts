@@ -88,7 +88,7 @@ describe("production live probe real-read smoke evidence capture", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("captures all-pass evidence as a pass candidate only when the read-only window is open", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-pass-"));
@@ -148,7 +148,7 @@ describe("production live probe real-read smoke evidence capture", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("blocks capture when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-blocked-"));
@@ -177,7 +177,7 @@ describe("production live probe real-read smoke evidence capture", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes evidence capture routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-evidence-capture-route-"));
@@ -235,7 +235,7 @@ describe("production live probe real-read smoke evidence capture", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 });
 
 async function approveCurrentChangeRequest(

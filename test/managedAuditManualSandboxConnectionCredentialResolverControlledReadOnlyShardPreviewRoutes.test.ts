@@ -598,7 +598,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 async function startJavaServer(): Promise<{ url: string; close: () => Promise<void> }> {

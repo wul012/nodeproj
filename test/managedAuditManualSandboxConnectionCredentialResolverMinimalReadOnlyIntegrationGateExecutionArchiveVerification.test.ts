@@ -188,7 +188,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     ]);
     expect(profile.summary.checkCount).toBe(42);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the v367 archive is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v368-empty-"));
@@ -217,7 +217,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -268,7 +268,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

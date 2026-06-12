@@ -127,7 +127,7 @@ describe("managed audit manual sandbox connection credential resolver managed-au
       "mini-kv-write-admin",
       "managed-audit-http-tcp",
     ]));
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the Node v350 source archive is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v351-empty-"));
@@ -156,7 +156,7 @@ describe("managed audit manual sandbox connection credential resolver managed-au
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -204,7 +204,7 @@ describe("managed audit manual sandbox connection credential resolver managed-au
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

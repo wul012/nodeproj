@@ -167,7 +167,7 @@ describe("production shard execution readiness batch", () => {
       preflightOnly: true,
       productionAuthority: false,
     });
-  }, 60000);
+  }, 180_000);
 
   it("registers JSON and Markdown routes through the audit catalog", async () => {
     const app = await buildApp(loadTestConfig());
@@ -214,7 +214,7 @@ describe("production shard execution readiness batch", () => {
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

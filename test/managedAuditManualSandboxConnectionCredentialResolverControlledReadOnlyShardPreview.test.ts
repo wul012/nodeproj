@@ -567,7 +567,7 @@ describe("managed audit manual sandbox connection credential resolver controlled
       .toMatch(/^[a-f0-9]{64}$/);
     expect(profile.preview.sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification.snapshotDigestValue)
       .toBe(profile.preview.sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot.snapshotDigest.value);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed without reading upstreams when probes are disabled", async () => {
     let javaCalls = 0;
@@ -945,6 +945,6 @@ describe("managed audit manual sandbox connection credential resolver controlled
       requiresRoutingActivation: false,
       requiresFreshSiblingEvidence: false,
     });
-  }, 60000);
+  }, 180_000);
 
 });

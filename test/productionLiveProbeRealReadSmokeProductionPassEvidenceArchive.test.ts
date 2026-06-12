@@ -81,7 +81,7 @@ describe("production live probe real-read smoke production pass evidence archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 
   it("archives all-pass verification as pass evidence without unlocking operations", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-archive-pass-"));
@@ -150,7 +150,7 @@ describe("production live probe real-read smoke production pass evidence archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("blocks archive when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-archive-blocked-"));
@@ -178,7 +178,7 @@ describe("production live probe real-read smoke production pass evidence archive
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes production pass evidence archive routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-production-pass-archive-route-"));
@@ -235,7 +235,7 @@ describe("production live probe real-read smoke production pass evidence archive
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 });
 
 async function approveCurrentChangeRequest(

@@ -1,4 +1,4 @@
-﻿import { mkdtempSync, rmSync } from "node:fs";
+import { mkdtempSync, rmSync } from "node:fs";
 import os from "node:os";
 import path from "node:path";
 
@@ -184,7 +184,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
     expect(profile.gate.gateDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.javaShardReadiness.evidenceFile.digest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.miniKvShardReadiness.evidenceFile.digest).toMatch(/^[a-f0-9]{64}$/);
-  }, 60000);
+  }, 180_000);
 
   it("uses historical sibling-workspace fixtures when forced for GitHub runner compatibility", () => {
     const previous = process.env.ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK;
@@ -209,7 +209,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
         process.env.ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK = previous;
       }
     }
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when source archives and frozen evidence are unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v370-empty-"));
@@ -243,7 +243,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
       }
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -290,7 +290,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

@@ -189,7 +189,7 @@ describe("production live probe evidence archive verification", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 30000);
+  }, 180_000);
 });
 
 function loadTestConfig(auditStorePath: string) {

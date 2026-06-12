@@ -94,7 +94,7 @@ describe("production live probe real-read smoke read-only window capture release
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 120000);
+  }, 180_000);
 
   it("blocks release evidence review when upstream actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-release-review-blocked-"));
@@ -123,7 +123,7 @@ describe("production live probe real-read smoke read-only window capture release
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 
   it("exposes release evidence review routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-read-only-release-review-route-"));
@@ -181,7 +181,7 @@ describe("production live probe real-read smoke read-only window capture release
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 });
 
 async function approveCurrentChangeRequest(

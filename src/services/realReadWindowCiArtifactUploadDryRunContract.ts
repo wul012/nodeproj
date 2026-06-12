@@ -326,7 +326,7 @@ function createChecks(
     sourceCiUploadStillBlocked: sourceVerification.readyForCiArtifactUpload === false
       && sourceVerification.verification.ciArtifactStoreConnected === false,
     artifactNameStable: true,
-    retentionDaysConfigured: 30 > 0 && 30 <= 90,
+    retentionDaysConfigured: true,
     pathAllowlistComplete: pathAllowlist.length === 4
       && pathAllowlist.every((rule) => rule.required && rule.allowUploadInFuture && rule.readOnly),
     forbiddenPathsComplete: forbiddenPaths.length === 8

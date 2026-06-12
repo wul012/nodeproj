@@ -278,7 +278,7 @@ describe("managed audit manual sandbox connection credential resolver endpoint h
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

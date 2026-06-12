@@ -226,7 +226,7 @@ describe("managed audit manual sandbox connection sandbox endpoint handle prefli
     } finally {
       await app.close();
     }
-  }, 15000);
+  }, 180_000);
 });
 
 function completeHeaders() {

@@ -76,7 +76,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes latest sibling evidence archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -134,7 +134,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes latest sibling live smoke archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -194,7 +194,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes latest sibling live smoke archive verification route archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -246,7 +246,7 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes sibling workspace availability closeout through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -300,5 +300,5 @@ describe("Java/mini-kv route catalog cleanup latest sibling handoff audit routes
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });

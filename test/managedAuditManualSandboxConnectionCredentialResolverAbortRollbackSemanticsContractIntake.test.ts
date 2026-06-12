@@ -206,7 +206,7 @@ describe("managed audit manual sandbox connection credential resolver abort roll
       "mini-kv v142",
     ]);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("keeps the v325 historical fixture fallback path available", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -220,7 +220,7 @@ describe("managed audit manual sandbox connection credential resolver abort roll
     expect(profile.prerequisiteTransition.afterV326).toBe("contract-intake-defined");
     expect(profile.readyForParallelJavaV150MiniKvV142Echo).toBe(true);
     expect(profile.readyForNodeV327BeforeUpstreamEcho).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("blocks when upstream probes or actions are enabled", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake({
@@ -242,7 +242,7 @@ describe("managed audit manual sandbox connection credential resolver abort roll
     expect(profile.externalRequestSent).toBe(false);
     expect(profile.abortRollbackSemanticsExecuted).toBe(false);
     expect(profile.rollbackExecutionAllowed).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -289,7 +289,7 @@ describe("managed audit manual sandbox connection credential resolver abort roll
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

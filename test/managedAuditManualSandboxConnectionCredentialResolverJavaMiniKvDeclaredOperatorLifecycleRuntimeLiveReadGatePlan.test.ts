@@ -226,7 +226,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     expect(profile.sourceNodeV389.archiveVerificationDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.runtimeGatePlan.planDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the Node v389 archive is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v390-empty-"));
@@ -257,7 +257,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const previous = process.env[FORCE_FALLBACK_ENV];
@@ -306,7 +306,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

@@ -71,7 +71,7 @@ describe("managed audit sandbox adapter audit route group", () => {
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

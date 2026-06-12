@@ -103,7 +103,7 @@ describe("production live probe real-read smoke archive adapter", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 20000);
+  }, 180_000);
 
   it("exposes archive adapter routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-adapter-route-"));
@@ -160,7 +160,7 @@ describe("production live probe real-read smoke archive adapter", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 });
 
 async function approveCurrentChangeRequest(

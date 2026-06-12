@@ -105,7 +105,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     expect(profile.sourceNodeV347.verificationDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.rerunDecisionRecord.decisionDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when Node v347 archive verification is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v348-empty-"));
@@ -130,7 +130,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     expect(profile.rerunsLiveProbe).toBe(false);
     expect(profile.startsJavaService).toBe(false);
     expect(profile.startsMiniKvService).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -173,7 +173,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

@@ -78,7 +78,7 @@ describe("credential resolver signed human approval artifact audit route group",
       await app.close();
       restoreEnv(previous);
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

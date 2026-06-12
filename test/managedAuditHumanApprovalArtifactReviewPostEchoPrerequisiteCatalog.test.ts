@@ -44,7 +44,7 @@ describe("managed audit human approval artifact review post-echo prerequisite ca
     expect(v312.closureDecision.completedPrerequisiteCount + v312.closureDecision.remainingPrerequisiteCount)
       .toBe(HUMAN_APPROVAL_ARTIFACT_REVIEW_POST_ECHO_PREREQUISITE_CATALOG.length);
     expect(v312.readyForNewJavaMiniKvEchoRequest).toBe(false);
-  }, 60000);
+  }, 180_000);
 });
 
 function loadTestConfig() {

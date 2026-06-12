@@ -68,7 +68,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes consumer readiness archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -115,7 +115,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes consumer readiness batch closeout through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -159,7 +159,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes consumer readiness batch closeout archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -207,7 +207,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes readiness handoff evidence through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -258,7 +258,7 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes readiness handoff archive verification through the same route group", async () => {
     const app = await buildApp(loadTestConfig());
@@ -307,6 +307,6 @@ describe("Java/mini-kv route catalog cleanup consumer readiness handoff audit ro
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 
 });

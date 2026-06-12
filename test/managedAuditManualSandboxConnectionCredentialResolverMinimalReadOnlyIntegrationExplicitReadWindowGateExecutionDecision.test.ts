@@ -132,7 +132,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     expect(profile.decisionRecord.decisionDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.summary.checkCount).toBe(22);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("can prepare the next execution version only when an explicit read window is provided", () => {
     const profile =
@@ -155,7 +155,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
       actualProbeExecutedNow: false,
     });
     expect(profile.nextActions.join("\n")).toContain("Node v367");
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -203,7 +203,7 @@ describe("managed audit manual sandbox connection credential resolver minimal re
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

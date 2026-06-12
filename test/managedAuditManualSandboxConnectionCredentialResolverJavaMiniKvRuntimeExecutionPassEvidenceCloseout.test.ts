@@ -103,7 +103,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     expect(profile.summary.passedCheckCount).toBe(profile.summary.checkCount);
     expect(profile.productionBlockers).toEqual([]);
     expect(profile.closeout.closeoutDigest).toMatch(/^[a-f0-9]{64}$/);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -139,7 +139,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

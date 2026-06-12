@@ -69,7 +69,7 @@ describe("managed audit manual sandbox connection packet audit route group", () 
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

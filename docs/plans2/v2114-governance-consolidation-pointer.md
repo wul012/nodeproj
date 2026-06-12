@@ -1,11 +1,23 @@
-# v2114+ Active Plan Pointer (governance consolidation)
+# Active Plan Pointer (governance consolidation + production excellence)
 
-The currently active Node plan is the **governance consolidation milestone**:
+Two plans are active. Read both:
+
+**1. Node governance consolidation (v2114+):**
 
 - Plan: `docs/plans/v2114-governance-consolidation-roadmap.md`
 - Execution playbook: `docs/plans/v2114-codex-migration-playbook.md`
-- Progress: see the playbook's progress table (batch 1 is tracked in the v2114
-  consolidation commit and tag once CI is green).
+- Progress: see the playbook's progress table (batch 1 is committed and tagged
+  as `v2114` / `0441f85a`).
+
+**2. Production Excellence Program (all three projects):**
+
+- Master standard: `docs/plans/production-excellence-program.md`
+- **Java sessions: your playbook is `docs/plans/production-excellence-java-playbook.md`**
+  — start with milestone J0 (CI bootstrap); it is the largest gap in the system.
+- mini-kv sessions: `docs/plans/production-excellence-minikv-playbook.md`.
+- Node sessions: `docs/plans/production-excellence-node-playbook.md`.
+- All excellence work is non-contract and runs in parallel across the three
+  projects; it never blocks feature versions.
 
 For Java / mini-kv sessions reading this folder:
 

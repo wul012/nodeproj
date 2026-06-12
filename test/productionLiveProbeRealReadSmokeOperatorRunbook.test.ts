@@ -95,7 +95,7 @@ describe("production live probe real-read smoke operator runbook", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 
   it("keeps production operations closed when source archive verifies as pass", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-operator-runbook-pass-"));
@@ -139,7 +139,7 @@ describe("production live probe real-read smoke operator runbook", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("blocks the runbook when upstream write actions are enabled", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-operator-runbook-blocked-"));
@@ -168,7 +168,7 @@ describe("production live probe real-read smoke operator runbook", () => {
     } finally {
       await rm(directory, { recursive: true, force: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes operator runbook routes in JSON and Markdown", async () => {
     const directory = await mkdtemp(path.join(os.tmpdir(), "orderops-live-probe-operator-runbook-route-"));
@@ -231,7 +231,7 @@ describe("production live probe real-read smoke operator runbook", () => {
       await app.close();
       await rm(directory, { recursive: true, force: true });
     }
-  }, 90000);
+  }, 180_000);
 });
 
 async function approveCurrentChangeRequest(

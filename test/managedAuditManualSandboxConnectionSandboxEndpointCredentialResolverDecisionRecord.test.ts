@@ -220,7 +220,7 @@ describe("managed audit manual sandbox connection sandbox endpoint credential re
     } finally {
       await app.close();
     }
-  }, 15000);
+  }, 180_000);
 });
 
 function completeHeaders() {

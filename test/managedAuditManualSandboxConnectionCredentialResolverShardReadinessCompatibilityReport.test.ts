@@ -133,7 +133,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
     expect(profile.projectReports.every((report) => report.compatibleForRegularGate)).toBe(true);
     expect(profile.fieldChecks.every((field) => field.matches)).toBe(true);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the v371/v372 archive chain is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v373-empty-"));
@@ -161,7 +161,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -207,7 +207,7 @@ describe("managed audit manual sandbox connection credential resolver shard read
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

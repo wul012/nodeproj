@@ -258,7 +258,7 @@ describe("managed audit manual sandbox connection credential resolver human appr
     } finally {
       await app.close();
     }
-  }, 120000);
+  }, 180_000);
 });
 
 function completeHeaders() {

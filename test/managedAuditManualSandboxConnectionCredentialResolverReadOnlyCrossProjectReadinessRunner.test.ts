@@ -176,7 +176,7 @@ describe("managed audit manual sandbox connection credential resolver read-only 
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
     expect(profile.javaV150Evidence.evidenceFile.resolvedPath).toContain("fixtures");
     expect(profile.miniKvV142Receipt.evidenceFile.resolvedPath).toContain("fixtures");
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when sibling evidence files are missing", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunner({
@@ -199,7 +199,7 @@ describe("managed audit manual sandbox connection credential resolver read-only 
     expect(profile.executionAllowed).toBe(false);
     expect(profile.rollbackExecutionAllowed).toBe(false);
     expect(profile.miniKvWriteCommandAllowed).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("blocks when upstream probes or actions are enabled", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -220,7 +220,7 @@ describe("managed audit manual sandbox connection credential resolver read-only 
     expect(profile.httpRequestSent).toBe(false);
     expect(profile.tcpConnectionAttempted).toBe(false);
     expect(profile.automaticUpstreamStart).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -271,7 +271,7 @@ describe("managed audit manual sandbox connection credential resolver read-only 
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

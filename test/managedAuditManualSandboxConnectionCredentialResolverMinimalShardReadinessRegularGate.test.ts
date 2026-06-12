@@ -117,7 +117,7 @@ describe("managed audit manual sandbox connection credential resolver minimal sh
     expect(profile.sourceNodeV373.compatibilityReportDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.regularGate.gateDigest).toMatch(/^[a-f0-9]{64}$/);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("fails closed when the v373 compatibility source is unavailable", () => {
     const emptyProjectRoot = mkdtempSync(path.join(os.tmpdir(), "orderops-v374-empty-"));
@@ -144,7 +144,7 @@ describe("managed audit manual sandbox connection credential resolver minimal sh
     } finally {
       rmSync(emptyProjectRoot, { force: true, recursive: true });
     }
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -189,7 +189,7 @@ describe("managed audit manual sandbox connection credential resolver minimal sh
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

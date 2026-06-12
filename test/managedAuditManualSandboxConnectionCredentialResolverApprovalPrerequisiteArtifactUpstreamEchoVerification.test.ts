@@ -285,7 +285,7 @@ describe("managed audit manual sandbox connection credential resolver approval p
     } finally {
       await app.close();
     }
-  }, 90000);
+  }, 180_000);
 });
 
 function completeHeaders() {

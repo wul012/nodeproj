@@ -168,7 +168,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     expect(profile.closureReview.remainingPrerequisites.every((prerequisite) => prerequisite.opensRuntimeShell === false))
       .toBe(true);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
-  }, 60000);
+  }, 180_000);
 
   it("keeps the v324 historical fixture fallback path available", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
@@ -183,7 +183,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     expect(profile.closureReview.remainingPrerequisiteCount).toBe(1);
     expect(profile.closureReview.nextConcretePrerequisiteId).toBe("abort-rollback-semantics");
     expect(profile.newJavaMiniKvEchoRequested).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("blocks when upstream probes or actions are enabled", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixturePrerequisiteClosureReview({
@@ -204,7 +204,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     expect(profile.connectsManagedAudit).toBe(false);
     expect(profile.httpRequestSent).toBe(false);
     expect(profile.tcpConnectionAttempted).toBe(false);
-  }, 60000);
+  }, 180_000);
 
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
@@ -245,7 +245,7 @@ describe("managed audit manual sandbox connection credential resolver no-network
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {

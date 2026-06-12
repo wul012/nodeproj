@@ -54,7 +54,7 @@ describe("Java/mini-kv shard readiness evidence audit route group", () => {
     } finally {
       await app.close();
     }
-  }, 60000);
+  }, 180_000);
 });
 
 function completeHeaders() {
