@@ -49,6 +49,7 @@ For each completed Node version:
 - Write code walkthrough notes under the current code-walkthrough sibling directory, such as `代码讲解记录_生产雏形阶段2/`, keeping the previous document style and naming.
 - Code walkthrough notes must be written in Chinese. Each version-level code walkthrough must contain at least 3000 Chinese characters; if the explanation cannot naturally reach that depth, enlarge the real engineering work, refactor scope, or verification coverage for that version instead of padding with repetitive prose.
 - Update or create the appropriate plan document when the version changes future order.
+- Update `CHANGELOG.md` for the completed version; git tags remain the canonical milestone version while `package.json` stays `0.1.0` until a packaging/release workflow explicitly changes that policy.
 - Commit, tag as `v<version>`, and push.
 
 If any of these steps cannot be done, state the reason clearly.

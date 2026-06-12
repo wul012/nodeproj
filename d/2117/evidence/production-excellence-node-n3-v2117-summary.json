@@ -1,0 +1,98 @@
+{
+  "service": "orderops-node",
+  "version": "v2117",
+  "milestone": "N3 boundaries and release discipline",
+  "generatedAt": "2026-06-12T15:15:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServices": false,
+    "altersEvidenceSchemas": false,
+    "addsDocumentationContractTest": true
+  },
+  "deliverables": [
+    "docs/PRODUCTION_BOUNDARIES.md",
+    "CHANGELOG.md",
+    "fixtures/MANIFEST.md",
+    "test/productionExcellenceDocs.test.ts",
+    "AGENTS.md changelog closeout rule",
+    "docs/plans/production-excellence-node-playbook.md N3 progress row",
+    "d/2117/解释/production-excellence-node-n3-v2117.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2088-production-excellence-node-boundaries-v2117.md"
+  ],
+  "decisions": {
+    "packageVersionPolicy": "package.json remains 0.1.0; git tags such as v2117 are the canonical milestone identifiers.",
+    "productionExecution": "not authorized",
+    "fixturePolicy": "fixtures/historical/sibling-workspaces files are frozen load-bearing evidence and must not be renamed, moved, overwritten, or reformatted as unrelated cleanup.",
+    "crossProjectParallel": "Java and mini-kv can continue in parallel; Node v2117 is documentation and local docs-test work only."
+  },
+  "fixtureSummary": {
+    "java": {
+      "root": "fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/",
+      "fileCount": 222,
+      "jsonCount": 50,
+      "evidenceJsonCount": 44,
+      "versionSpan": "v82-v274"
+    },
+    "miniKv": {
+      "root": "fixtures/historical/sibling-workspaces/mini-kv/",
+      "fileCount": 174,
+      "jsonCount": 77,
+      "releaseJsonCount": 77,
+      "versionSpan": "v91-v610"
+    }
+  },
+  "verification": {
+    "focusedDocsTest": {
+      "command": "npx vitest run test/productionExcellenceDocs.test.ts -- --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 1,
+      "testsPassed": 4
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing baseline from the production-excellence renderer and route surface."
+    },
+    "coverage": {
+      "command": "npm run test:coverage",
+      "result": "passed",
+      "filesPassed": 525,
+      "testsPassed": 1616,
+      "durationSeconds": 709.8,
+      "thresholds": {
+        "statements": 93,
+        "branches": 85,
+        "functions": 96,
+        "lines": 93
+      },
+      "summary": {
+        "statements": "95.81% (27384/28580)",
+        "branches": "87.38% (29053/33246)",
+        "functions": "98.38% (11825/12019)",
+        "lines": "95.78% (26533/27702)"
+      }
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "httpSmoke": {
+      "command": "not run locally for this docs-only version",
+      "result": "not applicable",
+      "note": "v2117 changes documentation, fixture manifest, and a docs contract test only; the pushed Node Evidence workflow still runs its standard HTTP smoke."
+    }
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      "coverage/",
+      "dist/"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
