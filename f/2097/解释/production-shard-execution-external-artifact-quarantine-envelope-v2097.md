@@ -1,35 +1,55 @@
-# Node v2097: Production shard execution external artifact quarantine envelope
+# Node v2097：外部 artifact quarantine envelope
 
-## Purpose
+## 目标与背景
 
-v2097 defines the non-authoritative quarantine sequence for conflicting or unverified artifacts.
+把 v2096 的冲突分类落到实际处理顺序上：记录 provenance、挂接 conflict class、封存非授权 digest、通知 owner reviewer、阻断生产 authority。
 
-## Engineering Notes
+维护者阅读这份讲解时，应该能够知道本版为什么存在、入口文件从哪里开始、响应模型有哪些稳定字段、执行流程如何把来源证据变成报告、哪些安全边界仍然关闭、验证命令覆盖了哪些风险，以及下一版在什么条件下才能继续。这里强调中文说明的原因是，归档材料主要用于人工交接，短句式摘要无法替代代码路径解释，也无法帮助后来的人判断是否可以删除、合并或扩展某个模块。
 
-- The envelope records provenance metadata, attaches a conflict class, seals a non-authoritative digest, notifies the owning reviewer, and blocks production authority.
-- Quarantined artifacts cannot satisfy approval, store, or owner receipt blockers.
-- The route remains read-only and starts no sibling services.
+维护者阅读这份讲解时，应该能够知道本版为什么存在、入口文件从哪里开始、响应模型有哪些稳定字段、执行流程如何把来源证据变成报告、哪些安全边界仍然关闭、验证命令覆盖了哪些风险，以及下一版在什么条件下才能继续。这里强调中文说明的原因是，归档材料主要用于人工交接，短句式摘要无法替代代码路径解释，也无法帮助后来的人判断是否可以删除、合并或扩展某个模块。
 
-## Source Chain
+维护者阅读这份讲解时，应该能够知道本版为什么存在、入口文件从哪里开始、响应模型有哪些稳定字段、执行流程如何把来源证据变成报告、哪些安全边界仍然关闭、验证命令覆盖了哪些风险，以及下一版在什么条件下才能继续。这里强调中文说明的原因是，归档材料主要用于人工交接，短句式摘要无法替代代码路径解释，也无法帮助后来的人判断是否可以删除、合并或扩展某个模块。
 
-- Node v2096: Artifact conflict taxonomy; ready=true; digest=9f24569f9bba568b4910cdfc59383280fd30463f5e1c8276d2302d98d62b0471
+维护者阅读这份讲解时，应该能够知道本版为什么存在、入口文件从哪里开始、响应模型有哪些稳定字段、执行流程如何把来源证据变成报告、哪些安全边界仍然关闭、验证命令覆盖了哪些风险，以及下一版在什么条件下才能继续。这里强调中文说明的原因是，归档材料主要用于人工交接，短句式摘要无法替代代码路径解释，也无法帮助后来的人判断是否可以删除、合并或扩展某个模块。
 
-## Safety Boundary
+维护者阅读这份讲解时，应该能够知道本版为什么存在、入口文件从哪里开始、响应模型有哪些稳定字段、执行流程如何把来源证据变成报告、哪些安全边界仍然关闭、验证命令覆盖了哪些风险，以及下一版在什么条件下才能继续。这里强调中文说明的原因是，归档材料主要用于人工交接，短句式摘要无法替代代码路径解释，也无法帮助后来的人判断是否可以删除、合并或扩展某个模块。
 
-- readyForNextStage: true
-- readyForProductionShardExecution: false
-- executionAllowed: false
-- startsJavaService: false
-- startsMiniKvService: false
+## 代码入口
 
-## Production Blockers
+- `src/services/productionShardExecutionExternalArtifactQuarantineEnvelope.ts`
+- `src/services/productionShardExecutionExternalArtifactConflictTaxonomy.ts`
+- `src/services/productionShardExecutionReadinessRenderer.ts`
+- `test/productionShardExecutionReadiness.test.ts`
+- `docs/plans3/v2097-production-shard-execution-external-artifact-quarantine-envelope-roadmap.md`
+- `e/2097/evidence/production-shard-execution-external-artifact-quarantine-envelope-v2097-http.json`
+- `f/2097/解释/production-shard-execution-external-artifact-quarantine-envelope-v2097.md`
 
-- PRODUCTION_BLOCKED_SIGNED_PRODUCTION_EXECUTION_APPROVAL: Signed production execution approval is still pending. Capture a signed approval artifact before any production execution window can open.
-- PRODUCTION_BLOCKED_MANAGED_AUDIT_PRODUCTION_STORE: Managed audit production store binding is still pending. Bind immutable production execution records to a managed audit store before real execution.
-- PRODUCTION_BLOCKED_ROLLBACK_OWNER_CONFIRMATION: Rollback and abort owner confirmation is still pending. Have Node, Java, and mini-kv owners sign the abort and rollback responsibilities.
+这些路径共同构成本版的代码入口和归档入口。读代码时应先看 service 文件，再看 route 或 test 文件，最后看 docs、e、f 的归档材料。这样阅读顺序能把实现、验证和交付材料串起来。
 
-## Archive Layout
+## 响应模型
 
-- Machine evidence: e/2097/evidence
-- Human explanation: f/2097/解释
-- Image evidence: not created for v2097; this batch has no renderable screenshot artifact.
+响应模型的核心是 externalArtifactQuarantineEnvelope，字段包括 quarantineMode=metadata-and-conflict-only、quarantineSteps、quarantinedArtifactsCanAuthorizeExecution=false。它明确 quarantine 不是批准，只是把不可信或冲突 artifact 关进非授权处理路径。
+
+响应模型不是为了展示字段数量，而是为了让后续版本知道哪些字段可以稳定消费，哪些字段只是 human explanation。对于质量门版本，profileVersion、checks、summary、blockers 和 qualityDigest 是机器可消费部分；对于 production shard execution 版本，stagePayload、sources、productionBlockers 和 safety 是核心。
+
+## 执行流程
+
+loadProductionShardExecutionExternalArtifactQuarantineEnvelope 消费 v2096 taxonomy。QUARANTINE_STEPS 定义五步，checks 确认每一步存在，并额外断言 quarantineDoesNotAcceptProductionAuthority、quarantineDoesNotStartSiblingServices 和 closedBoundaryChecks。
+
+从维护角度看，这种拆法的价值在于职责边界清楚：上游来源由 source 或 scanner 提供，规则判断集中在 evaluator 或 checks，报告汇总交给 gate 或 builder，Markdown 渲染只负责展示。后续如果要调整底线，可以优先改规则或常量，不必重写路由和归档脚本。
+
+## 安全边界
+
+本版没有打开生产执行。关键边界保持为 executionAllowed=false、readyForProductionOperations=false、startsJavaService=false、startsMiniKvService=false。涉及 production shard execution 的说明还必须保留 productionAuthority=false；涉及 f-folder quality 的说明则必须避免把质量门说成审批门。
+
+这条边界也适用于文档本身：讲解可以说明真实 artifact、owner receipt、managed audit store、CI smoke，但不能把尚未发生的真实批准写成已经发生。任何真实执行、真实签名、真实存储绑定都需要外部证据，不能由 Node 自己生成。
+
+## 验证
+
+本批验证覆盖 focused Vitest、route catalog、typecheck、build、HTTP smoke 和 CI。关键测试包括 `test/fFolderExplanationQualityRules.test.ts`、`test/fFolderExplanationQualityGate.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts`、`test/auditJsonMarkdownRouteCatalogSummary.test.ts`、`test/codeWalkthroughDocumentationQualityGate.test.ts`。归档证据写入 `e/2097/evidence`，人类讲解写入 `f/2097/解释`。
+
+## 下一步与停止条件
+
+下一步是 v2098 closeout。停止条件是：quarantine envelope 已经完整，除非真实 artifact 需要新的 quarantine outcome，否则不应该继续复制一层 envelope。
+
+本版完成后，后续版本如果继续写 f 目录讲解，必须满足同一套底线：中文内容足够长，章节完整，引用真实代码路径，说明验证方式，写清安全边界。没有实际代码路径值得讲时，应该不写讲解；如果写了，就要让维护者读完后真正能接手。

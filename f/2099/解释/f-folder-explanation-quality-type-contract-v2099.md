@@ -1,8 +1,8 @@
-# Node v2094：真实 artifact intake readiness switch
+# Node v2099：f 目录讲解质量类型契约
 
 ## 目标与背景
 
-把 v2093 的 dry-run closeout 推进成关闭状态的真实 artifact intake 开关，明确未来必须出现哪些真实 artifact，但不接收载荷、不授予生产执行。
+把中文讲解的底线从口头要求转成类型契约：目录、版本范围、篇幅、中文字符数、代码路径引用、扫描摘要和 blocker 都有稳定字段。
 
 维护者阅读这份讲解时，应该能够知道本版为什么存在、入口文件从哪里开始、响应模型有哪些稳定字段、执行流程如何把来源证据变成报告、哪些安全边界仍然关闭、验证命令覆盖了哪些风险，以及下一版在什么条件下才能继续。这里强调中文说明的原因是，归档材料主要用于人工交接，短句式摘要无法替代代码路径解释，也无法帮助后来的人判断是否可以删除、合并或扩展某个模块。
 
@@ -16,25 +16,25 @@
 
 ## 代码入口
 
-- `src/services/productionShardExecutionRealArtifactIntakeReadinessSwitch.ts`
-- `src/services/productionShardExecutionExternalArtifactDryRunCloseout.ts`
-- `src/services/productionShardExecutionReadinessBuilder.ts`
-- `test/productionShardExecutionReadiness.test.ts`
-- `docs/plans3/v2094-production-shard-execution-real-artifact-intake-readiness-switch-roadmap.md`
-- `e/2094/evidence/production-shard-execution-real-artifact-intake-readiness-switch-v2094-http.json`
-- `f/2094/解释/production-shard-execution-real-artifact-intake-readiness-switch-v2094.md`
+- `src/services/fFolderExplanationQualityTypes.ts`
+- `src/services/fFolderExplanationQualityRules.ts`
+- `test/fFolderExplanationQualityRules.test.ts`
+- `docs/code-walkthrough-documentation-standard.md`
+- `docs/plans3/v2099-f-folder-explanation-quality-type-contract-roadmap.md`
+- `e/2099/evidence/f-folder-explanation-quality-type-contract-v2099-summary.json`
+- `f/2099/解释/f-folder-explanation-quality-type-contract-v2099.md`
 
 这些路径共同构成本版的代码入口和归档入口。读代码时应先看 service 文件，再看 route 或 test 文件，最后看 docs、e、f 的归档材料。这样阅读顺序能把实现、验证和交付材料串起来。
 
 ## 响应模型
 
-响应模型的核心是 realArtifactIntakeReadinessSwitch、archiveLayout、growthStopCondition、checks、sources 和 productionBlockers。realArtifactIntakeEnabled=false，productionAuthority=false，requiredRealArtifactKinds 列出 signed-production-approval、managed-audit-store-owner-binding、java-owner-receipt、mini-kv-owner-receipt、cleanup-reconciliation-receipt。
+响应模型从 FFolderExplanationQualityProfile 开始，包含 scanScope、checks、summary、enforcedExplanations、blockers、warnings、recommendations 和 qualityDigest。document evaluation 记录 byteLength、chineseCharacterCount、codePathReferences、missingRequiredSections 和 complianceScore。
 
 响应模型不是为了展示字段数量，而是为了让后续版本知道哪些字段可以稳定消费，哪些字段只是 human explanation。对于质量门版本，profileVersion、checks、summary、blockers 和 qualityDigest 是机器可消费部分；对于 production shard execution 版本，stagePayload、sources、productionBlockers 和 safety 是核心。
 
 ## 执行流程
 
-loadProductionShardExecutionRealArtifactIntakeReadinessSwitch 先调用 v2093 closeout，使用 profileSource 固定来源 digest，再增加两个 satisfied control：一个证明真实 artifact 开关默认关闭，一个证明 required artifact kind 已命名。随后 productionApprovalControls 继续注入三条生产阻塞项，createProductionShardExecutionProfile 统一计算 readinessDigest、summary、productionBlockers 和 safety。
+v2099 主要落在 fFolderExplanationQualityTypes.ts。它不读取文件、不启动服务，只定义未来 scanner、rules、gate 共享的结构。这样 v2100-v2102 可以分别实现扫描、评价和路由，而不是把所有逻辑挤在一个巨型文件里。
 
 从维护角度看，这种拆法的价值在于职责边界清楚：上游来源由 source 或 scanner 提供，规则判断集中在 evaluator 或 checks，报告汇总交给 gate 或 builder，Markdown 渲染只负责展示。后续如果要调整底线，可以优先改规则或常量，不必重写路由和归档脚本。
 
@@ -46,10 +46,10 @@ loadProductionShardExecutionRealArtifactIntakeReadinessSwitch 先调用 v2093 cl
 
 ## 验证
 
-本批验证覆盖 focused Vitest、route catalog、typecheck、build、HTTP smoke 和 CI。关键测试包括 `test/fFolderExplanationQualityRules.test.ts`、`test/fFolderExplanationQualityGate.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts`、`test/auditJsonMarkdownRouteCatalogSummary.test.ts`、`test/codeWalkthroughDocumentationQualityGate.test.ts`。归档证据写入 `e/2094/evidence`，人类讲解写入 `f/2094/解释`。
+本批验证覆盖 focused Vitest、route catalog、typecheck、build、HTTP smoke 和 CI。关键测试包括 `test/fFolderExplanationQualityRules.test.ts`、`test/fFolderExplanationQualityGate.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts`、`test/auditJsonMarkdownRouteCatalogSummary.test.ts`、`test/codeWalkthroughDocumentationQualityGate.test.ts`。归档证据写入 `e/2099/evidence`，人类讲解写入 `f/2099/解释`。
 
 ## 下一步与停止条件
 
-下一步是 v2095 provenance preflight。停止条件是：如果没有 provenance 和 conflict taxonomy，就不能打开真实 artifact intake。Java 和 mini-kv 可以并行准备 owner receipt，但 Node 不能把这个开关当成批准。
+下一步是 v2100 scanner。停止条件是：类型层只定义字段，不进行文件系统扫描，不做内容判断，避免职责膨胀。
 
 本版完成后，后续版本如果继续写 f 目录讲解，必须满足同一套底线：中文内容足够长，章节完整，引用真实代码路径，说明验证方式，写清安全边界。没有实际代码路径值得讲时，应该不写讲解；如果写了，就要让维护者读完后真正能接手。
