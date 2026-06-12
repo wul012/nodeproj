@@ -99,7 +99,7 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     standardDocument: typeof CODE_WALKTHROUGH_STANDARD_PATH;
     sampleDocument: typeof CODE_WALKTHROUGH_SAMPLE_PATH;
     enforcementFloorRecord: typeof CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD;
-    activeNodeVersionRange: "Node v2058-v2077";
+    activeNodeVersionRange: "Node v2058-v2103";
     historicalLegacyBlocking: false;
   };
   checks: {

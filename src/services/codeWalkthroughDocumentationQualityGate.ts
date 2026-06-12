@@ -103,7 +103,7 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     standardDocument: CODE_WALKTHROUGH_STANDARD_PATH,
     sampleDocument: CODE_WALKTHROUGH_SAMPLE_PATH,
     enforcementFloorRecord: CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD,
-    activeNodeVersionRange: "Node v2058-v2077" as const,
+    activeNodeVersionRange: "Node v2058-v2103" as const,
     historicalLegacyBlocking: false as const,
   };
   const qualityDigest = sha256StableJson({

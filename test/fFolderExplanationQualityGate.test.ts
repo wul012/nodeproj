@@ -3,19 +3,19 @@ import { describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
-  loadCodeWalkthroughDocumentationQualityGate,
-} from "../src/services/codeWalkthroughDocumentationQualityGate.js";
+  loadFFolderExplanationQualityGate,
+} from "../src/services/fFolderExplanationQualityGate.js";
 
-const ROUTE = "/api/v1/audit/code-walkthrough-documentation-quality-gate";
+const ROUTE = "/api/v1/audit/f-folder-explanation-quality-gate";
 
-describe("code walkthrough documentation quality gate", () => {
-  it("verifies the bucketed walkthrough directory without opening runtime execution", () => {
-    const profile = loadCodeWalkthroughDocumentationQualityGate({ config: loadTestConfig() });
+describe("f-folder explanation quality gate", () => {
+  it("verifies enforced f-folder explanations without opening production execution", () => {
+    const profile = loadFFolderExplanationQualityGate({ config: loadTestConfig() });
 
     expect(profile).toMatchObject({
-      profileVersion: "code-walkthrough-documentation-quality-gate.v1",
+      profileVersion: "f-folder-explanation-quality-gate.v1",
       qualityGateState: "verified-quality-gate",
-      readyForCodeWalkthroughDocumentationQualityGate: true,
+      readyForFFolderExplanationQualityGate: true,
       readyForProductionAudit: false,
       readyForProductionWindow: false,
       readyForProductionOperations: false,
@@ -27,34 +27,36 @@ describe("code walkthrough documentation quality gate", () => {
       mutatesJavaState: false,
       mutatesMiniKvState: false,
       scanScope: {
-        root: "代码讲解记录_生产雏形阶段3",
-        enforcementFloorRecord: 2063,
-        activeNodeVersionRange: "Node v2058-v2103",
+        root: "f",
+        explanationDirName: "解释",
+        imageDirName: "图片",
+        enforcementFloorVersion: 2094,
+        activeNodeVersionRange: "Node v2094-v2103",
+        minBytes: 3600,
+        minChineseCharacters: 900,
+        minCodePathReferences: 4,
         historicalLegacyBlocking: false,
       },
       checks: {
-        walkthroughRootExists: true,
-        stageReadmePresent: true,
-        standardDocumentPresent: true,
-        sampleDocumentPresent: true,
-        expectedBucketsPresent: true,
-        rootHasNoMarkdownOverflow: true,
-        bucketAlignmentStable: true,
-        enforcedWalkthroughsPresent: true,
-        noEnforcedPlaceholderWalkthroughs: true,
-        enforcedWalkthroughsMeetRequiredShape: true,
+        fRootExists: true,
+        enforcedExplanationsPresent: true,
+        enforcedVersionsHaveExplanationDirs: true,
+        noEmptyImageDirectories: true,
+        noShortEnforcedExplanations: true,
+        enforcedChineseDepthMet: true,
+        enforcedRequiredShapeMet: true,
+        enforcedCodePathDensityMet: true,
+        noEnforcedPlaceholderExplanations: true,
         noForbiddenExecutionClaims: true,
-        batchWalkthroughPolicyDocumented: true,
-        historicalLegacyAllowedButVisible: true,
         scanCompleted: true,
-        readyForCodeWalkthroughDocumentationQualityGate: true,
+        readyForFFolderExplanationQualityGate: true,
       },
     });
-    expect(profile.summary.totalWalkthroughCount).toBeGreaterThan(1600);
-    expect(profile.summary.enforcedWalkthroughCount).toBeGreaterThanOrEqual(2);
-    expect(profile.summary.enforcedMissingRequiredShapeCount).toBe(0);
-    expect(profile.summary.enforcedPlaceholderCount).toBe(0);
-    expect(profile.bucketSummary.r2000.enforcedMarkdownCount).toBeGreaterThanOrEqual(2);
+    expect(profile.summary.enforcedExplanationCount).toBeGreaterThanOrEqual(11);
+    expect(profile.summary.enforcedCompliantExplanationCount).toBe(profile.summary.enforcedExplanationCount);
+    expect(profile.summary.shortExplanationCount).toBe(0);
+    expect(profile.summary.shallowChineseExplanationCount).toBe(0);
+    expect(profile.summary.lowCodePathDensityCount).toBe(0);
     expect(profile.blockers).toEqual([]);
     expect(profile.qualityDigest).toMatch(/^[a-f0-9]{64}$/);
   });
@@ -76,17 +78,17 @@ describe("code walkthrough documentation quality gate", () => {
 
       expect(json.statusCode).toBe(200);
       expect(json.json()).toMatchObject({
-        profileVersion: "code-walkthrough-documentation-quality-gate.v1",
+        profileVersion: "f-folder-explanation-quality-gate.v1",
         qualityGateState: "verified-quality-gate",
-        readyForCodeWalkthroughDocumentationQualityGate: true,
+        readyForFFolderExplanationQualityGate: true,
         executionAllowed: false,
         connectsManagedAudit: false,
       });
       expect(markdown.statusCode).toBe(200);
       expect(markdown.headers["content-type"]).toContain("text/markdown");
-      expect(markdown.body).toContain("# Code walkthrough documentation quality gate");
-      expect(markdown.body).toContain("## Enforced Walkthroughs");
-      expect(markdown.body).toContain("code-walkthrough-documentation-quality-gate.v1");
+      expect(markdown.body).toContain("# F-folder explanation quality gate");
+      expect(markdown.body).toContain("## Enforced Explanations");
+      expect(markdown.body).toContain("f-folder-explanation-quality-gate.v1");
     } finally {
       await app.close();
     }
@@ -95,10 +97,10 @@ describe("code walkthrough documentation quality gate", () => {
 
 function completeHeaders() {
   return {
-    "x-orderops-operator-id": "auditor-code-walkthrough-quality",
+    "x-orderops-operator-id": "auditor-f-folder-explanation-quality",
     "x-orderops-roles": "auditor,operator,viewer",
     "x-orderops-operator-verified": "true",
-    "x-orderops-approval-correlation-id": "approval-code-walkthrough-quality-gate",
+    "x-orderops-approval-correlation-id": "approval-f-folder-explanation-quality-gate",
   };
 }
 
@@ -119,7 +121,7 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     AUDIT_ROTATION_ENABLED: "true",
     AUDIT_BACKUP_ENABLED: "true",
     AUDIT_STORE_URL: "managed-audit://contract-only",
-    PORT: "4341",
+    PORT: "4399",
     ...overrides,
   });
 }

@@ -3,6 +3,10 @@ import {
   renderCodeWalkthroughDocumentationQualityGateMarkdown,
 } from "../services/codeWalkthroughDocumentationQualityGate.js";
 import {
+  loadFFolderExplanationQualityGate,
+  renderFFolderExplanationQualityGateMarkdown,
+} from "../services/fFolderExplanationQualityGate.js";
+import {
   loadManagedAuditRouteHelperQualityPass,
   renderManagedAuditRouteHelperQualityPassMarkdown,
 } from "../services/managedAuditRouteHelperQualityPass.js";
@@ -20,6 +24,11 @@ export const managedAuditRouteQualityAuditJsonMarkdownRoutes: readonly AuditJson
     loadCodeWalkthroughDocumentationQualityGate({
       config: deps.config,
     }), renderCodeWalkthroughDocumentationQualityGateMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/f-folder-explanation-quality-gate", (deps) =>
+    loadFFolderExplanationQualityGate({
+      config: deps.config,
+    }), renderFFolderExplanationQualityGateMarkdown),
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-helper-quality-pass", (deps) => loadManagedAuditRouteHelperQualityPass({
     config: deps.config,

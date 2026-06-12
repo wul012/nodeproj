@@ -20,6 +20,18 @@ Use `代码讲解记录/107-production-readiness-summary-v3-v103.md` as the mode
 - Test coverage section with focused, downstream, build, smoke, or CI verification.
 - One-sentence summary that records the version's engineering meaning.
 
+## F-Folder Chinese Explanation Floor
+
+Files under `f/<version>/解释/` are human-facing explanations, not placeholders. Starting with Node v2094, every explanation that exists must be substantive Chinese writing:
+
+- At least 3600 bytes.
+- At least 900 Chinese characters.
+- At least four real code, test, docs, archive, or walkthrough paths.
+- Must explain goal or context, code entry points, response model, service flow, safety boundary, verification, and next step or stop condition.
+- Must not claim production authority, production operations, credential access, live upstream writes, or sibling service startup unless the verified code actually does it.
+
+Do not create `f/<version>/图片/` unless actual image or screenshot evidence exists. An empty image directory is a quality failure.
+
 ## What Not To Write
 
 - Do not create one-line or five-line placeholder walkthroughs only to satisfy a version count.

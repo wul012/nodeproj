@@ -66,6 +66,8 @@ describe("access policy profile", () => {
     expect(profile.routePolicies.find((policy) => policy.id === "audit-read")?.pathPatterns)
       .toContain("/api/v1/audit/code-*");
     expect(profile.routePolicies.find((policy) => policy.id === "audit-read")?.pathPatterns)
+      .toContain("/api/v1/audit/f-*");
+    expect(profile.routePolicies.find((policy) => policy.id === "audit-read")?.pathPatterns)
       .toContain("/api/v1/audit/production-shard-execution-*");
     expect(profile.productionBlockers.map((blocker) => blocker.code)).toEqual([
       "ACCESS_GUARD_NOT_ENFORCED",

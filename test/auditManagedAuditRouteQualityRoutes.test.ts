@@ -18,6 +18,11 @@ describe("managed audit route quality audit route group", () => {
         url: "/api/v1/audit/code-walkthrough-documentation-quality-gate",
         headers: completeHeaders(),
       });
+      const fFolderQualityJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/audit/f-folder-explanation-quality-gate",
+        headers: completeHeaders(),
+      });
       const helperJson = await app.inject({
         method: "GET",
         url: "/api/v1/audit/managed-audit-route-helper-quality-pass",
@@ -31,6 +36,7 @@ describe("managed audit route quality audit route group", () => {
 
       expect(paths).toEqual([
         "/api/v1/audit/code-walkthrough-documentation-quality-gate",
+        "/api/v1/audit/f-folder-explanation-quality-gate",
         "/api/v1/audit/managed-audit-route-helper-quality-pass",
         "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
       ]);
@@ -41,6 +47,14 @@ describe("managed audit route quality audit route group", () => {
       expect(documentationQualityJson.json()).toMatchObject({
         profileVersion: "code-walkthrough-documentation-quality-gate.v1",
         qualityGateState: "verified-quality-gate",
+        executionAllowed: false,
+        connectsManagedAudit: false,
+      });
+      expect(fFolderQualityJson.statusCode).toBe(200);
+      expect(fFolderQualityJson.json()).toMatchObject({
+        profileVersion: "f-folder-explanation-quality-gate.v1",
+        qualityGateState: "verified-quality-gate",
+        readyForFFolderExplanationQualityGate: true,
         executionAllowed: false,
         connectsManagedAudit: false,
       });
