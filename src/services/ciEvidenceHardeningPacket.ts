@@ -374,8 +374,8 @@ function createEvidenceExpectations(): EvidenceExpectation[] {
     {
       id: "full-test",
       phase: "verify",
-      command: "npm test",
-      expectedEvidence: "Vitest exits with code 0 and reports all test files passing.",
+      command: "npm run test:coverage",
+      expectedEvidence: "Vitest exits with code 0, reports all test files passing, and satisfies coverage thresholds.",
       localRequired: true,
       ciRequired: true,
       readOnly: true,

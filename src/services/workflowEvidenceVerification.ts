@@ -91,7 +91,7 @@ export function createWorkflowEvidenceVerification(
       && workflowContent.includes("node-version: \"22\""),
     npmCiPresent: workflowContent.includes("npm ci"),
     typecheckPresent: workflowContent.includes("npm run typecheck"),
-    testPresent: workflowContent.includes("npm test"),
+    testPresent: hasAcceptedTestCommand(workflowContent),
     buildPresent: workflowContent.includes("npm run build"),
     safeSmokeServerPresent: workflowContent.includes("node dist/server.js")
       && workflowContent.includes("node-evidence-smoke.pid"),
@@ -247,7 +247,7 @@ function collectBlockers(checks: WorkflowEvidenceVerification["checks"]): Workfl
   addBlocker(blockers, checks.nodeSetupPresent, "NODE_SETUP_MISSING", "Workflow must set up Node.js 22.");
   addBlocker(blockers, checks.npmCiPresent, "NPM_CI_MISSING", "Workflow must install dependencies with npm ci.");
   addBlocker(blockers, checks.typecheckPresent, "TYPECHECK_MISSING", "Workflow must run npm run typecheck.");
-  addBlocker(blockers, checks.testPresent, "TEST_MISSING", "Workflow must run npm test.");
+  addBlocker(blockers, checks.testPresent, "TEST_MISSING", "Workflow must run npm test or npm run test:coverage.");
   addBlocker(blockers, checks.buildPresent, "BUILD_MISSING", "Workflow must run npm run build.");
   addBlocker(blockers, checks.safeSmokeServerPresent, "SAFE_SMOKE_SERVER_MISSING", "Workflow must start the built Node server for safe smoke.");
   addBlocker(blockers, checks.healthSmokePresent, "HEALTH_SMOKE_MISSING", "Workflow must smoke /health.");
@@ -275,6 +275,10 @@ function collectWarnings(workflowContent: string): WorkflowEvidenceMessage[] {
   }
 
   return warnings;
+}
+
+function hasAcceptedTestCommand(workflowContent: string): boolean {
+  return workflowContent.includes("npm test") || workflowContent.includes("npm run test:coverage");
 }
 
 function collectNextActions(valid: boolean): string[] {

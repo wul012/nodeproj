@@ -24,7 +24,7 @@ describe("dependabot configuration", () => {
     expect(workflow).toContain(".github/dependabot.yml");
     expect(workflow).toContain("npm ci");
     expect(workflow).toContain("npm run typecheck");
-    expect(workflow).toContain("npm test");
+    expect(workflow).toContain("npm run test:coverage");
     expect(workflow).toContain("npm run build");
   });
 });

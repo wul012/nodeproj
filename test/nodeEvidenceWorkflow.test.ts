@@ -16,7 +16,7 @@ describe("node evidence workflow", () => {
     expect(workflow).toContain("node-version: \"22\"");
     expect(workflow).toContain("npm ci");
     expect(workflow).toContain("npm run typecheck");
-    expect(workflow).toContain("npm test");
+    expect(workflow).toContain("npm run test:coverage");
     expect(workflow).toContain("npm run build");
     expect(workflow).toContain("node dist/server.js");
     expect(workflow).toContain("UPSTREAM_PROBES_ENABLED: \"false\"");

@@ -1,0 +1,140 @@
+{
+  "service": "orderops-node",
+  "version": "v2116",
+  "milestone": "N2 coverage",
+  "generatedAt": "2026-06-12T14:45:00+08:00",
+  "scope": {
+    "addsCoverageGate": true,
+    "changesCiTestStep": true,
+    "changesRuntimeBehavior": false,
+    "startsUpstreamServices": false,
+    "altersEvidenceSchemas": false
+  },
+  "coverage": {
+    "provider": "v8",
+    "include": [
+      "src/**/*.ts"
+    ],
+    "reporters": [
+      "text",
+      "html",
+      "json-summary"
+    ],
+    "reportsDirectory": "coverage",
+    "baselineMeasuredFromFullSuite": {
+      "statements": {
+        "covered": 27383,
+        "total": 28580,
+        "percent": 95.81
+      },
+      "branches": {
+        "covered": 29052,
+        "total": 33246,
+        "percent": 87.38
+      },
+      "functions": {
+        "covered": 11825,
+        "total": 12019,
+        "percent": 98.38
+      },
+      "lines": {
+        "covered": 26532,
+        "total": 27702,
+        "percent": 95.77
+      }
+    },
+    "thresholds": {
+      "statements": 93,
+      "branches": 85,
+      "functions": 96,
+      "lines": 93
+    },
+    "thresholdPolicy": "Measured baseline minus roughly two points, floored to whole percent, never below current maintenance margin."
+  },
+  "contractAdjustments": [
+    {
+      "file": ".github/workflows/node-evidence.yml",
+      "change": "The Test step now runs npm run test:coverage."
+    },
+    {
+      "file": "src/services/workflowEvidenceVerification.ts",
+      "change": "Workflow evidence accepts npm test or npm run test:coverage as the required test command."
+    },
+    {
+      "file": "src/services/ciEvidenceCommandProfile.ts",
+      "change": "The CI evidence test command is now npm run test:coverage and expects coverage thresholds to pass."
+    },
+    {
+      "file": "src/services/ciEvidenceHardeningPacket.ts",
+      "change": "The full-test expectation now documents coverage threshold evidence."
+    },
+    {
+      "file": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts",
+      "change": "The Node v249 security-maintenance proof now recognizes the current coverage test command in the workflow evidence file."
+    }
+  ],
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/workflowEvidenceVerification.test.ts test/nodeEvidenceWorkflow.test.ts test/dependabotConfig.test.ts test/ciEvidenceCommandProfile.test.ts test/ciEvidenceHardeningPacket.test.ts test/productionReadinessSummaryIndex.test.ts test/auditCredentialResolverApprovalRequiredReadinessRoutes.test.ts test/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanDraft.test.ts test/managedAuditManualSandboxConnectionRehearsalGuard.test.ts -- --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 9,
+      "testsPassed": 23
+    },
+    "coverage": {
+      "command": "npm run test:coverage",
+      "result": "passed",
+      "filesPassed": 524,
+      "testsPassed": 1612,
+      "durationSeconds": 621.61,
+      "note": "Vitest printed a worker shutdown timeout notice after the successful coverage summary, but the process exited with code 0 and all thresholds passed."
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "N0 baseline retained."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "httpSmoke": {
+      "result": "passed",
+      "host": "127.0.0.1",
+      "port": 4190,
+      "pidStopped": 28680,
+      "checks": {
+        "health": "ok",
+        "workflowValid": true,
+        "workflowTestPresent": true,
+        "ciProfileValid": true,
+        "ciProfileTestCommand": "npm run test:coverage",
+        "releaseReady": true,
+        "releaseExecutionAllowed": false,
+        "workflowMarkdownStatus": 200
+      }
+    }
+  },
+  "parallelProjectStatus": {
+    "java": "recommended parallel; Node v2116 uses only local CI/coverage evidence and does not require fresh Java evidence.",
+    "miniKv": "recommended parallel; Node v2116 uses only local CI/coverage evidence and does not require fresh mini-kv evidence."
+  },
+  "cleanupExpectation": {
+    "removeBeforeCommit": [
+      "coverage/",
+      "dist/",
+      ".tmp/v2116-smoke-out.log",
+      ".tmp/v2116-smoke-err.log"
+    ],
+    "keep": [
+      "e/2116/evidence/production-excellence-node-n2-coverage-v2116-summary.json",
+      "e/2116/evidence/production-excellence-node-n2-coverage-v2116-summary.md",
+      "代码讲解记录_生产雏形阶段3/r2000/2087-production-excellence-node-coverage-v2116.md"
+    ]
+  }
+}

@@ -427,7 +427,7 @@ function createNodeV249SecurityMaintenance(): SecurityMaintenanceReference {
     snippet("node-minor-patch", NODE_V249_DEPENDABOT, "node-production-dependencies"),
     snippet("node-semver-major-ignore", NODE_V249_DEPENDABOT, "version-update:semver-major"),
     snippet("node-ci-typecheck", NODE_V249_WORKFLOW, "npm run typecheck"),
-    snippet("node-ci-test", NODE_V249_WORKFLOW, "npm test"),
+    snippet("node-ci-test", NODE_V249_WORKFLOW, "npm run test:coverage"),
     snippet("node-boundary", NODE_V249_RUNBOOK, "未升级任何依赖版本"),
   ];
   return securityMaintenanceReference({

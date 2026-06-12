@@ -192,12 +192,12 @@ function createCommands(env: Record<string, string>): CiEvidenceCommand[] {
     {
       id: "test",
       phase: "verify",
-      description: "Run the Node test suite.",
-      command: "npm test",
+      description: "Run the Node test suite with coverage gates.",
+      command: "npm run test:coverage",
       ciRunnable: true,
       readOnly: true,
       requiresManualAuthorization: false,
-      expectedResult: "Vitest exits with code 0.",
+      expectedResult: "Vitest exits with code 0 and coverage thresholds pass.",
     },
     {
       id: "build",
