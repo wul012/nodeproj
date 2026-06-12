@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2125 - 2026-06-12
+
+- Migrated 3 shard readiness archive verification renderers to the shared
+  verification report builder while preserving live-read observation local
+  lines.
+
 ## v2124 - 2026-06-12
 
 - Migrated 5 minimal read-only integration archive verification renderers to the

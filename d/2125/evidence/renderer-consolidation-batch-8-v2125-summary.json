@@ -1,0 +1,93 @@
+{
+  "service": "orderops-node",
+  "version": "v2125",
+  "milestone": "N1 renderer consolidation batch 8",
+  "generatedAt": "2026-06-12T19:28:04+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 3,
+    "usesSharedVerificationReportBuilder": true,
+    "reusesSharedArchiveReferenceLineHelper": true,
+    "retainsLiveReadObservationLocalLines": true,
+    "rendererLineCountsAfterMigration": {
+      "javaMiniKvShardReadinessEvidenceConsumption": 61,
+      "minimalShardReadinessRegularGate": 63,
+      "minimalShardReadinessLiveRead": 88
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 3,
+      "insertions": 163,
+      "deletions": 247,
+      "netLineReduction": 84
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "N1 still had three shard-readiness archive verification renderers with repeated markdown skeletons and repeated archive-reference line helpers.",
+    "laterConsumer": "N5 Phase-B service/renderer folding can now inspect shard-readiness renderers as compact report specs instead of long hand-written markdown arrays.",
+    "reuseDecision": "The v2114 report builder and v2123 archive-reference helper cover the common title/meta/section/archive-reference shape. The live-read observation formatter remains local because it is specific to Java and mini-kv archived read observations.",
+    "growthStopCondition": "The batch stops at shard-readiness archive verification. Runtime execution pass evidence and fake transport packet renderers remain separate because their helper shapes and safety narratives differ."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvShardReadinessEvidenceConsumptionArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 3 shard-readiness archive verification test files --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 5,
+      "testsPassed": 14
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2125-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 3,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real archive profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2125WalkthroughChineseCharacters": 3044,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline and are outside this renderer-consolidation batch."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2125/evidence/renderer-consolidation-batch-8-v2125-summary.json",
+    "d/2125/解释/renderer-consolidation-batch-8-v2125.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2096-renderer-consolidation-batch-8-v2125.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2125 only changes Node markdown rendering for frozen shard-readiness archive profiles; it does not request fresh sibling evidence, live integration, upstream service startup, or schema changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2125-byte-identical-compare.test.ts",
+      ".tmp/v2125-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
