@@ -11,6 +11,11 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2124 - 2026-06-12
+
+- Migrated 5 minimal read-only integration archive verification renderers to the
+  shared verification report builder while preserving target-result local lines.
+
 ## v2123 - 2026-06-12
 
 - Migrated 5 sandbox handle review archive verification renderers to the shared

@@ -1,0 +1,84 @@
+{
+  "service": "orderops-node",
+  "version": "v2124",
+  "milestone": "N1 renderer consolidation batch 7",
+  "generatedAt": "2026-06-12T19:02:14+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "usesSharedVerificationReportBuilder": true,
+    "reusesSharedArchiveReferenceLineHelper": true,
+    "retainsTargetResultLocalLines": true
+  },
+  "necessityProof": {
+    "blockerResolved": "N1 still had five minimal read-only integration archive verification renderers with repeated markdown skeletons and repeated archive-reference line helpers.",
+    "laterConsumer": "N5 can treat these thinner minimal-integration renderers as Phase-B merge candidates, while the explicit target-result lines remain local to the one renderer that needs them.",
+    "reuseDecision": "The v2114 report builder and v2123 archive-reference helper cover this family. The gate-execution target result shape remains a local lines section because it is specific to read-only smoke targets.",
+    "growthStopCondition": "The batch stops at five minimal read-only integration renderers. Shard readiness, runtime pass evidence, and fake transport remain separate because their helper shapes differ."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationPassedArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationRegularGateArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 5 minimal read-only integration archive verification test files --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 7,
+      "testsPassed": 20
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2124-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 5,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real archive profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2124WalkthroughChineseCharacters": 3004,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline and are outside this renderer-consolidation batch."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2124/evidence/renderer-consolidation-batch-7-v2124-summary.json",
+    "d/2124/解释/renderer-consolidation-batch-7-v2124.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2095-renderer-consolidation-batch-7-v2124.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2124 only changes Node markdown rendering for frozen minimal read-only integration archive profiles; it does not request fresh sibling evidence, live integration, or upstream service startup."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2124-byte-identical-compare.test.ts",
+      ".tmp/v2124-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
