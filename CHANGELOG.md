@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2121 - 2026-06-12
+
+- Migrated 7 disabled runtime shell design draft archive verification renderers
+  to the shared verification report builder while retaining their local archive
+  reference helper.
+
 ## v2120 - 2026-06-12
 
 - Migrated 10 no-helper archive verification renderers across Java / mini-kv

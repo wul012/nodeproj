@@ -1,0 +1,86 @@
+{
+  "service": "orderops-node",
+  "version": "v2121",
+  "milestone": "N1 renderer consolidation batch 4",
+  "generatedAt": "2026-06-12T17:42:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 7,
+    "usesSharedVerificationReportBuilder": true,
+    "retainsLocalArchiveReferenceHelper": true
+  },
+  "necessityProof": {
+    "blockerResolved": "N1 must finish the archive-verification renderer families before N5 can safely merge thin renderer files back into services and lower file-count ratchets.",
+    "laterConsumer": "The disabled runtime shell design draft family is a later Phase-B merge candidate once renderer files only declare builder specs plus a small archive-reference helper.",
+    "reuseDecision": "The v2114 builder already supports entries, messages, and raw lines. The existing renderArchiveFileReferences helper remains local because it preserves a family-specific archive-reference line format without adding builder surface area.",
+    "growthStopCondition": "The batch stops at the seven disabled runtime shell design draft archive verification renderers; minimal integration and sandbox handle archive verification families remain separate batches."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyIntakeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftCandidateArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftOutlineArchiveVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 7 disabled runtime shell design draft archive verification test files --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 9,
+      "testsPassed": 32
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2121-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 7,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real fallback profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2121WalkthroughChineseCharacters": 3002,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2121/evidence/renderer-consolidation-batch-4-v2121-summary.json",
+    "d/2121/解释/renderer-consolidation-batch-4-v2121.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2092-renderer-consolidation-batch-4-v2121.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2121 only changes Node markdown rendering implementation for frozen local profiles; it does not require fresh sibling evidence, live integration, or upstream service startup."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2121-generate-renderers.mjs",
+      ".tmp/v2121-byte-identical-compare.test.ts",
+      ".tmp/v2121-legacy-*Renderer.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
