@@ -1,0 +1,101 @@
+{
+  "service": "orderops-node",
+  "version": "v2128",
+  "milestone": "N1 renderer consolidation batch 11",
+  "generatedAt": "2026-06-12T20:40:06+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 6,
+    "usesSharedVerificationReportBuilder": true,
+    "usesSharedEvidenceFileReferenceLineHelper": true,
+    "retainsBatchCloseoutFileLinesLocally": true,
+    "retainsProcessPlanAndReadTargetLinesLocally": true,
+    "retainsHistoricalFixtureRootLinesLocally": true,
+    "rendererLineCountsAfterMigration": {
+      "consumerReadinessEvidenceReport": 55,
+      "consumerReadinessBatchCloseoutReport": 37,
+      "currentEvidenceReport": 42,
+      "freshBaselineBatchCloseout": 38,
+      "latestSiblingLiveSmokePreflight": 60,
+      "siblingWorkspaceAvailabilityCloseout": 35
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 6,
+      "insertions": 225,
+      "deletions": 369,
+      "netLineReduction": 144
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "After v2127 migrated the evidence report family, the adjacent consumer-readiness, current-evidence, batch-closeout, preflight, and availability-closeout renderers still copied the same markdown title/meta/section skeleton.",
+    "laterConsumer": "N5 Phase-B review can now scan the remaining Java / mini-kv route catalog cleanup report surface without reading six more duplicated renderer bodies.",
+    "reuseDecision": "The shared report builder owns the markdown skeleton. The evidence-file helper is reused only for id/exists/resolvedPath/digest references. Batch closeout path/size/sha references, live-smoke process plans, read targets, and historical fixture roots remain local because their line shapes carry report-specific operational meaning.",
+    "growthStopCondition": "This batch adds no new helper. Future renderer migration must reuse the builder only when byte-identical comparison proves the output unchanged; new helpers require repeated same-shape evidence plus a written stop condition."
+  },
+  "migratedRenderers": [
+    "src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceReportRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessBatchCloseoutReportRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupCurrentEvidenceReportRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokePreflightRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseoutRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 6 route catalog cleanup renderer tests --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 8,
+      "testsPassed": 14
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2128-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 6,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real reports, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2128WalkthroughChineseCharacters": 3288,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline and are outside this renderer-consolidation batch."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2128/evidence/renderer-consolidation-batch-11-v2128-summary.json",
+    "d/2128/解释/renderer-consolidation-batch-11-v2128.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2099-renderer-consolidation-batch-11-v2128.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2128 only changes Node markdown rendering for existing route catalog cleanup reports; it does not request fresh sibling evidence, live integration, upstream service startup, or schema changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2128-byte-identical-compare.test.ts",
+      ".tmp/v2128-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
