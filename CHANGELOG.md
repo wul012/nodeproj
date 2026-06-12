@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2119 - 2026-06-12
+
+- Migrated 10 Java / mini-kv route catalog cleanup archive verification
+  renderers to the shared verification report builder with byte-identical
+  output proof.
+
 ## v2118 - 2026-06-12
 
 - Added `/api/v1/metrics` with per-upstream request, error, timeout, and

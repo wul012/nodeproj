@@ -1,0 +1,117 @@
+{
+  "service": "orderops-node",
+  "version": "v2119",
+  "milestone": "N1 renderer consolidation batch 2",
+  "generatedAt": "2026-06-12T16:23:54+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 10,
+    "usesSharedVerificationReportBuilder": true
+  },
+  "necessityProof": {
+    "blockerResolved": "N5 code-health work is blocked until the active N1 renderer consolidation plan finishes enough renderer migration and creates room for later file-count reductions.",
+    "laterConsumer": "Future Phase-B renderer folding and N5 file-splitting work consume the reduced renderer surface by merging fully standardized renderers into their owning service files without changing report output.",
+    "reuseDecision": "The v2114 verificationReportBuilder already expresses the archive verification markdown shape, so this version reuses it instead of adding another renderer helper or report chain.",
+    "growthStopCondition": "The version stops after ten uniform archive verification renderers; section-array, loop-heavy, and helper renderers remain deferred until a batch can migrate them without special cases."
+  },
+  "migratedRenderers": [
+    "src/services/javaMiniKvRouteCatalogCleanupCiCatalogHealthCloseoutArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessBatchCloseoutArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessEvidenceArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupCurrentEvidenceArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupExpandedStabilityCloseoutArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseoutArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupFreshBaselineEvidenceArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupFreshBaselineStabilityCloseoutArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupLatestEvidenceArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupReadinessHandoffEvidenceArchiveVerificationRenderer.ts"
+  ],
+  "standardShape": {
+    "metaFields": [
+      "Service",
+      "Generated at",
+      "Profile version",
+      "Archive verification state",
+      "Ready",
+      "Active Node version",
+      "Source Node version",
+      "Execution allowed"
+    ],
+    "commonSections": [
+      "Source Report",
+      "Summary",
+      "Checks",
+      "Archive Files",
+      "Next Actions"
+    ],
+    "documentedException": "fresh-baseline-evidence keeps its original Route Catalog section between Source Report and Summary."
+  },
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 12 javaMiniKvRouteCatalogCleanup archive verification focused tests --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 14,
+      "testsPassed": 16
+    },
+    "byteIdenticalCompare": {
+      "command": "npx tsx .tmp/v2119-byte-identical-compare.ts",
+      "result": "passed",
+      "comparedRenderers": 10,
+      "method": "Loaded real profiles, rebuilt the old array-join markdown model with renderEntries/renderList, and asserted equality with the migrated renderer output.",
+      "outputBytes": {
+        "ci-catalog-health-closeout": 2483,
+        "consumer-readiness-batch-closeout": 2267,
+        "consumer-readiness-evidence": 2343,
+        "current-evidence": 2250,
+        "expanded-stability-closeout": 2453,
+        "fresh-baseline-batch-closeout": 2391,
+        "fresh-baseline-evidence": 2434,
+        "fresh-baseline-stability-closeout": 2305,
+        "latest-evidence": 2215,
+        "readiness-handoff-evidence": 2263
+      }
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2119WalkthroughChineseCharacters": 3065,
+      "v2119WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2119/evidence/renderer-consolidation-batch-2-v2119-summary.json",
+    "d/2119/解释/renderer-consolidation-batch-2-v2119.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2090-renderer-consolidation-batch-2-v2119.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2119 only refactors Node markdown renderer implementation and consumes frozen local profile data; it does not require fresh Java or mini-kv evidence and does not change route contracts."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2119-byte-identical-compare.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
