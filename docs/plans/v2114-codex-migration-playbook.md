@@ -168,6 +168,7 @@ One version + one commit per batch, with walkthrough (中文 ≥3000 字) and
 | ----- | ------- | ------------------ | ---------------- | ----- | --------- |
 | foundation + 1 | v2114 | 2 + 10 | raw simple-list prefix deferred: 5 loop/flatMap document renderers and 5 section-array renderers | Step 0 + batch focused tests passed locally | ready in this commit |
 | 2 | v2119 | 10 | controlled shard preview, section-array, loop-heavy, and helper renderers deferred to later batches; this batch used only uniform Java / mini-kv route catalog cleanup archive verification renderers | `npm run typecheck`; 14 focused files / 16 tests; ratchet included; temporary exact compare 10/10 byte-identical | ready in this commit |
+| 3 | v2120 | 10 | helper-heavy disabled runtime shell / minimal integration / sandbox handle archive verification renderers deferred; this batch used no-helper archive verification renderers with entries/messages/list/raw lines only | `npm run typecheck`; 12 focused files / 22 tests; ratchet included; temporary Vitest exact compare 10/10 byte-identical | ready in this commit |
 
 ## Final acceptance checklist (the planner's last check)
 

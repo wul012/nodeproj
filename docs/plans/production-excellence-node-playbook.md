@@ -118,7 +118,7 @@ ratchet baselines strictly lower than at program start.
 | Milestone | Version(s) | State | Evidence |
 | --------- | ---------- | ----- | -------- |
 | N0 | v2115 | completed | ESLint flat config, 0 errors / 263 warnings baseline; package test script now plain `vitest run`; Vitest config and 497 explicit test timeouts unified at 180s; CI lint step added; full local closeout passed |
-| N1 | v2114+, v2119 | batch 1 committed and tagged (`v2114` / `0441f85a`); batch 2 completed locally as v2119 | playbook progress table; `d/2119/evidence/renderer-consolidation-batch-2-v2119-summary.json` |
+| N1 | v2114+, v2119-v2120 | batch 1 committed and tagged (`v2114` / `0441f85a`); batches 2-3 completed as v2119-v2120 | playbook progress table; `d/2119/evidence/renderer-consolidation-batch-2-v2119-summary.json`; `d/2120/evidence/renderer-consolidation-batch-3-v2120-summary.json` |
 | N2 | v2116 | completed | Vitest v8 coverage enabled in `npm run test:coverage`; CI Test step now runs coverage; baseline/actual statements 95.81%, branches 87.38%, functions 98.38%, lines 95.77%; thresholds set to 93/85/96/93 after a two-point floor buffer |
 | N3 | v2117 | completed | `docs/PRODUCTION_BOUNDARIES.md`, `CHANGELOG.md`, `fixtures/MANIFEST.md`, AGENTS changelog closeout rule, and `test/productionExcellenceDocs.test.ts` |
 | N4 | v2118 | completed | `/api/v1/metrics`, `UpstreamMetricsRegistry`, order-platform / mini-kv client instrumentation, request-id error correlation, access-policy coverage, metrics CI smoke, and latency aggregation tests |

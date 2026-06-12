@@ -1,0 +1,88 @@
+{
+  "service": "orderops-node",
+  "version": "v2120",
+  "milestone": "N1 renderer consolidation batch 3",
+  "generatedAt": "2026-06-12T17:10:03+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 10,
+    "usesSharedVerificationReportBuilder": true
+  },
+  "necessityProof": {
+    "blockerResolved": "N1 must keep shrinking repeated renderer code before N5 can safely lower file-count and unused-code ratchets.",
+    "laterConsumer": "Phase-B renderer folding can consume this batch because each migrated renderer now declares a builder spec instead of owning its own markdown join contract.",
+    "reuseDecision": "The v2114 builder already supports entries, messages, lists, and raw lines, so this batch maps archiveFiles/archiveReferences/snippet lines into existing lines sections instead of creating another helper.",
+    "growthStopCondition": "The batch stops at ten no-helper archive verification renderers; helper-heavy disabled runtime shell and minimal integration renderers remain deferred."
+  },
+  "migratedRenderers": [
+    "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingEvidenceArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupTwentyVersionRunCloseoutArchiveVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanBoundaryHandoffIntakeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanEvidenceIntakeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvCompletedShardReadinessEvidenceIntakeArchiveVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 10 migrated renderer test files --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 12,
+      "testsPassed": 22
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2120-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 10,
+      "method": "Temporary Vitest test loaded real profiles, rebuilt the old array-join markdown model, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2120WalkthroughChineseCharacters": 3023,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2120/evidence/renderer-consolidation-batch-3-v2120-summary.json",
+    "d/2120/解释/renderer-consolidation-batch-3-v2120.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2091-renderer-consolidation-batch-3-v2120.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2120 only changes Node markdown rendering implementation for existing local profiles; it does not request fresh sibling evidence or start upstream services."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2120-generate-renderers.mjs",
+      ".tmp/v2120-byte-identical-compare.ts",
+      ".tmp/v2120-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

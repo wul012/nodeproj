@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2120 - 2026-06-12
+
+- Migrated 10 no-helper archive verification renderers across Java / mini-kv
+  cleanup and managed-audit credential resolver reports to the shared
+  verification report builder.
+
 ## v2119 - 2026-06-12
 
 - Migrated 10 Java / mini-kv route catalog cleanup archive verification
