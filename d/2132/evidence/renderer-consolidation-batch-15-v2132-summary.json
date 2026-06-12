@@ -1,0 +1,99 @@
+{
+  "service": "orderops-node",
+  "version": "v2132",
+  "milestone": "N1 renderer consolidation batch 15",
+  "generatedAt": "2026-06-12T22:36:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 6,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalDecisionRecordFormatters": true,
+    "retainsLocalEvidenceFileAndSnippetRows": true,
+    "rendererLineCountsAfterMigration": {
+      "runtimeShellPostDecisionContinuationPlanIntake": 90,
+      "runtimeShellPostDecisionPlanIntakeUpstreamEchoVerification": 124,
+      "runtimeShellChainStopOrPrerequisiteDecisionRecord": 99,
+      "runtimeShellChainStopPrerequisiteUpstreamEchoVerification": 126,
+      "runtimeShellCandidateGateDecisionRecord": 94,
+      "runtimeShellCandidateGateUpstreamEchoVerification": 52
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 6,
+      "insertions": 389,
+      "deletions": 480,
+      "netLineReduction": 91
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "Runtime-shell candidate, post-decision, and chain-stop reports still repeated the same markdown frame after v2131 even though their local differences were limited to decision-record rows and Java/mini-kv evidence snippets.",
+    "laterConsumer": "N1 final acceptance and N5 Phase-B merge planning can now classify more runtime-shell governance reports as builder-backed before separating full reports from preview section renderers.",
+    "reuseDecision": "The shared verification report builder owns the report frame. Candidate/chain decision row projections, requirement/no-go strings, continuation options, and Java/mini-kv evidence file plus expected-snippet subsections remain local because they describe report-specific governance state.",
+    "growthStopCondition": "No helper was added. A future helper candidate must cover a repeated local row grammar across at least three remaining runtime-shell reports and pass temporary legacy exact comparison."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellChainStopOrPrerequisiteDecisionRecordRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellChainStopPrerequisiteUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateDecisionRecordRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 6 runtime-shell candidate/chain/post-decision tests --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 8,
+      "testsPassed": 29
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2132-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 6,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2132WalkthroughChineseCharacters": 3001,
+      "v2132WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2132/evidence/renderer-consolidation-batch-15-v2132-summary.json",
+    "d/2132/解释/renderer-consolidation-batch-15-v2132.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2103-renderer-consolidation-batch-15-v2132.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2132 only changes Node markdown rendering for existing runtime-shell governance reports and consumes frozen profile data; it does not request fresh sibling evidence, live integration, upstream service startup, or schema changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2132-byte-identical-compare.test.ts",
+      ".tmp/v2132-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

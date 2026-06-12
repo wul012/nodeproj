@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2132 - 2026-06-12
+
+- Migrated 6 runtime-shell candidate, post-decision, and chain-stop
+  governance renderers to the shared verification report builder while
+  preserving local decision-record and evidence snippet rows.
+
 ## v2131 - 2026-06-12
 
 - Migrated 6 fake-shell, fake-harness, execution-denied, final-prerequisite,
