@@ -1,0 +1,97 @@
+{
+  "service": "orderops-node",
+  "version": "v2126",
+  "milestone": "N1 renderer consolidation batch 9",
+  "generatedAt": "2026-06-12T19:49:14+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 2,
+    "usesSharedVerificationReportBuilder": true,
+    "retainsRuntimeArchiveReferenceEntryLines": true,
+    "retainsFakeTransportArchiveFileAndSnippetLines": true,
+    "archiveVerificationRendererSubsetComplete": true,
+    "rendererLineCountsAfterMigration": {
+      "javaMiniKvRuntimeExecutionPassEvidenceArchiveVerification": 43,
+      "fakeTransportPacketArchiveVerification": 62
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 2,
+      "insertions": 89,
+      "deletions": 123,
+      "netLineReduction": 34
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The archive verification renderer subset still had two tail shapes outside the shared report builder: runtime execution pass evidence entries and fake transport packet file/snippet lines.",
+    "laterConsumer": "N5 can now review archive verification renderers as builder-backed specs, with only local special-line helpers remaining where the evidence shape is genuinely distinct.",
+    "reuseDecision": "The v2114 report builder covers title/meta/sections/messages/list ordering. Runtime pass archive references remain renderEntries lines, and fake transport files/snippets remain local line formatters because neither shape is the generic archive file reference contract.",
+    "growthStopCondition": "The batch stops after these two tail renderers. A local scan found no remaining *ArchiveVerificationRenderer.ts file without verificationReportBuilder usage."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionFakeTransportPacketArchiveVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 2 tail archive verification test files --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 4,
+      "testsPassed": 10
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2126-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 2,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real archive profiles, and asserted equality with each migrated renderer output."
+    },
+    "archiveVerificationRendererSubsetScan": {
+      "command": "Get-ChildItem src/services -Filter '*ArchiveVerificationRenderer.ts' and report files without verificationReportBuilder usage",
+      "result": "passed",
+      "remainingFilesWithoutVerificationReportBuilder": 0
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2126WalkthroughChineseCharacters": 3081,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline and are outside this renderer-consolidation batch."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2126/evidence/renderer-consolidation-batch-9-v2126-summary.json",
+    "d/2126/解释/renderer-consolidation-batch-9-v2126.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2097-renderer-consolidation-batch-9-v2126.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2126 only changes Node markdown rendering for frozen archive profiles; it does not request fresh sibling evidence, live integration, upstream service startup, or schema changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2126-byte-identical-compare.test.ts",
+      ".tmp/v2126-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
