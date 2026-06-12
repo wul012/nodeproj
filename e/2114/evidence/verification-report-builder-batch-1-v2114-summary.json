@@ -1,0 +1,102 @@
+{
+  "version": "v2114",
+  "profileVersion": "verification-report-builder-batch-1.v1",
+  "state": "verified-local",
+  "commitScope": "foundation verification, repo hygiene, START_HERE curated tour, and first 10 standard renderer migrations",
+  "sourceHead": "7a6e1c09",
+  "rendererInventory": {
+    "totalRendererFiles": 245,
+    "migratedRendererFilesAfterBatch": 12,
+    "remainingRendererFiles": 233,
+    "foundationReferenceMigrations": 2,
+    "batchOneMigrations": 10
+  },
+  "ratchet": {
+    "serviceFileCount": 1125,
+    "serviceFileBaseline": 1125,
+    "routeFileCount": 80,
+    "routeFileBaseline": 80,
+    "baselineRaised": false
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerificationRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupCiCatalogHealthCloseoutRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupExpandedStabilityCloseoutRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupExtendedRunFinalCloseoutRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupFreshBaselineStabilityCloseoutRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseoutRenderer.ts",
+    "src/services/javaMiniKvRouteCatalogCleanupTwentyVersionRunCloseoutRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledImplementationCandidateReviewRenderer.ts"
+  ],
+  "deferredRawSimpleListPrefix": [
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewCandidateDocumentIntakePacketRenderer.ts",
+      "reason": "uses loops and nested item sections outside the initial catalog shape"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestRenderer.ts",
+      "reason": "uses loops and nested item sections outside the initial catalog shape"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckRenderer.ts",
+      "reason": "uses flatMap-generated nested sections and no trailing builder-compatible shape yet"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewCandidateDocumentRequestRenderer.ts",
+      "reason": "uses loops and explicit trailing newline handling"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckRenderer.ts",
+      "reason": "uses loops and nested checkpoint/validator sections"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSectionRenderer.ts",
+      "reason": "returns profile section arrays, not a complete markdown report"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts",
+      "reason": "aggregates profile section arrays, not a complete markdown report"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeProfileSectionRenderer.ts",
+      "reason": "returns profile section arrays, not a complete markdown report"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyImportProfileSectionRenderer.ts",
+      "reason": "returns profile section arrays, not a complete markdown report"
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyProfileSectionRenderer.ts",
+      "reason": "aggregates profile section arrays, not a complete markdown report"
+    }
+  ],
+  "verification": {
+    "typecheck": "npm run typecheck passed",
+    "step0Tests": "4 files, 12 tests passed",
+    "batchFocusedTests": "15 files, 28 tests passed",
+    "governanceGrowthRatchet": "passed",
+    "codeWalkthroughQualityGateAfterCiFix": "3 files, 5 tests passed after v2114 walkthrough reached the enforced Chinese floor and required shape"
+  },
+  "codeWalkthroughDocument": {
+    "path": "代码讲解记录_生产雏形阶段3/r2000/2085-verification-report-builder-batch-1-v2114.md",
+    "chineseCharacterCount": 3008,
+    "requiredShapeCompliant": true,
+    "complianceScore": 100
+  },
+  "repoHygiene": {
+    "ideaRemovedFromIndex": true,
+    "gitignoreIncludesIdea": true,
+    "startHereCuratedTourAdded": true,
+    "curatedTourPathsVerified": true
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "nodeBlocksSiblingProjects": false,
+    "requiresFreshSiblingEvidence": false
+  }
+}

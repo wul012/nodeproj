@@ -80,3 +80,15 @@ In simple terms: the project is moving from “we can prepare a safe disabled dr
 - `src/` — service implementation and route logic.
 - `test/` or project test folders — route, evidence, and safety-boundary tests.
 - Versioned archive folders — screenshots, explanations, and evidence records.
+
+## Curated tour (read these ~15 files, skip the rest)
+
+Most of `src/services` is versioned governance evidence produced by the incremental version loop. The living core of the system is:
+
+- `src/server.ts`, `src/app.ts`, `src/config.ts` — Fastify bootstrap and configuration gates.
+- `src/routes/statusRoutes.ts`, `src/routes/dashboardRoutes.ts` — health, status, and dashboard surface.
+- `src/routes/operationIntentRoutes.ts` -> `src/routes/operationPreflightRoutes.ts` -> `src/routes/operationDispatchRoutes.ts` — the intent / preflight / dry-run dispatch flow.
+- `src/routes/operationApprovalRequestRoutes.ts`, `src/routes/operationApprovalDecisionRoutes.ts` — approval evidence flow.
+- `src/routes/orderPlatformRoutes.ts`, `src/routes/miniKvRoutes.ts` — upstream boundaries (disabled by default).
+- `src/clients/` — the only code that would ever talk to upstreams.
+- `src/services/verificationReportBuilder.ts` + `src/services/liveProbeReportUtils.ts` — the shared report template all verification renderers use.
