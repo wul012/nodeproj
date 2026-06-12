@@ -1,37 +1,70 @@
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewProfile,
 } from "./managedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewProfile,
 ): string {
+  return renderVerificationReportMarkdown({
+    title: "Managed audit manual sandbox connection credential resolver final prerequisite closure review",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Review state", profile.reviewState],
+      ["Active Node version", profile.activeNodeReviewVersion],
+      ["Source readiness version", profile.sourceNodeReadinessVersion],
+      ["Target prerequisite id", profile.targetPrerequisiteId],
+      ["All prerequisites closed", profile.allPrerequisitesClosed],
+      [
+        "Ready for final prerequisite closure review",
+        profile.readyForManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview,
+      ],
+      ["Ready for implementation candidate gate", profile.readyForImplementationCandidateGate],
+      ["Ready for runtime shell implementation", profile.readyForRuntimeShellImplementation],
+      ["Execution allowed", profile.executionAllowed],
+      ["Credential value read", profile.credentialValueRead],
+      ["Raw endpoint URL parsed", profile.rawEndpointUrlParsed],
+      ["HTTP request sent", profile.httpRequestSent],
+      ["TCP connection attempted", profile.tcpConnectionAttempted],
+      ["Java SQL execution allowed", profile.javaSqlExecutionAllowed],
+      ["Rollback execution allowed", profile.rollbackExecutionAllowed],
+      ["mini-kv write command allowed", profile.miniKvWriteCommandAllowed],
+      ["Automatic upstream start", profile.automaticUpstreamStart],
+      ["Closure digest", profile.closureDigest],
+    ],
+    sections: [
+      { heading: "Source Node v327", lines: renderSourceNodeV327(profile) },
+      { heading: "Closure Review", lines: renderClosureReview(profile) },
+      {
+        heading: "Completed Prerequisites",
+        lines: profile.closureReview.completedPrerequisites.map((entry) =>
+          `- ${entry.id}: ${entry.closureState}; opensRuntimeShell=${entry.opensRuntimeShell}; evidence=${entry.evidence}`),
+      },
+      {
+        heading: "Checks",
+        lines: Object.entries(profile.checks).map(([key, value]) => `- ${key}: ${value}`),
+      },
+      { heading: "Summary", lines: renderSummary(profile) },
+      {
+        heading: "Production Blockers",
+        lines: renderMessages(profile.productionBlockers, "No production blockers."),
+      },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No warnings.") },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No recommendations."),
+      },
+      { heading: "Next Actions", lines: profile.nextActions.map((action) => `- ${action}`) },
+    ],
+  });
+}
+
+function renderSourceNodeV327(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewProfile,
+): string[] {
   return [
-    "# Managed audit manual sandbox connection credential resolver final prerequisite closure review",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Review state: ${profile.reviewState}`,
-    `- Active Node version: ${profile.activeNodeReviewVersion}`,
-    `- Source readiness version: ${profile.sourceNodeReadinessVersion}`,
-    `- Target prerequisite id: ${profile.targetPrerequisiteId}`,
-    `- All prerequisites closed: ${profile.allPrerequisitesClosed}`,
-    `- Ready for final prerequisite closure review: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview}`,
-    `- Ready for implementation candidate gate: ${profile.readyForImplementationCandidateGate}`,
-    `- Ready for runtime shell implementation: ${profile.readyForRuntimeShellImplementation}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Credential value read: ${profile.credentialValueRead}`,
-    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
-    `- HTTP request sent: ${profile.httpRequestSent}`,
-    `- TCP connection attempted: ${profile.tcpConnectionAttempted}`,
-    `- Java SQL execution allowed: ${profile.javaSqlExecutionAllowed}`,
-    `- Rollback execution allowed: ${profile.rollbackExecutionAllowed}`,
-    `- mini-kv write command allowed: ${profile.miniKvWriteCommandAllowed}`,
-    `- Automatic upstream start: ${profile.automaticUpstreamStart}`,
-    `- Closure digest: ${profile.closureDigest}`,
-    "",
-    "## Source Node v327",
-    "",
     `- Runner state: ${profile.sourceNodeV327.runnerState}`,
     `- Ready for read-only report: ${profile.sourceNodeV327.readyForReadOnlyCrossProjectReadinessReport}`,
     `- Ready for final closure review: ${profile.sourceNodeV327.readyForFinalPrerequisiteClosureReview}`,
@@ -44,9 +77,13 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverFinal
     `- Side effect safety matrix closed: ${profile.sourceNodeV327.sideEffectSafetyMatrixClosed}`,
     `- Source checks: ${profile.sourceNodeV327.sourcePassedCheckCount}/${profile.sourceNodeV327.sourceCheckCount}`,
     `- Source production blockers: ${profile.sourceNodeV327.sourceProductionBlockerCount}`,
-    "",
-    "## Closure Review",
-    "",
+  ];
+}
+
+function renderClosureReview(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewProfile,
+): string[] {
+  return [
     `- Review digest: ${profile.closureReview.reviewDigest}`,
     `- Review mode: ${profile.closureReview.reviewMode}`,
     `- Source span: ${profile.closureReview.sourceSpan}`,
@@ -59,18 +96,13 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverFinal
     `- Next step mode: ${profile.closureReview.nextStepMode}`,
     `- Runtime shell still blocked: ${profile.closureReview.runtimeShellStillBlocked}`,
     `- Closure reason: ${profile.closureReview.closureReason}`,
-    "",
-    "## Completed Prerequisites",
-    "",
-    ...profile.closureReview.completedPrerequisites.map((entry) =>
-      `- ${entry.id}: ${entry.closureState}; opensRuntimeShell=${entry.opensRuntimeShell}; evidence=${entry.evidence}`),
-    "",
-    "## Checks",
-    "",
-    ...Object.entries(profile.checks).map(([key, value]) => `- ${key}: ${value}`),
-    "",
-    "## Summary",
-    "",
+  ];
+}
+
+function renderSummary(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewProfile,
+): string[] {
+  return [
     `- Checks: ${profile.summary.passedCheckCount}/${profile.summary.checkCount}`,
     `- Source Node v327 checks: ${profile.summary.sourceNodeV327PassedCheckCount}/${profile.summary.sourceNodeV327CheckCount}`,
     `- Prerequisites: ${profile.summary.completedPrerequisiteCount}/${profile.summary.originalPrerequisiteCount}`,
@@ -78,24 +110,7 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverFinal
     `- Production blockers: ${profile.summary.productionBlockerCount}`,
     `- Warnings: ${profile.summary.warningCount}`,
     `- Recommendations: ${profile.summary.recommendationCount}`,
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No production blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No recommendations."),
-    "",
-    "## Next Actions",
-    "",
-    ...profile.nextActions.map((action) => `- ${action}`),
-    "",
-  ].join("\n");
+  ];
 }
 
 function renderMessages(

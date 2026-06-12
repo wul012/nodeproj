@@ -1,0 +1,100 @@
+{
+  "service": "orderops-node",
+  "version": "v2131",
+  "milestone": "N1 renderer consolidation batch 14",
+  "generatedAt": "2026-06-12T22:10:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 6,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalRequirementAndNoGoFormatters": true,
+    "retainsLocalFinalClosureMessageFormat": true,
+    "retainsHumanApprovalEvidenceFileAndSnippetRowsLocally": true,
+    "rendererLineCountsAfterMigration": {
+      "fakeShellArchiveUpstreamEchoVerification": 50,
+      "fakeHarnessReadinessDecisionRecord": 88,
+      "fakeHarnessReadinessBlockedDecisionUpstreamEchoVerification": 87,
+      "executionDeniedUpstreamEchoVerification": 97,
+      "finalPrerequisiteClosureReview": 119,
+      "humanApprovalArtifactReviewUpstreamEchoVerification": 150
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 6,
+      "insertions": 407,
+      "deletions": 469,
+      "netLineReduction": 62
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "After v2130, fake-shell, fake-harness, execution-denied, final-prerequisite, and human-approval upstream reports still repeated the same title/meta/section markdown frame while only a few local evidence rows differed.",
+    "laterConsumer": "N1 final acceptance and N5 Phase-B merge planning can now classify these runtime-prerequisite reports as builder-backed instead of treating them as custom markdown surfaces.",
+    "reuseDecision": "The shared verification report builder owns the common report frame. Requirement/no-go row strings, final closure bracketed message rows, and Java/mini-kv evidence file plus expected-snippet sections remain local because their exact line grammar is specific to the report family.",
+    "growthStopCondition": "No helper was added. A future helper is allowed only when three or more remaining renderers share the same local evidence row grammar and a temporary legacy comparison proves byte-identical output."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeHarnessReadinessDecisionRecordRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeHarnessReadinessBlockedDecisionUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverExecutionDeniedUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReviewRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 6 fake-shell/fake-harness/final-prerequisite/human-approval renderer tests --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 8,
+      "testsPassed": 29
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2131-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 6,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2131WalkthroughChineseCharacters": 3022,
+      "v2131WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2131/evidence/renderer-consolidation-batch-14-v2131-summary.json",
+    "d/2131/解释/renderer-consolidation-batch-14-v2131.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2102-renderer-consolidation-batch-14-v2131.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2131 only changes Node markdown rendering for existing reports and consumes frozen historical evidence through existing loaders; it does not request fresh sibling evidence, live integration, upstream service startup, or schema changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2131-byte-identical-compare.test.ts",
+      ".tmp/v2131-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

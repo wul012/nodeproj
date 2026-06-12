@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2131 - 2026-06-12
+
+- Migrated 6 fake-shell, fake-harness, execution-denied, final-prerequisite,
+  and human-approval artifact review renderers to the shared verification
+  report builder while preserving local evidence and message row grammars.
+
 ## v2130 - 2026-06-12
 
 - Migrated 6 endpoint-handle and signed-human approval prerequisite-chain
