@@ -1,0 +1,101 @@
+{
+  "service": "orderops-node",
+  "version": "v2129",
+  "milestone": "N1 renderer consolidation batch 12",
+  "generatedAt": "2026-06-12T21:07:37+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 6,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsContractDetailRenderersLocally": true,
+    "retainsUpstreamEvidenceFileLinesLocally": true,
+    "retainsPrerequisiteClosureLinesLocally": true,
+    "rendererLineCountsAfterMigration": {
+      "credentialHandleApprovalContractIntake": 136,
+      "credentialHandleApprovalUpstreamEchoVerification": 139,
+      "credentialHandleApprovalPrerequisiteClosureReview": 124,
+      "noNetworkSafetyFixtureContractIntake": 140,
+      "noNetworkSafetyFixtureUpstreamEchoVerification": 141,
+      "noNetworkSafetyFixturePrerequisiteClosureReview": 129
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 6,
+      "insertions": 368,
+      "deletions": 426,
+      "netLineReduction": 58
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The credential-handle approval and no-network safety fixture prerequisite chains repeated the same markdown title/meta/section skeleton while keeping important contract and closure details embedded in long renderer bodies.",
+    "laterConsumer": "N5 Phase-B review can now distinguish shared report skeleton from approval-chain-specific contract, echo, and prerequisite lines before deciding whether any deeper typed helper is justified.",
+    "reuseDecision": "The shared report builder owns the report frame. Contract required/prohibited fields, no-go boundaries, upstream echo evidence files, and completed/remaining prerequisite lines remain local because their line formats differ by chain and carry approval-specific semantics.",
+    "growthStopCondition": "This batch adds no new helper. A future helper should only be introduced after at least two additional prerequisite chains prove byte-identical, same-field line shapes that are not already covered by the existing archive or evidence file helpers."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalPrerequisiteClosureReviewRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureContractIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixturePrerequisiteClosureReviewRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 6 credential/no-network prerequisite chain tests --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 8,
+      "testsPassed": 30
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2129-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 6,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2129WalkthroughChineseCharacters": 3084,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline and are outside this renderer-consolidation batch."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2129/evidence/renderer-consolidation-batch-12-v2129-summary.json",
+    "d/2129/解释/renderer-consolidation-batch-12-v2129.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2100-renderer-consolidation-batch-12-v2129.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2129 only changes Node markdown rendering for existing managed-audit approval-chain reports; it does not request fresh sibling evidence, live integration, upstream service startup, or schema changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2129-byte-identical-compare.test.ts",
+      ".tmp/v2129-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

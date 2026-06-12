@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2129 - 2026-06-12
+
+- Migrated 6 managed-audit credential resolver prerequisite-chain renderers to
+  the shared verification report builder while preserving local contract and
+  closure detail renderers.
+
 ## v2128 - 2026-06-12
 
 - Migrated 6 adjacent Java / mini-kv route catalog cleanup report renderers to
