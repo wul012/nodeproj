@@ -108,6 +108,110 @@ test/codeWalkthroughDocumentationQualityRules.test.ts。
     expect(result.compliantWithCurrentStandard).toBe(false);
   });
 
+  it("rejects repeated long paragraphs that pad walkthrough length", () => {
+    const repeated = "这段讲解看起来很长，但它只是在重复同一段维护说明，没有增加新的代码路径、响应模型、安全边界或验证细节。真正的代码讲解应该解释不同职责之间的关系，而不是把同一句话换一个编号再贴一次。";
+    const result = evaluateCodeWalkthroughDocument({
+      ...documentWithText(`
+# Node v2109 code walkthrough：重复段落示例
+
+## Goal and Non-goal / 目标与非目标
+
+目标是验证重复段落检测，非目标是生产执行。
+
+## Entry Points / 入口
+
+src/services/readabilityMaintenanceProfile.ts
+
+## Profile Response Model / 响应模型
+
+profile、checks、summary。
+
+## Upstream Evidence And Config / 上游证据与配置
+
+本地 docs 和 config。
+
+## Service Flow / 服务流程
+
+src/services/readabilityMaintenanceProfile.ts 读取 docs/architecture。
+
+## Safety Boundary / 安全边界
+
+read-only，executionAllowed=false。
+
+## Test Coverage / 测试覆盖
+
+test/codeWalkthroughDocumentationQualityRules.test.ts。
+
+## Detailed Walkthrough / 详细讲解
+
+1. ${repeated}
+
+2. ${repeated}
+
+3. ${repeated}
+
+## One-Sentence Summary / 一句话总结
+
+重复长段落应该失败。
+`),
+      recordNumber: 2080,
+      versionNumber: 2109,
+    });
+
+    expect(result.repetitiveParagraphSignals).toHaveLength(1);
+    expect(result.compliantWithCurrentStandard).toBe(false);
+  });
+
+  it("rejects one oversized detailed walkthrough section", () => {
+    const oversizedDetail = "这段内容模拟把所有维护说明塞进一个详细讲解章节。".repeat(220);
+    const result = evaluateCodeWalkthroughDocument({
+      ...documentWithText(`
+# Node v2110 code walkthrough：过大的详细讲解章节
+
+## Goal and Non-goal / 目标与非目标
+
+目标是验证详细讲解章节不能独占全文，非目标是生产执行。
+
+## Entry Points / 入口
+
+src/services/codeWalkthroughDocumentationQualityRules.ts
+
+## Profile Response Model / 响应模型
+
+profile、checks、summary、blockers。
+
+## Upstream Evidence And Config / 上游证据与配置
+
+本地 docs、f 和 code walkthrough 文档。
+
+## Service Flow / 服务流程
+
+src/services/codeWalkthroughDocumentationQualityRules.ts 先扫描章节形状，再输出质量信号。
+
+## Safety Boundary / 安全边界
+
+read-only，executionAllowed=false。
+
+## Test Coverage / 测试覆盖
+
+test/codeWalkthroughDocumentationQualityRules.test.ts。
+
+## Detailed Walkthrough / 详细讲解
+
+${oversizedDetail}
+
+## One-Sentence Summary / 一句话总结
+
+详细讲解过大时应该拆成多个可定位章节。
+`),
+      recordNumber: 2081,
+      versionNumber: 2110,
+    });
+
+    expect(result.oversizedDetailedSectionSignals).toHaveLength(1);
+    expect(result.compliantWithCurrentStandard).toBe(false);
+  });
+
   it("keeps legacy walkthroughs visible without enforcing the current floor", () => {
     const result = evaluateCodeWalkthroughDocument({
       ...documentWithText("# Legacy short walkthrough\n"),

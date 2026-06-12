@@ -58,6 +58,11 @@ const FORBIDDEN_EXECUTION_CLAIM_PATTERNS = [
 
 const CODE_PATH_PATTERN = /(?:src|test|docs|e|f|代码讲解记录_生产雏形阶段3)[\\/][^\s`，。；；)）]+/g;
 const CHINESE_CHARACTER_PATTERN = /[\u3400-\u9fff]/g;
+const REPETITIVE_PARAGRAPH_MIN_LENGTH = 80;
+const REPETITIVE_PARAGRAPH_MIN_COUNT = 3;
+const OVERSIZED_DETAILED_SECTION_MIN_CHINESE_CHARS = 1000;
+const OVERSIZED_DETAILED_SECTION_MIN_LINES = 24;
+const DETAILED_SECTION_HEADING_PATTERN = /^(?:Detailed Walkthrough(?:\s*\/\s*详细讲解)?|详细讲解|详细说明)$/i;
 
 export function evaluateFFolderExplanationDocument(
   document: FFolderExplanationDocumentScan,
@@ -68,6 +73,8 @@ export function evaluateFFolderExplanationDocument(
     .map((rule) => rule.key);
   const placeholderSignals = collectMatchingPatterns(document.text, PLACEHOLDER_PATTERNS);
   const forbiddenExecutionClaimSignals = collectMatchingPatterns(document.text, FORBIDDEN_EXECUTION_CLAIM_PATTERNS);
+  const repetitiveParagraphSignals = collectRepetitiveParagraphSignals(document.text);
+  const oversizedDetailedSectionSignals = collectOversizedDetailedSectionSignals(document.text);
   const codePathReferences = uniqueMatches(document.text.match(CODE_PATH_PATTERN) ?? []);
   const chineseCharacterCount = document.text.match(CHINESE_CHARACTER_PATTERN)?.length ?? 0;
   const enforcedByCurrentStandard = document.versionNumber >= enforcementFloorVersion;
@@ -98,9 +105,11 @@ export function evaluateFFolderExplanationDocument(
     hasVerificationSection,
     hasNextStepOrStopConditionSection,
     placeholderSignals.length === 0,
+    repetitiveParagraphSignals.length === 0,
+    oversizedDetailedSectionSignals.length === 0,
     forbiddenExecutionClaimSignals.length === 0,
   ].filter(Boolean).length;
-  const complianceScore = Math.round((satisfiedShapeCount / 14) * 100);
+  const complianceScore = Math.round((satisfiedShapeCount / 16) * 100);
   const compliantWithCurrentStandard =
     document.explanationDirAligned
     && hasH1Title
@@ -109,6 +118,8 @@ export function evaluateFFolderExplanationDocument(
     && hasEnoughCodePathReferences
     && missingRequiredSections.length === 0
     && placeholderSignals.length === 0
+    && repetitiveParagraphSignals.length === 0
+    && oversizedDetailedSectionSignals.length === 0
     && forbiddenExecutionClaimSignals.length === 0;
 
   return {
@@ -135,6 +146,8 @@ export function evaluateFFolderExplanationDocument(
     hasNextStepOrStopConditionSection,
     placeholderSignals,
     forbiddenExecutionClaimSignals,
+    repetitiveParagraphSignals,
+    oversizedDetailedSectionSignals,
     missingRequiredSections,
     complianceScore,
     compliantWithCurrentStandard,
@@ -154,4 +167,51 @@ function collectMatchingPatterns(text: string, patterns: readonly RegExp[]): str
 
 function uniqueMatches(matches: string[]): string[] {
   return [...new Set(matches.map((match) => match.replace(/\\/g, "/")))].sort();
+}
+
+function collectRepetitiveParagraphSignals(text: string): string[] {
+  const counts = new Map<string, number>();
+  for (const paragraph of text.split(/\r?\n\s*\r?\n/)) {
+    const normalized = normalizeParagraph(paragraph);
+    if (normalized.length < REPETITIVE_PARAGRAPH_MIN_LENGTH) {
+      continue;
+    }
+    counts.set(normalized, (counts.get(normalized) ?? 0) + 1);
+  }
+
+  return [...counts.entries()]
+    .filter(([, count]) => count >= REPETITIVE_PARAGRAPH_MIN_COUNT)
+    .map(([paragraph, count]) => `${count}x:${paragraph.slice(0, 96)}`)
+    .sort();
+}
+
+function normalizeParagraph(paragraph: string): string {
+  return paragraph
+    .replace(/^\s*\d+[.)、]\s*/, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+function collectOversizedDetailedSectionSignals(text: string): string[] {
+  const lines = text.split(/\r?\n/);
+  const signals: string[] = [];
+  for (let index = 0; index < lines.length; index += 1) {
+    const headingMatch = /^##\s+(.+?)\s*$/.exec(lines[index]);
+    if (!headingMatch || !DETAILED_SECTION_HEADING_PATTERN.test(headingMatch[1].trim())) {
+      continue;
+    }
+
+    const bodyLines: string[] = [];
+    for (let cursor = index + 1; cursor < lines.length && !/^##\s+/.test(lines[cursor]); cursor += 1) {
+      bodyLines.push(lines[cursor]);
+    }
+    const chineseCharacters = bodyLines.join("\n").match(CHINESE_CHARACTER_PATTERN)?.length ?? 0;
+    if (
+      chineseCharacters >= OVERSIZED_DETAILED_SECTION_MIN_CHINESE_CHARS
+      || bodyLines.length >= OVERSIZED_DETAILED_SECTION_MIN_LINES
+    ) {
+      signals.push(`${headingMatch[1].trim()}: chinese=${chineseCharacters}; lines=${bodyLines.length}`);
+    }
+  }
+  return signals.sort();
 }

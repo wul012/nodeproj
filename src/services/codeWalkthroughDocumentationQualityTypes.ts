@@ -54,6 +54,8 @@ export interface CodeWalkthroughDocumentEvaluation {
   hasOneSentenceSummary: boolean;
   placeholderSignals: string[];
   forbiddenExecutionClaimSignals: string[];
+  repetitiveParagraphSignals: string[];
+  oversizedDetailedSectionSignals: string[];
   missingRequiredSections: string[];
   complianceScore: number;
   compliantWithCurrentStandard: boolean;
@@ -121,6 +123,8 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     noEnforcedPlaceholderWalkthroughs: boolean;
     enforcedWalkthroughsMeetRequiredShape: boolean;
     enforcedChineseWalkthroughsMeetFloor: boolean;
+    noRepetitiveParagraphPadding: boolean;
+    noOversizedDetailedWalkthroughSection: boolean;
     noForbiddenExecutionClaims: boolean;
     batchWalkthroughPolicyDocumented: boolean;
     historicalLegacyAllowedButVisible: boolean;
@@ -139,6 +143,8 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     enforcedMissingRequiredShapeCount: number;
     enforcedChineseWritingCount: number;
     enforcedChineseWritingShortCount: number;
+    repetitiveParagraphPaddingCount: number;
+    oversizedDetailedWalkthroughCount: number;
     forbiddenExecutionClaimCount: number;
     checkCount: number;
     passedCheckCount: number;

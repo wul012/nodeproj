@@ -1,0 +1,28 @@
+{
+  "generatedAt": "2026-06-12T02:12:31.650Z",
+  "purpose": "Evidence that v2104-v2108 explanations no longer rely on repeated or oversized detailed walkthrough padding.",
+  "routes": {
+    "f-folder": {
+      "route": "/api/v1/audit/f-folder-explanation-quality-gate",
+      "profileVersion": "f-folder-explanation-quality-gate.v1",
+      "qualityGateState": "verified-quality-gate",
+      "ready": true,
+      "noRepetitiveParagraphPadding": true,
+      "noOversizedDetailedSection": true,
+      "repetitiveParagraphPaddingCount": 0,
+      "oversizedDetailedSectionCount": 0,
+      "qualityDigest": "9415f75ceed4ca5e19375166f6bfd6d987a0e759a8449ebaade071bff9775664"
+    },
+    "code-walkthrough": {
+      "route": "/api/v1/audit/code-walkthrough-documentation-quality-gate",
+      "profileVersion": "code-walkthrough-documentation-quality-gate.v1",
+      "qualityGateState": "verified-quality-gate",
+      "ready": true,
+      "noRepetitiveParagraphPadding": true,
+      "noOversizedDetailedSection": true,
+      "repetitiveParagraphPaddingCount": 0,
+      "oversizedDetailedSectionCount": 0,
+      "qualityDigest": "b02da2c6a07461c032efdf48cb47d72f985ef54d361b4748e15232d0a4d73437"
+    }
+  }
+}

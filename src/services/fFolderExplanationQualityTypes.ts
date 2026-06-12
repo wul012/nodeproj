@@ -42,6 +42,8 @@ export interface FFolderExplanationDocumentEvaluation {
   hasNextStepOrStopConditionSection: boolean;
   placeholderSignals: string[];
   forbiddenExecutionClaimSignals: string[];
+  repetitiveParagraphSignals: string[];
+  oversizedDetailedSectionSignals: string[];
   missingRequiredSections: string[];
   complianceScore: number;
   compliantWithCurrentStandard: boolean;
@@ -112,6 +114,8 @@ export interface FFolderExplanationQualityProfile {
     enforcedRequiredShapeMet: boolean;
     enforcedCodePathDensityMet: boolean;
     noEnforcedPlaceholderExplanations: boolean;
+    noRepetitiveParagraphPadding: boolean;
+    noOversizedDetailedExplanationSection: boolean;
     noForbiddenExecutionClaims: boolean;
     scanCompleted: boolean;
     readyForFFolderExplanationQualityGate: boolean;
@@ -129,6 +133,8 @@ export interface FFolderExplanationQualityProfile {
     missingRequiredShapeCount: number;
     lowCodePathDensityCount: number;
     placeholderCount: number;
+    repetitiveParagraphPaddingCount: number;
+    oversizedDetailedExplanationCount: number;
     forbiddenExecutionClaimCount: number;
     checkCount: number;
     passedCheckCount: number;

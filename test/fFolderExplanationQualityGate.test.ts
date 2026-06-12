@@ -47,6 +47,8 @@ describe("f-folder explanation quality gate", () => {
         enforcedRequiredShapeMet: true,
         enforcedCodePathDensityMet: true,
         noEnforcedPlaceholderExplanations: true,
+        noRepetitiveParagraphPadding: true,
+        noOversizedDetailedExplanationSection: true,
         noForbiddenExecutionClaims: true,
         scanCompleted: true,
         readyForFFolderExplanationQualityGate: true,
@@ -57,6 +59,8 @@ describe("f-folder explanation quality gate", () => {
     expect(profile.summary.shortExplanationCount).toBe(0);
     expect(profile.summary.shallowChineseExplanationCount).toBe(0);
     expect(profile.summary.lowCodePathDensityCount).toBe(0);
+    expect(profile.summary.repetitiveParagraphPaddingCount).toBe(0);
+    expect(profile.summary.oversizedDetailedExplanationCount).toBe(0);
     expect(profile.blockers).toEqual([]);
     expect(profile.qualityDigest).toMatch(/^[a-f0-9]{64}$/);
   });

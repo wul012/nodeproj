@@ -30,6 +30,8 @@ Files under `f/<version>/解释/` are human-facing explanations, not placeholder
 - Must explain goal or context, code entry points, response model, service flow, safety boundary, verification, and next step or stop condition.
 - Must not claim production authority, production operations, credential access, live upstream writes, or sibling service startup unless the verified code actually does it.
 - If a version cannot naturally support a 3000-character Chinese explanation, the implementation slice is probably too small; increase the engineering work rather than padding the prose.
+- Do not satisfy the length floor with repeated numbered paragraphs, copied boilerplate, or the same maintenance sentence restated several times. A long explanation must be segmented by distinct code paths, data model details, safety decisions, verification evidence, and maintenance tradeoffs.
+- Do not hide most of the content under one oversized `Detailed Walkthrough / 详细讲解` section. Split long material into scannable Chinese sections such as reader index, model notes, safety boundary, failure lookup, maintenance tradeoff, and stop condition.
 
 Do not create `f/<version>/图片/` unless actual image or screenshot evidence exists. An empty image directory is a quality failure.
 

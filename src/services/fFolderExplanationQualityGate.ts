@@ -41,6 +41,10 @@ export function loadFFolderExplanationQualityGate(input: {
     document.missingRequiredSections.length > 0 || !document.hasH1Title || !document.explanationDirAligned);
   const lowCodePathDensity = enforcedExplanations.filter((document) => !document.hasEnoughCodePathReferences);
   const placeholderExplanations = enforcedExplanations.filter((document) => document.placeholderSignals.length > 0);
+  const repetitiveParagraphExplanations = enforcedExplanations
+    .filter((document) => document.repetitiveParagraphSignals.length > 0);
+  const oversizedDetailedSectionExplanations = enforcedExplanations
+    .filter((document) => document.oversizedDetailedSectionSignals.length > 0);
   const forbiddenExecutionClaims = enforcedExplanations
     .filter((document) => document.forbiddenExecutionClaimSignals.length > 0);
   const missingExplanationDirs = enforcedVersionSummaries
@@ -57,6 +61,8 @@ export function loadFFolderExplanationQualityGate(input: {
     enforcedRequiredShapeMet: missingRequiredShape.length === 0,
     enforcedCodePathDensityMet: lowCodePathDensity.length === 0,
     noEnforcedPlaceholderExplanations: placeholderExplanations.length === 0,
+    noRepetitiveParagraphPadding: repetitiveParagraphExplanations.length === 0,
+    noOversizedDetailedExplanationSection: oversizedDetailedSectionExplanations.length === 0,
     noForbiddenExecutionClaims: forbiddenExecutionClaims.length === 0,
     scanCompleted: true,
     readyForFFolderExplanationQualityGate: false,
@@ -75,6 +81,8 @@ export function loadFFolderExplanationQualityGate(input: {
     missingRequiredShape,
     lowCodePathDensity,
     placeholderExplanations,
+    repetitiveParagraphExplanations,
+    oversizedDetailedSectionExplanations,
     forbiddenExecutionClaims,
   });
   const warnings = collectWarnings(scan.documents.length - enforcedExplanations.length);
@@ -93,6 +101,8 @@ export function loadFFolderExplanationQualityGate(input: {
     missingRequiredShapeCount: missingRequiredShape.length,
     lowCodePathDensityCount: lowCodePathDensity.length,
     placeholderCount: placeholderExplanations.length,
+    repetitiveParagraphPaddingCount: repetitiveParagraphExplanations.length,
+    oversizedDetailedExplanationCount: oversizedDetailedSectionExplanations.length,
     forbiddenExecutionClaimCount: forbiddenExecutionClaims.length,
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -123,6 +133,8 @@ export function loadFFolderExplanationQualityGate(input: {
       chineseCharacterCount: document.chineseCharacterCount,
       codePathReferenceCount: document.codePathReferences.length,
       complianceScore: document.complianceScore,
+      repetitiveParagraphSignals: document.repetitiveParagraphSignals,
+      oversizedDetailedSectionSignals: document.oversizedDetailedSectionSignals,
       compliantWithCurrentStandard: document.compliantWithCurrentStandard,
     })),
   });
@@ -225,6 +237,8 @@ function collectBlockers(
     missingRequiredShape: readonly FFolderExplanationDocumentEvaluation[];
     lowCodePathDensity: readonly FFolderExplanationDocumentEvaluation[];
     placeholderExplanations: readonly FFolderExplanationDocumentEvaluation[];
+    repetitiveParagraphExplanations: readonly FFolderExplanationDocumentEvaluation[];
+    oversizedDetailedSectionExplanations: readonly FFolderExplanationDocumentEvaluation[];
     forbiddenExecutionClaims: readonly FFolderExplanationDocumentEvaluation[];
   },
 ): FFolderExplanationQualityMessage[] {
@@ -263,6 +277,14 @@ function collectBlockers(
   if (!checks.noEnforcedPlaceholderExplanations) {
     blockers.push(message("ENFORCED_EXPLANATION_PLACEHOLDER", "f-folder-explanation-quality-gate",
       `${context.placeholderExplanations.length} enforced explanations still look like placeholders.`));
+  }
+  if (!checks.noRepetitiveParagraphPadding) {
+    blockers.push(message("REPETITIVE_PARAGRAPH_PADDING", "f-folder-explanation-quality-gate",
+      `${context.repetitiveParagraphExplanations.length} enforced explanations repeat long paragraphs and look padded.`));
+  }
+  if (!checks.noOversizedDetailedExplanationSection) {
+    blockers.push(message("OVERSIZED_DETAILED_EXPLANATION_SECTION", "f-folder-explanation-quality-gate",
+      `${context.oversizedDetailedSectionExplanations.length} enforced explanations put too much content into one detailed explanation section.`));
   }
   if (!checks.noForbiddenExecutionClaims) {
     blockers.push(message("FORBIDDEN_EXECUTION_CLAIM", "f-folder-explanation-quality-gate",

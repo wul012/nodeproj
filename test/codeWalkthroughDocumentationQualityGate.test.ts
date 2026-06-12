@@ -46,6 +46,8 @@ describe("code walkthrough documentation quality gate", () => {
         noEnforcedPlaceholderWalkthroughs: true,
         enforcedWalkthroughsMeetRequiredShape: true,
         enforcedChineseWalkthroughsMeetFloor: true,
+        noRepetitiveParagraphPadding: true,
+        noOversizedDetailedWalkthroughSection: true,
         noForbiddenExecutionClaims: true,
         batchWalkthroughPolicyDocumented: true,
         historicalLegacyAllowedButVisible: true,
@@ -58,6 +60,8 @@ describe("code walkthrough documentation quality gate", () => {
     expect(profile.summary.enforcedMissingRequiredShapeCount).toBe(0);
     expect(profile.summary.enforcedChineseWritingCount).toBeGreaterThanOrEqual(10);
     expect(profile.summary.enforcedChineseWritingShortCount).toBe(0);
+    expect(profile.summary.repetitiveParagraphPaddingCount).toBe(0);
+    expect(profile.summary.oversizedDetailedWalkthroughCount).toBe(0);
     expect(profile.summary.enforcedPlaceholderCount).toBe(0);
     expect(profile.bucketSummary.r2000.enforcedMarkdownCount).toBeGreaterThanOrEqual(2);
     expect(profile.blockers).toEqual([]);

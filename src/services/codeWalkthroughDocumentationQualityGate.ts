@@ -46,6 +46,10 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     .filter((document) => document.chineseWritingRequired);
   const enforcedChineseWritingShort = enforcedChineseWalkthroughs
     .filter((document) => !document.meetsChineseWritingFloor);
+  const repetitiveParagraphWalkthroughs = enforcedWalkthroughs
+    .filter((document) => document.repetitiveParagraphSignals.length > 0);
+  const oversizedDetailedSectionWalkthroughs = enforcedWalkthroughs
+    .filter((document) => document.oversizedDetailedSectionSignals.length > 0);
   const forbiddenExecutionClaims = enforcedWalkthroughs
     .filter((document) => document.forbiddenExecutionClaimSignals.length > 0);
   const misbucketedWalkthroughs = scan.documents.filter((document) => !document.bucketAligned);
@@ -65,6 +69,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     noEnforcedPlaceholderWalkthroughs: enforcedPlaceholderWalkthroughs.length === 0,
     enforcedWalkthroughsMeetRequiredShape: enforcedMissingRequiredShape.length === 0,
     enforcedChineseWalkthroughsMeetFloor: enforcedChineseWritingShort.length === 0,
+    noRepetitiveParagraphPadding: repetitiveParagraphWalkthroughs.length === 0,
+    noOversizedDetailedWalkthroughSection: oversizedDetailedSectionWalkthroughs.length === 0,
     noForbiddenExecutionClaims: forbiddenExecutionClaims.length === 0,
     batchWalkthroughPolicyDocumented: /Batch walkthroughs are preferred/i.test(standardText),
     historicalLegacyAllowedButVisible: scan.documents.length > enforcedWalkthroughs.length,
@@ -83,6 +89,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     enforcedPlaceholderWalkthroughs,
     enforcedMissingRequiredShape,
     enforcedChineseWritingShort,
+    repetitiveParagraphWalkthroughs,
+    oversizedDetailedSectionWalkthroughs,
     forbiddenExecutionClaims,
     misbucketedWalkthroughs,
   });
@@ -101,6 +109,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     enforcedMissingRequiredShapeCount: enforcedMissingRequiredShape.length,
     enforcedChineseWritingCount: enforcedChineseWalkthroughs.length,
     enforcedChineseWritingShortCount: enforcedChineseWritingShort.length,
+    repetitiveParagraphPaddingCount: repetitiveParagraphWalkthroughs.length,
+    oversizedDetailedWalkthroughCount: oversizedDetailedSectionWalkthroughs.length,
     forbiddenExecutionClaimCount: forbiddenExecutionClaims.length,
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -128,6 +138,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
       relativePath: document.relativePath,
       chineseCharacterCount: document.chineseCharacterCount,
       complianceScore: document.complianceScore,
+      repetitiveParagraphSignals: document.repetitiveParagraphSignals,
+      oversizedDetailedSectionSignals: document.oversizedDetailedSectionSignals,
       compliantWithCurrentStandard: document.compliantWithCurrentStandard,
     })),
   });
@@ -257,6 +269,8 @@ function collectBlockers(
     enforcedPlaceholderWalkthroughs: readonly CodeWalkthroughDocumentEvaluation[];
     enforcedMissingRequiredShape: readonly CodeWalkthroughDocumentEvaluation[];
     enforcedChineseWritingShort: readonly CodeWalkthroughDocumentEvaluation[];
+    repetitiveParagraphWalkthroughs: readonly CodeWalkthroughDocumentEvaluation[];
+    oversizedDetailedSectionWalkthroughs: readonly CodeWalkthroughDocumentEvaluation[];
     forbiddenExecutionClaims: readonly CodeWalkthroughDocumentEvaluation[];
     misbucketedWalkthroughs: readonly CodeWalkthroughDocumentEvaluation[];
   },
@@ -297,6 +311,14 @@ function collectBlockers(
   if (!checks.enforcedChineseWalkthroughsMeetFloor) {
     blockers.push(message("ENFORCED_CHINESE_WALKTHROUGH_TOO_SHORT", "code-walkthrough-documentation-quality-gate",
       `${context.enforcedChineseWritingShort.length} enforced walkthroughs are below ${CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS} Chinese characters.`));
+  }
+  if (!checks.noRepetitiveParagraphPadding) {
+    blockers.push(message("REPETITIVE_PARAGRAPH_PADDING", "code-walkthrough-documentation-quality-gate",
+      `${context.repetitiveParagraphWalkthroughs.length} enforced walkthroughs repeat long paragraphs and look padded.`));
+  }
+  if (!checks.noOversizedDetailedWalkthroughSection) {
+    blockers.push(message("OVERSIZED_DETAILED_WALKTHROUGH_SECTION", "code-walkthrough-documentation-quality-gate",
+      `${context.oversizedDetailedSectionWalkthroughs.length} enforced walkthroughs put too much content into one detailed walkthrough section.`));
   }
   if (!checks.noForbiddenExecutionClaims) {
     blockers.push(message("FORBIDDEN_EXECUTION_CLAIM", "code-walkthrough-documentation-quality-gate",
