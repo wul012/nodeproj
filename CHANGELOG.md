@@ -11,6 +11,11 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2122 - 2026-06-12
+
+- Migrated 7 Java / mini-kv operator lifecycle and runtime gate archive
+  verification renderers to the shared verification report builder.
+
 ## v2121 - 2026-06-12
 
 - Migrated 7 disabled runtime shell design draft archive verification renderers
