@@ -1,0 +1,139 @@
+{
+  "service": "orderops-node",
+  "title": "Readability maintenance profile",
+  "generatedAt": "2026-06-12T01:23:49.178Z",
+  "profileVersion": "readability-maintenance-profile.v1",
+  "maintenanceState": "verified-readability-maintenance",
+  "readyForReadabilityMaintenance": true,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "readOnlyProfile": true,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "mutatesJavaState": false,
+  "mutatesMiniKvState": false,
+  "scope": {
+    "sourceSuggestion": "D:\\C\\四项目理解统筹\\06-四项目可读性保养建议",
+    "activeVersionRange": "Node v2104-v2108",
+    "routeGroup": "managed-audit-route-quality",
+    "localDocumentationOnly": true,
+    "javaMiniKvParallelRecommended": true,
+    "aiprojReadOnlyObserved": true
+  },
+  "routeCatalog": {
+    "expectedGroupCount": 51,
+    "expectedRouteCount": 253,
+    "managedAuditRouteCount": 55,
+    "routeQualityRouteCount": 5
+  },
+  "documents": [
+    {
+      "id": "control-plane-map",
+      "relativePath": "docs/architecture/control-plane-map.md",
+      "exists": true,
+      "byteLength": 2212,
+      "lineCount": 34,
+      "missingRequiredPhrases": [],
+      "passes": true
+    },
+    {
+      "id": "quality-gates-map",
+      "relativePath": "docs/architecture/quality-gates-map.md",
+      "exists": true,
+      "byteLength": 2841,
+      "lineCount": 33,
+      "missingRequiredPhrases": [],
+      "passes": true
+    },
+    {
+      "id": "evidence-flow-map",
+      "relativePath": "docs/architecture/evidence-flow-map.md",
+      "exists": true,
+      "byteLength": 2097,
+      "lineCount": 30,
+      "missingRequiredPhrases": [],
+      "passes": true
+    },
+    {
+      "id": "route-service-test-map",
+      "relativePath": "docs/architecture/route-service-test-map.md",
+      "exists": true,
+      "byteLength": 2656,
+      "lineCount": 32,
+      "missingRequiredPhrases": [],
+      "passes": true
+    },
+    {
+      "id": "f-folder-explanation-standard-closeout",
+      "relativePath": "docs/architecture/f-folder-explanation-standard-closeout.md",
+      "exists": true,
+      "byteLength": 1574,
+      "lineCount": 36,
+      "missingRequiredPhrases": [],
+      "passes": true
+    }
+  ],
+  "checks": {
+    "architectureDocumentsPresent": true,
+    "controlPlaneMapDocumentsBoundaries": true,
+    "qualityGateFamilyDocumented": true,
+    "evidenceFlowDocumentsReadOnlySafety": true,
+    "routeServiceTestMapDocumentsNewRoute": true,
+    "fFolderStandardCloseoutDocumented": true,
+    "routeCatalogCountsAligned": true,
+    "upstreamActionsStillDisabled": true,
+    "noSiblingServiceStartup": true,
+    "noProductionExecutionEnabled": true,
+    "readyForReadabilityMaintenance": true
+  },
+  "summary": {
+    "documentCount": 5,
+    "passingDocumentCount": 5,
+    "missingDocumentCount": 0,
+    "missingPhraseCount": 0,
+    "checkCount": 11,
+    "passedCheckCount": 11,
+    "productionBlockerCount": 0,
+    "warningCount": 1,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "MAINTENANCE_ONLY",
+      "severity": "warning",
+      "source": "readability-maintenance-profile",
+      "message": "This profile improves project readability and route ownership only; it does not approve production execution."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "KEEP_GATE_GROWTH_BOUNDED",
+      "severity": "recommendation",
+      "source": "quality-gates-map",
+      "message": "Prefer updating the existing maps before adding another quality gate family."
+    },
+    {
+      "code": "USE_ROUTE_SERVICE_TEST_MAP",
+      "severity": "recommendation",
+      "source": "route-service-test-map",
+      "message": "Every new audit route should be added to the route/service/test map in the same version."
+    }
+  ],
+  "evidenceEndpoints": {
+    "readabilityMaintenanceProfileJson": "/api/v1/audit/managed-audit-readability-maintenance-profile",
+    "readabilityMaintenanceProfileMarkdown": "/api/v1/audit/managed-audit-readability-maintenance-profile?format=markdown",
+    "routeCatalogSummaryJson": "/api/v1/audit/json-markdown-route-catalog-summary",
+    "fFolderExplanationQualityGateJson": "/api/v1/audit/f-folder-explanation-quality-gate",
+    "codeWalkthroughDocumentationQualityGateJson": "/api/v1/audit/code-walkthrough-documentation-quality-gate"
+  },
+  "qualityDigest": "663e6d76794e6e8eb9042820a7b7c87d451725ec02a6de86f8cfce6f71b73eff",
+  "nextActions": [
+    "Use the architecture maps as the first reading path before adding another governance route.",
+    "Keep Java and mini-kv parallel: this profile is local documentation maintenance, not an upstream evidence blocker.",
+    "Add a new readability rule only when the existing maps cannot express a real review failure."
+  ]
+}

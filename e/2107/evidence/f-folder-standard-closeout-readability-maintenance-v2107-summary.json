@@ -1,0 +1,19 @@
+{
+  "version": "Node v2107",
+  "role": "f-folder standard closeout readability maintenance",
+  "route": "/api/v1/audit/managed-audit-readability-maintenance-profile",
+  "profileVersion": "readability-maintenance-profile.v1",
+  "maintenanceState": "verified-readability-maintenance",
+  "readyForReadabilityMaintenance": true,
+  "executionAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "activeVersionRange": "Node v2104-v2108",
+  "documentCount": 5,
+  "passingDocumentCount": 5,
+  "missingPhraseCount": 0,
+  "routeQualityRouteCount": 5,
+  "expectedRouteCount": 253,
+  "qualityDigest": "663e6d76794e6e8eb9042820a7b7c87d451725ec02a6de86f8cfce6f71b73eff",
+  "generatedFrom": "dist app.inject after npm run build"
+}
