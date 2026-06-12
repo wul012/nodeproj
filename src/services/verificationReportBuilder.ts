@@ -33,6 +33,13 @@ export interface VerificationArchiveFileReference {
   digest?: string | null;
 }
 
+export interface VerificationEvidenceFileReference {
+  id: string;
+  exists: boolean;
+  resolvedPath: string;
+  digest?: string | null;
+}
+
 export function renderVerificationReportMarkdown(spec: VerificationReportSpec): string {
   const lines: string[] = [`# ${spec.title}`, ""];
 
@@ -53,6 +60,16 @@ export function renderVerificationArchiveFileReferenceLines(
 ): string[] {
   return files.map((file) =>
     `- ${file.path}: exists=${file.exists}; bytes=${file.byteLength}; digest=${file.digest ?? "missing"}`);
+}
+
+export function renderVerificationEvidenceFileReferenceLines(
+  files: readonly VerificationEvidenceFileReference[],
+): string[] {
+  return files.flatMap((file) => [
+    `- ${file.id}: ${file.exists ? "present" : "missing"}`,
+    `  - Resolved path: ${file.resolvedPath}`,
+    `  - SHA-256: ${file.digest ?? "missing"}`,
+  ]);
 }
 
 function renderSectionBody(section: VerificationReportSection): string[] {

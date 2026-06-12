@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2127 - 2026-06-12
+
+- Migrated 6 Java / mini-kv route catalog cleanup evidence report renderers to
+  the shared verification report builder and added a tested evidence-file line
+  helper.
+
 ## v2126 - 2026-06-12
 
 - Migrated the 2 archive verification renderer tail shapes to the shared

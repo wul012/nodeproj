@@ -1,69 +1,52 @@
-import {
-  renderEntries,
-  renderList,
-} from "./liveProbeReportUtils.js";
 import type {
   JavaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceReport,
 } from "./javaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceReport.js";
+import {
+  renderVerificationEvidenceFileReferenceLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderJavaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceReportMarkdown(
   report: JavaMiniKvRouteCatalogCleanupVerificationChecklistEvidenceReport,
 ): string {
-  return [
-    "# Java / mini-kv route catalog cleanup verification checklist evidence report",
-    "",
-    `- Service: ${report.service}`,
-    `- Generated at: ${report.generatedAt}`,
-    `- Profile version: ${report.profileVersion}`,
-    `- Report state: ${report.reportState}`,
-    `- Ready: ${report.readyForRouteCatalogCleanupVerificationChecklistEvidenceReport}`,
-    `- Active Node version: ${report.activeNodeVersion}`,
-    `- Source Node version: ${report.sourceNodeVersion}`,
-    `- Execution allowed: ${report.executionAllowed}`,
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(report.summary),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(report.checks),
-    "",
-    "## Java v215 Consumer Verification Checklist",
-    "",
-    ...renderEntries(report.evidence.javaV215ConsumerVerificationChecklist),
-    "",
-    "## Java v215 Consumer Verification Checklist Fixture",
-    "",
-    ...renderEntries(report.evidence.javaV215ConsumerVerificationChecklistFixture),
-    "",
-    "## Java v216 Consumer Verification Checklist Snapshot Freeze",
-    "",
-    ...renderEntries(report.evidence.javaV216ConsumerVerificationChecklistSnapshotFreeze),
-    "",
-    "## Java v217 Consumer Verification Checklist Historical Compatibility",
-    "",
-    ...renderEntries(report.evidence.javaV217ConsumerVerificationChecklistHistoricalCompatibility),
-    "",
-    "## mini-kv v201 Post-Closeout Continuity",
-    "",
-    ...renderEntries(report.evidence.miniKvV201RouteCatalogCleanupPostCloseoutContinuity),
-    "",
-    "## Evidence Files",
-    "",
-    ...Object.values(report.evidence.files).flatMap((file) => [
-      `- ${file.id}: ${file.exists ? "present" : "missing"}`,
-      `  - Resolved path: ${file.resolvedPath}`,
-      `  - SHA-256: ${file.digest ?? "missing"}`,
-    ]),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(report.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(report.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Java / mini-kv route catalog cleanup verification checklist evidence report",
+    meta: [
+      ["Service", report.service],
+      ["Generated at", report.generatedAt],
+      ["Profile version", report.profileVersion],
+      ["Report state", report.reportState],
+      ["Ready", report.readyForRouteCatalogCleanupVerificationChecklistEvidenceReport],
+      ["Active Node version", report.activeNodeVersion],
+      ["Source Node version", report.sourceNodeVersion],
+      ["Execution allowed", report.executionAllowed],
+    ],
+    sections: [
+      { heading: "Summary", entries: report.summary },
+      { heading: "Checks", entries: report.checks },
+      {
+        heading: "Java v215 Consumer Verification Checklist",
+        entries: report.evidence.javaV215ConsumerVerificationChecklist,
+      },
+      {
+        heading: "Java v215 Consumer Verification Checklist Fixture",
+        entries: report.evidence.javaV215ConsumerVerificationChecklistFixture,
+      },
+      {
+        heading: "Java v216 Consumer Verification Checklist Snapshot Freeze",
+        entries: report.evidence.javaV216ConsumerVerificationChecklistSnapshotFreeze,
+      },
+      {
+        heading: "Java v217 Consumer Verification Checklist Historical Compatibility",
+        entries: report.evidence.javaV217ConsumerVerificationChecklistHistoricalCompatibility,
+      },
+      {
+        heading: "mini-kv v201 Post-Closeout Continuity",
+        entries: report.evidence.miniKvV201RouteCatalogCleanupPostCloseoutContinuity,
+      },
+      { heading: "Evidence Files", lines: renderVerificationEvidenceFileReferenceLines(Object.values(report.evidence.files)) },
+      { heading: "Evidence Endpoints", entries: report.evidenceEndpoints },
+      { heading: "Next Actions", list: report.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }

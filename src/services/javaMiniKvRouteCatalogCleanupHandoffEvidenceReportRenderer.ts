@@ -1,61 +1,35 @@
-import {
-  renderEntries,
-  renderList,
-} from "./liveProbeReportUtils.js";
 import type {
   JavaMiniKvRouteCatalogCleanupHandoffEvidenceReport,
 } from "./javaMiniKvRouteCatalogCleanupHandoffEvidenceReport.js";
+import {
+  renderVerificationEvidenceFileReferenceLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderJavaMiniKvRouteCatalogCleanupHandoffEvidenceReportMarkdown(
   report: JavaMiniKvRouteCatalogCleanupHandoffEvidenceReport,
 ): string {
-  return [
-    "# Java / mini-kv route catalog cleanup handoff evidence report",
-    "",
-    `- Service: ${report.service}`,
-    `- Generated at: ${report.generatedAt}`,
-    `- Profile version: ${report.profileVersion}`,
-    `- Report state: ${report.reportState}`,
-    `- Ready: ${report.readyForRouteCatalogCleanupHandoffEvidenceReport}`,
-    `- Active Node version: ${report.activeNodeVersion}`,
-    `- Source Node version: ${report.sourceNodeVersion}`,
-    `- Execution allowed: ${report.executionAllowed}`,
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(report.summary),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(report.checks),
-    "",
-    "## Java v202 Consumer Probe Plan",
-    "",
-    ...renderEntries(report.evidence.javaV202ConsumerProbePlan),
-    "",
-    "## Java v206 Endpoint Pair Integrity",
-    "",
-    ...renderEntries(report.evidence.javaV206EndpointPairIntegrity),
-    "",
-    "## mini-kv v191 Handoff",
-    "",
-    ...renderEntries(report.evidence.miniKvV191RouteCatalogHandoff),
-    "",
-    "## Evidence Files",
-    "",
-    ...Object.values(report.evidence.files).flatMap((file) => [
-      `- ${file.id}: ${file.exists ? "present" : "missing"}`,
-      `  - Resolved path: ${file.resolvedPath}`,
-      `  - SHA-256: ${file.digest ?? "missing"}`,
-    ]),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(report.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(report.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Java / mini-kv route catalog cleanup handoff evidence report",
+    meta: [
+      ["Service", report.service],
+      ["Generated at", report.generatedAt],
+      ["Profile version", report.profileVersion],
+      ["Report state", report.reportState],
+      ["Ready", report.readyForRouteCatalogCleanupHandoffEvidenceReport],
+      ["Active Node version", report.activeNodeVersion],
+      ["Source Node version", report.sourceNodeVersion],
+      ["Execution allowed", report.executionAllowed],
+    ],
+    sections: [
+      { heading: "Summary", entries: report.summary },
+      { heading: "Checks", entries: report.checks },
+      { heading: "Java v202 Consumer Probe Plan", entries: report.evidence.javaV202ConsumerProbePlan },
+      { heading: "Java v206 Endpoint Pair Integrity", entries: report.evidence.javaV206EndpointPairIntegrity },
+      { heading: "mini-kv v191 Handoff", entries: report.evidence.miniKvV191RouteCatalogHandoff },
+      { heading: "Evidence Files", lines: renderVerificationEvidenceFileReferenceLines(Object.values(report.evidence.files)) },
+      { heading: "Evidence Endpoints", entries: report.evidenceEndpoints },
+      { heading: "Next Actions", list: report.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }

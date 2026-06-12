@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   renderVerificationArchiveFileReferenceLines,
+  renderVerificationEvidenceFileReferenceLines,
   renderVerificationReportMarkdown,
 } from "../src/services/verificationReportBuilder.js";
 
@@ -82,6 +83,20 @@ describe("verificationReportBuilder", () => {
     ])).toEqual([
       "- d/2123/evidence/report.json: exists=true; bytes=128; digest=abc123",
       "- d/2123/图片/report.png: exists=false; bytes=0; digest=missing",
+    ]);
+  });
+
+  it("renders evidence file references in the route catalog cleanup line format", () => {
+    expect(renderVerificationEvidenceFileReferenceLines([
+      { id: "java", exists: true, resolvedPath: "fixtures/java.json", digest: "def456" },
+      { id: "mini-kv", exists: false, resolvedPath: "fixtures/mini-kv.json", digest: null },
+    ])).toEqual([
+      "- java: present",
+      "  - Resolved path: fixtures/java.json",
+      "  - SHA-256: def456",
+      "- mini-kv: missing",
+      "  - Resolved path: fixtures/mini-kv.json",
+      "  - SHA-256: missing",
     ]);
   });
 });
