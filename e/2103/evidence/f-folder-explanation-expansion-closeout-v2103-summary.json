@@ -1,0 +1,16 @@
+{
+  "version": "Node v2103",
+  "role": "expanded Chinese explanation closeout",
+  "route": "/api/v1/audit/f-folder-explanation-quality-gate",
+  "profileVersion": "f-folder-explanation-quality-gate.v1",
+  "qualityGateState": "verified-quality-gate",
+  "readyForFFolderExplanationQualityGate": true,
+  "enforcedExplanationCount": 11,
+  "enforcedCompliantExplanationCount": 11,
+  "shortExplanationCount": 0,
+  "shallowChineseExplanationCount": 0,
+  "lowCodePathDensityCount": 0,
+  "emptyImageDirCount": 0,
+  "qualityDigest": "0704638a273c4ae59a349b2a29a10f050dafad07608da02ee0ef17829d89594f",
+  "generatedFrom": "app.inject after npm run build"
+}
