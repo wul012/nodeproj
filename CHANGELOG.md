@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2136 - 2026-06-13
+
+- Migrated the disabled adapter client precheck and disabled adapter client
+  upstream echo verification reports to the shared verification report builder
+  while keeping env-handle, failure-taxonomy, and upstream-echo rows local.
+
 ## v2135 - 2026-06-13
 
 - Migrated the identity approval provenance dry-run packet and external adapter

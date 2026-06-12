@@ -1,0 +1,91 @@
+{
+  "service": "orderops-node",
+  "version": "v2136",
+  "milestone": "N1 renderer consolidation batch 19",
+  "generatedAt": "2026-06-13T00:20:05+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 2,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalEnvHandleAndFailureTaxonomyRows": true,
+    "retainsLocalUpstreamEchoRows": true,
+    "rendererLineCountsAfterMigration": {
+      "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientPrecheck.ts": 583,
+      "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationRenderer.ts": 50
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 2,
+      "insertions": 108,
+      "deletions": 147,
+      "netLineReduction": 39
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The disabled adapter client precheck and upstream echo verification reports still hand-wrote the full Markdown report frame even though their title/meta/Checks/Summary/messages/Evidence Endpoints/Next Actions sections matched the shared builder contract.",
+    "laterConsumer": "N1 final acceptance can now classify these disabled adapter client reports as builder-backed before scanning other early managed-audit reports.",
+    "reuseDecision": "The shared builder owns the repeated report frame. Env-handle, failure-taxonomy, and upstream-echo rows remain local because they carry version-specific explanation text and do not yet repeat across enough remaining files to justify a shared helper.",
+    "growthStopCondition": "No new spacing option or extra generic helper was added. Reconsider only if multiple remaining reports share the same compact or local-line grammar and pass byte-identical comparison."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientPrecheck.ts",
+    "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererAndRouteBatch": {
+      "command": "npx vitest run test/managedAuditManualSandboxConnectionDisabledAdapterClientPrecheck.test.ts test/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.test.ts",
+      "result": "passed",
+      "files": 2,
+      "tests": 7
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2136-byte-identical-compare.test.ts",
+      "result": "passed",
+      "comparedRendererFiles": 2,
+      "comparedProfiles": 4,
+      "method": "Temporary Vitest loaded each legacy renderer through git show HEAD:<path>, transpiled it in-memory with TypeScript, and compared ready plus blocked profile output against the migrated renderer."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts",
+      "result": "passed",
+      "files": 3,
+      "tests": 5,
+      "v2136WalkthroughChineseCharacters": 3000,
+      "v2136WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2136/evidence/renderer-consolidation-batch-19-v2136-summary.json",
+    "shortExplanation": "d/2136/解释/renderer-consolidation-batch-19-v2136.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2107-renderer-consolidation-batch-19-v2136.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2136 changes only Node Markdown renderer internals and archive documentation. It does not change evidence schemas, routes, contracts, fresh sibling evidence requirements, or live integration startup behavior."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2136-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
