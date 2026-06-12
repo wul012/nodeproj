@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 
-import { renderVerificationReportMarkdown } from "../src/services/verificationReportBuilder.js";
+import {
+  renderVerificationArchiveFileReferenceLines,
+  renderVerificationReportMarkdown,
+} from "../src/services/verificationReportBuilder.js";
 
 describe("verificationReportBuilder", () => {
   it("renders title, meta lines, and all section kinds in the canonical renderer shape", () => {
@@ -70,5 +73,15 @@ describe("verificationReportBuilder", () => {
     expect(markdown).toContain("## Warnings\n\n- No warnings.");
     expect(markdown).toContain("## Next Actions\n\n- No next actions.");
     expect(markdown.endsWith("\n")).toBe(true);
+  });
+
+  it("renders archive file references in the established verification line format", () => {
+    expect(renderVerificationArchiveFileReferenceLines([
+      { path: "d/2123/evidence/report.json", exists: true, byteLength: 128, digest: "abc123" },
+      { path: "d/2123/图片/report.png", exists: false, byteLength: 0, digest: null },
+    ])).toEqual([
+      "- d/2123/evidence/report.json: exists=true; bytes=128; digest=abc123",
+      "- d/2123/图片/report.png: exists=false; bytes=0; digest=missing",
+    ]);
   });
 });

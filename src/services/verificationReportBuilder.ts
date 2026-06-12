@@ -26,6 +26,13 @@ export interface VerificationReportSpec {
   sections: readonly VerificationReportSection[];
 }
 
+export interface VerificationArchiveFileReference {
+  path: string;
+  exists: boolean;
+  byteLength: number;
+  digest?: string | null;
+}
+
 export function renderVerificationReportMarkdown(spec: VerificationReportSpec): string {
   const lines: string[] = [`# ${spec.title}`, ""];
 
@@ -39,6 +46,13 @@ export function renderVerificationReportMarkdown(spec: VerificationReportSpec): 
 
   lines.push("");
   return lines.join("\n");
+}
+
+export function renderVerificationArchiveFileReferenceLines(
+  files: readonly VerificationArchiveFileReference[],
+): string[] {
+  return files.map((file) =>
+    `- ${file.path}: exists=${file.exists}; bytes=${file.byteLength}; digest=${file.digest ?? "missing"}`);
 }
 
 function renderSectionBody(section: VerificationReportSection): string[] {

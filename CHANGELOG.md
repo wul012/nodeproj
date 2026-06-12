@@ -11,6 +11,11 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2123 - 2026-06-12
+
+- Migrated 5 sandbox handle review archive verification renderers to the shared
+  verification report builder and added a reusable archive-reference line helper.
+
 ## v2122 - 2026-06-12
 
 - Migrated 7 Java / mini-kv operator lifecycle and runtime gate archive

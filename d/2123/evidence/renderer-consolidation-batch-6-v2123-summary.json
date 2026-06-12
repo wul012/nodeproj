@@ -1,0 +1,89 @@
+{
+  "service": "orderops-node",
+  "version": "v2123",
+  "milestone": "N1 renderer consolidation batch 6",
+  "generatedAt": "2026-06-12T18:39:15+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedArchiveReferenceLineHelper": true,
+    "retainsMinimalIntegrationForLater": true
+  },
+  "necessityProof": {
+    "blockerResolved": "N1 still had five sandbox-handle review archive verification renderers with identical local archive-reference helper shapes, leaving repeated markdown skeletons in a family that is already closed and read-only.",
+    "laterConsumer": "N5 can use the thinner sandbox-handle renderers as Phase-B merge candidates after N1 finishes, and the shared archive-reference helper can be reused by later minimal-integration or fake-transport batches when their line format matches.",
+    "reuseDecision": "The existing verification report builder already renders title, meta, entries, messages, lists, and raw lines. v2123 only adds a small archive-reference line helper to avoid keeping five copies of the same local map function.",
+    "growthStopCondition": "The batch stops at the five same-shape sandbox-handle review renderers. Minimal integration, shard readiness, runtime pass evidence, and fake transport remain separate because their helper and section shapes differ."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntakeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordArchiveVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewArchiveVerificationRenderer.ts"
+  ],
+  "sharedHelper": {
+    "file": "src/services/verificationReportBuilder.ts",
+    "name": "renderVerificationArchiveFileReferenceLines",
+    "reason": "Each migrated renderer used the same line shape: '- path: exists=...; bytes=...; digest=...'. Keeping it beside the shared report builder removes five local helper copies without changing the builder section model."
+  },
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/governanceGrowthRatchet.test.ts and 5 sandbox-handle review archive verification test files --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 7,
+      "testsPassed": 20
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2123-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRenderers": 5,
+      "method": "Temporary Vitest test loaded legacy renderer source from git HEAD, rewired imports to current source modules, loaded real archive profiles, and asserted equality with each migrated renderer output."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "filesPassed": 3,
+      "testsPassed": 5,
+      "v2123WalkthroughChineseCharacters": 3025,
+      "compliantWithCurrentStandard": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "note": "Warnings are the existing v2115 baseline and are outside this renderer-consolidation batch."
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": [
+    "d/2123/evidence/renderer-consolidation-batch-6-v2123-summary.json",
+    "d/2123/解释/renderer-consolidation-batch-6-v2123.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2094-renderer-consolidation-batch-6-v2123.md"
+  ],
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2123 only changes Node markdown rendering for frozen sandbox-handle archive profiles; it does not request fresh sibling evidence, live integration, or upstream service startup."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2123-byte-identical-compare.test.ts",
+      ".tmp/v2123-legacy-renderers/*.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
