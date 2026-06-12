@@ -23,6 +23,11 @@ describe("managed audit route quality audit route group", () => {
         url: "/api/v1/audit/f-folder-explanation-quality-gate",
         headers: completeHeaders(),
       });
+      const explanationReadabilityJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/audit/explanation-readability-closeout-profile",
+        headers: completeHeaders(),
+      });
       const helperJson = await app.inject({
         method: "GET",
         url: "/api/v1/audit/managed-audit-route-helper-quality-pass",
@@ -42,6 +47,7 @@ describe("managed audit route quality audit route group", () => {
       expect(paths).toEqual([
         "/api/v1/audit/code-walkthrough-documentation-quality-gate",
         "/api/v1/audit/f-folder-explanation-quality-gate",
+        "/api/v1/audit/explanation-readability-closeout-profile",
         "/api/v1/audit/managed-audit-route-helper-quality-pass",
         "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
         "/api/v1/audit/managed-audit-readability-maintenance-profile",
@@ -63,6 +69,15 @@ describe("managed audit route quality audit route group", () => {
         readyForFFolderExplanationQualityGate: true,
         executionAllowed: false,
         connectsManagedAudit: false,
+      });
+      expect(explanationReadabilityJson.statusCode).toBe(200);
+      expect(explanationReadabilityJson.json()).toMatchObject({
+        profileVersion: "explanation-readability-closeout-profile.v1",
+        closeoutState: "verified-explanation-readability-closeout",
+        readyForExplanationReadabilityCloseout: true,
+        executionAllowed: false,
+        startsJavaService: false,
+        startsMiniKvService: false,
       });
       expect(helperJson.statusCode).toBe(200);
       expect(helperJson.json()).toMatchObject({

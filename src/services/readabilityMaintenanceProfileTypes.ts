@@ -1,5 +1,5 @@
 export const READABILITY_MAINTENANCE_PROFILE_VERSION = "readability-maintenance-profile.v1" as const;
-export const READABILITY_MAINTENANCE_ACTIVE_VERSION_RANGE = "Node v2104-v2108" as const;
+export const READABILITY_MAINTENANCE_ACTIVE_VERSION_RANGE = "Node v2104-v2113" as const;
 
 export const READABILITY_MAINTENANCE_DOCUMENTS = [
   {

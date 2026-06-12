@@ -62,6 +62,8 @@ describe("code walkthrough documentation quality gate", () => {
     expect(profile.summary.enforcedChineseWritingShortCount).toBe(0);
     expect(profile.summary.repetitiveParagraphPaddingCount).toBe(0);
     expect(profile.summary.oversizedDetailedWalkthroughCount).toBe(0);
+    expect(profile.summary.minimumScannableH2SectionCount).toBeGreaterThan(0);
+    expect(profile.summary.largestH2SectionChineseCharacters).toBeGreaterThan(0);
     expect(profile.summary.enforcedPlaceholderCount).toBe(0);
     expect(profile.bucketSummary.r2000.enforcedMarkdownCount).toBeGreaterThanOrEqual(2);
     expect(profile.blockers).toEqual([]);

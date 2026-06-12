@@ -8,6 +8,7 @@
 | --- | --- | --- | --- |
 | `/api/v1/audit/code-walkthrough-documentation-quality-gate` | `src/services/codeWalkthroughDocumentationQualityGate.ts` | `test/codeWalkthroughDocumentationQualityGate.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` | 扫描代码讲解文档，`executionAllowed=false` |
 | `/api/v1/audit/f-folder-explanation-quality-gate` | `src/services/fFolderExplanationQualityGate.ts` | `test/fFolderExplanationQualityGate.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` | 扫描 `f/<version>/解释`，不启动 sibling service |
+| `/api/v1/audit/explanation-readability-closeout-profile` | `src/services/explanationReadabilityCloseoutProfile.ts` | `test/explanationReadabilityCloseoutProfile.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` | 汇总两类讲解质量门，证明无重复段落和无过大详细讲解章节 |
 | `/api/v1/audit/managed-audit-route-helper-quality-pass` | `src/services/managedAuditRouteHelperQualityPass.ts` | `test/managedAuditRouteHelperQualityPass.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` | 证明 route helper 拆分，不连接 managed audit |
 | `/api/v1/audit/managed-audit-route-registration-table-quality-pass` | `src/services/managedAuditRouteRegistrationTableQualityPass.ts` | `test/managedAuditRouteRegistrationTableQualityPass.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` | 证明 route catalog/table 对齐 |
 | `/api/v1/audit/managed-audit-readability-maintenance-profile` | `src/services/readabilityMaintenanceProfile.ts` | `test/readabilityMaintenanceProfile.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` | 验证架构地图和保养标准，不触发业务执行 |

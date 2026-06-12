@@ -47,6 +47,12 @@ export function loadFFolderExplanationQualityGate(input: {
     .filter((document) => document.oversizedDetailedSectionSignals.length > 0);
   const forbiddenExecutionClaims = enforcedExplanations
     .filter((document) => document.forbiddenExecutionClaimSignals.length > 0);
+  const minimumScannableH2SectionCount = minOrZero(
+    enforcedExplanations.map((document) => document.scannableH2SectionCount),
+  );
+  const largestH2SectionChineseCharacters = maxOrZero(
+    enforcedExplanations.map((document) => document.largestH2SectionChineseCharacters),
+  );
   const missingExplanationDirs = enforcedVersionSummaries
     .filter((summary) => !summary.explanationDirExists || summary.explanationMarkdownCount === 0);
   const emptyImageDirs = enforcedVersionSummaries
@@ -103,6 +109,8 @@ export function loadFFolderExplanationQualityGate(input: {
     placeholderCount: placeholderExplanations.length,
     repetitiveParagraphPaddingCount: repetitiveParagraphExplanations.length,
     oversizedDetailedExplanationCount: oversizedDetailedSectionExplanations.length,
+    minimumScannableH2SectionCount,
+    largestH2SectionChineseCharacters,
     forbiddenExecutionClaimCount: forbiddenExecutionClaims.length,
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -133,6 +141,9 @@ export function loadFFolderExplanationQualityGate(input: {
       chineseCharacterCount: document.chineseCharacterCount,
       codePathReferenceCount: document.codePathReferences.length,
       complianceScore: document.complianceScore,
+      scannableH2SectionCount: document.scannableH2SectionCount,
+      largestH2SectionHeading: document.largestH2SectionHeading,
+      largestH2SectionChineseCharacters: document.largestH2SectionChineseCharacters,
       repetitiveParagraphSignals: document.repetitiveParagraphSignals,
       oversizedDetailedSectionSignals: document.oversizedDetailedSectionSignals,
       compliantWithCurrentStandard: document.compliantWithCurrentStandard,
@@ -291,6 +302,14 @@ function collectBlockers(
       `${context.forbiddenExecutionClaims.length} enforced explanations claim execution or production readiness flags.`));
   }
   return blockers;
+}
+
+function minOrZero(values: readonly number[]): number {
+  return values.length === 0 ? 0 : Math.min(...values);
+}
+
+function maxOrZero(values: readonly number[]): number {
+  return values.length === 0 ? 0 : Math.max(...values);
 }
 
 function collectWarnings(legacyExplanationCount: number): FFolderExplanationQualityMessage[] {

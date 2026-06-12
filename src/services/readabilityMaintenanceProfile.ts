@@ -60,9 +60,9 @@ export function loadReadabilityMaintenanceProfile(input: {
     routeServiceTestMapDocumentsNewRoute: documentPasses(documents, "route-service-test-map"),
     fFolderStandardCloseoutDocumented: documentPasses(documents, "f-folder-explanation-standard-closeout"),
     routeCatalogCountsAligned:
-      routeCatalog.expectedRouteCount === 253
-      && routeCatalog.managedAuditRouteCount === 55
-      && routeCatalog.routeQualityRouteCount === 5,
+      routeCatalog.expectedRouteCount === 254
+      && routeCatalog.managedAuditRouteCount === 56
+      && routeCatalog.routeQualityRouteCount === 6,
     upstreamActionsStillDisabled: input.config.upstreamActionsEnabled === false,
     noSiblingServiceStartup: true,
     noProductionExecutionEnabled: true,

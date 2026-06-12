@@ -52,6 +52,12 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     .filter((document) => document.oversizedDetailedSectionSignals.length > 0);
   const forbiddenExecutionClaims = enforcedWalkthroughs
     .filter((document) => document.forbiddenExecutionClaimSignals.length > 0);
+  const minimumScannableH2SectionCount = minOrZero(
+    enforcedWalkthroughs.map((document) => document.scannableH2SectionCount),
+  );
+  const largestH2SectionChineseCharacters = maxOrZero(
+    enforcedWalkthroughs.map((document) => document.largestH2SectionChineseCharacters),
+  );
   const misbucketedWalkthroughs = scan.documents.filter((document) => !document.bucketAligned);
   const bucketSummary = createBucketSummary(scan.documents, scan.bucketDirectories);
   const standardText = scan.standardDocumentExists
@@ -111,6 +117,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     enforcedChineseWritingShortCount: enforcedChineseWritingShort.length,
     repetitiveParagraphPaddingCount: repetitiveParagraphWalkthroughs.length,
     oversizedDetailedWalkthroughCount: oversizedDetailedSectionWalkthroughs.length,
+    minimumScannableH2SectionCount,
+    largestH2SectionChineseCharacters,
     forbiddenExecutionClaimCount: forbiddenExecutionClaims.length,
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -138,6 +146,9 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
       relativePath: document.relativePath,
       chineseCharacterCount: document.chineseCharacterCount,
       complianceScore: document.complianceScore,
+      scannableH2SectionCount: document.scannableH2SectionCount,
+      largestH2SectionHeading: document.largestH2SectionHeading,
+      largestH2SectionChineseCharacters: document.largestH2SectionChineseCharacters,
       repetitiveParagraphSignals: document.repetitiveParagraphSignals,
       oversizedDetailedSectionSignals: document.oversizedDetailedSectionSignals,
       compliantWithCurrentStandard: document.compliantWithCurrentStandard,
@@ -254,6 +265,14 @@ function createBucketSummary(
       enforcedMarkdownCount: bucketDocuments.filter((document) => document.enforcedByCurrentStandard).length,
     }];
   })) as CodeWalkthroughDocumentationQualityProfile["bucketSummary"];
+}
+
+function minOrZero(values: readonly number[]): number {
+  return values.length === 0 ? 0 : Math.min(...values);
+}
+
+function maxOrZero(values: readonly number[]): number {
+  return values.length === 0 ? 0 : Math.max(...values);
 }
 
 function readStandardText(projectRoot?: string): string {

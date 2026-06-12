@@ -29,16 +29,16 @@ describe("readability maintenance profile", () => {
       mutatesJavaState: false,
       mutatesMiniKvState: false,
       scope: {
-        activeVersionRange: "Node v2104-v2108",
+        activeVersionRange: "Node v2104-v2113",
         routeGroup: "managed-audit-route-quality",
         localDocumentationOnly: true,
         javaMiniKvParallelRecommended: true,
       },
       routeCatalog: {
         expectedGroupCount: 51,
-        expectedRouteCount: 253,
-        managedAuditRouteCount: 55,
-        routeQualityRouteCount: 5,
+        expectedRouteCount: 254,
+        managedAuditRouteCount: 56,
+        routeQualityRouteCount: 6,
       },
       checks: {
         architectureDocumentsPresent: true,

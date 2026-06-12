@@ -9,7 +9,7 @@
 | audit 基础面 | `src/routes/auditRoutes.ts` | 注册 JSON/Markdown 审计报告、事件摘要和路由目录 | read-only，`executionAllowed=false` |
 | access policy | `src/services/accessPolicyProfile.ts` | 描述未来身份、角色和 route policy 合同 | contract-only，不读取真实密钥 |
 | route catalog | `src/routes/auditJsonMarkdownRouteGroups.ts` | 把 route 分组为 foundational、managed-audit、credential-resolver、java-mini-kv、minimal-integration、sandbox | 只维护注册表，不启动 sibling service |
-| quality gate | `src/services/codeWalkthroughDocumentationQualityGate.ts`、`src/services/fFolderExplanationQualityGate.ts` | 扫描文档、讲解和目录形态是否达到当前标准 | 只读扫描仓库文件 |
+| quality gate | `src/services/codeWalkthroughDocumentationQualityGate.ts`、`src/services/fFolderExplanationQualityGate.ts`、`src/services/explanationReadabilityCloseoutProfile.ts` | 扫描文档、讲解和目录形态是否达到当前标准，汇总讲解可读性收口状态 | 只读扫描仓库文件 |
 | shard preflight | `src/services/productionShardExecutionExternalArtifactIntakeEnvelope.ts` 等 | 记录分片执行前置证据、dry-run 与 blocker | preflight，不声明 production execution |
 
 ## 十分钟阅读顺序
@@ -30,4 +30,4 @@
 
 ## 后期保养原则
 
-新增控制面能力前，优先确认它能否归入已有 route catalog、quality gate、evidence flow 或 f-folder 标准。只有当旧入口无法表达新的审计缺口时，才新增 route 或 service。
+新增控制面能力前，优先确认它能否归入已有 route catalog、quality gate、evidence flow 或 f-folder 标准。重复段落、过大详细讲解章节和 H2 section 指标已经归入 `src/services/markdownDocumentReadabilitySignals.ts`，后续不要在多个 gate 中复制相同规则。只有当旧入口无法表达新的审计缺口时，才新增 route 或 service。

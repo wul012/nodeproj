@@ -1,0 +1,70 @@
+{
+  "service": "orderops-node",
+  "version": "Node v2113",
+  "title": "Explanation readability archive closeout HTTP evidence",
+  "generatedAt": "2026-06-12T02:57:09.090Z",
+  "readOnlyEvidence": true,
+  "executionAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "routes": {
+    "closeout-profile": {
+      "route": "/api/v1/audit/explanation-readability-closeout-profile",
+      "statusCode": 200,
+      "profileVersion": "explanation-readability-closeout-profile.v1",
+      "state": "verified-explanation-readability-closeout",
+      "ready": true,
+      "executionAllowed": false,
+      "qualityDigest": "7915cbff6a744adfada1a5b30ea3ee2218a3e9ae989b99d222cc0c40195aa2be"
+    },
+    "f-folder-quality-gate": {
+      "route": "/api/v1/audit/f-folder-explanation-quality-gate",
+      "statusCode": 200,
+      "profileVersion": "f-folder-explanation-quality-gate.v1",
+      "state": "verified-quality-gate",
+      "ready": true,
+      "executionAllowed": false,
+      "qualityDigest": "044e2b6674589b1da140b17189886750b0bc0a542714b86c4b847dc509113be5"
+    },
+    "code-walkthrough-quality-gate": {
+      "route": "/api/v1/audit/code-walkthrough-documentation-quality-gate",
+      "statusCode": 200,
+      "profileVersion": "code-walkthrough-documentation-quality-gate.v1",
+      "state": "verified-quality-gate",
+      "ready": true,
+      "executionAllowed": false,
+      "qualityDigest": "6ae547bc48aac609bb9136b7d43f614628a228d048d21ea90acb46ef0abf2010"
+    },
+    "readability-maintenance-profile": {
+      "route": "/api/v1/audit/managed-audit-readability-maintenance-profile",
+      "statusCode": 200,
+      "profileVersion": "readability-maintenance-profile.v1",
+      "state": "verified-readability-maintenance",
+      "ready": true,
+      "executionAllowed": false,
+      "qualityDigest": "361897d4b00f57b9d76eda28a8d3b0047b82399239dc0117055b6fd869204615"
+    }
+  },
+  "catalogSummary": {
+    "groupCount": 51,
+    "routeCount": 254,
+    "domainGroupCounts": {
+      "foundational": 1,
+      "managed-audit": 16,
+      "credential-resolver": 24,
+      "java-mini-kv": 6,
+      "minimal-integration": 2,
+      "sandbox": 2
+    },
+    "domainRouteCounts": {
+      "foundational": 6,
+      "managed-audit": 56,
+      "credential-resolver": 70,
+      "java-mini-kv": 85,
+      "minimal-integration": 19,
+      "sandbox": 18
+    },
+    "firstRoutePath": "/api/v1/audit/store-profile",
+    "lastRoutePath": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification"
+  }
+}

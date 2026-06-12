@@ -1,0 +1,24 @@
+{
+  "service": "orderops-node",
+  "version": "Node v2109",
+  "title": "共享 Markdown 可读性分析器",
+  "generatedAt": "2026-06-12T02:53:58.804Z",
+  "readOnlyEvidence": true,
+  "executionAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "mutatesJavaState": false,
+  "mutatesMiniKvState": false,
+  "sourceFiles": [
+    "src/services/markdownDocumentReadabilitySignals.ts",
+    "src/services/codeWalkthroughDocumentationQualityRules.ts",
+    "src/services/fFolderExplanationQualityRules.ts",
+    "test/markdownDocumentReadabilitySignals.test.ts"
+  ],
+  "expectedVerification": [
+    "focused vitest batch",
+    "npm run typecheck",
+    "npm run build",
+    "HTTP app.inject evidence for v2113 closeout routes"
+  ]
+}

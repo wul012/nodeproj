@@ -18,12 +18,14 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | 代码讲解质量 | `src/services/codeWalkthroughDocumentationQualityTypes.ts` | `src/services/codeWalkthroughDocumentationQualityRules.ts` | `src/services/codeWalkthroughDocumentationQualityScanner.ts` | `src/services/codeWalkthroughDocumentationQualityGate.ts` | `/api/v1/audit/code-walkthrough-documentation-quality-gate` | `test/codeWalkthroughDocumentationQualityRules.test.ts`、`test/codeWalkthroughDocumentationQualityGate.test.ts` |
 | f 目录讲解质量 | `src/services/fFolderExplanationQualityTypes.ts` | `src/services/fFolderExplanationQualityRules.ts` | `src/services/fFolderExplanationQualityScanner.ts` | `src/services/fFolderExplanationQualityGate.ts` | `/api/v1/audit/f-folder-explanation-quality-gate` | `test/fFolderExplanationQualityRules.test.ts`、`test/fFolderExplanationQualityGate.test.ts` |
+| 讲解可读性收口 profile | `src/services/explanationReadabilityCloseoutProfileTypes.ts` | 复用 `src/services/markdownDocumentReadabilitySignals.ts` 和两类质量门结果 | 两类质量门扫描结果 | `src/services/explanationReadabilityCloseoutProfile.ts` | `/api/v1/audit/explanation-readability-closeout-profile` | `test/explanationReadabilityCloseoutProfile.test.ts`、`test/markdownDocumentReadabilitySignals.test.ts` |
 | 可读性保养 profile | `src/services/readabilityMaintenanceProfileTypes.ts` | 内联文档规则 | 本地文档读取 | `src/services/readabilityMaintenanceProfile.ts` | `/api/v1/audit/managed-audit-readability-maintenance-profile` | `test/readabilityMaintenanceProfile.test.ts`、`test/auditManagedAuditRouteQualityRoutes.test.ts` |
 
 ## 防止命名膨胀
 
 - 同一概念不要同时出现 `DocumentationQuality`、`DocQuality`、`WalkthroughGate` 等并行名字。
 - 如果文件名已经表达 family，函数名可以保持 `load*`、`render*Markdown` 的本地惯例。
+- 重复段落、过大 `Detailed Walkthrough / 详细讲解` 和 H2 section 指标统一写在 `src/services/markdownDocumentReadabilitySignals.ts`，不要在 f 目录质量门和代码讲解质量门里各写一份。
 - 新增 quality gate 前要先说明：旧 gate 为什么不能复用、scanner 是否只读、route 是否会增加审计入口。
 - 新增一组 gate 时必须同时补 route、service、test、docs map，否则先停在文档计划。
 

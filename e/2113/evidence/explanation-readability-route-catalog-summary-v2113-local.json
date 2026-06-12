@@ -1,0 +1,22 @@
+{
+  "groupCount": 51,
+  "routeCount": 254,
+  "domainGroupCounts": {
+    "foundational": 1,
+    "managed-audit": 16,
+    "credential-resolver": 24,
+    "java-mini-kv": 6,
+    "minimal-integration": 2,
+    "sandbox": 2
+  },
+  "domainRouteCounts": {
+    "foundational": 6,
+    "managed-audit": 56,
+    "credential-resolver": 70,
+    "java-mini-kv": 85,
+    "minimal-integration": 19,
+    "sandbox": 18
+  },
+  "firstRoutePath": "/api/v1/audit/store-profile",
+  "lastRoutePath": "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-sandbox-handle-review-prerequisite-closure-review-archive-verification"
+}

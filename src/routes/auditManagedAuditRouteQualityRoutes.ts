@@ -7,6 +7,10 @@ import {
   renderFFolderExplanationQualityGateMarkdown,
 } from "../services/fFolderExplanationQualityGate.js";
 import {
+  loadExplanationReadabilityCloseoutProfile,
+  renderExplanationReadabilityCloseoutProfileMarkdown,
+} from "../services/explanationReadabilityCloseoutProfile.js";
+import {
   loadManagedAuditRouteHelperQualityPass,
   renderManagedAuditRouteHelperQualityPassMarkdown,
 } from "../services/managedAuditRouteHelperQualityPass.js";
@@ -33,6 +37,11 @@ export const managedAuditRouteQualityAuditJsonMarkdownRoutes: readonly AuditJson
     loadFFolderExplanationQualityGate({
       config: deps.config,
     }), renderFFolderExplanationQualityGateMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/explanation-readability-closeout-profile", (deps) =>
+    loadExplanationReadabilityCloseoutProfile({
+      config: deps.config,
+    }), renderExplanationReadabilityCloseoutProfileMarkdown),
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-helper-quality-pass", (deps) => loadManagedAuditRouteHelperQualityPass({
     config: deps.config,

@@ -1,0 +1,24 @@
+{
+  "service": "orderops-node",
+  "version": "Node v2111",
+  "title": "讲解可读性 closeout profile",
+  "generatedAt": "2026-06-12T02:53:58.817Z",
+  "readOnlyEvidence": true,
+  "executionAllowed": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "mutatesJavaState": false,
+  "mutatesMiniKvState": false,
+  "sourceFiles": [
+    "src/services/explanationReadabilityCloseoutProfileTypes.ts",
+    "src/services/explanationReadabilityCloseoutProfile.ts",
+    "test/explanationReadabilityCloseoutProfile.test.ts",
+    "src/services/liveProbeReportUtils.ts"
+  ],
+  "expectedVerification": [
+    "focused vitest batch",
+    "npm run typecheck",
+    "npm run build",
+    "HTTP app.inject evidence for v2113 closeout routes"
+  ]
+}

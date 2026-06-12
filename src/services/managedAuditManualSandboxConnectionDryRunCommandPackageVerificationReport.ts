@@ -620,7 +620,7 @@ function fileDigest(filePath: string): string {
 }
 
 function firstExistingPath(primaryPath: string, fallbackPath: string): string {
-  return existsSync(primaryPath) ? primaryPath : fallbackPath;
+  return existsSync(fallbackPath) ? fallbackPath : primaryPath;
 }
 
 function snippetMatched(snippets: VerificationSnippetMatch[], id: string): boolean {

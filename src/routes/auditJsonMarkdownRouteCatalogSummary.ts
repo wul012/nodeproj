@@ -23,7 +23,7 @@ export const AUDIT_JSON_MARKDOWN_ROUTE_DOMAINS: readonly AuditJsonMarkdownRouteD
 
 export const EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY: AuditJsonMarkdownRouteCatalogSummary = {
   groupCount: 51,
-  routeCount: 253,
+  routeCount: 254,
   domainGroupCounts: {
     foundational: 1,
     "managed-audit": 16,
@@ -34,7 +34,7 @@ export const EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY: AuditJsonMarkdo
   },
   domainRouteCounts: {
     foundational: 6,
-    "managed-audit": 55,
+    "managed-audit": 56,
     "credential-resolver": 70,
     "java-mini-kv": 85,
     "minimal-integration": 19,

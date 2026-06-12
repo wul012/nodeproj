@@ -61,6 +61,8 @@ describe("f-folder explanation quality gate", () => {
     expect(profile.summary.lowCodePathDensityCount).toBe(0);
     expect(profile.summary.repetitiveParagraphPaddingCount).toBe(0);
     expect(profile.summary.oversizedDetailedExplanationCount).toBe(0);
+    expect(profile.summary.minimumScannableH2SectionCount).toBeGreaterThanOrEqual(7);
+    expect(profile.summary.largestH2SectionChineseCharacters).toBeGreaterThan(0);
     expect(profile.blockers).toEqual([]);
     expect(profile.qualityDigest).toMatch(/^[a-f0-9]{64}$/);
   });

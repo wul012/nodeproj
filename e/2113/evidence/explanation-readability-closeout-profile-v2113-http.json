@@ -1,0 +1,122 @@
+{
+  "service": "orderops-node",
+  "title": "Explanation readability closeout profile",
+  "generatedAt": "2026-06-12T02:57:09.872Z",
+  "profileVersion": "explanation-readability-closeout-profile.v1",
+  "closeoutState": "verified-explanation-readability-closeout",
+  "readyForExplanationReadabilityCloseout": true,
+  "readyForProductionAudit": false,
+  "readyForProductionWindow": false,
+  "readyForProductionOperations": false,
+  "readOnlyProfile": true,
+  "executionAllowed": false,
+  "connectsManagedAudit": false,
+  "startsJavaService": false,
+  "startsMiniKvService": false,
+  "mutatesJavaState": false,
+  "mutatesMiniKvState": false,
+  "scope": {
+    "activeVersionRange": "Node v2109-v2113",
+    "localDocumentationOnly": true,
+    "sharedMarkdownReadabilityAnalyzer": "src/services/markdownDocumentReadabilitySignals.ts",
+    "routeGroup": "managed-audit-route-quality",
+    "javaMiniKvParallelRecommended": true
+  },
+  "gates": {
+    "fFolderExplanationQualityGate": {
+      "id": "f-folder-explanation-quality-gate",
+      "profileVersion": "f-folder-explanation-quality-gate.v1",
+      "state": "verified-quality-gate",
+      "ready": true,
+      "enforcedDocumentCount": 21,
+      "compliantDocumentCount": 21,
+      "repetitiveParagraphPaddingCount": 0,
+      "oversizedDetailedSectionCount": 0,
+      "minimumScannableH2SectionCount": 8,
+      "largestH2SectionChineseCharacters": 4242,
+      "qualityDigest": "044e2b6674589b1da140b17189886750b0bc0a542714b86c4b847dc509113be5"
+    },
+    "codeWalkthroughDocumentationQualityGate": {
+      "id": "code-walkthrough-documentation-quality-gate",
+      "profileVersion": "code-walkthrough-documentation-quality-gate.v1",
+      "state": "verified-quality-gate",
+      "ready": true,
+      "enforcedDocumentCount": 22,
+      "compliantDocumentCount": 22,
+      "repetitiveParagraphPaddingCount": 0,
+      "oversizedDetailedSectionCount": 0,
+      "minimumScannableH2SectionCount": 1,
+      "largestH2SectionChineseCharacters": 4242,
+      "qualityDigest": "6ae547bc48aac609bb9136b7d43f614628a228d048d21ea90acb46ef0abf2010"
+    }
+  },
+  "routeCatalog": {
+    "expectedRouteCount": 254,
+    "managedAuditRouteCount": 56,
+    "routeQualityRouteCount": 6,
+    "closeoutRouteRegistered": true
+  },
+  "checks": {
+    "fFolderGateVerified": true,
+    "codeWalkthroughGateVerified": true,
+    "noRepetitiveParagraphPadding": true,
+    "noOversizedDetailedSections": true,
+    "scannableSectionsMeasured": true,
+    "routeCatalogIncludesCloseoutProfile": true,
+    "upstreamActionsStillDisabled": true,
+    "noSiblingServiceStartup": true,
+    "noProductionExecutionEnabled": true,
+    "readyForExplanationReadabilityCloseout": true
+  },
+  "summary": {
+    "gateCount": 2,
+    "readyGateCount": 2,
+    "enforcedDocumentCount": 43,
+    "compliantDocumentCount": 43,
+    "repetitiveParagraphPaddingCount": 0,
+    "oversizedDetailedSectionCount": 0,
+    "minimumScannableH2SectionCount": 1,
+    "largestH2SectionChineseCharacters": 4242,
+    "checkCount": 10,
+    "passedCheckCount": 10,
+    "productionBlockerCount": 0,
+    "warningCount": 1,
+    "recommendationCount": 2
+  },
+  "productionBlockers": [],
+  "warnings": [
+    {
+      "code": "LOCAL_DOCUMENTATION_CLOSEOUT_ONLY",
+      "severity": "warning",
+      "source": "explanation-readability-closeout-profile",
+      "message": "This closeout profile only verifies local explanation readability; it does not approve production execution."
+    }
+  ],
+  "recommendations": [
+    {
+      "code": "KEEP_SECTIONS_SCANNABLE",
+      "severity": "recommendation",
+      "source": "explanation-readability-closeout-profile",
+      "message": "Prefer several focused H2 sections over one large Detailed Walkthrough section."
+    },
+    {
+      "code": "REUSE_SHARED_ANALYZER",
+      "severity": "recommendation",
+      "source": "explanation-readability-closeout-profile",
+      "message": "Add future Markdown readability rules to the shared analyzer first, then project them through each gate."
+    }
+  ],
+  "evidenceEndpoints": {
+    "closeoutProfileJson": "/api/v1/audit/explanation-readability-closeout-profile",
+    "closeoutProfileMarkdown": "/api/v1/audit/explanation-readability-closeout-profile?format=markdown",
+    "fFolderExplanationQualityGateJson": "/api/v1/audit/f-folder-explanation-quality-gate",
+    "codeWalkthroughDocumentationQualityGateJson": "/api/v1/audit/code-walkthrough-documentation-quality-gate",
+    "markdownReadabilityAnalyzer": "src/services/markdownDocumentReadabilitySignals.ts"
+  },
+  "qualityDigest": "7915cbff6a744adfada1a5b30ea3ee2218a3e9ae989b99d222cc0c40195aa2be",
+  "nextActions": [
+    "Keep using the shared Markdown readability analyzer instead of duplicating paragraph checks in each quality gate.",
+    "When future explanations are long, split them into scannable H2 sections and keep Detailed Walkthrough sections small.",
+    "Treat this profile as local documentation closeout only; Java and mini-kv can continue in parallel without waiting for Node."
+  ]
+}

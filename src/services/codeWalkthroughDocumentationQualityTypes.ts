@@ -56,6 +56,10 @@ export interface CodeWalkthroughDocumentEvaluation {
   forbiddenExecutionClaimSignals: string[];
   repetitiveParagraphSignals: string[];
   oversizedDetailedSectionSignals: string[];
+  h2SectionCount: number;
+  scannableH2SectionCount: number;
+  largestH2SectionHeading: string | null;
+  largestH2SectionChineseCharacters: number;
   missingRequiredSections: string[];
   complianceScore: number;
   compliantWithCurrentStandard: boolean;
@@ -145,6 +149,8 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     enforcedChineseWritingShortCount: number;
     repetitiveParagraphPaddingCount: number;
     oversizedDetailedWalkthroughCount: number;
+    minimumScannableH2SectionCount: number;
+    largestH2SectionChineseCharacters: number;
     forbiddenExecutionClaimCount: number;
     checkCount: number;
     passedCheckCount: number;
