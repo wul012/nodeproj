@@ -1,5 +1,7 @@
 import {
+  CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD,
   CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD,
+  CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS,
   type CodeWalkthroughDocumentEvaluation,
   type CodeWalkthroughDocumentScan,
 } from "./codeWalkthroughDocumentationQualityTypes.js";
@@ -54,6 +56,7 @@ const FORBIDDEN_EXECUTION_CLAIM_PATTERNS = [
   /credentialValueRead:\s*true/,
   /mutates(Java|MiniKv)State:\s*true/,
 ] as const;
+const CHINESE_CHARACTER_PATTERN = /[\u3400-\u9fff]/g;
 
 export function evaluateCodeWalkthroughDocument(
   document: CodeWalkthroughDocumentScan,
@@ -66,6 +69,11 @@ export function evaluateCodeWalkthroughDocument(
   const forbiddenExecutionClaimSignals = collectMatchingPatterns(document.text, FORBIDDEN_EXECUTION_CLAIM_PATTERNS);
   const enforcedByCurrentStandard =
     document.recordNumber !== null && document.recordNumber >= enforcementFloorRecord;
+  const chineseCharacterCount = document.text.match(CHINESE_CHARACTER_PATTERN)?.length ?? 0;
+  const chineseWritingRequired =
+    document.recordNumber !== null && document.recordNumber >= CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD;
+  const meetsChineseWritingFloor =
+    !chineseWritingRequired || chineseCharacterCount >= CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS;
   const hasH1Title = /^#\s+\S+/m.test(document.text);
   const bucketAligned = document.bucket === document.expectedBucket;
   const hasGoalAndNonGoal = !missingRequiredSections.includes("goal-and-non-goal");
@@ -86,11 +94,13 @@ export function evaluateCodeWalkthroughDocument(
     hasSafetyBoundarySection,
     hasTestCoverageSection,
     hasOneSentenceSummary,
+    meetsChineseWritingFloor,
   ].filter(Boolean).length;
-  const complianceScore = Math.round((satisfiedShapeCount / 9) * 100);
+  const complianceScore = Math.round((satisfiedShapeCount / 10) * 100);
   const compliantWithCurrentStandard =
     bucketAligned
     && hasH1Title
+    && meetsChineseWritingFloor
     && missingRequiredSections.length === 0
     && placeholderSignals.length === 0
     && forbiddenExecutionClaimSignals.length === 0;
@@ -105,6 +115,9 @@ export function evaluateCodeWalkthroughDocument(
     byteLength: document.byteLength,
     lineCount: document.lineCount,
     enforcedByCurrentStandard,
+    chineseWritingRequired,
+    chineseCharacterCount,
+    meetsChineseWritingFloor,
     bucketAligned,
     hasH1Title,
     hasGoalAndNonGoal,

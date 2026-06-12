@@ -24,11 +24,12 @@ Use `代码讲解记录/107-production-readiness-summary-v3-v103.md` as the mode
 
 Files under `f/<version>/解释/` are human-facing explanations, not placeholders. Starting with Node v2094, every explanation that exists must be substantive Chinese writing:
 
-- At least 3600 bytes.
-- At least 900 Chinese characters.
+- At least 9000 bytes.
+- At least 3000 Chinese characters for each version-level explanation.
 - At least four real code, test, docs, archive, or walkthrough paths.
 - Must explain goal or context, code entry points, response model, service flow, safety boundary, verification, and next step or stop condition.
 - Must not claim production authority, production operations, credential access, live upstream writes, or sibling service startup unless the verified code actually does it.
+- If a version cannot naturally support a 3000-character Chinese explanation, the implementation slice is probably too small; increase the engineering work rather than padding the prose.
 
 Do not create `f/<version>/图片/` unless actual image or screenshot evidence exists. An empty image directory is a quality failure.
 

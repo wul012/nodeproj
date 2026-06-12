@@ -3,6 +3,8 @@ export const CODE_WALKTHROUGH_STANDARD_PATH = "docs/code-walkthrough-documentati
 export const CODE_WALKTHROUGH_SAMPLE_PATH =
   "代码讲解记录/107-production-readiness-summary-v3-v103.md" as const;
 export const CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD = 2063 as const;
+export const CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD = 2070 as const;
+export const CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS = 3000 as const;
 
 export const CODE_WALKTHROUGH_BUCKETS = [
   "r0000",
@@ -37,6 +39,9 @@ export interface CodeWalkthroughDocumentEvaluation {
   byteLength: number;
   lineCount: number;
   enforcedByCurrentStandard: boolean;
+  chineseWritingRequired: boolean;
+  chineseCharacterCount: number;
+  meetsChineseWritingFloor: boolean;
   bucketAligned: boolean;
   hasH1Title: boolean;
   hasGoalAndNonGoal: boolean;
@@ -99,6 +104,8 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     standardDocument: typeof CODE_WALKTHROUGH_STANDARD_PATH;
     sampleDocument: typeof CODE_WALKTHROUGH_SAMPLE_PATH;
     enforcementFloorRecord: typeof CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD;
+    chineseEnforcementFloorRecord: typeof CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD;
+    minChineseCharacters: typeof CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS;
     activeNodeVersionRange: "Node v2058-v2103";
     historicalLegacyBlocking: false;
   };
@@ -113,6 +120,7 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     enforcedWalkthroughsPresent: boolean;
     noEnforcedPlaceholderWalkthroughs: boolean;
     enforcedWalkthroughsMeetRequiredShape: boolean;
+    enforcedChineseWalkthroughsMeetFloor: boolean;
     noForbiddenExecutionClaims: boolean;
     batchWalkthroughPolicyDocumented: boolean;
     historicalLegacyAllowedButVisible: boolean;
@@ -129,6 +137,8 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     misbucketedWalkthroughCount: number;
     enforcedPlaceholderCount: number;
     enforcedMissingRequiredShapeCount: number;
+    enforcedChineseWritingCount: number;
+    enforcedChineseWritingShortCount: number;
     forbiddenExecutionClaimCount: number;
     checkCount: number;
     passedCheckCount: number;

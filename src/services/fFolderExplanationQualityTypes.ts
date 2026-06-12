@@ -3,8 +3,8 @@ export const F_FOLDER_EXPLANATION_DIR_NAME = "解释" as const;
 export const F_FOLDER_IMAGE_DIR_NAME = "图片" as const;
 export const F_FOLDER_EXPLANATION_ENFORCEMENT_FLOOR_VERSION = 2094 as const;
 export const F_FOLDER_EXPLANATION_ACTIVE_VERSION_RANGE = "Node v2094-v2103" as const;
-export const F_FOLDER_EXPLANATION_MIN_BYTES = 3600 as const;
-export const F_FOLDER_EXPLANATION_MIN_CHINESE_CHARS = 900 as const;
+export const F_FOLDER_EXPLANATION_MIN_BYTES = 9000 as const;
+export const F_FOLDER_EXPLANATION_MIN_CHINESE_CHARS = 3000 as const;
 export const F_FOLDER_EXPLANATION_MIN_CODE_PATH_REFERENCES = 4 as const;
 
 export interface FFolderExplanationDocumentScan {

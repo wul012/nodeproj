@@ -12,7 +12,9 @@ import {
 } from "./liveProbeReportUtils.js";
 import {
   CODE_WALKTHROUGH_BUCKETS,
+  CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD,
   CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD,
+  CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS,
   CODE_WALKTHROUGH_ROOT,
   CODE_WALKTHROUGH_SAMPLE_PATH,
   CODE_WALKTHROUGH_STANDARD_PATH,
@@ -40,6 +42,10 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     .filter((document) => document.placeholderSignals.length > 0);
   const enforcedMissingRequiredShape = enforcedWalkthroughs
     .filter((document) => !document.compliantWithCurrentStandard);
+  const enforcedChineseWalkthroughs = enforcedWalkthroughs
+    .filter((document) => document.chineseWritingRequired);
+  const enforcedChineseWritingShort = enforcedChineseWalkthroughs
+    .filter((document) => !document.meetsChineseWritingFloor);
   const forbiddenExecutionClaims = enforcedWalkthroughs
     .filter((document) => document.forbiddenExecutionClaimSignals.length > 0);
   const misbucketedWalkthroughs = scan.documents.filter((document) => !document.bucketAligned);
@@ -58,6 +64,7 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     enforcedWalkthroughsPresent: enforcedWalkthroughs.length > 0,
     noEnforcedPlaceholderWalkthroughs: enforcedPlaceholderWalkthroughs.length === 0,
     enforcedWalkthroughsMeetRequiredShape: enforcedMissingRequiredShape.length === 0,
+    enforcedChineseWalkthroughsMeetFloor: enforcedChineseWritingShort.length === 0,
     noForbiddenExecutionClaims: forbiddenExecutionClaims.length === 0,
     batchWalkthroughPolicyDocumented: /Batch walkthroughs are preferred/i.test(standardText),
     historicalLegacyAllowedButVisible: scan.documents.length > enforcedWalkthroughs.length,
@@ -75,6 +82,7 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     missingBucketCount: Object.values(scan.bucketDirectories).filter((present) => !present).length,
     enforcedPlaceholderWalkthroughs,
     enforcedMissingRequiredShape,
+    enforcedChineseWritingShort,
     forbiddenExecutionClaims,
     misbucketedWalkthroughs,
   });
@@ -91,6 +99,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     misbucketedWalkthroughCount: misbucketedWalkthroughs.length,
     enforcedPlaceholderCount: enforcedPlaceholderWalkthroughs.length,
     enforcedMissingRequiredShapeCount: enforcedMissingRequiredShape.length,
+    enforcedChineseWritingCount: enforcedChineseWalkthroughs.length,
+    enforcedChineseWritingShortCount: enforcedChineseWritingShort.length,
     forbiddenExecutionClaimCount: forbiddenExecutionClaims.length,
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -103,6 +113,8 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     standardDocument: CODE_WALKTHROUGH_STANDARD_PATH,
     sampleDocument: CODE_WALKTHROUGH_SAMPLE_PATH,
     enforcementFloorRecord: CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD,
+    chineseEnforcementFloorRecord: CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD,
+    minChineseCharacters: CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS,
     activeNodeVersionRange: "Node v2058-v2103" as const,
     historicalLegacyBlocking: false as const,
   };
@@ -114,6 +126,7 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     summary,
     enforcedWalkthroughs: enforcedWalkthroughs.map((document) => ({
       relativePath: document.relativePath,
+      chineseCharacterCount: document.chineseCharacterCount,
       complianceScore: document.complianceScore,
       compliantWithCurrentStandard: document.compliantWithCurrentStandard,
     })),
@@ -243,6 +256,7 @@ function collectBlockers(
     missingBucketCount: number;
     enforcedPlaceholderWalkthroughs: readonly CodeWalkthroughDocumentEvaluation[];
     enforcedMissingRequiredShape: readonly CodeWalkthroughDocumentEvaluation[];
+    enforcedChineseWritingShort: readonly CodeWalkthroughDocumentEvaluation[];
     forbiddenExecutionClaims: readonly CodeWalkthroughDocumentEvaluation[];
     misbucketedWalkthroughs: readonly CodeWalkthroughDocumentEvaluation[];
   },
@@ -279,6 +293,10 @@ function collectBlockers(
   if (!checks.enforcedWalkthroughsMeetRequiredShape) {
     blockers.push(message("ENFORCED_REQUIRED_SHAPE_MISSING", "code-walkthrough-documentation-quality-gate",
       `${context.enforcedMissingRequiredShape.length} enforced walkthroughs miss required standard sections.`));
+  }
+  if (!checks.enforcedChineseWalkthroughsMeetFloor) {
+    blockers.push(message("ENFORCED_CHINESE_WALKTHROUGH_TOO_SHORT", "code-walkthrough-documentation-quality-gate",
+      `${context.enforcedChineseWritingShort.length} enforced walkthroughs are below ${CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS} Chinese characters.`));
   }
   if (!checks.noForbiddenExecutionClaims) {
     blockers.push(message("FORBIDDEN_EXECUTION_CLAIM", "code-walkthrough-documentation-quality-gate",

@@ -61,6 +61,53 @@ TODO: coming soon.
     expect(result.missingRequiredSections).toContain("service-flow");
   });
 
+  it("requires long Chinese writing for new walkthrough records", () => {
+    const result = evaluateCodeWalkthroughDocument({
+      ...documentWithText(`
+# Node v2104 code walkthrough：中文太短
+
+## Goal and Non-goal / 目标与非目标
+
+目标是记录一个新版本，非目标是生产执行。
+
+## Entry Points / 入口
+
+src/services/fFolderExplanationQualityGate.ts
+
+## Profile Response Model / 响应模型
+
+profile、checks、summary。
+
+## Upstream Evidence And Config / 上游证据与配置
+
+本地证据。
+
+## Service Flow / 服务流程
+
+src/services/fFolderExplanationQualityRules.ts 评价文本。
+
+## Safety Boundary / 安全边界
+
+read-only，executionAllowed=false。
+
+## Test Coverage / 测试覆盖
+
+test/codeWalkthroughDocumentationQualityRules.test.ts。
+
+## One-Sentence Summary / 一句话总结
+
+这篇新记录太短，应该失败。
+`),
+      recordNumber: 2070,
+      versionNumber: 2104,
+    });
+
+    expect(result.enforcedByCurrentStandard).toBe(true);
+    expect(result.chineseWritingRequired).toBe(true);
+    expect(result.meetsChineseWritingFloor).toBe(false);
+    expect(result.compliantWithCurrentStandard).toBe(false);
+  });
+
   it("keeps legacy walkthroughs visible without enforcing the current floor", () => {
     const result = evaluateCodeWalkthroughDocument({
       ...documentWithText("# Legacy short walkthrough\n"),

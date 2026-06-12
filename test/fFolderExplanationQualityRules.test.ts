@@ -62,7 +62,7 @@ function documentWithText(text: string): FFolderExplanationDocumentScan {
 
 function longChineseExplanation(): string {
   const paragraph = "这一版的目标是把 f 目录中的中文讲解从人工约定变成可验证的工程契约。讲解不能只写结论，而要说明为什么改、入口在哪里、响应模型如何表达、执行流程如何被限制、哪些安全边界没有被打开，以及最终用哪些测试和 smoke 证明。";
-  const deepExplanation = Array(8).fill(paragraph).join("\n\n");
+  const deepExplanation = Array(40).fill(paragraph).join("\n\n");
   return `
 # Node v2099：f 目录讲解质量类型契约
 

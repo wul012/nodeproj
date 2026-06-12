@@ -47,6 +47,7 @@ For each completed Node version:
 - Create runtime/debug evidence when applicable.
 - Archive screenshot and explanation under `d/<version>/图片` and `d/<version>/解释`.
 - Write code walkthrough notes under the current code-walkthrough sibling directory, such as `代码讲解记录_生产雏形阶段2/`, keeping the previous document style and naming.
+- Code walkthrough notes must be written in Chinese. Each version-level code walkthrough must contain at least 3000 Chinese characters; if the explanation cannot naturally reach that depth, enlarge the real engineering work, refactor scope, or verification coverage for that version instead of padding with repetitive prose.
 - Update or create the appropriate plan document when the version changes future order.
 - Commit, tag as `v<version>`, and push.
 
