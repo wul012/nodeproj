@@ -31,7 +31,7 @@ describe("code walkthrough documentation quality gate", () => {
         enforcementFloorRecord: 2063,
         chineseEnforcementFloorRecord: 2070,
         minChineseCharacters: 3000,
-        activeNodeVersionRange: "Node v2058-v2103",
+        activeNodeVersionRange: "Node v2058-v2108",
         historicalLegacyBlocking: false,
       },
       checks: {
@@ -56,7 +56,7 @@ describe("code walkthrough documentation quality gate", () => {
     expect(profile.summary.totalWalkthroughCount).toBeGreaterThan(1600);
     expect(profile.summary.enforcedWalkthroughCount).toBeGreaterThanOrEqual(2);
     expect(profile.summary.enforcedMissingRequiredShapeCount).toBe(0);
-    expect(profile.summary.enforcedChineseWritingCount).toBeGreaterThanOrEqual(5);
+    expect(profile.summary.enforcedChineseWritingCount).toBeGreaterThanOrEqual(10);
     expect(profile.summary.enforcedChineseWritingShortCount).toBe(0);
     expect(profile.summary.enforcedPlaceholderCount).toBe(0);
     expect(profile.bucketSummary.r2000.enforcedMarkdownCount).toBeGreaterThanOrEqual(2);

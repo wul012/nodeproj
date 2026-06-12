@@ -115,7 +115,7 @@ export function loadCodeWalkthroughDocumentationQualityGate(input: {
     enforcementFloorRecord: CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD,
     chineseEnforcementFloorRecord: CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD,
     minChineseCharacters: CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS,
-    activeNodeVersionRange: "Node v2058-v2103" as const,
+    activeNodeVersionRange: "Node v2058-v2108" as const,
     historicalLegacyBlocking: false as const,
   };
   const qualityDigest = sha256StableJson({

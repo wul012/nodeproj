@@ -33,12 +33,18 @@ describe("managed audit route quality audit route group", () => {
         url: "/api/v1/audit/managed-audit-route-registration-table-quality-pass?format=markdown",
         headers: completeHeaders(),
       });
+      const readabilityJson = await app.inject({
+        method: "GET",
+        url: "/api/v1/audit/managed-audit-readability-maintenance-profile",
+        headers: completeHeaders(),
+      });
 
       expect(paths).toEqual([
         "/api/v1/audit/code-walkthrough-documentation-quality-gate",
         "/api/v1/audit/f-folder-explanation-quality-gate",
         "/api/v1/audit/managed-audit-route-helper-quality-pass",
         "/api/v1/audit/managed-audit-route-registration-table-quality-pass",
+        "/api/v1/audit/managed-audit-readability-maintenance-profile",
       ]);
       expectAuditRouteGroupRegisteredThroughCatalog({
         routes: managedAuditRouteQualityAuditJsonMarkdownRoutes,
@@ -76,6 +82,15 @@ describe("managed audit route quality audit route group", () => {
       expect(registrationMarkdown.headers["content-type"]).toContain("text/markdown");
       expect(registrationMarkdown.body).toContain("# Managed audit route registration table quality pass");
       expect(registrationMarkdown.body).toContain("QUALITY_PASS_ONLY");
+      expect(readabilityJson.statusCode).toBe(200);
+      expect(readabilityJson.json()).toMatchObject({
+        profileVersion: "readability-maintenance-profile.v1",
+        maintenanceState: "verified-readability-maintenance",
+        readyForReadabilityMaintenance: true,
+        executionAllowed: false,
+        startsJavaService: false,
+        startsMiniKvService: false,
+      });
     } finally {
       await app.close();
     }

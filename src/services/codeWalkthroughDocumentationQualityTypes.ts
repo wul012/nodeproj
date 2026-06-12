@@ -106,7 +106,7 @@ export interface CodeWalkthroughDocumentationQualityProfile {
     enforcementFloorRecord: typeof CODE_WALKTHROUGH_ENFORCEMENT_FLOOR_RECORD;
     chineseEnforcementFloorRecord: typeof CODE_WALKTHROUGH_CHINESE_ENFORCEMENT_FLOOR_RECORD;
     minChineseCharacters: typeof CODE_WALKTHROUGH_MIN_CHINESE_CHARACTERS;
-    activeNodeVersionRange: "Node v2058-v2103";
+    activeNodeVersionRange: "Node v2058-v2108";
     historicalLegacyBlocking: false;
   };
   checks: {

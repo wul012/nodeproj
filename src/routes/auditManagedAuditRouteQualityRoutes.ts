@@ -15,6 +15,10 @@ import {
   renderManagedAuditRouteRegistrationTableQualityPassMarkdown,
 } from "../services/managedAuditRouteRegistrationTableQualityPass.js";
 import {
+  loadReadabilityMaintenanceProfile,
+  renderReadabilityMaintenanceProfileMarkdown,
+} from "../services/readabilityMaintenanceProfile.js";
+import {
   auditJsonMarkdownRoute,
   type AuditJsonMarkdownRouteRegistration,
 } from "./auditJsonMarkdownRouteRegistrar.js";
@@ -37,4 +41,8 @@ export const managedAuditRouteQualityAuditJsonMarkdownRoutes: readonly AuditJson
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-registration-table-quality-pass", (deps) => loadManagedAuditRouteRegistrationTableQualityPass({
     config: deps.config,
   }), renderManagedAuditRouteRegistrationTableQualityPassMarkdown),
+
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-readability-maintenance-profile", (deps) => loadReadabilityMaintenanceProfile({
+    config: deps.config,
+  }), renderReadabilityMaintenanceProfileMarkdown),
 ];

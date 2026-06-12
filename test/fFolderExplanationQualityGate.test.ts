@@ -31,7 +31,7 @@ describe("f-folder explanation quality gate", () => {
         explanationDirName: "解释",
         imageDirName: "图片",
         enforcementFloorVersion: 2094,
-        activeNodeVersionRange: "Node v2094-v2103",
+        activeNodeVersionRange: "Node v2094-v2108",
         minBytes: 9000,
         minChineseCharacters: 3000,
         minCodePathReferences: 4,
@@ -52,7 +52,7 @@ describe("f-folder explanation quality gate", () => {
         readyForFFolderExplanationQualityGate: true,
       },
     });
-    expect(profile.summary.enforcedExplanationCount).toBeGreaterThanOrEqual(11);
+    expect(profile.summary.enforcedExplanationCount).toBeGreaterThanOrEqual(16);
     expect(profile.summary.enforcedCompliantExplanationCount).toBe(profile.summary.enforcedExplanationCount);
     expect(profile.summary.shortExplanationCount).toBe(0);
     expect(profile.summary.shallowChineseExplanationCount).toBe(0);
