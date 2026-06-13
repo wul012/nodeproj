@@ -148,7 +148,7 @@ CI and coverage protect the refactor.
 
 | Milestone | Version(s) | State | Evidence |
 | --------- | ---------- | ----- | -------- |
-| J0 | — | not started | |
+| J0 | v1790 | **completed — planner reviewed 2026-06-12** | wrapper (Maven 3.9.9) committed; 4/4 Testcontainers classes tagged `docker` + `disabledWithoutDocker=true`; surefire excludes `docker` by default, `docker-tests` profile re-includes; workflow at git root `D:\javaproj\.github\workflows\maven-ci.yml` (monorepo — deviation accepted); CI run 27397723739 success. Advisory for J1: drop `-q` or upload surefire reports on failure for debuggability. |
 | J1 | — | not started | |
 | J2 | — | not started | baseline: __% |
 | J3 | — | not started | |

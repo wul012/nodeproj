@@ -143,10 +143,10 @@ biggest long-term operability risk in this repo.
 
 | Milestone | Version(s) | State | Evidence |
 | --------- | ---------- | ----- | -------- |
-| K0 | — | not started | |
-| K1 | — | not started | |
-| K2 | — | not started | baseline: __% |
-| K3 | — | not started | |
-| K4 | — | blocked on K1+K2 | |
+| K0 | v1609 | completed | per local ledger: START_HERE refresh, CMake archive hint, pragma once, .clang-format + changed-file CI check |
+| K1 | v1610–v1611 | completed | MINIKV_SANITIZE + required Ubuntu sanitizer job (continue-on-error removed in v1611); Windows MinGW fast-fail deviation accepted |
+| K2 | v1612–v1614 | **completed — planner reviewed 2026-06-12** | baseline 90% (2292/2082 lines, confirmed in CI log); `--fail-under-line 88` = baseline−2; required `ubuntu coverage` job + `mini-kv-core-coverage` artifact green in run 27408621850; core filter = store/command(+catalog/contracts/formatters)/wal/snapshot/resp; deviations accepted (Windows gcno path limit fast-fail; gcovr negative-hits parse workaround). Advisories for later: re-test dropping `--gcov-ignore-parse-errors` after K4 splits command.cpp; bump actions/checkout & upload-artifact off deprecated Node 20 runtime (GitHub forces Node 24 from 2026-06-16) in the next version. |
+| K3 | v1615–v1616 | **completed — planner reviewed 2026-06-12** | v1615 closed the K2 actions advisory (checkout@v6.0.3, upload-artifact@v7.0.1). v1616: `include/minikv/log.hpp` + `src/log.cpp` (error/warn/info/debug, UTC timestamp, thread id, default warn, stdlib-only, thread-safe gmtime); `--log-level` in both cli and server mains; zero bare `std::cerr` left in tcp_server/wal/snapshot/command (remaining only in entry-point arg handling); filtering test `log_tests.cpp` registered in CTest (334→337); evidence channels unchanged (deviation accepted). First v1616 push failed the K0 clang-format gate — fixed and re-landed; tag points at the green commit (run 27414908524 all jobs ✓). |
+| K4 | v1617–v1619 | **completed — planner reviewed 2026-06-12 PASS** | command.cpp 50KB→37.7KB/732-line coherent core (metrics/WAL-gate/evidence machinery); extracted `command_dispatch` router + string/expiry/persistence/introspection ops + parse helpers + WAL gate. shard_readiness.cpp 50KB→0.2KB shim + `core_digest`/`json`/`boundary_validators` TUs (matches spec decomposition). Zero fixture/expectation edits — only legitimate change was the CI-contract test following the coverage filter to the new TUs (floor stays 88). 61K field-names registry waived per the playbook's escape hatch with written justification (cite under E9 at program end). All three pushes green through sanitizer+coverage+3-OS+format (runs 27417634127 / 27420149433 / 27422338620); walkthroughs 987–989; archives f/1617–f/1619. Advisory for K5 or next version: the command-side split is now done — re-test dropping `--gcov-ignore-parse-errors negative_hits.warn_once_per_file` per the K2 advisory and the v1617 deviation's own promise. |
 | K5 | — | not started | |
 | K6 | — | not started | |
