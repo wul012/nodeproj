@@ -1,4 +1,5 @@
 import type { AppConfig } from "../config.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface IdpVerifierBoundaryProfile {
   service: "orderops-node";
@@ -165,56 +166,32 @@ export function createIdpVerifierBoundaryProfile(
 }
 
 export function renderIdpVerifierBoundaryMarkdown(profile: IdpVerifierBoundaryProfile): string {
-  return [
-    "# IdP verifier boundary",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Ready for production auth: ${profile.readyForProductionAuth}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Current Verifier",
-    "",
-    ...renderEntries(profile.currentVerifier),
-    "",
-    "## OIDC Contract",
-    "",
-    ...renderEntries(profile.oidcContract),
-    "",
-    "## Verifier States",
-    "",
-    ...profile.verifierStates.flatMap(renderVerifierState),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No IdP verifier blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No IdP verifier warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No IdP verifier recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "IdP verifier boundary",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Ready for production auth", profile.readyForProductionAuth],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Current Verifier", entries: profile.currentVerifier },
+      { heading: "OIDC Contract", entries: profile.oidcContract },
+      { heading: "Verifier States", lines: renderVerifierStates(profile.verifierStates) },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      { heading: "Production Blockers", lines: renderMessages(profile.productionBlockers, "No IdP verifier blockers.") },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No IdP verifier warnings.") },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No IdP verifier recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createVerifierStates(
@@ -321,28 +298,14 @@ function renderVerifierState(state: IdpVerifierState): string[] {
   ];
 }
 
+function renderVerifierStates(states: IdpVerifierState[]): string[] {
+  return states.flatMap(renderVerifierState).slice(0, -1);
+}
+
 function renderMessages(messages: IdpVerifierBoundaryMessage[], emptyText: string): string[] {
   if (messages.length === 0) {
     return [`- ${emptyText}`];
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

@@ -187,6 +187,7 @@ One version + one commit per batch, with walkthrough (中文 ≥3000 字) and
 | 19 | v2136 | 2 | disabled adapter client precheck and disabled adapter client upstream echo verification reports migrated; env-handle, failure-taxonomy, and upstream-echo rows remain local | `npm run typecheck`; 2 focused files / 7 tests; temporary Vitest exact compare 2/2 files and 4/4 profiles byte-identical | ready in this commit |
 | 20 | v2137 | 2 | audit store env config and audit store runtime profile reports migrated; source-less message rows and h3 store sections remain local lines sections | `npm run typecheck`; 2 focused files / 5 tests; temporary Vitest exact compare 2/2 files and 5/5 profiles byte-identical | ready in this commit |
 | 21 | v2138 | 4 | access policy, CI evidence command, audit retention integrity, and auth enforcement rehearsal reports migrated; source-less message rows and nested h3 sections remain local lines sections | `npm run typecheck`; 4 focused files / 12 tests; temporary Vitest exact compare 4/4 files and 8/8 profiles byte-identical | ready in this commit |
+| 22 | v2139 | 4 | deployment environment readiness, deployment safety, IdP verifier boundary, and idempotency vertical readiness review reports migrated; prefixed evidence rows and nested h3 artifact/state sections remain local lines sections | `npm run typecheck`; 4 focused files / 12 tests; temporary Vitest exact compare 4/4 files and 8/8 profiles byte-identical | ready in this commit |
 
 ## Final acceptance checklist (the planner's last check)
 

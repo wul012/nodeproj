@@ -1,6 +1,7 @@
 import path from "node:path";
 
 import type { AppConfig } from "../config.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface DeploymentSafetyProfile {
   service: "orderops-node";
@@ -143,49 +144,30 @@ export function createDeploymentSafetyProfile(config: AppConfig): DeploymentSafe
 }
 
 export function renderDeploymentSafetyProfileMarkdown(profile: DeploymentSafetyProfile): string {
-  return [
-    "# Deployment safety profile",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Suitable for production demo: ${profile.suitableForProductionDemo}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Config Snapshot",
-    "",
-    ...renderEntries(profile.configSnapshot),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Blockers",
-    "",
-    ...renderMessages(profile.blockers, "No deployment safety blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No deployment safety warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No deployment safety recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Deployment safety profile",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Suitable for production demo", profile.suitableForProductionDemo],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Config Snapshot", entries: profile.configSnapshot },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      { heading: "Blockers", lines: renderMessages(profile.blockers, "No deployment safety blockers.") },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No deployment safety warnings.") },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No deployment safety recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function collectBlockers(checks: DeploymentSafetyProfile["checks"]): DeploymentSafetyMessage[] {
@@ -333,22 +315,4 @@ function renderMessages(messages: DeploymentSafetyMessage[], emptyText: string):
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: Record<string, unknown>): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

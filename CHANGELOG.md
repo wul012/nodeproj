@@ -11,6 +11,13 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2139 - 2026-06-13
+
+- Migrated deployment environment readiness, deployment safety, IdP verifier
+  boundary, and idempotency vertical readiness review reports to the shared
+  verification report builder while preserving prefixed evidence and nested h3
+  artifact/state sections locally.
+
 ## v2138 - 2026-06-13
 
 - Migrated access policy, CI evidence command, audit retention integrity, and

@@ -7,6 +7,7 @@ import {
   createSignedAuthTokenContractProfile,
   type SignedAuthTokenContractProfile,
 } from "./signedAuthTokenContract.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface DeploymentEnvironmentReadinessGate {
   service: "orderops-node";
@@ -171,55 +172,37 @@ export function createDeploymentEnvironmentReadinessGate(config: AppConfig): Dep
 }
 
 export function renderDeploymentEnvironmentReadinessMarkdown(gate: DeploymentEnvironmentReadinessGate): string {
-  return [
-    "# Deployment environment readiness",
-    "",
-    `- Service: ${gate.service}`,
-    `- Generated at: ${gate.generatedAt}`,
-    `- Gate version: ${gate.gateVersion}`,
-    `- Ready for deployment: ${gate.readyForDeployment}`,
-    `- Ready for production operations: ${gate.readyForProductionOperations}`,
-    `- Read only: ${gate.readOnly}`,
-    `- Execution allowed: ${gate.executionAllowed}`,
-    "",
-    "## Environment",
-    "",
-    ...renderEntries(gate.environment),
-    "",
-    "## Evidence",
-    "",
-    ...renderEntries(gate.evidence.signedAuthTokenContract, "signedAuthTokenContract"),
-    ...renderEntries(gate.evidence.managedAuditStoreContract, "managedAuditStoreContract"),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(gate.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(gate.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(gate.productionBlockers, "No deployment blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(gate.warnings, "No deployment warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(gate.recommendations, "No deployment recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(gate.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(gate.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Deployment environment readiness",
+    meta: [
+      ["Service", gate.service],
+      ["Generated at", gate.generatedAt],
+      ["Gate version", gate.gateVersion],
+      ["Ready for deployment", gate.readyForDeployment],
+      ["Ready for production operations", gate.readyForProductionOperations],
+      ["Read only", gate.readOnly],
+      ["Execution allowed", gate.executionAllowed],
+    ],
+    sections: [
+      { heading: "Environment", entries: gate.environment },
+      { heading: "Evidence", lines: renderEvidence(gate.evidence) },
+      { heading: "Checks", entries: gate.checks },
+      { heading: "Summary", entries: gate.summary },
+      {
+        heading: "Production Blockers",
+        messages: gate.productionBlockers,
+        emptyText: "No deployment blockers.",
+      },
+      { heading: "Warnings", messages: gate.warnings, emptyText: "No deployment warnings." },
+      {
+        heading: "Recommendations",
+        messages: gate.recommendations,
+        emptyText: "No deployment recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: gate.evidenceEndpoints },
+      { heading: "Next Actions", list: gate.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createChecks(
@@ -311,20 +294,15 @@ function addMessage(
   }
 }
 
-function renderMessages(messages: DeploymentEnvironmentReadinessMessage[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
-
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.source}): ${message.message}`);
-}
-
 function renderEntries(record: object, prefix?: string): string[] {
   return Object.entries(record).map(([key, value]) => `- ${prefix === undefined ? key : `${prefix}.${key}`}: ${formatValue(value)}`);
 }
 
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
+function renderEvidence(evidence: DeploymentEnvironmentReadinessGate["evidence"]): string[] {
+  return [
+    ...renderEntries(evidence.signedAuthTokenContract, "signedAuthTokenContract"),
+    ...renderEntries(evidence.managedAuditStoreContract, "managedAuditStoreContract"),
+  ];
 }
 
 function formatValue(value: unknown): string {

@@ -3,10 +3,9 @@ import {
   countPassedReportChecks,
   countReportChecks,
   renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface IdempotencyVerticalReadinessReviewProfile {
   service: "orderops-node";
@@ -288,66 +287,59 @@ export function loadIdempotencyVerticalReadinessReview(
 export function renderIdempotencyVerticalReadinessReviewMarkdown(
   profile: IdempotencyVerticalReadinessReviewProfile,
 ): string {
+  return renderVerificationReportMarkdown({
+    title: "Idempotency vertical readiness review",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Review state", profile.reviewState],
+      ["Ready for idempotency vertical readiness review", profile.readyForIdempotencyVerticalReadinessReview],
+      ["Ready for controlled idempotency drill", profile.readyForControlledIdempotencyDrill],
+      ["Ready for production operations", profile.readyForProductionOperations],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Review", entries: profile.review },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Artifacts", lines: renderArtifactSections(profile.artifacts) },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No idempotency vertical readiness review blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No idempotency vertical readiness review warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No idempotency vertical readiness review recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
+}
+
+function renderArtifactSections(profile: IdempotencyVerticalReadinessReviewProfile["artifacts"]): string[] {
   return [
-    "# Idempotency vertical readiness review",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Review state: ${profile.reviewState}`,
-    `- Ready for idempotency vertical readiness review: ${profile.readyForIdempotencyVerticalReadinessReview}`,
-    `- Ready for controlled idempotency drill: ${profile.readyForControlledIdempotencyDrill}`,
-    `- Ready for production operations: ${profile.readyForProductionOperations}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Review",
-    "",
-    ...renderEntries(profile.review),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Artifacts",
-    "",
     "### Java Boundary",
     "",
-    ...renderEntries(profile.artifacts.javaBoundary),
+    ...renderEntries(profile.javaBoundary),
     "",
     "### mini-kv Token Primitive",
     "",
-    ...renderEntries(profile.artifacts.miniKvTokenPrimitive),
+    ...renderEntries(profile.miniKvTokenPrimitive),
     "",
     "### Node Safety Envelope",
     "",
-    ...renderEntries(profile.artifacts.nodeSafetyEnvelope),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No idempotency vertical readiness review blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No idempotency vertical readiness review warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No idempotency vertical readiness review recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+    ...renderEntries(profile.nodeSafetyEnvelope),
+  ];
 }
 
 function createChecks(config: AppConfig): IdempotencyVerticalReadinessReviewProfile["checks"] {

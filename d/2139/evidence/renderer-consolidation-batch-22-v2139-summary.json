@@ -1,0 +1,89 @@
+{
+  "service": "orderops-node",
+  "version": "v2139",
+  "milestone": "N1 renderer consolidation batch 22",
+  "generatedAt": "2026-06-13T11:06:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 4,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsPrefixedEvidenceRows": true,
+    "retainsLocalNestedH3Rows": true,
+    "rendererLineCountsAfterMigration": {
+      "src/services/deploymentEnvironmentReadiness.ts": 302,
+      "src/services/deploymentSafetyProfile.ts": 290,
+      "src/services/idpVerifierBoundary.ts": 294,
+      "src/services/idempotencyVerticalReadinessReview.ts": 441
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 4,
+      "insertions": 138,
+      "deletions": 241,
+      "netLineReduction": 103
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "Deployment and identity boundary reports still duplicated the same Markdown title/meta/section frame after foundational governance reports were migrated.",
+    "laterConsumer": "N1 final acceptance can now classify deployment readiness, deployment safety, IdP verifier boundary, and idempotency vertical readiness review reports as builder-backed before scanning controlled shard preview renderers.",
+    "reuseDecision": "The shared builder owns standard entries/messages/list sections. Deployment environment prefixed evidence rows, IdP verifier-state h3 rows, and idempotency artifact h3 rows remain local lines sections to preserve byte-identical output.",
+    "growthStopCondition": "No new helper was added. Add a shared nested-section formatter only after several remaining renderers prove the same h3 grammar repeats beyond local wrappers."
+  },
+  "migratedRenderers": [
+    "src/services/deploymentEnvironmentReadiness.ts",
+    "src/services/deploymentSafetyProfile.ts",
+    "src/services/idpVerifierBoundary.ts",
+    "src/services/idempotencyVerticalReadinessReview.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererAndRouteBatch": {
+      "command": "npx vitest run test/deploymentEnvironmentReadiness.test.ts test/deploymentSafetyProfile.test.ts test/idpVerifierBoundary.test.ts test/idempotencyVerticalReadinessReview.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 4,
+      "tests": 12
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2139-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRendererFiles": 4,
+      "comparedProfiles": 8,
+      "method": "Temporary Vitest loaded each legacy renderer through git show HEAD:<path>, transpiled it in-memory with TypeScript, and compared deployment missing/ready, safety safe/actions-on, IdP complete/missing, and idempotency ready/blocked variants."
+    },
+    "documentationQualityGate": {
+      "command": "pending",
+      "result": "pending"
+    },
+    "lint": {
+      "command": "pending",
+      "result": "pending"
+    },
+    "build": {
+      "command": "pending",
+      "result": "pending"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2139/evidence/renderer-consolidation-batch-22-v2139-summary.json",
+    "shortExplanation": "d/2139/解释/renderer-consolidation-batch-22-v2139.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2110-renderer-consolidation-batch-22-v2139.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2139 changes only Node Markdown renderer internals and archive documentation. It does not change evidence schemas, routes, fresh sibling evidence requirements, or live integration startup behavior."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2139-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
