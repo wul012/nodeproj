@@ -1,4 +1,5 @@
 import type { AppConfig } from "../config.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface AuditStoreEnvConfigProfile {
   service: "orderops-node";
@@ -113,49 +114,36 @@ export function createAuditStoreEnvConfigProfile(
 }
 
 export function renderAuditStoreEnvConfigProfileMarkdown(profile: AuditStoreEnvConfigProfile): string {
-  return [
-    "# Audit store env config profile",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Ready for durable audit migration: ${profile.readyForDurableAuditMigration}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Config",
-    "",
-    ...renderEntries(profile.config),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No audit store env config blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No audit store env config warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No audit store env config recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Audit store env config profile",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Ready for durable audit migration", profile.readyForDurableAuditMigration],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Config", entries: profile.config },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        lines: renderMessages(profile.productionBlockers, "No audit store env config blockers."),
+      },
+      {
+        heading: "Warnings",
+        lines: renderMessages(profile.warnings, "No audit store env config warnings."),
+      },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No audit store env config recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function normalizeStoreKind(value: string): AuditStoreEnvConfigProfile["config"]["normalizedStoreKind"] {
@@ -281,22 +269,4 @@ function renderMessages(messages: AuditStoreEnvConfigMessage[], emptyText: strin
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

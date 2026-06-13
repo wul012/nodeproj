@@ -1,5 +1,6 @@
 import { FileBackedAuditStore, InMemoryAuditStore } from "./auditLog.js";
 import type { AuditStoreRuntimeDescription } from "./auditStoreFactory.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface AuditStoreRuntimeProfile {
   service: "orderops-node";
@@ -144,53 +145,38 @@ export function createAuditStoreRuntimeProfile(
 }
 
 export function renderAuditStoreRuntimeProfileMarkdown(profile: AuditStoreRuntimeProfile): string {
-  return [
-    "# Audit store runtime profile",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Safe for current runtime: ${profile.safeForCurrentRuntime}`,
-    `- Ready for production audit: ${profile.readyForProductionAudit}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Runtime",
-    "",
-    ...renderEntries(profile.runtime),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Stores",
-    "",
-    ...profile.stores.flatMap(renderStore),
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No production audit blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No audit store warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No audit store recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Audit store runtime profile",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Safe for current runtime", profile.safeForCurrentRuntime],
+      ["Ready for production audit", profile.readyForProductionAudit],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Runtime", entries: profile.runtime },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      { heading: "Stores", lines: renderStores(profile.stores) },
+      {
+        heading: "Production Blockers",
+        lines: renderMessages(profile.productionBlockers, "No production audit blockers."),
+      },
+      {
+        heading: "Warnings",
+        lines: renderMessages(profile.warnings, "No audit store warnings."),
+      },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No audit store recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createStoreDescriptions(): AuditStoreDescription[] {
@@ -301,28 +287,14 @@ function renderStore(store: AuditStoreDescription): string[] {
   ];
 }
 
+function renderStores(stores: AuditStoreDescription[]): string[] {
+  return stores.flatMap(renderStore).slice(0, -1);
+}
+
 function renderMessages(messages: AuditStoreRuntimeProfileMessage[], emptyText: string): string[] {
   if (messages.length === 0) {
     return [`- ${emptyText}`];
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: Record<string, unknown>): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

@@ -1,0 +1,91 @@
+{
+  "service": "orderops-node",
+  "version": "v2137",
+  "milestone": "N1 renderer consolidation batch 20",
+  "generatedAt": "2026-06-13T10:45:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 2,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalMessageRowsWithoutSource": true,
+    "retainsLocalStoreRows": true,
+    "rendererLineCountsAfterMigration": {
+      "src/services/auditStoreEnvConfigProfile.ts": 252,
+      "src/services/auditStoreRuntimeProfile.ts": 280
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 2,
+      "insertions": 68,
+      "deletions": 126,
+      "netLineReduction": 58
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The audit store env config profile and audit store runtime profile still duplicated the same Markdown title/meta/section/list report frame, even though their entries, evidence endpoints, and next actions match the shared builder contract.",
+    "laterConsumer": "N1 final acceptance can now classify the foundational audit-store profile pair as builder-backed before scanning the remaining access-control and compact-plan report shapes.",
+    "reuseDecision": "The shared verification report builder already owns entries and list sections. Message rows remain local because these two legacy profiles intentionally do not expose a source field, and store rows remain local because they render h3 store cards inside the Stores section.",
+    "growthStopCondition": "No new builder option was added. Compact-spacing renderers and source-less message reports should continue using lines sections unless several remaining files prove the same shape deserves a tested helper."
+  },
+  "migratedRenderers": [
+    "src/services/auditStoreEnvConfigProfile.ts",
+    "src/services/auditStoreRuntimeProfile.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererAndRouteBatch": {
+      "command": "npx vitest run test/auditStoreEnvConfigProfile.test.ts test/auditStoreRuntimeProfile.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 2,
+      "tests": 5
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2137-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRendererFiles": 2,
+      "comparedProfiles": 5,
+      "method": "Temporary Vitest loaded each legacy renderer through git show HEAD:<path>, transpiled it in-memory with TypeScript, and compared memory/file/database config plus default/file runtime profile output against the migrated renderer."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 3,
+      "tests": 5,
+      "v2137WalkthroughChineseCharacters": 3435,
+      "v2137WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2137/evidence/renderer-consolidation-batch-20-v2137-summary.json",
+    "shortExplanation": "d/2137/解释/renderer-consolidation-batch-20-v2137.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2108-renderer-consolidation-batch-20-v2137.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2137 changes only Node Markdown renderer internals and archive documentation. It does not change evidence schemas, route contracts, fresh sibling evidence requirements, or live integration startup behavior."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2137-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

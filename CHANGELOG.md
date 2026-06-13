@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2137 - 2026-06-13
+
+- Migrated the audit store env config and runtime profile reports to the shared
+  verification report builder while preserving source-less message rows and
+  h3 store sections locally.
+
 ## v2136 - 2026-06-13
 
 - Migrated the disabled adapter client precheck and disabled adapter client
