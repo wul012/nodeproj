@@ -1,5 +1,6 @@
 import type { AppConfig } from "../config.js";
 import { evaluateAccessGuard, type AccessGuardEvaluation } from "./accessGuard.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface AuthEnforcementRehearsalProfile {
   service: "orderops-node";
@@ -138,52 +139,34 @@ export function authEnforcementActive(
 }
 
 export function renderAuthEnforcementRehearsalMarkdown(profile: AuthEnforcementRehearsalProfile): string {
-  return [
-    "# Auth enforcement rehearsal",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Ready for production auth: ${profile.readyForProductionAuth}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Runtime",
-    "",
-    ...renderEntries(profile.runtime),
-    "",
-    "## Samples",
-    "",
-    ...profile.samples.flatMap(renderSample),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No auth enforcement blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No auth enforcement warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No auth enforcement recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Auth enforcement rehearsal",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Ready for production auth", profile.readyForProductionAuth],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Runtime", entries: profile.runtime },
+      { heading: "Samples", lines: renderSamples(profile.samples) },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        lines: renderMessages(profile.productionBlockers, "No auth enforcement blockers."),
+      },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No auth enforcement warnings.") },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No auth enforcement recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createSamples(enforcementEnabled: boolean): AuthEnforcementSample[] {
@@ -317,20 +300,16 @@ function renderSample(sample: AuthEnforcementSample): string[] {
   ];
 }
 
+function renderSamples(samples: AuthEnforcementSample[]): string[] {
+  return samples.flatMap(renderSample).slice(0, -1);
+}
+
 function renderMessages(messages: AuthEnforcementMessage[], emptyText: string): string[] {
   if (messages.length === 0) {
     return [`- ${emptyText}`];
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
 }
 
 function formatValue(value: unknown): string {

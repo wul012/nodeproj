@@ -11,6 +11,12 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2138 - 2026-06-13
+
+- Migrated access policy, CI evidence command, audit retention integrity, and
+  auth enforcement rehearsal reports to the shared verification report builder
+  while preserving source-less message rows and nested h3 sections locally.
+
 ## v2137 - 2026-06-13
 
 - Migrated the audit store env config and runtime profile reports to the shared

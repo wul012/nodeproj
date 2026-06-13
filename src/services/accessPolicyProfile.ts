@@ -1,4 +1,5 @@
 import type { AppConfig } from "../config.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export type AccessPolicyRole = "viewer" | "operator" | "approver" | "auditor" | "admin";
 
@@ -159,55 +160,35 @@ export function createAccessPolicyProfile(
 }
 
 export function renderAccessPolicyProfileMarkdown(profile: AccessPolicyProfile): string {
-  return [
-    "# Access policy profile",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Ready for enforcement: ${profile.readyForEnforcement}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Enforcement",
-    "",
-    ...renderEntries(profile.enforcement),
-    "",
-    "## Request Identity Contract",
-    "",
-    ...profile.requestIdentityContract.fields.flatMap(renderIdentityField),
-    "## Route Policies",
-    "",
-    ...profile.routePolicies.flatMap(renderRoutePolicy),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No access policy blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No access policy warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No access policy recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Access policy profile",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Ready for enforcement", profile.readyForEnforcement],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Enforcement", entries: profile.enforcement },
+      { heading: "Request Identity Contract", lines: renderIdentityFields(profile.requestIdentityContract.fields) },
+      { heading: "Route Policies", lines: renderRoutePolicies(profile.routePolicies) },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        lines: renderMessages(profile.productionBlockers, "No access policy blockers."),
+      },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No access policy warnings.") },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(profile.recommendations, "No access policy recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createRequestIdentityContract(): RequestIdentityContract {
@@ -414,6 +395,10 @@ function renderIdentityField(field: RequestIdentityField): string[] {
   ];
 }
 
+function renderIdentityFields(fields: RequestIdentityField[]): string[] {
+  return fields.flatMap(renderIdentityField).slice(0, -1);
+}
+
 function renderRoutePolicy(policy: AccessRoutePolicy): string[] {
   return [
     `### ${policy.id}`,
@@ -430,28 +415,14 @@ function renderRoutePolicy(policy: AccessRoutePolicy): string[] {
   ];
 }
 
+function renderRoutePolicies(policies: AccessRoutePolicy[]): string[] {
+  return policies.flatMap(renderRoutePolicy).slice(0, -1);
+}
+
 function renderMessages(messages: AccessPolicyMessage[], emptyText: string): string[] {
   if (messages.length === 0) {
     return [`- ${emptyText}`];
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

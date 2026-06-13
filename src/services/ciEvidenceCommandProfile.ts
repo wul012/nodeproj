@@ -1,4 +1,5 @@
 import type { AppConfig } from "../config.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface CiEvidenceCommandProfile {
   service: "orderops-node";
@@ -131,48 +132,27 @@ export function createCiEvidenceCommandProfile(
 }
 
 export function renderCiEvidenceCommandProfileMarkdown(profile: CiEvidenceCommandProfile): string {
-  return [
-    "# CI evidence command profile",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Valid: ${profile.valid}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Safe Environment",
-    "",
-    ...renderEntries(profile.safeEnvironment),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Commands",
-    "",
-    ...profile.commands.flatMap(renderCommand),
-    "## Blockers",
-    "",
-    ...renderMessages(profile.blockers, "No CI evidence profile blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No CI evidence profile warnings."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "CI evidence command profile",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Valid", profile.valid],
+      ["Read only", profile.readOnly],
+      ["Execution allowed", profile.executionAllowed],
+    ],
+    sections: [
+      { heading: "Safe Environment", entries: profile.safeEnvironment },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      { heading: "Commands", lines: renderCommands(profile.commands) },
+      { heading: "Blockers", lines: renderMessages(profile.blockers, "No CI evidence profile blockers.") },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No CI evidence profile warnings.") },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function createCommands(env: Record<string, string>): CiEvidenceCommand[] {
@@ -338,28 +318,14 @@ function renderCommand(command: CiEvidenceCommand): string[] {
   ];
 }
 
+function renderCommands(commands: CiEvidenceCommand[]): string[] {
+  return commands.flatMap(renderCommand).slice(0, -1);
+}
+
 function renderMessages(messages: CiEvidenceCommandProfileMessage[], emptyText: string): string[] {
   if (messages.length === 0) {
     return [`- ${emptyText}`];
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: Record<string, unknown>): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

@@ -1,0 +1,95 @@
+{
+  "service": "orderops-node",
+  "version": "v2138",
+  "milestone": "N1 renderer consolidation batch 21",
+  "generatedAt": "2026-06-13T10:56:00+08:00",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 4,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsLocalMessageRowsWithoutSource": true,
+    "retainsLocalNestedH3Rows": true,
+    "rendererLineCountsAfterMigration": {
+      "src/services/accessPolicyProfile.ts": 404,
+      "src/services/ciEvidenceCommandProfile.ts": 310,
+      "src/services/auditRetentionIntegrityEvidence.ts": 265,
+      "src/services/authEnforcementRehearsal.ts": 304
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 4,
+      "insertions": 127,
+      "deletions": 250,
+      "netLineReduction": 123
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "Four foundational governance reports still duplicated the same Markdown title/meta/section/list frame after the audit-store pair was migrated.",
+    "laterConsumer": "N1 final acceptance can now treat access policy, CI evidence command, audit retention, and auth rehearsal reports as builder-backed before scanning compact command/document renderers.",
+    "reuseDecision": "The shared builder owns entries and list sections. Source-less message rows and nested h3 sections remain local lines sections to preserve byte-identical output without adding single-use builder variants.",
+    "growthStopCondition": "No new public helper was added. Reconsider only when multiple remaining renderers share an identical nested h3 grammar that deserves a tested shared formatter."
+  },
+  "migratedRenderers": [
+    "src/services/accessPolicyProfile.ts",
+    "src/services/ciEvidenceCommandProfile.ts",
+    "src/services/auditRetentionIntegrityEvidence.ts",
+    "src/services/authEnforcementRehearsal.ts"
+  ],
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererAndRouteBatch": {
+      "command": "npx vitest run test/accessPolicyProfile.test.ts test/auditRetentionIntegrityEvidence.test.ts test/authEnforcementRehearsal.test.ts test/ciEvidenceCommandProfile.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 4,
+      "tests": 12
+    },
+    "byteIdenticalCompare": {
+      "command": "npx vitest run .tmp/v2138-byte-identical-compare.test.ts --testTimeout=180000",
+      "result": "passed",
+      "comparedRendererFiles": 4,
+      "comparedProfiles": 8,
+      "method": "Temporary Vitest loaded each legacy renderer through git show HEAD:<path>, transpiled it in-memory with TypeScript, and compared safe/warning/enforced/file-backed profile variants against the migrated renderer."
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts test/auditManagedAuditRouteQualityRoutes.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 3,
+      "tests": 5,
+      "v2138WalkthroughChineseCharacters": 3002,
+      "v2138WalkthroughCompliant": true
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2138/evidence/renderer-consolidation-batch-21-v2138-summary.json",
+    "shortExplanation": "d/2138/解释/renderer-consolidation-batch-21-v2138.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2109-renderer-consolidation-batch-21-v2138.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2138 changes only Node Markdown renderer internals and archive documentation. It does not change evidence schemas, routes, contracts, fresh sibling evidence requirements, or live integration startup behavior."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2138-byte-identical-compare.test.ts"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}

@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from "node:fs";
 import type { AppConfig } from "../config.js";
 import { AuditLog, type AuditEvent } from "./auditLog.js";
 import type { AuditStoreRuntimeDescription } from "./auditStoreFactory.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export interface AuditRetentionIntegrityEvidence {
   service: "orderops-node";
@@ -151,57 +152,35 @@ export function createAuditRetentionIntegrityEvidence(input: {
 }
 
 export function renderAuditRetentionIntegrityEvidenceMarkdown(report: AuditRetentionIntegrityEvidence): string {
-  return [
-    "# Audit retention integrity evidence",
-    "",
-    `- Service: ${report.service}`,
-    `- Generated at: ${report.generatedAt}`,
-    `- Evidence version: ${report.evidenceVersion}`,
-    `- Ready for production audit: ${report.readyForProductionAudit}`,
-    `- Read only: ${report.readOnly}`,
-    `- Execution allowed: ${report.executionAllowed}`,
-    "",
-    "## Runtime",
-    "",
-    ...renderEntries(report.runtime),
-    "",
-    "## Retention Policy",
-    "",
-    ...renderEntries(report.retentionPolicy),
-    "",
-    "## Integrity",
-    "",
-    ...renderEntries(report.integrity),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(report.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(report.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(report.productionBlockers, "No audit retention blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(report.warnings, "No audit retention warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(report.recommendations, "No audit retention recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(report.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(report.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Audit retention integrity evidence",
+    meta: [
+      ["Service", report.service],
+      ["Generated at", report.generatedAt],
+      ["Evidence version", report.evidenceVersion],
+      ["Ready for production audit", report.readyForProductionAudit],
+      ["Read only", report.readOnly],
+      ["Execution allowed", report.executionAllowed],
+    ],
+    sections: [
+      { heading: "Runtime", entries: report.runtime },
+      { heading: "Retention Policy", entries: report.retentionPolicy },
+      { heading: "Integrity", entries: report.integrity },
+      { heading: "Checks", entries: report.checks },
+      { heading: "Summary", entries: report.summary },
+      {
+        heading: "Production Blockers",
+        lines: renderMessages(report.productionBlockers, "No audit retention blockers."),
+      },
+      { heading: "Warnings", lines: renderMessages(report.warnings, "No audit retention warnings.") },
+      {
+        heading: "Recommendations",
+        lines: renderMessages(report.recommendations, "No audit retention recommendations."),
+      },
+      { heading: "Evidence Endpoints", entries: report.evidenceEndpoints },
+      { heading: "Next Actions", list: report.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function collectProductionBlockers(checks: AuditRetentionIntegrityEvidence["checks"]): AuditRetentionIntegrityMessage[] {
@@ -300,22 +279,4 @@ function renderMessages(messages: AuditRetentionIntegrityMessage[], emptyText: s
   }
 
   return messages.map((message) => `- ${message.code} (${message.severity}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }
