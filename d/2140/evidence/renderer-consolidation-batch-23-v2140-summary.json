@@ -1,0 +1,87 @@
+{
+  "service": "orderops-node",
+  "version": "v2140",
+  "milestone": "N1 renderer consolidation batch 23",
+  "generatedAt": "2026-06-14T08:10:00+08:00",
+  "executor": "Claude (full-executor takeover 2026-06-14)",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "retainsPrefixedEvidenceRows": false,
+    "retainsLocalNestedH3Rows": false,
+    "shape": "pure-standard (meta + entries/messages/list sections only; no for-loops, no h3, no local helpers)",
+    "rendererLineCountsAfterMigration": {
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateRenderer.ts": 44,
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationRerunDecisionRenderer.ts": 49,
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationExplicitReadWindowGateExecutionDecisionRenderer.ts": 46,
+      "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationRenderer.ts": 48,
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionCanonicalApprovalInputPrecheckIntakeRenderer.ts": 51
+    },
+    "rendererDiffShortStat": {
+      "filesChanged": 5,
+      "insertions": 203,
+      "deletions": 308,
+      "netLineReduction": 105
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "Five managed-audit / fake-transport report renderers still hand-built the same title/meta/section Markdown frame.",
+    "laterConsumer": "N1 final acceptance can now classify these gate/decision/echo/intake reports as builder-backed.",
+    "reuseDecision": "All five are pure-standard shape, so the shared builder fully owns their output; no local lines sections were needed (unlike batch 22).",
+    "growthStopCondition": "No new helper added. A shared nested-section formatter is still deferred until the controlled-shard-preview h3 grammar proves repetitive."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationRerunDecisionRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationExplicitReadWindowGateExecutionDecisionRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionCanonicalApprovalInputPrecheckIntakeRenderer.ts"
+  ],
+  "notes": {
+    "dynamicTitle": "JavaMiniKvRuntimeExecutionCanonicalApprovalInputPrecheckIntake uses a dynamic title (profile.title), mapped as title: profile.title (not a literal)."
+  },
+  "verification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "focusedRendererBatch": {
+      "command": "npx vitest run <5 renderer tests> test/governanceGrowthRatchet.test.ts",
+      "result": "passed",
+      "files": 6,
+      "tests": 18
+    },
+    "byteIdentical": {
+      "method": "Proven by the five renderers' existing tests, which assert the full Markdown output and were not modified (playbook hard rule 1). No temporary compare script was needed this batch.",
+      "result": "passed"
+    },
+    "lint": {
+      "command": "pending",
+      "result": "pending"
+    },
+    "build": {
+      "command": "pending",
+      "result": "pending"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2140/evidence/renderer-consolidation-batch-23-v2140-summary.json",
+    "shortExplanation": "d/2140/解释/renderer-consolidation-batch-23-v2140.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2111-renderer-consolidation-batch-23-v2140.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2140 changes only Node Markdown renderer internals and archive documentation; no evidence-schema, route, fresh-sibling-evidence, or live-integration changes."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [],
+    "backgroundProcessesStarted": []
+  }
+}

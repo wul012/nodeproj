@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2140 - 2026-06-14
+
+- Renderer consolidation batch 23: migrated five pure-standard-shape
+  managed-audit / fake-transport report renderers (minimal shard readiness
+  regular gate, minimal read-only integration rerun decision, minimal read-only
+  integration explicit read-window gate execution decision, fake transport
+  packet upstream echo verification, and Java/mini-kv runtime execution
+  canonical approval input precheck intake) to the shared verification report
+  builder. Byte-identical output proven by the existing tests; no new helpers,
+  routes, or services.
+
 ## v2139 - 2026-06-13
 
 - Migrated deployment environment readiness, deployment safety, IdP verifier
