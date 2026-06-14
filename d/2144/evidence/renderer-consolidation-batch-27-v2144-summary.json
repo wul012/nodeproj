@@ -1,0 +1,70 @@
+{
+  "service": "orderops-node",
+  "version": "v2144",
+  "milestone": "N1 renderer consolidation batch 27",
+  "generatedAt": "2026-06-14T13:10:00+08:00",
+  "executor": "Claude (full-executor takeover 2026-06-14)",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "addsTests": false,
+    "migratesRendererFiles": 1,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "firstLinesSectionMigration": true,
+    "shape": "standard meta + entries/messages/list, PLUS two lines-sections carrying a file-local renderLiveRead helper (string[]); async loader",
+    "rendererDiffShortStat": {
+      "filesChanged": 1,
+      "insertions": 37,
+      "deletions": 65,
+      "netLineReduction": 28
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The last pure-standard-with-tests renderer (the minimal shard readiness live-read gate) still hand-built its title/meta/section frame; its two live-read sections used a local renderLiveRead helper that maps cleanly to the builder's lines section.",
+    "laterConsumer": "N1 final acceptance can classify the live-read gate report as builder-backed, and this is the first demonstration that the lines section absorbs local list-helpers byte-identically.",
+    "reuseDecision": "renderLiveRead returns string[]; the builder's lines section takes readonly string[] and emits it verbatim with builder-managed blank lines, matching the hand-written spread exactly.",
+    "growthStopCondition": "No new helper. After this batch the pure-standard subset is genuinely empty (0 with tests, 0 testless)."
+  },
+  "censusPostV2144": {
+    "detection": "corrected (matches barrel/report stem, not just the Renderer import)",
+    "totalUnmigrated": 108,
+    "pureStandardWithTests": 0,
+    "pureStandardTestless": 0,
+    "shapeBucketsOverlapping": { "forLoop": 9, "h3": 50, "map": 67, "flatMap": 63 },
+    "implication": "Next batch (v2145) needs an explicit direction decision: (A) use lines-sections to carry raw line-blocks of h3/for renderers byte-identically (reduced structural benefit), or (B) extend the builder so entries can accept a [label, value] array form to absorb the map/flatMap renderers (builder change needs its own tests + per-file byte compares)."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": { "command": "npm run typecheck", "result": "passed" },
+    "focusedRendererBatch": {
+      "command": "npx vitest run test/...MinimalShardReadinessLiveReadGate.test.ts test/governanceGrowthRatchet.test.ts",
+      "result": "passed",
+      "files": 2,
+      "tests": 5,
+      "note": "3 live-read gate cases (ready path with fake clients, fail-closed when probes disabled, and JSON+Markdown route injection against mock HTTP/TCP servers) + ratchet"
+    },
+    "byteIdentical": {
+      "method": "The route test asserts Markdown via toContain, so a throwaway async harness (reusing the test's fake clients and probes-enabled config) rendered the report before and after the edit and diffed them. The only difference was the runtime '- Generated at:' line; all 19 meta lines and both live-read lines-sections were byte-identical. Harness and .tmp dumps deleted before commit.",
+      "result": "passed"
+    },
+    "lint": { "command": "pending", "result": "pending" },
+    "build": { "command": "pending", "result": "pending" }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2144/evidence/renderer-consolidation-batch-27-v2144-summary.json",
+    "shortExplanation": "d/2144/解释/renderer-consolidation-batch-27-v2144.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2115-renderer-consolidation-batch-27-v2144.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2144 changes only Node Markdown renderer internals and archive documentation."
+  },
+  "cleanupExpectation": { "temporaryFilesCreated": [], "backgroundProcessesStarted": [] }
+}

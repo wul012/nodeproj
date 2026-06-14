@@ -11,6 +11,20 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2144 - 2026-06-14
+
+- Renderer consolidation batch 27: migrated the minimal shard readiness live-read
+  gate renderer (the last pure-standard-with-tests renderer) to the shared
+  verification report builder. First migration to use the builder's `lines`
+  section — its two live-read sections keep a file-local renderLiveRead helper
+  (string[]) passed as `lines`. Async loader, driven by the existing 3-case test
+  (ready path with fake clients, fail-closed when probes disabled, JSON+Markdown
+  route injection against mock HTTP/TCP servers). Byte-identical confirmed by a
+  before/after render diff (only the runtime timestamp line varied). No new
+  helpers, routes, services, or tests. After this batch the pure-standard subset
+  is genuinely empty (0 with tests, 0 testless); the remaining 108 unmigrated
+  renderers all carry for-loops, h3 sub-sections, or map/flatMap.
+
 ## v2143 - 2026-06-14
 
 - Renderer consolidation batch 26: migrated three standard-shape managed-audit
