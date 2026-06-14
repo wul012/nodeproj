@@ -1,0 +1,63 @@
+{
+  "service": "orderops-node",
+  "version": "v2141",
+  "milestone": "N1 renderer consolidation batch 24",
+  "generatedAt": "2026-06-14T08:25:00+08:00",
+  "executor": "Claude (full-executor takeover 2026-06-14)",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "shape": "standard (meta + entries/messages/list sections; two dynamic titles; two with inline-object entries)",
+    "rendererDiffShortStat": {
+      "filesChanged": 5,
+      "insertions": 258,
+      "deletions": 386,
+      "netLineReduction": 128
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "Five more managed-audit report renderers still hand-built the same title/meta/section Markdown frame.",
+    "laterConsumer": "N1 final acceptance can classify these precheck/plan/intake/dry-run reports as builder-backed.",
+    "reuseDecision": "All five are standard shape; inline-object entries map directly to the builder's entries section, and dynamic titles map to title: profile.title.",
+    "growthStopCondition": "No new helper added. Controlled-shard-preview ProfileSection renderers (no tests) and h3-loop intake/guard renderers remain deferred."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateCompatibilityIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacketRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": { "command": "npm run typecheck", "result": "passed" },
+    "focusedRendererBatch": {
+      "command": "npx vitest run <5 renderer tests> test/governanceGrowthRatchet.test.ts",
+      "result": "passed",
+      "files": 6,
+      "tests": 19
+    },
+    "byteIdentical": {
+      "method": "Proven by the five renderers' existing tests, which assert the full Markdown output and were not modified (playbook hard rule 1). No temporary compare script needed.",
+      "result": "passed"
+    },
+    "lint": { "command": "pending", "result": "pending" },
+    "build": { "command": "pending", "result": "pending" }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2141/evidence/renderer-consolidation-batch-24-v2141-summary.json",
+    "shortExplanation": "d/2141/解释/renderer-consolidation-batch-24-v2141.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2112-renderer-consolidation-batch-24-v2141.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2141 changes only Node Markdown renderer internals and archive documentation."
+  },
+  "cleanupExpectation": { "temporaryFilesCreated": [], "backgroundProcessesStarted": [] }
+}

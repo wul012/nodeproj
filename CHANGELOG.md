@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2141 - 2026-06-14
+
+- Renderer consolidation batch 24: migrated five more standard-shape managed-audit
+  report renderers (precheck upstream receipt verification, Java/mini-kv declared
+  operator lifecycle runtime live-read gate plan, Java/mini-kv runtime execution
+  approval input template compatibility intake, test-only fake harness precheck,
+  and fake transport adapter dry-run verification packet) to the shared
+  verification report builder. Includes two dynamic titles and two inline-object
+  entries sections. Byte-identical proven by existing tests; no new helpers,
+  routes, or services.
+
 ## v2140 - 2026-06-14
 
 - Renderer consolidation batch 23: migrated five pure-standard-shape
