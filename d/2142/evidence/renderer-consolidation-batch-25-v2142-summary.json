@@ -1,0 +1,70 @@
+{
+  "service": "orderops-node",
+  "version": "v2142",
+  "milestone": "N1 renderer consolidation batch 25",
+  "generatedAt": "2026-06-14T12:35:00+08:00",
+  "executor": "Claude (full-executor takeover 2026-06-14)",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 3,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "shape": "standard (meta + entries/messages/list sections; literal titles; two of three carry inline-object entries)",
+    "rendererDiffShortStat": {
+      "filesChanged": 3,
+      "insertions": 153,
+      "deletions": 246,
+      "netLineReduction": 93
+    }
+  },
+  "necessityProof": {
+    "blockerResolved": "The last three pure-standard-shape managed-audit sandbox-endpoint credential-resolver upstream-echo-verification renderers still hand-built the same title/meta/section Markdown frame.",
+    "laterConsumer": "N1 final acceptance can classify the upstream-echo-verification / disabled-precheck / test-only-shell reports as builder-backed.",
+    "reuseDecision": "All three are standard shape; inline-object entries map directly to the builder's entries section; titles are literals.",
+    "growthStopCondition": "No new helper added. A full shape census confirmed this batch empties the 'pure-standard with tests' subset; the remaining 112 unmigrated renderers all contain for-loops, h3 (### ) sub-sections, or .map/.flatMap dynamic assembly and are deferred."
+  },
+  "shapeCensusAtBatchStart": {
+    "totalUnmigratedRenderers": 115,
+    "withForLoop": 9,
+    "withH3": 50,
+    "mapOnlyNoForNoH3": 26,
+    "flatMapOnlyNoForNoH3": 32,
+    "pureStandardWithTests": 3,
+    "note": "Buckets overlap where a file has multiple traits; pureStandardWithTests is the disjoint safe subset migrated in this batch."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": { "command": "npm run typecheck", "result": "passed" },
+    "focusedRendererBatch": {
+      "command": "npx vitest run <3 renderer tests> test/governanceGrowthRatchet.test.ts",
+      "result": "passed",
+      "files": 4,
+      "tests": 17
+    },
+    "byteIdentical": {
+      "method": "The three tests assert Markdown via toContain (not full-string equality), so a throwaway harness rendered each report before and after the edit and diffed them. The only difference in all three was the runtime-varying '- Generated at:' timestamp line; every other line (including all inline-object entries) was byte-identical. Harness and .tmp dumps were deleted before commit.",
+      "result": "passed"
+    },
+    "lint": { "command": "pending", "result": "pending" },
+    "build": { "command": "pending", "result": "pending" }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2142/evidence/renderer-consolidation-batch-25-v2142-summary.json",
+    "shortExplanation": "d/2142/解释/renderer-consolidation-batch-25-v2142.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2113-renderer-consolidation-batch-25-v2142.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2142 changes only Node Markdown renderer internals and archive documentation."
+  },
+  "cleanupExpectation": { "temporaryFilesCreated": [], "backgroundProcessesStarted": [] }
+}

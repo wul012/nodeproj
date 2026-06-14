@@ -11,6 +11,20 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2142 - 2026-06-14
+
+- Renderer consolidation batch 25: migrated the last three pure-standard-shape
+  managed-audit sandbox-endpoint credential-resolver upstream-echo-verification
+  renderers (upstream echo verification, disabled precheck upstream echo
+  verification, and test-only shell upstream echo verification) to the shared
+  verification report builder. Two carry inline-object entries sections,
+  preserved verbatim. Byte-identical confirmed by a before/after render diff
+  (only the runtime timestamp line varied); the existing tests assert via
+  toContain. A shape census recorded in the evidence summary shows this empties
+  the "pure-standard with tests" subset — the remaining 112 unmigrated renderers
+  all carry for-loops, h3 sub-sections, or map/flatMap dynamic assembly. No new
+  helpers, routes, or services.
+
 ## v2141 - 2026-06-14
 
 - Renderer consolidation batch 24: migrated five more standard-shape managed-audit
