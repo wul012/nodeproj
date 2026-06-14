@@ -1,8 +1,4 @@
-import {
-  renderEntries,
-  renderList,
-  renderMessages,
-} from "./liveProbeReportUtils.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 import type {
   ManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewProfile,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewTypes.js";
@@ -10,51 +6,26 @@ import type {
 export function renderManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewMarkdown(
   profile: ManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewProfile,
 ): string {
-  return [
-    "# Managed audit manual sandbox connection sandbox endpoint handle preflight review",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Review state: ${profile.reviewState}`,
-    `- Ready for endpoint handle preflight review: ${profile.readyForManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview}`,
-    `- Ready for sandbox adapter connection: ${profile.readyForManagedAuditSandboxAdapterConnection}`,
-    "",
-    "## Source Node v257",
-    "",
-    ...renderEntries(profile.sourceNodeV257),
-    "",
-    "## Preflight Review",
-    "",
-    ...renderEntries(profile.preflightReview),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No sandbox endpoint handle preflight review blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No sandbox endpoint handle preflight review warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No sandbox endpoint handle preflight review recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Managed audit manual sandbox connection sandbox endpoint handle preflight review",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Review state", profile.reviewState],
+      ["Ready for endpoint handle preflight review", profile.readyForManagedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview],
+      ["Ready for sandbox adapter connection", profile.readyForManagedAuditSandboxAdapterConnection],
+    ],
+    sections: [
+      { heading: "Source Node v257", entries: profile.sourceNodeV257 },
+      { heading: "Preflight Review", entries: profile.preflightReview },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      { heading: "Production Blockers", messages: profile.productionBlockers, emptyText: "No sandbox endpoint handle preflight review blockers." },
+      { heading: "Warnings", messages: profile.warnings, emptyText: "No sandbox endpoint handle preflight review warnings." },
+      { heading: "Recommendations", messages: profile.recommendations, emptyText: "No sandbox endpoint handle preflight review recommendations." },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }

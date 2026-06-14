@@ -1,0 +1,67 @@
+{
+  "service": "orderops-node",
+  "version": "v2143",
+  "milestone": "N1 renderer consolidation batch 26",
+  "generatedAt": "2026-06-14T12:55:00+08:00",
+  "executor": "Claude (full-executor takeover 2026-06-14)",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "addsTests": false,
+    "migratesRendererFiles": 3,
+    "usesSharedVerificationReportBuilder": true,
+    "addsSharedHelpers": false,
+    "shape": "standard (meta + entries/messages/list sections; literal titles; one keeps a file-local omitEvidenceArrays helper passed as entries)",
+    "rendererDiffShortStat": {
+      "filesChanged": 3,
+      "insertions": 75,
+      "deletions": 174,
+      "netLineReduction": 99
+    }
+  },
+  "censusCorrection": {
+    "summary": "The v2142 closeout claimed the 'pure-standard with tests' subset was empty and that all remaining unmigrated renderers carried for-loops/h3/map/flatMap. The shape buckets were correct, but the with-tests/without-tests split used a flawed test-detection that only matched test files importing the '...Renderer.ts' module directly. This repo's report tests import the stable-entry barrel (e.g. '...PreflightReview.js', which re-exports both loadXxx and renderXxxMarkdown) and do not import the Renderer module, so barrel-only-tested renderers were misclassified as testless.",
+    "evidence": "All three renderers migrated this batch already had mature tests (PreflightReview 262 lines, HandleUpstreamEcho 341 lines, ApprovalRequired 291 lines); the deferred MinimalShardReadinessLiveReadGate has a 367-line test. So at v2142 the subset was NOT empty — it held at least these 4.",
+    "correctedDetection": "hasTest = any test file references the barrel/report stem (renderer basename minus the 'Renderer' suffix), not just the Renderer basename.",
+    "correctedCensusPostV2143": {
+      "totalUnmigrated": 109,
+      "pureStandardWithTests": 1,
+      "pureStandardWithTestsRemaining": ["managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateRenderer.ts (async loader; uses lines-section renderLiveRead; deferred to v2144)"],
+      "pureStandardGenuinelyWithoutTests": 0
+    }
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReviewRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerificationRenderer.ts"
+  ],
+  "verification": {
+    "typecheck": { "command": "npm run typecheck", "result": "passed" },
+    "focusedRendererBatch": {
+      "command": "npx vitest run <3 existing report tests> test/governanceGrowthRatchet.test.ts",
+      "result": "passed",
+      "files": 4,
+      "tests": 14
+    },
+    "byteIdentical": {
+      "method": "The existing tests assert Markdown via toContain (not full-string), so a throwaway harness rendered each report before and after the edit and diffed them. The only difference in all three was the runtime '- Generated at:' timestamp line (the omitEvidenceArrays output and all sections were byte-identical). Harness and .tmp dumps deleted before commit.",
+      "result": "passed"
+    },
+    "lint": { "command": "pending", "result": "pending" },
+    "build": { "command": "pending", "result": "pending" }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2143/evidence/renderer-consolidation-batch-26-v2143-summary.json",
+    "shortExplanation": "d/2143/解释/renderer-consolidation-batch-26-v2143.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2114-renderer-consolidation-batch-26-v2143.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2143 changes only Node Markdown renderer internals and archive documentation."
+  },
+  "cleanupExpectation": { "temporaryFilesCreated": [], "backgroundProcessesStarted": [] }
+}

@@ -11,6 +11,26 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2143 - 2026-06-14
+
+- Renderer consolidation batch 26: migrated three standard-shape managed-audit
+  sandbox-endpoint-handle / approval-required renderers (sandbox endpoint handle
+  preflight review, sandbox endpoint handle upstream echo verification, and
+  credential resolver approval-required implementation readiness upstream echo
+  verification) to the shared verification report builder; one keeps a file-local
+  omitEvidenceArrays helper passed as entries. Byte-identical confirmed by a
+  before/after render diff (only the runtime timestamp line varied). No new
+  helpers, routes, services, or tests.
+- Correction to the v2142 note: the claim that the "pure-standard with tests"
+  subset was empty rested on a flawed test-detection (it only matched test files
+  importing the '...Renderer.ts' module; this repo's report tests import the
+  barrel instead, so barrel-only-tested renderers were misclassified as testless).
+  The shape buckets were correct; the with-tests split was not. These three (and
+  the deferred async MinimalShardReadinessLiveReadGate) already had 262-367-line
+  tests. Corrected census after this batch: of 109 unmigrated renderers, exactly
+  one pure-standard-with-tests remains (the async live-read gate, due v2144) and
+  zero are genuinely testless.
+
 ## v2142 - 2026-06-14
 
 - Renderer consolidation batch 25: migrated the last three pure-standard-shape
