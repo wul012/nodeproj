@@ -143,6 +143,28 @@ ratchet 通过说明 service/route 文件数未增长；独立的渲染前后 `d
 进度表更新（v2114-codex-migration-playbook 与 production-excellence-node-playbook 的 N1
 行），提交并打标签 v2142，单次提交改动量远低于 3000 行。
 
+## v2145 Closeout Addendum / v2145 收尾补充说明
+
+v2142 是 renderer consolidation 中一个容易被误读的版本。它确实迁移了三个纯标准报告，也确实做了剩余 renderer 的形态普查；但它同时留下了一个后续需要纠正的判断：当时把测试是否直接引用 Renderer 模块当成是否有测试的依据，导致一部分通过 barrel 被覆盖的 renderer 被误判为无测试。v2145 在补齐文档时必须把这个历史关系写清楚：v2142 的代码迁移可以成立，形态普查中的 for/h3/map/flatMap 桶也有参考价值，但测试覆盖口径不能作为后续计划的最终依据。
+
+本批三个 renderer 的共同点是 upstream echo、disabled precheck、test-only shell 都属于只读证据确认报告。它们不启动上游服务，不读取凭据值，不改变 managed audit 状态，也不修改 Java 或 mini-kv 的任何运行时数据。迁移时保留了原有标题、元信息和段落顺序，只把重复 Markdown 框架交给 builder。这个版本因此仍然是一个低风险收敛版本，真正的问题出在归档说明没有充分写明普查结论的可信边界，而不是 renderer 改坏了业务行为。
+
+从维护角度看，v2142 的意义在于把纯标准批次推进到接近尾声，并迫使团队开始面对剩余复杂形态。只要剩下的文件包含循环、三级标题或动态数组展开，就不能再用同一套简单映射规则处理。后续 v2143/v2144 对普查和 lines section 的补充，正是在这个版本基础上发展出来的。因此 v2142 的文档应该告诉读者：它是从简单批量迁移转向复杂形态分析的中间版本，不能只看净减少 93 行，也不能把当时的子集清空表述当成最终结论。
+
+## Service Flow Detail / 服务流细节
+
+服务流仍然是 profile 先生成、renderer 后格式化、route 或测试再消费。三个 profile 中的 upstream echo 状态、disabled precheck 状态和 test-only shell 证据都在迁移前已经由服务层确定；renderer 不重新计算检查结果，只负责把字段按原来的 Markdown 面向输出。builder 接管的是标题、meta 和 section 的统一装配，不接管业务判断。这个边界确保后续若上游 echo 证据出现变化，维护者仍应查服务和 fixture，而不是把 renderer consolidation 当成证据变更来源。
+
+## Safety Reading Detail / 安全阅读细节
+
+v2142 不应被解读为生产执行前进了一步。它没有把 test-only shell 变成可执行 shell，没有打开 disabled precheck，也没有让 upstream echo 变成 live upstream write。所有报告仍然只是读已有 profile 并输出审阅材料。v2145 补充这些说明，是为了防止后续把报告更统一误解为能力更开放。在治理型项目里，格式统一是为了更好地审计边界，而不是为了绕过边界。
+
+## Operational Reading Note / 运维阅读说明
+
+v2142 的运维价值在于把 upstream echo 系列报告的展示层收敛，让值班或审阅人员在不同报告之间看到一致的标题、元信息和段落秩序。这个一致性可以减少误读：当某个报告显示 blocked，读者能沿同样的段落顺序找到 blockers、warnings、recommendations，而不用先理解每个 renderer 的手写 Markdown 风格。格式一致本身不会让系统更可执行，但会让阻断原因更容易被定位和复核。
+
+同时，v2142 的普查偏差也提醒后续版本：自动扫描只能提供线索，不能替代对测试入口的实际阅读。尤其在这个仓库里，barrel 是稳定 public export，直接 import renderer 反而不是常态。后续若做更大范围迁移，必须把扫描结果、测试入口和人工抽样三者合并使用，才能避免把风险分类建立在脆弱的文件名假设上。
+
 ## One-sentence Summary / 一句话总结
 
 本版把 sandbox-endpoint credential-resolver 上游回声校验系列的最后三个纯标准形态渲染器

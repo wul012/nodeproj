@@ -53,8 +53,12 @@
       "method": "The route test asserts Markdown via toContain, so a throwaway async harness (reusing the test's fake clients and probes-enabled config) rendered the report before and after the edit and diffed them. The only difference was the runtime '- Generated at:' line; all 19 meta lines and both live-read lines-sections were byte-identical. Harness and .tmp dumps deleted before commit.",
       "result": "passed"
     },
-    "lint": { "command": "pending", "result": "pending" },
-    "build": { "command": "pending", "result": "pending" }
+    "lint": {
+      "command": "npm run lint (v2145 closeout rerun)",
+      "result": "passed with existing warnings",
+      "note": "0 errors; existing warnings are tracked as N5 lint debt and were not introduced by the v2145 documentation-only closeout."
+    },
+    "build": { "command": "npm run build (v2145 closeout rerun)", "result": "passed" }
   },
   "archiveDeliverables": {
     "evidenceSummary": "d/2144/evidence/renderer-consolidation-batch-27-v2144-summary.json",

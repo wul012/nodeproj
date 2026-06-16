@@ -62,12 +62,13 @@
       "result": "passed"
     },
     "lint": {
-      "command": "pending",
-      "result": "pending"
+      "command": "npm run lint (v2145 closeout rerun)",
+      "result": "passed with existing warnings",
+      "note": "0 errors; existing warnings are tracked as N5 lint debt and were not introduced by the v2145 documentation-only closeout."
     },
     "build": {
-      "command": "pending",
-      "result": "pending"
+      "command": "npm run build (v2145 closeout rerun)",
+      "result": "passed"
     }
   },
   "archiveDeliverables": {

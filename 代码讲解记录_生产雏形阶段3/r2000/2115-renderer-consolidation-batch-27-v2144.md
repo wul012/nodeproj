@@ -105,6 +105,54 @@ typecheck 通过说明 builder 调用（含 `lines` 小节接收 `renderLiveRead
 含本中文讲解、`d/2144/` 证据（summary.json + 解释 md，含 post-v2144 普查）、CHANGELOG 条目、
 两张 playbook 进度表更新，提交并打标签 v2144。
 
+## v2145 Closeout Addendum / v2145 收尾补充说明
+
+v2144 是 renderer consolidation 的一个边界版本：它不是继续挑最简单的 meta/entries/messages/list 文件，而是第一次把本地 helper 生成的原始行块交给 builder 的 `lines` section。这个动作的价值在于验证 builder 可以承载共享框架加局部行生成器的混合形态，而不必立即扩展出复杂的嵌套 section API。`renderLiveRead` 原本返回 `string[]`，旧 renderer 用展开运算符把它插入 Markdown 数组；新 renderer 用 `{ heading, lines: renderLiveRead(...) }` 表达同一件事。只要 builder 对 `lines` 的处理是原样展开，这个迁移就是结构化的，同时仍保持逐字节输出。
+
+这份报告的上游语义也比前几批更敏感。它的 loader 是 async，会在探针开启时读取 Java 的 shard readiness HTTP JSON 和 mini-kv 的 `SHARDJSON` TCP 响应；探针关闭时必须 fail closed，不尝试读取。v2144 只迁移 renderer，不改变 loader，所以文档必须反复说明：没有新增 Java/mini-kv 服务启动，没有让 Node 自动执行上游动作，也没有放宽 `executionBlocked`、`readOnlySafe`、`startsJavaService` 等边界字段。若这点写得不够，后续读者可能把 live-read gate 误解为生产执行入口，而它实际上只是只读证据对照和门禁展示。
+
+v2145 收尾时还要强调 v2144 的 stop condition：纯标准子集已经真正清空，剩余 108 个未迁移 renderer 都落入 for、h3、map 或 flatMap 等更复杂形态。这个结论直接决定下一阶段不能继续用挑简单文件的策略凑版本。要么采用 lines section 承载原始行块，接受结构化收益下降；要么扩展 builder，让 entries 支持 `[label, value]` 数组或更复杂的嵌套 section，并配套 builder 自测和逐文件字节对比。v2144 因此是路线分叉前的收束，不是普通小迁移。
+
+原讲解不足 3000 中文字符时，最危险的不是 CI 红，而是它没有把上述路线分叉解释完整。工程后期的文档不是为了复述 diff，而是为了让下一位维护者知道哪里可以安全重复、哪里必须停下来重新设计。v2144 作为第一个 lines 样本，需要说明为什么没有新增 helper、为什么没有把 `renderLiveRead` 提升为共享 helper、为什么不在这个版本扩展 builder。答案是：只有一个样本不足以证明共享抽象值得存在，先用现有 `lines` 能把风险压在单文件内，等 h3/for 家族显示出重复模式后再抽象。
+
+## Verification Reading Note / 验证阅读提示
+
+验证 v2144 时应同时看三层证据：第一，focused route test 覆盖 ready、probes-disabled fail-closed、mock HTTP/TCP 三条路径；第二，一次性 async harness 对比迁移前后 Markdown，除 `Generated at` 时间戳外其余行一致；第三，v2145 重新跑文档质量 gate、lint 和 build，证明归档修复没有引入新的类型或构建问题。这样读者能把 v2144 视为 lines section 可用性证明，而不是一个只减少 28 行的轻量补丁。
+
+## Service Flow Detail / 服务流细节
+
+v2144 的服务流可以拆成加载、观察、判定、渲染四步。加载阶段读取 Node v370 静态证据，并根据配置决定是否尝试 Java/mini-kv live-read；观察阶段把 HTTP/TCP 返回值整理成 `MinimalShardReadinessLiveReadObservation`；判定阶段把缺失字段、ready 状态和 blocked 状态放入 profile；渲染阶段才由 renderer 把 profile 写成 Markdown。v2144 只动最后一步，因此所有关于是否尝试探针、探针失败如何 fail closed、是否允许执行的判断，都不在本次改动面内。
+
+`lines` section 的引入也应放在这个 flow 中理解。它不是新的业务能力，而是一个保守的展示承载方式：当本地 helper 已经产出稳定的行数组时，builder 只负责把这些行放进对应 section。这样既避免复制整套手写 Markdown 框架，又不把 `renderLiveRead` 过早抽成共享工具。若未来多个 live-read 报告重复出现相同 helper 形态，再考虑共享化才有足够证据。
+
+## Safety Reading Detail / 安全阅读细节
+
+v2144 文档必须明确区分 live-read 与 execution。live-read 只读上游状态，且受探针开关和 fail-closed 约束；execution 则意味着写入、启动、审批通过或状态改变，本版本没有也不能引入这些行为。报告里出现 Java 和 mini-kv 字样，只代表只读证据来源，不代表 Node 拥有启动它们或修改它们的权限。这个边界如果不写清，后续审阅者很容易被 minimal shard readiness 这个名称带偏，误以为版本已经接近真实分片执行。
+
+## Operational Reading Note / 运维阅读说明
+
+v2144 的运维阅读重点是看 live-read 结果如何被降级展示。探针关闭时，报告应清楚呈现 skipped/not-attempted，而不是伪装成成功；探针失败时，应保持 blocked，而不是让缺失字段被忽略；探针成功时，也只是证明只读证据可见，不代表执行窗口打开。`lines` section 保留了 `renderLiveRead` 原本的逐行输出，使这些状态在 Markdown 中仍按旧顺序出现，便于和历史截图、HTTP smoke 或人工记录对照。
+
+这篇文档补足后，后续路线也更清晰：如果下一个版本选择继续用 `lines` 搬运 h3/for 形态，就要承认结构化收益有限，只是把行块放进统一外壳；如果选择扩展 builder，就要先写 builder 测试，再做小批迁移。v2144 不替后续路线做决定，它只证明 lines section 可以安全承载一个已有 helper 的输出。这个结论本身已经足够，不需要在同一版里追加新的抽象。
+
+## Follow-up Boundary / 后续边界
+
+v2144 之后不能再按“纯标准 renderer”继续推进，因为这个子集已经清空。下一阶段若做 h3/for 家族，应明确接受较重的字节对比和更细的人工审阅；若做 builder 扩展，应先让 builder 自己有覆盖新增 section 语义的测试，再迁移具体报告。v2144 的角色是关门而不是开新门：它把最后一个低风险样本收掉，同时把更高风险路线摆到计划层讨论。
+
+这个边界对三项目也有意义。Node 这里没有要求 Java 或 mini-kv 立即提供新证据，只有未来真实联合执行或 shard preview 进入 live integration 时，才需要写明端口、启动责任和清理责任。在那之前，v2144 的 live-read 语义仍是只读审阅，不是跨项目运行编排。
+
+## Retrospective Conclusion / 后验结论
+
+v2144 的后验结论是：`lines` section 可以作为谨慎过渡，但不能被当成无限扩展的终点。它适合承载一个已经存在、已经测试过、语义局部的行生成 helper；它不适合掩盖复杂报告结构，也不应该替代更清晰的 builder 扩展设计。v2145 把这点写明后，下一阶段路线会更稳：要么承认只是外壳统一，要么投入真实抽象和测试，而不是用“迁移成功”四个字遮住工程取舍。
+
+## Human Review Note / 人工审阅说明
+
+人工审阅 v2144 时，要把“能渲染 live-read”与“能执行分片动作”彻底分开。前者只是把只读观察结果写进报告，后者会涉及启动、写入、审批、状态改变和跨项目运行责任。本版本只属于前者，而且只改最后的 Markdown 渲染层。任何把它解读为生产分片执行准备完成的说法，都会越过版本事实。正确的读法是：v2144 证明现有 builder 可以安全承载一个本地行生成 helper，证明纯标准子集已收束，证明下一阶段需要重新选择技术路线。
+
+这个结论对后续二十版、三十版式推进尤其重要。若继续追求版本数量而忽略路线选择，就会把 h3、for、map、flatMap 等复杂报告硬塞进 lines，得到表面统一但内部仍难维护的结果。若直接扩展 builder 而不先补 builder 测试，又会让共享工具变成新的风险中心。v2144 的正确后续不是立刻做更多，而是先在计划中写明选择标准、验证方式和停止条件。
+
+v2145 补足这篇说明，是为了把这道边界留给后续维护者：只读报告可以继续被整理，真实联合执行必须另起计划，写清 Java、mini-kv、端口、清理和授权责任。这样项目会稳稳地向生产级分片执行靠近，而不是在文档和命名上提前宣布已经到达。
+
 ## One-sentence Summary / 一句话总结
 
 本版以首个 `lines` 小节迁移收编最后一个纯标准且有测试的渲染器（async live-read 门，保留本地

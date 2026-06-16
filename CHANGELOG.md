@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2145 - 2026-06-16
+
+- Documentation gate closeout repair: expanded the v2140-v2144 renderer
+  consolidation walkthroughs to satisfy the enforced 3000-Chinese-character
+  floor with real maintenance notes, corrected prior evidence summaries that
+  still had `lint/build` marked pending, and added v2145 archive evidence.
+  Recovered the code walkthrough documentation quality gate to 53/53 compliant
+  enforced walkthroughs, 0 short walkthroughs, 0 blockers. No runtime code,
+  routes, services, renderer migrations, tests, evidence schemas, or sibling
+  project state changed.
+
 ## v2144 - 2026-06-14
 
 - Renderer consolidation batch 27: migrated the minimal shard readiness live-read

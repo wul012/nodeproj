@@ -53,8 +53,12 @@
       "method": "The three tests assert Markdown via toContain (not full-string equality), so a throwaway harness rendered each report before and after the edit and diffed them. The only difference in all three was the runtime-varying '- Generated at:' timestamp line; every other line (including all inline-object entries) was byte-identical. Harness and .tmp dumps were deleted before commit.",
       "result": "passed"
     },
-    "lint": { "command": "pending", "result": "pending" },
-    "build": { "command": "pending", "result": "pending" }
+    "lint": {
+      "command": "npm run lint (v2145 closeout rerun)",
+      "result": "passed with existing warnings",
+      "note": "0 errors; existing warnings are tracked as N5 lint debt and were not introduced by the v2145 documentation-only closeout."
+    },
+    "build": { "command": "npm run build (v2145 closeout rerun)", "result": "passed" }
   },
   "archiveDeliverables": {
     "evidenceSummary": "d/2142/evidence/renderer-consolidation-batch-25-v2142-summary.json",

@@ -116,6 +116,50 @@ MinimalShardReadinessLiveReadGate：需先在测试中构造 `OrderPlatformClien
 含本中文讲解、`d/2143/` 证据（summary.json + 解释 md，内含更正后的普查表）、CHANGELOG 条目
 （含更正说明）、两张 playbook 进度表更新及 Deviations 更正记录，提交并打标签 v2143。
 
+## v2145 Closeout Addendum / v2145 收尾补充说明
+
+v2143 的特别价值不只是三份 renderer 被迁移，而是它主动修正了 v2142 的普查口径。此前用测试是否直接 import Renderer 模块判断覆盖情况，这个口径太窄，因为项目里的报告测试常通过稳定 barrel 导入 `loadXxx` 与 `renderXxxMarkdown`，并通过 route 注入或 profile 渲染间接覆盖 renderer。v2143 把检测口径改成 barrel/report stem，这个修正让计划不再误把成熟测试覆盖的 renderer 归为 testless。对后续推进来说，这比单纯减少行数更重要，因为错误的覆盖口径会直接影响版本切片：本该优先迁移的低风险文件会被跳过，本该补测试的文件也可能被误判。
+
+本批三个 sandbox-endpoint handle 系列报告都保持了只读治理性质。它们围绕 endpoint handle preflight、upstream echo verification、approval-required implementation readiness 三个相邻面向，报告来源分别关联 Node 历史版本、Java/mini-kv 冻结证据和凭据解析器审批边界。迁移没有改变这些证据来源，只把 Markdown 框架收回 builder。尤其第三个 renderer 保留 `omitEvidenceArrays`，没有为了迁移而把 helper 拆掉或泛化，因为它只服务于该报告的条目裁剪：把 `evidenceFiles` 与 `expectedSnippets` 从 entries 展示中剥离，以维持原有报告形态。这个保留局部 helper 的选择说明 consolidation 不是强迫所有局部差异消失，而是把真正重复的框架收走。
+
+v2145 对 v2143 文档的补充，是为了让读者区分两类工程动作：一类是 renderer 代码体改写，一类是普查方法纠偏。前者由 focused tests、ratchet 和字节对比兜底；后者则影响 playbook 下一步方向。如果后续继续基于错误普查推进，就会以为纯标准子集已经清空，从而过早进入 h3/map/flatMap 的复杂路线。v2143 的修正确认在 v2144 之前还剩一个 async live-read renderer，且它有成熟测试，可以安全作为最后一个纯标准/lines 混合样本处理。
+
+## Closeout Reading Note / 收尾阅读提示
+
+审阅 v2143 时不要只看净减少 99 行。更应确认三件事：第一，`omitEvidenceArrays` 仍在本地使用，说明报告语义没有被 builder 误吸收；第二，summary 中的 corrected census 清楚说明了 v2142 结论为何偏差，避免后续计划重复犯错；第三，验证说明包括 focused tests 与一次性字节对比，并明确临时 harness 已删除。v2145 重新补足说明后，这篇文档能承担纠偏版本的历史责任，而不是只作为普通迁移记录存在。
+
+## Service Flow Detail / 服务流细节
+
+v2143 的服务流从三个既有报告入口开始：preflight review、handle upstream echo verification、approval-required implementation readiness upstream echo verification。每个入口仍先由原服务装配 profile，再交给对应 renderer 输出 Markdown。renderer 迁移后，`renderVerificationReportMarkdown` 只接收已经决定好的 title、meta 与 sections；它不会重新查询 Java、mini-kv、历史 fixture，也不会改变 approval-required 的判断。`omitEvidenceArrays` 仍在 renderer 文件内运行，说明局部裁剪步骤仍属于该报告自己的展示规则，而不是全局 builder 行为。
+
+这个服务流细节补上后，v2143 的 required shape 也更完整：读者能看到真实 `src/` 路径和 flow，而不仅是迁移三份报告的摘要。它还帮助定位失败：如果未来 approval-required 报告缺少某个 evidence array，先检查 profile 与局部 helper；如果只是 section 间距漂移，再检查 builder；如果 corrected census 又出现偏差，则检查扫描脚本的 barrel/stem 口径。三类问题的责任边界不一样，文档应当让维护者能快速分辨。
+
+## Planning Consequence / 计划后果
+
+v2143 的纠偏还改变了下一步策略。它证明有没有测试不能靠文件名直接 import 推断，必须理解项目的 barrel 习惯。后续若继续做 renderer 迁移，计划里应把检测命令写成 stem/barrel 双口径，并随机抽样打开测试确认。否则版本越往后，越容易因为错误分类把高风险文件当低风险处理。v2145 的收尾把这点补入讲解，是为了让后续执行者读到这里就知道：扫描结果只能指导排序，不能替代人工确认入口。
+
+## Operational Reading Note / 运维阅读说明
+
+v2143 对运维人员最有用的地方，是它把 endpoint handle 相关报告放在同一种阅读秩序里。preflight、upstream echo、approval-required readiness 三者都围绕连接前置条件展开，但各自的失败含义不同：preflight 更偏本地准备状态，upstream echo 更偏外部证据回声，approval-required readiness 更偏审批实现边界。统一 renderer 框架后，读者仍能通过 section 标题和 profile 字段区分三者，不会因为模板统一而混淆责任来源。
+
+这也是为什么 `omitEvidenceArrays` 不应被删除。它保留了 approval-required 报告自己的展示裁剪规则，让大型数组不会淹没关键 entries。运维审阅时更需要先看到状态、版本、digest、边界字段，再按需追踪证据文件列表。v2143 的局部 helper 正是为这个阅读顺序服务，而不是重构遗留。文档把这一点写明，可以避免后续维护者为了追求“所有 renderer 零 helper”而破坏报告可读性。
+
+## Follow-up Boundary / 后续边界
+
+v2143 之后的计划应把普查纠偏当成硬规则：扫描脚本给出的剩余数量只能作为入口，真正开工前还要抽样检查测试是通过 renderer、barrel 还是 route 覆盖。若一个文件只是在扫描里看起来 testless，但实际有 route 级 Markdown 断言，就应按较低风险处理；反之如果没有任何输出断言，即使 shape 很标准，也应先补测试。这个边界能让后续迁移既不保守到停滞，也不激进到破坏报告输出。
+
+## Retrospective Conclusion / 后验结论
+
+v2143 的后验结论是：一次好的重构版本可以同时修代码和修判断方法。三个 renderer 的迁移本身不复杂，但普查口径纠偏避免了后续计划沿着错误分类继续推进。v2145 补足说明后，这个版本应被看作治理链中的校准点：它提醒后续执行者尊重仓库的 barrel 出口习惯，尊重既有 route 级测试，也尊重局部 helper 的展示责任。这样的校准能减少盲目批量化带来的隐藏风险。
+
+## Human Review Note / 人工审阅说明
+
+人工审阅 v2143 时，最容易漏掉的是“纠偏”比“迁移”更重要。三份 renderer 被改写为 builder 调用，只要测试和字节对比通过，代码层风险相对可控；但普查口径如果继续错误，会影响后面几十个版本的排序和工作量判断。因此审阅这版不应只问输出是否一致，还要问扫描逻辑是否符合仓库真实使用习惯，测试是否通过公共 barrel 或 route 覆盖，以及计划中是否承认旧结论的局限。
+
+这类纠偏说明也有组织价值。多个执行者并行推进时，最怕的是每个人使用不同的“完成”定义：有人按文件名 import 认定无测试，有人按 route 断言认定有覆盖，有人按源码形态认定可以迁移。v2143 把口径写入文档后，后续协作可以围绕同一套判断说话。它减少的是沟通成本和误分流风险，而不只是某几个 renderer 的行数。
+
+v2145 补充这些段落，是为了让该版本承担它真正的历史作用：在标准批次即将结束时，把计划从“机械挑文件”拉回“先校准事实”。这种校准会让后续大版本更慢一些，但更稳，因为每个复杂 renderer 开工前都知道自己为什么被选中、由什么测试保护、还有哪些输出需要字节级确认。
+
 ## One-sentence Summary / 一句话总结
 
 本版把 sandbox-endpoint handle / approval-required 系列三个纯标准渲染器（其一保留
