@@ -3,39 +3,46 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetStep,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown(
   worksheet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window command worksheet",
-    "",
-    `- Worksheet version: ${worksheet.worksheetVersion}`,
-    `- Worksheet state: ${worksheet.worksheetState}`,
-    `- Ready for manual command review: ${worksheet.readyForManualCommandReview}`,
-    `- Ready for live execution: ${worksheet.readyForLiveExecution}`,
-    `- Ready for production execution: ${worksheet.readyForProductionExecution}`,
-    `- Step count: ${worksheet.stepCount}`,
-    `- Command template count: ${worksheet.commandTemplateCount}`,
-    `- Target count: ${worksheet.targetCount}`,
-    `- Evidence slot count: ${worksheet.evidenceSlotCount}`,
-    `- Cleanup slot count: ${worksheet.cleanupSlotCount}`,
-    `- Failure class count: ${worksheet.failureClassCount}`,
-    `- Passed gates: ${worksheet.passedGateCount}/${worksheet.gateCount}`,
-    `- Contains secret value: ${worksheet.containsSecretValue}`,
-    `- Worksheet digest: ${worksheet.worksheetDigest}`,
-    "",
-    "## Gates",
-    ...renderEntries(worksheet.gates),
-    "",
-    "## Steps",
-    ...worksheet.steps.flatMap(renderStep),
-    "",
-    "## Blocked Reasons",
-    ...(worksheet.blockedReasonCodes.length === 0
-      ? ["- none"]
-      : worksheet.blockedReasonCodes.map((reason) => `- ${reason}`)),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window command worksheet",
+    meta: [
+      ["Worksheet version", worksheet.worksheetVersion],
+      ["Worksheet state", worksheet.worksheetState],
+      ["Ready for manual command review", worksheet.readyForManualCommandReview],
+      ["Ready for live execution", worksheet.readyForLiveExecution],
+      ["Ready for production execution", worksheet.readyForProductionExecution],
+      ["Step count", worksheet.stepCount],
+      ["Command template count", worksheet.commandTemplateCount],
+      ["Target count", worksheet.targetCount],
+      ["Evidence slot count", worksheet.evidenceSlotCount],
+      ["Cleanup slot count", worksheet.cleanupSlotCount],
+      ["Failure class count", worksheet.failureClassCount],
+      ["Passed gates", `${worksheet.passedGateCount}/${worksheet.gateCount}`],
+      ["Contains secret value", worksheet.containsSecretValue],
+      ["Worksheet digest", worksheet.worksheetDigest],
+    ],
+    trailingNewline: false,
+    sections: [
+      { heading: "Gates", lines: renderEntries(worksheet.gates), bodyLeadingBlankLine: false },
+      { heading: "Steps", lines: worksheet.steps.flatMap(renderStep), bodyLeadingBlankLine: false },
+      {
+        heading: "Blocked Reasons",
+        lines: renderBlockedReasons(worksheet.blockedReasonCodes),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+  });
+}
+
+function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
+  return blockedReasonCodes.length === 0
+    ? ["- none"]
+    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderStep(step: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetStep): string[] {

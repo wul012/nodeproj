@@ -3,41 +3,48 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRecord,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketMarkdown(
   packet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window evidence packet",
-    "",
-    `- Evidence packet version: ${packet.evidencePacketVersion}`,
-    `- Packet state: ${packet.packetState}`,
-    `- Ready for manual evidence capture: ${packet.readyForManualEvidenceCapture}`,
-    `- Ready for live execution: ${packet.readyForLiveExecution}`,
-    `- Ready for production execution: ${packet.readyForProductionExecution}`,
-    `- Record count: ${packet.recordCount}`,
-    `- Target count: ${packet.targetCount}`,
-    `- Command evidence record count: ${packet.commandEvidenceRecordCount}`,
-    `- Cleanup record count: ${packet.cleanupRecordCount}`,
-    `- Failure class count: ${packet.failureClassCount}`,
-    `- Required field count: ${packet.requiredFieldCount}`,
-    `- Acceptance criterion count: ${packet.acceptanceCriterionCount}`,
-    `- Passed gates: ${packet.passedGateCount}/${packet.gateCount}`,
-    `- Runtime payload captured: ${packet.runtimePayloadCaptured}`,
-    `- Contains secret value: ${packet.containsSecretValue}`,
-    `- Evidence packet digest: ${packet.evidencePacketDigest}`,
-    "",
-    "## Gates",
-    ...renderEntries(packet.gates),
-    "",
-    "## Records",
-    ...packet.records.flatMap(renderRecord),
-    "",
-    "## Blocked Reasons",
-    ...(packet.blockedReasonCodes.length === 0
-      ? ["- none"]
-      : packet.blockedReasonCodes.map((reason) => `- ${reason}`)),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window evidence packet",
+    meta: [
+      ["Evidence packet version", packet.evidencePacketVersion],
+      ["Packet state", packet.packetState],
+      ["Ready for manual evidence capture", packet.readyForManualEvidenceCapture],
+      ["Ready for live execution", packet.readyForLiveExecution],
+      ["Ready for production execution", packet.readyForProductionExecution],
+      ["Record count", packet.recordCount],
+      ["Target count", packet.targetCount],
+      ["Command evidence record count", packet.commandEvidenceRecordCount],
+      ["Cleanup record count", packet.cleanupRecordCount],
+      ["Failure class count", packet.failureClassCount],
+      ["Required field count", packet.requiredFieldCount],
+      ["Acceptance criterion count", packet.acceptanceCriterionCount],
+      ["Passed gates", `${packet.passedGateCount}/${packet.gateCount}`],
+      ["Runtime payload captured", packet.runtimePayloadCaptured],
+      ["Contains secret value", packet.containsSecretValue],
+      ["Evidence packet digest", packet.evidencePacketDigest],
+    ],
+    trailingNewline: false,
+    sections: [
+      { heading: "Gates", lines: renderEntries(packet.gates), bodyLeadingBlankLine: false },
+      { heading: "Records", lines: packet.records.flatMap(renderRecord), bodyLeadingBlankLine: false },
+      {
+        heading: "Blocked Reasons",
+        lines: renderBlockedReasons(packet.blockedReasonCodes),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+  });
+}
+
+function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
+  return blockedReasonCodes.length === 0
+    ? ["- none"]
+    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderRecord(record: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRecord): string[] {

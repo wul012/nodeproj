@@ -1,0 +1,123 @@
+{
+  "service": "orderops-node",
+  "version": "v2146",
+  "milestone": "N1 renderer consolidation batch 28",
+  "generatedAt": "2026-06-17T09:30:00+08:00",
+  "executor": "Codex",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "extendsSharedBuilder": true,
+    "addsTests": true,
+    "addsProjectExplainabilityNote": true
+  },
+  "claudeVersionCheck": {
+    "javaLatestTagChecked": "v1807-order-platform-production-excellence-ops-operator-evidence-value-draft-extraction",
+    "javaCommit": "c2974050",
+    "javaScope": "operator-evidence-value-draft registry package extraction",
+    "javaStatus": "latest commit and tag present; commit message reports full mvnw verify green; no Node blocker found",
+    "miniKvLatestTagObserved": "v1622",
+    "nodeLatestBeforeThisVersion": "v2145",
+    "note": "Node had no Claude-authored commit after v2145; Java v1807 was the new sibling version visible during this check."
+  },
+  "necessityProof": {
+    "blockerResolved": "After v2144 the pure-standard renderer subset was empty. The remaining renderers include h3/map/flatMap layouts, and several compact h3 renderers omit the blank line after section headings or omit the trailing newline, which the existing builder could not represent byte-identically.",
+    "laterConsumer": "Subsequent controlled-read-only-shard-preview and production-readiness renderer batches can now migrate compact h3 reports through the shared builder without changing Markdown bytes.",
+    "reuseDecision": "The existing verificationReportBuilder is reused and extended with optional spacing controls instead of creating a second builder or copying another renderer helper family.",
+    "growthStopCondition": "The extension is limited to section body spacing and trailing newline preservation. It does not add new section semantics, routes, services, or evidence chains."
+  },
+  "builderExtension": {
+    "bodyLeadingBlankLine": "Optional section-level flag; default keeps the existing canonical blank line after ## headings, false preserves compact legacy sections.",
+    "trailingNewline": "Optional report-level flag; default keeps the existing trailing newline, false preserves legacy renderers that ended without one.",
+    "backwardCompatibility": "Existing builder-backed renderers keep default behavior."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalogRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRenderer.ts"
+  ],
+  "rendererCensusAfter": {
+    "totalRendererFiles": 245,
+    "builderBackedRendererFiles": 127,
+    "unmigratedRendererFiles": 118,
+    "remainingH3": 48,
+    "remainingFor": 9,
+    "remainingMap": 65,
+    "remainingFlatMap": 59
+  },
+  "byteIdenticalProof": {
+    "method": "Captured pre-migration SHA-256 and length for five renderer outputs, migrated files, then re-rendered the same fixtures and compared hashes.",
+    "mismatches": [],
+    "hashes": {
+      "typeModuleCatalog": {
+        "length": 153732,
+        "sha256": "a8ed0c0ee2ecb065fa12774891a23cf84cef8344ea1399c9f373df9fa29090e9"
+      },
+      "stageLedger": {
+        "length": 8024,
+        "sha256": "20eba30598c2b04f56fae307f64ae09ceffed7d6922de3ac72bd1aca7568da0b"
+      },
+      "runbook": {
+        "length": 8224,
+        "sha256": "c0080f5ef89d53943c0eba4ae30d4d8fdd277ab3003b5bbd40e938d7eaca4af9"
+      },
+      "commandWorksheet": {
+        "length": 12496,
+        "sha256": "3fac43c5ade3c45f1f5551676badc947f9bea157a3baf1bf6521d4cdc962ef8d"
+      },
+      "evidencePacket": {
+        "length": 14910,
+        "sha256": "9e8373be9ebcdf05e273dabfa085f0403540ddef34c77756de343721d2bde92d"
+      }
+    }
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypeModuleCatalog.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbook.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 6,
+      "tests": 28
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 1,
+      "tests": 2
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx tsx -e <loadCodeWalkthroughDocumentationQualityGate profile dump>",
+      "result": "passed",
+      "note": "qualityGateState verified-quality-gate; 55/55 enforced walkthroughs compliant; v2146 walkthrough cjk=3002"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed with existing warnings",
+      "note": "0 errors; 263 existing warnings remain tracked as N5 lint debt"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2146/evidence/renderer-consolidation-batch-28-v2146-summary.json",
+    "shortExplanation": "d/2146/解释/renderer-consolidation-batch-28-v2146.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2117-renderer-consolidation-batch-28-v2146.md",
+    "projectExplainabilityNote": "project-explainability-notes/orderops-node-transparent-overview.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2146 changes only Node renderer construction and documentation. It consumes no fresh sibling evidence, starts no sibling service, and does not alter cross-project schemas."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [".tmp/v2146-renderer-baseline.json"],
+    "backgroundProcessesStarted": []
+  }
+}

@@ -14,16 +14,22 @@ import {
  * across src/services — `# title`, meta bullet lines, then `## heading`
  * sections joined with blank lines and a trailing newline.
  */
+interface VerificationReportSectionBase {
+  heading: string;
+  bodyLeadingBlankLine?: boolean;
+}
+
 export type VerificationReportSection =
-  | { heading: string; entries: object }
-  | { heading: string; messages: LiveProbeReportMessage[]; emptyText: string }
-  | { heading: string; list: readonly string[]; emptyText: string }
-  | { heading: string; lines: readonly string[] };
+  | (VerificationReportSectionBase & { entries: object })
+  | (VerificationReportSectionBase & { messages: LiveProbeReportMessage[]; emptyText: string })
+  | (VerificationReportSectionBase & { list: readonly string[]; emptyText: string })
+  | (VerificationReportSectionBase & { lines: readonly string[] });
 
 export interface VerificationReportSpec {
   title: string;
   meta: ReadonlyArray<readonly [label: string, value: unknown]>;
   sections: readonly VerificationReportSection[];
+  trailingNewline?: boolean;
 }
 
 export interface VerificationArchiveFileReference {
@@ -48,10 +54,16 @@ export function renderVerificationReportMarkdown(spec: VerificationReportSpec): 
   }
 
   for (const section of spec.sections) {
-    lines.push("", `## ${section.heading}`, "", ...renderSectionBody(section));
+    lines.push("", `## ${section.heading}`);
+    if (section.bodyLeadingBlankLine !== false) {
+      lines.push("");
+    }
+    lines.push(...renderSectionBody(section));
   }
 
-  lines.push("");
+  if (spec.trailingNewline !== false) {
+    lines.push("");
+  }
   return lines.join("\n");
 }
 

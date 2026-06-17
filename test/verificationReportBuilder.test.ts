@@ -76,6 +76,31 @@ describe("verificationReportBuilder", () => {
     expect(markdown.endsWith("\n")).toBe(true);
   });
 
+  it("can preserve compact section spacing and reports without trailing newlines", () => {
+    const markdown = renderVerificationReportMarkdown({
+      title: "Compact report",
+      meta: [["State", "ready"]],
+      trailingNewline: false,
+      sections: [
+        { heading: "Gates", entries: { ready: true }, bodyLeadingBlankLine: false },
+        { heading: "Rows", lines: ["### 1. compact", "- ok"], bodyLeadingBlankLine: false },
+      ],
+    });
+
+    expect(markdown).toBe([
+      "# Compact report",
+      "",
+      "- State: ready",
+      "",
+      "## Gates",
+      "- ready: true",
+      "",
+      "## Rows",
+      "### 1. compact",
+      "- ok",
+    ].join("\n"));
+  });
+
   it("renders archive file references in the established verification line format", () => {
     expect(renderVerificationArchiveFileReferenceLines([
       { path: "d/2123/evidence/report.json", exists: true, byteLength: 128, digest: "abc123" },

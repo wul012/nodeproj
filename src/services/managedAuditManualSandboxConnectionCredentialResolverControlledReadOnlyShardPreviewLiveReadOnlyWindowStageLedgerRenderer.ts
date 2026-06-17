@@ -3,36 +3,43 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowStage,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerMarkdown(
   ledger: ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window stage ledger",
-    "",
-    `- Ledger version: ${ledger.ledgerVersion}`,
-    `- Ledger state: ${ledger.ledgerState}`,
-    `- Ready for manual live read-only window: ${ledger.readyForManualLiveReadOnlyWindow}`,
-    `- Ready for production execution: ${ledger.readyForProductionExecution}`,
-    `- Stage count: ${ledger.stageCount}`,
-    `- Ready stages: ${ledger.readyStageCount}`,
-    `- Blocked stages: ${ledger.blockedStageCount}`,
-    `- Cleanup required stages: ${ledger.cleanupRequiredStageCount}`,
-    `- Owner count: ${ledger.ownerCount}`,
-    `- Passed gates: ${ledger.passedGateCount}/${ledger.gateCount}`,
-    `- Ledger digest: ${ledger.ledgerDigest}`,
-    "",
-    "## Gates",
-    ...renderEntries(ledger.gates),
-    "",
-    "## Stages",
-    ...ledger.stages.flatMap(renderStage),
-    "",
-    "## Blocked Reasons",
-    ...(ledger.blockedReasonCodes.length === 0
-      ? ["- none"]
-      : ledger.blockedReasonCodes.map((reason) => `- ${reason}`)),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window stage ledger",
+    meta: [
+      ["Ledger version", ledger.ledgerVersion],
+      ["Ledger state", ledger.ledgerState],
+      ["Ready for manual live read-only window", ledger.readyForManualLiveReadOnlyWindow],
+      ["Ready for production execution", ledger.readyForProductionExecution],
+      ["Stage count", ledger.stageCount],
+      ["Ready stages", ledger.readyStageCount],
+      ["Blocked stages", ledger.blockedStageCount],
+      ["Cleanup required stages", ledger.cleanupRequiredStageCount],
+      ["Owner count", ledger.ownerCount],
+      ["Passed gates", `${ledger.passedGateCount}/${ledger.gateCount}`],
+      ["Ledger digest", ledger.ledgerDigest],
+    ],
+    trailingNewline: false,
+    sections: [
+      { heading: "Gates", lines: renderEntries(ledger.gates), bodyLeadingBlankLine: false },
+      { heading: "Stages", lines: ledger.stages.flatMap(renderStage), bodyLeadingBlankLine: false },
+      {
+        heading: "Blocked Reasons",
+        lines: renderBlockedReasons(ledger.blockedReasonCodes),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+  });
+}
+
+function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
+  return blockedReasonCodes.length === 0
+    ? ["- none"]
+    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderStage(stage: ControlledReadOnlyShardPreviewLiveReadOnlyWindowStage): string[] {

@@ -11,6 +11,19 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2146 - 2026-06-17
+
+- Renderer consolidation batch 28: extended `verificationReportBuilder` with
+  optional compact section spacing (`bodyLeadingBlankLine=false`) and optional
+  no-trailing-newline output while preserving the existing default canonical
+  shape. Migrated five controlled-read-only-shard-preview h3/flatMap renderers
+  to the builder: type module catalog, live read-only window stage ledger,
+  runbook, command worksheet, and evidence packet. Pre/post render hashes and
+  lengths were identical for all five outputs. Builder-backed renderer count is
+  now 127/245; remaining unmigrated renderers: 118 (h3 48, for 9, map 65,
+  flatMap 59). Also added the user-facing project explainability note under
+  `project-explainability-notes/`.
+
 ## v2145 - 2026-06-16
 
 - Documentation gate closeout repair: expanded the v2140-v2144 renderer
