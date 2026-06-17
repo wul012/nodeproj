@@ -11,6 +11,19 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2149 - 2026-06-17
+
+- Renderer consolidation batch 31: migrated five signed approval capture /
+  artifact draft controlled-read-only shard preview live-read-only-window
+  renderers to the shared verification report builder: signed approval capture
+  preflight, artifact preflight, artifact draft preflight, artifact draft
+  readiness, and artifact draft review package preflight. Reused existing
+  compact blocked-reason and trailing blank helpers; no new routes, services,
+  schemas, or execution/approval behavior. Pre/post render hashes and lengths
+  were identical for all five affected outputs. Builder-backed renderer count is
+  now 142/245; remaining unmigrated renderers: 103 (h3 33, for 9, map 50,
+  flatMap 44).
+
 ## v2148 - 2026-06-17
 
 - Renderer consolidation batch 30: migrated five more controlled-read-only

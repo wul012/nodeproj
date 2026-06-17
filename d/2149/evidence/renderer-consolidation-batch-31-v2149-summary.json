@@ -1,0 +1,114 @@
+{
+  "service": "orderops-node",
+  "version": "v2149",
+  "milestone": "N1 renderer consolidation batch 31",
+  "generatedAt": "2026-06-17T10:09:39+08:00",
+  "executor": "Codex",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "addsSharedHelpers": false,
+    "addsTests": false
+  },
+  "necessityProof": {
+    "blockerResolved": "v2148 stopped at signed approval template. v2149 carries the same byte-identical renderer consolidation through the next signed approval capture and artifact draft preflight chain without changing approval, signature, runtime payload, or write-routing behavior.",
+    "laterConsumer": "The remaining authoring instruction and draft text package renderers continue the same compact dual-h3-section shape and can reuse the v2148 trailing blank carry pattern.",
+    "reuseDecision": "The existing verificationReportBuilder, renderVerificationBlockedReasonLines, and trimVerificationTrailingBlankLine helpers are reused. No new abstraction is introduced because the local h3 helper names still carry important domain meaning.",
+    "growthStopCondition": "This version only moves Markdown shells for existing reports. It does not add evidence sources, routes, services, approval capture, signed artifacts, runtime execution, or sibling writes."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightRenderer.ts"
+  ],
+  "rendererCensusAfter": {
+    "totalRendererFiles": 245,
+    "builderBackedRendererFiles": 142,
+    "unmigratedRendererFiles": 103,
+    "remainingH3": 33,
+    "remainingFor": 9,
+    "remainingMap": 50,
+    "remainingFlatMap": 44
+  },
+  "byteIdenticalProof": {
+    "method": "Forced historical fixture fallback, captured pre-change SHA-256 and length for five signed approval capture / artifact draft renderer outputs, migrated the renderers, then compared post-change outputs against the baseline.",
+    "mismatches": [],
+    "hashes": {
+      "signedApprovalCapturePreflight": {
+        "length": 49662,
+        "sha256": "c353cbed63474a9b50c410257974b2d44e25f7594696433edca373e3e1c8c68b"
+      },
+      "signedApprovalCaptureArtifactPreflight": {
+        "length": 49940,
+        "sha256": "26dfaacdd592d172099d428eb4832c8bb7f9a35c997f107955734924600e02fb"
+      },
+      "signedApprovalCaptureArtifactDraftPreflight": {
+        "length": 53257,
+        "sha256": "4b4e2c4b9aa4ee81098edd9e54f7b420768c7474c9c556dbf7d0dbcb6b62bd23"
+      },
+      "signedApprovalCaptureArtifactDraftReadiness": {
+        "length": 58436,
+        "sha256": "40d22cc0bc5e3f6e3bed91194cc9ec5d0aeba8ca20b9c6c45c0c6f6334c57da3"
+      },
+      "signedApprovalCaptureArtifactDraftReviewPackagePreflight": {
+        "length": 75105,
+        "sha256": "14df295fdf8facac94e75a008b7226d085b6ae9811bd3ab11dfafac526711cce"
+      }
+    }
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 6,
+      "tests": 33
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 1,
+      "tests": 2
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx tsx -e \"import { loadConfig } from './src/config.ts'; import { loadCodeWalkthroughDocumentationQualityGate } from './src/services/codeWalkthroughDocumentationQualityGate.ts'; const p=loadCodeWalkthroughDocumentationQualityGate({config: loadConfig({LOG_LEVEL:'silent',UPSTREAM_PROBES_ENABLED:'false',UPSTREAM_ACTIONS_ENABLED:'false'})}); if(p.qualityGateState !== 'verified-quality-gate') process.exit(1);\"",
+      "result": "passed",
+      "enforcedWalkthroughCount": 58,
+      "enforcedCompliantWalkthroughCount": 58,
+      "latestWalkthroughChineseCharacters": 3001
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings; v2149 introduced no lint errors"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2149/evidence/renderer-consolidation-batch-31-v2149-summary.json",
+    "shortExplanation": "d/2149/解释/renderer-consolidation-batch-31-v2149.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2120-renderer-consolidation-batch-31-v2149.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2149 uses frozen historical fallback evidence and changes only Node renderer construction plus documentation. It does not require fresh Java or mini-kv work."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [
+      ".tmp/v2149-renderer-hashes.ts",
+      ".tmp/v2149-renderer-baseline.json"
+    ],
+    "backgroundProcessesStarted": []
+  }
+}
