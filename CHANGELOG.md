@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2148 - 2026-06-17
+
+- Renderer consolidation batch 30: migrated five more controlled-read-only
+  shard preview live-read-only-window renderers to the shared verification
+  report builder: operator evidence fresh sibling intake, value supply envelope,
+  approval packet draft, approval packet review, and signed approval template.
+  Added shared helpers for h3 evidence-file detail lines and legacy trailing
+  blank trimming so compact section spacing remains byte-identical. Pre/post
+  render hashes and lengths were identical for all five affected outputs.
+  Builder-backed renderer count is now 137/245; remaining unmigrated renderers:
+  108 (h3 38, for 9, map 55, flatMap 49).
+
 ## v2147 - 2026-06-17
 
 - Renderer consolidation batch 29: migrated five adjacent controlled-read-only

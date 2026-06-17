@@ -3,65 +3,73 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeSlot,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeTypes.js";
+import {
+  renderVerificationBlockedReasonLines,
+  renderVerificationReportMarkdown,
+  renderVerificationResolvedEvidenceFileDetailLines,
+  trimVerificationTrailingBlankLine,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeMarkdown(
   envelope: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window operator evidence value supply envelope",
-    "",
-    `- Value supply envelope version: ${envelope.valueSupplyEnvelopeVersion}`,
-    `- Source fresh sibling intake version: ${envelope.sourceFreshSiblingIntakeVersion}`,
-    `- Java value draft evidence version: ${envelope.javaValueDraftEvidenceVersion}`,
-    `- Java value draft response version: ${envelope.javaValueDraftResponseVersion}`,
-    `- mini-kv value draft evidence version: ${envelope.miniKvValueDraftEvidenceVersion}`,
-    `- Envelope state: ${envelope.envelopeState}`,
-    `- Ready for value supply envelope review: ${envelope.readyForValueSupplyEnvelopeReview}`,
-    `- Ready for operator value supply: ${envelope.readyForOperatorValueSupply}`,
-    `- Ready for evidence import: ${envelope.readyForEvidenceImport}`,
-    `- Ready for manual evidence entry: ${envelope.readyForManualEvidenceEntry}`,
-    `- Ready for live execution: ${envelope.readyForLiveExecution}`,
-    `- Ready for production execution: ${envelope.readyForProductionExecution}`,
-    `- Envelope slot count: ${envelope.envelopeSlotCount}`,
-    `- Java evidence slot count: ${envelope.javaEvidenceSlotCount}`,
-    `- mini-kv evidence slot count: ${envelope.miniKvEvidenceSlotCount}`,
-    `- Node fresh sibling intake slot count: ${envelope.nodeFreshSiblingIntakeSlotCount}`,
-    `- Evidence files present: ${envelope.presentFileCount}/${envelope.fileCount}`,
-    `- Evidence snippets matched: ${envelope.matchedSnippetCount}/${envelope.snippetCount}`,
-    `- Historical fixture resolved file count: ${envelope.historicalFixtureResolvedFileCount}`,
-    `- Supplied value count: ${envelope.suppliedValueCount}`,
-    `- Accepted value count: ${envelope.acceptedValueCount}`,
-    `- Imported value count: ${envelope.importedValueCount}`,
-    `- Passed gates: ${envelope.passedGateCount}/${envelope.gateCount}`,
-    `- Imports runtime payload: ${envelope.importsRuntimePayload}`,
-    `- Accepts synthetic evidence: ${envelope.acceptsSyntheticEvidence}`,
-    `- Contains secret value: ${envelope.containsSecretValue}`,
-    `- Value supply envelope digest: ${envelope.valueSupplyEnvelopeDigest}`,
-    "",
-    "## Gates",
-    ...renderEntries(envelope.gates),
-    "",
-    "## Evidence Files",
-    ...Object.values(envelope.files).flatMap((file) => [
-      `### ${file.id}`,
-      `- Path: ${file.path}`,
-      `- Resolved path: ${file.resolvedPath}`,
-      `- Exists: ${file.exists}`,
-      `- Size bytes: ${file.sizeBytes}`,
-      `- Digest: ${file.digest ?? "none"}`,
-      "",
-    ]),
-    "## Snippets",
-    ...envelope.snippets.map((snippet) =>
-      `- ${snippet.id}: matched=${snippet.matched}, resolvedPath=${snippet.resolvedPath}`),
-    "",
-    "## Slots",
-    ...envelope.slots.flatMap(renderSlot),
-    "## Blocked Reasons",
-    ...(envelope.blockedReasonCodes.length === 0
-      ? ["- none"]
-      : envelope.blockedReasonCodes.map((reason) => `- ${reason}`)),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window operator evidence value supply envelope",
+    meta: [
+      ["Value supply envelope version", envelope.valueSupplyEnvelopeVersion],
+      ["Source fresh sibling intake version", envelope.sourceFreshSiblingIntakeVersion],
+      ["Java value draft evidence version", envelope.javaValueDraftEvidenceVersion],
+      ["Java value draft response version", envelope.javaValueDraftResponseVersion],
+      ["mini-kv value draft evidence version", envelope.miniKvValueDraftEvidenceVersion],
+      ["Envelope state", envelope.envelopeState],
+      ["Ready for value supply envelope review", envelope.readyForValueSupplyEnvelopeReview],
+      ["Ready for operator value supply", envelope.readyForOperatorValueSupply],
+      ["Ready for evidence import", envelope.readyForEvidenceImport],
+      ["Ready for manual evidence entry", envelope.readyForManualEvidenceEntry],
+      ["Ready for live execution", envelope.readyForLiveExecution],
+      ["Ready for production execution", envelope.readyForProductionExecution],
+      ["Envelope slot count", envelope.envelopeSlotCount],
+      ["Java evidence slot count", envelope.javaEvidenceSlotCount],
+      ["mini-kv evidence slot count", envelope.miniKvEvidenceSlotCount],
+      ["Node fresh sibling intake slot count", envelope.nodeFreshSiblingIntakeSlotCount],
+      ["Evidence files present", `${envelope.presentFileCount}/${envelope.fileCount}`],
+      ["Evidence snippets matched", `${envelope.matchedSnippetCount}/${envelope.snippetCount}`],
+      ["Historical fixture resolved file count", envelope.historicalFixtureResolvedFileCount],
+      ["Supplied value count", envelope.suppliedValueCount],
+      ["Accepted value count", envelope.acceptedValueCount],
+      ["Imported value count", envelope.importedValueCount],
+      ["Passed gates", `${envelope.passedGateCount}/${envelope.gateCount}`],
+      ["Imports runtime payload", envelope.importsRuntimePayload],
+      ["Accepts synthetic evidence", envelope.acceptsSyntheticEvidence],
+      ["Contains secret value", envelope.containsSecretValue],
+      ["Value supply envelope digest", envelope.valueSupplyEnvelopeDigest],
+    ],
+    trailingNewline: false,
+    sections: [
+      { heading: "Gates", lines: renderEntries(envelope.gates), bodyLeadingBlankLine: false },
+      {
+        heading: "Evidence Files",
+        lines: renderVerificationResolvedEvidenceFileDetailLines(Object.values(envelope.files)),
+        bodyLeadingBlankLine: false,
+      },
+      {
+        heading: "Snippets",
+        lines: envelope.snippets.map((snippet) =>
+          `- ${snippet.id}: matched=${snippet.matched}, resolvedPath=${snippet.resolvedPath}`),
+        bodyLeadingBlankLine: false,
+      },
+      {
+        heading: "Slots",
+        lines: trimVerificationTrailingBlankLine(envelope.slots.flatMap(renderSlot)),
+        bodyLeadingBlankLine: false,
+      },
+      {
+        heading: "Blocked Reasons",
+        lines: renderVerificationBlockedReasonLines(envelope.blockedReasonCodes),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+  });
 }
 
 function renderSlot(

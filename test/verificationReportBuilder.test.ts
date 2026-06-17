@@ -5,6 +5,8 @@ import {
   renderVerificationBlockedReasonLines,
   renderVerificationEvidenceFileReferenceLines,
   renderVerificationReportMarkdown,
+  renderVerificationResolvedEvidenceFileDetailLines,
+  trimVerificationTrailingBlankLine,
 } from "../src/services/verificationReportBuilder.js";
 
 describe("verificationReportBuilder", () => {
@@ -132,5 +134,46 @@ describe("verificationReportBuilder", () => {
       "- SOURCE_BLOCKED",
       "- TARGET_BLOCKED",
     ]);
+  });
+
+  it("renders resolved evidence file detail blocks without a trailing blank line", () => {
+    expect(renderVerificationResolvedEvidenceFileDetailLines([
+      {
+        id: "java-closeout",
+        path: "fixtures/java.md",
+        resolvedPath: "fixtures/historical/java.md",
+        exists: true,
+        sizeBytes: 123,
+        digest: "abc123",
+      },
+      {
+        id: "mini-kv-closeout",
+        path: "fixtures/mini-kv.md",
+        resolvedPath: "fixtures/historical/mini-kv.md",
+        exists: false,
+        sizeBytes: 0,
+      },
+    ])).toEqual([
+      "### java-closeout",
+      "- Path: fixtures/java.md",
+      "- Resolved path: fixtures/historical/java.md",
+      "- Exists: true",
+      "- Size bytes: 123",
+      "- Digest: abc123",
+      "",
+      "### mini-kv-closeout",
+      "- Path: fixtures/mini-kv.md",
+      "- Resolved path: fixtures/historical/mini-kv.md",
+      "- Exists: false",
+      "- Size bytes: 0",
+      "- Digest: none",
+    ]);
+  });
+
+  it("trims a single trailing blank line when carrying legacy h3 blocks into sections", () => {
+    expect(trimVerificationTrailingBlankLine(["### one", "- Value: true", ""]))
+      .toEqual(["### one", "- Value: true"]);
+    expect(trimVerificationTrailingBlankLine(["### one", "- Value: true"]))
+      .toEqual(["### one", "- Value: true"]);
   });
 });

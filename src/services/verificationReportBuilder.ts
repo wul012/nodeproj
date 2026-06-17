@@ -46,6 +46,15 @@ export interface VerificationEvidenceFileReference {
   digest?: string | null;
 }
 
+export interface VerificationResolvedEvidenceFileDetail {
+  id: string;
+  path: string;
+  resolvedPath: string;
+  exists: boolean;
+  sizeBytes: number;
+  digest?: string | null;
+}
+
 export function renderVerificationReportMarkdown(spec: VerificationReportSpec): string {
   const lines: string[] = [`# ${spec.title}`, ""];
 
@@ -84,10 +93,28 @@ export function renderVerificationEvidenceFileReferenceLines(
   ]);
 }
 
+export function renderVerificationResolvedEvidenceFileDetailLines(
+  files: readonly VerificationResolvedEvidenceFileDetail[],
+): string[] {
+  return files.flatMap((file, index) => [
+    `### ${file.id}`,
+    `- Path: ${file.path}`,
+    `- Resolved path: ${file.resolvedPath}`,
+    `- Exists: ${file.exists}`,
+    `- Size bytes: ${file.sizeBytes}`,
+    `- Digest: ${file.digest ?? "none"}`,
+    ...(index === files.length - 1 ? [] : [""]),
+  ]);
+}
+
 export function renderVerificationBlockedReasonLines(blockedReasonCodes: readonly string[]): string[] {
   return blockedReasonCodes.length === 0
     ? ["- none"]
     : blockedReasonCodes.map((reason) => `- ${reason}`);
+}
+
+export function trimVerificationTrailingBlankLine(lines: readonly string[]): string[] {
+  return lines.at(-1) === "" ? lines.slice(0, -1) : [...lines];
 }
 
 function renderSectionBody(section: VerificationReportSection): string[] {
