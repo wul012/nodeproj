@@ -3,7 +3,10 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetStep,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetTypes.js";
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+import {
+  renderVerificationBlockedReasonLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetMarkdown(
   worksheet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
@@ -32,17 +35,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWor
       { heading: "Steps", lines: worksheet.steps.flatMap(renderStep), bodyLeadingBlankLine: false },
       {
         heading: "Blocked Reasons",
-        lines: renderBlockedReasons(worksheet.blockedReasonCodes),
+        lines: renderVerificationBlockedReasonLines(worksheet.blockedReasonCodes),
         bodyLeadingBlankLine: false,
       },
     ],
   });
-}
-
-function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
-  return blockedReasonCodes.length === 0
-    ? ["- none"]
-    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderStep(step: ControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheetStep): string[] {

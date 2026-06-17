@@ -3,7 +3,10 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookSection,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookTypes.js";
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+import {
+  renderVerificationBlockedReasonLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackageMarkdown(
   runbook: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
@@ -27,17 +30,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPac
       { heading: "Sections", lines: runbook.sections.flatMap(renderSection), bodyLeadingBlankLine: false },
       {
         heading: "Blocked Reasons",
-        lines: renderBlockedReasons(runbook.blockedReasonCodes),
+        lines: renderVerificationBlockedReasonLines(runbook.blockedReasonCodes),
         bodyLeadingBlankLine: false,
       },
     ],
   });
-}
-
-function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
-  return blockedReasonCodes.length === 0
-    ? ["- none"]
-    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderSection(section: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookSection): string[] {

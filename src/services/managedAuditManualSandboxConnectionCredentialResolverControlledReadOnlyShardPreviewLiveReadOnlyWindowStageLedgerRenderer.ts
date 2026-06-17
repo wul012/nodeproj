@@ -3,7 +3,10 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowStage,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerTypes.js";
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+import {
+  renderVerificationBlockedReasonLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedgerMarkdown(
   ledger: ControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
@@ -29,17 +32,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedge
       { heading: "Stages", lines: ledger.stages.flatMap(renderStage), bodyLeadingBlankLine: false },
       {
         heading: "Blocked Reasons",
-        lines: renderBlockedReasons(ledger.blockedReasonCodes),
+        lines: renderVerificationBlockedReasonLines(ledger.blockedReasonCodes),
         bodyLeadingBlankLine: false,
       },
     ],
   });
-}
-
-function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
-  return blockedReasonCodes.length === 0
-    ? ["- none"]
-    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderStage(stage: ControlledReadOnlyShardPreviewLiveReadOnlyWindowStage): string[] {

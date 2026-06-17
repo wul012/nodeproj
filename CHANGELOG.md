@@ -11,6 +11,20 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2147 - 2026-06-17
+
+- Renderer consolidation batch 29: migrated five adjacent controlled-read-only
+  shard preview live-read-only-window evidence intake renderers to the shared
+  verification report builder: evidence intake ledger, evidence intake review
+  package, manual evidence entry worksheet, operator evidence import preflight,
+  and operator evidence value draft. Added
+  `renderVerificationBlockedReasonLines` and reused it in the four compact
+  v2146 renderers plus the five v2147 renderers, removing repeated local
+  blocked-reason helpers while preserving bytes. Pre/post render hashes and
+  lengths were identical for all nine affected outputs. Builder-backed renderer
+  count is now 132/245; remaining unmigrated renderers: 113 (h3 43, for 9,
+  map 60, flatMap 54).
+
 ## v2146 - 2026-06-17
 
 - Renderer consolidation batch 28: extended `verificationReportBuilder` with

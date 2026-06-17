@@ -1,0 +1,137 @@
+{
+  "service": "orderops-node",
+  "version": "v2147",
+  "milestone": "N1 renderer consolidation batch 29",
+  "generatedAt": "2026-06-17T09:45:43+08:00",
+  "executor": "Codex",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "startsUpstreamServicesByDefault": false,
+    "altersEvidenceSchemas": false,
+    "addsRoutes": false,
+    "addsServices": false,
+    "migratesRendererFiles": 5,
+    "centralizesBlockedReasonRenderer": true,
+    "addsTests": true
+  },
+  "necessityProof": {
+    "blockerResolved": "v2146 proved compact h3/flatMap reports can be represented byte-identically through builder spacing controls. v2147 continues the same live-read-only-window family and removes repeated local blocked-reason helpers that would otherwise grow with every compact renderer migration.",
+    "laterConsumer": "The remaining controlled-read-only-shard-preview renderers use the same Gates + h3 slots + Blocked Reasons shape, so this version establishes a reusable blocked-reason helper and a repeatable migration pattern.",
+    "reuseDecision": "The existing verificationReportBuilder is reused. A single renderVerificationBlockedReasonLines helper replaces per-renderer local helpers without changing bytes.",
+    "growthStopCondition": "The helper only renders the existing compact '- none' / '- CODE' lines. It does not add a new report family, route, service, or evidence chain."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedgerRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftRenderer.ts"
+  ],
+  "helperConsolidation": {
+    "newHelper": "renderVerificationBlockedReasonLines",
+    "affectedPreviouslyMigratedRenderers": [
+      "stageLedger",
+      "runbook",
+      "commandWorksheet",
+      "evidencePacket"
+    ],
+    "reason": "Avoid repeating the same compact blocked-reason local helper across every v2146+ controlled shard preview renderer."
+  },
+  "rendererCensusAfter": {
+    "totalRendererFiles": 245,
+    "builderBackedRendererFiles": 132,
+    "unmigratedRendererFiles": 113,
+    "remainingH3": 43,
+    "remainingFor": 9,
+    "remainingMap": 60,
+    "remainingFlatMap": 54
+  },
+  "byteIdenticalProof": {
+    "method": "Captured pre-change SHA-256 and length for nine affected renderer outputs, migrated five new renderers, centralized the blocked-reason helper for four existing builder-backed renderers, then compared hashes.",
+    "mismatches": [],
+    "hashes": {
+      "stageLedger": {
+        "length": 8024,
+        "sha256": "20eba30598c2b04f56fae307f64ae09ceffed7d6922de3ac72bd1aca7568da0b"
+      },
+      "runbook": {
+        "length": 8224,
+        "sha256": "c0080f5ef89d53943c0eba4ae30d4d8fdd277ab3003b5bbd40e938d7eaca4af9"
+      },
+      "commandWorksheet": {
+        "length": 12496,
+        "sha256": "3fac43c5ade3c45f1f5551676badc947f9bea157a3baf1bf6521d4cdc962ef8d"
+      },
+      "evidencePacket": {
+        "length": 14910,
+        "sha256": "9e8373be9ebcdf05e273dabfa085f0403540ddef34c77756de343721d2bde92d"
+      },
+      "evidenceIntakeLedger": {
+        "length": 19819,
+        "sha256": "601aa3536b187a90892935e6f7e37b313fc00db318628db5e79db1452b773e4d"
+      },
+      "evidenceIntakeReviewPackage": {
+        "length": 19541,
+        "sha256": "c9b0ba0b4a9d0fabccdd81e0d3373d8fa815b19998667dbecca81cbe732de058"
+      },
+      "manualEvidenceEntryWorksheet": {
+        "length": 20263,
+        "sha256": "d05f820e6a5daaeb48b5a89f29ba70351685bd3621e3afa6f72b4b54cd33d859"
+      },
+      "operatorEvidenceImportPreflight": {
+        "length": 25741,
+        "sha256": "ed67a0b724993271ce64281524c2cff54bb13477386ae000e82dd67b73904334"
+      },
+      "operatorEvidenceValueDraft": {
+        "length": 32026,
+        "sha256": "d0f2f9051e993d7e23759548d4872a05324bb2fc6ac049b9b37585eeeefeb502"
+      }
+    }
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbook.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 10,
+      "tests": 42
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "result": "passed",
+      "files": 1,
+      "tests": 2
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx tsx -e \"import { loadConfig } from './src/config.ts'; import { loadCodeWalkthroughDocumentationQualityGate } from './src/services/codeWalkthroughDocumentationQualityGate.ts'; const p=loadCodeWalkthroughDocumentationQualityGate({config: loadConfig({LOG_LEVEL:'silent',UPSTREAM_PROBES_ENABLED:'false',UPSTREAM_ACTIONS_ENABLED:'false'})}); if(p.qualityGateState !== 'verified-quality-gate') process.exit(1);\"",
+      "result": "passed",
+      "enforcedWalkthroughCount": 56,
+      "enforcedCompliantWalkthroughCount": 56,
+      "latestWalkthroughChineseCharacters": 3049
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed",
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings; v2147 introduced no lint errors"
+    }
+  },
+  "archiveDeliverables": {
+    "evidenceSummary": "d/2147/evidence/renderer-consolidation-batch-29-v2147-summary.json",
+    "shortExplanation": "d/2147/解释/renderer-consolidation-batch-29-v2147.md",
+    "codeWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2118-renderer-consolidation-batch-29-v2147.md"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2147 changes only Node renderer construction and archive documentation. It consumes no fresh sibling evidence, starts no sibling service, and does not modify cross-project contracts."
+  },
+  "cleanupExpectation": {
+    "temporaryFilesCreated": [".tmp/v2147-renderer-hashes.ts", ".tmp/v2147-renderer-baseline.json"],
+    "backgroundProcessesStarted": []
+  }
+}

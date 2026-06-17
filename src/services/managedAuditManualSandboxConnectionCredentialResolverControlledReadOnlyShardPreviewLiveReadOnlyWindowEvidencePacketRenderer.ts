@@ -3,7 +3,10 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRecord,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketTypes.js";
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+import {
+  renderVerificationBlockedReasonLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketMarkdown(
   packet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
@@ -34,17 +37,11 @@ export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePa
       { heading: "Records", lines: packet.records.flatMap(renderRecord), bodyLeadingBlankLine: false },
       {
         heading: "Blocked Reasons",
-        lines: renderBlockedReasons(packet.blockedReasonCodes),
+        lines: renderVerificationBlockedReasonLines(packet.blockedReasonCodes),
         bodyLeadingBlankLine: false,
       },
     ],
   });
-}
-
-function renderBlockedReasons(blockedReasonCodes: readonly string[]): string[] {
-  return blockedReasonCodes.length === 0
-    ? ["- none"]
-    : blockedReasonCodes.map((reason) => `- ${reason}`);
 }
 
 function renderRecord(record: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacketRecord): string[] {

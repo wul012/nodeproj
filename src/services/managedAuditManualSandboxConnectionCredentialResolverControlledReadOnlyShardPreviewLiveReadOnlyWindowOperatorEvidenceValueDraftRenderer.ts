@@ -3,46 +3,50 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftSlot,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
+import {
+  renderVerificationBlockedReasonLines,
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftMarkdown(
   valueDraft: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window operator evidence value draft",
-    "",
-    `- Value draft version: ${valueDraft.valueDraftVersion}`,
-    `- Source import preflight version: ${valueDraft.sourceImportPreflightVersion}`,
-    `- Value draft state: ${valueDraft.valueDraftState}`,
-    `- Ready for operator evidence value draft: ${valueDraft.readyForOperatorEvidenceValueDraft}`,
-    `- Ready for manual evidence entry: ${valueDraft.readyForManualEvidenceEntry}`,
-    `- Ready for evidence import: ${valueDraft.readyForEvidenceImport}`,
-    `- Ready for live execution: ${valueDraft.readyForLiveExecution}`,
-    `- Ready for production execution: ${valueDraft.readyForProductionExecution}`,
-    `- Value draft slot count: ${valueDraft.valueDraftSlotCount}`,
-    `- Ledger value draft slot count: ${valueDraft.ledgerValueDraftSlotCount}`,
-    `- Target value draft slot count: ${valueDraft.targetValueDraftSlotCount}`,
-    `- Policy archive value draft slot count: ${valueDraft.policyArchiveValueDraftSlotCount}`,
-    `- Maintenance value draft slot count: ${valueDraft.maintenanceValueDraftSlotCount}`,
-    `- Closeout value draft slot count: ${valueDraft.closeoutValueDraftSlotCount}`,
-    `- Scope count: ${valueDraft.scopeCount}`,
-    `- Draft field count: ${valueDraft.draftFieldCount}`,
-    `- Passed gates: ${valueDraft.passedGateCount}/${valueDraft.gateCount}`,
-    `- Imports runtime payload: ${valueDraft.importsRuntimePayload}`,
-    `- Accepts synthetic evidence: ${valueDraft.acceptsSyntheticEvidence}`,
-    `- Contains secret value: ${valueDraft.containsSecretValue}`,
-    `- Value draft digest: ${valueDraft.valueDraftDigest}`,
-    "",
-    "## Gates",
-    ...renderEntries(valueDraft.gates),
-    "",
-    "## Slots",
-    ...valueDraft.slots.flatMap(renderSlot),
-    "",
-    "## Blocked Reasons",
-    ...(valueDraft.blockedReasonCodes.length === 0
-      ? ["- none"]
-      : valueDraft.blockedReasonCodes.map((reason) => `- ${reason}`)),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window operator evidence value draft",
+    meta: [
+      ["Value draft version", valueDraft.valueDraftVersion],
+      ["Source import preflight version", valueDraft.sourceImportPreflightVersion],
+      ["Value draft state", valueDraft.valueDraftState],
+      ["Ready for operator evidence value draft", valueDraft.readyForOperatorEvidenceValueDraft],
+      ["Ready for manual evidence entry", valueDraft.readyForManualEvidenceEntry],
+      ["Ready for evidence import", valueDraft.readyForEvidenceImport],
+      ["Ready for live execution", valueDraft.readyForLiveExecution],
+      ["Ready for production execution", valueDraft.readyForProductionExecution],
+      ["Value draft slot count", valueDraft.valueDraftSlotCount],
+      ["Ledger value draft slot count", valueDraft.ledgerValueDraftSlotCount],
+      ["Target value draft slot count", valueDraft.targetValueDraftSlotCount],
+      ["Policy archive value draft slot count", valueDraft.policyArchiveValueDraftSlotCount],
+      ["Maintenance value draft slot count", valueDraft.maintenanceValueDraftSlotCount],
+      ["Closeout value draft slot count", valueDraft.closeoutValueDraftSlotCount],
+      ["Scope count", valueDraft.scopeCount],
+      ["Draft field count", valueDraft.draftFieldCount],
+      ["Passed gates", `${valueDraft.passedGateCount}/${valueDraft.gateCount}`],
+      ["Imports runtime payload", valueDraft.importsRuntimePayload],
+      ["Accepts synthetic evidence", valueDraft.acceptsSyntheticEvidence],
+      ["Contains secret value", valueDraft.containsSecretValue],
+      ["Value draft digest", valueDraft.valueDraftDigest],
+    ],
+    trailingNewline: false,
+    sections: [
+      { heading: "Gates", lines: renderEntries(valueDraft.gates), bodyLeadingBlankLine: false },
+      { heading: "Slots", lines: valueDraft.slots.flatMap(renderSlot), bodyLeadingBlankLine: false },
+      {
+        heading: "Blocked Reasons",
+        lines: renderVerificationBlockedReasonLines(valueDraft.blockedReasonCodes),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+  });
 }
 
 function renderSlot(

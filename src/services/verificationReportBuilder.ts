@@ -84,6 +84,12 @@ export function renderVerificationEvidenceFileReferenceLines(
   ]);
 }
 
+export function renderVerificationBlockedReasonLines(blockedReasonCodes: readonly string[]): string[] {
+  return blockedReasonCodes.length === 0
+    ? ["- none"]
+    : blockedReasonCodes.map((reason) => `- ${reason}`);
+}
+
 function renderSectionBody(section: VerificationReportSection): string[] {
   if ("entries" in section) {
     return renderEntries(section.entries);

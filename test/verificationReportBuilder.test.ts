@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 
 import {
   renderVerificationArchiveFileReferenceLines,
+  renderVerificationBlockedReasonLines,
   renderVerificationEvidenceFileReferenceLines,
   renderVerificationReportMarkdown,
 } from "../src/services/verificationReportBuilder.js";
@@ -122,6 +123,14 @@ describe("verificationReportBuilder", () => {
       "- mini-kv: missing",
       "  - Resolved path: fixtures/mini-kv.json",
       "  - SHA-256: missing",
+    ]);
+  });
+
+  it("renders blocked reason lines in the compact report format", () => {
+    expect(renderVerificationBlockedReasonLines([])).toEqual(["- none"]);
+    expect(renderVerificationBlockedReasonLines(["SOURCE_BLOCKED", "TARGET_BLOCKED"])).toEqual([
+      "- SOURCE_BLOCKED",
+      "- TARGET_BLOCKED",
     ]);
   });
 });
