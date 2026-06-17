@@ -1,0 +1,118 @@
+{
+  "version": "v2150",
+  "date": "2026-06-17",
+  "batch": 32,
+  "scope": "renderer-consolidation",
+  "project": "orderops-node",
+  "changedBehavior": false,
+  "crossProjectPosition": {
+    "javaParallelRecommended": true,
+    "miniKvParallelRecommended": true,
+    "requiresFreshSiblingEvidence": false,
+    "usesForcedHistoricalFixtureFallback": true,
+    "liveIntegrationRequired": false,
+    "notes": "Node v2150 only migrates local Markdown renderers and verifies against frozen historical fixture fallback. Java and mini-kv do not need to wait for Node and Node does not consume their new working tree files in this version."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightRenderer.ts"
+  ],
+  "builderHelpers": [
+    "renderVerificationReportMarkdown",
+    "renderVerificationBlockedReasonLines",
+    "trimVerificationTrailingBlankLine"
+  ],
+  "byteIdenticalCompare": {
+    "command": "npx tsx .tmp/v2150-renderer-hashes.ts --compare",
+    "forcedHistoricalFixtureFallback": true,
+    "passed": true,
+    "outputs": [
+      {
+        "name": "artifactDraftAuthoringReadiness",
+        "length": 84502,
+        "sha256": "a95253c5fb47e9bde1697297e8240dd5bf247fae9f12b853483d2e9c19c3cbc7"
+      },
+      {
+        "name": "artifactDraftInstructionPreflight",
+        "length": 92532,
+        "sha256": "22cbd6ee17aaa4ceb4cfc3b28c0cb98bf18963ffbc9064a720cfec298b878ceb"
+      },
+      {
+        "name": "artifactDraftTextPackageIntake",
+        "length": 94689,
+        "sha256": "2be1c2e2b84b3bfe923be9b2dcc18dcf075f21caf4a4c099ebe5800a33f98c21"
+      },
+      {
+        "name": "artifactDraftTextPackageReviewPreflight",
+        "length": 103536,
+        "sha256": "18f8e4e3ea7a04a77565b46ae0933319237fc9224e9b934e79472056cf065078"
+      },
+      {
+        "name": "artifactDraftTextPackageSubmissionPreflight",
+        "length": 100594,
+        "sha256": "aa4f2adff43dd492f853a79a680c24fe657d9580656cb006d3500758d303ca83"
+      }
+    ]
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "builderBackedRenderers": 147,
+    "unmigratedRenderers": 98,
+    "unmigratedH3Renderers": 14,
+    "unmigratedForRenderers": 9,
+    "unmigratedMapRenderers": 45,
+    "unmigratedFlatMapRenderers": 39,
+    "countingNote": "h3/for/map/flatMap debt is counted only among files that do not yet call renderVerificationReportMarkdown."
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 6,
+      "tests": 33
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 1,
+      "tests": 2
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx tsx -e \"loadCodeWalkthroughDocumentationQualityGate(...)\"",
+      "passed": true,
+      "state": "verified-quality-gate",
+      "enforcedWalkthroughs": 59,
+      "enforcedCompliantWalkthroughs": 59,
+      "newWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2121-renderer-consolidation-batch-32-v2150.md",
+      "newWalkthroughChineseCharacters": 3074,
+      "newWalkthroughComplianceScore": 100
+    },
+    "lint": {
+      "command": "npm run lint",
+      "passed": true,
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings"
+    }
+  },
+  "artifacts": [
+    "d/2150/evidence/renderer-consolidation-batch-32-v2150-summary.json",
+    "d/2150/解释/renderer-consolidation-batch-32-v2150.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2121-renderer-consolidation-batch-32-v2150.md"
+  ],
+  "cleanupExpectation": {
+    "deleteBeforeCommit": [
+      ".tmp/v2150-renderer-hashes.ts",
+      ".tmp/v2150-migrate-renderers.ts",
+      ".tmp/v2150-update-node-playbook.ts"
+    ],
+    "backgroundProcessesStarted": 0
+  }
+}
