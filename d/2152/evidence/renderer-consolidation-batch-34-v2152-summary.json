@@ -1,0 +1,132 @@
+{
+  "version": "v2152",
+  "date": "2026-06-23",
+  "batch": 34,
+  "scope": "renderer-consolidation",
+  "project": "orderops-node",
+  "changedBehavior": false,
+  "crossProjectPosition": {
+    "javaParallelRecommended": true,
+    "miniKvParallelRecommended": true,
+    "requiresFreshSiblingEvidence": false,
+    "usesForcedHistoricalFixtureFallback": false,
+    "liveIntegrationRequired": false,
+    "notes": "Node v2152 only migrates local candidate document Markdown renderers and verifies fixture-rendered output. Java and mini-kv can continue in parallel."
+  },
+  "migratedRenderers": [
+    "src/services/controlledReadOnlyShardPreviewCandidateDocumentRequestRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheckRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewCandidateDocumentIntakePacketRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheckRenderer.ts"
+  ],
+  "builderChanges": [
+    "No new builder API was added in this version.",
+    "The version reuses renderVerificationReportMarkdown and renderVerificationSeparatedBlockLines from the existing builder contract.",
+    "Per-renderer trailingNewline settings preserve the legacy tail-newline differences."
+  ],
+  "deferredRenderers": [
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewCandidateDocumentProfileSectionRenderer.ts",
+      "reason": "This file returns profile section fragments rather than a complete # title Markdown report; it should be evaluated in a dedicated profile-section helper pass."
+    }
+  ],
+  "byteIdenticalCompare": {
+    "command": "npx tsx .tmp/v2152-renderer-hashes.ts .tmp/v2152-after.json; Compare-Object before/after",
+    "passed": true,
+    "outputs": [
+      {
+        "name": "candidateDocumentRequestPackage",
+        "length": 36388,
+        "sha256": "939d1efddd2c3fe783e2fab3739c317ee386441ca9efa9d3b5a2710ee7ef368c"
+      },
+      {
+        "name": "candidateDocumentSubmissionPrecheck",
+        "length": 59289,
+        "sha256": "e4967a82ef7bf038cbf14055a758d1aa233e77df0d1b798d809692721044dfb3"
+      },
+      {
+        "name": "candidateDocumentIntakePacket",
+        "length": 23040,
+        "sha256": "b6368e8ab43ff2fae422c01f3b461b1e29cdf0d807a61e90afb3840499f4814c"
+      },
+      {
+        "name": "candidateDocumentMaterialRequestPackage",
+        "length": 65693,
+        "sha256": "1008ec3d429d710c7272ba3343ddf36b07fc1802694d77e774c26963da503cb9"
+      },
+      {
+        "name": "candidateDocumentMaterialSubmissionPrecheck",
+        "length": 21472,
+        "sha256": "b81f00f8ffce5e1b87f73c79a288d52c56339a2673a698c46977ecd55f6745d1"
+      }
+    ]
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "builderBackedRenderers": 158,
+    "unmigratedRenderers": 87,
+    "unmigratedBroadScan": {
+      "h3": 17,
+      "for": 0,
+      "map": 45,
+      "flatMap": 37
+    },
+    "unmigratedNonMarkdownRendererScan": {
+      "unmigrated": 81,
+      "h3": 11,
+      "for": 0,
+      "map": 43,
+      "flatMap": 35
+    },
+    "countingNote": "The broad scan covers every *Renderer.ts file without renderVerificationReportMarkdown, including *MarkdownRenderer.ts tail files. The non-MarkdownRenderer scan excludes *MarkdownRenderer.ts when planning full-report migrations."
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/controlledReadOnlyShardPreviewCandidateDocumentRequestPackage.test.ts test/controlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck.test.ts test/controlledReadOnlyShardPreviewCandidateDocumentIntakePacket.test.ts test/controlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage.test.ts test/controlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheck.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 5,
+      "tests": 27
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 1,
+      "tests": 2
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts --testTimeout=180000",
+      "passed": true,
+      "state": "verified-quality-gate",
+      "enforcedWalkthroughs": 61,
+      "enforcedCompliantWalkthroughs": 61,
+      "newWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2123-renderer-consolidation-batch-34-v2152.md",
+      "newWalkthroughChineseCharacters": 3043,
+      "newWalkthroughComplianceScore": 100
+    },
+    "lint": {
+      "command": "npm run lint",
+      "passed": true,
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings"
+    }
+  },
+  "artifacts": [
+    "d/2152/evidence/renderer-consolidation-batch-34-v2152-summary.json",
+    "d/2152/解释/renderer-consolidation-batch-34-v2152.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2123-renderer-consolidation-batch-34-v2152.md"
+  ],
+  "cleanupExpectation": {
+    "deleteBeforeCommit": [
+      ".tmp/v2152-renderer-hashes.ts",
+      ".tmp/v2152-before.json",
+      ".tmp/v2152-after.json"
+    ],
+    "backgroundProcessesStarted": 0
+  }
+}
