@@ -62,8 +62,11 @@ export function renderVerificationReportMarkdown(spec: VerificationReportSpec): 
     lines.push(`- ${label}: ${value}`);
   }
 
-  for (const section of spec.sections) {
-    lines.push("", `## ${section.heading}`);
+  for (const [index, section] of spec.sections.entries()) {
+    if (!(index === 0 && spec.meta.length === 0 && lines.at(-1) === "")) {
+      lines.push("");
+    }
+    lines.push(`## ${section.heading}`);
     if (section.bodyLeadingBlankLine !== false) {
       lines.push("");
     }
@@ -115,6 +118,16 @@ export function renderVerificationBlockedReasonLines(blockedReasonCodes: readonl
 
 export function trimVerificationTrailingBlankLine(lines: readonly string[]): string[] {
   return lines.at(-1) === "" ? lines.slice(0, -1) : [...lines];
+}
+
+export function renderVerificationSeparatedBlockLines<T>(
+  items: readonly T[],
+  renderItem: (item: T) => readonly string[],
+): string[] {
+  return items.flatMap((item, index) => [
+    ...(index === 0 ? [] : [""]),
+    ...renderItem(item),
+  ]);
 }
 
 function renderSectionBody(section: VerificationReportSection): string[] {

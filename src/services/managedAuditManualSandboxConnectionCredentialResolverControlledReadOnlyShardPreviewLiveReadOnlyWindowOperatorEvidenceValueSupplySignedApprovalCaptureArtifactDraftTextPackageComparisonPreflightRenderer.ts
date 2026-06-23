@@ -3,6 +3,10 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightAcceptanceControl,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightLane,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightTypes.js";
+import {
+  renderVerificationReportMarkdown,
+  trimVerificationTrailingBlankLine,
+} from "./verificationReportBuilder.js";
 
 type ComparisonPreflight =
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight;
@@ -14,30 +18,41 @@ type AcceptanceControl =
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightMarkdown(
   preflight: ComparisonPreflight,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window operator evidence value supply signed approval capture artifact draft text package comparison preflight",
-    "",
-    "## Summary",
-    `- Signed approval capture artifact draft text package comparison preflight version: ${preflight.signedApprovalCaptureArtifactDraftTextPackageComparisonPreflightVersion}`,
-    `- Source signed approval capture artifact draft text package submission preflight version: ${preflight.sourceSignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightVersion}`,
-    `- Artifact draft text package comparison preflight state: ${preflight.artifactDraftTextPackageComparisonPreflightState}`,
-    `- Ready for offline signed approval draft text package comparison: ${preflight.readyForOfflineSignedApprovalDraftTextPackageComparison}`,
-    `- Comparison lane count: ${preflight.comparisonLaneCount}`,
-    `- Acceptance control count: ${preflight.acceptanceControlCount}`,
-    `- Compared draft text package count: ${preflight.comparedDraftTextPackageCount}`,
-    `- Accepted draft text package count: ${preflight.acceptedDraftTextPackageCount}`,
-    `- Gate count: ${preflight.gateCount}`,
-    `- Passed gate count: ${preflight.passedGateCount}`,
-    `- Blocked reason codes: ${preflight.blockedReasonCodes.join(", ") || "none"}`,
-    `- Execution allowed: ${preflight.executionAllowed}`,
-    `- Mutates sibling state: ${preflight.mutatesSiblingState}`,
-    "",
-    "## Comparison lanes",
-    ...preflight.lanes.flatMap(renderLane),
-    "",
-    "## Acceptance controls",
-    ...preflight.controls.flatMap(renderControl),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window operator evidence value supply signed approval capture artifact draft text package comparison preflight",
+    meta: [],
+    sections: [
+      {
+        heading: "Summary",
+        lines: [
+          `- Signed approval capture artifact draft text package comparison preflight version: ${preflight.signedApprovalCaptureArtifactDraftTextPackageComparisonPreflightVersion}`,
+          `- Source signed approval capture artifact draft text package submission preflight version: ${preflight.sourceSignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightVersion}`,
+          `- Artifact draft text package comparison preflight state: ${preflight.artifactDraftTextPackageComparisonPreflightState}`,
+          `- Ready for offline signed approval draft text package comparison: ${preflight.readyForOfflineSignedApprovalDraftTextPackageComparison}`,
+          `- Comparison lane count: ${preflight.comparisonLaneCount}`,
+          `- Acceptance control count: ${preflight.acceptanceControlCount}`,
+          `- Compared draft text package count: ${preflight.comparedDraftTextPackageCount}`,
+          `- Accepted draft text package count: ${preflight.acceptedDraftTextPackageCount}`,
+          `- Gate count: ${preflight.gateCount}`,
+          `- Passed gate count: ${preflight.passedGateCount}`,
+          `- Blocked reason codes: ${preflight.blockedReasonCodes.join(", ") || "none"}`,
+          `- Execution allowed: ${preflight.executionAllowed}`,
+          `- Mutates sibling state: ${preflight.mutatesSiblingState}`,
+        ],
+        bodyLeadingBlankLine: false,
+      },
+      {
+        heading: "Comparison lanes",
+        lines: preflight.lanes.flatMap(renderLane),
+        bodyLeadingBlankLine: false,
+      },
+      {
+        heading: "Acceptance controls",
+        lines: trimVerificationTrailingBlankLine(preflight.controls.flatMap(renderControl)),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+  });
 }
 
 function renderLane(lane: ComparisonLane): string[] {

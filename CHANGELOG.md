@@ -11,6 +11,20 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2151 - 2026-06-23
+
+- Renderer consolidation batch 33: migrated six artifact draft text-package
+  comparison / compared-evidence renderers to the shared verification report
+  builder: comparison preflight, comparison acceptance precheck, compared
+  package evidence intake, compared evidence evaluation preflight, compared
+  evidence candidate, and compared evidence candidate intake. Extended the
+  builder with empty-meta first-section spacing and separated h3 block line
+  rendering so the old for-loop renderer shape can migrate byte-identically.
+  Forced historical fallback pre/post render hashes and lengths were identical
+  for all six outputs. Builder-backed renderer count is now 153/245; remaining
+  unmigrated renderers: 92 (h3 14, for 4, map 45, flatMap 38, counted only
+  among unmigrated files).
+
 ## v2150 - 2026-06-17
 
 - Renderer consolidation batch 32: migrated five signed approval artifact draft

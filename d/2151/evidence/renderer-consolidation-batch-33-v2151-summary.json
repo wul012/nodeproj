@@ -1,0 +1,124 @@
+{
+  "version": "v2151",
+  "date": "2026-06-23",
+  "batch": 33,
+  "scope": "renderer-consolidation",
+  "project": "orderops-node",
+  "changedBehavior": false,
+  "crossProjectPosition": {
+    "javaParallelRecommended": true,
+    "miniKvParallelRecommended": true,
+    "requiresFreshSiblingEvidence": false,
+    "usesForcedHistoricalFixtureFallback": true,
+    "liveIntegrationRequired": false,
+    "notes": "Node v2151 only migrates local Markdown renderers and verifies against frozen historical fixture fallback. Java and mini-kv do not need to wait for Node and Node does not consume their new working tree files in this version."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeRenderer.ts"
+  ],
+  "builderChanges": [
+    "Empty-meta reports no longer receive a duplicate blank line before their first section.",
+    "Later sections still preserve explicit trailing blank lines carried from legacy section bodies.",
+    "renderVerificationSeparatedBlockLines renders legacy for-loop h3 blocks with blank separators and no leading or trailing blank line."
+  ],
+  "byteIdenticalCompare": {
+    "command": "npx tsx .tmp/v2151-renderer-hashes.ts --compare",
+    "forcedHistoricalFixtureFallback": true,
+    "passed": true,
+    "outputs": [
+      {
+        "name": "textPackageComparisonPreflight",
+        "length": 59130,
+        "sha256": "d673fd69ae221c765cde29deff2211470b7e86a5711c309be361d9cbad2f1be3"
+      },
+      {
+        "name": "textPackageComparisonAcceptancePrecheck",
+        "length": 22026,
+        "sha256": "4edae0e8d75ac8d3d1bbacd8c8646e56036943347d08a70d6286e6d5df53cc8d"
+      },
+      {
+        "name": "textPackageComparedPackageEvidenceIntake",
+        "length": 22158,
+        "sha256": "62ec4858f86fef4d9a4f58c2f2a71e8478b4baf9db82317794d9b5f0f67b71ad"
+      },
+      {
+        "name": "textPackageComparedEvidenceEvaluationPreflight",
+        "length": 38024,
+        "sha256": "e4035808adddb3a71527519673c84b3a11d9642ef7d209e542977ed3f19b45a7"
+      },
+      {
+        "name": "textPackageComparedEvidenceCandidate",
+        "length": 20464,
+        "sha256": "15c73a0f3f2da2fd0140908915c8ff2b06df8db5d7afc265bdd6c1ff37878f8c"
+      },
+      {
+        "name": "textPackageComparedEvidenceCandidateIntake",
+        "length": 22831,
+        "sha256": "a6cbc20df74300697f6aad6aa3b6a5b6d388ab0ed0abd81e8c2045cbc48649a7"
+      }
+    ]
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "builderBackedRenderers": 153,
+    "unmigratedRenderers": 92,
+    "unmigratedH3Renderers": 14,
+    "unmigratedForRenderers": 4,
+    "unmigratedMapRenderers": 45,
+    "unmigratedFlatMapRenderers": 38,
+    "countingNote": "h3/for/map/flatMap debt is counted only among files that do not yet call renderVerificationReportMarkdown."
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/verificationReportBuilder.test.ts test/...TextPackageComparisonPreflight.test.ts test/...TextPackageComparisonAcceptancePrecheck.test.ts test/...TextPackageComparedPackageEvidenceIntake.test.ts test/...TextPackageComparedEvidenceEvaluationPreflight.test.ts test/...TextPackageComparedEvidenceCandidate.test.ts test/...TextPackageComparedEvidenceCandidateIntake.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 7,
+      "tests": 41
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 1,
+      "tests": 2
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx tsx -e \"loadCodeWalkthroughDocumentationQualityGate(...)\"",
+      "passed": true,
+      "state": "verified-quality-gate",
+      "enforcedWalkthroughs": 60,
+      "enforcedCompliantWalkthroughs": 60,
+      "newWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2122-renderer-consolidation-batch-33-v2151.md",
+      "newWalkthroughChineseCharacters": 3345,
+      "newWalkthroughComplianceScore": 100
+    },
+    "lint": {
+      "command": "npm run lint",
+      "passed": true,
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings"
+    }
+  },
+  "artifacts": [
+    "d/2151/evidence/renderer-consolidation-batch-33-v2151-summary.json",
+    "d/2151/解释/renderer-consolidation-batch-33-v2151.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2122-renderer-consolidation-batch-33-v2151.md"
+  ],
+  "cleanupExpectation": {
+    "deleteBeforeCommit": [
+      ".tmp/v2151-renderer-hashes.ts",
+      ".tmp/v2151-migrate-loop-renderers.ts",
+      ".tmp/v2151-update-node-playbook.ts"
+    ],
+    "backgroundProcessesStarted": 0
+  }
+}

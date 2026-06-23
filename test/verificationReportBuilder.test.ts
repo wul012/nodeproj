@@ -6,6 +6,7 @@ import {
   renderVerificationEvidenceFileReferenceLines,
   renderVerificationReportMarkdown,
   renderVerificationResolvedEvidenceFileDetailLines,
+  renderVerificationSeparatedBlockLines,
   trimVerificationTrailingBlankLine,
 } from "../src/services/verificationReportBuilder.js";
 
@@ -78,6 +79,39 @@ describe("verificationReportBuilder", () => {
     expect(markdown).toContain("## Next Actions\n\n- No next actions.");
     expect(markdown.endsWith("\n")).toBe(true);
   });
+
+  it("does not add a duplicate blank line when the first section follows an empty meta block", () => {
+    const markdown = renderVerificationReportMarkdown({
+      title: "Summary first report",
+      meta: [],
+      sections: [
+        { heading: "Summary", lines: ["- ok"], bodyLeadingBlankLine: false },
+      ],
+    });
+
+    expect(markdown).toBe([
+      "# Summary first report",
+      "",
+      "## Summary",
+      "- ok",
+      "",
+    ].join("\n"));
+  });
+
+  it("preserves explicit trailing blank lines before later sections", () => {
+    const markdown = renderVerificationReportMarkdown({
+      title: "Legacy carried report",
+      meta: [],
+      sections: [
+        { heading: "Rows", lines: ["### one", "- ok", ""], bodyLeadingBlankLine: false },
+        { heading: "Next", lines: ["- done"], bodyLeadingBlankLine: false },
+      ],
+      trailingNewline: false,
+    });
+
+    expect(markdown).toContain("### one\n- ok\n\n\n## Next");
+  });
+
 
   it("can preserve compact section spacing and reports without trailing newlines", () => {
     const markdown = renderVerificationReportMarkdown({
@@ -175,5 +209,18 @@ describe("verificationReportBuilder", () => {
       .toEqual(["### one", "- Value: true"]);
     expect(trimVerificationTrailingBlankLine(["### one", "- Value: true"]))
       .toEqual(["### one", "- Value: true"]);
+  });
+
+  it("renders separated h3 blocks without leading or trailing blank lines", () => {
+    expect(renderVerificationSeparatedBlockLines(
+      ["one", "two"],
+      (item) => [`### ${item}`, "- ok"],
+    )).toEqual([
+      "### one",
+      "- ok",
+      "",
+      "### two",
+      "- ok",
+    ]);
   });
 });
