@@ -1,12 +1,13 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Value Supply Approval Packet Draft",
-    ...renderEntries({
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Approval Packet Draft",
+      lines: renderEntries({
       approvalPacketDraftVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalPacketDraftVersion,
       sourceValueSupplyEnvelopeVersion:
@@ -68,10 +69,11 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyA
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.containsSecretValue,
       approvalPacketDraftDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft.approvalPacketDraftDigest,
-    }),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Approval Packet Review",
-    ...renderEntries({
+      }),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Approval Packet Review",
+      lines: renderEntries({
       approvalPacketReviewVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalPacketReviewVersion,
       sourceApprovalPacketDraftVersion:
@@ -133,10 +135,11 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyA
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.containsSecretValue,
       approvalPacketReviewDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview.approvalPacketReviewDigest,
-    }),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Template",
-    ...renderEntries({
+      }),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Template",
+      lines: renderEntries({
       signedApprovalTemplateVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
           .signedApprovalTemplateVersion,
@@ -202,7 +205,7 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyA
       signedApprovalTemplateDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate
           .signedApprovalTemplateDigest,
-    }),
-    "",
-  ];
+      }),
+    },
+  ]);
 }

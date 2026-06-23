@@ -1,31 +1,35 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Package Evidence Intake",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Evaluation Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Intake",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake,
-    ),
-    "",
-  ];
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Package Evidence Intake",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Evaluation Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Intake",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntakeProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake,
+      ),
+    },
+  ]);
 }
 
 function renderSignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeProfileEntries(

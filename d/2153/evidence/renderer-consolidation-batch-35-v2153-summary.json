@@ -1,0 +1,137 @@
+{
+  "version": "v2153",
+  "date": "2026-06-23",
+  "batch": 35,
+  "scope": "profile-section-renderer-consolidation",
+  "project": "orderops-node",
+  "changedBehavior": false,
+  "crossProjectPosition": {
+    "javaParallelRecommended": true,
+    "miniKvParallelRecommended": true,
+    "requiresFreshSiblingEvidence": false,
+    "usesForcedHistoricalFixtureFallback": false,
+    "liveIntegrationRequired": false,
+    "notes": "Node v2153 only standardizes local profile-section Markdown fragments rendered from Node fixture profiles. Java and mini-kv can continue in parallel."
+  },
+  "migratedRenderers": [
+    "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyImportProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewSignedApprovalArtifactDraftProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSectionRenderer.ts",
+    "src/services/controlledReadOnlyShardPreviewCandidateDocumentProfileSectionRenderer.ts"
+  ],
+  "helperChanges": [
+    "Added ProfileEntrySection, renderProfileEntrySection, and renderProfileEntrySections to src/services/liveProbeReportUtils.ts.",
+    "Kept the helper in an existing utility module instead of creating a new service file so the governance growth ratchet remains at its service-file baseline.",
+    "The helper renders profile fragments only: ## heading, existing entry lines, and one legacy blank separator. It does not add # titles, report meta, full-report sections, or trailing document policy."
+  ],
+  "unchangedCompositionRenderers": [
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyProfileSectionRenderer.ts",
+      "reason": "This file only concatenates child profile-section renderers and has no local heading + entries block to migrate."
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts",
+      "reason": "This file only concatenates child profile-section renderers and has no local heading + entries block to migrate."
+    },
+    {
+      "path": "src/services/controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageProfileSectionRenderer.ts",
+      "reason": "This file only concatenates child profile-section renderers and has no local heading + entries block to migrate."
+    }
+  ],
+  "byteIdenticalCompare": {
+    "command": "npx tsx .tmp/v2153-profile-section-hashes.ts .tmp/v2153-before.json; migrate; npx tsx .tmp/v2153-profile-section-hashes.ts .tmp/v2153-after.json; Compare-Object before/after",
+    "passed": true,
+    "outputs": [
+      {
+        "name": "operatorEvidenceValueSupply",
+        "length": 3151,
+        "sha256": "61678453fb45644eb00cadd738caa0fba6f29128a3af4be5f64cff1701d6cb0d"
+      },
+      {
+        "name": "operatorEvidenceValueSupplyApproval",
+        "length": 6092,
+        "sha256": "62943acc4a2b047f90b816facd03e9840d66bbf2b3c807c9d3994cd069fefd44"
+      },
+      {
+        "name": "signedApprovalArtifactDraft",
+        "length": 9647,
+        "sha256": "7a8dffc88e48d978dfe82fc15fe5181822017c7b15204e4e5b5aa4db60392f4c"
+      },
+      {
+        "name": "signedApprovalArtifactDraftTextPackage",
+        "length": 19890,
+        "sha256": "0fa51ca12359c9e9668e5b4a89e99bdb00bcad7ae66873c069d10f87b935c820"
+      },
+      {
+        "name": "candidateDocument",
+        "length": 9095,
+        "sha256": "18ef38d64a1075a96fd17988a529e92f562621fbe2bafcf6f1ca7f8233dbb90f"
+      },
+      {
+        "name": "liveReadOnlyWindowAggregate",
+        "length": 52094,
+        "sha256": "66d0f030a66b890f102c675b37ae93c27e8ee3503e49337fc3994e389d16b605"
+      }
+    ]
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "builderBackedFullReportRenderers": 158,
+    "unmigratedFullReportRenderers": 87,
+    "profileSectionFragmentRenderersStandardizedThisVersion": 8,
+    "profileSectionCompositionRenderersLeftUnchangedThisVersion": 3,
+    "countingNote": "v2153 intentionally does not change the full-report verificationReportBuilder census because these files return local profile fragments rather than complete reports."
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/profileSectionRenderer.test.ts test/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyProfileSectionRenderer.test.ts test/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.test.ts test/controlledReadOnlyShardPreviewSignedApprovalArtifactDraftProfileSectionRenderer.test.ts test/controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageProfileSectionRenderer.test.ts test/controlledReadOnlyShardPreviewCandidateDocumentProfileSectionRenderer.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 6,
+      "tests": 7
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 1,
+      "tests": 2
+    },
+    "lint": {
+      "command": "npm run lint",
+      "passed": true,
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings"
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts --testTimeout=180000",
+      "passed": true,
+      "state": "verified-quality-gate",
+      "enforcedWalkthroughs": 62,
+      "enforcedCompliantWalkthroughs": 62,
+      "newWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2124-renderer-consolidation-batch-35-v2153.md",
+      "newWalkthroughChineseCharacters": 3003,
+      "newWalkthroughComplianceScore": 100
+    }
+  },
+  "artifacts": [
+    "d/2153/evidence/renderer-consolidation-batch-35-v2153-summary.json",
+    "d/2153/解释/renderer-consolidation-batch-35-v2153.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2124-renderer-consolidation-batch-35-v2153.md"
+  ],
+  "cleanupExpectation": {
+    "deleteBeforeCommit": [
+      ".tmp/v2153-profile-section-hashes.ts",
+      ".tmp/v2153-before.json",
+      ".tmp/v2153-after.json"
+    ],
+    "backgroundProcessesStarted": 0
+  }
+}

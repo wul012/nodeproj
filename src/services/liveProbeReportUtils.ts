@@ -7,6 +7,11 @@ export interface LiveProbeReportMessage {
   message: string;
 }
 
+export interface ProfileEntrySection {
+  heading: string;
+  lines: readonly string[];
+}
+
 export function sha256StableJson(value: unknown): string {
   return createHash("sha256")
     .update(stableJson(value))
@@ -34,6 +39,18 @@ export function renderMessages<T extends LiveProbeReportMessage>(
 
 export function renderEntries(record: object): string[] {
   return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
+}
+
+export function renderProfileEntrySection(section: ProfileEntrySection): string[] {
+  return [
+    `## ${section.heading}`,
+    ...section.lines,
+    "",
+  ];
+}
+
+export function renderProfileEntrySections(sections: readonly ProfileEntrySection[]): string[] {
+  return sections.flatMap(renderProfileEntrySection);
 }
 
 export function renderList(items: readonly string[], emptyText: string): string[] {

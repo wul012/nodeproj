@@ -1,36 +1,41 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewCandidateDocumentProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Request Package",
-    ...renderComparedEvidenceCandidateDocumentRequestPackageProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Submission Precheck",
-    ...renderComparedEvidenceCandidateDocumentSubmissionPrecheckProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Intake Packet",
-    ...renderComparedEvidenceCandidateDocumentIntakePacketProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Material Request Package",
-    ...renderComparedEvidenceCandidateDocumentMaterialRequestPackageProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Material Submission Precheck",
-    ...renderComparedEvidenceCandidateDocumentMaterialSubmissionPrecheckProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialSubmissionPrecheck,
-    ),
-    "",
-  ];
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Request Package",
+      lines: renderComparedEvidenceCandidateDocumentRequestPackageProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Submission Precheck",
+      lines: renderComparedEvidenceCandidateDocumentSubmissionPrecheckProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Intake Packet",
+      lines: renderComparedEvidenceCandidateDocumentIntakePacketProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Material Request Package",
+      lines: renderComparedEvidenceCandidateDocumentMaterialRequestPackageProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Compared Evidence Candidate Document Material Submission Precheck",
+      lines: renderComparedEvidenceCandidateDocumentMaterialSubmissionPrecheckProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialSubmissionPrecheck,
+      ),
+    },
+  ]);
 }
 
 function renderComparedEvidenceCandidateDocumentRequestPackageProfileEntries(

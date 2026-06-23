@@ -1,12 +1,13 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Preflight",
-    ...renderEntries({
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Preflight",
+      lines: renderEntries({
       signedApprovalCapturePreflightVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
           .signedApprovalCapturePreflightVersion,
@@ -94,10 +95,11 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyS
       signedApprovalCapturePreflightDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
           .signedApprovalCapturePreflightDigest,
-    }),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Preflight",
-    ...renderEntries({
+      }),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Preflight",
+      lines: renderEntries({
       signedApprovalCaptureArtifactPreflightVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
           .signedApprovalCaptureArtifactPreflightVersion,
@@ -212,7 +214,7 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyS
       signedApprovalCaptureArtifactPreflightDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
           .signedApprovalCaptureArtifactPreflightDigest,
-    }),
-    "",
-  ];
+      }),
+    },
+  ]);
 }

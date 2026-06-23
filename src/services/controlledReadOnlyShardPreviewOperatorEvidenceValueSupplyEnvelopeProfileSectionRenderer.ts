@@ -1,12 +1,13 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Fresh Sibling Intake",
-    ...renderEntries({
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Fresh Sibling Intake",
+      lines: renderEntries({
       freshSiblingIntakeVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.freshSiblingIntakeVersion,
       sourceValueDraftVersion:
@@ -46,10 +47,11 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyE
         profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.containsSecretValue,
       freshSiblingIntakeDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake.freshSiblingIntakeDigest,
-    }),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Envelope",
-    ...renderEntries({
+      }),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Envelope",
+      lines: renderEntries({
       valueSupplyEnvelopeVersion:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope.valueSupplyEnvelopeVersion,
       sourceFreshSiblingIntakeVersion:
@@ -95,7 +97,7 @@ export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyE
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope.containsSecretValue,
       valueSupplyEnvelopeDigest:
         profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope.valueSupplyEnvelopeDigest,
-    }),
-    "",
-  ];
+      }),
+    },
+  ]);
 }

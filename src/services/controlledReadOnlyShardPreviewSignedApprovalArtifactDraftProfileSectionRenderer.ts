@@ -1,36 +1,41 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftPreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Readiness",
-    ...renderSignedApprovalCaptureArtifactDraftReadinessProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Review Package Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftReviewPackagePreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Authoring Readiness",
-    ...renderSignedApprovalCaptureArtifactDraftAuthoringReadinessProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Instruction Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftInstructionPreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
-    ),
-    "",
-  ];
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftPreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Readiness",
+      lines: renderSignedApprovalCaptureArtifactDraftReadinessProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Review Package Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftReviewPackagePreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Authoring Readiness",
+      lines: renderSignedApprovalCaptureArtifactDraftAuthoringReadinessProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Instruction Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftInstructionPreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
+      ),
+    },
+  ]);
 }
 
 function renderSignedApprovalCaptureArtifactDraftPreflightProfileEntries(

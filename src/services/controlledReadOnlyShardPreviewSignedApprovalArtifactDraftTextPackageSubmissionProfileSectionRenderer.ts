@@ -1,36 +1,41 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
+import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
 export function renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return [
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Intake",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageIntakeProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Review Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Submission Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Preflight",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight,
-    ),
-    "",
-    "## Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Acceptance Precheck",
-    ...renderSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckProfileEntries(
-      profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
-    ),
-    "",
-  ];
+  return renderProfileEntrySections([
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Intake",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageIntakeProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Review Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Submission Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Preflight",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight,
+      ),
+    },
+    {
+      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Draft Text Package Comparison Acceptance Precheck",
+      lines: renderSignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckProfileEntries(
+        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
+      ),
+    },
+  ]);
 }
 
 function renderSignedApprovalCaptureArtifactDraftTextPackageIntakeProfileEntries(
