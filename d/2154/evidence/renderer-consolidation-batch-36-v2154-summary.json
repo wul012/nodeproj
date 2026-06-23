@@ -1,0 +1,115 @@
+{
+  "version": "v2154",
+  "date": "2026-06-23",
+  "batch": 36,
+  "scope": "production-live-probe-read-only-window-markdown-renderer-consolidation",
+  "project": "orderops-node",
+  "changedBehavior": false,
+  "crossProjectPosition": {
+    "javaParallelRecommended": true,
+    "miniKvParallelRecommended": true,
+    "requiresFreshSiblingEvidence": false,
+    "usesForcedHistoricalFixtureFallback": false,
+    "liveIntegrationRequired": false,
+    "notes": "Node v2154 renders saved local read-only window profiles and does not require fresh Java or mini-kv worktree evidence. Java and mini-kv can continue in parallel."
+  },
+  "migratedRenderers": [
+    "src/services/productionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacketMarkdownRenderer.ts",
+    "src/services/productionLiveProbeRealReadSmokeReadOnlyWindowLiveCaptureMarkdownRenderer.ts",
+    "src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveMarkdownRenderer.ts",
+    "src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerificationMarkdownRenderer.ts",
+    "src/services/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReviewMarkdownRenderer.ts"
+  ],
+  "helperChanges": [
+    "Extended src/services/releaseReportShared.ts with reusable Markdown section helpers: header, entries section, line section, item section, entries-subsection group, messages section, and standard evidence/next-actions tail.",
+    "Kept the production read-only window reports on the release-report helper path instead of forcing them into verificationReportBuilder, because these MarkdownRenderer tail files carry release/probe report structure rather than the verification-report spec.",
+    "No new service file was created; governance growth ratchet remains at the existing service-file baseline."
+  ],
+  "byteIdenticalCompare": {
+    "command": "npx tsx .tmp/v2154-read-only-window-markdown-hashes.ts capture .tmp/v2154-before.json .tmp/v2154-profiles.json; migrate; npx tsx .tmp/v2154-read-only-window-markdown-hashes.ts render .tmp/v2154-after.json .tmp/v2154-profiles.json; Compare-Object before/after",
+    "passed": true,
+    "outputs": [
+      {
+        "name": "readinessPacket",
+        "length": 6973,
+        "sha256": "26e91e53716d342e96601bb50852c8486127dc312a1b425aacca6e6c402ce011"
+      },
+      {
+        "name": "liveCapture",
+        "length": 5302,
+        "sha256": "3d3f0d6771dc4307862df2067f7fffb282a965fffa0aa83ff6544784c750dcd5"
+      },
+      {
+        "name": "captureArchive",
+        "length": 4998,
+        "sha256": "c3a59319ab525b133b42de921ea9f49e99a3c71e96f906e67b15955f20d721e3"
+      },
+      {
+        "name": "captureArchiveVerification",
+        "length": 5635,
+        "sha256": "2e0ef44a7b1e18c6cd3375ca5d7853929cfc65b9ca1d02902e3fc8e29792d9f1"
+      },
+      {
+        "name": "captureReleaseEvidenceReview",
+        "length": 5334,
+        "sha256": "a80c81fbc95bd4e3ebc9914dadd4d318fab3772588de6ea7f353539da125dc60"
+      }
+    ]
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "verificationReportBuilderBackedFullReportRenderers": 158,
+    "verificationReportBuilderUnmigratedFullReportRenderers": 87,
+    "productionMarkdownRendererTailFilesStandardizedThisVersion": 5,
+    "countingNote": "v2154 intentionally does not lower the verificationReportBuilder census. These five *MarkdownRenderer.ts reports are standardized through releaseReportShared because they are production live-probe release reports, not verification-report spec renderers."
+  },
+  "verification": {
+    "focusedTests": {
+      "command": "npx vitest run test/productionLiveProbeRealReadSmokeReadOnlyWindowReadinessPacket.test.ts test/productionLiveProbeRealReadSmokeReadOnlyWindowLiveCapture.test.ts test/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchive.test.ts test/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureArchiveVerification.test.ts test/productionLiveProbeRealReadSmokeReadOnlyWindowCaptureReleaseEvidenceReview.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 5,
+      "tests": 22
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "passed": true
+    },
+    "ratchet": {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts --testTimeout=180000",
+      "passed": true,
+      "testFiles": 1,
+      "tests": 2
+    },
+    "lint": {
+      "command": "npm run lint",
+      "passed": true,
+      "errors": 0,
+      "warnings": 263,
+      "warningBaseline": "existing warnings"
+    },
+    "codeWalkthroughQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts --testTimeout=180000",
+      "passed": true,
+      "state": "verified-quality-gate",
+      "enforcedWalkthroughs": 63,
+      "enforcedCompliantWalkthroughs": 63,
+      "newWalkthrough": "代码讲解记录_生产雏形阶段3/r2000/2125-renderer-consolidation-batch-36-v2154.md",
+      "newWalkthroughChineseCharacters": 3002,
+      "newWalkthroughComplianceScore": 100
+    }
+  },
+  "artifacts": [
+    "d/2154/evidence/renderer-consolidation-batch-36-v2154-summary.json",
+    "d/2154/解释/renderer-consolidation-batch-36-v2154.md",
+    "代码讲解记录_生产雏形阶段3/r2000/2125-renderer-consolidation-batch-36-v2154.md"
+  ],
+  "cleanupExpectation": {
+    "deleteBeforeCommit": [
+      ".tmp/v2154-read-only-window-markdown-hashes.ts",
+      ".tmp/v2154-before.json",
+      ".tmp/v2154-after.json",
+      ".tmp/v2154-profiles.json"
+    ],
+    "backgroundProcessesStarted": 0
+  }
+}

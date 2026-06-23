@@ -25,6 +25,11 @@ export interface ReleaseReportMarkdownSection {
   entries: object;
 }
 
+export interface ReleaseReportMarkdownEntriesSubsection {
+  heading: string;
+  entries: object;
+}
+
 export interface ReleaseReportMarkdownItemSection<TItem> {
   heading: string;
   items: TItem[];
@@ -117,22 +122,92 @@ export function renderReleaseReportMarkdown<TMessage extends LiveProbeReportMess
   options: ReleaseReportMarkdownOptions<TMessage>,
 ): string {
   return [
-    `# ${options.title}`,
+    ...renderReleaseReportHeader(options.title, options.header),
+    ...options.sections.flatMap((section) => renderReleaseReportEntriesSection(section.heading, section.entries)),
+    ...options.itemSections.flatMap((section) => renderReleaseReportItemSection(
+      section.heading,
+      section.items,
+      section.renderItem,
+    )),
+    ...options.messageSections.flatMap((section) => renderReleaseReportMessagesSection(
+      section.heading,
+      section.messages,
+      section.emptyText,
+    )),
+    ...renderReleaseReportTail(options.evidenceEndpoints, options.nextActions),
+  ].join("\n");
+}
+
+export function renderReleaseReportHeader(title: string, header: object): string[] {
+  return [
+    `# ${title}`,
     "",
-    ...renderEntries(options.header),
+    ...renderEntries(header),
     "",
-    ...options.sections.flatMap(renderObjectSection),
-    ...options.itemSections.flatMap((section) => renderItemSection(section)),
-    ...options.messageSections.flatMap(renderMessageSection),
+  ];
+}
+
+export function renderReleaseReportEntriesSection(heading: string, entries: object): string[] {
+  return [
+    `## ${heading}`,
+    "",
+    ...renderEntries(entries),
+    "",
+  ];
+}
+
+export function renderReleaseReportLineSection(heading: string, lines: readonly string[]): string[] {
+  return [
+    `## ${heading}`,
+    "",
+    ...lines,
+    "",
+  ];
+}
+
+export function renderReleaseReportItemSection<TItem>(
+  heading: string,
+  items: readonly TItem[],
+  renderItem: (item: TItem) => string[],
+): string[] {
+  return [
+    `## ${heading}`,
+    "",
+    ...items.flatMap(renderItem),
+  ];
+}
+
+export function renderReleaseReportEntriesSubsectionGroup(
+  heading: string,
+  subsections: readonly ReleaseReportMarkdownEntriesSubsection[],
+): string[] {
+  return renderReleaseReportItemSection(heading, subsections, renderReleaseReportEntriesSubsection);
+}
+
+export function renderReleaseReportMessagesSection<TMessage extends LiveProbeReportMessage>(
+  heading: string,
+  messages: TMessage[],
+  emptyText: string,
+): string[] {
+  return [
+    `## ${heading}`,
+    "",
+    ...renderMessages(messages, emptyText),
+    "",
+  ];
+}
+
+export function renderReleaseReportTail(evidenceEndpoints: object, nextActions: readonly string[]): string[] {
+  return [
     "## Evidence Endpoints",
     "",
-    ...renderEntries(options.evidenceEndpoints),
+    ...renderEntries(evidenceEndpoints),
     "",
     "## Next Actions",
     "",
-    ...renderList(options.nextActions, "No next actions."),
+    ...renderList(nextActions, "No next actions."),
     "",
-  ].join("\n");
+  ];
 }
 
 export function renderReleaseReportStep(
@@ -169,30 +244,11 @@ function capitalize(value: string): string {
   return value.length === 0 ? value : `${value[0]!.toUpperCase()}${value.slice(1)}`;
 }
 
-function renderObjectSection(section: ReleaseReportMarkdownSection): string[] {
+function renderReleaseReportEntriesSubsection(section: ReleaseReportMarkdownEntriesSubsection): string[] {
   return [
-    `## ${section.heading}`,
+    `### ${section.heading}`,
     "",
     ...renderEntries(section.entries),
-    "",
-  ];
-}
-
-function renderItemSection<TItem>(section: ReleaseReportMarkdownItemSection<TItem>): string[] {
-  return [
-    `## ${section.heading}`,
-    "",
-    ...section.items.flatMap(section.renderItem),
-  ];
-}
-
-function renderMessageSection<TMessage extends LiveProbeReportMessage>(
-  section: ReleaseReportMarkdownMessageSection<TMessage>,
-): string[] {
-  return [
-    `## ${section.heading}`,
-    "",
-    ...renderMessages(section.messages, section.emptyText),
     "",
   ];
 }
