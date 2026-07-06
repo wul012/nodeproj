@@ -1,0 +1,67 @@
+{
+  "version": "v2156",
+  "batch": 37,
+  "title": "disabled runtime shell release-report renderer consolidation",
+  "scope": {
+    "project": "orderops-node",
+    "filesMigrated": 11,
+    "rendererFamily": "managed audit manual sandbox connection credential resolver disabled runtime shell design/draft reports",
+    "sharedHelperLayer": "src/services/releaseReportShared.ts",
+    "publicApiChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "siblingEvidenceRequired": false
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2156 only restructures Node Markdown renderer internals using archived Node JSON fixtures; it does not request fresh Java or mini-kv evidence and does not change any cross-project contract."
+  },
+  "census": {
+    "before": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 171,
+      "unstandardizedRenderers": 74,
+      "note": "This standardized scan counts verificationReportBuilder renderers, releaseReportShared renderers, and renderProfileEntrySections fragment renderers. The older 87 figure was a verificationReportBuilder-only broad scan and intentionally did not count v2153/v2154 standardization work."
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 182,
+      "unstandardizedRenderers": 63
+    },
+    "delta": {
+      "standardizedRenderers": 11,
+      "unstandardizedRenderers": -11
+    }
+  },
+  "byteIdenticalProof": {
+    "method": "Render archived JSON profiles from d/294, d/295, d/296, d/297, d/331, d/333, d/335, d/337, d/339, d/341, and d/343 before and after migration, then compare SHA-256 hashes.",
+    "cases": 11,
+    "mismatches": 0,
+    "hashes": {
+      "pre-plan-intake": "412c88ddd8da739bfd31b8ff5d947afdabdf267bd5582e5898794547f0903f46",
+      "design-review": "d4fee6ec44503a4502b186652b912009c4984c2ae27f7ffaecb28f8497c81d5d",
+      "upstream-echo-verification": "9f972e16de196e563170136a1ab84461b2f1c87950985b5f41ebb3a16508de5f",
+      "implementation-candidate-gate": "e230dc6dcd78734b07336ae6437997d6f755880070887d0c8155aaf5be362cd3",
+      "design-draft-candidate-review": "61f2333218362ccfc15b6377109020e61a1824874ebde7222060501afa75d48a",
+      "design-draft-outline-intake": "6d13a577bf64054c1f75cb4b9c271b29c25afa9856fa02e150ce8a1cf6451669",
+      "design-draft-body-intake": "2ef79bb12c33c98bcb565fb95231dd37da89ac0b81859d12ddd66527d4ae2213",
+      "design-draft-body-candidate-review": "fb5463e1fdf6dc3232811e77cae43fec1c86cd88aca108e9668623d919672c8b",
+      "design-draft-body-pre-draft-decision": "32b86062592595c6b45558e2a8df6d5ea2489ddfe2877a50f570cd943078137e",
+      "design-draft-body-preparation-plan": "f65ab1967070af14fbde1cf4c5a77802df3f7d290f853350b8530ced907e6da6",
+      "design-draft-body-draft-candidate": "c434d58fc8c54dbec8b66bd88c0d1709c45ed48f0c13ca2baeada3d482cfd3f0"
+    }
+  },
+  "verification": {
+    "typecheck": "passed: npm run typecheck",
+    "focusedTests": "passed: 11 files / 44 tests",
+    "ratchet": "passed: test/governanceGrowthRatchet.test.ts, 1 file / 2 tests",
+    "lint": "passed with 0 errors and existing warnings",
+    "fullVitest": "passed: 528 files / 1631 tests with --maxWorkers=4",
+    "build": "passed: npm run build"
+  },
+  "cleanupExpectation": {
+    "deleteBeforeCommit": [".tmp/v2156-disabled-runtime-shell-*", "dist/"],
+    "backgroundProcessesStarted": false
+  }
+}

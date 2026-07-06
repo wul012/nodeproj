@@ -1,37 +1,38 @@
-import {
-  renderEntries,
-  renderList,
-  renderMessages,
-} from "./liveProbeReportUtils.js";
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReviewProfile,
 } from "./managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReviewTypes.js";
+import {
+  renderReleaseReportEntriesSection,
+  renderReleaseReportHeader,
+  renderReleaseReportLineSection,
+  renderReleaseReportMessagesSection,
+  renderReleaseReportTail,
+} from "./releaseReportShared.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReviewMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReviewProfile,
 ): string {
   return [
-    "# Managed audit manual sandbox connection credential resolver disabled runtime shell design review",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Design review state: ${profile.designReviewState}`,
-    `- Ready for v295 design review: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReview}`,
-    `- Recommends parallel upstream echo before runtime implementation: ${profile.recommendsParallelUpstreamEchoBeforeRuntimeImplementation}`,
-    `- Ready for Node v296 runtime shell implementation: ${profile.readyForNodeV296RuntimeShellImplementation}`,
-    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
-    `- Runtime shell enabled: ${profile.runtimeShellEnabled}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    "",
-    "## Source Node v294",
-    "",
-    ...renderEntries(profile.sourceNodeV294),
-    "",
-    "## Design Review",
-    "",
-    ...renderEntries({
+    ...renderReleaseReportHeader(
+      "Managed audit manual sandbox connection credential resolver disabled runtime shell design review",
+      {
+        Service: profile.service,
+        "Generated at": profile.generatedAt,
+        "Profile version": profile.profileVersion,
+        "Design review state": profile.designReviewState,
+        "Ready for v295 design review":
+          profile.readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReview,
+        "Recommends parallel upstream echo before runtime implementation":
+          profile.recommendsParallelUpstreamEchoBeforeRuntimeImplementation,
+        "Ready for Node v296 runtime shell implementation": profile.readyForNodeV296RuntimeShellImplementation,
+        "Runtime shell implemented": profile.runtimeShellImplemented,
+        "Runtime shell enabled": profile.runtimeShellEnabled,
+        "Execution allowed": profile.executionAllowed,
+        "Connects managed audit": profile.connectsManagedAudit,
+      },
+    ),
+    ...renderReleaseReportEntriesSection("Source Node v294", profile.sourceNodeV294),
+    ...renderReleaseReportEntriesSection("Design Review", {
       reviewVersion: profile.designReview.reviewVersion,
       reviewMode: profile.designReview.reviewMode,
       sourceSpan: profile.designReview.sourceSpan,
@@ -53,52 +54,40 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverDisab
       automaticUpstreamStartAllowed:
         profile.designReview.automaticUpstreamStartAllowed,
     }),
-    "",
-    "## Necessity",
-    "",
-    ...renderEntries(profile.designReview.necessity),
-    "",
-    "## Review Questions",
-    "",
-    ...profile.designReview.reviewQuestions.map((question) =>
+    ...renderReleaseReportEntriesSection("Necessity", profile.designReview.necessity),
+    ...renderReleaseReportLineSection(
+      "Review Questions",
+      profile.designReview.reviewQuestions.map((question) =>
       `- ${question.code}: ${question.answer}; evidence=${question.evidence}`),
-    "",
-    "## Recommended Parallel Work",
-    "",
-    ...profile.designReview.recommendedParallelWork.map((work) =>
+    ),
+    ...renderReleaseReportLineSection(
+      "Recommended Parallel Work",
+      profile.designReview.recommendedParallelWork.map((work) =>
       `- ${work.version} (${work.project}): ${work.task}; readOnly=${work.mustRemainReadOnly}; noRuntime=${work.mustNotImplementRuntime}`),
-    "",
-    "## Stop Conditions",
-    "",
-    ...renderList(profile.designReview.stopConditions, "No disabled runtime shell design review stop conditions."),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No disabled runtime shell design review blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No disabled runtime shell design review warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No disabled runtime shell design review recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
+    ),
+    ...renderReleaseReportLineSection(
+      "Stop Conditions",
+      profile.designReview.stopConditions.length === 0
+        ? ["- No disabled runtime shell design review stop conditions."]
+        : profile.designReview.stopConditions.map((condition) => `- ${condition}`),
+    ),
+    ...renderReleaseReportEntriesSection("Checks", profile.checks),
+    ...renderReleaseReportEntriesSection("Summary", profile.summary),
+    ...renderReleaseReportMessagesSection(
+      "Production Blockers",
+      profile.productionBlockers,
+      "No disabled runtime shell design review blockers.",
+    ),
+    ...renderReleaseReportMessagesSection(
+      "Warnings",
+      profile.warnings,
+      "No disabled runtime shell design review warnings.",
+    ),
+    ...renderReleaseReportMessagesSection(
+      "Recommendations",
+      profile.recommendations,
+      "No disabled runtime shell design review recommendations.",
+    ),
+    ...renderReleaseReportTail(profile.evidenceEndpoints, profile.nextActions),
   ].join("\n");
 }

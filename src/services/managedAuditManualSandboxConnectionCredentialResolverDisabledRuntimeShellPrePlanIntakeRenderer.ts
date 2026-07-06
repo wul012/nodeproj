@@ -1,35 +1,35 @@
-import {
-  renderEntries,
-  renderList,
-  renderMessages,
-} from "./liveProbeReportUtils.js";
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntakeProfile,
 } from "./managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntakeTypes.js";
+import {
+  renderReleaseReportEntriesSection,
+  renderReleaseReportHeader,
+  renderReleaseReportLineSection,
+  renderReleaseReportMessagesSection,
+  renderReleaseReportTail,
+} from "./releaseReportShared.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntakeMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntakeProfile,
 ): string {
   return [
-    "# Managed audit manual sandbox connection credential resolver disabled runtime shell pre-plan intake",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Pre-plan intake state: ${profile.prePlanIntakeState}`,
-    `- Ready for v294 pre-plan intake: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntake}`,
-    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
-    `- Runtime shell enabled: ${profile.runtimeShellEnabled}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    "",
-    "## Source Node v293",
-    "",
-    ...renderEntries(profile.sourceNodeV293),
-    "",
-    "## Disabled Runtime Shell Pre-Plan",
-    "",
-    ...renderEntries({
+    ...renderReleaseReportHeader(
+      "Managed audit manual sandbox connection credential resolver disabled runtime shell pre-plan intake",
+      {
+        Service: profile.service,
+        "Generated at": profile.generatedAt,
+        "Profile version": profile.profileVersion,
+        "Pre-plan intake state": profile.prePlanIntakeState,
+        "Ready for v294 pre-plan intake":
+          profile.readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntake,
+        "Runtime shell implemented": profile.runtimeShellImplemented,
+        "Runtime shell enabled": profile.runtimeShellEnabled,
+        "Execution allowed": profile.executionAllowed,
+        "Connects managed audit": profile.connectsManagedAudit,
+      },
+    ),
+    ...renderReleaseReportEntriesSection("Source Node v293", profile.sourceNodeV293),
+    ...renderReleaseReportEntriesSection("Disabled Runtime Shell Pre-Plan", {
       planVersion: profile.disabledRuntimeShellPrePlan.planVersion,
       planMode: profile.disabledRuntimeShellPrePlan.planMode,
       sourceSpan: profile.disabledRuntimeShellPrePlan.sourceSpan,
@@ -60,43 +60,29 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverDisab
       automaticUpstreamStartAllowed:
         profile.disabledRuntimeShellPrePlan.automaticUpstreamStartAllowed,
     }),
-    "",
-    "## Boundaries",
-    "",
-    ...profile.disabledRuntimeShellPrePlan.boundaries.map((boundary) =>
+    ...renderReleaseReportLineSection(
+      "Boundaries",
+      profile.disabledRuntimeShellPrePlan.boundaries.map((boundary) =>
       `- ${boundary.code}: ${boundary.status}; owner=${boundary.owner}; evidence=${boundary.verificationEvidence}`),
-    "",
-    "## Pre-Plan Intake",
-    "",
-    ...renderEntries(profile.prePlanIntake),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No disabled runtime shell pre-plan intake blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No disabled runtime shell pre-plan intake warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No disabled runtime shell pre-plan intake recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
+    ),
+    ...renderReleaseReportEntriesSection("Pre-Plan Intake", profile.prePlanIntake),
+    ...renderReleaseReportEntriesSection("Checks", profile.checks),
+    ...renderReleaseReportEntriesSection("Summary", profile.summary),
+    ...renderReleaseReportMessagesSection(
+      "Production Blockers",
+      profile.productionBlockers,
+      "No disabled runtime shell pre-plan intake blockers.",
+    ),
+    ...renderReleaseReportMessagesSection(
+      "Warnings",
+      profile.warnings,
+      "No disabled runtime shell pre-plan intake warnings.",
+    ),
+    ...renderReleaseReportMessagesSection(
+      "Recommendations",
+      profile.recommendations,
+      "No disabled runtime shell pre-plan intake recommendations.",
+    ),
+    ...renderReleaseReportTail(profile.evidenceEndpoints, profile.nextActions),
   ].join("\n");
 }
