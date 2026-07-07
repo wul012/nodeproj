@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2160 - 2026-07-07
+
+- Renderer consolidation batch 40 migrated the controlled read-only shard
+  preview source-matrix renderer to `renderProfileEntrySections`, including
+  dynamic source subsections, consumer gates, drift findings, consumption-plan
+  steps, and checklist items. Added a fixed-fixture hash test proving both the
+  source-matrix section markdown and full route markdown remain byte-identical;
+  the deterministic renderer census moved from 184/245 to 185/245 standardized
+  renderers.
+
 ## v2159 - 2026-07-07
 
 - Renderer consolidation batch 39 migrated the controlled read-only shard
