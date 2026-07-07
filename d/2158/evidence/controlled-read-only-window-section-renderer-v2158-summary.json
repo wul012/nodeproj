@@ -1,0 +1,57 @@
+{
+  "version": "v2158",
+  "title": "controlled read-only shard preview live-window section renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderer": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.ts",
+    "testAdded": "test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.test.ts"
+  },
+  "prePostParity": {
+    "fixture": "loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview with controlledReadOnlyShardPreviewServiceFixtures",
+    "liveWindowSectionsSha256": "66d0f030a66b890f102c675b37ae93c27e8ee3503e49337fc3994e389d16b605",
+    "liveWindowSectionsLength": 52094,
+    "fullMarkdownSha256": "a87109e40e6b145b86e293ed7d82919ee84aadd9e62db0185c3f68316993be8d",
+    "fullMarkdownLength": 81829,
+    "assertionLocation": "test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.test.ts"
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 182,
+      "unstandardizedRenderers": 63
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 183,
+      "unstandardizedRenderers": 62,
+      "remainingShapeSignals": {
+        "h3": 41,
+        "forLoop": 0,
+        "map": 75,
+        "flatMap": 46
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=62"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.test.ts test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRoutes.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=62",
+      "npm run typecheck",
+      "npm run lint",
+      "npm run build"
+    ],
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate after the v2157 15-minute shell timeout; remote CI remains the full-suite gate"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2158 changes only a Node-local markdown renderer and a Node-local test; it consumes no fresh sibling evidence and changes no shared contract."
+  }
+}

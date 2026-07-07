@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2158 - 2026-07-07
+
+- Renderer consolidation batch 38 migrated the controlled read-only shard
+  preview live-window profile section renderer to `renderProfileEntrySections`.
+  Added a fixed-fixture hash test proving the live-window section markdown and
+  the full route markdown remain byte-identical; the deterministic renderer
+  census moved from 182/245 to 183/245 standardized renderers.
+
 ## v2157 - 2026-07-06
 
 - Added the deterministic `renderer:census` command and the Node session
