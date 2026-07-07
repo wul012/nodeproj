@@ -14,7 +14,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src test"
+    "lint": "eslint src test",
+    "renderer:census": "node scripts/renderer-census.mjs"
   },
   "dependencies": {
     "fastify": "^5.8.5"

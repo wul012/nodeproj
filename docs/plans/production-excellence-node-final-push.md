@@ -15,6 +15,13 @@ lines per commit, cleanup gate, 中文 walkthrough conventions.
    map 45, flatMap 37" at v2154). Record the fresh number in the batch summary. If the
    census disagrees with the progress table, the census wins and the discrepancy is
    written into the deviations section before any migration.
+3. v2157 commits the census as `scripts/renderer-census.mjs`; every later batch and
+   reviewer must run `npm run renderer:census -- --json` so the same definition is
+   used instead of re-deriving the scan by hand. The script's output is the number
+   of record. Use `--max-unstandardized=<previous count>` as a shrink-only check.
+4. Pipelining: while the full `vitest run` executes, do read-only preparation of the
+   next batch (file list, shape classification, expected builder mapping) — no writes
+   of any kind until the current batch is green.
 
 ## Phase 1 — N1 completion (est. 5–9 more batch versions)
 
@@ -24,7 +31,9 @@ lines per commit, cleanup gate, 中文 walkthrough conventions.
 2. Per batch, in order: migrate → `npm run typecheck` → full `vitest run` (all tests,
    not a subset) → lint (0 errors, warning count must not grow) → census re-run →
    ratchet/baseline updates → `d/<version>/evidence/renderer-consolidation-batch-N.json`
-   summary → walkthrough → commit/tag/push → CI green before the next batch starts.
+   summary → walkthrough → commit/tag/push → confirm CI queued. At the next
+   batch start, check the previous run first; a red run blocks all new writes and is
+   repaired immediately. Block-watch CI for the final batch before review.
 3. Waivers: a renderer may be left unmigrated ONLY if it is composition-only (the v2153
    precedent: it composes other renderers and contains no line-formatting logic a builder
    would absorb). Each waiver = one entry in a committed

@@ -2,6 +2,19 @@
 
 This file defines long-lived rules for work inside `D:\nodeproj\orderops-node`.
 
+## Current State (single source of truth)
+
+Update this table instead of appending relative-time rules ("starting with the next version…") below. Where an older section conflicts with this table, this table wins.
+
+| Item | Current |
+|---|---|
+| Active screenshot/evidence archive root | `d/<version>/图片` + `d/<version>/解释` (+ `d/<version>/evidence/` for machine summaries) |
+| Active walkthrough volume | `代码讲解记录_生产雏形阶段3/` |
+| Active cross-project program | `D:\C\四项目理解统筹\AGENTS.md` → Current Active Program |
+| Active playbook + progress table | `docs/plans/production-excellence-node-playbook.md` |
+| Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
+| Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
+
 ## Collaboration Rule
 
 Do the work autonomously when it is safe and possible. If a task is blocked by permission, missing information, unclear ownership, or a risky decision, explain the reason and ask the user to cooperate.
@@ -17,7 +30,7 @@ Default responsibility:
 
 Before advancing a Node version:
 
-- Read the latest valid plan in `docs/plans3/`, `docs/plans2/`, or `docs/plans/`, preferring the newest active successor directory.
+- First check `D:\C\四项目理解统筹\AGENTS.md` → Current Active Program: if a program brief is active there, it takes precedence over the plans directories. Otherwise read the latest valid plan in `docs/plans3/`, `docs/plans2/`, or `docs/plans/`, preferring the newest active successor directory.
 - Before writing a successor plan, inspect Java and mini-kv progress read-only in parallel. Record the latest committed version/tag, clean/dirty status, whether each project can continue in parallel, and the concrete next direction they can follow.
 - Every new Node plan must include a cross-project progress section. If Node needs fresh Java / mini-kv evidence, list the exact upstream version and pause condition. If the Node version is a local route-table/archive/refactor loop, mark Java / mini-kv as recommended parallel and say Node is not their pre-approval blocker.
 - Follow the latest plan's version order, validation requirements, screenshot/archive rules, and pause conditions.
@@ -46,7 +59,7 @@ For each completed Node version:
 - Run `npm run build`.
 - Create runtime/debug evidence when applicable.
 - Archive screenshot and explanation under `d/<version>/图片` and `d/<version>/解释`.
-- Write code walkthrough notes under the current code-walkthrough sibling directory, such as `代码讲解记录_生产雏形阶段2/`, keeping the previous document style and naming.
+- Write code walkthrough notes under the active walkthrough volume from the Current State table, keeping the previous document style and naming. Write the walkthrough BEFORE the version's final verification run, so the closing test pass covers it (lesson promoted from Java v1799).
 - Code walkthrough notes must be written in Chinese. Each version-level code walkthrough must contain at least 3000 Chinese characters; if the explanation cannot naturally reach that depth, enlarge the real engineering work, refactor scope, or verification coverage for that version instead of padding with repetitive prose.
 - Update or create the appropriate plan document when the version changes future order.
 - Update `CHANGELOG.md` for the completed version; git tags remain the canonical milestone version while `package.json` stays `0.1.0` until a packaging/release workflow explicitly changes that policy.
@@ -56,11 +69,7 @@ If any of these steps cannot be done, state the reason clearly.
 
 ## Evidence And Screenshot Rule
 
-- Since v161, use `c/<version>/图片` and `c/<version>/解释` for screenshots and explanations.
-- Keep `a/` and `b/` as historical archive directories.
-- Starting with the next new Node version after this rule, use `d/<version>/图片` and `d/<version>/解释` for screenshots and explanations. Keep `c/` as historical archive storage.
-- Starting with the next new Node version after this rule, use `代码讲解记录_生产雏形阶段2/` for code walkthrough notes. Keep `代码讲解记录_生产雏形阶段/` as historical walkthrough storage.
-- Starting with the next successor plan after this rule, use `docs/plans2/` for new plan files. Keep `docs/plans/` as historical plan storage and only edit it when needed for indexes or corrections.
+- Active archive root, walkthrough volume, and plans location: see the Current State table at the top of this file. `a/`, `b/`, `c/` and older walkthrough volumes are frozen historical archives.
 - Prefer local Chrome for browser screenshots. If Chrome is not available, use local Edge as fallback and mention it in the archive notes.
 - For browser/page verification, first use `tool_search` to discover available MCP browser tools. The Playwright MCP is usable for HTTP navigation, snapshots, resizing, and screenshots; prefer it when the target page can be reached directly.
 - Known Playwright MCP limits from v300: it blocks `file://` URLs, and the currently exposed tools do not provide custom HTTP header injection. If a route requires headers or the target is a local archive HTML file, use local Chrome headless as a fallback and record the reason in the archive explanation.
@@ -148,6 +157,14 @@ Engineering quality rules:
 - After 3-4 feature versions, prefer 1 version of contract-preserving refactor, deduplication, or test hardening.
 - Split large route/service/report/rendering modules before they become emergency refactors.
 - Future work should shift from only fixture/contract expansion toward real production capabilities: persistence, authentication middleware, real HTTP reads, controlled runtime windows, and safer operational drills.
+
+## Program Discipline (promoted 2026-07-06)
+
+- Remote verification policy: after push, confirm the CI run is queued/started with a quick `gh run list` (seconds), but do not block on `gh run watch` for intermediate versions of a multi-version batch. Check the previous version's run conclusion at the start of the next version; if it failed, fixing CI becomes the immediate next task. Block-watch only the final version of a batch or when the user asks.
+- Evidence economy: text evidence first (logs, JSON summaries, transcripts); screenshots only where a visual actually proves something or for closeout versions. Archive growth is budgeted — the mini-kv `e/` 1.1GB history is the cautionary tale.
+- Progress-table rows: at most ~3 lines per milestone/batch; details live in `d/<version>/evidence/` files, the row keeps a pointer. Never grow a row into a paragraph wall (the N1 row is the cautionary tale).
+- Lesson promotion: when the same deviation or workaround is recorded twice, promote it into this file as a rule instead of recording it a third time.
+- Method kernel: apply the 12-rule kernel and task-brief skeleton from `D:\C\四项目理解统筹\模型使用手册\00-通用方法内核.md` (read once per session; also mirrored in the global `~/.codex/AGENTS.md`).
 
 ## Final Response Requirement
 

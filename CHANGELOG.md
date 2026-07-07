@@ -11,6 +11,42 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2157 - 2026-07-06
+
+- Added the deterministic `renderer:census` command and the Node session
+  bootstrap, reconciled intermediate-versus-final CI waiting rules, archived
+  the gated Stage 2 operational briefs, and documented the current execution
+  program without changing runtime behavior or renderer output.
+
+## v2156 - 2026-07-06
+
+- Renderer consolidation batch 37 migrated eleven disabled-runtime-shell
+  design and draft full-report renderers to `releaseReportShared`. Archived
+  profile comparisons proved 11/11 Markdown outputs byte-identical; the broad
+  census moved from 171/245 to 182/245 standardized renderers.
+
+## v2155 - 2026-07-06
+
+- Added the strict Production Excellence final-acceptance program and the
+  project-specific final-push briefs for Node and Java.
+
+## v2154 - 2026-06-23
+
+- Renderer consolidation batch 36 standardized five production read-only
+  window Markdown reports through the shared release-report section helpers,
+  with fixed-profile output hashes unchanged.
+
+## v2153 - 2026-06-23
+
+- Renderer consolidation batch 35 standardized eight profile-section fragment
+  renderers through `renderProfileEntrySections` and kept three composition-only
+  fragment renderers unchanged.
+
+## v2152 - 2026-06-23
+
+- Renderer consolidation batch 34 migrated five candidate-document full-report
+  renderers to the shared verification report builder with byte-identical output.
+
 ## v2151 - 2026-06-23
 
 - Renderer consolidation batch 33: migrated six artifact draft text-package

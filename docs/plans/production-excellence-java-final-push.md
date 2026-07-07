@@ -39,6 +39,15 @@ frozen archive paths; shrink-only SpotBugs baseline; route strings byte-identica
 3. Batch rhythm unchanged (one family or coherent cluster per version). Every 5 batches:
    pause for a Claude checkpoint review before continuing. Any batch whose full
    `mvnw verify` was not run (or was run before the walkthrough was final) is invalid.
+   Pipelining: while `mvnw verify` runs (6–14 min), do read-only preparation of the next
+   batch (family file list, route constants, exclusion FQNs) — no writes until green.
+   If the census is not already runnable as one command, commit it as a script in the
+   next batch so batches and reviews use the identical definition.
+3b. Optional toolchain-acceleration version (one version, any time): evaluate Maven
+   Daemon (`mvnd`) and/or `mvnw -T 1C` for the verify cycle. Adoption gate: full verify
+   output identical (same test count, same gate results) AND measurably faster across 3
+   consecutive runs; record the numbers in the version doc. If not clearly better,
+   record the negative result and stay on plain `mvnw`.
 4. Waivers: a root file may stay only if extraction would break a public contract or it
    is genuinely shared by 3+ families; each waiver is one entry in
    `docs/ops/extraction-waivers.md` with the reviewer check written down.

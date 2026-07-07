@@ -1,0 +1,52 @@
+{
+  "version": "v2157",
+  "title": "execution governance and deterministic renderer census",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "rendererOutputChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "sessionBootstrapAdded": true,
+    "rendererCensusAdded": true,
+    "stage2Activated": false
+  },
+  "rendererCensus": {
+    "command": "npm run renderer:census -- --json",
+    "totalRenderers": 245,
+    "standardizedRenderers": 182,
+    "unstandardizedRenderers": 63,
+    "shrinkOnlyCommand": "npm run renderer:census -- --max-unstandardized=63",
+    "ratchetTest": "npx vitest run test/rendererCensusScript.test.ts test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2"
+  },
+  "verification": {
+    "passed": [
+      "npm run renderer:census -- --json",
+      "npx vitest run test/rendererCensusScript.test.ts test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run typecheck",
+      "npm run lint",
+      "npm run build"
+    ],
+    "knownLocalTimeout": {
+      "command": "npx vitest run --testTimeout=180000 --maxWorkers=4",
+      "duration": "15 minutes before shell timeout",
+      "assertionFailureObserved": false,
+      "processCleanup": "stopped the timed-out vitest process tree before continuing",
+      "followUp": "remote CI remains the full-suite gate; next writes must first check the pushed run conclusion"
+    }
+  },
+  "programState": {
+    "active": "Production Excellence Stage 1 final acceptance",
+    "stage2": "inactive until each Stage 1 track and integration capstone C1-C4 pass",
+    "nodeNext": "continue N1 renderer consolidation"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2157 changes only Node-local tooling and shared planning documents; it consumes no fresh sibling evidence and changes no cross-project contract."
+  },
+  "ciPolicy": {
+    "intermediateVersion": "confirm queued, check conclusion before the next version writes",
+    "finalBatchVersion": "wait for green before requesting review",
+    "redRun": "blocks all new writes until repaired"
+  }
+}
