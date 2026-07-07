@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2159 - 2026-07-07
+
+- Renderer consolidation batch 39 migrated the controlled read-only shard
+  preview route-coverage section renderer to `renderProfileEntrySections`.
+  Added a fixed-fixture hash test proving the route-coverage section markdown
+  and the full route markdown remain byte-identical; the deterministic renderer
+  census moved from 183/245 to 184/245 standardized renderers.
+
 ## v2158 - 2026-07-07
 
 - Renderer consolidation batch 38 migrated the controlled read-only shard
