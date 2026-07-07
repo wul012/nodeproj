@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2178 - 2026-07-07
+
+- Renderer consolidation batch 53 migrated four read-only / minimal integration
+  report renderers to `renderVerificationReportMarkdown`: the read-only
+  cross-project readiness runner, minimal read-only integration regular gate,
+  smoke rehearsal, and gate execution renderers. Added v2178 parity coverage
+  with forced historical fallback and tightened the renderer census ratchet from
+  217/245 standardized to 221/245, leaving 24 unstandardized renderers.
+
 ## v2177 - 2026-07-07
 
 - CI repair for v2176 renderer parity: extended
