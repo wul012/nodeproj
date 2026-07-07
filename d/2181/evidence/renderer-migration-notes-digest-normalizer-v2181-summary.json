@@ -1,0 +1,80 @@
+{
+  "version": "v2181",
+  "date": "2026-07-07",
+  "track": "node-production-excellence-ci-repair",
+  "scope": {
+    "goal": "Repair the v2180 renderer parity comparison surface after GitHub Actions exposed an unnormalized source decision digest embedded in a prerequisite-intake notes line.",
+    "nonGoals": [
+      "No product renderer behavior changes",
+      "No loader changes",
+      "No route changes",
+      "No schema changes",
+      "No fixture changes",
+      "No Java or mini-kv writes",
+      "No managed audit connection or runtime execution enablement"
+    ],
+    "parallelProjects": {
+      "java": "recommended parallel; v2181 changes only Node test normalization and does not require Java to wait",
+      "miniKv": "recommended parallel; v2181 changes only Node test normalization and does not require mini-kv to wait"
+    }
+  },
+  "ciFailure": {
+    "run": "28875448789",
+    "failedStep": "Test",
+    "failingCase": "sandboxHandleReviewPrerequisiteIntake",
+    "assertion": "expected sha256 6a7f37f14d74f525d9386ec77f94ec5e43f8caf001c147961a86281a209d4112, received c2a0d69b337e34d64b5f5284ab0f1b028d1452b5959b9ecac8d7c8258ca4f6ed",
+    "rootCause": "The v2180 parity normalizer already folded rendered digest entries, but missed a notes phrase rendered as 'The prerequisite intake is chained to <source decision digest>.'. That source digest is derived from upstream archive content and can differ between Windows CRLF checkout content and Linux LF checkout content while preserving the same public renderer structure."
+  },
+  "changedFiles": [
+    "test/rendererMigrationParityUtils.ts",
+    "test/rendererMigrationV2180Parity.test.ts"
+  ],
+  "normalizedFingerprint": {
+    "case": "sandboxHandleReviewPrerequisiteIntake",
+    "length": 10535,
+    "sha256": "fa32926da5b8871891ab5a0a6fd4bebc21e886b968f3c9d03a5c1e442275d2c1",
+    "h1Count": 1,
+    "h2Count": 11,
+    "h3Count": 0
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "npx vitest run test/rendererMigrationV2180Parity.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 3 tests passed"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts test/rendererMigrationV2176Parity.test.ts test/rendererMigrationV2178Parity.test.ts test/rendererMigrationV2179Parity.test.ts test/rendererMigrationV2180Parity.test.ts --maxWorkers=2",
+        "result": "9 test files passed, 10 tests passed"
+      },
+      {
+        "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 4 tests passed; v2181 walkthrough counted 3002 Chinese characters and satisfied the current quality gate"
+      },
+      {
+        "command": "npx vitest run --coverage test/rendererMigrationV2180Parity.test.ts --maxWorkers=2 --coverage.thresholds.lines=0 --coverage.thresholds.functions=0 --coverage.thresholds.statements=0 --coverage.thresholds.branches=0",
+        "result": "1 test file passed, 1 test passed under v8 coverage instrumentation; thresholds were set to 0 only because this focused run intentionally does not execute the full suite"
+      },
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npm run lint",
+        "result": "passed with 0 errors and 263 existing warnings"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed"
+      }
+    ],
+    "pending": [
+      "GitHub Actions CI for v2181"
+    ]
+  },
+  "safetyBoundary": {
+    "publicOutput": "No public Markdown output was changed. Only normalized test comparison strings changed.",
+    "testSurface": "The normalizer now replaces the source decision digest in the prerequisite-intake notes sentence while keeping decision states, checks, blockers, section headings, and business text hash-sensitive.",
+    "stopCondition": "If another CI-only drift appears, inspect the exact rendered line and add the narrowest comparison normalizer rule; do not change fixtures or product renderer output to satisfy parity."
+  }
+}

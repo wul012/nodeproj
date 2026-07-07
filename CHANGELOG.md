@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2181 - 2026-07-07
+
+- CI repair for v2180 renderer parity: extended
+  `rendererMigrationParityUtils` to normalize the prerequisite-intake notes
+  phrase `chained to <digest>`, fixing the Linux-runner-only hash drift caused
+  by upstream source decision digests differing across Windows CRLF and Linux
+  LF checkout content. Product renderers, loaders, routes, schemas, fixtures,
+  and public Markdown output remain unchanged.
+
 ## v2180 - 2026-07-07
 
 - Renderer consolidation batch 55 migrated five sandbox handle review renderer
