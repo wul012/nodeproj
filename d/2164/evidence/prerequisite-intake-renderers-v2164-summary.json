@@ -1,0 +1,76 @@
+{
+  "version": "v2164",
+  "title": "approval prerequisite and abort rollback intake renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactIntakePlanRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntakeRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactIntakePlan.test.ts",
+      "test/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "normalization": "generatedAt fixed to 2026-07-07T00:00:00.000Z before hashing because both profiles stamp runtime time",
+    "approvalPrerequisiteArtifactIntakePlan": {
+      "sha256": "bfcbb70ddad243f441511a6ba6c07fd8766c12fd797b8afa18b50a61c9856c51",
+      "length": 12746,
+      "h1Count": 1,
+      "h2Count": 10,
+      "h3Count": 5,
+      "trailingNewline": true
+    },
+    "abortRollbackSemanticsContractIntake": {
+      "sha256": "e0e36ab78e4ca9c6ecd526268390353cb0b78a935c9d88e05f977ea1bcf57e6d",
+      "length": 13704,
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 5,
+      "trailingNewline": true
+    },
+    "inlineParityCheck": "old hand-written logic and new builder output compared equal for both normalized documents before test updates"
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 188,
+      "unstandardizedRenderers": 57
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 190,
+      "unstandardizedRenderers": 55,
+      "remainingShapeSignals": {
+        "h3": 14,
+        "forLoop": 0,
+        "map": 57,
+        "flatMap": 41
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=55"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactIntakePlan.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=55",
+      "npm run typecheck",
+      "npm run build",
+      "npm run lint",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, route tests, census, typecheck, lint, build, and remote CI remain the v2164 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2164 changes only Node-local Markdown renderers and Node-local tests; it consumes historical fixture fallback data and changes no shared contract."
+  }
+}

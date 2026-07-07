@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2164 - 2026-07-07
+
+- Renderer consolidation batch 44 migrated two prerequisite-intake full
+  document renderers to `renderVerificationReportMarkdown`: the approval
+  prerequisite artifact intake plan and the abort/rollback semantics contract
+  intake. Added normalized-`generatedAt` SHA-256, length, H2/H3, and trailing
+  newline assertions; the deterministic renderer census moved from 188/245 to
+  190/245 standardized renderers.
+
 ## v2163 - 2026-07-07
 
 - Renderer consolidation batch 43 migrated the controlled read-only shard

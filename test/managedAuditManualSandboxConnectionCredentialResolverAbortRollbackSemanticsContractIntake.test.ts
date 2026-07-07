@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -5,6 +7,9 @@ import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntakeMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntakeRenderer.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const ROUTE =
@@ -206,6 +211,16 @@ describe("managed audit manual sandbox connection credential resolver abort roll
       "mini-kv v142",
     ]);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
+    const normalizedMarkdown =
+      renderManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntakeMarkdown({
+        ...profile,
+        generatedAt: "2026-07-07T00:00:00.000Z",
+      });
+    expect(normalizedMarkdown.endsWith("\n")).toBe(true);
+    expect(normalizedMarkdown.match(/^## /gm)).toHaveLength(11);
+    expect(normalizedMarkdown.match(/^### /gm)).toHaveLength(5);
+    expect(normalizedMarkdown.length).toBe(13_704);
+    expect(sha256(normalizedMarkdown)).toBe("e0e36ab78e4ca9c6ecd526268390353cb0b78a935c9d88e05f977ea1bcf57e6d");
   }, 180_000);
 
   it("keeps the v325 historical fixture fallback path available", () => {
@@ -316,4 +331,10 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK: "true",
     ...overrides,
   });
+}
+
+function sha256(value: string): string {
+  return createHash("sha256")
+    .update(value)
+    .digest("hex");
 }
