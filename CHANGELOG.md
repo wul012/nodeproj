@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2161 - 2026-07-07
+
+- Renderer consolidation batch 41 migrated the controlled read-only shard
+  preview handoff-summary renderer to `renderProfileEntrySections`, preserving
+  handoff notes, consumer gates, receipt archive verification gates, digest
+  lines, and archive/receipt sections byte-identically. The deterministic
+  renderer census moved from 185/245 to 186/245 standardized renderers.
+
 ## v2160 - 2026-07-07
 
 - Renderer consolidation batch 40 migrated the controlled read-only shard
