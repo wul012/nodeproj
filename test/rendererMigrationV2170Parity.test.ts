@@ -62,8 +62,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 13_532,
-            sha256: "f9d7a064e236a5d3c4401012c636d43c07e644de8a37424cb628224a42a3692b",
+            length: 13_196,
+            sha256: "fc1eed6c6916373b278177f5a2ba92c53986f871d54e481eb09f62034ad74e03",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -79,8 +79,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 12_830,
-            sha256: "ec84b73c4f02bac3627fdd7f6d996debb6016a328730580564a70a1731a544fc",
+            length: 12_494,
+            sha256: "fa6caf07f1233a99b5b900f523ebf222f52c760c515e6ca1ff249dcb1e9b5e45",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -96,8 +96,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 11_736,
-            sha256: "3177e8f5f5ecbf3b4a26213f0bdf94fadbc058c9da77599c19c0931cb3560e37",
+            length: 11_344,
+            sha256: "a305caa6f0f30ae6e23352714a591544c7201d28eac392464966bec672e07a8b",
             h1Count: 1,
             h2Count: 11,
             h3Count: 0,
@@ -113,8 +113,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 12_966,
-            sha256: "9be09674e7bcde953dfa6db55c83868b7791ac6ade8c453a4276d11f8ee770ff",
+            length: 12_574,
+            sha256: "c50cbf45be385ba58dbf21b2491d740df1a9398b3f9a10ca916cbfb78e529674",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,

@@ -30,7 +30,8 @@ export function normalizeRendererMigrationMarkdown(
       /"exists":true,"sizeBytes":\d+,"digest":"[a-f0-9]{64}"/g,
       `"exists":true,"sizeBytes":<bytes>,"digest":"<sha256>"`,
     )
-    .replace(/(bytes=)\d+(; digest=)[a-f0-9]{64}/g, "$1<bytes>$2<sha256>");
+    .replace(/(bytes=)\d+(; digest=)[a-f0-9]{64}/g, "$1<bytes>$2<sha256>")
+    .replace(/(- [A-Za-z0-9]+Digest: )[a-f0-9]{64}/g, "$1<digest>");
 }
 
 function normalizePathValue(value: string): string {

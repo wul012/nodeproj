@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2172 - 2026-07-07
+
+- CI repair and renderer parity stabilization: extended
+  `rendererMigrationParityUtils` to normalize entry-rendered
+  `*Digest: <sha256>` evidence lines after v2171's Linux runner produced a
+  same-length hash drift in `packetStopRecord`. Updated v2169 and v2170 parity
+  expectations against the narrower, shared comparison surface. This changes
+  only migration test infrastructure and evidence docs; renderer code, loaders,
+  routes, schemas, fixtures, and public Markdown output remain unchanged.
+
 ## v2171 - 2026-07-07
 
 - CI repair and renderer parity maintenance: extracted shared

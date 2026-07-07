@@ -1,0 +1,101 @@
+{
+  "version": "v2172",
+  "title": "renderer parity digest-entry normalizer CI repair",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "fixturesChanged": false,
+    "targetFiles": [
+      "test/rendererMigrationParityUtils.ts",
+      "test/rendererMigrationV2169Parity.test.ts",
+      "test/rendererMigrationV2170Parity.test.ts"
+    ],
+    "repairedCiRun": {
+      "runId": "28848967659",
+      "failedVersion": "v2171",
+      "failure": "packetStopRecord SHA-256 drift with identical normalized Markdown length",
+      "rootCause": "v2171 normalized generatedAt, path, resolved path, and file-reference byte/digest metadata, but still left entry-rendered business-adjacent digest labels such as archiveVerificationDigest and packetDigest inside the parity hash surface. Those values describe local evidence-file bytes and can drift between Windows and Linux while preserving line length."
+    }
+  },
+  "normalizationSurface": {
+    "addedInV2172": [
+      "entry-rendered bullet lines matching - <name>Digest: <64 lowercase hex characters>"
+    ],
+    "stillExcluded": [
+      "business messages",
+      "warnings",
+      "recommendations",
+      "summary fields",
+      "check names and check values",
+      "renderer section order",
+      "route behavior",
+      "fixture bytes",
+      "non-digest prose"
+    ],
+    "reason": "Renderer migration parity must compare report shape and business fields, not checkout-local evidence-file hashes that belong to the source material rather than the renderer layout."
+  },
+  "updatedParityExpectations": {
+    "v2169": {
+      "artifactUpstreamProgressIntake": {
+        "length": 12549,
+        "sha256": "aaf1a33231bb5be35f3f2f6f77e09ccdb3818b2669d7b5654119463ff538739e"
+      },
+      "packetContributionReview": {
+        "length": 11479,
+        "sha256": "249a2e597bbc89d2366dfe41d62ec79c1845c6297322cd5cdbb3d590a9219c98"
+      },
+      "packetApprovalGateReview": {
+        "length": 8797,
+        "sha256": "16e87b91ce2638e604271c715033678d88d58df1fdb2a1ea7020d388ba1c9dec"
+      },
+      "liveReadGate": {
+        "length": 6729,
+        "sha256": "aaec0eb63d178f772c08e85e263a48926e56347bfcd6dceb04f94d60b3369748"
+      },
+      "passEvidenceCloseout": {
+        "length": 8458,
+        "sha256": "893f1bb7bd8ad1c45e40cb30243e7ba733a47362e8f28f6f9c9d545fa3b6d969"
+      }
+    },
+    "v2170": {
+      "operatorServiceLifecycle": {
+        "length": 13196,
+        "sha256": "fc1eed6c6916373b278177f5a2ba92c53986f871d54e481eb09f62034ad74e03"
+      },
+      "declaredOperatorLifecycle": {
+        "length": 12494,
+        "sha256": "fa6caf07f1233a99b5b900f523ebf222f52c760c515e6ca1ff249dcb1e9b5e45"
+      },
+      "packetStopRecord": {
+        "length": 11344,
+        "sha256": "a305caa6f0f30ae6e23352714a591544c7201d28eac392464966bec672e07a8b"
+      },
+      "artifactIntakePreflight": {
+        "length": 12574,
+        "sha256": "c50cbf45be385ba58dbf21b2491d740df1a9398b3f9a10ca916cbfb78e529674"
+      }
+    }
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts --maxWorkers=2",
+      "npm run typecheck",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run lint",
+      "npm run build"
+    ],
+    "pending": [
+      "GitHub CI on pushed v2172"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3166,
+    "fullLocalSuitePolicy": "remote GitHub CI remains the accepted full coverage gate; local verification focuses on the repaired parity surface, typecheck, docs quality, lint, and build before push"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2172 only repairs Node migration parity tests and local documentation. It consumes no fresh sibling evidence and changes no cross-project contract."
+  }
+}
