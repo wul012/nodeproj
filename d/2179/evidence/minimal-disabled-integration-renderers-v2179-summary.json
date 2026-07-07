@@ -1,0 +1,121 @@
+{
+  "version": "v2179",
+  "date": "2026-07-07",
+  "title": "Minimal read-only and managed-audit-disabled renderer migration",
+  "scope": {
+    "changedProductSurface": "Markdown renderer implementation only",
+    "routesChanged": false,
+    "schemasChanged": false,
+    "fixturesChanged": false,
+    "siblingRepositoriesChanged": false,
+    "javaMiniKvParallelRecommended": true,
+    "precondition": "v2178 remote CI run 28871397293 passed before this version started changing renderer code.",
+    "necessityProof": "N1 still had 24 unstandardized renderer files after v2178. These five files are adjacent read-only/minimal integration and managed-audit-disabled decision reports that shared the same hand-built meta/section/message/list pattern. Migrating them to the shared builder removes duplicated report skeletons while local helpers preserve domain-specific rows."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationWindowReadinessCutRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeRerunArchiveRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoffRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationDecisionRecordRenderer.ts"
+  ],
+  "parityFingerprints": {
+    "minimalReadOnlyIntegrationWindowReadinessCut": {
+      "normalizedLength": 7062,
+      "sha256": "e7b7cfd19326e33bdb40e6cb985ec653db50c35b3239d6922f52e36c2b70c08e",
+      "headingCounts": { "h1": 1, "h2": 12, "h3": 0 }
+    },
+    "minimalReadOnlyIntegrationSmokeRerunArchivePassing": {
+      "normalizedLength": 5369,
+      "sha256": "e505fcb170ba8b8e1d906d38acb1dfaf047335c71386df0fae863aa821bb2bc5",
+      "headingCounts": { "h1": 1, "h2": 9, "h3": 0 }
+    },
+    "minimalReadOnlyIntegrationOperatorCiRegularGateHandoff": {
+      "normalizedLength": 8943,
+      "sha256": "357a89e6c8111e802cbdb612232281bc021fdd77bcb9b2240e9fa8861cc1fb5c",
+      "headingCounts": { "h1": 1, "h2": 11, "h3": 0 }
+    },
+    "managedAuditDisabledReadOnlyIntegrationIntake": {
+      "normalizedLength": 6304,
+      "sha256": "a5ae0d9fe7c4c0400f4b207bdfc9e661869c22245800ad09cea5c8cc8bd43b99",
+      "headingCounts": { "h1": 1, "h2": 11, "h3": 0 }
+    },
+    "managedAuditDisabledReadOnlyIntegrationDecisionRecord": {
+      "normalizedLength": 6315,
+      "sha256": "ea3a220cf8b6c07938586f65b7bf621369b8de245ecee3698916ce4c6538f69a",
+      "headingCounts": { "h1": 1, "h2": 10, "h3": 0 }
+    }
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "standardizedRenderers": 226,
+    "unstandardizedRenderers": 19,
+    "remainingShapeSignals": {
+      "h3": 0,
+      "forLoop": 0,
+      "map": 17,
+      "flatMap": 17
+    },
+    "ratchet": "--max-unstandardized=19"
+  },
+  "localVerification": [
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "Completed successfully after renderer edits."
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationV2179Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationWindowReadinessCut.test.ts test/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeRerunArchive.test.ts test/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoff.test.ts test/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationDecisionRecord.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "6 files passed, 16 tests passed."
+    },
+    {
+      "command": "npx vitest run test/rendererCensusScript.test.ts test/rendererMigrationV2179Parity.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "2 files passed, 3 tests passed; negative ratchet emitted 'Renderer census regression: 19 exceeds --max-unstandardized=18.'"
+    },
+    {
+      "command": "npm run renderer:census -- --json --max-unstandardized=19",
+      "status": "passed",
+      "evidence": "Reported 226 standardized and 19 unstandardized renderers."
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts test/rendererMigrationV2176Parity.test.ts test/rendererMigrationV2178Parity.test.ts test/rendererMigrationV2179Parity.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "8 files passed, 9 tests passed."
+    },
+    {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "2 files passed, 4 tests passed after expanding the v2179 Chinese walkthrough above the enforced 3000-character floor."
+    },
+    {
+      "command": "node -e \"JSON.parse(require('fs').readFileSync('d/2179/evidence/minimal-disabled-integration-renderers-v2179-summary.json','utf8')); console.log('json ok')\"",
+      "status": "passed",
+      "evidence": "Printed 'json ok'."
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "tsc --noEmit completed successfully after parity and documentation updates."
+    },
+    {
+      "command": "npm run lint",
+      "status": "passed",
+      "evidence": "Completed with 0 errors and 263 existing warnings."
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "tsc production build completed successfully; generated dist is removed during cleanup."
+    }
+  ],
+  "remainingUnstandardizedRendererCount": 19,
+  "nextSuggestedSlice": [
+    "managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntakeRenderer.ts",
+    "managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewRenderer.ts",
+    "managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeRenderer.ts",
+    "managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordRenderer.ts",
+    "managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionRenderer.ts"
+  ]
+}
