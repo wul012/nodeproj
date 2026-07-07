@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -5,6 +7,9 @@ import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketRenderer.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const ROUTE =
@@ -184,6 +189,16 @@ describe("managed audit manual sandbox connection credential resolver human appr
       },
     ]);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
+    const normalizedMarkdown =
+      renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketMarkdown({
+        ...profile,
+        generatedAt: "2026-07-07T00:00:00.000Z",
+      });
+    expect(normalizedMarkdown.endsWith("\n")).toBe(true);
+    expect(normalizedMarkdown.match(/^## /gm)).toHaveLength(10);
+    expect(normalizedMarkdown.match(/^### /gm)).toHaveLength(6);
+    expect(normalizedMarkdown.length).toBe(12_748);
+    expect(sha256(normalizedMarkdown)).toBe("ba1e40b6301beec744107f7829f3f6594330422daf9d841ade3f833f38c44d9c");
   });
 
   it("uses historical sibling fallback through the v307 source chain", () => {
@@ -289,4 +304,10 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK: "true",
     ...overrides,
   });
+}
+
+function sha256(value: string): string {
+  return createHash("sha256")
+    .update(value)
+    .digest("hex");
 }

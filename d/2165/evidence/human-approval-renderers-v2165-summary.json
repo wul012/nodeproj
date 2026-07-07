@@ -1,0 +1,76 @@
+{
+  "version": "v2165",
+  "title": "human approval artifact review renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacketRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket.test.ts",
+      "test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "normalization": "generatedAt fixed to 2026-07-07T00:00:00.000Z before hashing because both profiles stamp runtime time",
+    "humanApprovalArtifactReviewPacket": {
+      "sha256": "ba1e40b6301beec744107f7829f3f6594330422daf9d841ade3f833f38c44d9c",
+      "length": 12748,
+      "h1Count": 1,
+      "h2Count": 10,
+      "h3Count": 6,
+      "trailingNewline": true
+    },
+    "postEchoDecisionUpstreamEchoVerification": {
+      "sha256": "77b2b2f105c54dbe61e8553bf166a2ea5fde5b39d5988de6ba2f775457511638",
+      "length": 23227,
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 4,
+      "trailingNewline": true
+    }
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 190,
+      "unstandardizedRenderers": 55
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 192,
+      "unstandardizedRenderers": 53,
+      "remainingShapeSignals": {
+        "h3": 4,
+        "forLoop": 0,
+        "map": 47,
+        "flatMap": 41
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=53"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket.test.ts test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=53",
+      "npm run typecheck",
+      "npm run lint",
+      "npm run build",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3218,
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, route tests, census, typecheck, lint, build, and remote CI remain the v2165 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2165 changes only Node-local Markdown renderers and Node-local tests; it consumes historical fallback evidence and changes no shared contract."
+  }
+}
