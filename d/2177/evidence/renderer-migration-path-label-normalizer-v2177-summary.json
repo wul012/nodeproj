@@ -1,0 +1,76 @@
+{
+  "version": "v2177",
+  "date": "2026-07-07",
+  "track": "node-production-excellence-ci-repair",
+  "scope": {
+    "goal": "Repair the v2176 renderer parity comparison surface after GitHub Actions exposed an unnormalized Markdown path label in the shard readiness contract consumer gate case.",
+    "nonGoals": [
+      "No product renderer behavior changes",
+      "No loader changes",
+      "No route changes",
+      "No schema changes",
+      "No fixture changes",
+      "No Java or mini-kv writes",
+      "No production shard execution enablement"
+    ],
+    "parallelProjects": {
+      "java": "recommended parallel; v2177 changes only Node test normalization and does not require Java to wait",
+      "miniKv": "recommended parallel; v2177 changes only Node test normalization and does not require mini-kv to wait"
+    }
+  },
+  "ciFailure": {
+    "run": "28867793465",
+    "failedStep": "Test",
+    "failingCase": "shardReadinessContractConsumerGate",
+    "assertion": "expected normalized length 7243, received 7263 on GitHub Linux runner",
+    "rootCause": "The renderer migration normalizer folded JSON path/resolvedPath fields and lower-case path labels, but did not fold Markdown labels rendered as '- Evidence file:' and '- Resolved path:'. The unnormalized absolute runner path changed the comparison length without changing public renderer behavior."
+  },
+  "changedFiles": [
+    "test/rendererMigrationParityUtils.ts",
+    "test/rendererMigrationV2176Parity.test.ts"
+  ],
+  "normalizedFingerprint": {
+    "case": "shardReadinessContractConsumerGate",
+    "length": 7170,
+    "sha256": "511043dda77864007d4c1f8e8828bbba59c7b6b1412af14bd97e485acf3a71c1",
+    "h1Count": 1,
+    "h2Count": 10,
+    "h3Count": 0
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "npx vitest run test/rendererMigrationV2176Parity.test.ts test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts --maxWorkers=2",
+        "result": "6 test files passed, 7 tests passed"
+      },
+      {
+        "command": "npx vitest run --coverage test/rendererMigrationV2176Parity.test.ts --maxWorkers=2 --coverage.thresholds.lines=0 --coverage.thresholds.functions=0 --coverage.thresholds.statements=0 --coverage.thresholds.branches=0",
+        "result": "1 test file passed, 1 test passed under v8 coverage instrumentation; thresholds were set to 0 only because this focused run intentionally does not execute the full suite"
+      },
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 4 tests passed; v2177 walkthrough counted 3051 Chinese characters and satisfied the current quality gate"
+      },
+      {
+        "command": "npm run lint",
+        "result": "passed with 0 errors and 263 existing warnings"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed"
+      }
+    ],
+    "pending": [
+      "GitHub Actions CI for v2177"
+    ]
+  },
+  "safetyBoundary": {
+    "publicOutput": "No public Markdown output was changed. Only normalized test comparison strings changed.",
+    "testSurface": "The normalizer now compares renderer structure and business fields while replacing environment-specific Markdown path labels with stable placeholders.",
+    "stopCondition": "If another CI-only drift appears, inspect the exact output label and add the narrowest normalizer rule; do not change fixtures or renderer output to satisfy parity."
+  }
+}

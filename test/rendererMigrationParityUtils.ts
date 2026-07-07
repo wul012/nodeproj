@@ -23,6 +23,10 @@ export function normalizeRendererMigrationMarkdown(
       (_match: string, prefix: string, pathValue: string) => `${prefix}${normalizePathValue(pathValue)}`,
     )
     .replace(
+      /(- (?:Evidence file|Resolved path|Historical fallback path): )([^\n]+)/g,
+      (_match: string, prefix: string, pathValue: string) => `${prefix}${normalizePathValue(pathValue)}`,
+    )
+    .replace(
       /(Hardening file: |Resolved hardening path: |Source core file: )([^\n]+)/g,
       (_match: string, prefix: string, pathValue: string) => `${prefix}${normalizePathValue(pathValue)}`,
     )

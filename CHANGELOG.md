@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2177 - 2026-07-07
+
+- CI repair for v2176 renderer parity: extended
+  `rendererMigrationParityUtils` to normalize Markdown path labels such as
+  `Evidence file` and `Resolved path`, fixing the Linux-runner-only
+  shard-readiness contract consumer gate length drift. Updated the affected
+  v2176 parity fingerprint against the narrower runner-stable comparison
+  surface. Product renderers, loaders, routes, schemas, fixtures, and public
+  Markdown output remain unchanged.
+
 ## v2176 - 2026-07-07
 
 - Renderer consolidation batch 52 migrated three additional shard/readiness
