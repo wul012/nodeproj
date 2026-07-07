@@ -1,0 +1,101 @@
+{
+  "version": "v2168",
+  "title": "runtime execution approval input renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContractRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputCompletionIntakeRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidatorRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionCanonicalApprovalInputValueValidationRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/rendererMigrationV2168Parity.test.ts",
+      "test/rendererCensusScript.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "fixture": "live typed loaders with ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true, fixed generatedAt, and normalized fixture paths",
+    "intakeContract": {
+      "sha256": "36d39d8ec971cdf7eb3f8f4eea33de00396c9457ff755c187963ad48c50b2fd6",
+      "length": 12255,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "completionIntake": {
+      "sha256": "0227b2e97abc60c76213297eb82eeb4cd2ff270354c809e583ae66c73536fefe",
+      "length": 7873,
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "templateValidator": {
+      "sha256": "d7b4684c5f837e159395de3a176ee0e594752625b7b3eb830f18fa73491dd73f",
+      "length": 11355,
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "canonicalValueValidation": {
+      "sha256": "738ef8fcae785e6a63404a19249bd78f244273ad5a6b31aa0ab9ef48758b4bd7",
+      "length": 9342,
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 0,
+      "trailingNewline": true
+    }
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 196,
+      "unstandardizedRenderers": 49,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 43,
+        "flatMap": 40
+      }
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 200,
+      "unstandardizedRenderers": 45,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 43,
+        "flatMap": 33
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=45"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/rendererMigrationV2168Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContract.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputCompletionIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateValidator.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionCanonicalApprovalInputValueValidation.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=45",
+      "npm run typecheck",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run lint",
+      "npm run build"
+    ],
+    "pending": [],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3002,
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, route tests, census, typecheck, lint, build, and remote CI remain the v2168 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2168 changes only Node-local Markdown renderers and Node-local tests; it does not request fresh sibling evidence or change shared contracts."
+  }
+}

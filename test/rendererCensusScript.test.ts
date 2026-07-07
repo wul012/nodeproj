@@ -10,15 +10,15 @@ describe("renderer census script", () => {
     const census = await buildRendererCensus();
 
     expect(census.totalRenderers).toBe(245);
-    expect(census.standardizedRenderers).toBe(196);
-    expect(census.unstandardizedRenderers).toBe(49);
+    expect(census.standardizedRenderers).toBe(200);
+    expect(census.unstandardizedRenderers).toBe(45);
     expect(census.remainingShapeSignals).toEqual({
       h3: 0,
       forLoop: 0,
       map: 43,
-      flatMap: 40,
+      flatMap: 33,
     });
-    expect(census.unstandardizedFiles).toHaveLength(49);
+    expect(census.unstandardizedFiles).toHaveLength(45);
     expect(census.unstandardizedFiles[0]?.file).toBe(
       "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts",
     );
@@ -30,9 +30,9 @@ describe("renderer census script", () => {
     expect(() => {
       execFileSync(
         process.execPath,
-        [scriptPath, "--max-unstandardized=48"],
+        [scriptPath, "--max-unstandardized=44"],
         { encoding: "utf8" },
       );
-    }).toThrow(/Renderer census regression: 49 exceeds --max-unstandardized=48/);
+    }).toThrow(/Renderer census regression: 45 exceeds --max-unstandardized=44/);
   });
 });

@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2168 - 2026-07-07
+
+- Renderer consolidation batch 48 migrated four runtime-execution approval input
+  renderers to `renderVerificationReportMarkdown`: intake contract, completion
+  intake, template validator, and canonical approval input value validation.
+  Added normalized historical-fallback SHA-256 parity coverage; the deterministic
+  renderer census moved from 196/245 to 200/245 standardized renderers and
+  reduced remaining flatMap shape signals from 40 to 33.
+
 ## v2167 - 2026-07-07
 
 - Renderer consolidation batch 47 migrated the remaining H3-signal full
