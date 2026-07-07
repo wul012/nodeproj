@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2182 - 2026-07-07
+
+- CI repair follow-up for v2180 renderer parity: extended
+  `rendererMigrationParityUtils` to normalize the closure-review evidence
+  phrase `verified archive <digest> for decision <digest>`, fixing the second
+  Linux-runner-only hash drift exposed after v2181. Product renderers, loaders,
+  routes, schemas, fixtures, and public Markdown output remain unchanged.
+
 ## v2181 - 2026-07-07
 
 - CI repair for v2180 renderer parity: extended

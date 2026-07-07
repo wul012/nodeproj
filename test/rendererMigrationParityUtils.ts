@@ -40,6 +40,7 @@ export function normalizeRendererMigrationMarkdown(
     )
     .replace(/(bytes=)\d+(; digest=)[a-f0-9]{64}/g, "$1<bytes>$2<sha256>")
     .replace(/(chained to )[a-f0-9]{64}/g, "$1<digest>")
+    .replace(/(verified archive )[a-f0-9]{64}( for decision )[a-f0-9]{64}/g, "$1<digest>$2<digest>")
     .replace(/(- [A-Za-z0-9]+Digest: )[a-f0-9]{64}/g, "$1<digest>");
 }
 

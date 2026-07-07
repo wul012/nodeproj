@@ -136,8 +136,8 @@ describe("renderer migration v2180 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 7_927,
-            sha256: "fe3313856c72fa3b11710892c05b9970edec533c7d0ac47608044873d3a9e6b9",
+            length: 7_815,
+            sha256: "6b4bd57cbfde80470b02a3bd12cfbf14d70c91eee2418533ab54ae12e5ac2010",
             h1Count: 1,
             h2Count: 10,
             h3Count: 0,

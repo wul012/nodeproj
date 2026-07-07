@@ -1,0 +1,80 @@
+{
+  "version": "v2182",
+  "date": "2026-07-07",
+  "track": "node-production-excellence-ci-repair",
+  "scope": {
+    "goal": "Repair the second v2180 renderer parity comparison drift after GitHub Actions exposed unnormalized archive and decision digests embedded in the prerequisite-closure-review evidence sentence.",
+    "nonGoals": [
+      "No product renderer behavior changes",
+      "No loader changes",
+      "No route changes",
+      "No schema changes",
+      "No fixture changes",
+      "No Java or mini-kv writes",
+      "No managed audit connection or runtime execution enablement"
+    ],
+    "parallelProjects": {
+      "java": "recommended parallel; v2182 changes only Node test normalization and does not require Java to wait",
+      "miniKv": "recommended parallel; v2182 changes only Node test normalization and does not require mini-kv to wait"
+    }
+  },
+  "ciFailure": {
+    "run": "28877491126",
+    "failedStep": "Test",
+    "failingCase": "sandboxHandleReviewPrerequisiteClosureReview",
+    "assertion": "expected sha256 fe3313856c72fa3b11710892c05b9970edec533c7d0ac47608044873d3a9e6b9, received f8447f1130396d28a8335b1c1b523d72d7f64c5803427d3f0f040bfd7ef6fcc8",
+    "rootCause": "The v2181 normalizer folded the prerequisite-intake 'chained to <digest>' notes phrase, but the closure-review completed item evidence also rendered two upstream-derived digests in natural language: 'verified archive <digest> for decision <digest>'. Those source digests can differ between Windows CRLF and Linux LF checkout content while preserving the same public renderer structure."
+  },
+  "changedFiles": [
+    "test/rendererMigrationParityUtils.ts",
+    "test/rendererMigrationV2180Parity.test.ts"
+  ],
+  "normalizedFingerprint": {
+    "case": "sandboxHandleReviewPrerequisiteClosureReview",
+    "length": 7815,
+    "sha256": "6b4bd57cbfde80470b02a3bd12cfbf14d70c91eee2418533ab54ae12e5ac2010",
+    "h1Count": 1,
+    "h2Count": 10,
+    "h3Count": 0
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "npx vitest run test/rendererMigrationV2180Parity.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 3 tests passed; negative census emitted 'Renderer census regression: 14 exceeds --max-unstandardized=13.'"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts test/rendererMigrationV2176Parity.test.ts test/rendererMigrationV2178Parity.test.ts test/rendererMigrationV2179Parity.test.ts test/rendererMigrationV2180Parity.test.ts --maxWorkers=2",
+        "result": "9 test files passed, 10 tests passed"
+      },
+      {
+        "command": "npx vitest run --coverage test/rendererMigrationV2180Parity.test.ts --maxWorkers=2 --coverage.thresholds.lines=0 --coverage.thresholds.functions=0 --coverage.thresholds.statements=0 --coverage.thresholds.branches=0",
+        "result": "1 test file passed, 1 test passed under v8 coverage instrumentation; thresholds were set to 0 only because this focused run intentionally does not execute the full suite"
+      },
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 4 tests passed; v2182 walkthrough counted 3098 Chinese characters and satisfied the current quality gate"
+      },
+      {
+        "command": "npm run lint",
+        "result": "passed with 0 errors and 263 existing warnings"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed"
+      }
+    ],
+    "pending": [
+      "GitHub Actions CI for v2182"
+    ]
+  },
+  "safetyBoundary": {
+    "publicOutput": "No public Markdown output was changed. Only normalized test comparison strings changed.",
+    "testSurface": "The normalizer now replaces the closure-review evidence sentence's archive and decision digest values while keeping the sentence, closure state, checks, blockers, section headings, and business text hash-sensitive.",
+    "stopCondition": "If another CI-only drift appears, inspect the exact rendered line and add the narrowest comparison normalizer rule; do not change fixtures or product renderer output to satisfy parity."
+  }
+}
