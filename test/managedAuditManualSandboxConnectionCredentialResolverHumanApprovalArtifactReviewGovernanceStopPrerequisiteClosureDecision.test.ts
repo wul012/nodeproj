@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -5,6 +7,9 @@ import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionRenderer.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const ROUTE =
@@ -152,6 +157,17 @@ describe("managed audit manual sandbox connection credential resolver human appr
     expect(profile.closureDecision.remainingPrerequisites.every((prerequisite) => prerequisite.opensRuntimeShell === false))
       .toBe(true);
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
+
+    const normalizedMarkdown =
+      renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionMarkdown({
+        ...profile,
+        generatedAt: "2026-07-07T00:00:00.000Z",
+      });
+    expect(normalizedMarkdown.endsWith("\n")).toBe(true);
+    expect((normalizedMarkdown.match(/^## /gm) ?? []).length).toBe(9);
+    expect((normalizedMarkdown.match(/^### /gm) ?? []).length).toBe(2);
+    expect(normalizedMarkdown.length).toBe(7255);
+    expect(sha256(normalizedMarkdown)).toBe("4066f2f00da8224e23dac0c84b2ac6843f1b45d397214bef31dac3aaab4d128b");
   });
 
   it("keeps the v311 historical fixture fallback path available", () => {
@@ -257,4 +273,8 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK: "true",
     ...overrides,
   });
+}
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }

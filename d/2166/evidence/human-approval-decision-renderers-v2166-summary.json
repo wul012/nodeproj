@@ -1,0 +1,79 @@
+{
+  "version": "v2166",
+  "title": "human approval decision renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate.test.ts",
+      "test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision.test.ts",
+      "test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "normalization": "generatedAt fixed to 2026-07-07T00:00:00.000Z before hashing because both profiles stamp runtime time",
+    "postEchoDecisionGate": {
+      "sha256": "8e12af44f0a03e8e4176a22ff82d0eb490a679ae16e0e8086f4b1a4ded8bec3c",
+      "length": 12160,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "governanceStopPrerequisiteClosureDecision": {
+      "sha256": "4066f2f00da8224e23dac0c84b2ac6843f1b45d397214bef31dac3aaab4d128b",
+      "length": 7255,
+      "h1Count": 1,
+      "h2Count": 9,
+      "h3Count": 2,
+      "trailingNewline": true
+    }
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 192,
+      "unstandardizedRenderers": 53
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 194,
+      "unstandardizedRenderers": 51,
+      "remainingShapeSignals": {
+        "h3": 2,
+        "forLoop": 0,
+        "map": 44,
+        "flatMap": 41
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=51"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision.test.ts test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=51",
+      "npm run typecheck",
+      "npm run lint",
+      "npm run build",
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.test.ts --maxWorkers=2",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3275,
+    "ciRepair": "v2165 CI failed because the post-echo upstream verification Markdown hash included environment-specific historical fixture absolute roots; v2166 normalizes those roots to <repo>/fixtures before the hash assertion.",
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, route tests, census, typecheck, lint, build, and remote CI remain the v2166 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2166 changes only Node-local Markdown renderers and Node-local tests; it consumes historical fallback evidence and changes no shared contract."
+  }
+}

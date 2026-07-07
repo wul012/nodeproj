@@ -1,90 +1,59 @@
-import { renderEntries, renderList, renderMessages } from "./liveProbeReportUtils.js";
+import { renderEntries, renderList } from "./liveProbeReportUtils.js";
 import type {
   HumanApprovalArtifactReviewGovernanceStopPrerequisite,
   ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionProfile,
   SourceNodeV311HumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationReference,
 } from "./managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionProfile,
 ): string {
-  return [
-    "# Managed audit manual sandbox connection credential resolver human approval artifact review governance stop prerequisite closure decision",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Decision state: ${profile.decisionState}`,
-    `- Governance chain decision: ${profile.governanceChainDecision}`,
-    `- Ready for closure decision: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision}`,
-    `- Active Node decision version: ${profile.activeNodeDecisionVersion}`,
-    `- Ready for new Java + mini-kv echo request: ${profile.readyForNewJavaMiniKvEchoRequest}`,
-    `- New Java + mini-kv echo requested: ${profile.newJavaMiniKvEchoRequested}`,
-    `- Runtime shell implemented: ${profile.runtimeShellImplemented}`,
-    `- Runtime shell invocation allowed: ${profile.runtimeShellInvocationAllowed}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    "",
-    "## Source Node v311",
-    "",
-    ...renderSourceNodeV311(profile.sourceNodeV311),
-    "",
-    "## Closure Decision",
-    "",
-    ...renderEntries({
-      decisionDigest: profile.closureDecision.decisionDigest,
-      decisionMode: profile.closureDecision.decisionMode,
-      sourceSpan: profile.closureDecision.sourceSpan,
-      sourceVerificationDigest: profile.closureDecision.sourceVerificationDigest,
-      completedPrerequisiteCount: profile.closureDecision.completedPrerequisiteCount,
-      remainingPrerequisiteCount: profile.closureDecision.remainingPrerequisiteCount,
-      originalPrerequisiteCount: profile.closureDecision.originalPrerequisiteCount,
-      noGoConditionCount: profile.closureDecision.noGoConditionCount,
-      chainContinuationAllowed: profile.closureDecision.chainContinuationAllowed,
-      nextConcretePrerequisiteContractRequired: profile.closureDecision.nextConcretePrerequisiteContractRequired,
-      nextJavaVersionRequested: profile.closureDecision.nextJavaVersionRequested,
-      nextMiniKvVersionRequested: profile.closureDecision.nextMiniKvVersionRequested,
-      nextNodeVersionSuggested: profile.closureDecision.nextNodeVersionSuggested,
-      pauseReason: profile.closureDecision.pauseReason,
-    }),
-    "",
-    "### Completed Prerequisites",
-    "",
-    ...renderPrerequisites(profile.closureDecision.completedPrerequisites),
-    "",
-    "### Remaining Prerequisites",
-    "",
-    ...renderPrerequisites(profile.closureDecision.remainingPrerequisites),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No governance stop prerequisite closure decision blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No governance stop prerequisite closure decision warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No governance stop prerequisite closure decision recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title:
+      "Managed audit manual sandbox connection credential resolver human approval artifact review governance stop prerequisite closure decision",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Decision state", profile.decisionState],
+      ["Governance chain decision", profile.governanceChainDecision],
+      [
+        "Ready for closure decision",
+        profile.readyForManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision,
+      ],
+      ["Active Node decision version", profile.activeNodeDecisionVersion],
+      ["Ready for new Java + mini-kv echo request", profile.readyForNewJavaMiniKvEchoRequest],
+      ["New Java + mini-kv echo requested", profile.newJavaMiniKvEchoRequested],
+      ["Runtime shell implemented", profile.runtimeShellImplemented],
+      ["Runtime shell invocation allowed", profile.runtimeShellInvocationAllowed],
+      ["Execution allowed", profile.executionAllowed],
+      ["Connects managed audit", profile.connectsManagedAudit],
+    ],
+    sections: [
+      { heading: "Source Node v311", lines: renderSourceNodeV311(profile.sourceNodeV311) },
+      { heading: "Closure Decision", lines: renderClosureDecision(profile) },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", entries: profile.summary },
+      {
+        heading: "Production Blockers",
+        messages: profile.productionBlockers,
+        emptyText: "No governance stop prerequisite closure decision blockers.",
+      },
+      {
+        heading: "Warnings",
+        messages: profile.warnings,
+        emptyText: "No governance stop prerequisite closure decision warnings.",
+      },
+      {
+        heading: "Recommendations",
+        messages: profile.recommendations,
+        emptyText: "No governance stop prerequisite closure decision recommendations.",
+      },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function renderSourceNodeV311(
@@ -117,4 +86,35 @@ function renderPrerequisites(prerequisites: HumanApprovalArtifactReviewGovernanc
       `${prerequisite.id}: ${prerequisite.closureState}; requiredBeforeRuntimeShell=${prerequisite.requiredBeforeRuntimeShell}; opensRuntimeShell=${prerequisite.opensRuntimeShell}; evidence=${prerequisite.evidence}`),
     "No prerequisites.",
   );
+}
+
+function renderClosureDecision(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecisionProfile,
+): string[] {
+  return [
+    ...renderEntries({
+      decisionDigest: profile.closureDecision.decisionDigest,
+      decisionMode: profile.closureDecision.decisionMode,
+      sourceSpan: profile.closureDecision.sourceSpan,
+      sourceVerificationDigest: profile.closureDecision.sourceVerificationDigest,
+      completedPrerequisiteCount: profile.closureDecision.completedPrerequisiteCount,
+      remainingPrerequisiteCount: profile.closureDecision.remainingPrerequisiteCount,
+      originalPrerequisiteCount: profile.closureDecision.originalPrerequisiteCount,
+      noGoConditionCount: profile.closureDecision.noGoConditionCount,
+      chainContinuationAllowed: profile.closureDecision.chainContinuationAllowed,
+      nextConcretePrerequisiteContractRequired: profile.closureDecision.nextConcretePrerequisiteContractRequired,
+      nextJavaVersionRequested: profile.closureDecision.nextJavaVersionRequested,
+      nextMiniKvVersionRequested: profile.closureDecision.nextMiniKvVersionRequested,
+      nextNodeVersionSuggested: profile.closureDecision.nextNodeVersionSuggested,
+      pauseReason: profile.closureDecision.pauseReason,
+    }),
+    "",
+    "### Completed Prerequisites",
+    "",
+    ...renderPrerequisites(profile.closureDecision.completedPrerequisites),
+    "",
+    "### Remaining Prerequisites",
+    "",
+    ...renderPrerequisites(profile.closureDecision.remainingPrerequisites),
+  ];
 }

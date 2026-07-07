@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
@@ -5,6 +7,9 @@ import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateRenderer.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const ROUTE =
@@ -160,6 +165,17 @@ describe("managed audit manual sandbox connection credential resolver human appr
     expect(profile.decisionGate.explicitNoGoConditions.map((condition) => condition.code)).toContain(
       "AUTOMATIC_UPSTREAM_START_REQUESTED",
     );
+
+    const normalizedMarkdown =
+      renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGateMarkdown({
+        ...profile,
+        generatedAt: "2026-07-07T00:00:00.000Z",
+      });
+    expect(normalizedMarkdown.endsWith("\n")).toBe(true);
+    expect((normalizedMarkdown.match(/^## /gm) ?? []).length).toBe(12);
+    expect((normalizedMarkdown.match(/^### /gm) ?? []).length).toBe(0);
+    expect(normalizedMarkdown.length).toBe(12160);
+    expect(sha256(normalizedMarkdown)).toBe("8e12af44f0a03e8e4176a22ff82d0eb490a679ae16e0e8086f4b1a4ded8bec3c");
   });
 
   it("uses committed historical fixture fallback through the v309 source chain", () => {
@@ -265,4 +281,8 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK: "true",
     ...overrides,
   });
+}
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }

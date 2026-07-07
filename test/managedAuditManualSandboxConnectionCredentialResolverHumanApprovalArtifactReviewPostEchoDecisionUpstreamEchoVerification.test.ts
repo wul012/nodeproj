@@ -179,16 +179,17 @@ describe("managed audit manual sandbox connection credential resolver human appr
     expect(profile.summary.checkCount).toBe(profile.summary.passedCheckCount);
     expect(profile.upstreamEvidence.javaV144.expectedSnippets.every((snippet) => snippet.matched)).toBe(true);
     expect(profile.upstreamEvidence.miniKvV137.expectedSnippets.every((snippet) => snippet.matched)).toBe(true);
-    const normalizedMarkdown =
+    const normalizedMarkdown = normalizeFixtureRootPaths(
       renderManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerificationMarkdown({
         ...profile,
         generatedAt: "2026-07-07T00:00:00.000Z",
-      });
+      }),
+    );
     expect(normalizedMarkdown.endsWith("\n")).toBe(true);
     expect(normalizedMarkdown.match(/^## /gm)).toHaveLength(11);
     expect(normalizedMarkdown.match(/^### /gm)).toHaveLength(4);
-    expect(normalizedMarkdown.length).toBe(23_227);
-    expect(sha256(normalizedMarkdown)).toBe("77b2b2f105c54dbe61e8553bf166a2ea5fde5b39d5988de6ba2f775457511638");
+    expect(normalizedMarkdown.length).toBe(21_674);
+    expect(sha256(normalizedMarkdown)).toBe("f2c272929cd30e71c7db4eea1782b24f745058dca4bf361d232a691a76018fc8");
   });
 
   it("uses committed historical fixture fallback for Java v144 and mini-kv v137 evidence", () => {
@@ -306,4 +307,8 @@ function sha256(value: string): string {
   return createHash("sha256")
     .update(value)
     .digest("hex");
+}
+
+function normalizeFixtureRootPaths(value: string): string {
+  return value.replace(/(?:[A-Za-z]:)?[\\/][^;\n]*?[\\/]fixtures[\\/]/g, "<repo>/fixtures/");
 }

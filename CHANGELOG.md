@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2166 - 2026-07-07
+
+- Renderer consolidation batch 46 migrated two human-approval decision
+  renderers to `renderVerificationReportMarkdown`: the post-echo decision gate
+  and the governance-stop prerequisite closure decision. Added
+  normalized-`generatedAt` SHA-256, length, H2/H3, and trailing newline
+  assertions; the deterministic renderer census moved from 192/245 to 194/245
+  standardized renderers. Stabilized the v2165 upstream verification Markdown
+  hash by normalizing historical fixture absolute roots before hashing so
+  GitHub runner paths and local Windows paths use the same assertion surface.
+
 ## v2165 - 2026-07-07
 
 - Renderer consolidation batch 45 migrated two human-approval full-document
