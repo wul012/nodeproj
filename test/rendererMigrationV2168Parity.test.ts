@@ -63,8 +63,8 @@ describe("renderer migration v2168 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 12_255,
-            sha256: "36d39d8ec971cdf7eb3f8f4eea33de00396c9457ff755c187963ad48c50b2fd6",
+            length: 12_428,
+            sha256: "c61e8534ce44c00f90a8089fe91ab6b5b7b1be78184f4dc9319f0ed353b7a97c",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -80,8 +80,8 @@ describe("renderer migration v2168 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 7_873,
-            sha256: "0227b2e97abc60c76213297eb82eeb4cd2ff270354c809e583ae66c73536fefe",
+            length: 8_064,
+            sha256: "320fde7f1dfd3362884460f30f6b051f887c1e32f6010b67e423fb0a7d90f85d",
             h1Count: 1,
             h2Count: 11,
             h3Count: 0,
@@ -152,8 +152,35 @@ function sha256(value: string): string {
 function normalizeMarkdown(value: string): string {
   return value
     .replace(/Generated at: [^\n]+/g, `Generated at: ${GENERATED_AT}`)
-    .replace(/(?:[A-Za-z]:)?[\\/][^;\n]*?[\\/]fixtures[\\/]/g, "<repo>/fixtures/")
-    .replace(/<repo>\/fixtures\/[^;\n]*/g, (fixturePath) => fixturePath.replace(/\\/g, "/"));
+    .replace(/"(path|resolvedPath)":"([^"]*)"/g, (_match: string, key: string, pathValue: string) =>
+      `"${key}":"${normalizePathValue(pathValue)}"`,
+    );
+}
+
+function normalizePathValue(value: string): string {
+  const slashPath = value
+    .replace(/\\\\/g, "/")
+    .replace(/\\/g, "/")
+    .replace(/\/+/g, "/");
+
+  const fixturesIndex = slashPath.indexOf("/fixtures/");
+  if (fixturesIndex >= 0) {
+    return `<repo>${slashPath.slice(fixturesIndex)}`;
+  }
+
+  const javaMarker = "/advanced-order-platform/";
+  const javaIndex = slashPath.indexOf(javaMarker);
+  if (javaIndex >= 0) {
+    return `<java>${slashPath.slice(javaIndex + javaMarker.length - 1)}`;
+  }
+
+  const miniKvMarker = "/mini-kv/";
+  const miniKvIndex = slashPath.indexOf(miniKvMarker);
+  if (miniKvIndex >= 0) {
+    return `<mini-kv>${slashPath.slice(miniKvIndex + miniKvMarker.length - 1)}`;
+  }
+
+  return slashPath;
 }
 
 function loadTestConfig(overrides: Record<string, string> = {}) {

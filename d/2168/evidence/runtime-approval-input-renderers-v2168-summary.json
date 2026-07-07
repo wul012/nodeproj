@@ -18,18 +18,18 @@
     ]
   },
   "prePostParity": {
-    "fixture": "live typed loaders with ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true, fixed generatedAt, and normalized fixture paths",
+    "fixture": "live typed loaders with ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true, fixed generatedAt, and normalized JSON path/resolvedPath values",
     "intakeContract": {
-      "sha256": "36d39d8ec971cdf7eb3f8f4eea33de00396c9457ff755c187963ad48c50b2fd6",
-      "length": 12255,
+      "sha256": "c61e8534ce44c00f90a8089fe91ab6b5b7b1be78184f4dc9319f0ed353b7a97c",
+      "length": 12428,
       "h1Count": 1,
       "h2Count": 12,
       "h3Count": 0,
       "trailingNewline": true
     },
     "completionIntake": {
-      "sha256": "0227b2e97abc60c76213297eb82eeb4cd2ff270354c809e583ae66c73536fefe",
-      "length": 7873,
+      "sha256": "320fde7f1dfd3362884460f30f6b051f887c1e32f6010b67e423fb0a7d90f85d",
+      "length": 8064,
       "h1Count": 1,
       "h2Count": 11,
       "h3Count": 0,

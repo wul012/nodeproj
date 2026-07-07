@@ -1,0 +1,113 @@
+{
+  "version": "v2169",
+  "title": "runtime execution chain renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntakeRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketContributionReviewRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReviewRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionLiveReadGateRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseoutRenderer.ts"
+    ],
+    "excludedByDesign": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovedLocalLoopbackReadOnlySmokeRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/rendererMigrationV2169Parity.test.ts",
+      "test/rendererCensusScript.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "fixture": "live typed loaders with ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true, fixed generatedAt, and normalized JSON path/resolvedPath values",
+    "artifactUpstreamProgressIntake": {
+      "sha256": "3b85b5941d0633f4e7977ef79a204c967ac6fb0258553aa43c1dbc8a806b8ca4",
+      "length": 12712,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "packetContributionReview": {
+      "sha256": "d8cd56d502aec03c7eb1108e9bb91ec1e8ed4bb0f0676f1a1377a3d640cc25a7",
+      "length": 11642,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "packetApprovalGateReview": {
+      "sha256": "059338f940417812b8b953442bb58af32f41b7c1326a9bf60521ba8ae959c417",
+      "length": 8965,
+      "h1Count": 1,
+      "h2Count": 10,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "liveReadGate": {
+      "sha256": "4efed60de898cf8119a2004cfbf20ea91effb287151cb019dc2d4bb457427ac8",
+      "length": 6785,
+      "h1Count": 1,
+      "h2Count": 10,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "passEvidenceCloseout": {
+      "sha256": "ed617ddbdf85b6a3b0266e326cd94a29c0456b30d1e83f423f5baa3a9916231f",
+      "length": 8887,
+      "h1Count": 1,
+      "h2Count": 9,
+      "h3Count": 0,
+      "trailingNewline": true
+    }
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 200,
+      "unstandardizedRenderers": 45,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 43,
+        "flatMap": 33
+      }
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 205,
+      "unstandardizedRenderers": 40,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 43,
+        "flatMap": 28
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=40"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketContributionReview.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReview.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionLiveReadGate.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseout.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=40",
+      "npm run typecheck",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run lint",
+      "npm run build"
+    ],
+    "pending": [],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3376,
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, route tests, census, typecheck, lint, build, and remote CI remain the v2169 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2169 changes only Node-local Markdown renderers and Node-local tests; it does not request fresh sibling evidence, does not start sibling services, and does not change shared contracts."
+  }
+}

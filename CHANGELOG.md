@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2169 - 2026-07-07
+
+- Renderer consolidation batch 49 migrated five synchronous runtime-execution
+  chain renderers to `renderVerificationReportMarkdown`: upstream progress
+  intake, packet contribution review, packet approval gate review, live read
+  gate, and pass evidence closeout. Added normalized historical-fallback
+  SHA-256 parity coverage; the deterministic renderer census moved from
+  200/245 to 205/245 standardized renderers and reduced remaining flatMap shape
+  signals from 33 to 28. Stabilized the v2168 and v2169 parity hash
+  normalizer by canonicalizing JSON `path` and `resolvedPath` fields, fixing
+  the Linux-runner-only v2168 hash drift.
+
 ## v2168 - 2026-07-07
 
 - Renderer consolidation batch 48 migrated four runtime-execution approval input
