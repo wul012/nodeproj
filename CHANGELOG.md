@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2167 - 2026-07-07
+
+- Renderer consolidation batch 47 migrated the remaining H3-signal full
+  document renderers to `renderVerificationReportMarkdown`: operation approval
+  evidence report/verification and promotion release audit trail record. Added
+  fixed-fixture SHA-256, length, H2/H3, and trailing newline parity tests; the
+  deterministic renderer census moved from 194/245 to 196/245 standardized
+  renderers and reduced remaining H3 signals to zero. Completed the v2166 CI
+  repair by normalizing fixture path separators after root replacement, so the
+  v2165 historical-fallback Markdown hash is identical on Windows and Linux.
+
 ## v2166 - 2026-07-07
 
 - Renderer consolidation batch 46 migrated two human-approval decision

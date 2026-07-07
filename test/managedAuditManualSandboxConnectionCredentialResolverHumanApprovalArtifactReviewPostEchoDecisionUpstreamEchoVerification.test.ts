@@ -189,7 +189,7 @@ describe("managed audit manual sandbox connection credential resolver human appr
     expect(normalizedMarkdown.match(/^## /gm)).toHaveLength(11);
     expect(normalizedMarkdown.match(/^### /gm)).toHaveLength(4);
     expect(normalizedMarkdown.length).toBe(21_674);
-    expect(sha256(normalizedMarkdown)).toBe("f2c272929cd30e71c7db4eea1782b24f745058dca4bf361d232a691a76018fc8");
+    expect(sha256(normalizedMarkdown)).toBe("1eb9902adbc0ff2dffe094aa1f2c07c45c6c585fec5b60e6906d0b6831934e84");
   });
 
   it("uses committed historical fixture fallback for Java v144 and mini-kv v137 evidence", () => {
@@ -310,5 +310,7 @@ function sha256(value: string): string {
 }
 
 function normalizeFixtureRootPaths(value: string): string {
-  return value.replace(/(?:[A-Za-z]:)?[\\/][^;\n]*?[\\/]fixtures[\\/]/g, "<repo>/fixtures/");
+  return value
+    .replace(/(?:[A-Za-z]:)?[\\/][^;\n]*?[\\/]fixtures[\\/]/g, "<repo>/fixtures/")
+    .replace(/<repo>\/fixtures\/[^;\n]*/g, (fixturePath) => fixturePath.replace(/\\/g, "/"));
 }

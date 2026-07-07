@@ -1,22 +1,55 @@
 import { renderList } from "./operationApprovalEvidenceReaders.js";
 import type { OperationApprovalEvidenceReport, OperationApprovalEvidenceVerification } from "./operationApprovalEvidenceTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderOperationApprovalEvidenceMarkdown(report: OperationApprovalEvidenceReport): string {
+  return renderVerificationReportMarkdown({
+    title: "Operation approval evidence report",
+    meta: [
+      ["Service", report.service],
+      ["Generated at", report.generatedAt],
+      ["State", report.state],
+      ["Request id", report.requestId],
+      ["Decision id", report.decisionId ?? "missing"],
+      ["Intent id", report.intentId],
+      ["Action", report.summary.action],
+      ["Target", report.summary.target],
+      ["Evidence digest", `${report.evidenceDigest.algorithm}:${report.evidenceDigest.value}`],
+    ],
+    sections: [
+      { heading: "Approval Request", lines: renderApprovalRequest(report) },
+      { heading: "Reviewer Decision", lines: renderReviewerDecision(report) },
+      { heading: "Upstream Evidence", lines: renderUpstreamEvidence(report) },
+      { heading: "Expected Side Effects", list: report.request.expectedSideEffects, emptyText: "No expected side effects." },
+      { heading: "Hard Blockers", list: report.request.hardBlockers, emptyText: "No hard blockers." },
+      { heading: "Warnings", list: report.request.warnings, emptyText: "No warnings." },
+      { heading: "Next Actions", list: report.nextActions, emptyText: "No next actions." },
+    ],
+  });
+}
+
+export function renderOperationApprovalEvidenceVerificationMarkdown(verification: OperationApprovalEvidenceVerification): string {
+  return renderVerificationReportMarkdown({
+    title: "Operation approval evidence verification",
+    meta: [
+      ["Service", verification.service],
+      ["Verified at", verification.verifiedAt],
+      ["Valid", verification.valid],
+      ["Request id", verification.requestId],
+      ["Decision id", verification.decisionId ?? "missing"],
+      ["State", verification.state],
+      ["Stored digest", `${verification.storedDigest.algorithm}:${verification.storedDigest.value}`],
+      ["Recomputed digest", `${verification.recomputedDigest.algorithm}:${verification.recomputedDigest.value}`],
+    ],
+    sections: [
+      { heading: "Checks", lines: renderVerificationChecks(verification) },
+      { heading: "Next Actions", list: verification.nextActions, emptyText: "No next actions." },
+    ],
+  });
+}
+
+function renderApprovalRequest(report: OperationApprovalEvidenceReport): string[] {
   return [
-    "# Operation approval evidence report",
-    "",
-    `- Service: ${report.service}`,
-    `- Generated at: ${report.generatedAt}`,
-    `- State: ${report.state}`,
-    `- Request id: ${report.requestId}`,
-    `- Decision id: ${report.decisionId ?? "missing"}`,
-    `- Intent id: ${report.intentId}`,
-    `- Action: ${report.summary.action}`,
-    `- Target: ${report.summary.target}`,
-    `- Evidence digest: ${report.evidenceDigest.algorithm}:${report.evidenceDigest.value}`,
-    "",
-    "## Approval Request",
-    "",
     `- Request status: ${report.summary.requestStatus}`,
     `- Requested by: ${report.request.requestedBy}`,
     `- Reviewer: ${report.request.reviewer}`,
@@ -24,16 +57,20 @@ export function renderOperationApprovalEvidenceMarkdown(report: OperationApprova
     `- Ready for approval request: ${report.summary.readyForApprovalRequest}`,
     `- Preflight digest: ${report.summary.preflightDigest.algorithm}:${report.summary.preflightDigest.value}`,
     `- Preview digest: ${report.summary.previewDigest.algorithm}:${report.summary.previewDigest.value}`,
-    "",
-    "## Reviewer Decision",
-    "",
+  ];
+}
+
+function renderReviewerDecision(report: OperationApprovalEvidenceReport): string[] {
+  return [
     `- Decision: ${report.summary.decision}`,
     `- Reviewer: ${report.summary.reviewer}`,
     `- Upstream touched: ${report.summary.upstreamTouched}`,
     `- Decision digest: ${report.summary.decisionDigest === undefined ? "missing" : `${report.summary.decisionDigest.algorithm}:${report.summary.decisionDigest.value}`}`,
-    "",
-    "## Upstream Evidence",
-    "",
+  ];
+}
+
+function renderUpstreamEvidence(report: OperationApprovalEvidenceReport): string[] {
+  return [
     `- Java approval-status: ${report.summary.javaApprovalStatus} - ${report.upstreamEvidence.javaApprovalStatus.message}`,
     `- Java approved for replay: ${report.summary.javaApprovedForReplay === undefined ? "unknown" : report.summary.javaApprovedForReplay}`,
     `- Java evidence version: ${report.summary.javaEvidenceVersion ?? "unknown"}`,
@@ -56,41 +93,11 @@ export function renderOperationApprovalEvidenceMarkdown(report: OperationApprova
     "### mini-kv side_effects",
     "",
     ...renderList(report.summary.miniKvSideEffects, "No mini-kv side_effects reported."),
-    "",
-    "## Expected Side Effects",
-    "",
-    ...renderList(report.request.expectedSideEffects, "No expected side effects."),
-    "",
-    "## Hard Blockers",
-    "",
-    ...renderList(report.request.hardBlockers, "No hard blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderList(report.request.warnings, "No warnings."),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(report.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  ];
 }
 
-export function renderOperationApprovalEvidenceVerificationMarkdown(verification: OperationApprovalEvidenceVerification): string {
+function renderVerificationChecks(verification: OperationApprovalEvidenceVerification): string[] {
   return [
-    "# Operation approval evidence verification",
-    "",
-    `- Service: ${verification.service}`,
-    `- Verified at: ${verification.verifiedAt}`,
-    `- Valid: ${verification.valid}`,
-    `- Request id: ${verification.requestId}`,
-    `- Decision id: ${verification.decisionId ?? "missing"}`,
-    `- State: ${verification.state}`,
-    `- Stored digest: ${verification.storedDigest.algorithm}:${verification.storedDigest.value}`,
-    `- Recomputed digest: ${verification.recomputedDigest.algorithm}:${verification.recomputedDigest.value}`,
-    "",
-    "## Checks",
-    "",
     `- Digest valid: ${verification.checks.digestValid}`,
     `- Request matches: ${verification.checks.requestMatches}`,
     `- Decision present: ${verification.checks.decisionPresent}`,
@@ -106,10 +113,5 @@ export function renderOperationApprovalEvidenceVerificationMarkdown(verification
     `- mini-kv execution contract evidence valid: ${verification.checks.miniKvExecutionContractEvidenceValid}`,
     `- Next actions match: ${verification.checks.nextActionsMatch}`,
     `- Upstream untouched: ${verification.checks.upstreamUntouched}`,
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(verification.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  ];
 }

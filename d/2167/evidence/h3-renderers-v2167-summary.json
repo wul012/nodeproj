@@ -1,0 +1,93 @@
+{
+  "version": "v2167",
+  "title": "remaining H3 renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/operationApprovalEvidenceRenderer.ts",
+      "src/services/opsPromotionReleaseAuditTrailMarkdownRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/rendererMigrationV2167Parity.test.ts",
+      "test/rendererCensusScript.test.ts",
+      "test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "fixture": "fixed typed fixtures in test/rendererMigrationV2167Parity.test.ts",
+    "operationApprovalEvidenceReport": {
+      "sha256": "19d864f7a32ef7b8a8a4f0c9b9c645eb3fdd8f5e409c4186ffc515cb4f28b199",
+      "length": 2090,
+      "h1Count": 1,
+      "h2Count": 7,
+      "h3Count": 1,
+      "trailingNewline": true
+    },
+    "operationApprovalEvidenceVerification": {
+      "sha256": "aa988caaa667c662c9a2ca5b1ee3a2fcfc39553f0f6d4a33582fe9932584185d",
+      "length": 1004,
+      "h1Count": 1,
+      "h2Count": 2,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "promotionReleaseAuditTrailRecord": {
+      "sha256": "3d4f8b6becceb2aa7f3f81213aa3d13ab476e2d1551f26421aa377f0a608042c",
+      "length": 2353,
+      "h1Count": 1,
+      "h2Count": 4,
+      "h3Count": 2,
+      "trailingNewline": true
+    }
+  },
+  "ciRepair": {
+    "sourceRun": "GitHub Actions run 28842687283 for v2166",
+    "failure": "the v2165 historical-fallback Markdown assertion kept length 21674 and heading counts stable, but Windows used backslashes after the normalized fixture root while Linux used forward slashes, producing different SHA-256 values",
+    "repair": "normalize path separators for the complete <repo>/fixtures/... segment before hashing",
+    "stableSha256": "1eb9902adbc0ff2dffe094aa1f2c07c45c6c585fec5b60e6906d0b6831934e84",
+    "behaviorChanged": false
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 194,
+      "unstandardizedRenderers": 51
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 196,
+      "unstandardizedRenderers": 49,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 43,
+        "flatMap": 40
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=49"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/rendererMigrationV2167Parity.test.ts test/operationApprovalEvidence.test.ts test/opsPromotionReleaseAuditTrail.test.ts test/opsPromotionArchiveReleaseDeploymentRenderers.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=49",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run typecheck",
+      "npm run lint",
+      "npm run build"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3171,
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, route tests, census, typecheck, lint, build, and remote CI remain the v2167 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2167 changes only Node-local Markdown renderers and Node-local tests; it does not request fresh sibling evidence or change shared contracts."
+  }
+}
