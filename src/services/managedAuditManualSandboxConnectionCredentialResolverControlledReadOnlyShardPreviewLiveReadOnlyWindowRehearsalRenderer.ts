@@ -1,39 +1,50 @@
-import { renderEntries } from "./liveProbeReportUtils.js";
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalStep,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalTypes.js";
+import {
+  renderVerificationReportMarkdown,
+} from "./verificationReportBuilder.js";
 
 export function renderControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacketMarkdown(
   packet: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
 ): string {
-  return [
-    "# Controlled read-only shard preview live read-only window rehearsal packet",
-    "",
-    `- Packet version: ${packet.packetVersion}`,
-    `- Packet state: ${packet.packetState}`,
-    `- Ready for manual live read-only rehearsal: ${packet.readyForManualLiveReadOnlyRehearsal}`,
-    `- Ready for live execution: ${packet.readyForLiveExecution}`,
-    `- Ready for production execution: ${packet.readyForProductionExecution}`,
-    `- Step count: ${packet.stepCount}`,
-    `- Owner count: ${packet.ownerCount}`,
-    `- Evidence slot count: ${packet.evidenceSlotCount}`,
-    `- Cleanup required steps: ${packet.cleanupRequiredStepCount}`,
-    `- Failure class count: ${packet.failureClassCount}`,
-    `- Passed gates: ${packet.passedGateCount}/${packet.gateCount}`,
-    `- Packet digest: ${packet.packetDigest}`,
-    "",
-    "## Gates",
-    ...renderEntries(packet.gates),
-    "",
-    "## Steps",
-    ...packet.steps.flatMap(renderStep),
-    "",
-    "## Blocked Reasons",
-    ...(packet.blockedReasonCodes.length === 0
-      ? ["- none"]
-      : packet.blockedReasonCodes.map((reason) => `- ${reason}`)),
-  ].join("\n");
+  return renderVerificationReportMarkdown({
+    title: "Controlled read-only shard preview live read-only window rehearsal packet",
+    meta: [
+      ["Packet version", packet.packetVersion],
+      ["Packet state", packet.packetState],
+      ["Ready for manual live read-only rehearsal", packet.readyForManualLiveReadOnlyRehearsal],
+      ["Ready for live execution", packet.readyForLiveExecution],
+      ["Ready for production execution", packet.readyForProductionExecution],
+      ["Step count", packet.stepCount],
+      ["Owner count", packet.ownerCount],
+      ["Evidence slot count", packet.evidenceSlotCount],
+      ["Cleanup required steps", packet.cleanupRequiredStepCount],
+      ["Failure class count", packet.failureClassCount],
+      ["Passed gates", `${packet.passedGateCount}/${packet.gateCount}`],
+      ["Packet digest", packet.packetDigest],
+    ],
+    sections: [
+      {
+        heading: "Gates",
+        bodyLeadingBlankLine: false,
+        entries: packet.gates,
+      },
+      {
+        heading: "Steps",
+        bodyLeadingBlankLine: false,
+        lines: packet.steps.flatMap(renderStep),
+      },
+      {
+        heading: "Blocked Reasons",
+        bodyLeadingBlankLine: false,
+        list: packet.blockedReasonCodes,
+        emptyText: "none",
+      },
+    ],
+    trailingNewline: false,
+  });
 }
 
 function renderStep(step: ControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalStep): string[] {

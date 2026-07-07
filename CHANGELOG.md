@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2163 - 2026-07-07
+
+- Renderer consolidation batch 43 migrated the controlled read-only shard
+  preview live read-only window rehearsal packet renderer to
+  `renderVerificationReportMarkdown`, preserving the 20-step rehearsal packet
+  Markdown byte-identically. Added SHA-256, length, step-heading, and
+  no-trailing-newline assertions; the deterministic renderer census moved from
+  187/245 to 188/245 standardized renderers.
+
 ## v2162 - 2026-07-07
 
 - Renderer consolidation batch 42 migrated the controlled read-only shard

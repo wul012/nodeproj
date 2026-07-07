@@ -1,0 +1,60 @@
+{
+  "version": "v2163",
+  "title": "controlled read-only shard preview live read-only window rehearsal renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderer": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalRenderer.ts",
+    "testUpdated": "test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsal.test.ts"
+  },
+  "prePostParity": {
+    "fixture": "readySourceMatrix through execution readiness, stage ledger, runbook package, and rehearsal packet builders",
+    "markdownSha256": "cbbefc011c6cf84dabded2ea4a758baac90d4dfc5ec33a59b021c7ec5e283263",
+    "markdownLength": 8964,
+    "h1Count": 1,
+    "h2Count": 3,
+    "h3Count": 20,
+    "trailingNewline": false,
+    "assertionLocation": "test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsal.test.ts"
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 187,
+      "unstandardizedRenderers": 58
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 188,
+      "unstandardizedRenderers": 57,
+      "remainingShapeSignals": {
+        "h3": 24,
+        "forLoop": 0,
+        "map": 67,
+        "flatMap": 41
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=57"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsal.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=57",
+      "npm run typecheck",
+      "npm run build",
+      "npm run lint",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, census, typecheck, lint, build, and remote CI remain the v2163 gates"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2163 changes only a Node-local rehearsal Markdown renderer and Node-local tests; it consumes frozen fixture data and changes no shared contract."
+  }
+}

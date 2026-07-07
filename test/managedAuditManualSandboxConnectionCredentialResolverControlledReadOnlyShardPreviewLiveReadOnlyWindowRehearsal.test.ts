@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { describe, expect, it } from "vitest";
 
 import {
@@ -110,6 +112,10 @@ describe("controlled read-only shard preview live read-only window rehearsal pac
     expect(markdown).toContain("### 1. Node v732 REHEARSAL_SOURCE_PACKAGE_PRECHECK");
     expect(markdown).toContain("### 20. Node v751 REHEARSAL_PACKET_CLOSEOUT");
     expect(markdown).toContain("- Ready for live execution: false");
+    expect(markdown.endsWith("\n")).toBe(false);
+    expect(markdown.match(/^### /gm)).toHaveLength(20);
+    expect(markdown.length).toBe(8964);
+    expect(sha256(markdown)).toBe("cbbefc011c6cf84dabded2ea4a758baac90d4dfc5ec33a59b021c7ec5e283263");
   });
 
   it("includes the rehearsal packet in the controlled preview profile", async () => {
@@ -155,4 +161,10 @@ function stageLedgerFromSourceMatrix(ready: boolean) {
   const verification = createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification(candidate);
 
   return createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger(verification);
+}
+
+function sha256(value: string): string {
+  return createHash("sha256")
+    .update(value)
+    .digest("hex");
 }

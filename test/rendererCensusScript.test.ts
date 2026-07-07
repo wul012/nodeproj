@@ -6,19 +6,19 @@ import { describe, expect, it } from "vitest";
 import { buildRendererCensus } from "../scripts/renderer-census.mjs";
 
 describe("renderer census script", () => {
-  it("reproduces the v2157 renderer migration baseline", async () => {
+  it("reproduces the current renderer migration baseline", async () => {
     const census = await buildRendererCensus();
 
     expect(census.totalRenderers).toBe(245);
-    expect(census.standardizedRenderers).toBe(187);
-    expect(census.unstandardizedRenderers).toBe(58);
+    expect(census.standardizedRenderers).toBe(188);
+    expect(census.unstandardizedRenderers).toBe(57);
     expect(census.remainingShapeSignals).toEqual({
-      h3: 25,
+      h3: 24,
       forLoop: 0,
-      map: 68,
-      flatMap: 42,
+      map: 67,
+      flatMap: 41,
     });
-    expect(census.unstandardizedFiles).toHaveLength(58);
+    expect(census.unstandardizedFiles).toHaveLength(57);
     expect(census.unstandardizedFiles[0]?.file).toBe(
       "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts",
     );
@@ -30,9 +30,9 @@ describe("renderer census script", () => {
     expect(() => {
       execFileSync(
         process.execPath,
-        [scriptPath, "--max-unstandardized=57"],
+        [scriptPath, "--max-unstandardized=56"],
         { encoding: "utf8" },
       );
-    }).toThrow(/Renderer census regression: 58 exceeds --max-unstandardized=57/);
+    }).toThrow(/Renderer census regression: 57 exceeds --max-unstandardized=56/);
   });
 });
