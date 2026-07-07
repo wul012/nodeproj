@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2174 - 2026-07-07
+
+- CI repair and renderer parity comparison-surface cleanup: extended
+  `rendererMigrationParityUtils` to normalize JSON file-reference
+  `exists`/`byteLength`/`digest` triples when local sibling evidence files are
+  present on Windows but absent on the Linux runner. This fixes the v2173
+  `artifactIntakePreflight` 20-character drift while keeping product renderers,
+  loaders, routes, schemas, fixtures, and public Markdown output unchanged.
+
 ## v2173 - 2026-07-07
 
 - CI repair and renderer parity normalization completion: extended

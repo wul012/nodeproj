@@ -1,0 +1,116 @@
+{
+  "version": "v2174",
+  "date": "2026-07-07",
+  "track": "node-production-excellence-n1-ci-repair",
+  "sourceFailure": {
+    "githubRunId": "28851570922",
+    "failingTest": "test/rendererMigrationV2170Parity.test.ts > renderer migration v2170 parity > keeps declared operator lifecycle renderers byte-identical after builder migration",
+    "failingCase": "artifactIntakePreflight",
+    "symptom": "remote normalized Markdown length was 12415 while the v2173 expected length was 12435",
+    "scope": "single parity assertion failure after the full Linux CI test run reached the tail of coverage"
+  },
+  "rootCause": {
+    "classification": "renderer migration parity comparison-surface drift",
+    "details": [
+      "The local Windows checkout has direct sibling Java and mini-kv evidence files for the artifact intake preflight profile.",
+      "The Linux runner lacks those direct sibling files and therefore renders missing file-reference objects for the same semantic slots.",
+      "v2173 already normalized file-reference byteLength and digest values, but it still preserved the JSON exists flag.",
+      "Two true local file references versus two false remote file references created a 20-character local/remote normalized length drift."
+    ],
+    "productBehaviorChanged": false
+  },
+  "implementation": {
+    "changedFiles": [
+      "test/rendererMigrationParityUtils.ts",
+      "test/rendererMigrationV2170Parity.test.ts",
+      "CHANGELOG.md",
+      "d/2174/evidence/renderer-parity-file-reference-exists-normalizer-v2174-summary.json",
+      "d/2174/解释/renderer-parity-file-reference-exists-normalizer-v2174.md",
+      "代码讲解记录_生产雏形阶段3/r2000/2144-renderer-parity-file-reference-exists-normalizer-v2174.md"
+    ],
+    "normalizationRule": "JSON file-reference triples of the form exists + byteLength + digest now normalize exists, byteLength, and digest together when calculating renderer migration parity hashes.",
+    "expectedFingerprintUpdates": {
+      "test/rendererMigrationV2170Parity.test.ts": {
+        "case": "artifactIntakePreflight",
+        "length": 12505,
+        "sha256": "7756125199c6399629189fd6fb8affb665c1c94560ea9b65514bb2a926f7231d",
+        "h1Count": 1,
+        "h2Count": 12,
+        "h3Count": 0
+      }
+    },
+    "unchangedSurfaces": [
+      "src/services renderer implementations",
+      "loader implementations",
+      "HTTP routes",
+      "schemas",
+      "fixtures",
+      "public Markdown output"
+    ]
+  },
+  "safetyBoundary": {
+    "normalized": [
+      "checkout-local file existence",
+      "checkout-local file byte length",
+      "checkout-local file digest"
+    ],
+    "notNormalized": [
+      "section titles",
+      "check names",
+      "check status values",
+      "summary values",
+      "warnings",
+      "recommendations",
+      "business readiness decisions"
+    ],
+    "stopCondition": "Future normalizer changes are allowed only for checkout-local path or file metadata drift. Business fields and Markdown structure must remain inside the parity hash."
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "npx vitest run test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 2 tests passed"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts --maxWorkers=2",
+        "result": "4 test files passed, 5 tests passed"
+      },
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 4 tests passed"
+      },
+      {
+        "command": "npm run lint",
+        "result": "0 errors, 263 warnings"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run --maxWorkers=8",
+        "result": "537 test files passed, 1642 tests passed"
+      },
+      {
+        "command": "npm run renderer:census -- --json",
+        "result": "245 total renderers, 209 standardized, 36 unstandardized"
+      }
+    ],
+    "localNotes": [
+      "npx vitest run --maxWorkers=2 timed out after 20 minutes without assertion output; the spawned vitest process tree was stopped.",
+      "npx vitest run --maxWorkers=4 timed out after 30 minutes without assertion output; the spawned vitest process tree was stopped.",
+      "The complete suite passed with --maxWorkers=8, which keeps concurrency below the prior default-worker process storm while giving the suite enough throughput."
+    ],
+    "pending": [
+      "GitHub Actions CI for v2174"
+    ]
+  },
+  "parallelProjectStatus": {
+    "java": "recommended parallel; v2174 only changes Node test comparison infrastructure and consumes no fresh Java evidence",
+    "miniKv": "recommended parallel; v2174 only changes Node test comparison infrastructure and consumes no fresh mini-kv evidence"
+  }
+}
