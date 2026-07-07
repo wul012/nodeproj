@@ -1,0 +1,156 @@
+{
+  "version": "v2176",
+  "date": "2026-07-07",
+  "track": "node-production-excellence-n1-renderer-consolidation",
+  "batch": 52,
+  "scope": {
+    "goal": "Migrate three full-report shard/readiness renderers to renderVerificationReportMarkdown while preserving normalized byte-equivalent Markdown output.",
+    "nonGoals": [
+      "No loader changes",
+      "No route changes",
+      "No schema changes",
+      "No fixture changes",
+      "No Java or mini-kv writes",
+      "No production shard execution enablement"
+    ],
+    "parallelProjects": {
+      "java": "recommended parallel; v2176 reads no fresh Java evidence and does not require Java to wait",
+      "miniKv": "recommended parallel; v2176 reads no fresh mini-kv evidence and does not require mini-kv to wait"
+    }
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReportRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGateRenderer.ts",
+    "src/services/productionShardExecutionReadinessRenderer.ts"
+  ],
+  "mechanicalRatchets": [
+    {
+      "file": "test/rendererCensusScript.test.ts",
+      "change": "Tightened the renderer census baseline from 214 standardized / 31 unstandardized to 217 standardized / 28 unstandardized, and moved the negative shrink-only gate from max 30 to max 27."
+    },
+    {
+      "file": "test/rendererMigrationV2176Parity.test.ts",
+      "change": "Added normalized byte-equivalence coverage for two shard readiness reports and three representative production shard execution stage profiles."
+    }
+  ],
+  "parityFingerprints": [
+    {
+      "case": "shardReadinessCompatibilityReport",
+      "length": 6808,
+      "sha256": "c686d8191ca816c4829baef8747a7ee8390afdad37dbf0f92ea0122e901d2208",
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 0
+    },
+    {
+      "case": "shardReadinessContractConsumerGate",
+      "length": 7243,
+      "sha256": "2bf226337dbaf9362ca5d97a9c25d585d25317b29edf539763c3aceab88b863d",
+      "h1Count": 1,
+      "h2Count": 10,
+      "h3Count": 0
+    },
+    {
+      "case": "productionShardExecutionHandoffReadiness",
+      "length": 6484,
+      "sha256": "89ce139f67e5bd41bda567c38355d7b96f44a71a7cabe486c758acc5f110f5f1",
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0
+    },
+    {
+      "case": "productionShardExecutionExternalArtifactDryRunCloseout",
+      "length": 8148,
+      "sha256": "205e5633dfc64100422e7b084d2419de65f3d3a80631329a321cf44a200de69b",
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0
+    },
+    {
+      "case": "productionShardExecutionRealArtifactIntakePreflightCloseout",
+      "length": 8143,
+      "sha256": "086c52d75448053f5e4929ab918159a0d060ced5ce51d6b42ec9d5e4178d15ba",
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0
+    }
+  ],
+  "census": {
+    "command": "npm run renderer:census -- --json --max-unstandardized=28",
+    "before": {
+      "standardizedRenderers": 214,
+      "unstandardizedRenderers": 31
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 217,
+      "unstandardizedRenderers": 28,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 30,
+        "flatMap": 24
+      }
+    }
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2176Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverShardReadinessCompatibilityReport.test.ts test/managedAuditManualSandboxConnectionCredentialResolverShardReadinessContractConsumerGate.test.ts test/productionShardExecutionReadiness.test.ts --maxWorkers=2",
+        "result": "4 test files passed, 10 tests passed"
+      },
+      {
+        "command": "npm run renderer:census -- --json --max-unstandardized=31",
+        "result": "245 total renderers, 217 standardized, 28 unstandardized"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts test/rendererMigrationV2176Parity.test.ts --maxWorkers=2",
+        "result": "6 test files passed, 7 tests passed"
+      },
+      {
+        "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 4 tests passed; v2176 walkthrough counted 3291 Chinese characters and satisfied the current quality gate"
+      },
+      {
+        "command": "npm run lint",
+        "result": "passed with 0 errors and 263 existing warnings"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/rendererCensusScript.test.ts test/rendererMigrationV2176Parity.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 3 tests passed; the negative census gate printed the expected regression message for max 27"
+      },
+      {
+        "command": "npm run renderer:census -- --json --max-unstandardized=28",
+        "result": "245 total renderers, 217 standardized, 28 unstandardized; gate passed at max 28"
+      },
+      {
+        "command": "npx vitest run --maxWorkers=8",
+        "result": "timeout-only after 10 minutes with no assertion output; orphaned Vitest workers were stopped before retrying in controlled slices"
+      },
+      {
+        "command": "npx vitest run --maxWorkers=4",
+        "result": "timeout-only after 20 minutes with no assertion output; orphaned Vitest workers were stopped before retrying in controlled slices"
+      },
+      {
+        "command": "split full Vitest coverage by filename/family slices",
+        "result": "all 539 test files passed across controlled slices: a* 71, c/d/e/f/g/h/i/n/s/t/u/v/w* 59, j* 46, o* 38, p* 50, r* 29, non-credential m* 65, credential controlled-read-only 46, credential JavaMiniKv 34, Minimal 16, RuntimeShell 26, SandboxHandleReview 10, ShardReadiness 2, Disabled non-runtime 5, HumanApproval 5, SignedHumanApproval 3, remaining approval/other 31, ManagedAuditDisabled 3"
+      }
+    ],
+    "pending": [
+      "GitHub Actions CI for v2176"
+    ]
+  },
+  "safetyBoundary": {
+    "publicOutput": "Normalized parity hashes match pre-migration fingerprints; route output keeps the same section shape.",
+    "sharedRendererRisk": "productionShardExecutionReadinessRenderer is shared by 21 stage profiles, so parity covers three representative stages and the existing production shard execution test covers all 21 profiles.",
+    "stopCondition": "If any production shard execution stage changes shape, inspect the renderer section mapping; do not change stage loaders to satisfy renderer parity."
+  }
+}
