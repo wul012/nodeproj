@@ -1,0 +1,150 @@
+{
+  "version": "v2175",
+  "date": "2026-07-07",
+  "track": "node-production-excellence-n1-renderer-consolidation",
+  "batch": 51,
+  "scope": {
+    "goal": "Migrate five Java/mini-kv shard readiness intake renderers from hand-assembled Markdown arrays to renderVerificationReportMarkdown while preserving byte-identical normalized output.",
+    "nonGoals": [
+      "No loader changes",
+      "No route changes",
+      "No schema changes",
+      "No fixture changes",
+      "No Java or mini-kv writes",
+      "No live service startup"
+    ],
+    "parallelProjects": {
+      "java": "recommended parallel; v2175 consumes frozen historical evidence and does not require fresh Java output",
+      "miniKv": "recommended parallel; v2175 consumes frozen historical evidence and does not require fresh mini-kv output"
+    }
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvShardReadinessEvidenceConsumptionRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvCompletedShardReadinessEvidenceIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanEvidenceIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanBoundaryHandoffIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntakeRenderer.ts"
+  ],
+  "mechanicalRatchets": [
+    {
+      "file": "test/rendererCensusScript.test.ts",
+      "change": "Tightened the renderer census baseline from 209 standardized / 36 unstandardized to 214 standardized / 31 unstandardized, and moved the negative shrink-only gate from max 35 to max 30."
+    },
+    {
+      "file": "test/rendererMigrationV2175Parity.test.ts",
+      "change": "Added normalized byte-equivalence coverage for the five migrated renderers."
+    }
+  ],
+  "parityFingerprints": [
+    {
+      "case": "shardReadinessEvidenceConsumption",
+      "length": 6614,
+      "sha256": "23afa5be96d6124010f756ec0b9056996570a1fde466cc49b02f5212411357c8",
+      "h1Count": 1,
+      "h2Count": 10,
+      "h3Count": 0
+    },
+    {
+      "case": "completedShardReadinessEvidenceIntake",
+      "length": 8074,
+      "sha256": "00e63d5142546c6a84e307ef79c795429b6100d6e456216f46a8061bcf1bd5ae",
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0
+    },
+    {
+      "case": "activeShardPlanEvidenceIntake",
+      "length": 7478,
+      "sha256": "7a2bacc9328c8acc37a3484832c3019ff5c65bb28ba0eb52442017de333df26a",
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 0
+    },
+    {
+      "case": "activeShardPlanBoundaryHandoffIntake",
+      "length": 9666,
+      "sha256": "d7d7f0bc718e1d2032a1b19c74d9debeaebca8433a3e95e713b3a0d115cdd3cd",
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0
+    },
+    {
+      "case": "liveReadGatePlanIntake",
+      "length": 12558,
+      "sha256": "014490df23b1873a2d91b96fa14ccc4d612ec7e504e715eb12927651011587d0",
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0
+    }
+  ],
+  "census": {
+    "command": "npm run renderer:census -- --json --max-unstandardized=36",
+    "before": {
+      "standardizedRenderers": 209,
+      "unstandardizedRenderers": 36
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 214,
+      "unstandardizedRenderers": 31,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 32,
+        "flatMap": 27
+      }
+    }
+  },
+  "verification": {
+    "passed": [
+      {
+        "command": "npm run typecheck",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2175Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvShardReadinessEvidenceConsumption.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvCompletedShardReadinessEvidenceIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanEvidenceIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanBoundaryHandoffIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntake.test.ts --maxWorkers=2",
+        "result": "6 test files passed, 20 tests passed"
+      },
+      {
+        "command": "npm run renderer:census -- --json --max-unstandardized=36",
+        "result": "245 total renderers, 214 standardized, 31 unstandardized"
+      },
+      {
+        "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts --maxWorkers=2",
+        "result": "5 test files passed, 6 tests passed"
+      },
+      {
+        "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 4 tests passed; v2175 walkthrough counted as 3042 Chinese characters by the quality gate"
+      },
+      {
+        "command": "npm run lint",
+        "result": "0 errors, 263 warnings"
+      },
+      {
+        "command": "npm run build",
+        "result": "passed"
+      },
+      {
+        "command": "npx vitest run test/rendererCensusScript.test.ts test/rendererMigrationV2175Parity.test.ts --maxWorkers=2",
+        "result": "2 test files passed, 3 tests passed; negative shrink-only gate emitted the expected regression message for --max-unstandardized=30"
+      },
+      {
+        "command": "npm run renderer:census -- --json --max-unstandardized=31",
+        "result": "245 total renderers, 214 standardized, 31 unstandardized"
+      },
+      {
+        "command": "npx vitest run --maxWorkers=8",
+        "result": "538 test files passed, 1643 tests passed"
+      }
+    ],
+    "pending": [
+      "GitHub Actions CI for v2175"
+    ]
+  },
+  "safetyBoundary": {
+    "publicOutput": "Normalized parity hashes match pre-migration fingerprints; product routes retain the same Markdown shape.",
+    "builderUse": "The common builder now owns repeated title/meta/section spacing while local helper lines are retained where the profile has custom shard-readiness formatting.",
+    "stopCondition": "If parity fails, revert or inspect renderer mapping; do not change loader data or fixture bytes to satisfy this batch."
+  }
+}

@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2175 - 2026-07-07
+
+- Renderer consolidation batch 51 migrated five Java/mini-kv shard readiness
+  and live-read-plan intake renderers to `renderVerificationReportMarkdown`:
+  shard readiness evidence consumption, completed shard readiness evidence
+  intake, active shard plan evidence intake, active shard plan boundary handoff
+  intake, and live read gate plan intake. Added v2175 parity coverage for the
+  migrated renderers and advanced the renderer census from 209/245 to 214/245,
+  leaving 31 unstandardized renderers.
+
 ## v2174 - 2026-07-07
 
 - CI repair and renderer parity comparison-surface cleanup: extended
