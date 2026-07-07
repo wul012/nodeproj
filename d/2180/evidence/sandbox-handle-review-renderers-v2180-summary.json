@@ -1,0 +1,125 @@
+{
+  "version": "v2180",
+  "date": "2026-07-07",
+  "title": "Sandbox handle review renderer migration",
+  "scope": {
+    "changedProductSurface": "Markdown renderer implementation only",
+    "routesChanged": false,
+    "schemasChanged": false,
+    "fixturesChanged": false,
+    "siblingRepositoriesChanged": false,
+    "javaMiniKvParallelRecommended": true,
+    "precondition": "v2179 remote CI run 28873507461 passed before this version started changing renderer code.",
+    "necessityProof": "N1 still had 19 unstandardized renderer files after v2179. These five files form one sandbox handle review prerequisite/contract/packet-gate/closure family, all using the same manual meta, entries, domain lines, message, and next-action skeleton. Migrating them together removes duplicated report scaffolding while preserving local helpers for prerequisite inputs, contract sections, packet gate outputs, stop conditions, decision inputs, and closure items."
+  },
+  "migratedRenderers": [
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordRenderer.ts",
+    "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewRenderer.ts"
+  ],
+  "parityFingerprints": {
+    "sandboxHandleReviewPrerequisiteIntake": {
+      "normalizedLength": 10591,
+      "sha256": "6a7f37f14d74f525d9386ec77f94ec5e43f8caf001c147961a86281a209d4112",
+      "headingCounts": { "h1": 1, "h2": 11, "h3": 0 }
+    },
+    "sandboxHandleReviewContractDecision": {
+      "normalizedLength": 9833,
+      "sha256": "34bb24a8b9df440c8b4e4b5a4be8ed85d9b6687d8aecae421e7b6733eb94d5ab",
+      "headingCounts": { "h1": 1, "h2": 11, "h3": 0 }
+    },
+    "sandboxHandleReviewPacketGateNonSecretIntake": {
+      "normalizedLength": 12228,
+      "sha256": "67cf771cdf18f0cd4c9e6e371a1639ecc22f552539d69e0e1dfd0695e7ebcf5f",
+      "headingCounts": { "h1": 1, "h2": 12, "h3": 0 }
+    },
+    "sandboxHandleReviewPacketGateDecisionRecord": {
+      "normalizedLength": 7230,
+      "sha256": "1a04cf94a3e93346cde8e34b623159d613a49bef5a02b398142d10ba095248ca",
+      "headingCounts": { "h1": 1, "h2": 10, "h3": 0 }
+    },
+    "sandboxHandleReviewPrerequisiteClosureReview": {
+      "normalizedLength": 7927,
+      "sha256": "fe3313856c72fa3b11710892c05b9970edec533c7d0ac47608044873d3a9e6b9",
+      "headingCounts": { "h1": 1, "h2": 10, "h3": 0 }
+    }
+  },
+  "rendererCensus": {
+    "totalRenderers": 245,
+    "standardizedRenderers": 231,
+    "unstandardizedRenderers": 14,
+    "remainingShapeSignals": {
+      "h3": 0,
+      "forLoop": 0,
+      "map": 17,
+      "flatMap": 8
+    },
+    "ratchet": "--max-unstandardized=14"
+  },
+  "localVerification": [
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "Completed successfully after renderer edits."
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationV2180Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecision.test.ts test/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecord.test.ts test/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReview.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "6 files passed, 16 tests passed."
+    },
+    {
+      "command": "npx vitest run test/rendererCensusScript.test.ts test/rendererMigrationV2180Parity.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "2 files passed, 3 tests passed; negative ratchet emitted 'Renderer census regression: 14 exceeds --max-unstandardized=13.'"
+    },
+    {
+      "command": "npm run renderer:census -- --json --max-unstandardized=14",
+      "status": "passed",
+      "evidence": "Reported 231 standardized and 14 unstandardized renderers."
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationV2167Parity.test.ts test/rendererMigrationV2168Parity.test.ts test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/rendererMigrationV2175Parity.test.ts test/rendererMigrationV2176Parity.test.ts test/rendererMigrationV2178Parity.test.ts test/rendererMigrationV2179Parity.test.ts test/rendererMigrationV2180Parity.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "9 files passed, 10 tests passed."
+    },
+    {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "status": "passed",
+      "evidence": "2 files passed, 4 tests passed; v2180 walkthrough measured 3031 Chinese characters, no missing required sections, compliance score 100."
+    },
+    {
+      "command": "rg -n <forbidden walkthrough-or-execution phrases> d\\2180 \"代码讲解记录_生产雏形阶段3\\r2000\\2150-sandbox-handle-review-renderers-v2180.md\"",
+      "status": "passed",
+      "evidence": "No matches; command exited 1 as expected for rg no-match."
+    },
+    {
+      "command": "node -e \"JSON.parse(require('fs').readFileSync('d/2180/evidence/sandbox-handle-review-renderers-v2180-summary.json','utf8')); console.log('json ok')\"",
+      "status": "passed",
+      "evidence": "json ok."
+    },
+    {
+      "command": "npm run typecheck",
+      "status": "passed",
+      "evidence": "tsc -p tsconfig.json --noEmit completed successfully during final closeout."
+    },
+    {
+      "command": "npm run lint",
+      "status": "passed",
+      "evidence": "ESLint completed with 0 errors and 263 pre-existing warnings."
+    },
+    {
+      "command": "npm run build",
+      "status": "passed",
+      "evidence": "tsc -p tsconfig.json completed successfully."
+    }
+  ],
+  "remainingUnstandardizedRendererCount": 14,
+  "nextSuggestedSlice": [
+    "managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecordRenderer.ts",
+    "managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckRenderer.ts",
+    "managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContractRenderer.ts",
+    "managedAuditManualSandboxConnectionReadinessGateRenderer.ts"
+  ]
+}

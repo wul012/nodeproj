@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2180 - 2026-07-07
+
+- Renderer consolidation batch 55 migrated five sandbox handle review renderer
+  files to `renderVerificationReportMarkdown`: prerequisite intake, contract
+  decision, packet/gate non-secret intake, packet/gate decision record, and
+  prerequisite closure review. Added v2180 parity coverage and tightened the
+  renderer census ratchet from 226/245 standardized to 231/245, leaving 14
+  unstandardized renderers.
+
 ## v2179 - 2026-07-07
 
 - Renderer consolidation batch 54 migrated five additional minimal read-only
