@@ -1,0 +1,204 @@
+import { createHash } from "node:crypto";
+
+import { describe, expect, it } from "vitest";
+
+import { loadConfig } from "../src/config.js";
+import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeRenderer.js";
+import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightRenderer.js";
+import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordRenderer.js";
+import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.js";
+import {
+  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeRenderer.js";
+
+const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
+const GENERATED_AT = "2026-07-07T00:00:00.000Z";
+
+interface RendererParityExpectation {
+  readonly length: number;
+  readonly sha256: string;
+  readonly h1Count: number;
+  readonly h2Count: number;
+  readonly h3Count: number;
+}
+
+interface RendererParityCase {
+  readonly name: string;
+  readonly render: () => string;
+  readonly expected: RendererParityExpectation;
+}
+
+describe("renderer migration v2170 parity", () => {
+  it("keeps declared operator lifecycle renderers byte-identical after builder migration", () => {
+    const previous = process.env[FORCE_FALLBACK_ENV];
+    process.env[FORCE_FALLBACK_ENV] = "true";
+
+    try {
+      const config = loadTestConfig();
+      const cases: RendererParityCase[] = [
+        {
+          name: "operatorServiceLifecycle",
+          render: () =>
+            renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeMarkdown({
+              ...loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake({
+                config,
+              }),
+              generatedAt: GENERATED_AT,
+            }),
+          expected: {
+            length: 13_748,
+            sha256: "532b01197d718d4b672fdc17e50560dca088c2c792963fdd261505b423ffd58f",
+            h1Count: 1,
+            h2Count: 12,
+            h3Count: 0,
+          },
+        },
+        {
+          name: "declaredOperatorLifecycle",
+          render: () =>
+            renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeMarkdown({
+              ...loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake({
+                config,
+              }),
+              generatedAt: GENERATED_AT,
+            }),
+          expected: {
+            length: 13_047,
+            sha256: "6c49aa9894a1007cfbd91d4d941e07081470ba65705c82e713f547b4280d64b9",
+            h1Count: 1,
+            h2Count: 12,
+            h3Count: 0,
+          },
+        },
+        {
+          name: "packetStopRecord",
+          render: () =>
+            renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordMarkdown({
+              ...loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord({
+                config,
+              }),
+              generatedAt: GENERATED_AT,
+            }),
+          expected: {
+            length: 12_327,
+            sha256: "13ea4a204ad9fb25db162a05371d03438196d1e854ee183392991d6f944c642d",
+            h1Count: 1,
+            h2Count: 11,
+            h3Count: 0,
+          },
+        },
+        {
+          name: "artifactIntakePreflight",
+          render: () =>
+            renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightMarkdown({
+              ...loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight({
+                config,
+              }),
+              generatedAt: GENERATED_AT,
+            }),
+          expected: {
+            length: 13_557,
+            sha256: "b21a2ad5e42cb76074554ee0c1a24dcd681e2bf00299225d46f9796999a2eb71",
+            h1Count: 1,
+            h2Count: 12,
+            h3Count: 0,
+          },
+        },
+      ];
+
+      for (const rendererCase of cases) {
+        const markdown = normalizeMarkdown(rendererCase.render());
+
+        expect(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
+        expect(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
+        expect(markdown.match(/^# /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h1Count);
+        expect(markdown.match(/^## /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h2Count);
+        expect(markdown.match(/^### /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h3Count);
+        expect(markdown.endsWith("\n"), rendererCase.name).toBe(true);
+      }
+    } finally {
+      if (previous === undefined) {
+        delete process.env[FORCE_FALLBACK_ENV];
+      } else {
+        process.env[FORCE_FALLBACK_ENV] = previous;
+      }
+    }
+  }, 180_000);
+});
+
+function sha256(value: string): string {
+  return createHash("sha256")
+    .update(value)
+    .digest("hex");
+}
+
+function normalizeMarkdown(value: string): string {
+  return value
+    .replace(/Generated at: [^\n]+/g, `Generated at: ${GENERATED_AT}`)
+    .replace(/"(path|resolvedPath)":"([^"]*)"/g, (_match: string, key: string, pathValue: string) =>
+      `"${key}":"${normalizePathValue(pathValue)}"`,
+    )
+    .replace(
+      /"exists":true,"sizeBytes":\d+,"digest":"[a-f0-9]{64}"/g,
+      `"exists":true,"sizeBytes":<bytes>,"digest":"<sha256>"`,
+    );
+}
+
+function normalizePathValue(value: string): string {
+  const slashPath = value
+    .replace(/\\\\/g, "/")
+    .replace(/\\/g, "/")
+    .replace(/\/+/g, "/");
+
+  const fixturesIndex = slashPath.indexOf("/fixtures/");
+  if (fixturesIndex >= 0) {
+    return `<repo>${slashPath.slice(fixturesIndex)}`;
+  }
+
+  const javaMarker = "/advanced-order-platform/";
+  const javaIndex = slashPath.indexOf(javaMarker);
+  if (javaIndex >= 0) {
+    return `<java>${slashPath.slice(javaIndex + javaMarker.length - 1)}`;
+  }
+
+  const miniKvMarker = "/mini-kv/";
+  const miniKvIndex = slashPath.indexOf(miniKvMarker);
+  if (miniKvIndex >= 0) {
+    return `<mini-kv>${slashPath.slice(miniKvIndex + miniKvMarker.length - 1)}`;
+  }
+
+  return slashPath;
+}
+
+function loadTestConfig(overrides: Record<string, string> = {}) {
+  return loadConfig({
+    LOG_LEVEL: "silent",
+    UPSTREAM_PROBES_ENABLED: "false",
+    UPSTREAM_ACTIONS_ENABLED: "false",
+    ACCESS_GUARD_ENFORCEMENT_ENABLED: "true",
+    ORDEROPS_AUTH_TOKEN_ISSUER: "orderops-test",
+    ORDEROPS_AUTH_TOKEN_SECRET: "test-secret",
+    ORDEROPS_IDP_ISSUER: "https://idp.example",
+    ORDEROPS_IDP_AUDIENCE: "orderops-node",
+    ORDEROPS_IDP_JWKS_URL: "https://idp.example/.well-known/jwks.json",
+    ORDEROPS_IDP_CLOCK_SKEW_SECONDS: "90",
+    ...overrides,
+  });
+}

@@ -11,6 +11,19 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2170 - 2026-07-07
+
+- Renderer consolidation batch 50 migrated four Java/mini-kv operator lifecycle
+  and declared runtime lifecycle renderers to `renderVerificationReportMarkdown`:
+  operator service lifecycle evidence intake, declared operator lifecycle
+  evidence intake, runtime execution packet stop record, and runtime execution
+  artifact intake preflight. Added normalized `path`/`resolvedPath` SHA-256
+  parity coverage; the deterministic renderer census moved from 205/245 to
+  209/245 standardized renderers, with 36 renderers remaining. Stabilized the
+  v2169 Linux-runner parity failure by normalizing JSON file-reference
+  `sizeBytes`/`digest` metadata in parity tests without changing renderer code
+  or fixtures.
+
 ## v2169 - 2026-07-07
 
 - Renderer consolidation batch 49 migrated five synchronous runtime-execution
@@ -19,9 +32,9 @@ All notable Node project changes are tracked by git tags.
   gate, and pass evidence closeout. Added normalized historical-fallback
   SHA-256 parity coverage; the deterministic renderer census moved from
   200/245 to 205/245 standardized renderers and reduced remaining flatMap shape
-  signals from 33 to 28. Stabilized the v2168 and v2169 parity hash
-  normalizer by canonicalizing JSON `path` and `resolvedPath` fields, fixing
-  the Linux-runner-only v2168 hash drift.
+  signals from 33 to 28. Stabilized the v2168 parity hash normalizer by
+  canonicalizing JSON `path` and `resolvedPath` fields, fixing the
+  Linux-runner-only v2168 hash drift.
 
 ## v2168 - 2026-07-07
 

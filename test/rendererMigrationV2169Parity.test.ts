@@ -69,8 +69,8 @@ describe("renderer migration v2169 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 12_712,
-            sha256: "3b85b5941d0633f4e7977ef79a204c967ac6fb0258553aa43c1dbc8a806b8ca4",
+            length: 12_605,
+            sha256: "475040454fd00c8dcc37cf930cd1e74931b6c504ee42f3310d06e334333c0f44",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -86,8 +86,8 @@ describe("renderer migration v2169 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 11_642,
-            sha256: "d8cd56d502aec03c7eb1108e9bb91ec1e8ed4bb0f0676f1a1377a3d640cc25a7",
+            length: 11_535,
+            sha256: "e0276b15ece3e3e9d9bd934e9e59b9c4cb5b1f079c9fb57c00984677de808c79",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -137,8 +137,8 @@ describe("renderer migration v2169 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 8_887,
-            sha256: "ed617ddbdf85b6a3b0266e326cd94a29c0456b30d1e83f423f5baa3a9916231f",
+            length: 8_514,
+            sha256: "1720fdf24fac15fbfd71cf2ed0870a3598c0f4bb41ed9c89461357de04ee8a55",
             h1Count: 1,
             h2Count: 9,
             h3Count: 0,
@@ -177,6 +177,10 @@ function normalizeMarkdown(value: string): string {
     .replace(/Generated at: [^\n]+/g, `Generated at: ${GENERATED_AT}`)
     .replace(/"(path|resolvedPath)":"([^"]*)"/g, (_match: string, key: string, pathValue: string) =>
       `"${key}":"${normalizePathValue(pathValue)}"`,
+    )
+    .replace(
+      /"exists":true,"sizeBytes":\d+,"digest":"[a-f0-9]{64}"/g,
+      `"exists":true,"sizeBytes":<bytes>,"digest":"<sha256>"`,
     );
 }
 

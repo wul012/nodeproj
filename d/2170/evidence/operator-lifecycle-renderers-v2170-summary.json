@@ -1,0 +1,108 @@
+{
+  "version": "v2170",
+  "title": "operator lifecycle renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderers": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordRenderer.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightRenderer.ts"
+    ],
+    "excludedByDesign": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovedLocalLoopbackReadOnlySmokeRenderer.ts"
+    ],
+    "testsUpdated": [
+      "test/rendererMigrationV2170Parity.test.ts",
+      "test/rendererCensusScript.test.ts"
+    ]
+  },
+  "prePostParity": {
+    "fixture": "live typed loaders with ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true, fixed generatedAt, and normalized JSON path/resolvedPath values",
+    "operatorServiceLifecycle": {
+      "sha256": "532b01197d718d4b672fdc17e50560dca088c2c792963fdd261505b423ffd58f",
+      "length": 13748,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "declaredOperatorLifecycle": {
+      "sha256": "6c49aa9894a1007cfbd91d4d941e07081470ba65705c82e713f547b4280d64b9",
+      "length": 13047,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "packetStopRecord": {
+      "sha256": "13ea4a204ad9fb25db162a05371d03438196d1e854ee183392991d6f944c642d",
+      "length": 12327,
+      "h1Count": 1,
+      "h2Count": 11,
+      "h3Count": 0,
+      "trailingNewline": true
+    },
+    "artifactIntakePreflight": {
+      "sha256": "b21a2ad5e42cb76074554ee0c1a24dcd681e2bf00299225d46f9796999a2eb71",
+      "length": 13557,
+      "h1Count": 1,
+      "h2Count": 12,
+      "h3Count": 0,
+      "trailingNewline": true
+    }
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 205,
+      "unstandardizedRenderers": 40,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 43,
+        "flatMap": 28
+      }
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 209,
+      "unstandardizedRenderers": 36,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 37,
+        "flatMap": 27
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=36"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord.test.ts test/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --max-unstandardized=36",
+      "npm run typecheck",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run lint",
+      "npm run build"
+    ],
+    "pending": [],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3002,
+    "ciRepair": "v2169 GitHub CI failed only in rendererMigrationV2169Parity.test.ts because archive file-reference sizeBytes/digest values can drift across Windows and Linux checkouts. v2170 narrows normalization to JSON file-reference metadata after preserving path/resolvedPath normalization; renderer code and fixtures are unchanged.",
+    "attemptedButNotAccepted": [
+      "npx vitest run --coverage --maxWorkers=2 was stopped after roughly 30 minutes without a final Vitest summary; this is recorded as a timeout-only local budget issue, not a passed or failed assertion result."
+    ],
+    "fullLocalSuitePolicy": "focused parity, route tests, census, typecheck, lint, and build are the accepted local v2170 gates; remote GitHub CI remains the full coverage gate for the pushed commit."
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2170 changes only Node-local Markdown renderers and Node-local tests; it consumes frozen historical evidence and does not request new sibling output or change contracts."
+  }
+}
