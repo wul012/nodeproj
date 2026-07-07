@@ -1,3 +1,5 @@
+import { createHash } from "node:crypto";
+
 import { describe, expect, it } from "vitest";
 
 import {
@@ -134,12 +136,20 @@ describe("controlled read-only shard preview execution readiness artifacts", () 
     const candidate = createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate(matrix);
     const verification = createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification(candidate);
 
-    expect(renderControlledReadOnlyShardPreviewExecutionGapMatrixMarkdown(matrix))
-      .toContain("# Controlled read-only shard preview execution gap matrix");
-    expect(renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateMarkdown(candidate))
-      .toContain("SHARDROUTEVERIFYREPORTJSON");
-    expect(renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerificationMarkdown(verification))
-      .toContain("verified-manual-live-read-only-window-candidate");
+    const matrixMarkdown = renderControlledReadOnlyShardPreviewExecutionGapMatrixMarkdown(matrix);
+    const candidateMarkdown = renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateMarkdown(candidate);
+    const verificationMarkdown =
+      renderControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerificationMarkdown(verification);
+
+    expect(matrixMarkdown).toContain("# Controlled read-only shard preview execution gap matrix");
+    expect(candidateMarkdown).toContain("SHARDROUTEVERIFYREPORTJSON");
+    expect(verificationMarkdown).toContain("verified-manual-live-read-only-window-candidate");
+    expect(matrixMarkdown.endsWith("\n")).toBe(true);
+    expect(candidateMarkdown.endsWith("\n")).toBe(true);
+    expect(verificationMarkdown.endsWith("\n")).toBe(false);
+    expect(sha256(matrixMarkdown)).toBe("52e60c2197a3b606a9f9d1b453b87213a41b66a2469cf69796b8ffca47937626");
+    expect(sha256(candidateMarkdown)).toBe("8175275766aa9c72c4109917005ac5d2c6fd1d7cf06d1f4fd6bb79630220449e");
+    expect(sha256(verificationMarkdown)).toBe("54cf9bf7bbe13af599a56b48a6b567981434516832301fda5a6746ac01a45ea8");
   });
 
   it("includes the execution readiness chain in the controlled preview profile", async () => {
@@ -157,3 +167,9 @@ describe("controlled read-only shard preview execution readiness artifacts", () 
     expect(profile.preview.liveReadOnlyPacketCandidateVerification.readyForProductionExecution).toBe(false);
   });
 });
+
+function sha256(value: string): string {
+  return createHash("sha256")
+    .update(value)
+    .digest("hex");
+}

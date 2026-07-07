@@ -1,0 +1,60 @@
+{
+  "version": "v2162",
+  "title": "controlled read-only shard preview execution readiness renderer migration",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "targetRenderer": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessRenderer.ts",
+    "testUpdated": "test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.test.ts"
+  },
+  "prePostParity": {
+    "fixture": "readySourceMatrix plus execution readiness artifact builders",
+    "executionGapMatrixSha256": "52e60c2197a3b606a9f9d1b453b87213a41b66a2469cf69796b8ffca47937626",
+    "executionGapMatrixLength": 3209,
+    "liveReadOnlyPacketCandidateSha256": "8175275766aa9c72c4109917005ac5d2c6fd1d7cf06d1f4fd6bb79630220449e",
+    "liveReadOnlyPacketCandidateLength": 2682,
+    "candidateVerificationSha256": "54cf9bf7bbe13af599a56b48a6b567981434516832301fda5a6746ac01a45ea8",
+    "candidateVerificationLength": 873,
+    "assertionLocation": "test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.test.ts"
+  },
+  "rendererCensus": {
+    "before": {
+      "standardizedRenderers": 186,
+      "unstandardizedRenderers": 59
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 187,
+      "unstandardizedRenderers": 58,
+      "remainingShapeSignals": {
+        "h3": 25,
+        "forLoop": 0,
+        "map": 68,
+        "flatMap": 42
+      }
+    },
+    "commands": [
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=58"
+    ]
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewExecutionReadinessArtifacts.test.ts test/rendererCensusScript.test.ts --maxWorkers=2",
+      "npm run renderer:census -- --json",
+      "npm run renderer:census -- --max-unstandardized=58",
+      "npm run typecheck",
+      "npm run lint",
+      "npm run build"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "fullLocalSuitePolicy": "not rerun as a local per-version gate; focused parity, census, typecheck, lint, build are the local v2162 gates while remote CI remains the full-suite gate"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2162 changes only Node-local Markdown renderers and Node-local tests; it consumes no fresh sibling evidence and changes no shared contract."
+  }
+}
