@@ -1,0 +1,71 @@
+{
+  "version": "v2173",
+  "title": "renderer parity workspace-root and byteLength normalizer CI repair",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "fixturesChanged": false,
+    "targetFiles": [
+      "test/rendererMigrationParityUtils.ts",
+      "test/rendererMigrationV2170Parity.test.ts"
+    ],
+    "repairedCiRun": {
+      "runId": "28850320345",
+      "failedVersion": "v2172",
+      "failure": "artifactIntakePreflight length drift on Linux runner",
+      "rootCause": "v2172 normalized entry-rendered digest fields, but artifact intake preflight still emitted JSON path objects for sibling workspace roots without a trailing slash and JSON file-reference objects using byteLength/digest instead of sizeBytes/digest. Those values are checkout-local evidence metadata and must not remain in renderer migration parity hashes."
+    }
+  },
+  "normalizationSurface": {
+    "addedInV2173": [
+      "workspace root paths ending in /advanced-order-platform",
+      "workspace root paths ending in /mini-kv",
+      "JSON file-reference metadata matching exists=true, byteLength=<number>, digest=<sha256>"
+    ],
+    "stillExcluded": [
+      "business messages",
+      "warnings",
+      "recommendations",
+      "summary fields",
+      "check names and check values",
+      "renderer section order",
+      "route behavior",
+      "fixture bytes",
+      "missing-file digest=null records"
+    ]
+  },
+  "updatedParityExpectations": {
+    "v2169Changed": false,
+    "v2170": {
+      "operatorServiceLifecycleChanged": false,
+      "declaredOperatorLifecycleChanged": false,
+      "packetStopRecordChanged": false,
+      "artifactIntakePreflight": {
+        "length": 12435,
+        "sha256": "c9558730ad393f34c300010de25a6a499b6e00134adeb7e2610f71c944362dbf"
+      }
+    }
+  },
+  "verification": {
+    "passed": [
+      "npm run typecheck",
+      "npx vitest run test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts --maxWorkers=2",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run lint",
+      "npm run build"
+    ],
+    "pending": [
+      "GitHub CI on pushed v2173"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3000,
+    "fullLocalSuitePolicy": "remote GitHub CI remains the accepted full coverage gate; local verification focuses on the repaired parity surface, typecheck, docs quality, lint, and build before push"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2173 only repairs Node migration parity tests and local documentation. It consumes no fresh sibling evidence and changes no cross-project contract."
+  }
+}

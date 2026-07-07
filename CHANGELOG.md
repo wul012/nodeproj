@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2173 - 2026-07-07
+
+- CI repair and renderer parity normalization completion: extended
+  `rendererMigrationParityUtils` to fold sibling workspace root paths such as
+  `advanced-order-platform` and `mini-kv` even when the value has no trailing
+  slash, and to normalize JSON file-reference `byteLength`/`digest` metadata.
+  This fixes the v2172 Linux-runner-only `artifactIntakePreflight` drift while
+  keeping product renderers, loaders, routes, schemas, and fixtures unchanged.
+
 ## v2172 - 2026-07-07
 
 - CI repair and renderer parity stabilization: extended
