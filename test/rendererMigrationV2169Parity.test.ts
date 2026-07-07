@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-
 import { describe, expect, it } from "vitest";
 
 import { loadConfig } from "../src/config.js";
@@ -33,6 +31,7 @@ import {
 import {
   renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseoutMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseoutRenderer.js";
+import { normalizeRendererMigrationMarkdown, sha256 } from "./rendererMigrationParityUtils.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const GENERATED_AT = "2026-07-07T00:00:00.000Z";
@@ -147,7 +146,7 @@ describe("renderer migration v2169 parity", () => {
       ];
 
       for (const rendererCase of cases) {
-        const markdown = normalizeMarkdown(rendererCase.render());
+        const markdown = normalizeRendererMigrationMarkdown(rendererCase.render(), { generatedAt: GENERATED_AT });
 
         expect(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
         expect(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
@@ -165,50 +164,6 @@ describe("renderer migration v2169 parity", () => {
     }
   }, 180_000);
 });
-
-function sha256(value: string): string {
-  return createHash("sha256")
-    .update(value)
-    .digest("hex");
-}
-
-function normalizeMarkdown(value: string): string {
-  return value
-    .replace(/Generated at: [^\n]+/g, `Generated at: ${GENERATED_AT}`)
-    .replace(/"(path|resolvedPath)":"([^"]*)"/g, (_match: string, key: string, pathValue: string) =>
-      `"${key}":"${normalizePathValue(pathValue)}"`,
-    )
-    .replace(
-      /"exists":true,"sizeBytes":\d+,"digest":"[a-f0-9]{64}"/g,
-      `"exists":true,"sizeBytes":<bytes>,"digest":"<sha256>"`,
-    );
-}
-
-function normalizePathValue(value: string): string {
-  const slashPath = value
-    .replace(/\\\\/g, "/")
-    .replace(/\\/g, "/")
-    .replace(/\/+/g, "/");
-
-  const fixturesIndex = slashPath.indexOf("/fixtures/");
-  if (fixturesIndex >= 0) {
-    return `<repo>${slashPath.slice(fixturesIndex)}`;
-  }
-
-  const javaMarker = "/advanced-order-platform/";
-  const javaIndex = slashPath.indexOf(javaMarker);
-  if (javaIndex >= 0) {
-    return `<java>${slashPath.slice(javaIndex + javaMarker.length - 1)}`;
-  }
-
-  const miniKvMarker = "/mini-kv/";
-  const miniKvIndex = slashPath.indexOf(miniKvMarker);
-  if (miniKvIndex >= 0) {
-    return `<mini-kv>${slashPath.slice(miniKvIndex + miniKvMarker.length - 1)}`;
-  }
-
-  return slashPath;
-}
 
 function loadTestConfig(overrides: Record<string, string> = {}) {
   return loadConfig({

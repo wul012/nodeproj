@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2171 - 2026-07-07
+
+- CI repair and renderer parity maintenance: extracted shared
+  `rendererMigrationParityUtils` for renderer migration tests, covering fixed
+  `generatedAt`, JSON `path`/`resolvedPath`, text `resolved=` fields,
+  entry-rendered path fields, shard readiness hardening path labels, and
+  file-reference `bytes`/`digest` metadata. Updated v2169 and v2170 parity
+  tests to use the shared normalizer, fixing the v2170 Linux-runner-only
+  `operatorServiceLifecycle` length drift without changing renderer code,
+  loaders, routes, schemas, or fixtures.
+
 ## v2170 - 2026-07-07
 
 - Renderer consolidation batch 50 migrated four Java/mini-kv operator lifecycle

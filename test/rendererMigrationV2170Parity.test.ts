@@ -1,5 +1,3 @@
-import { createHash } from "node:crypto";
-
 import { describe, expect, it } from "vitest";
 
 import { loadConfig } from "../src/config.js";
@@ -27,6 +25,7 @@ import {
 import {
   renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeRenderer.js";
+import { normalizeRendererMigrationMarkdown, sha256 } from "./rendererMigrationParityUtils.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const GENERATED_AT = "2026-07-07T00:00:00.000Z";
@@ -63,8 +62,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 13_748,
-            sha256: "532b01197d718d4b672fdc17e50560dca088c2c792963fdd261505b423ffd58f",
+            length: 13_532,
+            sha256: "f9d7a064e236a5d3c4401012c636d43c07e644de8a37424cb628224a42a3692b",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -80,8 +79,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 13_047,
-            sha256: "6c49aa9894a1007cfbd91d4d941e07081470ba65705c82e713f547b4280d64b9",
+            length: 12_830,
+            sha256: "ec84b73c4f02bac3627fdd7f6d996debb6016a328730580564a70a1731a544fc",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -97,8 +96,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 12_327,
-            sha256: "13ea4a204ad9fb25db162a05371d03438196d1e854ee183392991d6f944c642d",
+            length: 11_736,
+            sha256: "3177e8f5f5ecbf3b4a26213f0bdf94fadbc058c9da77599c19c0931cb3560e37",
             h1Count: 1,
             h2Count: 11,
             h3Count: 0,
@@ -114,8 +113,8 @@ describe("renderer migration v2170 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 13_557,
-            sha256: "b21a2ad5e42cb76074554ee0c1a24dcd681e2bf00299225d46f9796999a2eb71",
+            length: 12_966,
+            sha256: "9be09674e7bcde953dfa6db55c83868b7791ac6ade8c453a4276d11f8ee770ff",
             h1Count: 1,
             h2Count: 12,
             h3Count: 0,
@@ -124,7 +123,7 @@ describe("renderer migration v2170 parity", () => {
       ];
 
       for (const rendererCase of cases) {
-        const markdown = normalizeMarkdown(rendererCase.render());
+        const markdown = normalizeRendererMigrationMarkdown(rendererCase.render(), { generatedAt: GENERATED_AT });
 
         expect(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
         expect(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
@@ -142,50 +141,6 @@ describe("renderer migration v2170 parity", () => {
     }
   }, 180_000);
 });
-
-function sha256(value: string): string {
-  return createHash("sha256")
-    .update(value)
-    .digest("hex");
-}
-
-function normalizeMarkdown(value: string): string {
-  return value
-    .replace(/Generated at: [^\n]+/g, `Generated at: ${GENERATED_AT}`)
-    .replace(/"(path|resolvedPath)":"([^"]*)"/g, (_match: string, key: string, pathValue: string) =>
-      `"${key}":"${normalizePathValue(pathValue)}"`,
-    )
-    .replace(
-      /"exists":true,"sizeBytes":\d+,"digest":"[a-f0-9]{64}"/g,
-      `"exists":true,"sizeBytes":<bytes>,"digest":"<sha256>"`,
-    );
-}
-
-function normalizePathValue(value: string): string {
-  const slashPath = value
-    .replace(/\\\\/g, "/")
-    .replace(/\\/g, "/")
-    .replace(/\/+/g, "/");
-
-  const fixturesIndex = slashPath.indexOf("/fixtures/");
-  if (fixturesIndex >= 0) {
-    return `<repo>${slashPath.slice(fixturesIndex)}`;
-  }
-
-  const javaMarker = "/advanced-order-platform/";
-  const javaIndex = slashPath.indexOf(javaMarker);
-  if (javaIndex >= 0) {
-    return `<java>${slashPath.slice(javaIndex + javaMarker.length - 1)}`;
-  }
-
-  const miniKvMarker = "/mini-kv/";
-  const miniKvIndex = slashPath.indexOf(miniKvMarker);
-  if (miniKvIndex >= 0) {
-    return `<mini-kv>${slashPath.slice(miniKvIndex + miniKvMarker.length - 1)}`;
-  }
-
-  return slashPath;
-}
 
 function loadTestConfig(overrides: Record<string, string> = {}) {
   return loadConfig({

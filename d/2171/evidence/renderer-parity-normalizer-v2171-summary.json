@@ -1,0 +1,85 @@
+{
+  "version": "v2171",
+  "title": "renderer parity normalizer CI repair",
+  "scope": {
+    "runtimeBehaviorChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "rendererOutputChanged": false,
+    "fixturesChanged": false,
+    "targetFiles": [
+      "test/rendererMigrationParityUtils.ts",
+      "test/rendererMigrationV2169Parity.test.ts",
+      "test/rendererMigrationV2170Parity.test.ts"
+    ],
+    "repairedCiRun": {
+      "runId": "28847762179",
+      "failure": "operatorServiceLifecycle length drift on Linux runner",
+      "rootCause": "v2170 parity normalization handled JSON path/resolvedPath and JSON file metadata, but not text-rendered evidence file lines such as resolved=... with bytes/digest metadata."
+    }
+  },
+  "normalizationSurface": {
+    "included": [
+      "Generated at lines",
+      "JSON path/resolvedPath string fields",
+      "text resolved=... file reference values",
+      "entry-rendered path/resolvedPath/configuredPath/historicalFallbackPath fields",
+      "Hardening file / Resolved hardening path / Source core file labels",
+      "file-reference sizeBytes/digest and bytes/digest metadata"
+    ],
+    "excluded": [
+      "business messages",
+      "warnings",
+      "recommendations",
+      "summary fields",
+      "check names and check values",
+      "renderer section order",
+      "route behavior",
+      "fixture bytes"
+    ]
+  },
+  "updatedParityExpectations": {
+    "v2169": {
+      "changed": false,
+      "reason": "existing JSON file-reference normalization already covered the v2169 cross-platform drift"
+    },
+    "v2170": {
+      "operatorServiceLifecycle": {
+        "length": 13532,
+        "sha256": "f9d7a064e236a5d3c4401012c636d43c07e644de8a37424cb628224a42a3692b"
+      },
+      "declaredOperatorLifecycle": {
+        "length": 12830,
+        "sha256": "ec84b73c4f02bac3627fdd7f6d996debb6016a328730580564a70a1731a544fc"
+      },
+      "packetStopRecord": {
+        "length": 11736,
+        "sha256": "3177e8f5f5ecbf3b4a26213f0bdf94fadbc058c9da77599c19c0931cb3560e37"
+      },
+      "artifactIntakePreflight": {
+        "length": 12966,
+        "sha256": "9be09674e7bcde953dfa6db55c83868b7791ac6ade8c453a4276d11f8ee770ff"
+      }
+    }
+  },
+  "verification": {
+    "passed": [
+      "npx vitest run test/rendererMigrationV2169Parity.test.ts test/rendererMigrationV2170Parity.test.ts --maxWorkers=2",
+      "npm run typecheck",
+      "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "npm run lint",
+      "npm run build"
+    ],
+    "pending": [
+      "GitHub CI on pushed v2171"
+    ],
+    "lintBaseline": "0 errors / 263 existing warnings",
+    "walkthroughChineseCharacterCount": 3034,
+    "fullLocalSuitePolicy": "remote GitHub CI remains the accepted full coverage gate; local verification focuses on the repaired parity surface, typecheck, docs quality, lint, and build"
+  },
+  "parallelPlanning": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "reason": "v2171 changes only Node tests and Node documentation; it does not consume new sibling evidence or change cross-project contracts."
+  }
+}
