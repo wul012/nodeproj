@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "waivers": [
+    {
+      "file": "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts",
+      "classification": "composition-only",
+      "reason": "The exported function only concatenates two already-standardized profile-section renderer results and owns no Markdown token, row grammar, heading, spacing, or fallback rule for a shared builder to absorb.",
+      "reviewerCheck": "Builder migration would add indirection without removing formatting code.",
+      "composedFunctions": [
+        "renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSections",
+        "renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections"
+      ]
+    },
+    {
+      "file": "controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyProfileSectionRenderer.ts",
+      "classification": "composition-only",
+      "reason": "The exported function only concatenates import-profile and envelope-profile section arrays that are rendered elsewhere and contains no local Markdown or line-formatting behavior.",
+      "reviewerCheck": "Builder migration would add indirection without removing formatting code.",
+      "composedFunctions": [
+        "renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyImportProfileSections",
+        "renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyEnvelopeProfileSections"
+      ]
+    },
+    {
+      "file": "controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageProfileSectionRenderer.ts",
+      "classification": "composition-only",
+      "reason": "The exported function only concatenates submission and compared-evidence section arrays from standardized child renderers and does not format any public Markdown itself.",
+      "reviewerCheck": "Builder migration would add indirection without removing formatting code.",
+      "composedFunctions": [
+        "renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageSubmissionProfileSections",
+        "renderControlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageComparedEvidenceProfileSections"
+      ]
+    }
+  ]
+}

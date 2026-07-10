@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2184 - 2026-07-10
+
+- Closed the N1 renderer-consolidation implementation with a canonical
+  three-entry composition-only waiver manifest, TypeScript-AST validation of
+  each wrapper's exact child calls, stale/missing/formatting-drift rejection,
+  and default `3 raw / 3 waived / 0 non-waived` census ratchets. Reconciled the
+  production-excellence progress row to the reproducible 245/242/3/0 state;
+  external N1-close review remains pending before N5 begins.
+
 ## v2183 - 2026-07-10
 
 - Renderer consolidation batch 56 migrated the final eleven full-report

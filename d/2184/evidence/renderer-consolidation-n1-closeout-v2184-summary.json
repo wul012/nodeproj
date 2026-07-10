@@ -1,0 +1,105 @@
+{
+  "version": "v2184",
+  "date": "2026-07-10",
+  "track": "node-production-excellence-n1-renderer-consolidation-closeout",
+  "scope": {
+    "goal": "Turn the final three composition-only renderer exceptions into machine-validated waivers and reduce the authoritative non-waived renderer census to zero.",
+    "nonGoals": [
+      "No renderer output, route, schema, fixture, loader, or upstream contract change",
+      "No new feature or operational capability",
+      "No Java or mini-kv write, build, test, start, or stop",
+      "No self-granted external N1-close review result"
+    ],
+    "necessityProof": {
+      "blockerResolved": "After v2183 the raw census still reported three unstandardized files, but the plan allowed them only when each composition-only claim was committed and reviewer-checkable.",
+      "consumer": "The external N1-close review and, only after that review passes, the N5 source-health phase.",
+      "whyExistingCensusWasInsufficient": "The old census could count the three files but could not distinguish approved composition wrappers from unapproved formatting renderers or detect a stale waiver after source drift.",
+      "stopCondition": "The waiver count is capped at three, every waiver is AST-validated against exact child calls, and the non-waived unstandardized count is mechanically fixed at zero."
+    }
+  },
+  "implementation": {
+    "canonicalManifest": "docs/plans/renderer-consolidation-waivers.json",
+    "reviewerDocument": "docs/plans/renderer-consolidation-waivers.md",
+    "mechanicalGate": "scripts/renderer-census.mjs",
+    "validationMethod": "TypeScript AST",
+    "rejectedStates": [
+      "missing renderer file",
+      "duplicate waiver entry",
+      "waiver for a standardized renderer",
+      "non-composition statement or direct formatting",
+      "child renderer call or call-order drift",
+      "more than three raw or waived renderers",
+      "any non-waived unstandardized renderer"
+    ],
+    "publicBehaviorChanged": false,
+    "crossProjectParallel": {
+      "java": "recommended parallel",
+      "miniKv": "recommended parallel",
+      "nodeIsPreApprovalBlocker": false,
+      "freshSiblingEvidenceRequired": false
+    }
+  },
+  "census": {
+    "totalRenderers": 245,
+    "standardizedRenderers": 242,
+    "rawUnstandardizedRenderers": 3,
+    "compositionOnlyWaivers": 3,
+    "nonWaivedUnstandardizedRenderers": 0,
+    "defaultRatchets": {
+      "maxUnstandardized": 3,
+      "maxWaived": 3,
+      "maxNonWaived": 0
+    }
+  },
+  "checkpoint": {
+    "implementationState": "complete",
+    "externalReviewState": "pending",
+    "nextAllowedPhase": "Request external N1-close review; N5 starts only after that review passes."
+  },
+  "validation": [
+    {
+      "command": "npm run renderer:census -- --json",
+      "result": "passed; 245 total, 242 standardized, 3 AST-validated composition-only waivers, 0 non-waived"
+    },
+    {
+      "command": "npx vitest run test/rendererCensusScript.test.ts --maxWorkers=2 --reporter=verbose",
+      "result": "1 file passed, 7 tests passed; negative raw-count, waiver-count, appended stricter override, and direct-formatting cases failed as required"
+    }
+  ],
+  "finalVerification": {
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed with 0 errors and the unchanged 263-warning baseline"
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "result": "2 files passed, 4 tests passed; walkthrough measured 3095 Chinese characters, 8/8 required sections, compliance score 100, and zero repetition or oversized-section signals"
+    },
+    "fullSuite": {
+      "command": "npm test -- --maxWorkers=2",
+      "result": "543 files passed, 1654 tests passed, 0 assertion failures",
+      "durationSeconds": 2827.03,
+      "resourceBoundary": "At most two Vitest workers; no sibling project or server process was started"
+    },
+    "diffChecks": {
+      "command": "git diff --check",
+      "result": "passed; only repository LF-to-CRLF checkout notices were emitted"
+    },
+    "evidenceParse": {
+      "command": "JSON.parse(readFileSync('d/2184/evidence/renderer-consolidation-n1-closeout-v2184-summary.json', 'utf8'))",
+      "result": "passed"
+    }
+  },
+  "screenshot": {
+    "applicable": false,
+    "reason": "This version changes a repository census command, policy manifest, tests, and planning evidence only; it creates no HTML or UI surface."
+  }
+}
