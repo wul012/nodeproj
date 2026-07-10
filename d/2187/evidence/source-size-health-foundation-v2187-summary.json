@@ -1,0 +1,184 @@
+{
+  "version": "v2187",
+  "date": "2026-07-10",
+  "track": "node-production-excellence-n5-source-size-health-batch-1",
+  "step0": {
+    "baseCommit": "3d53f5a7",
+    "baseTag": "v2186",
+    "n1Review": "PASS",
+    "nodeEvidenceRun": {
+      "id": 29086454703,
+      "conclusion": "success",
+      "url": "https://github.com/wul012/nodeproj/actions/runs/29086454703"
+    },
+    "rendererCensus": {
+      "total": 245,
+      "standardized": 242,
+      "waived": 3,
+      "nonWaivedUnstandardized": 0
+    },
+    "sourceSizeDeviation": {
+      "historicalEstimate": 5,
+      "freshCountOver800": 16,
+      "rule": "The fresh reproducible census wins over the historical progress-table estimate."
+    }
+  },
+  "scope": {
+    "goal": "Create the N5 mechanical source-size gate and reduce oversized files through contract-preserving ownership splits.",
+    "nonGoals": [
+      "No new product feature, route, schema, report, evidence chain, or execution authority",
+      "No change to public module entry paths",
+      "No test expectation or fixture-byte change",
+      "No Java or mini-kv write, build, test, start, or stop",
+      "No source-size waiver"
+    ],
+    "necessityProof": {
+      "blockerResolved": "E9 had no complete src census and no gate capable of rejecting a newly oversized file.",
+      "consumer": "N5 close review and Phase 3 E1-E10 evidence consume the final census and ratchet.",
+      "whyExistingSurfaceWasInsufficient": "The historical managed-audit code-health profile lists only three named files and allows limits above 800; it is an operator report, not a repository-wide failing gate.",
+      "stopCondition": "v2189 reports zero files above 800 lines, the same ratchet remains green with an empty remediation baseline, and external N5 review passes."
+    }
+  },
+  "census": {
+    "command": "npm run source:size:census -- --json",
+    "sourceFileCount": 1223,
+    "threshold": 800,
+    "before": 16,
+    "after": 10,
+    "maxOversized": 10,
+    "waiverCount": 0,
+    "violations": {
+      "baselineErrors": 0,
+      "unknownOversizedFiles": 0,
+      "grownRemediationFiles": 0,
+      "staleRemediationEntries": 0,
+      "oversizedCountExceeded": false
+    }
+  },
+  "implementation": {
+    "mechanicalGate": {
+      "script": "scripts/source-size-census.mjs",
+      "baseline": "docs/plans/source-size-remediation-baseline.json",
+      "test": "test/sourceSizeRatchet.test.ts",
+      "failureClasses": [
+        "invalid or duplicate baseline entry",
+        "unknown source file above 800 lines",
+        "remediation file growth above its pinned ceiling",
+        "stale or missing remediation entry",
+        "oversized file count above the shrink-only maximum"
+      ]
+    },
+    "ownershipCorrection": {
+      "initialFailure": "governanceGrowthRatchet reported 1131 root service files against the frozen 1125 ceiling",
+      "resolution": "Classify extracted data by responsibility: public data shapes live in src/contracts and immutable cross-project evidence lives in src/evidence; service loaders/renderers remain in src/services.",
+      "serviceFileCountAfter": 1125,
+      "routeFileCountAfter": 80,
+      "baselineRaised": false
+    },
+    "splits": [
+      {
+        "source": "src/services/productionReadinessSummaryV4.ts",
+        "beforeLines": 929,
+        "afterLines": 741,
+        "extracted": "src/contracts/productionReadinessSummaryV4Types.ts",
+        "extractedLines": 213,
+        "boundary": "Public profile/category/message types; original module re-exports the same names."
+      },
+      {
+        "source": "src/services/crossProjectEvidenceRetentionGate.ts",
+        "beforeLines": 891,
+        "afterLines": 594,
+        "extracted": "src/evidence/crossProjectEvidenceRetentionGateFixtures.ts",
+        "extractedLines": 300,
+        "boundary": "Immutable Java v63 and mini-kv v72 retention fixture references."
+      },
+      {
+        "source": "src/services/crossProjectReleaseBundleGate.ts",
+        "beforeLines": 850,
+        "afterLines": 640,
+        "extracted": "src/evidence/crossProjectReleaseBundleGateFixtures.ts",
+        "extractedLines": 215,
+        "boundary": "Immutable Java v56 and mini-kv v65 bundle manifests."
+      },
+      {
+        "source": "src/services/productionEnvironmentPreflightChecklist.ts",
+        "beforeLines": 847,
+        "afterLines": 613,
+        "extracted": "src/evidence/productionEnvironmentPreflightChecklistFixtures.ts",
+        "extractedLines": 237,
+        "boundary": "Immutable secret-source and digest-compatibility evidence."
+      },
+      {
+        "source": "src/services/releaseApprovalDecisionRehearsalPacket.ts",
+        "beforeLines": 829,
+        "afterLines": 659,
+        "extracted": "src/evidence/releaseApprovalDecisionRehearsalPacketFixtures.ts",
+        "extractedLines": 173,
+        "boundary": "Immutable rollback-approver and restore-approval evidence."
+      },
+      {
+        "source": "src/services/rollbackWindowReadinessChecklist.ts",
+        "beforeLines": 829,
+        "afterLines": 649,
+        "extracted": "src/evidence/rollbackWindowReadinessChecklistFixtures.ts",
+        "extractedLines": 185,
+        "boundary": "Immutable Java rollback and mini-kv restore handoff evidence."
+      }
+    ],
+    "crossProjectParallel": {
+      "java": "recommended parallel",
+      "miniKv": "recommended parallel",
+      "freshSiblingEvidenceRequired": false,
+      "nodeIsPreApprovalBlocker": false
+    }
+  },
+  "validation": [
+    {
+      "command": "npm run typecheck",
+      "result": "passed after the extraction"
+    },
+    {
+      "command": "npx vitest run six affected contract files plus test/sourceSizeRatchet.test.ts --maxWorkers=2",
+      "result": "7 files passed, 23 tests passed"
+    },
+    {
+      "command": "npm run lint",
+      "result": "0 errors and unchanged 263-warning baseline"
+    },
+    {
+      "command": "npx vitest run test/governanceGrowthRatchet.test.ts plus the ratchet and six affected contract files",
+      "result": "8 files passed, 25 tests passed after the ownership correction; service and route file-count ceilings remained unchanged"
+    },
+    {
+      "command": "complete renderer migration parity suite in an independent core.autocrlf=false worktree",
+      "result": "11 files passed, 15 tests passed on the final contracts/evidence ownership layout; LF probe contained 0 CR bytes"
+    },
+    {
+      "command": "npx vitest run --shard={1..8}/8 --maxWorkers=2 --reporter=dot",
+      "result": "All 8 deterministic shards passed on the final tree: 545 files and 1661 tests, aggregate Vitest duration 4641.19 seconds."
+    },
+    {
+      "command": "npm run typecheck && npm run build",
+      "result": "Both passed on the final ownership layout."
+    },
+    {
+      "command": "npm run renderer:census -- --json",
+      "result": "245 total / 242 standardized / 3 AST-validated waivers / 0 non-waived unstandardized."
+    },
+    {
+      "command": "npm run source:size:census -- --json",
+      "result": "1223 source files scanned; 10 oversized files exactly match the shrink-only baseline; no violations."
+    },
+    {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityRules.test.ts test/codeWalkthroughDocumentationQualityGate.test.ts --maxWorkers=2",
+      "result": "2 files passed, 8 tests passed."
+    }
+  ],
+  "finalVerificationRequired": [
+    "replacement GitHub Actions run"
+  ],
+  "screenshot": {
+    "applicable": false,
+    "reason": "This version changes module ownership and repository gates only; it introduces no renderable HTML or UI behavior."
+  }
+}

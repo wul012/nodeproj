@@ -15,7 +15,8 @@
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "eslint src test",
-    "renderer:census": "node scripts/renderer-census.mjs --max-unstandardized=3 --max-waived=3 --max-non-waived=0"
+    "renderer:census": "node scripts/renderer-census.mjs --max-unstandardized=3 --max-waived=3 --max-non-waived=0",
+    "source:size:census": "node scripts/source-size-census.mjs"
   },
   "dependencies": {
     "fastify": "^5.8.5"

@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2187 - 2026-07-10
+
+- Started N5 code-health closure with a canonical source-size census and a
+  shrink-only remediation ratchet that rejects unknown oversized files, growth,
+  stale debt entries, and count regressions. Extracted public readiness types and
+  five immutable cross-project evidence fixture families into adjacent modules,
+  reducing the fresh `src/` over-800-line census from 16 files to 10 without
+  changing routes, report bytes, schemas, fixtures, or execution authority.
+
 ## v2186 - 2026-07-10
 
 - Completed renderer parity portability hardening by canonicalizing indented
