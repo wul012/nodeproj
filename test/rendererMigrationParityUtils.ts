@@ -42,6 +42,8 @@ export function normalizeRendererMigrationMarkdown(
       /"exists":(?:true|false),"byteLength":(?:\d+|<bytes>),"digest":(?:"(?:[a-f0-9]{64}|<sha256>)"|null)/g,
       `"exists":<exists>,"byteLength":<bytes>,"digest":"<sha256>"`,
     )
+    .replace(/(^\s+- sizeBytes: )\d+$/gm, "$1<bytes>")
+    .replace(/(^\s+- digest: )[a-f0-9]{64}$/gm, "$1<sha256>")
     .replace(/(bytes=)\d+(; digest=)[a-f0-9]{64}/g, "$1<bytes>$2<sha256>")
     .replace(/(chained to )[a-f0-9]{64}/g, "$1<digest>")
     .replace(/(verified archive )[a-f0-9]{64}( for decision )[a-f0-9]{64}/g, "$1<digest>$2<digest>")

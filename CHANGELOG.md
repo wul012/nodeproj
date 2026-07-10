@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2186 - 2026-07-10
+
+- Completed renderer parity portability hardening by canonicalizing indented
+  evidence `sizeBytes`/`digest` metadata, adding a paired metadata regression
+  test, and switching the v2179/v2183 parity loops to soft assertions so one
+  run reports every drift. All seventeen reports now pass in both the Windows
+  working tree and an independent LF checkout; product source and fixtures are
+  unchanged.
+
 ## v2185 - 2026-07-10
 
 - Repaired the v2183 parity gate's Linux-only path drift by normalizing

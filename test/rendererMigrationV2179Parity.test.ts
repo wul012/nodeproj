@@ -104,8 +104,8 @@ describe("renderer migration v2179 parity", () => {
               generatedAt: GENERATED_AT,
             }),
           expected: {
-            length: 8_943,
-            sha256: "357a89e6c8111e802cbdb612232281bc021fdd77bcb9b2240e9fa8861cc1fb5c",
+            length: 8_831,
+            sha256: "eb7e4aa7de86b9ca9a30b35136fcdb35c36cd2fb9ccffd43d677f14e38752569",
             h1Count: 1,
             h2Count: 11,
             h3Count: 0,
@@ -150,12 +150,12 @@ describe("renderer migration v2179 parity", () => {
       for (const rendererCase of cases) {
         const markdown = normalizeRendererMigrationMarkdown(await rendererCase.render(), { generatedAt: GENERATED_AT });
 
-        expect(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
-        expect(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
-        expect(markdown.match(/^# /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h1Count);
-        expect(markdown.match(/^## /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h2Count);
-        expect(markdown.match(/^### /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h3Count);
-        expect(markdown.endsWith("\n"), rendererCase.name).toBe(true);
+        expect.soft(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
+        expect.soft(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
+        expect.soft(markdown.match(/^# /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h1Count);
+        expect.soft(markdown.match(/^## /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h2Count);
+        expect.soft(markdown.match(/^### /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h3Count);
+        expect.soft(markdown.endsWith("\n"), rendererCase.name).toBe(true);
       }
     } finally {
       if (previous === undefined) {

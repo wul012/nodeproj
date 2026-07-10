@@ -60,7 +60,7 @@ describe("renderer migration v2183 parity", () => {
             ...loadManagedAuditManualSandboxConnectionBlockedExecutionRehearsal({ config }),
             generatedAt: GENERATED_AT,
           }),
-          expected: { length: 15_712, sha256: "220e2854e6e3b2ac0851227ccaf9abf9a23425b6df8ab8aa1d8f8b130b2514e6", h1Count: 1, h2Count: 14, h3Count: 0, trailingNewline: true },
+          expected: { length: 15_285, sha256: "9162564bacc386518fa793bf2b6a77b2a45d5acef80ce02cbab22643a85416a2", h1Count: 1, h2Count: 14, h3Count: 0, trailingNewline: true },
         },
         {
           name: "approvalRequiredImplementationReadinessReview",
@@ -137,7 +137,7 @@ describe("renderer migration v2183 parity", () => {
             ...loadManagedAuditManualSandboxConnectionReadinessGate({ config }),
             generatedAt: GENERATED_AT,
           }),
-          expected: { length: 13_601, sha256: "6e0a7780f8d591c0adc09aa483ca9b6a300b1d8c6674216ade691f0df9973073", h1Count: 1, h2Count: 13, h3Count: 0, trailingNewline: true },
+          expected: { length: 13_282, sha256: "aa830ca1e5e7f4205e1f5c49bdce3d1ff858f42a8d9428e25bc5750fdb5df1b2", h1Count: 1, h2Count: 13, h3Count: 0, trailingNewline: true },
         },
         {
           name: "sandboxEndpointCredentialResolverDecisionRecord",
@@ -167,12 +167,12 @@ describe("renderer migration v2183 parity", () => {
 
       for (const rendererCase of cases) {
         const markdown = normalizeRendererMigrationMarkdown(await rendererCase.render(), { generatedAt: GENERATED_AT });
-        expect(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
-        expect(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
-        expect(markdown.match(/^# /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h1Count);
-        expect(markdown.match(/^## /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h2Count);
-        expect(markdown.match(/^### /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h3Count);
-        expect(markdown.endsWith("\n"), rendererCase.name).toBe(rendererCase.expected.trailingNewline);
+        expect.soft(markdown.length, rendererCase.name).toBe(rendererCase.expected.length);
+        expect.soft(sha256(markdown), rendererCase.name).toBe(rendererCase.expected.sha256);
+        expect.soft(markdown.match(/^# /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h1Count);
+        expect.soft(markdown.match(/^## /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h2Count);
+        expect.soft(markdown.match(/^### /gm) ?? [], rendererCase.name).toHaveLength(rendererCase.expected.h3Count);
+        expect.soft(markdown.endsWith("\n"), rendererCase.name).toBe(rendererCase.expected.trailingNewline);
       }
     } finally {
       if (previous === undefined) {

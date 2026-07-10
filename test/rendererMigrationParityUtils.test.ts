@@ -29,4 +29,23 @@ describe("renderer migration parity normalization", () => {
 
     expect(normalizeRendererMigrationMarkdown(line, { generatedAt: GENERATED_AT })).toBe(line);
   });
+
+  it("normalizes indented evidence size and digest metadata as one cross-platform fact", () => {
+    const windows = [
+      "  - sizeBytes: 7256",
+      `  - digest: ${"1b".repeat(32)}`,
+    ].join("\n");
+    const linux = [
+      "  - sizeBytes: 7255",
+      `  - digest: ${"51".repeat(32)}`,
+    ].join("\n");
+
+    expect(normalizeRendererMigrationMarkdown(windows, { generatedAt: GENERATED_AT })).toBe(
+      normalizeRendererMigrationMarkdown(linux, { generatedAt: GENERATED_AT }),
+    );
+    expect(normalizeRendererMigrationMarkdown(windows, { generatedAt: GENERATED_AT })).toBe([
+      "  - sizeBytes: <bytes>",
+      "  - digest: <sha256>",
+    ].join("\n"));
+  });
 });

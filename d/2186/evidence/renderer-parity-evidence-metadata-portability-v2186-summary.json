@@ -1,0 +1,117 @@
+{
+  "version": "v2186",
+  "date": "2026-07-10",
+  "track": "node-production-excellence-n1-closeout-ci-portability-completion",
+  "trigger": {
+    "workflow": "Node Evidence",
+    "runId": 29075301137,
+    "runUrl": "https://github.com/wul012/nodeproj/actions/runs/29075301137",
+    "failedStep": "Test / npm run test:coverage",
+    "failure": "readinessGate normalized length matched at 13601 but Linux sha256 da0dd35e... differed from the Windows baseline 6e0a7780...",
+    "passingBeforeFailure": "Typecheck and lint passed; 543 test files and 1656 tests passed"
+  },
+  "scope": {
+    "goal": "Canonicalize fixed-width evidence file size/digest metadata and prove all eleven v2183 reports are portable in one LF-checkout run.",
+    "nonGoals": [
+      "No source file under src/ changes",
+      "No renderer, loader, route, schema, fixture, or upstream contract change",
+      "No broad free-form Markdown masking",
+      "No Java or mini-kv write, build, test, start, or stop",
+      "No transition into N5 before external N1-close review"
+    ],
+    "necessityProof": {
+      "blockerResolved": "The second checkpoint run passed the versioned-path fix but stopped before build/smoke because one LF-sensitive evidence file retained equal-width size/digest values.",
+      "consumer": "All renderer migration parity batches that expose indented evidence file metadata, plus the final N1 review checkpoint.",
+      "whyExistingNormalizerWasInsufficient": "It normalized JSON metadata and inline bytes/digest pairs but not the report form using indented '- sizeBytes:' and '- digest:' lines.",
+      "stopCondition": "The paired metadata unit test passes, soft assertions report no remaining drift, and the complete eleven-report parity test passes in both Windows and detached LF worktrees."
+    }
+  },
+  "rootCause": {
+    "differingReport": "managedAuditManualSandboxConnectionReadinessGate",
+    "differingLines": [
+      "sizeBytes: Windows 7256 / LF 7255",
+      "digest: Windows 1b393d4e... / LF 519c64d8..."
+    ],
+    "lengthWhyEqual": "The decimal byte count and sha256 digest retained identical widths on both platforms, so only the hash assertion exposed the drift.",
+    "sourceOfDifference": "CRLF/LF byte representation in the committed mini-kv v101 follow-up evidence file."
+  },
+  "implementation": {
+    "normalizer": "test/rendererMigrationParityUtils.ts",
+    "newRules": [
+      "Indented sizeBytes values become <bytes>",
+      "Indented 64-character digest values become <sha256>"
+    ],
+    "dedicatedTest": "test/rendererMigrationParityUtils.test.ts",
+    "diagnosticImprovement": "The v2179 and v2183 per-report parity assertions use expect.soft so one run reports every affected report instead of stopping at the first mismatch.",
+    "updatedNormalizedFingerprints": {
+      "minimalReadOnlyIntegrationOperatorCiRegularGateHandoff": {
+        "length": 8831,
+        "sha256": "eb7e4aa7de86b9ca9a30b35136fcdb35c36cd2fb9ccffd43d677f14e38752569"
+      },
+      "blockedExecutionRehearsal": {
+        "length": 15285,
+        "sha256": "9162564bacc386518fa793bf2b6a77b2a45d5acef80ce02cbab22643a85416a2"
+      },
+      "readinessGate": {
+        "length": 13282,
+        "sha256": "aa830ca1e5e7f4205e1f5c49bdce3d1ff858f42a8d9428e25bc5750fdb5df1b2"
+      }
+    },
+    "publicBehaviorChanged": false,
+    "crossProjectParallel": {
+      "java": "recommended parallel",
+      "miniKv": "recommended parallel",
+      "nodeIsPreApprovalBlocker": false,
+      "freshSiblingEvidenceRequired": false
+    }
+  },
+  "validation": [
+    {
+      "command": "Compare Windows and core.autocrlf=false readiness-gate normalized Markdown line by line",
+      "result": "Only sizeBytes and digest lines differed before the fix"
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationParityUtils.test.ts test/rendererMigrationV2179Parity.test.ts test/rendererMigrationV2183Parity.test.ts --maxWorkers=2 --reporter=dot in the Windows tree",
+      "result": "3 files passed, 6 tests passed; all seventeen renderer cases completed"
+    },
+    {
+      "command": "Run the same three files after copying the repaired tests into the detached LF worktree",
+      "result": "3 files passed, 6 tests passed; all seventeen renderer cases completed with no soft assertion"
+    },
+    {
+      "command": "Run the same three files with V8 coverage and command-local zero thresholds",
+      "result": "3 files passed, 6 tests passed; repository coverage configuration remained unchanged"
+    },
+    {
+      "command": "npm test -- --maxWorkers=2 --reporter=dot",
+      "result": "The outer 3600-second command budget expired without an assertion failure or file-level failure; no Vitest process remained, so this timeout was not counted as pass or fail."
+    },
+    {
+      "command": "npx vitest run --shard={1..8}/8 --maxWorkers=2 --reporter=dot",
+      "result": "All 8 deterministic shards passed: 544 files and 1658 tests, aggregate Vitest duration 3324.71 seconds."
+    },
+    {
+      "command": "npm run typecheck",
+      "result": "Passed."
+    },
+    {
+      "command": "npm run lint",
+      "result": "Passed with 0 errors and the unchanged 263-warning baseline."
+    },
+    {
+      "command": "npm run build",
+      "result": "Passed."
+    },
+    {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityRules.test.ts test/codeWalkthroughDocumentationQualityGate.test.ts --maxWorkers=2 --reporter=dot",
+      "result": "2 files passed, 8 tests passed."
+    }
+  ],
+  "finalVerificationRequired": [
+    "replacement GitHub Actions run"
+  ],
+  "screenshot": {
+    "applicable": false,
+    "reason": "This version changes test-only evidence normalization and diagnostics; it creates no HTML or UI surface."
+  }
+}
