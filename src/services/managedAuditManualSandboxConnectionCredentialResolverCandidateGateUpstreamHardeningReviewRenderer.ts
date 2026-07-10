@@ -1,38 +1,56 @@
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
 } from "./managedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
 ): string {
+  return renderVerificationReportMarkdown({
+    title: "Managed audit manual sandbox connection credential resolver candidate gate upstream hardening review",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Review state", profile.reviewState],
+      ["Upstream alignment decision", profile.upstreamAlignmentDecision],
+      ["Active Node version", profile.activeNodeVersion],
+      ["Source Node version", profile.sourceNodeVersion],
+      ["Java evidence export version", profile.sourceJavaEvidenceExportVersion],
+      ["Java input-hardening echo version", profile.sourceJavaInputHardeningEchoVersion],
+      ["mini-kv receipt version", profile.sourceMiniKvVersion],
+      ["Ready for v330 review", profile.readyForManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview],
+      ["Ready for next Node design draft candidate review", profile.readyForNextNodeDisabledRuntimeShellDesignDraftCandidate],
+      ["Ready for disabled runtime shell design draft now", profile.readyForDisabledRuntimeShellDesignDraft],
+      ["Ready for runtime shell implementation", profile.readyForRuntimeShellImplementation],
+      ["Execution allowed", profile.executionAllowed],
+      ["Credential value read", profile.credentialValueRead],
+      ["Raw endpoint URL parsed", profile.rawEndpointUrlParsed],
+      ["HTTP request sent", profile.httpRequestSent],
+      ["TCP connection attempted", profile.tcpConnectionAttempted],
+      ["Java SQL execution allowed", profile.javaSqlExecutionAllowed],
+      ["mini-kv write command allowed", profile.miniKvWriteCommandAllowed],
+      ["Automatic upstream start", profile.automaticUpstreamStart],
+    ],
+    sections: [
+      { heading: "Source Node v329", lines: renderSourceNodeLines(profile) },
+      { heading: "Java Evidence", lines: renderJavaEvidenceLines(profile) },
+      { heading: "mini-kv Evidence", lines: renderMiniKvEvidenceLines(profile) },
+      { heading: "Hardening Review", lines: renderHardeningReviewLines(profile) },
+      { heading: "Checks", entries: profile.checks },
+      { heading: "Summary", lines: renderSummaryLines(profile) },
+      { heading: "Production Blockers", lines: renderMessages(profile.productionBlockers, "No production blockers.") },
+      { heading: "Warnings", lines: renderMessages(profile.warnings, "No warnings.") },
+      { heading: "Recommendations", lines: renderMessages(profile.recommendations, "No recommendations.") },
+      { heading: "Next Actions", lines: profile.nextActions.map((action) => `- ${action}`) },
+    ],
+  });
+}
+
+function renderSourceNodeLines(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
+): string[] {
   return [
-    "# Managed audit manual sandbox connection credential resolver candidate gate upstream hardening review",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Review state: ${profile.reviewState}`,
-    `- Upstream alignment decision: ${profile.upstreamAlignmentDecision}`,
-    `- Active Node version: ${profile.activeNodeVersion}`,
-    `- Source Node version: ${profile.sourceNodeVersion}`,
-    `- Java evidence export version: ${profile.sourceJavaEvidenceExportVersion}`,
-    `- Java input-hardening echo version: ${profile.sourceJavaInputHardeningEchoVersion}`,
-    `- mini-kv receipt version: ${profile.sourceMiniKvVersion}`,
-    `- Ready for v330 review: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview}`,
-    `- Ready for next Node design draft candidate review: ${profile.readyForNextNodeDisabledRuntimeShellDesignDraftCandidate}`,
-    `- Ready for disabled runtime shell design draft now: ${profile.readyForDisabledRuntimeShellDesignDraft}`,
-    `- Ready for runtime shell implementation: ${profile.readyForRuntimeShellImplementation}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Credential value read: ${profile.credentialValueRead}`,
-    `- Raw endpoint URL parsed: ${profile.rawEndpointUrlParsed}`,
-    `- HTTP request sent: ${profile.httpRequestSent}`,
-    `- TCP connection attempted: ${profile.tcpConnectionAttempted}`,
-    `- Java SQL execution allowed: ${profile.javaSqlExecutionAllowed}`,
-    `- mini-kv write command allowed: ${profile.miniKvWriteCommandAllowed}`,
-    `- Automatic upstream start: ${profile.automaticUpstreamStart}`,
-    "",
-    "## Source Node v329",
-    "",
     `- Candidate gate state: ${profile.sourceNodeV329.candidateGateState}`,
     `- Ready for input-hardening decision: ${profile.sourceNodeV329.readyForInputHardeningDecision}`,
     `- Candidate gate decision: ${profile.sourceNodeV329.candidateGateDecision}`,
@@ -41,9 +59,13 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverCandi
     `- No-go conditions: ${profile.sourceNodeV329.noGoConditionCount}`,
     `- Source checks: ${profile.sourceNodeV329.sourcePassedCheckCount}/${profile.sourceNodeV329.sourceCheckCount}`,
     `- Source production blockers: ${profile.sourceNodeV329.sourceProductionBlockerCount}`,
-    "",
-    "## Java Evidence",
-    "",
+  ];
+}
+
+function renderJavaEvidenceLines(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
+): string[] {
+  return [
     `- Java v151 evidence path: ${profile.javaV151EvidenceExportHint.evidenceFile.path}`,
     `- Java v151 resolved path: ${profile.javaV151EvidenceExportHint.evidenceFile.resolvedPath}`,
     `- Java v151 present: ${profile.javaV151EvidenceExportHint.evidencePresent}`,
@@ -53,9 +75,13 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverCandi
     `- Java v152 present: ${profile.javaV152InputHardeningDecisionEcho.evidencePresent}`,
     `- Java v152 consumes Node v329: ${profile.javaV152InputHardeningDecisionEcho.consumesNodeV329Decision}`,
     `- Java v152 confirms Java v151 export: ${profile.javaV152InputHardeningDecisionEcho.confirmsJavaV151StableEvidenceExport}`,
-    "",
-    "## mini-kv Evidence",
-    "",
+  ];
+}
+
+function renderMiniKvEvidenceLines(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
+): string[] {
+  return [
     `- Receipt path: ${profile.miniKvV143Receipt.evidenceFile.path}`,
     `- Resolved path: ${profile.miniKvV143Receipt.evidenceFile.resolvedPath}`,
     `- Receipt present: ${profile.miniKvV143Receipt.evidencePresent}`,
@@ -70,9 +96,13 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverCandi
     `- mini-kv COMPACT allowed: ${profile.miniKvV143Receipt.miniKvCompactAllowed}`,
     `- mini-kv RESTORE allowed: ${profile.miniKvV143Receipt.miniKvRestoreAllowed}`,
     `- mini-kv SETNXEX allowed: ${profile.miniKvV143Receipt.miniKvSetnxexAllowed}`,
-    "",
-    "## Hardening Review",
-    "",
+  ];
+}
+
+function renderHardeningReviewLines(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
+): string[] {
+  return [
     `- Review digest: ${profile.hardeningReview.reviewDigest}`,
     `- Record mode: ${profile.hardeningReview.recordMode}`,
     `- Decision: ${profile.hardeningReview.decision}`,
@@ -86,13 +116,13 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverCandi
     `- Allows external request: ${profile.hardeningReview.allowsExternalRequest}`,
     `- Allows mini-kv write/admin command: ${profile.hardeningReview.allowsMiniKvWriteOrAdminCommand}`,
     `- Next Node version suggested: ${profile.hardeningReview.nextNodeVersionSuggested}`,
-    "",
-    "## Checks",
-    "",
-    ...Object.entries(profile.checks).map(([key, value]) => `- ${key}: ${value}`),
-    "",
-    "## Summary",
-    "",
+  ];
+}
+
+function renderSummaryLines(
+  profile: ManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReviewProfile,
+): string[] {
+  return [
     `- Checks: ${profile.summary.passedCheckCount}/${profile.summary.checkCount}`,
     `- Source Node v329 checks: ${profile.summary.sourceNodeV329PassedCheckCount}/${profile.summary.sourceNodeV329CheckCount}`,
     `- Java evidence files: ${profile.summary.javaEvidenceFileCount}`,
@@ -101,24 +131,7 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverCandi
     `- Production blockers: ${profile.summary.productionBlockerCount}`,
     `- Warnings: ${profile.summary.warningCount}`,
     `- Recommendations: ${profile.summary.recommendationCount}`,
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No production blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No recommendations."),
-    "",
-    "## Next Actions",
-    "",
-    ...profile.nextActions.map((action) => `- ${action}`),
-    "",
-  ].join("\n");
+  ];
 }
 
 function renderMessages(

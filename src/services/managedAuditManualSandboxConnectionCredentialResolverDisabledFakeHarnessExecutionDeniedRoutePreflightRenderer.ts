@@ -1,36 +1,28 @@
-import {
-  renderEntries,
-  renderList,
-  renderMessages,
-} from "./liveProbeReportUtils.js";
 import type {
   DisabledFakeHarnessDeniedRouteAttempt,
   ManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessExecutionDeniedRoutePreflightProfile,
 } from "./managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessExecutionDeniedRoutePreflightTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessExecutionDeniedRoutePreflightMarkdown(
   profile: ManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessExecutionDeniedRoutePreflightProfile,
 ): string {
-  return [
-    "# Managed audit manual sandbox connection credential resolver disabled fake harness execution-denied route preflight",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Preflight state: ${profile.preflightState}`,
-    `- Ready for execution-denied route preflight: ${profile.readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessExecutionDeniedRoutePreflight}`,
-    `- Ready for Java v127 + mini-kv v128 evidence: ${profile.readyForJavaV127MiniKvV128ParallelEvidence}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    `- Fake harness invocation allowed: ${profile.fakeHarnessInvocationAllowed}`,
-    "",
-    "## Source Node v289",
-    "",
-    ...renderEntries(profile.sourceNodeV289),
-    "",
-    "## Execution-Denied Route Preflight",
-    "",
-    ...renderEntries({
+  return renderVerificationReportMarkdown({
+    title: "Managed audit manual sandbox connection credential resolver disabled fake harness execution-denied route preflight",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Preflight state", profile.preflightState],
+      ["Ready for execution-denied route preflight", profile.readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessExecutionDeniedRoutePreflight],
+      ["Ready for Java v127 + mini-kv v128 evidence", profile.readyForJavaV127MiniKvV128ParallelEvidence],
+      ["Execution allowed", profile.executionAllowed],
+      ["Connects managed audit", profile.connectsManagedAudit],
+      ["Fake harness invocation allowed", profile.fakeHarnessInvocationAllowed],
+    ],
+    sections: [
+      { heading: "Source Node v289", entries: profile.sourceNodeV289 },
+      { heading: "Execution-Denied Route Preflight", entries: {
       preflightDigest: profile.executionDeniedRoutePreflight.preflightDigest,
       preflightMode: profile.executionDeniedRoutePreflight.preflightMode,
       sourceSpan: profile.executionDeniedRoutePreflight.sourceSpan,
@@ -47,44 +39,18 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverDisab
         profile.executionDeniedRoutePreflight.fakeHarnessRuntimeImplementationAllowed,
       fakeHarnessRuntimeInvocationAllowed:
         profile.executionDeniedRoutePreflight.fakeHarnessRuntimeInvocationAllowed,
-    }),
-    "",
-    "## Denial Reasons",
-    "",
-    ...renderList(profile.executionDeniedRoutePreflight.denialReasons, "No denial reasons."),
-    "",
-    "## Simulated Denied Route Attempts",
-    "",
-    ...profile.simulatedRouteAttempts.flatMap(renderAttempt),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No execution-denied route preflight blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No execution-denied route preflight warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No execution-denied route preflight recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+      } },
+      { heading: "Denial Reasons", list: profile.executionDeniedRoutePreflight.denialReasons, emptyText: "No denial reasons." },
+      { heading: "Simulated Denied Route Attempts", lines: profile.simulatedRouteAttempts.flatMap(renderAttempt) },
+      { heading: "Checks", entries: profile.checks, headingLeadingBlankLine: false },
+      { heading: "Summary", entries: profile.summary },
+      { heading: "Production Blockers", messages: profile.productionBlockers, emptyText: "No execution-denied route preflight blockers." },
+      { heading: "Warnings", messages: profile.warnings, emptyText: "No execution-denied route preflight warnings." },
+      { heading: "Recommendations", messages: profile.recommendations, emptyText: "No execution-denied route preflight recommendations." },
+      { heading: "Evidence Endpoints", entries: profile.evidenceEndpoints },
+      { heading: "Next Actions", list: profile.nextActions, emptyText: "No next actions." },
+    ],
+  });
 }
 
 function renderAttempt(attempt: DisabledFakeHarnessDeniedRouteAttempt): string[] {

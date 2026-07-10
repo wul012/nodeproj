@@ -16,6 +16,7 @@ import {
  */
 interface VerificationReportSectionBase {
   heading: string;
+  headingLeadingBlankLine?: boolean;
   bodyLeadingBlankLine?: boolean;
 }
 
@@ -63,7 +64,8 @@ export function renderVerificationReportMarkdown(spec: VerificationReportSpec): 
   }
 
   for (const [index, section] of spec.sections.entries()) {
-    if (!(index === 0 && spec.meta.length === 0 && lines.at(-1) === "")) {
+    const firstSectionAlreadySeparated = index === 0 && spec.meta.length === 0 && lines.at(-1) === "";
+    if (section.headingLeadingBlankLine !== false && !firstSectionAlreadySeparated) {
       lines.push("");
     }
     lines.push(`## ${section.heading}`);

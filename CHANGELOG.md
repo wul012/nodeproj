@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2183 - 2026-07-10
+
+- Renderer consolidation batch 56 migrated the final eleven full-report
+  renderers to `renderVerificationReportMarkdown`, added an explicit legacy
+  adjacent-heading spacing control, froze all eleven normalized output
+  fingerprints, and tightened the renderer census from 231/245 standardized
+  with 14 remaining to 242/245 standardized with only three composition-only
+  renderers remaining.
+
 ## v2182 - 2026-07-07
 
 - CI repair follow-up for v2180 renderer parity: extended

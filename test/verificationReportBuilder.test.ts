@@ -112,6 +112,19 @@ describe("verificationReportBuilder", () => {
     expect(markdown).toContain("### one\n- ok\n\n\n## Next");
   });
 
+  it("can preserve legacy adjacent section headings without inserting a separator", () => {
+    const markdown = renderVerificationReportMarkdown({
+      title: "Adjacent headings",
+      meta: [["State", "ready"]],
+      sections: [
+        { heading: "Rows", lines: ["- one"] },
+        { heading: "Evidence", lines: ["- two"], headingLeadingBlankLine: false },
+      ],
+    });
+
+    expect(markdown).toContain("## Rows\n\n- one\n## Evidence\n\n- two");
+  });
+
 
   it("can preserve compact section spacing and reports without trailing newlines", () => {
     const markdown = renderVerificationReportMarkdown({

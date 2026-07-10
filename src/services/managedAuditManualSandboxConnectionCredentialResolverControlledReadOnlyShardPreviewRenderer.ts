@@ -4,32 +4,45 @@ import { renderControlledReadOnlyShardPreviewHandoffRouteCoverageSections } from
 import { renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.js";
 import { renderControlledReadOnlyShardPreviewSourceMatrixSections } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixRenderer.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
+import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 
 export function renderManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewMarkdown(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string {
+  return renderVerificationReportMarkdown({
+    title: profile.title,
+    meta: [
+      ["Profile version", profile.profileVersion],
+      ["Preview state", profile.previewState],
+      ["Preview decision", profile.previewDecision],
+      ["Ready", profile.readyForControlledReadOnlyShardPreview],
+      ["Active Node version", profile.activeNodeVersion],
+      ["Source Node version", profile.sourceNodeVersion],
+      ["Preview only", profile.previewOnly],
+      ["Live read only", profile.liveReadOnly],
+      ["Execution allowed", profile.executionAllowed],
+      ["Starts Java service", profile.startsJavaService],
+      ["Starts mini-kv service", profile.startsMiniKvService],
+      ["Stops Java service", profile.stopsJavaService],
+      ["Stops mini-kv service", profile.stopsMiniKvService],
+      ["Active shard router allowed", profile.activeShardRouterAllowed],
+      ["Write routing allowed", profile.writeRoutingAllowed],
+      ["LOAD/RESTORE/COMPACT allowed", profile.loadRestoreCompactAllowed],
+      ["Preview digest", profile.preview.previewDigest],
+    ],
+    sections: [
+      {
+        heading: "Java Preview",
+        lines: renderPreviewTail(profile),
+        bodyLeadingBlankLine: false,
+      },
+    ],
+    trailingNewline: false,
+  });
+}
+
+function renderPreviewTail(profile: ControlledReadOnlyShardPreviewProfile): string[] {
   return [
-    `# ${profile.title}`,
-    "",
-    `- Profile version: ${profile.profileVersion}`,
-    `- Preview state: ${profile.previewState}`,
-    `- Preview decision: ${profile.previewDecision}`,
-    `- Ready: ${profile.readyForControlledReadOnlyShardPreview}`,
-    `- Active Node version: ${profile.activeNodeVersion}`,
-    `- Source Node version: ${profile.sourceNodeVersion}`,
-    `- Preview only: ${profile.previewOnly}`,
-    `- Live read only: ${profile.liveReadOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    `- Starts Java service: ${profile.startsJavaService}`,
-    `- Starts mini-kv service: ${profile.startsMiniKvService}`,
-    `- Stops Java service: ${profile.stopsJavaService}`,
-    `- Stops mini-kv service: ${profile.stopsMiniKvService}`,
-    `- Active shard router allowed: ${profile.activeShardRouterAllowed}`,
-    `- Write routing allowed: ${profile.writeRoutingAllowed}`,
-    `- LOAD/RESTORE/COMPACT allowed: ${profile.loadRestoreCompactAllowed}`,
-    `- Preview digest: ${profile.preview.previewDigest}`,
-    "",
-    "## Java Preview",
     ...renderEntries(profile.preview.java),
     `- Read status: ${profile.reads.java.status}`,
     `- Endpoint: ${profile.reads.java.endpoint}`,
@@ -71,5 +84,5 @@ export function renderManagedAuditManualSandboxConnectionCredentialResolverContr
     "",
     "## Next Actions",
     ...profile.nextActions.map((action) => `- ${action}`),
-  ].join("\n");
+  ];
 }

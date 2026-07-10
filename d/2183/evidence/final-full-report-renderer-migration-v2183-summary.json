@@ -1,0 +1,104 @@
+{
+  "version": "v2183",
+  "date": "2026-07-10",
+  "track": "node-production-excellence-n1-renderer-consolidation",
+  "batch": 56,
+  "scope": {
+    "goal": "Migrate the final eleven unstandardized full-report Markdown renderers to the shared verification report builder without changing normalized public output.",
+    "nonGoals": [
+      "No route, loader, schema, fixture, or upstream contract change",
+      "No Java or mini-kv write, build, test, start, or stop",
+      "No new operational capability",
+      "No waiver decision for the three composition-only renderers; that belongs to the N1 closeout version"
+    ],
+    "necessityProof": {
+      "blockerResolved": "N1 still contained eleven full-report renderers with hand-assembled title, metadata, section, message, and next-action scaffolding.",
+      "consumer": "The N1 closeout census and the subsequent N5 source-health phase.",
+      "whyExistingReportCouldNotBeReusedAsIs": "The public reports are distinct, but their repeated Markdown skeleton can be delegated to verificationReportBuilder while domain-specific rows remain local helpers.",
+      "stopCondition": "After this batch, only the three previously identified composition-only profile-section aggregators may remain unstandardized."
+    }
+  },
+  "implementation": {
+    "migratedFullReportRendererCount": 11,
+    "builderChange": "Added headingLeadingBlankLine=false as an opt-in section control so legacy reports with intentionally adjacent section headings remain byte-equivalent; default spacing is unchanged.",
+    "parityCaseCount": 11,
+    "publicBehaviorChanged": false,
+    "crossProjectParallel": {
+      "java": "recommended parallel",
+      "miniKv": "recommended parallel",
+      "nodeIsPreApprovalBlocker": false,
+      "freshSiblingEvidenceRequired": false
+    }
+  },
+  "rendererCensus": {
+    "before": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 231,
+      "unstandardizedRenderers": 14
+    },
+    "after": {
+      "totalRenderers": 245,
+      "standardizedRenderers": 242,
+      "unstandardizedRenderers": 3,
+      "remainingShapeSignals": {
+        "h3": 0,
+        "forLoop": 0,
+        "map": 0,
+        "flatMap": 0
+      }
+    },
+    "ratchet": "--max-unstandardized=3",
+    "negativeGate": "--max-unstandardized=2 must fail"
+  },
+  "validation": [
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationV2183Parity.test.ts test/verificationReportBuilder.test.ts test/rendererCensusScript.test.ts --maxWorkers=2 --reporter=verbose",
+      "result": "3 files passed, 15 tests passed; all eleven frozen normalized fingerprints matched and the negative census gate failed as required"
+    },
+    {
+      "command": "npx vitest run <eleven migrated service test files> --maxWorkers=2",
+      "result": "11 files passed, 35 tests passed"
+    },
+    {
+      "command": "npm run renderer:census -- --json --max-unstandardized=3",
+      "result": "245 total, 242 standardized, 3 composition-only files remaining"
+    }
+  ],
+  "finalVerification": {
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "result": "2 files passed, 4 tests passed; walkthrough measured 3093 Chinese characters with compliance score 100"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed with 0 errors and the unchanged repository baseline of 263 warnings"
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "fullSuite": {
+      "initialCommand": "npm test -- --maxWorkers=2",
+      "initialResult": "timed out after 30 minutes without an assertion failure; the three exact Node/Vitest processes created by that command were stopped and no unrelated Node process was touched",
+      "controlledRerun": "All 543 test files were partitioned into mutually exclusive low-concurrency slices with at most two total workers; slow slices were bisected instead of raising assertion timeouts",
+      "controlledResult": "543 files passed, 1649 tests passed, 0 assertion failures",
+      "coverageEquation": "71 + 59 + 46 + 38 + 50 + 33 + 59 + 46 + 34 + 35 + 16 + 26 + 12 + 18 = 543 files"
+    },
+    "diffChecks": {
+      "command": "git diff --check",
+      "result": "passed; only the repository's existing LF-to-CRLF checkout notices were emitted"
+    },
+    "evidenceParse": {
+      "command": "JSON.parse(readFileSync('d/2183/evidence/final-full-report-renderer-migration-v2183-summary.json', 'utf8'))",
+      "result": "passed"
+    }
+  },
+  "screenshot": {
+    "applicable": false,
+    "reason": "This version changes internal Markdown renderer composition and test infrastructure only; no new HTML or UI surface exists."
+  }
+}
