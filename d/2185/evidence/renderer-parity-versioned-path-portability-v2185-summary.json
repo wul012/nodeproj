@@ -1,0 +1,101 @@
+{
+  "version": "v2185",
+  "date": "2026-07-10",
+  "track": "node-production-excellence-n1-closeout-ci-portability-repair",
+  "trigger": {
+    "workflow": "Node Evidence",
+    "runId": 29071738931,
+    "runUrl": "https://github.com/wul012/nodeproj/actions/runs/29071738931",
+    "failedStep": "Test / npm run test:coverage",
+    "failure": "rendererMigrationV2183Parity candidateGateUpstreamHardeningReview normalized length was 6172 on Linux versus the Windows baseline 6152",
+    "passingBeforeFailure": "Typecheck and lint passed; 542 test files and 1653 tests passed"
+  },
+  "scope": {
+    "goal": "Make version-prefixed Java and mini-kv resolved fixture paths normalize identically on Windows and Linux without changing product output.",
+    "nonGoals": [
+      "No source file under src/ changes",
+      "No renderer, loader, route, schema, fixture, or upstream contract change",
+      "No weakening of section-count or trailing-newline parity assertions",
+      "No Java or mini-kv write, build, test, start, or stop",
+      "No transition into N5 before external N1-close review"
+    ],
+    "necessityProof": {
+      "blockerResolved": "The final N1 checkpoint CI could not reach build or smoke because two version-prefixed resolved-path lines retained the runner-specific repository root.",
+      "consumer": "The v2183 frozen renderer parity gate, the v2184 N1 closeout checkpoint, and future renderer migrations that carry versioned sibling evidence paths.",
+      "whyExistingNormalizerWasInsufficient": "It recognized plain '- Resolved path:' labels but not '- Java v151 resolved path:' or equivalent mini-kv labels.",
+      "stopCondition": "Windows and LF-checkout probes produce the same normalized length and sha256; dedicated label-matrix tests cover Java, mini-kv, and non-path preservation."
+    }
+  },
+  "rootCause": {
+    "differingLines": [
+      "Java v151 resolved path",
+      "Java v152 resolved path"
+    ],
+    "windowsNormalizedLengthBeforeFix": 6152,
+    "lfCheckoutNormalizedLengthBeforeFix": 6180,
+    "githubNormalizedLengthBeforeFix": 6172,
+    "reason": "The absolute checkout roots had different lengths and the version prefix prevented the existing resolved-path regex from invoking normalizePathValue."
+  },
+  "implementation": {
+    "normalizer": "test/rendererMigrationParityUtils.ts",
+    "newRule": "Version-prefixed Java/mini-kv resolved path labels are passed to the existing normalizePathValue helper.",
+    "canonicalPath": "<repo>/fixtures/...",
+    "dedicatedTest": "test/rendererMigrationParityUtils.test.ts",
+    "normalizedFingerprint": {
+      "length": 6114,
+      "sha256": "96457d87ec3af940e44b759fdcae7ac0d18ae2260ed84c8bb25f7331d5793ec6"
+    },
+    "publicBehaviorChanged": false,
+    "crossProjectParallel": {
+      "java": "recommended parallel",
+      "miniKv": "recommended parallel",
+      "nodeIsPreApprovalBlocker": false,
+      "freshSiblingEvidenceRequired": false
+    }
+  },
+  "validation": [
+    {
+      "command": "Render the candidate-gate report in D:/nodeproj/orderops-node and in a detached core.autocrlf=false worktree at b2b1bc05 using the repaired normalizer",
+      "result": "Both environments produced length 6114 and sha256 96457d87ec3af940e44b759fdcae7ac0d18ae2260ed84c8bb25f7331d5793ec6"
+    },
+    {
+      "command": "npx vitest run test/rendererMigrationParityUtils.test.ts test/rendererMigrationV2183Parity.test.ts --maxWorkers=2 --reporter=verbose",
+      "result": "2 files passed, 4 tests passed"
+    }
+  ],
+  "finalVerification": {
+    "focusedCoverageMode": {
+      "command": "npx vitest run test/rendererMigrationParityUtils.test.ts test/rendererMigrationV2183Parity.test.ts --coverage --coverage.thresholds.lines=0 --coverage.thresholds.functions=0 --coverage.thresholds.statements=0 --coverage.thresholds.branches=0 --maxWorkers=2 --reporter=verbose",
+      "result": "2 files passed, 4 tests passed; command-local zero thresholds were used only because a focused subset cannot satisfy repository-wide coverage floors"
+    },
+    "typecheck": {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    "lint": {
+      "command": "npm run lint",
+      "result": "passed with 0 errors and the unchanged 263-warning baseline"
+    },
+    "build": {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    "documentationQualityGate": {
+      "command": "npx vitest run test/codeWalkthroughDocumentationQualityGate.test.ts test/explanationReadabilityCloseoutProfile.test.ts --maxWorkers=2",
+      "result": "2 files passed, 4 tests passed; walkthrough measured 3013 Chinese characters with compliance score 100"
+    },
+    "fullSuite": {
+      "command": "npm test -- --maxWorkers=2",
+      "result": "544 files passed, 1657 tests passed, 0 assertion failures",
+      "durationSeconds": 2891.08
+    },
+    "replacementCi": {
+      "state": "pending",
+      "requirement": "The replacement Node Evidence run must pass full coverage thresholds, build, and safe smoke before the N1-close review request."
+    }
+  },
+  "screenshot": {
+    "applicable": false,
+    "reason": "This version changes test-only cross-platform normalization and evidence; it creates no HTML or UI surface."
+  }
+}

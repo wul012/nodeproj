@@ -27,6 +27,10 @@ export function normalizeRendererMigrationMarkdown(
       (_match: string, prefix: string, pathValue: string) => `${prefix}${normalizePathValue(pathValue)}`,
     )
     .replace(
+      /(- (?:Java|mini-kv) v\d+ resolved path: )([^\n]+)/gi,
+      (_match: string, prefix: string, pathValue: string) => `${prefix}${normalizePathValue(pathValue)}`,
+    )
+    .replace(
       /(Hardening file: |Resolved hardening path: |Source core file: )([^\n]+)/g,
       (_match: string, prefix: string, pathValue: string) => `${prefix}${normalizePathValue(pathValue)}`,
     )

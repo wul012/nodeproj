@@ -76,7 +76,7 @@ describe("renderer migration v2183 parity", () => {
             ...loadManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview({ config }),
             generatedAt: GENERATED_AT,
           }),
-          expected: { length: 6_152, sha256: "dad0bf2a9aa4bb1daf03fb0c98ab2d8f799b18b3ae9a7e16495c1613bd60be14", h1Count: 1, h2Count: 10, h3Count: 0, trailingNewline: true },
+          expected: { length: 6_114, sha256: "96457d87ec3af940e44b759fdcae7ac0d18ae2260ed84c8bb25f7331d5793ec6", h1Count: 1, h2Count: 10, h3Count: 0, trailingNewline: true },
         },
         {
           name: "controlledReadOnlyShardPreview",

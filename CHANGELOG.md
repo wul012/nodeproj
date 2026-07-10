@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2185 - 2026-07-10
+
+- Repaired the v2183 parity gate's Linux-only path drift by normalizing
+  version-prefixed Java/mini-kv resolved fixture paths through the existing
+  `<repo>/fixtures/...` canonical form. Added dedicated Windows/Linux path
+  matrix tests and verified the candidate-gate report against an independent
+  LF checkout; product renderers, loaders, fixtures, and public Markdown are
+  unchanged.
+
 ## v2184 - 2026-07-10
 
 - Closed the N1 renderer-consolidation implementation with a canonical
