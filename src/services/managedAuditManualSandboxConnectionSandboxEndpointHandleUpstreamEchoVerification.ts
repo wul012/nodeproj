@@ -28,28 +28,27 @@ import type {
   VerificationEvidenceFile,
   VerificationSnippetMatch,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationTypes.js";
+import {
+  ACTIVE_PLAN,
+  JAVA_V104_BUILDER,
+  JAVA_V104_RUNBOOK,
+  JAVA_V104_WALKTHROUGH,
+  MINI_KV_V113_RECEIPT,
+  MINI_KV_V113_RUNBOOK,
+  MINI_KV_V113_WALKTHROUGH,
+  NODE_V258_ROUTE,
+  PROFILE_VERSION,
+  ROUTE_PATH,
+  booleanField,
+  numberField,
+  objectField,
+  readJsonObject,
+  snippetMatched,
+  stringField,
+} from "../evidence/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationEvidence.js";
 export {
   renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationRenderer.js";
-
-const PROFILE_VERSION =
-  "managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-upstream-echo-verification.v1";
-const ROUTE_PATH =
-  "/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-upstream-echo-verification";
-const NODE_V258_ROUTE =
-  "/api/v1/audit/managed-audit-manual-sandbox-connection-sandbox-endpoint-handle-preflight-review";
-const ACTIVE_PLAN = "docs/plans/v257-post-fake-transport-upstream-echo-roadmap.md";
-
-const JAVA_V104_RUNBOOK = "D:/javaproj/advanced-order-platform/c/104/解释/说明.md";
-const JAVA_V104_WALKTHROUGH =
-  "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段/107-version-104-sandbox-endpoint-handle-preflight-echo-marker.md";
-const JAVA_V104_BUILDER =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalManagedAuditSandboxEndpointHandlePreflightEchoMarkerBuilder.java";
-
-const MINI_KV_V113_RECEIPT = "D:/C/mini-kv/fixtures/release/sandbox-endpoint-handle-non-participation-receipt.json";
-const MINI_KV_V113_RUNBOOK = "D:/C/mini-kv/c/113/解释/说明.md";
-const MINI_KV_V113_WALKTHROUGH =
-  "D:/C/mini-kv/代码讲解记录_生产雏形阶段/169-version-113-sandbox-endpoint-handle-non-participation-receipt.md";
 
 export function loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification(input: {
   config: AppConfig;
@@ -777,40 +776,4 @@ function snippet(id: string, filePath: string, expectedText: string): Verificati
     expectedText,
     matched: content.includes(expectedText),
   };
-}
-
-function readJsonObject(filePath: string): Record<string, unknown> {
-  if (!historicalEvidenceExists(filePath)) {
-    return {};
-  }
-  const parsed: unknown = JSON.parse(readHistoricalEvidenceFile(filePath, "utf8"));
-  return isRecord(parsed) ? parsed : {};
-}
-
-function objectField(input: Record<string, unknown>, key: string): Record<string, unknown> {
-  const value = input[key];
-  return isRecord(value) ? value : {};
-}
-
-function stringField(input: Record<string, unknown>, key: string): string | null {
-  const value = input[key];
-  return typeof value === "string" ? value : null;
-}
-
-function numberField(input: Record<string, unknown>, key: string): number | null {
-  const value = input[key];
-  return typeof value === "number" ? value : null;
-}
-
-function booleanField(input: Record<string, unknown>, key: string): boolean | null {
-  const value = input[key];
-  return typeof value === "boolean" ? value : null;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function snippetMatched(snippets: VerificationSnippetMatch[], id: string): boolean {
-  return snippets.some((snippetMatch) => snippetMatch.id === id && snippetMatch.matched);
 }

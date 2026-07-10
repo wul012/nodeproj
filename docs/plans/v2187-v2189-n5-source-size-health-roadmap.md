@@ -112,3 +112,11 @@ Java and mini-kv are **recommended parallel**. This series changes only Node mod
 ownership and local tests, consumes frozen historical evidence, requires no fresh
 sibling version, and does not make Node a pre-approval blocker. No sibling process is
 started, stopped, built, tested, or modified by this session.
+
+## Progress
+
+| Version | Result | Oversized count | Verification state |
+|---|---|---:|---|
+| v2187 | Canonical census/ratchet plus six contracts/static-evidence splits | 16 -> 10 | local and Node Evidence green |
+| v2188 | Six evidence-service ownership splits; service/route counts unchanged | 10 -> 4 | local verification in progress |
+| v2189 | UI, route, rehearsal guard, and runtime packet; empty baseline | target 0 | pending |

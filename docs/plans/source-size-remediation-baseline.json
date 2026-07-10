@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "threshold": 800,
-  "maxOversized": 10,
+  "maxOversized": 4,
   "remediation": [
     {
       "file": "src/ui/dashboardClientScript.ts",
@@ -10,46 +10,10 @@
       "reason": "Split the embedded browser client into stable ordered source fragments with byte-parity coverage."
     },
     {
-      "file": "src/services/managedAuditManualSandboxConnectionRehearsalPacketReview.ts",
-      "maxLines": 905,
-      "targetVersion": "v2188",
-      "reason": "Extract evidence reference and parsing responsibilities while preserving the public review facade."
-    },
-    {
       "file": "src/routes/statusRoutes.ts",
       "maxLines": 896,
       "targetVersion": "v2189",
       "reason": "Extract cohesive status route registration groups behind the existing registerStatusRoutes facade."
-    },
-    {
-      "file": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts",
-      "maxLines": 890,
-      "targetVersion": "v2188",
-      "reason": "Separate upstream evidence references and parsing support from verification orchestration."
-    },
-    {
-      "file": "src/services/managedAuditManualSandboxConnectionPreconditionIntake.ts",
-      "maxLines": 860,
-      "targetVersion": "v2188",
-      "reason": "Separate immutable precondition evidence and parsing helpers from the intake facade."
-    },
-    {
-      "file": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts",
-      "maxLines": 848,
-      "targetVersion": "v2188",
-      "reason": "Extract reference-building and requirement mapping support behind the existing loader."
-    },
-    {
-      "file": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts",
-      "maxLines": 816,
-      "targetVersion": "v2188",
-      "reason": "Extract upstream evidence parsing support without changing verification output."
-    },
-    {
-      "file": "src/services/managedAuditSandboxAdapterDryRunPackage.ts",
-      "maxLines": 814,
-      "targetVersion": "v2188",
-      "reason": "Move package evidence/reference support out of the public dry-run package facade."
     },
     {
       "file": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts",

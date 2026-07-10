@@ -1,0 +1,153 @@
+{
+  "version": "v2188",
+  "date": "2026-07-10",
+  "track": "node-production-excellence-n5-source-size-health-batch-2",
+  "entryGate": {
+    "previousVersion": "v2187",
+    "previousTag": "v2187",
+    "nodeEvidenceRun": {
+      "id": 29097275944,
+      "conclusion": "success",
+      "url": "https://github.com/wul012/nodeproj/actions/runs/29097275944"
+    },
+    "writesStartedAfterGreen": true
+  },
+  "scope": {
+    "goal": "Separate evidence data/parsing ownership from six oversized service facades and tighten the same source-size ratchet.",
+    "nonGoals": [
+      "No new route, report, schema, fixture, cross-project contract, or product feature",
+      "No public loader or renderer path change",
+      "No existing test expectation change",
+      "No permanent source-size waiver",
+      "No sibling repository operation"
+    ],
+    "necessityProof": {
+      "blockerResolved": "Six v2187 remediation entries still mixed static evidence and parsing support with service orchestration.",
+      "consumer": "v2189 final ratchet and external N5 review consume the four-item remainder.",
+      "whyExistingModuleCouldNotBeReused": "Each evidence family has distinct frozen paths and profile-specific types; a generic shared data bag would erase ownership and couple unrelated historical versions.",
+      "stopCondition": "All six main files are at or below 800 lines, their focused contracts and full suite pass, and the baseline contains only the four v2189 targets."
+    }
+  },
+  "census": {
+    "command": "npm run source:size:census -- --json",
+    "sourceFileCount": 1229,
+    "threshold": 800,
+    "before": 10,
+    "after": 4,
+    "maxOversized": 4,
+    "waiverCount": 0,
+    "remaining": [
+      { "file": "src/ui/dashboardClientScript.ts", "lines": 1080 },
+      { "file": "src/routes/statusRoutes.ts", "lines": 896 },
+      { "file": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts", "lines": 813 },
+      { "file": "src/services/threeProjectRealReadRuntimeSmokeExecutionPacket.ts", "lines": 813 }
+    ],
+    "violations": 0
+  },
+  "implementation": {
+    "ownership": {
+      "serviceFacade": "loaders, checks, messages, digest assembly, and public render entry remain in src/services",
+      "evidenceModules": "frozen sibling paths, evidence-specific local types, JSON readers, and deterministic requirement mappings live in src/evidence",
+      "serviceFileCount": 1125,
+      "routeFileCount": 80,
+      "governanceBaselineRaised": false
+    },
+    "splits": [
+      {
+        "source": "src/services/managedAuditManualSandboxConnectionRehearsalPacketReview.ts",
+        "beforeLines": 905,
+        "afterLines": 760,
+        "extracted": "src/evidence/managedAuditManualSandboxConnectionRehearsalPacketReviewEvidence.ts",
+        "extractedLines": 180,
+        "boundary": "Frozen Node/Java/mini-kv paths, accepted WAL references, runtime-smoke readers, and JSON field helpers."
+      },
+      {
+        "source": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts",
+        "beforeLines": 890,
+        "afterLines": 754,
+        "extracted": "src/evidence/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationEvidence.ts",
+        "extractedLines": 163,
+        "boundary": "Operator-window evidence contracts and frozen Java/mini-kv path constants."
+      },
+      {
+        "source": "src/services/managedAuditManualSandboxConnectionPreconditionIntake.ts",
+        "beforeLines": 860,
+        "afterLines": 718,
+        "extracted": "src/evidence/managedAuditManualSandboxConnectionPreconditionIntakeEvidence.ts",
+        "extractedLines": 170,
+        "boundary": "Precondition evidence contracts, accepted runtime guards, endpoints, and frozen paths."
+      },
+      {
+        "source": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts",
+        "beforeLines": 848,
+        "afterLines": 758,
+        "extracted": "src/evidence/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationEvidence.ts",
+        "extractedLines": 120,
+        "boundary": "Frozen upstream paths and deterministic boundary/requirement-to-snippet mappings."
+      },
+      {
+        "source": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts",
+        "beforeLines": 816,
+        "afterLines": 779,
+        "extracted": "src/evidence/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationEvidence.ts",
+        "extractedLines": 69,
+        "boundary": "Frozen upstream paths and defensive historical JSON field readers."
+      },
+      {
+        "source": "src/services/managedAuditSandboxAdapterDryRunPackage.ts",
+        "beforeLines": 814,
+        "afterLines": 778,
+        "extracted": "src/evidence/managedAuditSandboxAdapterDryRunPackageEvidence.ts",
+        "extractedLines": 70,
+        "boundary": "Frozen package evidence paths, accepted release/digest sets, and runtime-smoke reader."
+      }
+    ],
+    "crossProjectParallel": {
+      "java": "recommended parallel",
+      "miniKv": "recommended parallel",
+      "freshSiblingEvidenceRequired": false,
+      "nodeIsPreApprovalBlocker": false
+    }
+  },
+  "validation": [
+    {
+      "command": "npm run typecheck",
+      "result": "passed"
+    },
+    {
+      "command": "npm run lint",
+      "result": "0 errors and unchanged 263-warning baseline"
+    },
+    {
+      "command": "npm run source:size:census -- --json",
+      "result": "1229 files scanned; 4 oversized files exactly match the baseline; no violation"
+    },
+    {
+      "command": "six affected contract tests plus source-size and governance ratchets",
+      "result": "8 files passed, 25 tests passed"
+    },
+    {
+      "command": "npx vitest run --shard={1..8}/8 --maxWorkers=2 --reporter=dot",
+      "result": "All 8 deterministic shards passed: 545 files and 1661 tests, aggregate Vitest duration 3363.75 seconds."
+    },
+    {
+      "command": "npm run build",
+      "result": "passed"
+    },
+    {
+      "command": "npm run renderer:census -- --json",
+      "result": "245 total / 242 standardized / 3 AST-validated waivers / 0 non-waived unstandardized"
+    },
+    {
+      "command": "code walkthrough documentation quality gate",
+      "result": "2 files passed, 8 tests passed; walkthrough contains 3008 Chinese characters across 8 sections"
+    }
+  ],
+  "finalVerificationRequired": [
+    "replacement GitHub Actions run"
+  ],
+  "screenshot": {
+    "applicable": false,
+    "reason": "The batch changes evidence/module ownership only and has no new visual surface."
+  }
+}

@@ -19,10 +19,6 @@ import {
   loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntake,
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntake.js";
 import type {
-  CredentialResolverPreImplementationBoundaryCode,
-  CredentialResolverPreImplementationRequirementCode,
-} from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
-import type {
   CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationChecks,
   CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMessage,
   JavaV112PreImplementationPlanIntakeEchoReceiptReference,
@@ -30,61 +26,29 @@ import type {
   MiniKvV119PreImplementationPlanIntakeNonParticipationReference,
   SourceNodeV270PreImplementationPlanIntakeReference,
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationTypes.js";
+import {
+  ACTIVE_PLAN,
+  BOUNDARY_CODES,
+  JAVA_V112_BUILDER,
+  JAVA_V112_EVIDENCE_SERVICE,
+  JAVA_V112_RECORDS,
+  JAVA_V112_RUNBOOK,
+  JAVA_V112_SUPPORT,
+  JAVA_V112_WALKTHROUGH,
+  MINI_KV_V119_RECEIPT,
+  MINI_KV_V119_RUNBOOK,
+  MINI_KV_V119_WALKTHROUGH,
+  NODE_V270_ROUTE,
+  PROFILE_VERSION,
+  REQUIREMENT_CODES,
+  ROUTE_PATH,
+  arrayEquals,
+  codeToSnippetId,
+  requirementToSnippetId,
+} from "../evidence/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationEvidence.js";
 export {
   renderManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMarkdown,
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationRenderer.js";
-
-const PROFILE_VERSION =
-  "managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake-upstream-echo-verification.v1";
-const ROUTE_PATH =
-  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake-upstream-echo-verification";
-const NODE_V270_ROUTE =
-  "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake";
-const ACTIVE_PLAN = "docs/plans/v269-post-blocked-decision-upstream-echo-roadmap.md";
-
-const JAVA_V112_RUNBOOK = "D:/javaproj/advanced-order-platform/c/112/解释/说明.md";
-const JAVA_V112_WALKTHROUGH =
-  "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段/115-version-112-sandbox-endpoint-credential-resolver-pre-implementation-plan-intake-echo-receipt.md";
-const JAVA_V112_BUILDER =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalManagedAuditSandboxEndpointCredentialResolverPreImplementationPlanIntakeEchoReceiptBuilder.java";
-const JAVA_V112_SUPPORT =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverPreImplementationPlanIntakeEchoSupport.java";
-const JAVA_V112_RECORDS =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/ReleaseApprovalSandboxEndpointCredentialResolverPreImplementationPlanIntakeEchoRecords.java";
-const JAVA_V112_EVIDENCE_SERVICE =
-  "D:/javaproj/advanced-order-platform/src/main/java/com/codexdemo/orderplatform/ops/OpsEvidenceService.java";
-
-const MINI_KV_V119_RECEIPT =
-  "D:/C/mini-kv/fixtures/release/credential-resolver-pre-implementation-plan-intake-non-participation-receipt.json";
-const MINI_KV_V119_RUNBOOK = "D:/C/mini-kv/c/119/解释/说明.md";
-const MINI_KV_V119_WALKTHROUGH =
-  "D:/C/mini-kv/代码讲解记录_生产雏形阶段/175-version-119-credential-resolver-pre-implementation-plan-intake-non-participation-receipt.md";
-
-const BOUNDARY_CODES = [
-  "PLAN_DOCUMENT",
-  "CREDENTIAL_HANDLE",
-  "ENDPOINT_HANDLE",
-  "DISABLED_SECRET_PROVIDER_STUB",
-  "OPERATOR_APPROVAL",
-  "ROLLBACK_BOUNDARY",
-  "REDACTION_POLICY",
-  "EXTERNAL_REQUEST_SIMULATION",
-  "SCHEMA_MIGRATION_POLICY",
-  "AUDIT_LEDGER_WRITE_POLICY",
-] as const satisfies readonly CredentialResolverPreImplementationBoundaryCode[];
-
-const REQUIREMENT_CODES = [
-  "REAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_MISSING",
-  "CREDENTIAL_HANDLE_BOUNDARY_MISSING",
-  "ENDPOINT_HANDLE_BOUNDARY_MISSING",
-  "SECRET_PROVIDER_STUB_MISSING",
-  "OPERATOR_APPROVAL_BOUNDARY_MISSING",
-  "ROLLBACK_BOUNDARY_MISSING",
-  "REDACTION_POLICY_MISSING",
-  "EXTERNAL_REQUEST_SIMULATION_PLAN_MISSING",
-  "SCHEMA_MIGRATION_POLICY_MISSING",
-  "AUDIT_LEDGER_WRITE_POLICY_MISSING",
-] as const satisfies readonly CredentialResolverPreImplementationRequirementCode[];
 
 export function loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification(input: {
   config: AppConfig;
@@ -791,58 +755,4 @@ function collectRecommendations(): CredentialResolverPreImplementationPlanIntake
       message: "Write the next plan before moving from plan-intake echo verification toward any disabled resolver implementation candidate.",
     },
   ];
-}
-
-function arrayEquals(left: readonly string[], right: readonly string[]): boolean {
-  return left.length === right.length && left.every((value, index) => value === right[index]);
-}
-
-function codeToSnippetId(code: CredentialResolverPreImplementationBoundaryCode): string {
-  switch (code) {
-    case "PLAN_DOCUMENT":
-      return "plan-document";
-    case "CREDENTIAL_HANDLE":
-      return "credential-handle";
-    case "ENDPOINT_HANDLE":
-      return "endpoint-handle";
-    case "DISABLED_SECRET_PROVIDER_STUB":
-      return "secret-provider";
-    case "OPERATOR_APPROVAL":
-      return "operator-approval";
-    case "ROLLBACK_BOUNDARY":
-      return "rollback";
-    case "REDACTION_POLICY":
-      return "redaction";
-    case "EXTERNAL_REQUEST_SIMULATION":
-      return "external-request";
-    case "SCHEMA_MIGRATION_POLICY":
-      return "schema-migration";
-    case "AUDIT_LEDGER_WRITE_POLICY":
-      return "audit-ledger-policy";
-  }
-}
-
-function requirementToSnippetId(code: CredentialResolverPreImplementationRequirementCode): string {
-  switch (code) {
-    case "REAL_RESOLVER_PRE_IMPLEMENTATION_PLAN_MISSING":
-      return "java-v112-req-plan";
-    case "CREDENTIAL_HANDLE_BOUNDARY_MISSING":
-      return "java-v112-req-credential";
-    case "ENDPOINT_HANDLE_BOUNDARY_MISSING":
-      return "java-v112-req-endpoint";
-    case "SECRET_PROVIDER_STUB_MISSING":
-      return "java-v112-req-secret";
-    case "OPERATOR_APPROVAL_BOUNDARY_MISSING":
-      return "java-v112-req-operator";
-    case "ROLLBACK_BOUNDARY_MISSING":
-      return "java-v112-req-rollback";
-    case "REDACTION_POLICY_MISSING":
-      return "java-v112-req-redaction";
-    case "EXTERNAL_REQUEST_SIMULATION_PLAN_MISSING":
-      return "java-v112-req-external";
-    case "SCHEMA_MIGRATION_POLICY_MISSING":
-      return "java-v112-req-schema";
-    case "AUDIT_LEDGER_WRITE_POLICY_MISSING":
-      return "java-v112-req-ledger";
-  }
 }

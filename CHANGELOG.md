@@ -20,6 +20,15 @@ All notable Node project changes are tracked by git tags.
   reducing the fresh `src/` over-800-line census from 16 files to 10 without
   changing routes, report bytes, schemas, fixtures, or execution authority.
 
+## v2188 - 2026-07-10
+
+- Continued N5 with six evidence-service ownership splits. Moved frozen sibling
+  paths, local evidence contracts, parsing helpers, and requirement mapping into
+  `src/evidence` while retaining every public loader and renderer facade under
+  `src/services`. The source-size census now scans 1229 files and shrinks from
+  10 oversized files to 4; service/route file-count and lint-warning ratchets
+  remain at 1125/80 and 263 warnings.
+
 ## v2186 - 2026-07-10
 
 - Completed renderer parity portability hardening by canonicalizing indented
