@@ -1,0 +1,90 @@
+{
+  "schemaVersion": "orderops.integration-capstone-closeout.v1",
+  "version": "v2191",
+  "status": "local-candidate-pass-awaiting-external-review",
+  "requirements": {
+    "C1": "pass",
+    "C2": "pass",
+    "C3": "pass",
+    "C4": "pass"
+  },
+  "liveRun": {
+    "report": "d/2191/evidence/cross-project-readiness/cross-project-readiness.json",
+    "markdown": "d/2191/evidence/cross-project-readiness/cross-project-readiness.md",
+    "transcript": "d/2191/evidence/readiness-cross-live-transcript.txt",
+    "generatedAt": "2026-07-11T04:31:42.750Z",
+    "liveRequested": true,
+    "overallStatus": "pass",
+    "readOnly": true,
+    "executionAllowed": false
+  },
+  "java": {
+    "sourceCommit": "894deeb01837647af6dc125159ba5bc354f2cbb5",
+    "artifactSha256": "6863ecbf8e995f41aed1286f97208bd914eba81f741c013cc5dd1b4bc166319f",
+    "healthStatusCode": 200,
+    "opsEvidenceStatusCode": 200,
+    "unauthenticatedWriteRejected": true,
+    "gracefulShutdownStatusCode": 200,
+    "fallbackKillUsed": false,
+    "applicationAliveAfterShutdown": false,
+    "portOpenAfterShutdown": false
+  },
+  "miniKv": {
+    "executablePath": "D:/C/mini-kv/cmake-build-v1621/minikv_cli.exe",
+    "executableSha256": "8e29370a3e0290e5a04faf2a818682beb0e36a5c5ecfa8b2f245ef38bbd216df",
+    "runtimeVersion": "0.102.0",
+    "stdoutBytes": 462610,
+    "stdoutSha256": "4ad01739e8310dcb08df0f36fda2c80f6e8dd4a6c41b10449aff19651c7d2e34",
+    "writeCommand": false,
+    "touchesWal": false
+  },
+  "verification": {
+    "focusedCapstoneTests": {
+      "files": 7,
+      "tests": 21,
+      "status": "pass"
+    },
+    "typecheck": "pass",
+    "build": "pass",
+    "lint": {
+      "errors": 0,
+      "warnings": 261,
+      "ceiling": 261
+    },
+    "fullCoverage": {
+      "mode": "vitest-8-shard-blob-merge",
+      "initialMonolithicRun": "timeout-only-after-3604-seconds",
+      "testFilesPassed": 555,
+      "testFilesTotal": 555,
+      "testsPassed": 1686,
+      "testsTotal": 1686,
+      "durationSeconds": 3791.25,
+      "statements": 95.62,
+      "branches": 87.36,
+      "functions": 98.47,
+      "lines": 95.6,
+      "floors": {
+        "statements": 94,
+        "branches": 86,
+        "functions": 97,
+        "lines": 94
+      }
+    },
+    "sourceSizeOversizedFiles": 0,
+    "rendererCensus": "242-standardized-3-waived-0-non-waived",
+    "walkthroughChineseCharacters": 3296,
+    "walkthroughReadabilityGate": "pass"
+  },
+  "cleanup": {
+    "javaDetachedWorktreeRemoved": true,
+    "taskVitestProcessesRemaining": 0,
+    "taskJavaProcessesRemaining": 0,
+    "temporaryDirectoriesRemaining": 0,
+    "distRemaining": false,
+    "coverageRemaining": false,
+    "blobReportsRemaining": false
+  },
+  "maturityClaimChanged": false,
+  "stage2Authorized": false,
+  "nextAction": "request-external-program-end-review"
+}

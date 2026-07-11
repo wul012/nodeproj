@@ -13,7 +13,7 @@ describe("production excellence documentation", () => {
     expect(document).toContain("executionAllowed: false");
     expect(document).toContain("readyForProductionOperations: false");
     expect(document).toContain("single-project validation + cross-project contract alignment");
-    expect(document).toContain("C1-C4 not executed");
+    expect(document).toContain("C1-C4 local candidate PASS; external program-end review pending");
     expect(document).toContain("Java and mini-kv can continue in parallel");
   });
 
@@ -50,11 +50,13 @@ describe("production excellence documentation", () => {
     for (const document of [readme, startHere]) {
       expect(document).toContain("single-project validation + cross-project contract alignment");
       expect(document).toContain("C1-C4");
+      expect(document).toContain("local candidate PASS");
+      expect(document).toContain("external program-end review");
       expect(document).toContain("not authorized for production execution");
     }
     expect(readme).toContain('$env:UPSTREAM_PROBES_ENABLED = "false"');
     expect(readme).toContain('$env:UPSTREAM_ACTIONS_ENABLED = "false"');
-    expect(startHere).toContain("Node v2190 production-excellence track closeout");
+    expect(startHere).toContain("Node v2191 integration capstone candidate");
   });
 
   it("records the N5 external PASS before Phase 3 closeout", () => {

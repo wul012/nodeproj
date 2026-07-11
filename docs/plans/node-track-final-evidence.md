@@ -5,10 +5,16 @@
 - Candidate version: `v2190`.
 - Node milestones N0-N5: complete; N1 and N5 external reviews passed.
 - E1-E10 implementation and local broad verification: complete.
-- Remaining closeout action: commit/tag/push and green final Node Evidence.
-- External track-closeout decision: pending.
-- Integration capstone C1-C4: not started and not authorized before external
-  closeout PASS.
+- Remaining closeout action: none — v2190 committed, tagged, pushed; run green.
+- External track-closeout decision: **PASS — Node Stage-1 track CLOSED (Claude,
+  2026-07-11)**. Independently reproduced, not trusted: lint 0 errors / 261 warnings
+  (≤263 N0 ceiling); security scan 6/6 signals digest-accepted, 0 env secrets,
+  ready:true; archive census 7,017 files within budget; renderer census
+  242/3/0 and source-size census 0-oversized re-run at N1/N5 reviews; v2190 tag
+  exists locally and on the remote; v2190 run green.
+- Integration capstone C1-C4: **LOCAL CANDIDATE PASS — external program-end review pending**.
+  v2191 records a real Java jar read, fresh mini-kv CLI
+  output, three-layer no-write proof, and graceful process cleanup.
 - Honest maturity label: **single-project validation + cross-project contract alignment**.
 
 This document is the one-place acceptance input required by the final program.
@@ -25,7 +31,7 @@ production execution authority.
 | E4 security and configuration | repository secret/config scanner, fail-closed production template, threat model, exact synthetic-fixture waivers | `npm run security:scan`; `test/securityConfigScan.test.ts` | 18/18 safe-config checks; every accepted signal pinned by digest and count |
 | E5 observability | UUID request IDs, response correlation header/body, structured audit timing, `/health`, and upstream metrics | `test/app.test.ts`, `test/auditLog.test.ts`, `test/upstreamMetrics.test.ts`; CI smoke | health and metrics remain read-only with probes/actions false |
 | E6 error handling and lifecycle | typed upstream errors, HTTP abort timeout, TCP socket timeout, SIGINT/SIGTERM graceful Fastify close | focused client/app tests; `src/server.ts`; full suite | explicit timeout and shutdown paths are part of the tested runtime |
-| E7 documentation honesty | README, START_HERE, boundaries, security, and final evidence share the same maturity statement | `test/productionExcellenceDocs.test.ts`; `test/nodeTrackFinalEvidence.test.ts` | C1-C4 and production execution remain explicitly blocked |
+| E7 documentation honesty | README, START_HERE, boundaries, security, and final evidence share the same maturity statement | `test/productionExcellenceDocs.test.ts`; `test/nodeTrackFinalEvidence.test.ts` | local C1-C4 candidate is recorded while production execution and maturity promotion remain blocked pending review |
 | E8 release discipline | git tags are canonical, package version policy remains explicit, changelog is mandatory | `CHANGELOG.md`; `test/productionExcellenceDocs.test.ts` | v2190 tag/push is the final local closeout action |
 | E9 code health | renderer builder census, AST composition-only waiver validation, governance-growth ratchet, and 800-line source ceiling | `npm run renderer:census`; `npm run source:size:census`; focused ratchet tests | 245 total / 242 standardized / 3 waived / 0 non-waived; 1,234 source files / 0 oversized |
 | E10 archive retention | versioned-root index, machine-readable limits, filesystem census, negative tests, CI gate | `npm run archive:retention:census`; `test/archiveRetentionCensus.test.ts` | final 7,017 files / 65,537,435 bytes; no violations or waivers |
@@ -108,13 +114,19 @@ horizontal overflow. The only console error was the existing missing
 ## Remaining boundary
 
 Passing E1-E10 means the Node repository has a mechanically enforced local
-quality baseline. It does not mean Java or mini-kv were started, current live
-responses were consumed, unauthenticated writes were rejected across the real
-three-process system, or one readiness command aggregated fresh C1-C3 results.
-Those are precisely the separate C1-C4 capstone. Until that capstone passes,
-README and boundary documents must retain the current maturity label and every
-real write path remains unauthorized.
+quality baseline. v2191 then executed the separate C1-C4 candidate: Node booted
+a jar built from Java commit `894deeb0`, consumed current health/evidence,
+proved the unauthenticated replay POST was rejected, executed a real mini-kv
+CLI for fresh SMOKEJSON/CHECKJSON, and aggregated C1-C3 through
+`npm run readiness:cross`. The archived result is under
+`d/2191/evidence/cross-project-readiness/`.
 
-Java and mini-kv are recommended parallel for this closeout: no fresh sibling
-evidence is required and Node is not their pre-approval blocker. This version
-performs no sibling build, test, start, stop, or repository write.
+That local result is a review candidate, not a self-awarded program PASS.
+README and boundary documents therefore retain the existing maturity label;
+every production write, deployment, credential, rollback, and Stage 2 path
+remains unauthorized until the external program-end review passes.
+
+Java remains recommended parallel for extraction batches. Node used an
+isolated detached worktree at a fixed commit and did not alter Java source or
+its active v1848 worktree. mini-kv/aiproj received no source changes; mini-kv
+participated only through execution of an existing CLI binary.

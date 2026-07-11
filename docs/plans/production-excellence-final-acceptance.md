@@ -90,3 +90,13 @@ mechanical-change limits, per-repo AGENTS conventions) bind every step.
 - A waiver written after the fact to avoid work the recipe covers = rejected.
 - Screenshots/walkthroughs advancing ahead of executable evidence = version incomplete.
 - Version scope creep (feature work smuggled into consolidation batches) = revert the batch.
+
+## Node capstone candidate status — v2191, 2026-07-11
+
+- C1-C4 implementation and one full local run are complete. The archived report
+  records `live_requested=true`, C1/C2/C3 pass, `read_only=true`, and
+  `execution_allowed=false`.
+- Java was built from fixed commit `894deeb0` in an isolated worktree; its active
+  extraction worktree was not modified. mini-kv/aiproj received no source writes.
+- The maturity label remains unchanged. This is a local candidate only; request
+  the external program-end review and do not activate Stage 2 before PASS.

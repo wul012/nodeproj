@@ -3,7 +3,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 describe("Node production-excellence final evidence", () => {
-  it("maps every E gate to a mechanical check without claiming the capstone", () => {
+  it("maps every E gate and records the capstone candidate without self-awarding final PASS", () => {
     const path = "docs/plans/node-track-final-evidence.md";
     expect(existsSync(path)).toBe(true);
 
@@ -12,8 +12,9 @@ describe("Node production-excellence final evidence", () => {
       expect(document).toContain(`E${gate}`);
     }
     expect(document).toContain("single-project validation + cross-project contract alignment");
-    expect(document).toContain("Integration capstone C1-C4: not started");
-    expect(document).toContain("External track-closeout decision: pending");
+    expect(document).toContain("Node Stage-1 track CLOSED");
+    expect(document).toContain("LOCAL CANDIDATE PASS");
+    expect(document).toContain("external program-end review pending");
     expect(document).toContain("npm run test:coverage -- --maxWorkers=2");
   });
 

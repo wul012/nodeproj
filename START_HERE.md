@@ -67,19 +67,17 @@ By default, upstream probes and upstream actions are disabled. This is intention
 
 ## Latest version summary
 
-Current roadmap state: **Node v2190 production-excellence track closeout**.
+Current roadmap state: **Node v2191 integration capstone candidate**.
 
-Milestones N0-N5 are complete and externally reviewed through the N5 checkpoint.
-The closeout version mechanically audits E1-E10, raises coverage floors, caps
-lint warnings, scans committed configuration for credential signals, and
-places the versioned archives under a reproducible retention budget. It does
-not add product behavior or open an upstream window.
+Milestones N0-N5 and the v2190 E1-E10 closeout have external PASS. v2191 adds
+the env-gated C1-C4 slice: a fixed Java jar is read live, a real mini-kv CLI
+produces fresh evidence, no-write boundaries are checked, and one command
+emits JSON plus Markdown before cleaning up the owned Java process.
 
 **Maturity: single-project validation + cross-project contract alignment.**
-The C1-C4 live integration capstone has not been executed. Node is still a
-read-only rehearsal/control-plane prototype and is not authorized for production execution.
-After v2190 receives external closeout PASS, the capstone becomes a separate
-reviewed series.
+The C1-C4 capstone has a local candidate PASS, but external program-end review is
+still pending. Node remains a read-only rehearsal/control-plane prototype
+and is not authorized for production execution or Stage 2.
 
 ## Where to look next
 

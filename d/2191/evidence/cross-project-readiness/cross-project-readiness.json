@@ -1,0 +1,217 @@
+{
+  "schema_version": "orderops.cross-project-readiness.v1",
+  "generated_at": "2026-07-11T04:31:42.750Z",
+  "live_requested": true,
+  "overall_status": "pass",
+  "read_only": true,
+  "execution_allowed": false,
+  "requirements": [
+    {
+      "id": "C1",
+      "title": "Live Java read",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "java.process",
+          "status": "pass",
+          "summary": "packaged Java process started",
+          "evidence": {
+            "launcher_pid": 5912,
+            "port": 60475,
+            "artifact_path": "D:\\nodeproj\\orderops-node\\.tmp\\java-capstone-src-v2191\\advanced-order-platform\\target\\advanced-order-platform-0.1.0-SNAPSHOT.jar",
+            "artifact_sha256": "6863ecbf8e995f41aed1286f97208bd914eba81f741c013cc5dd1b4bc166319f"
+          }
+        },
+        {
+          "id": "java.health",
+          "status": "pass",
+          "summary": "Java actuator health is UP",
+          "evidence": {
+            "status_code": 200,
+            "health_status": "UP"
+          }
+        },
+        {
+          "id": "java.ops_evidence",
+          "status": "pass",
+          "summary": "Java ops evidence schema and read-only boundary are valid",
+          "evidence": {
+            "status_code": 200,
+            "evidence_version": "java-ops-evidence.v1",
+            "sampled_at": "2026-07-11T04:31:41.625318600Z",
+            "service_name": "advanced-order-platform",
+            "profiles": [
+              "prod"
+            ],
+            "read_only": true,
+            "execution_allowed": false
+          }
+        },
+        {
+          "id": "java.graceful_shutdown",
+          "status": "pass",
+          "summary": "Java Spring context stopped through loopback actuator shutdown",
+          "evidence": {
+            "launcher_pid": 5912,
+            "application_pid": 17656,
+            "shutdown_status_code": 200,
+            "shutdown_error": null,
+            "fallback_kill_used": false,
+            "exit_code": 0,
+            "signal": null,
+            "process_error": null,
+            "application_alive_after_shutdown": false,
+            "port": 60475,
+            "port_open_after_shutdown": false,
+            "stdout_tail": "\r\n  .   ____          _            __ _ _\n /\\\\ / ___'_ __ _ _(_)_ __  __ _ \\ \\ \\ \\\n( ( )\\___ | '_ | '_| | '_ \\/ _` | \\ \\ \\ \\\n \\\\/  ___)| |_)| | | | | || (_| |  ) ) ) )\n  '  |____| .__|_| |_|_| |_\\__, | / / / /\n =========|_|==============|___/=/_/_/_/\n\r\n :: Spring Boot ::                (v3.5.9)\r\n\r\n2026-07-11T12:31:25.757+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] c.c.o.OrderPlatformApplication           : Starting OrderPlatformApplication v0.1.0-SNAPSHOT using Java 24 with PID 17656 (D:\\nodeproj\\orderops-node\\.tmp\\java-capstone-src-v2191\\advanced-order-platform\\target\\advanced-order-platform-0.1.0-SNAPSHOT.jar started by ���ֶ� in D:\\nodeproj\\orderops-node)\r\n2026-07-11T12:31:25.761+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] c.c.o.OrderPlatformApplication           : The following 1 profile is active: \"prod\"\r\n2026-07-11T12:31:28.299+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.\r\n2026-07-11T12:31:28.514+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 202 ms. Found 12 JPA repository interfaces.\r\n2026-07-11T12:31:29.899+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 60475 (http)\r\n2026-07-11T12:31:29.921+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.apache.catalina.core.StandardService   : Starting service [Tomcat]\r\n2026-07-11T12:31:29.922+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.50]\r\n2026-07-11T12:31:29.957+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext\r\n2026-07-11T12:31:29.958+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 4126 ms\r\n2026-07-11T12:31:30.351+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...\r\n2026-07-11T12:31:30.552+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:orderops-capstone-21792-1783744284013 user=SA\r\n2026-07-11T12:31:30.554+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.\r\n2026-07-11T12:31:30.779+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] org.flywaydb.core.FlywayExecutor         : Database: jdbc:h2:mem:orderops-capstone-21792-1783744284013 (H2 2.3)\r\n2026-07-11T12:31:30.833+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.c.i.s.JdbcTableSchemaHistory         : Schema history table \"public\".\"flyway_schema_history\" does not exist yet\r\n2026-07-11T12:31:30.836+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbValidate     : Successfully validated 12 migrations (execution time 00:00.021s)\r\n2026-07-11T12:31:30.845+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.c.i.s.JdbcTableSchemaHistory         : Creating Schema History table \"public\".\"flyway_schema_history\" ...\r\n2026-07-11T12:31:30.878+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Current version of schema \"public\": << Empty Schema >>\r\n2026-07-11T12:31:30.890+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"1 - initial schema\"\r\n2026-07-11T12:31:30.919+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"2 - notification messages\"\r\n2026-07-11T12:31:30.924+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"3 - failed event messages\"\r\n2026-07-11T12:31:30.929+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"4 - failed event replay state\"\r\n2026-07-11T12:31:30.959+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"5 - failed event replay attempts\"\r\n2026-07-11T12:31:30.963+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"6 - failed event replay authorization\"\r\n2026-07-11T12:31:30.973+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"7 - failed event search indexes\"\r\n2026-07-11T12:31:30.979+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"8 - failed event management status\"\r\n2026-07-11T12:31:31.004+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"9 - failed event management history\"\r\n2026-07-11T12:31:31.011+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"10 - failed event replay approval\"\r\n2026-07-11T12:31:31.046+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"11 - failed event replay approval history\"\r\n2026-07-11T12:31:31.052+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Migrating schema \"public\" to version \"12 - order idempotency request fingerprint\"\r\n2026-07-11T12:31:31.061+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.f.core.internal.command.DbMigrate      : Successfully applied 12 migrations to schema \"public\", now at version v12 (execution time 00:00.124s)\r\n2026-07-11T12:31:31.195+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]\r\n2026-07-11T12:31:31.241+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.6.39.Final\r\n2026-07-11T12:31:31.269+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled\r\n2026-07-11T12:31:31.502+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer\r\n2026-07-11T12:31:31.560+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:\n\tDatabase JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']\n\tDatabase driver: undefined/unknown\n\tDatabase version: 2.3.232\n\tAutocommit mode: undefined/unknown\n\tIsolation level: undefined/unknown\n\tMinimum pool size: undefined/unknown\n\tMaximum pool size: undefined/unknown\r\n2026-07-11T12:31:32.902+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)\r\n2026-07-11T12:31:32.944+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'\r\n2026-07-11T12:31:33.595+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.\r\n2026-07-11T12:31:40.624+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'\r\n2026-07-11T12:31:40.841+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 60475 (http) with context path '/'\r\n2026-07-11T12:31:40.869+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [           main] [                                                 ] c.c.o.OrderPlatformApplication           : Started OrderPlatformApplication in 15.814 seconds (process running for 16.59)\r\n2026-07-11T12:31:41.125+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [.1-60475-exec-1] [                                                 ] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'\r\n2026-07-11T12:31:41.125+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [.1-60475-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'\r\n2026-07-11T12:31:41.125+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [.1-60475-exec-1] [                                                 ] o.s.web.servlet.DispatcherServlet        : Completed initialization in 0 ms\r\n2026-07-11T12:31:42.427+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [       Thread-1] [                                                 ] o.s.b.w.e.tomcat.GracefulShutdown        : Commencing graceful shutdown. Waiting for active requests to complete\r\n2026-07-11T12:31:42.432+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [tomcat-shutdown] [                                                 ] o.s.b.w.e.tomcat.GracefulShutdown        : Graceful shutdown complete\r\n2026-07-11T12:31:42.451+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [       Thread-1] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'\r\n2026-07-11T12:31:42.451+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [       Thread-1] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...\r\n2026-07-11T12:31:42.467+08:00  INFO [traceId=,spanId=] 17656 --- [advanced-order-platform] [       Thread-1] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.\r\n",
+            "stderr_tail": ""
+          }
+        }
+      ]
+    },
+    {
+      "id": "C2",
+      "title": "Live mini-kv read",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "mini_kv.process",
+          "status": "pass",
+          "summary": "real mini-kv CLI completed a fresh read-only session",
+          "evidence": {
+            "pid": 20852,
+            "executable_path": "D:\\C\\mini-kv\\cmake-build-v1621\\minikv_cli.exe",
+            "executable_sha256": "8e29370a3e0290e5a04faf2a818682beb0e36a5c5ecfa8b2f245ef38bbd216df",
+            "command_plan": {
+              "commands": [
+                "SMOKEJSON",
+                "CHECKJSON GET capstone:probe",
+                "QUIT"
+              ],
+              "read_command_count": 2,
+              "control_command_count": 1,
+              "write_or_admin_command_count": 0,
+              "forbidden_commands": []
+            },
+            "started_at": "2026-07-11T04:31:42.690Z",
+            "finished_at": "2026-07-11T04:31:42.733Z",
+            "duration_ms": 43,
+            "timed_out": false,
+            "exit_code": 0,
+            "signal": null,
+            "stdout_bytes": 462610,
+            "stdout_sha256": "4ad01739e8310dcb08df0f36fda2c80f6e8dd4a6c41b10449aff19651c7d2e34",
+            "stderr_tail": ""
+          }
+        },
+        {
+          "id": "mini_kv.smoke_json",
+          "status": "pass",
+          "summary": "fresh SMOKEJSON schema and runtime boundary are valid",
+          "evidence": {
+            "schema_version": 1,
+            "evidence_type": "runtime_smoke",
+            "version": "0.102.0",
+            "read_only": true,
+            "execution_allowed": false,
+            "restore_execution_allowed": false,
+            "write_commands_executed": false,
+            "admin_commands_executed": false,
+            "runtime_write_observed": false
+          }
+        },
+        {
+          "id": "mini_kv.check_json",
+          "status": "pass",
+          "summary": "fresh CHECKJSON confirms GET has no write or WAL effect",
+          "evidence": {
+            "schema_version": 1,
+            "command_digest": "fnv1a64:1eb43a45e8c040dd",
+            "command": "GET",
+            "read_only": true,
+            "execution_allowed": false,
+            "write_command": false,
+            "allowed_by_parser": true,
+            "touches_wal": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "C3",
+      "title": "No-write proof",
+      "status": "pass",
+      "checks": [
+        {
+          "id": "node.capstone_surface_census",
+          "status": "pass",
+          "summary": "capstone upstream client and mini-kv plan expose zero write methods",
+          "evidence": {
+            "java_routes": {
+              "client_name": "CrossProjectReadClient",
+              "public_methods": [
+                "health",
+                "opsEvidence"
+              ],
+              "route_count": 2,
+              "read_route_count": 2,
+              "write_route_count": 0,
+              "routes": [
+                {
+                  "client_method": "health",
+                  "method": "GET",
+                  "path": "/actuator/health"
+                },
+                {
+                  "client_method": "opsEvidence",
+                  "method": "GET",
+                  "path": "/api/v1/ops/evidence"
+                }
+              ]
+            },
+            "mini_kv_commands": {
+              "commands": [
+                "SMOKEJSON",
+                "CHECKJSON GET capstone:probe",
+                "QUIT"
+              ],
+              "read_command_count": 2,
+              "control_command_count": 1,
+              "write_or_admin_command_count": 0,
+              "forbidden_commands": []
+            },
+            "public_methods_match_catalog": true
+          }
+        },
+        {
+          "id": "java.write_rejection",
+          "status": "pass",
+          "summary": "unauthenticated Java write route was rejected before an authorized operation",
+          "evidence": {
+            "method": "POST",
+            "path": "/api/v1/failed-events/0/replay",
+            "status_code": 400,
+            "identity_headers_sent": false
+          }
+        },
+        {
+          "id": "mini_kv.no_execution",
+          "status": "pass",
+          "summary": "fresh mini-kv CHECKJSON proves GET is non-writing and does not touch WAL",
+          "evidence": {
+            "read_only": true,
+            "execution_allowed": false,
+            "command": "GET",
+            "write_command": false,
+            "wal_touched": false
+          }
+        }
+      ]
+    }
+  ],
+  "provenance": {
+    "node_runtime": "v22.20.0",
+    "java_commit": "894deeb01837647af6dc125159ba5bc354f2cbb5",
+    "mini_kv_commit": null
+  }
+}

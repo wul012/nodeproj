@@ -1,0 +1,11 @@
+
+> orderops-node@0.1.0 readiness:cross
+> tsx src/integration/readinessCrossCli.ts
+
+readiness:cross overall=pass
+readiness:cross read_only=true execution_allowed=false
+readiness:cross json=D:\nodeproj\orderops-node\d\2191\evidence\cross-project-readiness\cross-project-readiness.json
+readiness:cross markdown=D:\nodeproj\orderops-node\d\2191\evidence\cross-project-readiness\cross-project-readiness.md
+readiness:cross C1=pass
+readiness:cross C2=pass
+readiness:cross C3=pass

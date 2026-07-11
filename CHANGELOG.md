@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2191 - 2026-07-11
+
+- Added the env-gated C1-C4 integration capstone. One command now boots and
+  gracefully stops a fixed Java jar, validates live health/ops evidence and an
+  unauthenticated write rejection, executes a real mini-kv CLI for fresh
+  SMOKEJSON/CHECKJSON no-write evidence, and atomically emits one JSON plus
+  Markdown readiness report. Default runs remain explicitly skipped, live
+  configuration fails closed, and the existing maturity label remains gated
+  on external program-end review.
+
 ## v2190 - 2026-07-11
 
 - Closed the local Node production-excellence track against E1-E10 without

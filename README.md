@@ -9,11 +9,13 @@ This project keeps Node as the gateway, live operations view, and integration sh
 
 ## Current maturity
 
-The Node production-excellence track has completed milestones N0-N5 and is in
-the v2190 E1-E10 closeout review stage.
+The Node production-excellence track completed N0-N5 and received its v2190
+E1-E10 external closeout PASS. The v2191 C1-C4 capstone has a local candidate PASS
+and is waiting for the external program-end review.
 
 **Maturity: single-project validation + cross-project contract alignment.**
-The C1-C4 live integration capstone has not run, and this repository is not authorized for production execution.
+The local capstone result does not change this label before external review,
+and this repository is not authorized for production execution.
 See `docs/plans/node-track-final-evidence.md` and
 `docs/PRODUCTION_BOUNDARIES.md` for the reproducible gates and remaining
 boundaries.
@@ -29,6 +31,8 @@ boundaries.
 - In-memory audit log and request summary endpoints
 - Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
 - Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
+- Env-gated `npm run readiness:cross` capstone for a real Java jar read, fresh
+  mini-kv CLI evidence, no-write proofs, and one JSON/Markdown result
 - Read-only upstream overview at `/api/v1/upstreams/overview` for Java health, Java ops overview, Java failed-event summary, and mini-kv operational, identity, and command risk signals
 - Dashboard upstream overview detail panel for Java governance and mini-kv command risk signals
 - Read-only Java failed-event replay readiness proxy and Dashboard lookup guarded by `UPSTREAM_PROBES_ENABLED`

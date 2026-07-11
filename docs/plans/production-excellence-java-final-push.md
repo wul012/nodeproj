@@ -122,3 +122,25 @@ frozen archive paths; shrink-only SpotBugs baseline; route strings byte-identica
   as the first action of the next session, before any new batch.
 - Pace math: 591 non-controller root files remain to reach 105; at ~22/batch that is
   ~27 more batches. Continue; next checkpoint after 5 more.
+
+## Claude checkpoint review — 2026-07-11 晚 (v1843–v1847): PASS, no corrections
+
+- Verified by running the committed census: direct-root 696 → 573 (123 files in 5
+  batches, pace up to ~25/batch), UnassignedFiles empty, all runs green.
+- The J52 row was closed as the first action exactly as instructed, and J53–J57 rows
+  closed in-session with run ids — the ledger rule finally held for a full batch cycle.
+- 468 non-controller root files remain; ~19 batches to the 105 target at current pace.
+  Continue; next checkpoint after 5 more. When the Node capstone (C1) requests the
+  env-gated live Java read, that request takes priority over one extraction batch.
+
+## Active Node C1 coordination request — 2026-07-11
+
+- Node has started `docs/plans/v2191-integration-capstone-roadmap.md` after the
+  authorized Stage-1 PASS. Java may continue extraction batches normally.
+- At the next clean batch boundary, Node will build a packaged jar from one exact
+  committed Java HEAD and run it with the `prod` profile plus H2. No Java source,
+  ledger, tag, branch, fixture, or test expectation change is requested.
+- The live slice is read-only except for one deliberately unauthenticated POST to
+  `/api/v1/failed-events/0/replay`; it must be rejected by the operator-context guard
+  before the business service is invoked. Node owns the process, port, evidence and
+  cleanup. A dirty or moving Java HEAD is not an acceptable capstone artifact.

@@ -144,3 +144,34 @@ lines per commit, cleanup gate, 中文 walkthrough conventions.
   aiproj's tracks are already closed, so the capstone is the program's critical path.
 - Also: commit the reviewer's working-tree edits (AGENTS.md + the two brief appends)
   in the closeout version; they have now survived four sessions uncommitted.
+
+## Claude track-closeout review — 2026-07-11 (v2190): **PASS — Node Stage-1 track CLOSED**
+
+- Independently reproduced: lint 0 errors / 261 warnings (below the 263 N0 ceiling);
+  `security-config-scan.mjs` 6/6 digest-pinned synthetic matches, 0 env secrets,
+  ready:true; `archive-retention-census.mjs` 7,017 files within hard budgets; renderer
+  and source-size censuses verified at their own reviews; v2190 tag on the remote and
+  its run green. The waiver inventory is complete and every waiver is mechanically
+  scoped (AST-validated renderers, digest+count-pinned scan entries).
+- The reviewer's edits were committed in v2190 as instructed. E4 (digest-pinned secret
+  scanner) and E10 (hard-budget archive census) added at closeout are gates the brief
+  did not even require at this strength.
+- **Next: the integration capstone C1–C4 is authorized and is the program's critical
+  path.** Read `docs/plans/production-excellence-final-acceptance.md` C1–C4: env-gated
+  live Java read, fresh mini-kv CLI output validation, no-write proofs, and
+  `npm run readiness:cross` producing the single report. Capstone rules: read-only
+  against Java/mini-kv, no execution authority, maturity label may change ONLY after
+  the capstone review PASSES. Request Claude review at capstone complete — that review
+  is the program-end review.
+
+## Codex capstone candidate — v2191, 2026-07-11
+
+- Implemented C1-C4 as one cohesive version under
+  `docs/plans/v2191-integration-capstone-roadmap.md`: env-gated real Java jar
+  lifecycle, fresh real mini-kv CLI parsing, static/live no-write proofs, and
+  atomic JSON/Markdown aggregation through `npm run readiness:cross`.
+- The full local candidate run passed every C1-C3 check and proved graceful
+  Java shutdown, application PID exit, and port release. Evidence is archived
+  under `d/2191/evidence/`.
+- Stop after commit/tag/push/green CI and request Claude program-end review.
+  Do not change the maturity label or start Stage 2 before that review PASS.

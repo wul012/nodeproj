@@ -8,8 +8,8 @@ it is not authorized for production execution.
 
 - Runtime classification: read-only evidence/control-plane rehearsal.
 - Maturity label: single-project validation + cross-project contract alignment.
-- Node track status: N0-N5 complete; v2190 E1-E10 closeout awaits external PASS.
-- Integration capstone: C1-C4 not executed.
+- Node track status: N0-N5 complete; v2190 E1-E10 external closeout PASS.
+- Integration capstone: C1-C4 local candidate PASS; external program-end review pending.
 - Production execution: not authorized.
 - Upstream service startup: not authorized by default.
 - Java / mini-kv write authority: not delegated through Node.
@@ -19,9 +19,9 @@ it is not authorized for production execution.
 
 ## Local Production-Excellence Gates
 
-These gates protect the Node repository itself. Passing them does not grant
-runtime execution authority or prove live interoperability with sibling
-services.
+These gates protect the Node repository itself. They do not grant runtime
+execution authority. The separate v2191 capstone adds one env-gated, local,
+read-only interoperability proof without changing production authority.
 
 | Gate | Mechanical check | Closeout floor or result |
 | --- | --- | --- |
@@ -70,7 +70,7 @@ The following are intentionally not production-ready:
 
 - Real Java or mini-kv actions through Node.
 - Any endpoint that requires `UPSTREAM_ACTIONS_ENABLED=true`.
-- Automatic startup of Java or mini-kv from Node.
+- Automatic startup of Java or mini-kv outside the explicitly env-gated local capstone.
 - Real managed-audit adapter connection.
 - Secret provider runtime and credential value loading.
 - Raw managed-audit endpoint URL parsing or rendering.
@@ -80,7 +80,7 @@ The following are intentionally not production-ready:
 - Deployment, Docker push, kubectl, scp, or artifact upload to production
   infrastructure.
 - Treating frozen sibling fixtures as live upstream state.
-- Claiming live joint execution before the C1-C4 capstone passes.
+- Changing the maturity label or entering Stage 2 before external C1-C4 review PASS.
 
 ## Requirements Before Real Production Execution
 
