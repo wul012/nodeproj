@@ -1,11 +1,4 @@
-import { createHash } from "node:crypto";
-
 import type { AppConfig } from "../config.js";
-import {
-  readHistoricalEvidenceFile,
-  resolveHistoricalEvidencePath,
-  statHistoricalEvidence,
-} from "./historicalEvidenceResolver.js";
 import {
   countPassedReportChecks,
   countReportChecks,
@@ -22,6 +15,32 @@ import {
   loadManagedAuditSandboxCodeHealthPass,
   type ManagedAuditSandboxCodeHealthPassProfile,
 } from "./managedAuditSandboxCodeHealthPass.js";
+import {
+  ACTIVE_PLAN,
+  JAVA_V101_DEPENDABOT,
+  JAVA_V101_RUNBOOK,
+  JAVA_V101_WALKTHROUGH,
+  JAVA_V101_WORKFLOW,
+  MINI_KV_V110_DEPENDABOT,
+  MINI_KV_V110_RUNBOOK,
+  MINI_KV_V110_TEST,
+  MINI_KV_V110_WALKTHROUGH,
+  NODE_V247_ROUTE,
+  NODE_V248_ROUTE,
+  NODE_V249_DEPENDABOT,
+  NODE_V249_RUNBOOK,
+  NODE_V249_TEST,
+  NODE_V249_WALKTHROUGH,
+  NODE_V249_WORKFLOW,
+  ROUTE_PATH,
+  evidenceFile,
+  formatEvidenceFile,
+  formatSnippet,
+  snippet,
+  snippetMatched,
+  type RehearsalEvidenceFile,
+  type RehearsalSnippetMatch,
+} from "../evidence/managedAuditManualSandboxConnectionRehearsalGuardEvidence.js";
 
 export interface ManagedAuditManualSandboxConnectionRehearsalGuardProfile {
   service: "orderops-node";
@@ -129,23 +148,6 @@ interface SecurityMaintenanceReference {
   readyForRehearsalGuard: boolean;
 }
 
-interface RehearsalEvidenceFile {
-  id: string;
-  path: string;
-  resolvedPath: string;
-  exists: boolean;
-  sizeBytes: number;
-  digest: string | null;
-}
-
-interface RehearsalSnippetMatch {
-  id: string;
-  path: string;
-  resolvedPath: string;
-  expectedText: string;
-  matched: boolean;
-}
-
 interface RehearsalGuardMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
@@ -184,31 +186,6 @@ type RehearsalGuardChecks = {
   productionWindowStillBlocked: boolean;
   readyForManagedAuditManualSandboxConnectionRehearsalGuard: boolean;
 };
-
-const ACTIVE_PLAN = "docs/plans/v245-post-sandbox-precheck-roadmap.md";
-const ROUTE_PATH = "/api/v1/audit/managed-audit-manual-sandbox-connection-rehearsal-guard";
-const NODE_V247_ROUTE =
-  "/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-upstream-receipt-verification";
-const NODE_V248_ROUTE = "/api/v1/audit/managed-audit-sandbox-code-health-pass";
-
-const NODE_V249_DEPENDABOT = ".github/dependabot.yml";
-const NODE_V249_WORKFLOW = ".github/workflows/node-evidence.yml";
-const NODE_V249_TEST = "test/dependabotConfig.test.ts";
-const NODE_V249_RUNBOOK = "c/249/解释/dependabot-security-maintenance-v249.md";
-const NODE_V249_WALKTHROUGH =
-  "代码讲解记录_生产雏形阶段/253-dependabot-security-maintenance-v249.md";
-
-const JAVA_V101_DEPENDABOT = "D:/javaproj/.github/dependabot.yml";
-const JAVA_V101_WORKFLOW = "D:/javaproj/.github/workflows/maven-ci.yml";
-const JAVA_V101_RUNBOOK = "D:/javaproj/advanced-order-platform/c/101/解释/说明.md";
-const JAVA_V101_WALKTHROUGH =
-  "D:/javaproj/advanced-order-platform/代码讲解记录_生产雏形阶段/104-version-101-dependabot-security-maintenance.md";
-
-const MINI_KV_V110_DEPENDABOT = "D:/C/mini-kv/.github/dependabot.yml";
-const MINI_KV_V110_TEST = "D:/C/mini-kv/tests/dependabot_config_tests.cpp";
-const MINI_KV_V110_RUNBOOK = "D:/C/mini-kv/c/110/解释/说明.md";
-const MINI_KV_V110_WALKTHROUGH =
-  "D:/C/mini-kv/代码讲解记录_生产雏形阶段/166-version-110-dependabot-github-actions-maintenance.md";
 
 export function loadManagedAuditManualSandboxConnectionRehearsalGuard(input: {
   config: AppConfig;
@@ -750,64 +727,4 @@ function renderSecurityMaintenance(reference: SecurityMaintenanceReference): str
     "Expected snippets:",
     ...renderList(reference.expectedSnippets.map(formatSnippet), "No expected snippets."),
   ];
-}
-
-function evidenceFile(id: string, filePath: string): RehearsalEvidenceFile {
-  const resolvedPath = resolveHistoricalEvidencePath(filePath);
-  try {
-    const stat = statHistoricalEvidence(filePath);
-    return {
-      id,
-      path: filePath,
-      resolvedPath,
-      exists: true,
-      sizeBytes: stat.size,
-      digest: sha256File(filePath),
-    };
-  } catch {
-    return {
-      id,
-      path: filePath,
-      resolvedPath,
-      exists: false,
-      sizeBytes: 0,
-      digest: null,
-    };
-  }
-}
-
-function snippet(id: string, filePath: string, expectedText: string): RehearsalSnippetMatch {
-  const resolvedPath = resolveHistoricalEvidencePath(filePath);
-  let matched = false;
-  try {
-    matched = readHistoricalEvidenceFile(filePath, "utf8").includes(expectedText);
-  } catch {
-    // Leave the default false when historical evidence cannot be read.
-  }
-
-  return {
-    id,
-    path: filePath,
-    resolvedPath,
-    expectedText,
-    matched,
-  };
-}
-
-function snippetMatched(snippets: RehearsalSnippetMatch[], id: string): boolean {
-  return snippets.some((snippet) => snippet.id === id && snippet.matched);
-}
-
-function sha256File(filePath: string): string {
-  return createHash("sha256")
-    .update(readHistoricalEvidenceFile(filePath))
-    .digest("hex");
-}
-
-function formatEvidenceFile(file: RehearsalEvidenceFile): string {
-  return `${file.id}: ${file.path} -> ${file.resolvedPath}; exists=${file.exists}; size=${file.sizeBytes}; digest=${file.digest ?? "missing"}`;
-}
-
-function formatSnippet(snippet: RehearsalSnippetMatch): string {
-  return `${snippet.id}: ${snippet.path}; matched=${snippet.matched}; expected=${snippet.expectedText}`;
 }

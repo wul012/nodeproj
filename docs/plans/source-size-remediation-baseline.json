@@ -1,19 +1,6 @@
 {
   "schemaVersion": 1,
   "threshold": 800,
-  "maxOversized": 2,
-  "remediation": [
-    {
-      "file": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts",
-      "maxLines": 813,
-      "targetVersion": "v2189",
-      "reason": "Extract security-maintenance evidence support while keeping rehearsal decisions unchanged."
-    },
-    {
-      "file": "src/services/threeProjectRealReadRuntimeSmokeExecutionPacket.ts",
-      "maxLines": 813,
-      "targetVersion": "v2189",
-      "reason": "Extract runtime record classification and rendering support from execution orchestration."
-    }
-  ]
+  "maxOversized": 0,
+  "remediation": []
 }
