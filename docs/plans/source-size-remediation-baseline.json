@@ -1,20 +1,8 @@
 {
   "schemaVersion": 1,
   "threshold": 800,
-  "maxOversized": 4,
+  "maxOversized": 2,
   "remediation": [
-    {
-      "file": "src/ui/dashboardClientScript.ts",
-      "maxLines": 1080,
-      "targetVersion": "v2189",
-      "reason": "Split the embedded browser client into stable ordered source fragments with byte-parity coverage."
-    },
-    {
-      "file": "src/routes/statusRoutes.ts",
-      "maxLines": 896,
-      "targetVersion": "v2189",
-      "reason": "Extract cohesive status route registration groups behind the existing registerStatusRoutes facade."
-    },
     {
       "file": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts",
       "maxLines": 813,
