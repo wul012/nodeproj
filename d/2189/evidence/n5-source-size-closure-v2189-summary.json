@@ -1,0 +1,143 @@
+{
+  "version": "v2189",
+  "date": "2026-07-11",
+  "track": "node-production-excellence-n5-source-size-health-closeout",
+  "scope": {
+    "goal": "Eliminate the final four source files above 800 lines and make zero oversized files a permanent mechanical gate.",
+    "nonGoals": [
+      "No new route, report, schema, fixture, cross-project contract, or product feature",
+      "No existing expectation or frozen fixture change",
+      "No renderer parity normalizer change",
+      "No Java or mini-kv process, build, test, or repository write",
+      "No production execution authority"
+    ],
+    "stopCondition": "The canonical census reports zero files over 800 lines, the empty baseline ratchet passes, all contract-preserving parity checks pass, and v2189 reaches the external N5 review checkpoint."
+  },
+  "census": {
+    "command": "node scripts/source-size-census.mjs --json",
+    "sourceFileCount": 1234,
+    "threshold": 800,
+    "seriesStartOversized": 16,
+    "versionStartOversized": 4,
+    "after": 0,
+    "maxOversized": 0,
+    "remediationEntryCount": 0,
+    "waiverCount": 0,
+    "ready": true
+  },
+  "implementation": {
+    "dashboard": {
+      "facade": "src/ui/dashboardClientScript.ts",
+      "beforeLines": 1080,
+      "afterLines": 6,
+      "fragments": [
+        { "file": "src/ui/dashboardClientCoreScript.ts", "lines": 362 },
+        { "file": "src/ui/dashboardClientOperationsScript.ts", "lines": 362 },
+        { "file": "src/ui/dashboardClientActionsScript.ts", "lines": 362 }
+      ],
+      "runtimeStringLength": 51041,
+      "runtimeSha256": "5771c499a2987853de06731340221b5ad800930431da59f1b80439f4645c7f3f",
+      "byteIdenticalToV2188": true
+    },
+    "statusRoutes": {
+      "facade": "src/routes/statusRoutes.ts",
+      "beforeLines": 896,
+      "afterLines": 795,
+      "host": "src/routes/statusDeploymentRoutes.ts",
+      "hostLines": 219,
+      "movedApprovalRouteStatements": 4,
+      "routeAstIdenticalToV2188": true,
+      "registrationOrderPreserved": true
+    },
+    "rehearsalGuard": {
+      "facade": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts",
+      "beforeLines": 813,
+      "afterLines": 730,
+      "evidenceModule": "src/evidence/managedAuditManualSandboxConnectionRehearsalGuardEvidence.ts",
+      "evidenceModuleLines": 122,
+      "movedDeclarationCount": 25,
+      "declarationMismatches": []
+    },
+    "runtimePacket": {
+      "facade": "src/services/threeProjectRealReadRuntimeSmokeExecutionPacket.ts",
+      "beforeLines": 813,
+      "afterLines": 686,
+      "recordModule": "src/runtime/threeProjectRealReadRuntimeSmokeExecutionRecords.ts",
+      "recordModuleLines": 138,
+      "movedDeclarationCount": 8,
+      "declarationMismatches": [],
+      "publicRecordTypeReExported": true
+    },
+    "governance": {
+      "serviceFileCount": 1125,
+      "routeFileCount": 80,
+      "governanceBaselineRaised": false,
+      "sourceSizeWaiverAdded": false
+    }
+  },
+  "validation": [
+    {
+      "command": "AST and runtime artifact parity audit against git HEAD",
+      "result": "dashboard 51041 bytes with the original sha256; 4 approval statements AST-identical; 25 guard and 8 runtime declarations unchanged"
+    },
+    {
+      "command": "focused dashboard, approval ledger/archive, rehearsal guard, and runtime packet tests",
+      "result": "5 files passed; 15 tests passed"
+    },
+    {
+      "command": "source-size and governance ratchets",
+      "result": "2 files passed; 5 tests passed; 1234 source files scanned; 0 oversized"
+    },
+    {
+      "command": "npm run typecheck && npm run lint && npm run build",
+      "result": "typecheck/build passed; lint 0 errors and 261 warnings, down from the 263 baseline"
+    },
+    {
+      "command": "npm run renderer:census",
+      "result": "245 total / 242 standardized / 3 AST-validated composition-only waivers / 0 non-waived"
+    },
+    {
+      "command": "Playwright MCP dashboard inspection at 1440x1000",
+      "result": "OrderOps rendered with 118 buttons, one client script, no horizontal overflow; only unrelated favicon.ico 404"
+    },
+    {
+      "command": "HTTP smoke on controlled PID 25716 at port 4190",
+      "result": "dashboard, health, approval ledger Markdown, and runtime packet Markdown returned 200; PID stopped and port released"
+    },
+    {
+      "command": "eight deterministic full-suite shards",
+      "result": "8/8 passed; 546 files and 1662 tests; aggregate Vitest duration 3251.70 seconds"
+    },
+    {
+      "command": "code walkthrough documentation quality gate",
+      "result": "2 files and 8 tests passed; walkthrough has 3283 Chinese characters across 10 H2 sections"
+    },
+    {
+      "command": "GitHub Actions Node Evidence",
+      "result": "pending push"
+    }
+  ],
+  "validationOrchestration": {
+    "interruptionAfterShard5": "The user interruption stopped the first shard-6 process before it produced a result; shards 1-5 had complete PASS logs and shards 6-8 were resumed without duplicating them.",
+    "firstShard8Attempt": "A PowerShell wrapper used ErrorActionPreference=Stop and treated expected stderr from renderer-census negative tests as a terminating NativeCommandError before Vitest could finish.",
+    "resolution": "Shard 8 was rerun directly with the identical Vitest shard, worker, reporter, and timeout arguments; it passed 68 files and 210 tests with exit code 0. No product code, expectation, fixture, timeout, or census threshold changed."
+  },
+  "screenshot": {
+    "file": "d/2189/图片/n5-dashboard-runtime-parity-v2189.png",
+    "width": 1440,
+    "height": 1000,
+    "bytes": 57773,
+    "sha256": "e8c5f228deabbc24778ac8eaec8776d46d63010f4f6c49a29b0de779328d559f"
+  },
+  "crossProjectParallel": {
+    "java": "recommended parallel",
+    "miniKv": "recommended parallel",
+    "freshSiblingEvidenceRequired": false,
+    "nodeIsPreApprovalBlocker": false
+  },
+  "checkpoint": {
+    "n5ImplementationComplete": true,
+    "externalReviewRequired": true,
+    "phase3Started": false
+  }
+}

@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2189 - 2026-07-11
+
+- Closed the N5 source-size implementation by splitting the final dashboard,
+  status-route, rehearsal-guard, and runtime-packet ownership boundaries while
+  preserving runtime bytes, route ASTs, public imports, and report behavior.
+  The canonical ratchet now scans 1234 source files with an empty remediation
+  baseline and rejects every file above 800 lines; the three-version series
+  reduced fresh debt from 16 files to 0 without adding waivers or raising the
+  1125/80 service/route growth limits.
+
 ## v2187 - 2026-07-10
 
 - Started N5 code-health closure with a canonical source-size census and a

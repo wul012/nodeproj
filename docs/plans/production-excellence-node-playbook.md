@@ -94,20 +94,25 @@ latency aggregation math.
 
 ## Milestone N5 — code health (after N1 completes)
 
-1. Enable `noUnusedLocals` + `noUnusedParameters` in tsconfig.json; fix
-   findings in batches.
-2. Burn down the N0 warning ratchet pool to zero, rule by rule.
-3. Split >800-line files (dashboardClientScript.ts, productionReadinessSummaryV4.ts,
-   the three ~900-line managed-audit files) into focused modules.
-   **Ratchet interaction**: splitting adds files, and `test/governanceGrowthRatchet.test.ts`
-   caps src/services at the v2114 baseline. Therefore each split version must
-   pair with at least as many Phase-B merges (folding fully-migrated
-   `*Renderer.ts` files into their service files, updating route imports) so the
-   net count stays at or below the ratchet. Lower the ratchet baseline as the
-   count drops; never raise it.
+1. Reproduce the source-size census from the current tree; historical estimates
+   never override the scanner result.
+2. Commit a shrink-only baseline and ratchet that reject unknown oversized
+   files, growth, stale entries, duplicate/invalid debt, and count regressions.
+3. Split every file above 800 lines behind its existing public facade. Prefer
+   `src/contracts`, `src/evidence`, `src/runtime`, and existing route owners so
+   the service/route growth ratchets do not need to rise.
+4. Prove contract preservation with focused/full tests, typecheck, build,
+   renderer census, and byte/AST parity where simple route coverage is weaker.
+   Existing expectations and frozen fixtures are never edited to make a split
+   pass.
+5. Keep lint at or below the N0 263-warning baseline and remove cheap warnings
+   encountered in touched files. The final track closeout audits the remaining
+   warning pool separately; N5 does not mix a repository-wide lint rewrite into
+   source ownership changes.
 
-Gate: zero ESLint warnings, no source file >800 lines (or a written waiver),
-ratchet baselines strictly lower than at program start.
+Gate: zero source files above 800 lines, empty remediation baseline, no source
+size waiver, service/route counts at or below 1125/80, complete local suite and
+CI green, then external N5 review before Phase 3.
 
 ## Deviations
 
@@ -133,4 +138,4 @@ ratchet baselines strictly lower than at program start.
 | N2 | v2116 | completed | Vitest v8 coverage enabled in `npm run test:coverage`; CI Test step now runs coverage; baseline/actual statements 95.81%, branches 87.38%, functions 98.38%, lines 95.77%; thresholds set to 93/85/96/93 after a two-point floor buffer |
 | N3 | v2117 | completed | `docs/PRODUCTION_BOUNDARIES.md`, `CHANGELOG.md`, `fixtures/MANIFEST.md`, AGENTS changelog closeout rule, and `test/productionExcellenceDocs.test.ts` |
 | N4 | v2118 | completed | `/api/v1/metrics`, `UpstreamMetricsRegistry`, order-platform / mini-kv client instrumentation, request-id error correlation, access-policy coverage, metrics CI smoke, and latency aggregation tests |
-| N5 | v2187-v2188 | in progress; batch 2 of 3 | Fresh census corrected the historical estimate from 5 to 16 files over 800 lines. v2187 adds the canonical census and shrink-only ratchet and reduces 16 to 10. v2188 extracts six evidence-service ownership boundaries under `src/evidence`, reducing 10 to 4 while keeping service/route file counts at 1125/80. Remaining v2189 targets: `dashboardClientScript.ts`, `statusRoutes.ts`, rehearsal guard, and real-read runtime execution packet. Roadmap: `docs/plans/v2187-v2189-n5-source-size-health-roadmap.md`. |
+| N5 | v2187-v2189 | implementation complete; external N5 review pending | Fresh census corrected the historical estimate from 5 to 16 files over 800 lines. Three contract-preserving batches reduced 16 -> 10 -> 4 -> 0 with no waivers; the empty baseline now rejects every future file over 800 lines. v2189 local gates: 1234 files scanned, 546 test files / 1662 tests passed, lint 0 errors / 261 warnings, service/routes 1125/80, and unchanged renderer census. Evidence: `docs/plans/node-n5-close-evidence.md`; roadmap: `docs/plans/v2187-v2189-n5-source-size-health-roadmap.md`. |

@@ -41,12 +41,12 @@ The target for this series is zero waivers and zero oversized source files.
 
 | Requirement | Implementation | Mechanical evidence | Initial state |
 |---|---|---|---|
-| Reproducible census | `scripts/source-size-census.mjs` | JSON output from one command | missing |
-| No new oversized files during migration | shrink-only remediation baseline | ratchet test rejects unknown/growing entries | missing |
-| Contract-preserving splits | original modules remain public entry points | typecheck + existing focused/full tests | pending |
-| Byte-identical reports | move declarations/constants/helpers without changing values | renderer parity suite in Windows and LF checkout | pending |
-| Final E9 gate | remediation baseline becomes empty | ratchet rejects every `src/` file above 800 | pending |
-| Reviewable maintenance record | per-version evidence and Chinese walkthrough | documentation quality gate | pending |
+| Reproducible census | `scripts/source-size-census.mjs` | JSON output from one command | complete |
+| No new oversized files during migration | shrink-only remediation baseline | ratchet test rejects unknown/growing entries | complete |
+| Contract-preserving splits | original modules remain public entry points | typecheck + existing focused/full tests | complete locally |
+| Byte-identical reports | move declarations/constants/helpers without changing values | renderer parity plus v2189 AST/runtime audit | complete locally |
+| Final E9 gate | remediation baseline becomes empty | ratchet rejects every `src/` file above 800 | complete locally |
+| Reviewable maintenance record | per-version evidence and Chinese walkthrough | documentation quality gate | complete locally |
 
 ## Fresh census and version ownership
 
@@ -118,5 +118,22 @@ started, stopped, built, tested, or modified by this session.
 | Version | Result | Oversized count | Verification state |
 |---|---|---:|---|
 | v2187 | Canonical census/ratchet plus six contracts/static-evidence splits | 16 -> 10 | local and Node Evidence green |
-| v2188 | Six evidence-service ownership splits; service/route counts unchanged | 10 -> 4 | local verification in progress |
-| v2189 | UI, route, rehearsal guard, and runtime packet; empty baseline | target 0 | pending |
+| v2188 | Six evidence-service ownership splits; service/route counts unchanged | 10 -> 4 | local and Node Evidence green |
+| v2189 | UI, route, rehearsal guard, and runtime packet; empty baseline | 4 -> 0 | local verification green; external N5 review pending |
+
+## N5 implementation closeout
+
+- Canonical result: 1234 source files scanned, threshold 800, zero oversized
+  files, zero remediation entries, zero waivers, and `ready: true`.
+- Contract audit: dashboard runtime bytes and SHA-256 match v2188; four approval
+  route statements are AST-identical; 25 guard and 8 runtime declarations have
+  no content mismatch after their ownership move.
+- Full suite: all eight deterministic shards passed, totaling 546 files and
+  1662 tests with aggregate Vitest duration 3251.70 seconds.
+- Governance: root service/route counts remain 1125/80; lint is 0 errors and
+  261 warnings, below the 263 baseline; renderer census remains 242/245 with
+  three AST-validated composition-only waivers and zero non-waived remainder.
+- Evidence: `docs/plans/node-n5-close-evidence.md` and
+  `d/2189/evidence/n5-source-size-closure-v2189-summary.json`.
+- Checkpoint: implementation is complete, but N5 is not externally accepted
+  until review. Phase 3 remains blocked by the checkpoint rule.
