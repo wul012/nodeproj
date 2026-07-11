@@ -2,6 +2,11 @@ import { existsSync, readFileSync } from "node:fs";
 
 import { describe, expect, it } from "vitest";
 
+import {
+  AUTHORIZED_MATURITY_LABEL,
+  CAPSTONE_REGRESSION_COMMAND,
+} from "./productionMaturityContract.js";
+
 describe("production excellence documentation", () => {
   it("keeps production boundaries explicit and execution blocked", () => {
     const path = "docs/PRODUCTION_BOUNDARIES.md";
@@ -12,8 +17,9 @@ describe("production excellence documentation", () => {
     expect(document).toContain("UPSTREAM_ACTIONS_ENABLED");
     expect(document).toContain("executionAllowed: false");
     expect(document).toContain("readyForProductionOperations: false");
-    expect(document).toContain("single-project validation + cross-project contract alignment");
-    expect(document).toContain("C1-C4 local candidate PASS; external program-end review pending");
+    expect(document).toContain(AUTHORIZED_MATURITY_LABEL);
+    expect(document).toContain("C1-C4 external program-end review PASS");
+    expect(document).toContain("Stage 2 and whole-program closeout remain blocked");
     expect(document).toContain("Java and mini-kv can continue in parallel");
   });
 
@@ -48,15 +54,32 @@ describe("production excellence documentation", () => {
     const startHere = readFileSync("START_HERE.md", "utf8");
 
     for (const document of [readme, startHere]) {
-      expect(document).toContain("single-project validation + cross-project contract alignment");
+      expect(document).toContain(AUTHORIZED_MATURITY_LABEL);
       expect(document).toContain("C1-C4");
-      expect(document).toContain("local candidate PASS");
-      expect(document).toContain("external program-end review");
+      expect(document).toContain("program-end PASS");
       expect(document).toContain("not authorized for production execution");
+      expect(document).not.toContain("external program-end review pending");
     }
     expect(readme).toContain('$env:UPSTREAM_PROBES_ENABLED = "false"');
     expect(readme).toContain('$env:UPSTREAM_ACTIONS_ENABLED = "false"');
-    expect(startHere).toContain("Node v2192 four-project capstone candidate");
+    expect(startHere).toContain("Node v2193 capstone maintenance closeout");
+  });
+
+  it("registers the live capstone rerun without silently enabling default CI", () => {
+    const packageJson = JSON.parse(readFileSync("package.json", "utf8")) as {
+      scripts: Record<string, string>;
+    };
+    const workflow = readFileSync(".github/workflows/node-evidence.yml", "utf8");
+    const boundaries = readFileSync("docs/PRODUCTION_BOUNDARIES.md", "utf8");
+    const bootstrap = readFileSync("scripts/codex-bootstrap.ps1", "utf8");
+
+    expect(packageJson.scripts["readiness:cross"]).toBe("tsx src/integration/readinessCrossCli.ts");
+    expect(boundaries).toContain("## Capstone Regression Surface");
+    expect(boundaries).toContain(CAPSTONE_REGRESSION_COMMAND);
+    expect(boundaries).toContain("Java track reaches final closeout");
+    expect(boundaries).toContain("C1-C4 pass");
+    expect(bootstrap).toContain(CAPSTONE_REGRESSION_COMMAND);
+    expect(workflow).not.toContain("npm run readiness:cross");
   });
 
   it("records the N5 external PASS before Phase 3 closeout", () => {

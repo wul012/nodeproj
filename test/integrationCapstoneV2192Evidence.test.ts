@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import type { CrossProjectReadinessReport } from "../src/integration/crossProjectReadinessTypes.js";
+import { AUTHORIZED_MATURITY_LABEL } from "./productionMaturityContract.js";
 
 const REPORT_PATH = "d/2192/evidence/cross-project-readiness/cross-project-readiness.json";
 
@@ -86,7 +87,7 @@ describe("v2192 four-project integration capstone evidence", () => {
     expect(transcript).not.toContain("\u0000");
   });
 
-  it("keeps the local candidate behind external review and Stage 2 blocked", () => {
+  it("records external review PASS while production execution and Stage 2 stay blocked", () => {
     for (const path of [
       "README.md",
       "START_HERE.md",
@@ -95,9 +96,13 @@ describe("v2192 four-project integration capstone evidence", () => {
     ]) {
       const document = readFileSync(path, "utf8");
       expect(document).toContain("v2192");
-      expect(document).toContain("external program-end review");
-      expect(document).toContain("single-project validation + cross-project contract alignment");
+      expect(document).toContain(AUTHORIZED_MATURITY_LABEL);
+      expect(document).toContain("Stage 2");
+      expect(document).not.toContain("external program-end review pending");
     }
+    expect(readFileSync("README.md", "utf8")).toContain("not authorized for production execution");
+    expect(readFileSync("docs/PRODUCTION_BOUNDARIES.md", "utf8"))
+      .toContain("C1-C4 external program-end review PASS");
   });
 });
 

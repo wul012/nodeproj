@@ -1,0 +1,130 @@
+{
+  "schema_version": "orderops.capstone-maturity-maintenance.v1",
+  "version": "v2193",
+  "date": "2026-07-11",
+  "baseline": {
+    "node_commit": "2966f1eaba97fd8e72412361deaef2bb48f610f9",
+    "node_tag": "v2192",
+    "node_ci_run": "29149682262",
+    "node_ci_conclusion": "success"
+  },
+  "external_verdict": {
+    "reviewer": "Claude",
+    "result": "CAPSTONE C1-C4 PASS",
+    "independent_live_rerun": true,
+    "authorized_label": "single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)"
+  },
+  "regression_surface": {
+    "canonical_command": "INTEGRATION_LIVE=1 npm run readiness:cross",
+    "mandatory_trigger": "Java final track close",
+    "additional_triggers": [
+      "src/integration/** change",
+      "readiness:cross command change",
+      "aggregate report schema change",
+      "upstream probe contract change",
+      "selected aiproj artifact schema change"
+    ],
+    "default_ci_enabled": false,
+    "live_rerun_performed_in_v2193": false,
+    "live_rerun_reason": "The external reviewer had just independently reproduced v2192; v2193 was authorized only to apply the label and register the next regression trigger."
+  },
+  "verification": {
+    "focused_docs_and_capstone_tests": {
+      "status": "pass",
+      "test_files": 4,
+      "tests": 17
+    },
+    "walkthrough_quality_repair": {
+      "initial_failure": "missing explicit response-model and one-sentence-summary sections",
+      "test_expectations_changed": false,
+      "final_chinese_characters": 3432,
+      "final_compliance_score": 100,
+      "focused_test_files": 1,
+      "focused_tests": 2,
+      "status": "pass"
+    },
+    "typecheck": "pass",
+    "full_test": {
+      "status": "pass",
+      "strategy": "8 sequential Vitest shards, maxWorkers=2",
+      "test_files": 557,
+      "tests": 1697,
+      "total_reported_duration_seconds": 1934.43,
+      "shards": [
+        { "shard": "1/8", "test_files": 70, "tests": 206, "duration_seconds": 292.43 },
+        { "shard": "2/8", "test_files": 70, "tests": 196, "duration_seconds": 231.52 },
+        { "shard": "3/8", "test_files": 70, "tests": 224, "duration_seconds": 210.45 },
+        { "shard": "4/8", "test_files": 70, "tests": 250, "duration_seconds": 202.80 },
+        { "shard": "5/8", "test_files": 70, "tests": 206, "duration_seconds": 249.04 },
+        { "shard": "6/8", "test_files": 69, "tests": 202, "duration_seconds": 215.49 },
+        { "shard": "7/8", "test_files": 69, "tests": 202, "duration_seconds": 252.91 },
+        { "shard": "8/8", "test_files": 69, "tests": 211, "duration_seconds": 279.79 }
+      ]
+    },
+    "build": "pass",
+    "lint": {
+      "status": "pass",
+      "errors": 0,
+      "warnings": 261,
+      "warning_ceiling": 261
+    },
+    "security_config_scan": {
+      "status": "pass",
+      "text_files": 8176,
+      "credential_signals": 6,
+      "narrowly_waived_signals": 6,
+      "config_checks_passed": 18,
+      "config_checks_total": 18
+    },
+    "renderer_census": {
+      "status": "pass",
+      "standardized": 242,
+      "total": 245,
+      "composition_only_waivers": 3,
+      "non_waived_unstandardized": 0
+    },
+    "source_size_census": {
+      "status": "pass",
+      "line_threshold": 800,
+      "oversized_files": 0
+    },
+    "archive_retention_census": {
+      "status": "pass",
+      "files": 7035,
+      "size_mib": 62.66,
+      "budget_mib": 80.0
+    }
+  },
+  "timeout_triage": {
+    "initial_monolithic_command": "npm test -- --maxWorkers=2",
+    "result": "timeout",
+    "timeout_seconds": 1204,
+    "assertion_failure_output": false,
+    "counted_as_pass": false,
+    "owned_processes_stopped": [11324, 22172, 30168],
+    "remaining_orderops_node_processes_after_cleanup": 0
+  },
+  "sibling_repositories": {
+    "java": {
+      "commit": "a7237a85b50fed2de62eb71113739439812bc043",
+      "tag": "v1852",
+      "inspection": "read-only"
+    },
+    "mini_kv": {
+      "commit": "12b08563b2ac7a40c4874e4c2864f8deb3a32eef",
+      "tag": "v1658",
+      "inspection": "read-only; external maintenance edits preserved"
+    },
+    "aiproj": {
+      "commit": "5d6c288bff244ce5568c032ca7ab4bc6303dbc57",
+      "tag": "v1272.0.0",
+      "inspection": "read-only; external brief edit preserved"
+    }
+  },
+  "production_execution_authorized": false,
+  "stage_2_authorized": false,
+  "screenshot": {
+    "created": false,
+    "reason": "No UI or renderable behavior changed; machine-readable tests, diffs, and gate outputs are stronger evidence."
+  }
+}

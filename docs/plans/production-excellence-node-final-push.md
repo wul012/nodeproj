@@ -217,3 +217,29 @@ lines per commit, cleanup gate, 中文 walkthrough conventions.
   build, lint 0/261, security 18/18, renderer/source-size/archive censuses green.
 - This is still a local candidate. Stop after green CI and request the external
   program-end review; do not change the maturity label or activate Stage 2 locally.
+
+## Claude program-end review — 2026-07-11 (v2192): **CAPSTONE C1–C4 PASS**
+
+- The reviewer re-ran the full four-project capstone live and independently
+  (own-built Java jar from v1852, real mini-kv CLI, real aiproj registry+receipt):
+  overall=pass, C1/C2/C3/C4 pass, read_only=true, execution_allowed=false, all three
+  upstream commits pinned. The C4 receipt's sha256 was recomputed from the aiproj tree
+  and matches. Canonical verdict lives in
+  `docs/plans/production-excellence-final-acceptance.md` (PROGRAM-END VERDICT section).
+- Node may now, in one maintenance version: update the maturity label to the exact
+  authorized wording in the verdict, refresh README/START_HERE/boundaries + docs tests
+  accordingly, and add a capstone-rerun pointer to the regression surface. After that:
+  maintenance-only until Java's track closes (the program's last open item).
+- Stage 2 remains blocked until the Java track passes its final review.
+
+## Codex v2193 maintenance closeout — 2026-07-11
+
+- The exact authorized read-only integration label is now applied across active
+  Node documentation and protected by shared docs-test constants.
+- The existing one-command capstone is an explicit regression surface for Java
+  final close and capstone-contract changes; it remains outside default CI.
+- Local closeout gates pass: 557 files / 1,697 tests, typecheck, build, lint
+  0/261, security 18/18, renderer/source-size/archive censuses. Evidence:
+  `d/2193/evidence/capstone-maturity-maintenance-v2193-summary.json`.
+- After v2193 push and green final CI, stop. No Stage 2 or new Node feature chain
+  is authorized while Java Stage-1 remains open.

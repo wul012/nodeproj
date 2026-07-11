@@ -3,6 +3,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
 import type { CrossProjectReadinessReport } from "../src/integration/crossProjectReadinessTypes.js";
+import { AUTHORIZED_MATURITY_LABEL } from "./productionMaturityContract.js";
 
 describe("v2191 integration capstone evidence", () => {
   it("keeps the live command env-gated and outside default CI", () => {
@@ -52,12 +53,12 @@ describe("v2191 integration capstone evidence", () => {
     });
   });
 
-  it("keeps the local candidate distinct from production or Stage 2 authority", () => {
+  it("keeps the historical v2191 evidence distinct from current execution authority", () => {
     for (const path of ["README.md", "START_HERE.md", "docs/PRODUCTION_BOUNDARIES.md"]) {
       const document = readFileSync(path, "utf8");
-      expect(document).toContain("single-project validation + cross-project contract alignment");
-      expect(document).toContain("local candidate PASS");
-      expect(document).toContain("external program-end review");
+      expect(document).toContain(AUTHORIZED_MATURITY_LABEL);
+      expect(document).toContain("Stage 2");
+      expect(document).not.toContain("external program-end review pending");
     }
   });
 });

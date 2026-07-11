@@ -13,6 +13,8 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Active cross-project program | `D:\C\四项目理解统筹\AGENTS.md` → Current Active Program |
 | Active playbook + progress table | `docs/plans/production-excellence-node-playbook.md` |
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
+| Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
+| Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule
@@ -135,7 +137,8 @@ For cross-project research, quality evaluation, and planning:
 - Prefer read-only inspection, evidence-backed summaries, and clear separation between facts, judgments, and recommendations.
 - Separate latest committed version from dirty working tree changes.
 - Distinguish contract/evidence chain from live runtime integration.
-- Until real integration exists, describe the state as `single-project validation + cross-project contract alignment`.
+- After the v2192 external capstone PASS, use exactly `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)`; do not strengthen it to production readiness.
+- Keep the live capstone outside default CI, but treat `INTEGRATION_LIVE=1 npm run readiness:cross` as a mandatory regression at Java final track close and after capstone-contract changes.
 - Do not overstate production readiness.
 
 Read-only completion checks for Java / mini-kv may include:

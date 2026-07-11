@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2193 - 2026-07-11
+
+- Applied the exact maturity label authorized by the independent v2192
+  program-end review, refreshed the public entry documents and mechanical docs
+  contracts, and registered `INTEGRATION_LIVE=1 npm run readiness:cross` as the
+  explicit capstone regression at Java track close. Default CI remains isolated
+  from local sibling runtimes; production execution and Stage 2 remain blocked.
+
 ## v2192 - 2026-07-11
 
 - Corrected the capstone's missing fourth-project threshold by adding a

@@ -1,6 +1,6 @@
 # v2192 Four-project Capstone Roadmap
 
-状态：本地实现与完整验证已完成；等待 commit/tag/push/green CI 后提交外部评审。
+状态：已完成 commit/tag/push/green CI；外部 program-end review 已给出 C1-C4 PASS。
 所有权：Node 会话。父简报：
 `docs/plans/production-excellence-node-final-push.md` 的 v2192 评审修正。
 
@@ -96,3 +96,14 @@
   95.56/87.29/98.45/95.53，高于未改变的 94/86/97/94 floors；typecheck、build、
   lint 0/261、security 18/18、renderer/source-size/archive census 全部通过。
 - 剩余动作只允许版本收口与外部 review；Stage 2 仍阻塞。
+
+## 外部评审结果
+
+- Claude 于 2026-07-11 独立重建 Java jar，并以真实 mini-kv CLI、真实 aiproj
+  registry/receipt 复跑完整 live capstone；overall 与 C1-C4 全部 pass，三个
+  upstream commit 均固定，`read_only=true`、`execution_allowed=false`。
+- 评审授权下一维护版本使用精确标签
+  `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)`，
+  但未授权 production execution 或 Stage 2。
+- v2193 只负责应用该标签、刷新文档测试并登记 Java 最终收口时的 capstone
+  回归命令；之后 Node 保持 maintenance-only，直到 Java 最终评审结束。

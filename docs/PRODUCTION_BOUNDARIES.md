@@ -7,10 +7,12 @@ it is not authorized for production execution.
 ## Current Classification
 
 - Runtime classification: read-only evidence/control-plane rehearsal.
-- Maturity label: single-project validation + cross-project contract alignment.
+- Maturity label: single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority).
 - Node track status: N0-N5 complete; v2190 E1-E10 external closeout PASS.
-- Integration capstone: C1-C4 local candidate PASS; external program-end review pending.
-  v2192 is the first candidate that includes the required aiproj artifact check.
+- Integration capstone: C1-C4 external program-end review PASS after an
+  independent live rerun of the v2192 Java, mini-kv, and aiproj inputs.
+- Program status: Node, mini-kv, and aiproj Stage-1 tracks are closed; Java
+  Stage-1 remains open, so Stage 2 and whole-program closeout remain blocked.
 - Production execution: not authorized.
 - Upstream service startup: not authorized by default.
 - Java / mini-kv write authority: not delegated through Node.
@@ -39,6 +41,30 @@ The security scan's accepted matches are synthetic redaction fixtures pinned
 by path, type, digest, and count in `docs/security-scan-waivers.json`; they are
 not production secrets. Archive ownership and limits are documented in
 `docs/archive-retention-index.md`.
+
+## Capstone Regression Surface
+
+The live C1-C4 capstone is a required, explicit regression window rather than a
+default-CI job. Its single canonical command is:
+
+```powershell
+INTEGRATION_LIVE=1 npm run readiness:cross
+```
+
+Run it when the Java track reaches final closeout and before accepting a change
+to `src/integration/**`, the `readiness:cross` command, the aggregate report
+schema, an upstream probe contract, or the selected aiproj artifact schema. The
+run must use explicit `JAVA_CAPSTONE_JAR`, `JAVA_CAPSTONE_COMMIT`,
+`MINIKV_CLI_PATH`, `MINIKV_CAPSTONE_COMMIT`, `AIPROJ_ROOT`, and
+`AIPROJ_CAPSTONE_COMMIT` inputs.
+
+A green regression requires schema v2, C1-C4 pass, all three upstream commits
+pinned, `read_only=true`, `execution_allowed=false`, every owned process stopped,
+and the Java port released. The accepted v2192 baseline is archived under
+`d/2192/evidence/cross-project-readiness/`. Default CI intentionally does not
+run this command because it has neither authority nor stable local paths for
+sibling runtimes; documentation tests enforce both the command's registration
+and that default-CI exclusion.
 
 ## Default-Off Runtime Gates
 
@@ -85,7 +111,8 @@ The following are intentionally not production-ready:
 - Deployment, Docker push, kubectl, scp, or artifact upload to production
   infrastructure.
 - Treating frozen sibling fixtures as live upstream state.
-- Changing the maturity label or entering Stage 2 before external C1-C4 review PASS.
+- Treating the authorized read-only integration label as production readiness,
+  or entering Stage 2 before Java's final track review PASS.
 
 ## Requirements Before Real Production Execution
 

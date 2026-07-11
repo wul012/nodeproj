@@ -111,3 +111,41 @@ mechanical-change limits, per-repo AGENTS conventions) bind every step.
   were read at `5d6c288b`. No sibling source or active worktree was modified.
 - The maturity label remains unchanged. This is a local candidate only; request
   the external program-end review and do not activate Stage 2 before PASS.
+
+## PROGRAM-END VERDICT — Claude external review, 2026-07-11: capstone C1–C4 PASS
+
+- Basis: the reviewer reproduced the capstone LIVE twice, independently of the archived
+  transcripts — first C1–C3 at v2191 (Java jar rebuilt from HEAD v1852), then the full
+  four-project run at v2192 (`INTEGRATION_LIVE=1`, real Java jar, real mini-kv CLI,
+  real aiproj registry+receipt). Reviewer's run: overall=pass, C1/C2/C3/C4 pass,
+  read_only=true, execution_allowed=false; provenance pinned java `a7237a85`,
+  mini-kv `12b08563`, aiproj `5d6c288b` (all current HEADs). The C4 artifact is a real,
+  git-tracked aiproj publication receipt whose sha256 the reviewer recomputed and
+  matched; the registry sha matches the committed file.
+- **Maturity label change AUTHORIZED**, exact wording (repos update it in their next
+  version, byte-for-byte): `single-project validation + verified read-only
+  cross-project integration (env-gated, single machine, no execution authority)`.
+  Nothing stronger; "production" remains a false claim.
+- Program state after this verdict: aiproj, mini-kv, and Node Stage-1 tracks CLOSED and
+  the capstone PASSED. Java's Stage-1 track remains OPEN (ops extraction 471 → 105 and
+  its Phase-2 closeout). The PROGRAM as a whole closes — and Stage 2 unblocks — only
+  when Java's track passes its own final review. Until then: Node and mini-kv take
+  maintenance-only versions; the capstone rerun (one command) joins Node's regression
+  surface and must stay green when re-run at Java track close.
+
+## Codex v2193 authorized maintenance closeout — 2026-07-11
+
+- Applied the authorized maturity label byte-for-byte across the active Node
+  entry, boundary, evidence, playbook, and agent surfaces. Public docs now record
+  the independently reproduced C1-C4 PASS while keeping production execution and
+  Stage 2 blocked until Java final review.
+- Registered `INTEGRATION_LIVE=1 npm run readiness:cross` as the canonical live
+  regression at Java track close and after capstone-contract changes. Default CI
+  remains intentionally excluded; docs tests mechanically protect both facts.
+- Final local gates: 557 test files / 1,697 tests passed in 8 sequential shards
+  with at most 2 workers; typecheck/build green; lint 0/261; security 18/18;
+  renderer 242 standardized / 3 composition-only waivers / 0 non-waived;
+  source-size 0 oversized; archive retention 7,035 files / 62.66 MiB.
+- Stop after v2193 commit/tag/push/green final CI. Node remains maintenance-only;
+  the next live capstone evidence is produced at Java final track close, not by
+  extending the Node readiness chain now.

@@ -12,15 +12,19 @@
   ready:true; archive census 7,017 files within budget; renderer census
   242/3/0 and source-size census 0-oversized re-run at N1/N5 reviews; v2190 tag
   exists locally and on the remote; v2190 run green.
-- Integration capstone C1-C4: **LOCAL CANDIDATE PASS — external program-end review pending**.
-  v2192 records a real Java jar read, fresh mini-kv CLI output, one real
-  registry-listed aiproj receipt, three-layer no-write proof, no-promotion
-  proof, and graceful process cleanup. All three upstream commits are pinned.
-- Honest maturity label: **single-project validation + cross-project contract alignment**.
+- Integration capstone C1-C4: **EXTERNAL PROGRAM-END REVIEW PASS (Claude,
+  2026-07-11)**. The reviewer independently reran the real Java jar, mini-kv
+  CLI, and registry-listed aiproj receipt path; C1-C4 passed, all three upstream
+  commits were pinned, and the no-write/no-promotion/process-cleanup boundaries
+  reproduced.
+- Authorized maturity label: **single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)**.
+- Program boundary: Node, mini-kv, and aiproj Stage-1 tracks are closed. Java
+  Stage-1 remains open, so Stage 2 and whole-program closeout remain blocked.
 
-This document is the one-place acceptance input required by the final program.
-It does not claim the cross-project program is complete and does not grant
-production execution authority.
+This document is the one-place Node acceptance input required by the final
+program. It records the verified read-only integration result without claiming
+that the whole cross-project program is closed or granting production execution
+authority.
 
 ## E1-E10 gate table
 
@@ -32,7 +36,7 @@ production execution authority.
 | E4 security and configuration | repository secret/config scanner, fail-closed production template, threat model, exact synthetic-fixture waivers | `npm run security:scan`; `test/securityConfigScan.test.ts` | 18/18 safe-config checks; every accepted signal pinned by digest and count |
 | E5 observability | UUID request IDs, response correlation header/body, structured audit timing, `/health`, and upstream metrics | `test/app.test.ts`, `test/auditLog.test.ts`, `test/upstreamMetrics.test.ts`; CI smoke | health and metrics remain read-only with probes/actions false |
 | E6 error handling and lifecycle | typed upstream errors, HTTP abort timeout, TCP socket timeout, SIGINT/SIGTERM graceful Fastify close | focused client/app tests; `src/server.ts`; full suite | explicit timeout and shutdown paths are part of the tested runtime |
-| E7 documentation honesty | README, START_HERE, boundaries, security, and final evidence share the same maturity statement | `test/productionExcellenceDocs.test.ts`; `test/nodeTrackFinalEvidence.test.ts` | local C1-C4 candidate is recorded while production execution and maturity promotion remain blocked pending review |
+| E7 documentation honesty | README, START_HERE, boundaries, security, and final evidence share the exact authorized maturity statement | `test/productionExcellenceDocs.test.ts`; `test/nodeTrackFinalEvidence.test.ts`; capstone evidence tests | external C1-C4 PASS is recorded while production execution and Stage 2 remain blocked |
 | E8 release discipline | git tags are canonical, package version policy remains explicit, changelog is mandatory | `CHANGELOG.md`; `test/productionExcellenceDocs.test.ts` | v2190 tag/push is the final local closeout action |
 | E9 code health | renderer builder census, AST composition-only waiver validation, governance-growth ratchet, and 800-line source ceiling | `npm run renderer:census`; `npm run source:size:census`; focused ratchet tests | 245 total / 242 standardized / 3 waived / 0 non-waived; 1,234 source files / 0 oversized |
 | E10 archive retention | versioned-root index, machine-readable limits, filesystem census, negative tests, CI gate | `npm run archive:retention:census`; `test/archiveRetentionCensus.test.ts` | final 7,017 files / 65,537,435 bytes; no violations or waivers |
@@ -130,6 +134,15 @@ with promotion disabled. The v2 report aggregates genuine C1-C4 through
 `npm run readiness:cross`; the archived result is under
 `d/2192/evidence/cross-project-readiness/`.
 
+The external reviewer then rebuilt and reran the full live path independently
+and issued **CAPSTONE C1-C4 PASS**. That verdict authorizes only the exact label
+`single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)`.
+It does not authorize production execution or Stage 2. The live command is now
+an explicit regression surface: rerun `INTEGRATION_LIVE=1 npm run readiness:cross`
+at Java final track close and after changes to the capstone command, integration
+implementation, aggregate schema, upstream probe contracts, or selected aiproj
+schema. Default CI remains intentionally isolated from local sibling runtimes.
+
 The final v2192 local gate used eight sequential coverage shards with at most
 two workers, then merged all blobs under the unchanged floors. All 557 test
 files and 1,696 tests passed; statements/branches/functions/lines were
@@ -137,10 +150,10 @@ files and 1,696 tests passed; statements/branches/functions/lines were
 security 18/18, renderer census, source-size census, and archive retention also
 passed. No coverage or lint ratchet was loosened.
 
-That local result is a review candidate, not a self-awarded program PASS.
-README and boundary documents therefore retain the existing maturity label;
-every production write, deployment, credential, rollback, and Stage 2 path
-remains unauthorized until the external program-end review passes.
+The independent review converts the local candidate into a verified read-only
+integration result. Every production write, deployment, credential, rollback,
+and execution path remains unauthorized. Stage 2 remains blocked until Java's
+Stage-1 track passes its own final review and the capstone regression is rerun.
 
 Java remains recommended parallel for extraction batches. Node used an
 isolated detached worktree at a fixed commit and did not alter Java source or
