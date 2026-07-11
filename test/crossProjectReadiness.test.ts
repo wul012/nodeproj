@@ -8,14 +8,21 @@ import { findAvailableLoopbackPort } from "../src/integration/capstoneProcessSup
 import { runCrossProjectReadiness } from "../src/integration/crossProjectReadiness.js";
 import { writeCrossProjectReadinessReport } from "../src/integration/crossProjectReadinessReport.js";
 import { createCapstoneFakeProcesses, type CapstoneFakeProcesses } from "./helpers/capstoneFakeProcesses.js";
+import {
+  createAiprojCapstoneFixture,
+  type AiprojCapstoneFixture,
+} from "./helpers/aiprojCapstoneFixture.js";
 
 describe("cross-project readiness aggregation", () => {
   let fake: CapstoneFakeProcesses | undefined;
+  let aiproj: AiprojCapstoneFixture | undefined;
   const reportDirectories: string[] = [];
 
   afterEach(async () => {
     await fake?.cleanup();
     fake = undefined;
+    await aiproj?.cleanup();
+    aiproj = undefined;
     await Promise.all(reportDirectories.splice(0).map((path) => rm(path, { recursive: true, force: true })));
   });
 
@@ -31,7 +38,12 @@ describe("cross-project readiness aggregation", () => {
       read_only: true,
       execution_allowed: false,
     });
-    expect(report.requirements.map((requirement) => requirement.status)).toEqual(["skipped", "skipped", "skipped"]);
+    expect(report.requirements.map((requirement) => requirement.status)).toEqual([
+      "skipped",
+      "skipped",
+      "skipped",
+      "skipped",
+    ]);
     expect(report.requirements[2].checks[0]).toMatchObject({
       id: "node.capstone_surface_census",
       status: "pass",
@@ -45,10 +57,12 @@ describe("cross-project readiness aggregation", () => {
     expect(report.requirements[0].status).toBe("fail");
     expect(report.requirements[1].status).toBe("fail");
     expect(report.requirements[2].status).toBe("skipped");
+    expect(report.requirements[3].status).toBe("fail");
   });
 
   it("aggregates a full live pass and atomically writes JSON plus Markdown", async () => {
     fake = await createCapstoneFakeProcesses();
+    aiproj = await createAiprojCapstoneFixture();
     const port = await findAvailableLoopbackPort();
     const report = await runCrossProjectReadiness({
       liveRequested: true,
@@ -68,6 +82,10 @@ describe("cross-project readiness aggregation", () => {
         executableArgs: [fake.miniKvScript],
         timeoutMs: 5_000,
       },
+      aiproj: {
+        rootDirectory: aiproj.rootDirectory,
+        commit: "aiproj-test-commit",
+      },
       javaCommit: "java-test-commit",
       miniKvCommit: "mini-kv-test-commit",
       now: () => new Date("2026-07-11T00:00:00.000Z"),
@@ -77,11 +95,23 @@ describe("cross-project readiness aggregation", () => {
     const paths = await writeCrossProjectReadinessReport(report, directory);
 
     expect(report.overall_status).toBe("pass");
-    expect(report.requirements.map((requirement) => requirement.status)).toEqual(["pass", "pass", "pass"]);
+    expect(report.requirements.map((requirement) => requirement.status)).toEqual([
+      "pass",
+      "pass",
+      "pass",
+      "pass",
+    ]);
+    expect(report.provenance).toMatchObject({
+      java_commit: "java-test-commit",
+      mini_kv_commit: "mini-kv-test-commit",
+      aiproj_commit: "aiproj-test-commit",
+    });
     const persisted = JSON.parse(await readFile(paths.jsonPath, "utf8")) as Record<string, unknown>;
     expect(persisted).toMatchObject({ overall_status: "pass", read_only: true, execution_allowed: false });
     const markdown = await readFile(paths.markdownPath, "utf8");
     expect(markdown).toContain("Overall status: **PASS**");
     expect(markdown).toContain("| C3 No-write proof | PASS |");
+    expect(markdown).toContain("| C4 aiproj artifact validation | PASS |");
+    expect(markdown).toContain("aiproj commit: `aiproj-test-commit`");
   });
 });

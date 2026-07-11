@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2192 - 2026-07-11
+
+- Corrected the capstone's missing fourth-project threshold by adding a
+  process-free aiproj artifact probe. The v2 report now validates one
+  registry-listed publication receipt against its required fields, expected
+  values, type rules, path-containment boundary, SHA-256, and no-promotion
+  policy; pins Java, mini-kv, and aiproj commits; and aggregates genuine C1-C4
+  results. The fixed-input live run passed all four requirements and cleaned up
+  every owned process and port. This remains a local candidate pending external
+  program-end review and grants no Stage 2 or production authority.
+
 ## v2191 - 2026-07-11
 
 - Added the env-gated C1-C4 integration capstone. One command now boots and

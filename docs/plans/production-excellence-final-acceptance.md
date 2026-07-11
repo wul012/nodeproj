@@ -53,10 +53,16 @@ consumer/control plane.
   (route census), and one live probe proves a Java write route rejects an unauthenticated
   request. mini-kv side reuses the existing CHECKJSON no-execution receipt, asserted from
   C2's fresh output.
-- C4 **One command**: `npm run readiness:cross` produces a single cross-project readiness
-  report (JSON + markdown) aggregating C1–C3 results with explicit `read_only: true`,
-  `execution_allowed: false`, and per-check pass/fail/skipped. Archived transcript of one
-  full local run is the acceptance evidence; a CI job is a stretch goal, not required.
+- C4 **aiproj artifact validation**: Node reads one JSON artifact listed in aiproj's
+  committed `docs/artifact-schema-guard-registry.json`, validates the selected schema's
+  required fields, expected values, and type rules, and pins the registry/artifact path,
+  SHA-256, and aiproj commit. This is file-read only: no aiproj process, network,
+  training, artifact rewrite, or promotion authority.
+- **One-command acceptance mechanism**: `npm run readiness:cross` produces a single
+  cross-project readiness report (JSON + markdown) aggregating C1–C4 with explicit
+  `read_only: true`, `execution_allowed: false`, and per-check pass/fail/skipped.
+  Archived transcript of one full local run is the acceptance evidence; a CI job is a
+  stretch goal, not required.
 - Only after C1–C4 pass may any doc in any repo change the maturity claim, and the new
   claim must cite the capstone evidence.
 
@@ -91,12 +97,17 @@ mechanical-change limits, per-repo AGENTS conventions) bind every step.
 - Screenshots/walkthroughs advancing ahead of executable evidence = version incomplete.
 - Version scope creep (feature work smuggled into consolidation batches) = revert the batch.
 
-## Node capstone candidate status — v2191, 2026-07-11
+## Node capstone candidate status — v2191-v2192, 2026-07-11
 
-- C1-C4 implementation and one full local run are complete. The archived report
-  records `live_requested=true`, C1/C2/C3 pass, `read_only=true`, and
-  `execution_allowed=false`.
-- Java was built from fixed commit `894deeb0` in an isolated worktree; its active
-  extraction worktree was not modified. mini-kv/aiproj received no source writes.
+- v2191 implemented and independently reproduced C1-C3, but the external review found
+  that its former C4 label described only report aggregation and omitted aiproj. v2192
+  therefore replaces that false fourth-project claim with a real C4 artifact check while
+  retaining the one-command report as the acceptance mechanism.
+- The v2192 archived report records `live_requested=true`, C1/C2/C3/C4 pass,
+  `read_only=true`, and `execution_allowed=false`. Java, mini-kv, and aiproj commits are
+  all non-null in provenance.
+- Java was built from fixed commit `a7237a85` in an isolated worktree; mini-kv was read
+  through the existing CLI at commit `12b08563`; aiproj's committed registry and receipt
+  were read at `5d6c288b`. No sibling source or active worktree was modified.
 - The maturity label remains unchanged. This is a local candidate only; request
   the external program-end review and do not activate Stage 2 before PASS.

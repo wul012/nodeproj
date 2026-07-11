@@ -11,8 +11,13 @@ import {
   type JavaCapstoneProbeConfig,
 } from "./javaCapstoneProbe.js";
 import {
+  runAiprojArtifactProbe,
+  type AiprojArtifactProbeConfig,
+} from "./aiprojArtifactProbe.js";
+import {
   skippedCheck,
   statusFromChecks,
+  type AiprojCapstoneObservation,
   type CapstoneCheck,
   type CapstoneRequirementResult,
   type CrossProjectReadinessReport,
@@ -24,6 +29,7 @@ export interface CrossProjectReadinessOptions {
   liveRequested: boolean;
   java?: JavaCapstoneProbeConfig;
   miniKv?: MiniKvCapstoneProbeConfig;
+  aiproj?: AiprojArtifactProbeConfig;
   javaCommit?: string;
   miniKvCommit?: string;
   now?: () => Date;
@@ -38,16 +44,20 @@ export async function runCrossProjectReadiness(
   const miniKv = options.liveRequested
     ? await runConfiguredMiniKvProbe(options.miniKv)
     : skippedMiniKvObservation();
+  const aiproj = options.liveRequested
+    ? await runConfiguredAiprojProbe(options.aiproj)
+    : skippedAiprojObservation();
 
   const c1 = requirement("C1", "Live Java read", java.c1Checks);
   const c2 = requirement("C2", "Live mini-kv read", miniKv.c2Checks);
   const c3Checks = [buildStaticNoWriteCheck(), ...java.c3Checks, ...miniKv.c3Checks];
   const c3 = requirement("C3", "No-write proof", c3Checks);
-  const requirements = [c1, c2, c3];
+  const c4 = requirement("C4", "aiproj artifact validation", aiproj.c4Checks);
+  const requirements = [c1, c2, c3, c4];
   const overallStatus = statusFromRequirementResults(requirements);
 
   return {
-    schema_version: "orderops.cross-project-readiness.v1",
+    schema_version: "orderops.cross-project-readiness.v2",
     generated_at: (options.now ?? (() => new Date()))().toISOString(),
     live_requested: options.liveRequested,
     overall_status: overallStatus,
@@ -58,6 +68,7 @@ export async function runCrossProjectReadiness(
       node_runtime: process.version,
       java_commit: options.javaCommit ?? null,
       mini_kv_commit: options.miniKvCommit ?? null,
+      aiproj_commit: normalizedCommit(options.aiproj?.commit),
     },
   };
 }
@@ -93,6 +104,23 @@ async function runConfiguredMiniKvProbe(
     };
   }
   return runMiniKvCapstoneProbe(config);
+}
+
+async function runConfiguredAiprojProbe(
+  config: AiprojArtifactProbeConfig | undefined,
+): Promise<AiprojCapstoneObservation> {
+  if (config === undefined || config.commit.trim().length === 0) {
+    return {
+      c4Checks: [
+        failConfiguration(
+          "aiproj.configuration",
+          "AIPROJ_ROOT and AIPROJ_CAPSTONE_COMMIT are required when INTEGRATION_LIVE=1",
+        ),
+        skippedCheck("aiproj.artifact_validation", "aiproj live configuration is incomplete"),
+      ],
+    };
+  }
+  return runAiprojArtifactProbe(config);
 }
 
 function buildStaticNoWriteCheck(): CapstoneCheck {
@@ -140,6 +168,14 @@ function skippedMiniKvObservation(): MiniKvCapstoneObservation {
   };
 }
 
+function skippedAiprojObservation(): AiprojCapstoneObservation {
+  return {
+    c4Checks: [
+      skippedCheck("aiproj.artifact_validation", "INTEGRATION_LIVE is not enabled; no aiproj file was read"),
+    ],
+  };
+}
+
 function requirement(
   id: CapstoneRequirementResult["id"],
   title: string,
@@ -172,4 +208,9 @@ function failConfiguration(id: string, error: string): CapstoneCheck {
     summary: "live capstone configuration is incomplete",
     evidence: { error },
   };
+}
+
+function normalizedCommit(value: string | undefined): string | null {
+  const normalized = value?.trim();
+  return normalized === undefined || normalized.length === 0 ? null : normalized;
 }

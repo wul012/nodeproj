@@ -2,10 +2,9 @@ import { delimiter } from "node:path";
 
 import {
   runBufferedProcess,
-  sha256File,
-  sha256Text,
   type BufferedProcessResult,
 } from "./capstoneProcessSupport.js";
+import { sha256File, sha256Text } from "./capstoneDigest.js";
 import type {
   CapstoneCheck,
   MiniKvCapstoneObservation,

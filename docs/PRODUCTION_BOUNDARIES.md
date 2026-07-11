@@ -10,9 +10,11 @@ it is not authorized for production execution.
 - Maturity label: single-project validation + cross-project contract alignment.
 - Node track status: N0-N5 complete; v2190 E1-E10 external closeout PASS.
 - Integration capstone: C1-C4 local candidate PASS; external program-end review pending.
+  v2192 is the first candidate that includes the required aiproj artifact check.
 - Production execution: not authorized.
 - Upstream service startup: not authorized by default.
 - Java / mini-kv write authority: not delegated through Node.
+- aiproj process execution and promotion authority: not delegated through Node.
 - Managed audit authority: not production-ready.
 - Canonical version identifier: git tags such as `v2117`; `package.json`
   remains `0.1.0` until a packaging/release workflow is created.
@@ -20,8 +22,9 @@ it is not authorized for production execution.
 ## Local Production-Excellence Gates
 
 These gates protect the Node repository itself. They do not grant runtime
-execution authority. The separate v2191 capstone adds one env-gated, local,
-read-only interoperability proof without changing production authority.
+execution authority. The corrected v2192 capstone adds one env-gated, local,
+four-project read-only interoperability proof without changing production
+authority.
 
 | Gate | Mechanical check | Closeout floor or result |
 | --- | --- | --- |
@@ -71,6 +74,8 @@ The following are intentionally not production-ready:
 - Real Java or mini-kv actions through Node.
 - Any endpoint that requires `UPSTREAM_ACTIONS_ENABLED=true`.
 - Automatic startup of Java or mini-kv outside the explicitly env-gated local capstone.
+- Any aiproj process execution, training, network request, artifact rewrite, or
+  promotion action through the capstone.
 - Real managed-audit adapter connection.
 - Secret provider runtime and credential value loading.
 - Raw managed-audit endpoint URL parsing or rendering.

@@ -1,0 +1,86 @@
+{
+  "schema_version": "orderops.integration-capstone-v2192-summary.v1",
+  "version": "v2192",
+  "generated_at": "2026-07-11T08:34:35.453Z",
+  "status": "pass",
+  "decision": "request_external_program_end_review",
+  "report_schema_version": "orderops.cross-project-readiness.v2",
+  "requirements": {
+    "C1": "pass",
+    "C2": "pass",
+    "C3": "pass",
+    "C4": "pass"
+  },
+  "boundaries": {
+    "read_only": true,
+    "execution_allowed": false,
+    "aiproj_process_executed": false,
+    "aiproj_promotion_allowed": false,
+    "production_execution_authorized": false,
+    "stage_2_authorized": false
+  },
+  "inputs": {
+    "node_base_commit": "2a97ba9c",
+    "java_commit": "a7237a85b50fed2de62eb71113739439812bc043",
+    "java_jar_sha256": "c7843148121f92830eb61da898de9a302bf2372fcedd2860de8d2ee857bd840d",
+    "mini_kv_commit": "12b08563b2ac7a40c4874e4c2864f8deb3a32eef",
+    "mini_kv_executable_sha256": "8e29370a3e0290e5a04faf2a818682beb0e36a5c5ecfa8b2f245ef38bbd216df",
+    "mini_kv_stdout_bytes": 462610,
+    "mini_kv_stdout_sha256": "4ad01739e8310dcb08df0f36fda2c80f6e8dd4a6c41b10449aff19651c7d2e34",
+    "aiproj_commit": "5d6c288bff244ce5568c032ca7ab4bc6303dbc57",
+    "aiproj_registry_path": "docs/artifact-schema-guard-registry.json",
+    "aiproj_registry_sha256": "226f3e03bbdc0e04822eb32e32ba6ca24aa03c49dc881f217601e0083129bf71",
+    "aiproj_artifact_path": "e/999/解释/publication-receipt-index-receipt-index-publication-index-receipt-index-receipt-v999/randomized_holdout_publication_receipt_packet_index_publication_receipt_index_receipt_index_publication_index_receipt_index_receipt_v999.json",
+    "aiproj_artifact_bytes": 17996,
+    "aiproj_artifact_sha256": "f03a30064a9bbbc49d057d6d9435e5ed4295104a0ef34be0d7ee8d3a36043845"
+  },
+  "aiproj_contract": {
+    "schema_id": "publication_receipt_v1",
+    "required_field_count": 9,
+    "missing_fields": [],
+    "expected_value_count": 8,
+    "expected_value_mismatches": [],
+    "type_check_count": 4,
+    "type_mismatches": [],
+    "granted_use": "downstream_governance_lookup_only",
+    "promotion_ready": false,
+    "approved_for_promotion": false
+  },
+  "cleanup": {
+    "java_launcher_pid": 27964,
+    "java_application_pid": 29976,
+    "mini_kv_pid": 29172,
+    "owned_processes_alive_after_run": 0,
+    "java_port": 58683,
+    "listening_sockets_after_run": 0,
+    "fallback_kill_used": false
+  },
+  "evidence": {
+    "json": "d/2192/evidence/cross-project-readiness/cross-project-readiness.json",
+    "markdown": "d/2192/evidence/cross-project-readiness/cross-project-readiness.md",
+    "transcript": "d/2192/evidence/readiness-cross-live-transcript.txt",
+    "explanation": "d/2192/解释/four-project-capstone-v2192.md",
+    "walkthrough": "代码讲解记录_生产雏形阶段3/r2000/2162-four-project-capstone-v2192.md"
+  },
+  "verification": {
+    "focused_test_files": 8,
+    "focused_tests": 29,
+    "full_test_files": 557,
+    "full_tests": 1696,
+    "coverage": {
+      "statements": 95.56,
+      "branches": 87.29,
+      "functions": 98.45,
+      "lines": 95.53,
+      "floors": "94/86/97/94"
+    },
+    "typecheck": "pass",
+    "build": "pass",
+    "lint": "0 errors / 261 warnings",
+    "security_scan": "8180 text files / 6 of 6 narrowly waived signals / 18 of 18 config checks",
+    "renderer_census": "242 standardized / 3 composition-only waived / 0 non-waived",
+    "source_size_census": "0 files above 800 lines",
+    "archive_retention_census": "7031 files / 62.62 MiB / no violations"
+  },
+  "review_state": "local_candidate_only_external_program_end_review_pending"
+}

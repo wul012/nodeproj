@@ -52,6 +52,7 @@ export function renderCrossProjectReadinessMarkdown(report: CrossProjectReadines
     `- Node runtime: \`${report.provenance.node_runtime}\``,
     `- Java commit: \`${report.provenance.java_commit ?? "not supplied"}\``,
     `- mini-kv commit: \`${report.provenance.mini_kv_commit ?? "not supplied"}\``,
+    `- aiproj commit: \`${report.provenance.aiproj_commit ?? "not supplied"}\``,
     "",
     "The JSON companion contains process identifiers, artifact digests, fresh-output digests, schema fields, and cleanup evidence.",
   );

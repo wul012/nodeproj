@@ -56,7 +56,7 @@ describe("production excellence documentation", () => {
     }
     expect(readme).toContain('$env:UPSTREAM_PROBES_ENABLED = "false"');
     expect(readme).toContain('$env:UPSTREAM_ACTIONS_ENABLED = "false"');
-    expect(startHere).toContain("Node v2191 integration capstone candidate");
+    expect(startHere).toContain("Node v2192 four-project capstone candidate");
   });
 
   it("records the N5 external PASS before Phase 3 closeout", () => {

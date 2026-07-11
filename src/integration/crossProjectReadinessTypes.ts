@@ -1,6 +1,6 @@
 export type CapstoneStatus = "pass" | "fail" | "skipped";
 
-export type CapstoneRequirementId = "C1" | "C2" | "C3";
+export type CapstoneRequirementId = "C1" | "C2" | "C3" | "C4";
 
 export interface CapstoneCheck {
   id: string;
@@ -17,7 +17,9 @@ export interface CapstoneRequirementResult {
 }
 
 export interface CrossProjectReadinessReport {
-  schema_version: "orderops.cross-project-readiness.v1";
+  schema_version:
+    | "orderops.cross-project-readiness.v1"
+    | "orderops.cross-project-readiness.v2";
   generated_at: string;
   live_requested: boolean;
   overall_status: CapstoneStatus;
@@ -28,6 +30,7 @@ export interface CrossProjectReadinessReport {
     node_runtime: string;
     java_commit: string | null;
     mini_kv_commit: string | null;
+    aiproj_commit: string | null;
   };
 }
 
@@ -39,6 +42,10 @@ export interface JavaCapstoneObservation {
 export interface MiniKvCapstoneObservation {
   c2Checks: CapstoneCheck[];
   c3Checks: CapstoneCheck[];
+}
+
+export interface AiprojCapstoneObservation {
+  c4Checks: CapstoneCheck[];
 }
 
 export function statusFromChecks(checks: readonly CapstoneCheck[]): CapstoneStatus {

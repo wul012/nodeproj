@@ -8,6 +8,7 @@ import {
   type JavaCapstoneProbeConfig,
 } from "./javaCapstoneProbe.js";
 import type { MiniKvCapstoneProbeConfig } from "./miniKvCapstoneProbe.js";
+import type { AiprojArtifactProbeConfig } from "./aiprojArtifactProbe.js";
 
 async function main(): Promise<void> {
   const liveRequested = process.env.INTEGRATION_LIVE === "1";
@@ -15,10 +16,14 @@ async function main(): Promise<void> {
   const miniKv = liveRequested && hasText(process.env.MINIKV_CLI_PATH)
     ? buildMiniKvConfig(process.env.MINIKV_CLI_PATH)
     : undefined;
+  const aiproj = liveRequested && hasText(process.env.AIPROJ_ROOT)
+    ? buildAiprojConfig(process.env.AIPROJ_ROOT)
+    : undefined;
   const report = await runCrossProjectReadiness({
     liveRequested,
     java,
     miniKv,
+    aiproj,
     javaCommit: normalizeOptional(process.env.JAVA_CAPSTONE_COMMIT),
     miniKvCommit: normalizeOptional(process.env.MINIKV_CAPSTONE_COMMIT),
   });
@@ -60,6 +65,14 @@ function buildMiniKvConfig(executable: string): MiniKvCapstoneProbeConfig {
   return {
     executable: resolve(executable),
     runtimePath: process.env.MINIKV_RUNTIME_PATH,
+  };
+}
+
+function buildAiprojConfig(rootDirectory: string): AiprojArtifactProbeConfig {
+  return {
+    rootDirectory: resolve(rootDirectory),
+    commit: normalizeOptional(process.env.AIPROJ_CAPSTONE_COMMIT) ?? "",
+    schemaId: normalizeOptional(process.env.AIPROJ_CAPSTONE_SCHEMA_ID),
   };
 }
 

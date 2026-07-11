@@ -1,6 +1,7 @@
 import { spawn, type ChildProcessWithoutNullStreams } from "node:child_process";
 
-import { isLoopbackPortOpen, sha256File } from "./capstoneProcessSupport.js";
+import { sha256File } from "./capstoneDigest.js";
+import { isLoopbackPortOpen } from "./capstoneProcessSupport.js";
 import { CrossProjectReadClient, type JsonHttpResponse } from "./crossProjectReadClient.js";
 import type {
   CapstoneCheck,

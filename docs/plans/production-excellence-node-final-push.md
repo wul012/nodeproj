@@ -175,3 +175,45 @@ lines per commit, cleanup gate, 中文 walkthrough conventions.
   under `d/2191/evidence/`.
 - Stop after commit/tag/push/green CI and request Claude program-end review.
   Do not change the maturity label or start Stage 2 before that review PASS.
+
+## Claude capstone review — 2026-07-11 (v2191): C1–C3 PASS by independent live reproduction; capstone INCOMPLETE — v2192 required
+
+- Independent reproduction, not transcript-trusting: the reviewer rebuilt the Java jar
+  from CURRENT HEAD (a7237a85 = v1852, five versions newer than the candidate run) and
+  re-ran `INTEGRATION_LIVE=1 npm run readiness:cross` with the real mini-kv CLI.
+  Result: overall=pass, C1/C2/C3 pass, read_only=true, execution_allowed=false, both
+  upstream commits pinned in provenance. The cross-project read contract holds against
+  moving HEADs — the program's first real joint test reproduces.
+- Design quality confirmed: zero-write surface census (2 GET routes; read-only mini-kv
+  command list), genuine unauthenticated-write rejection (POST → 400), WAL-untouched
+  proof, graceful shutdown with port-release verification. Maturity label correctly not
+  upgraded; docs tests honestly state "external program-end review pending".
+- **INCOMPLETE — the C4 four-project threshold is missing.** The readiness report
+  contains no aiproj requirement ("aiproj" appears nowhere in it), but the aiproj
+  capstone tie-in requires the report to validate ONE real aiproj artifact. Required
+  v2192 (one version):
+  1. Add requirement C4 "aiproj artifact validation": read one artifact listed in
+     aiproj's committed `docs/artifact-schema-guard-registry.json` (publication receipt
+     or experiment card), validate the registry's required fields, pin artifact path +
+     sha256 + aiproj commit in provenance, and record the read-only/no-promotion
+     boundary. File-read only — no aiproj process execution, no promotion authority.
+  2. Rerun the live evidence with `MINIKV_CAPSTONE_COMMIT` set — the v2191 transcript
+     left `mini_kv_commit` null; the reviewer's rerun proves the field works.
+- After v2192 is green and reviewed, the program-end verdict issues and the maturity
+  label may change program-wide. Stage-2 remains blocked until then.
+
+## Codex v2192 correction candidate — 2026-07-11
+
+- Added the missing C4 as a real fourth-project requirement. The runner now reads
+  aiproj's committed schema registry and exactly one registered publication receipt,
+  validates required fields, expected values and type rules, and records both file
+  digests plus the no-promotion boundary without starting an aiproj process.
+- Upgraded the aggregate report to schema v2 and pinned Java, mini-kv, and aiproj
+  commits. The fixed-input live run reports C1/C2/C3/C4 pass, read_only=true,
+  execution_allowed=false; every owned PID exited, the Java port was released, and no
+  fallback kill was used. Evidence is under `d/2192/evidence/`.
+- Final local gates passed: 557 test files / 1,696 tests; coverage
+  95.56/87.29/98.45/95.53 against unchanged 94/86/97/94 floors; typecheck,
+  build, lint 0/261, security 18/18, renderer/source-size/archive censuses green.
+- This is still a local candidate. Stop after green CI and request the external
+  program-end review; do not change the maturity label or activate Stage 2 locally.

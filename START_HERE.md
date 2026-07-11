@@ -67,16 +67,18 @@ By default, upstream probes and upstream actions are disabled. This is intention
 
 ## Latest version summary
 
-Current roadmap state: **Node v2191 integration capstone candidate**.
+Current roadmap state: **Node v2192 four-project capstone candidate**.
 
-Milestones N0-N5 and the v2190 E1-E10 closeout have external PASS. v2191 adds
-the env-gated C1-C4 slice: a fixed Java jar is read live, a real mini-kv CLI
-produces fresh evidence, no-write boundaries are checked, and one command
-emits JSON plus Markdown before cleaning up the owned Java process.
+Milestones N0-N5 and the v2190 E1-E10 closeout have external PASS. v2192
+corrects the env-gated C1-C4 slice: a fixed Java jar is read live, a real
+mini-kv CLI produces fresh evidence, and one registry-listed aiproj publication
+receipt is validated by file read only. No-write and no-promotion boundaries are
+checked before one command emits JSON plus Markdown and cleans up the owned Java
+process.
 
 **Maturity: single-project validation + cross-project contract alignment.**
-The C1-C4 capstone has a local candidate PASS, but external program-end review is
-still pending. Node remains a read-only rehearsal/control-plane prototype
+The C1-C4 capstone has a local candidate PASS, but external program-end review
+is still pending. Node remains a read-only rehearsal/control-plane prototype
 and is not authorized for production execution or Stage 2.
 
 ## Where to look next

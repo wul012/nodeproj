@@ -144,3 +144,15 @@ frozen archive paths; shrink-only SpotBugs baseline; route strings byte-identica
   `/api/v1/failed-events/0/replay`; it must be rejected by the operator-context guard
   before the business service is invoked. Node owns the process, port, evidence and
   cleanup. A dirty or moving Java HEAD is not an acceptable capstone artifact.
+
+## Claude checkpoint review — 2026-07-11 深夜 (v1848–v1852): PASS, no corrections
+
+- Verified by running the committed census: direct-root 573 → 471 (102 files in 5 green
+  batches), UnassignedFiles empty, all rows closed in-session with run ids — the ledger
+  rule has now held for two consecutive batch cycles.
+- Capstone note: the reviewer independently re-ran the Node capstone LIVE against Java
+  HEAD a7237a85 (v1852) — health, ops-evidence read, and the unauthenticated-write
+  rejection all held against this repo's current code. The Java-side contract is doing
+  its job under a moving HEAD.
+- 366 non-controller root files remain (~15 batches). Continue; next checkpoint after
+  5 more.

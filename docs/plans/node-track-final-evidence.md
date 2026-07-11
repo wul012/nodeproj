@@ -13,8 +13,9 @@
   242/3/0 and source-size census 0-oversized re-run at N1/N5 reviews; v2190 tag
   exists locally and on the remote; v2190 run green.
 - Integration capstone C1-C4: **LOCAL CANDIDATE PASS — external program-end review pending**.
-  v2191 records a real Java jar read, fresh mini-kv CLI
-  output, three-layer no-write proof, and graceful process cleanup.
+  v2192 records a real Java jar read, fresh mini-kv CLI output, one real
+  registry-listed aiproj receipt, three-layer no-write proof, no-promotion
+  proof, and graceful process cleanup. All three upstream commits are pinned.
 - Honest maturity label: **single-project validation + cross-project contract alignment**.
 
 This document is the one-place acceptance input required by the final program.
@@ -27,7 +28,7 @@ production execution authority.
 | --- | --- | --- | --- |
 | E1 build and CI | Node 22 workflow with dependency install, typecheck, gates, coverage, build, safe smoke, and exact server cleanup | `.github/workflows/node-evidence.yml`; `npm run build` | local build/smoke green; v2189 run 29131852707 green; v2190 run required after push |
 | E2 static analysis | ESLint flat config and a non-growing warning ceiling | `npm run lint` | 0 errors; maximum 261 warnings, below N0's 263 |
-| E3 coverage | V8 all-source coverage with shrink-only floors | `npm run test:coverage` | 550 files / 1,674 tests; actual statements 95.92%, branches 87.59%, functions 98.64%, lines 95.88%; floors 94/86/97/94 |
+| E3 coverage | V8 all-source coverage with shrink-only floors | `npm run test:coverage` | v2190 closeout: 550 files / 1,674 tests at 95.92/87.59/98.64/95.88; v2192 re-verification: 557 files / 1,696 tests at 95.56/87.29/98.45/95.53; floors remain 94/86/97/94 |
 | E4 security and configuration | repository secret/config scanner, fail-closed production template, threat model, exact synthetic-fixture waivers | `npm run security:scan`; `test/securityConfigScan.test.ts` | 18/18 safe-config checks; every accepted signal pinned by digest and count |
 | E5 observability | UUID request IDs, response correlation header/body, structured audit timing, `/health`, and upstream metrics | `test/app.test.ts`, `test/auditLog.test.ts`, `test/upstreamMetrics.test.ts`; CI smoke | health and metrics remain read-only with probes/actions false |
 | E6 error handling and lifecycle | typed upstream errors, HTTP abort timeout, TCP socket timeout, SIGINT/SIGTERM graceful Fastify close | focused client/app tests; `src/server.ts`; full suite | explicit timeout and shutdown paths are part of the tested runtime |
@@ -114,12 +115,27 @@ horizontal overflow. The only console error was the existing missing
 ## Remaining boundary
 
 Passing E1-E10 means the Node repository has a mechanically enforced local
-quality baseline. v2191 then executed the separate C1-C4 candidate: Node booted
-a jar built from Java commit `894deeb0`, consumed current health/evidence,
-proved the unauthenticated replay POST was rejected, executed a real mini-kv
-CLI for fresh SMOKEJSON/CHECKJSON, and aggregated C1-C3 through
-`npm run readiness:cross`. The archived result is under
-`d/2191/evidence/cross-project-readiness/`.
+quality baseline. v2191 first proved C1-C3, but external review correctly found
+that its former C4 name represented report aggregation rather than a fourth
+project. v2192 corrects that gap without widening execution authority. Node
+booted a jar built from Java commit `a7237a85`, consumed current health/evidence,
+proved the unauthenticated replay POST was rejected, and executed a real
+mini-kv CLI at workspace commit `12b08563` for fresh SMOKEJSON/CHECKJSON.
+
+C4 then read aiproj commit `5d6c288b` by filesystem only. It selected
+`publication_receipt_v1` from the committed schema registry, validated 9
+required fields, 8 expected values and 4 type rules, pinned the registry and
+artifact SHA-256 values, and confirmed `downstream_governance_lookup_only`
+with promotion disabled. The v2 report aggregates genuine C1-C4 through
+`npm run readiness:cross`; the archived result is under
+`d/2192/evidence/cross-project-readiness/`.
+
+The final v2192 local gate used eight sequential coverage shards with at most
+two workers, then merged all blobs under the unchanged floors. All 557 test
+files and 1,696 tests passed; statements/branches/functions/lines were
+95.56/87.29/98.45/95.53. Typecheck, build, lint at 0 errors / 261 warnings,
+security 18/18, renderer census, source-size census, and archive retention also
+passed. No coverage or lint ratchet was loosened.
 
 That local result is a review candidate, not a self-awarded program PASS.
 README and boundary documents therefore retain the existing maturity label;
@@ -128,5 +144,7 @@ remains unauthorized until the external program-end review passes.
 
 Java remains recommended parallel for extraction batches. Node used an
 isolated detached worktree at a fixed commit and did not alter Java source or
-its active v1848 worktree. mini-kv/aiproj received no source changes; mini-kv
-participated only through execution of an existing CLI binary.
+its active worktree. mini-kv/aiproj received no source changes; mini-kv
+participated only through execution of an existing CLI binary, while aiproj
+participated only through two existing JSON file reads. No sibling repository
+received a tag, commit, fixture rewrite, or process-lifecycle change from Node.
