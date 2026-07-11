@@ -70,3 +70,55 @@ frozen archive paths; shrink-only SpotBugs baseline; route strings byte-identica
 - Ratchet loosened (number raised) for any reason = revert; ratchets only tighten.
 - An extraction that changes any route string, response byte, or write boundary = revert.
 - The endgame census revised upward without a waiver entry = checkpoint fail.
+
+## Claude checkpoint review — 2026-07-07 (v1827–v1833): PASS with three corrections
+
+- Verified: step-0 reconciliation (v1827) and endgame census (v1828: 805 → target 105)
+  executed as briefed; v1829–v1833 all CI green; clean tree at review time.
+- Correction 1 (recurred, now promoted to AGENTS Program Discipline): the J43 ledger row
+  still said "commit/tag/push pending" while v1833 was already pushed with green CI.
+  Close the ledger row in the same session as the tag push, before anything new starts.
+- Correction 2: progress rows remain paragraph walls; apply the ≤3-line row rule from the
+  next row onward — details belong in the per-version `docs/ops/` extraction docs.
+- Correction 3: publish the exact census command inside the endgame census doc; the
+  reviewer's independent count could not reproduce 805 with an obvious glob, and the
+  census is only a contract if both sides compute it identically.
+- Continue batches. Next checkpoint after 5 more.
+
+## Claude checkpoint review — 2026-07-10 (v1834–v1836): PASS with one contract note
+
+- Verified: all three 07-07 corrections implemented — ledger rows now close with
+  commit/tag/CI-run id in-session, rows are within budget, and the census command is
+  committed (`scripts/ops-root-census.ps1`, published in the endgame census doc).
+- The v1834–v1837 maintainability program is high quality (reproducible hotspot census,
+  shrink-only aggregate + named-file budgets, facade 1126→662→199 with full verify green)
+  and is sanctioned by the AGENTS refactoring-rhythm rule — but it pauses this brief's
+  extraction series without amending it. Contract note: when interleaving a multi-version
+  side program, add one line to the active brief (or ledger) naming the pause and the
+  resume point, so the brief stays the single contract.
+- After v1837 closes: resume extraction batches toward the endgame census target
+  (root 805 → 105); next checkpoint after 5 extraction batches or at v1837 close.
+
+## Claude review addendum — 2026-07-10 晚: v1837 verified closed; maintainability program COMPLETE
+
+- v1837 both runs green; ledger row J47 closed in-session with commit/tag/run id. The row
+  honestly records a mid-version self-caught +2 root-census violation fixed without
+  loosening ratchets — exactly the intended gate behavior. All four planned versions
+  (v1834–v1837) delivered; budgets ended tighter than baseline (>500: 39→35, >750: 5→3).
+- Resume the extraction series now (direct-root 805 → endgame 105, `scripts/ops-root-census.ps1`
+  is the number of record). Next checkpoint after 5 extraction batches.
+
+## Claude checkpoint review — 2026-07-11 (v1838–v1842): PASS with one recurrence note
+
+- Verified by running the committed census: direct-root 805 → 696 (109 files in 5
+  batches, ~22/batch), UnassignedFiles empty, all ten runs green, extraction recipe
+  unchanged (controllers root-visible, public route owners, package-local tests move).
+- Recurrence note on the promoted ledger rule: the J52/v1842 row still reads "completed
+  locally; remote CI running" although both v1842 runs concluded green. v1842 was the
+  FINAL version of the batch, which the remote-verification policy says to block-watch;
+  the row must be refreshed to final state with the run id before the session ends.
+  Reality gap is zero (CI is green) — this is a row-refresh miss, but it is the third
+  strike on a rule that was promoted BECAUSE of two prior strikes. Close the J52 row
+  as the first action of the next session, before any new batch.
+- Pace math: 591 non-controller root files remain to reach 105; at ~22/batch that is
+  ~27 more batches. Continue; next checkpoint after 5 more.

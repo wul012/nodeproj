@@ -8,6 +8,15 @@ on:
       - "package.json"
       - "package-lock.json"
       - "tsconfig.json"
+      - "vitest.config.ts"
+      - "eslint.config.js"
+      - "scripts/**"
+      - "docs/SECURITY.md"
+      - "docs/PRODUCTION_BOUNDARIES.md"
+      - "docs/archive-retention-budget.json"
+      - "docs/archive-retention-index.md"
+      - "docs/plans/node-track-final-evidence.md"
+      - "fixtures/MANIFEST.md"
       - "src/**"
       - "test/**"
   push:
@@ -19,6 +28,15 @@ on:
       - "package.json"
       - "package-lock.json"
       - "tsconfig.json"
+      - "vitest.config.ts"
+      - "eslint.config.js"
+      - "scripts/**"
+      - "docs/SECURITY.md"
+      - "docs/PRODUCTION_BOUNDARIES.md"
+      - "docs/archive-retention-budget.json"
+      - "docs/archive-retention-index.md"
+      - "docs/plans/node-track-final-evidence.md"
+      - "fixtures/MANIFEST.md"
       - "src/**"
       - "test/**"
   workflow_dispatch:
@@ -55,6 +73,12 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Security and safe-config scan
+        run: npm run security:scan
+
+      - name: Archive retention budget
+        run: npm run archive:retention:census
 
       - name: Test
         run: npm run test:coverage

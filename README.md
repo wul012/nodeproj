@@ -7,6 +7,17 @@ Node.js control plane for two local practice systems:
 
 This project keeps Node as the gateway, live operations view, and integration shell. The Java service keeps order consistency logic, and mini-kv keeps storage/network internals.
 
+## Current maturity
+
+The Node production-excellence track has completed milestones N0-N5 and is in
+the v2190 E1-E10 closeout review stage.
+
+**Maturity: single-project validation + cross-project contract alignment.**
+The C1-C4 live integration capstone has not run, and this repository is not authorized for production execution.
+See `docs/plans/node-track-final-evidence.md` and
+`docs/PRODUCTION_BOUNDARIES.md` for the reproducible gates and remaining
+boundaries.
+
 ## Features
 
 - Fastify + TypeScript service
@@ -165,8 +176,8 @@ The service reads configuration from environment variables. Use `.env.example` a
 ```powershell
 $env:ORDER_PLATFORM_URL = "http://localhost:8080"
 $env:MINIKV_PORT = "6379"
-$env:UPSTREAM_PROBES_ENABLED = "true"
-$env:UPSTREAM_ACTIONS_ENABLED = "true"
+$env:UPSTREAM_PROBES_ENABLED = "false"
+$env:UPSTREAM_ACTIONS_ENABLED = "false"
 $env:MUTATION_RATE_LIMIT_MAX = "30"
 $env:MUTATION_RATE_LIMIT_WINDOW_MS = "60000"
 npm run dev
@@ -174,6 +185,8 @@ npm run dev
 
 By default, upstream probes are disabled so the dashboard does not automatically touch the Java or mini-kv processes while they are being debugged.
 Upstream proxy actions are also disabled by default, so dashboard buttons that would call Java or mini-kv return a Node-side 403 until `UPSTREAM_ACTIONS_ENABLED=true`.
+Enable read-only probes only inside a separately reviewed integration window.
+Do not enable upstream actions as part of ordinary setup or evidence review.
 
 Optional upstream services:
 

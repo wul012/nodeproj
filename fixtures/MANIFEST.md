@@ -14,6 +14,10 @@ This manifest describes the frozen sibling-workspace evidence committed under
   file in the same version and update this manifest.
 - Prefer structured JSON parsing for JSON receipts; use snippet checks only for
   documents/source files that have no stable JSON schema.
+- Keep this tree inside the mechanical limits in
+  `docs/archive-retention-budget.json`; reproduce them with
+  `npm run archive:retention:census` and consult
+  `docs/archive-retention-index.md` before adding a large snapshot family.
 
 ## Summary
 

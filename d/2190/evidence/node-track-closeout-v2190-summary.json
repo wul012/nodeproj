@@ -1,0 +1,76 @@
+{
+  "version": "v2190",
+  "date": "2026-07-11",
+  "track": "node-production-excellence-e1-e10-closeout",
+  "scope": {
+    "goal": "Close the local Node track with reproducible E1-E10 gates and one complete waiver inventory.",
+    "nonGoals": [
+      "No product route, report chain, schema, fixture, or upstream contract change",
+      "No Java or mini-kv build, test, process, or repository write",
+      "No C1-C4 integration capstone execution",
+      "No production execution authority"
+    ],
+    "honestMaturity": "single-project validation + cross-project contract alignment"
+  },
+  "ratchets": {
+    "lint": { "errors": 0, "maxWarnings": 261 },
+    "coverageFloors": { "statements": 94, "branches": 86, "functions": 97, "lines": 94 },
+    "sourceSize": { "sourceFiles": 1234, "threshold": 800, "oversized": 0, "waivers": 0 },
+    "renderers": { "total": 245, "standardized": 242, "waived": 3, "nonWaived": 0 },
+    "governance": { "maxServices": 1125, "maxRoutes": 80 }
+  },
+  "security": {
+    "command": "node scripts/security-config-scan.mjs --json",
+    "configChecks": 18,
+    "waiverEntries": 5,
+    "acceptedSyntheticMatches": 6,
+    "unwaivedSignals": 0,
+    "nonemptyEnvironmentSecrets": 0
+  },
+  "archiveRetention": {
+    "command": "node scripts/archive-retention-census.mjs --json",
+    "aggregateLimitBytes": 83886080,
+    "fileCountLimit": 8000,
+    "versionDirectoryLimitBytes": 1048576,
+    "walkthroughFileLimitBytes": 65536,
+    "preArtifactFiles": 7012,
+    "preArtifactBytes": 65448540,
+    "finalFiles": 7017,
+    "finalBytes": 65537435,
+    "waivers": 0
+  },
+  "validation": {
+    "focusedCloseoutTests": "passed before final broad verification",
+    "typecheck": "passed before final broad verification",
+    "coverageActual": { "statements": 95.92, "branches": 87.59, "functions": 98.64, "lines": 95.88 },
+    "coverageWallSeconds": 2225.2,
+    "coverageMaxWorkers": 2,
+    "fullTestFiles": 550,
+    "fullTests": 1674,
+    "build": "passed",
+    "httpSmoke": "PID 27912 on port 4190: root 200, health ok, metrics upstream requests 0/0, release evidence ready, executionAllowed false; PID stopped and port released",
+    "browserSmoke": "Playwright MCP 1440x1000: title OrderOps, 118 buttons, one script, no horizontal overflow, Java and mini-kv cards disabled; only favicon.ico 404",
+    "nodeEvidence": "pending push"
+  },
+  "screenshot": {
+    "file": "d/2190/图片/node-track-closeout-v2190.png",
+    "width": 1440,
+    "height": 1000,
+    "bytes": 57770,
+    "sha256": "6247277a6ed6cdb8e2aa7e440b11ebb2113a3082e0d3e73df9ddf96443a19f59"
+  },
+  "waivers": {
+    "rendererCompositionOnly": 3,
+    "securityExactEntries": 5,
+    "securityExactMatches": 6,
+    "sourceSize": 0,
+    "archiveRetention": 0,
+    "coverageExclusionsBeyondSrcGlob": 0
+  },
+  "checkpoint": {
+    "n0ThroughN5Complete": true,
+    "e1ThroughE10ImplementationComplete": true,
+    "externalCloseoutReviewRequired": true,
+    "capstoneStarted": false
+  }
+}

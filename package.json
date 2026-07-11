@@ -14,7 +14,9 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "lint": "eslint src test",
+    "lint": "eslint src test --max-warnings 261",
+    "security:scan": "node scripts/security-config-scan.mjs",
+    "archive:retention:census": "node scripts/archive-retention-census.mjs",
     "renderer:census": "node scripts/renderer-census.mjs --max-unstandardized=3 --max-waived=3 --max-non-waived=0",
     "source:size:census": "node scripts/source-size-census.mjs"
   },

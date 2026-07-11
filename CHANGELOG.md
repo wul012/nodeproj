@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2190 - 2026-07-11
+
+- Closed the local Node production-excellence track against E1-E10 without
+  adding product behavior or execution authority. The closeout raises coverage
+  floors to 94/86/97/94, caps ESLint at 261 warnings, adds exact-waiver
+  credential/config scanning, and enforces archive aggregate, count,
+  per-version, walkthrough, fixture, and plan budgets in CI. End-state docs now
+  state the honest `single-project validation + cross-project contract
+  alignment` maturity and keep C1-C4 as a separate post-review capstone.
+
 ## v2189 - 2026-07-11
 
 - Closed the N5 source-size implementation by splitting the final dashboard,

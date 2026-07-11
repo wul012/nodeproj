@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "waivers": [
+    {
+      "path": "test/auditStoreEnvConfigProfile.test.ts",
+      "type": "credential-url",
+      "matchSha256": "1d1629fe6584cca7bdb8fdf5dda8aad7e7145f4d37688809e25e071deafd2b74",
+      "expectedMatches": 1,
+      "reason": "Synthetic user/secret URL verifies that runtime evidence redacts credential-bearing audit-store configuration."
+    },
+    {
+      "path": "test/auditStoreEnvConfigProfile.test.ts",
+      "type": "credential-url",
+      "matchSha256": "fdc062feeff8b9fbcebf3586c4301727294e483f1bf39c70573023b770794764",
+      "expectedMatches": 1,
+      "reason": "Synthetic redacted/redacted URL is the expected sanitized output asserted by the redaction test."
+    },
+    {
+      "path": "test/config.test.ts",
+      "type": "credential-url",
+      "matchSha256": "1d1629fe6584cca7bdb8fdf5dda8aad7e7145f4d37688809e25e071deafd2b74",
+      "expectedMatches": 2,
+      "reason": "Two synthetic user/secret values exercise config parsing and redacted public-config projection."
+    },
+    {
+      "path": "test/managedAuditAdapterDisabledShell.test.ts",
+      "type": "credential-url",
+      "matchSha256": "1d1629fe6584cca7bdb8fdf5dda8aad7e7145f4d37688809e25e071deafd2b74",
+      "expectedMatches": 1,
+      "reason": "Synthetic URL proves the disabled managed-audit shell reports only a redacted handle."
+    },
+    {
+      "path": "代码讲解记录/101-audit-store-env-config-profile-v97.md",
+      "type": "credential-url",
+      "matchSha256": "fdc062feeff8b9fbcebf3586c4301727294e483f1bf39c70573023b770794764",
+      "expectedMatches": 1,
+      "reason": "Historical walkthrough records the intentionally redacted/redacted test output; archive paths are frozen."
+    }
+  ]
+}

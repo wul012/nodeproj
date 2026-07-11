@@ -12,6 +12,8 @@ describe("production excellence documentation", () => {
     expect(document).toContain("UPSTREAM_ACTIONS_ENABLED");
     expect(document).toContain("executionAllowed: false");
     expect(document).toContain("readyForProductionOperations: false");
+    expect(document).toContain("single-project validation + cross-project contract alignment");
+    expect(document).toContain("C1-C4 not executed");
     expect(document).toContain("Java and mini-kv can continue in parallel");
   });
 
@@ -38,6 +40,31 @@ describe("production excellence documentation", () => {
     expect(document).toContain("v82-v274");
     expect(document).toContain("v91-v610");
     expect(document).toContain("historicalEvidenceResolver.ts");
+    expect(document).toContain("npm run archive:retention:census");
+  });
+
+  it("keeps the public entry docs honest about closeout and capstone state", () => {
+    const readme = readFileSync("README.md", "utf8");
+    const startHere = readFileSync("START_HERE.md", "utf8");
+
+    for (const document of [readme, startHere]) {
+      expect(document).toContain("single-project validation + cross-project contract alignment");
+      expect(document).toContain("C1-C4");
+      expect(document).toContain("not authorized for production execution");
+    }
+    expect(readme).toContain('$env:UPSTREAM_PROBES_ENABLED = "false"');
+    expect(readme).toContain('$env:UPSTREAM_ACTIONS_ENABLED = "false"');
+    expect(startHere).toContain("Node v2190 production-excellence track closeout");
+  });
+
+  it("records the N5 external PASS before Phase 3 closeout", () => {
+    const evidence = readFileSync("docs/plans/node-n5-close-evidence.md", "utf8");
+    const playbook = readFileSync("docs/plans/production-excellence-node-playbook.md", "utf8");
+
+    expect(evidence).toContain("PASS, no corrections");
+    expect(evidence).toContain("29131852707");
+    expect(playbook).toContain("external N5 review PASS");
+    expect(playbook).toContain("Track closeout");
   });
 
   it("wires changelog updates into the version completion rule", () => {

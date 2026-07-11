@@ -7,12 +7,35 @@ it is not authorized for production execution.
 ## Current Classification
 
 - Runtime classification: read-only evidence/control-plane rehearsal.
+- Maturity label: single-project validation + cross-project contract alignment.
+- Node track status: N0-N5 complete; v2190 E1-E10 closeout awaits external PASS.
+- Integration capstone: C1-C4 not executed.
 - Production execution: not authorized.
 - Upstream service startup: not authorized by default.
 - Java / mini-kv write authority: not delegated through Node.
 - Managed audit authority: not production-ready.
 - Canonical version identifier: git tags such as `v2117`; `package.json`
   remains `0.1.0` until a packaging/release workflow is created.
+
+## Local Production-Excellence Gates
+
+These gates protect the Node repository itself. Passing them does not grant
+runtime execution authority or prove live interoperability with sibling
+services.
+
+| Gate | Mechanical check | Closeout floor or result |
+| --- | --- | --- |
+| Static analysis | `npm run lint` | 0 errors; at most 261 warnings |
+| Coverage | `npm run test:coverage` | statements 94%, branches 86%, functions 97%, lines 94% |
+| Security/config | `npm run security:scan` | no unwaived credential signal; 18 safe-config checks |
+| Archive retention | `npm run archive:retention:census` | aggregate, count, version, walkthrough, and bounded-root budgets |
+| Renderer consolidation | `npm run renderer:census` | 242 standardized, 3 AST-validated composition-only waivers, 0 non-waived |
+| Source size | `npm run source:size:census` | no `src/` file over 800 lines; no waivers |
+
+The security scan's accepted matches are synthetic redaction fixtures pinned
+by path, type, digest, and count in `docs/security-scan-waivers.json`; they are
+not production secrets. Archive ownership and limits are documented in
+`docs/archive-retention-index.md`.
 
 ## Default-Off Runtime Gates
 
@@ -57,6 +80,7 @@ The following are intentionally not production-ready:
 - Deployment, Docker push, kubectl, scp, or artifact upload to production
   infrastructure.
 - Treating frozen sibling fixtures as live upstream state.
+- Claiming live joint execution before the C1-C4 capstone passes.
 
 ## Requirements Before Real Production Execution
 

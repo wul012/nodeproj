@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "versionedRoots": ["a", "b", "c", "d", "e", "f"],
+  "walkthroughRoots": [
+    "代码讲解记录",
+    "代码讲解记录_生产雏形阶段",
+    "代码讲解记录_生产雏形阶段2",
+    "代码讲解记录_生产雏形阶段3"
+  ],
+  "boundedRoots": [
+    {
+      "path": "fixtures",
+      "purpose": "load-bearing historical sibling evidence",
+      "maxBytes": 10485760,
+      "maxFileBytes": 524288
+    },
+    {
+      "path": "docs/plans",
+      "purpose": "active and historical production plans",
+      "maxBytes": 3145728,
+      "maxFileBytes": 131072
+    },
+    {
+      "path": "docs/plans2",
+      "purpose": "cross-project plan archive, volume 2",
+      "maxBytes": 1048576,
+      "maxFileBytes": 131072
+    },
+    {
+      "path": "docs/plans3",
+      "purpose": "cross-project plan archive, volume 3",
+      "maxBytes": 2097152,
+      "maxFileBytes": 131072
+    }
+  ],
+  "limits": {
+    "maxAggregateBytes": 83886080,
+    "maxArchiveFileCount": 8000,
+    "maxVersionDirectoryBytes": 1048576,
+    "maxWalkthroughFileBytes": 65536
+  }
+}

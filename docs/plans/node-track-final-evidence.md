@@ -1,0 +1,120 @@
+# Node production-excellence track final evidence
+
+## Decision state
+
+- Candidate version: `v2190`.
+- Node milestones N0-N5: complete; N1 and N5 external reviews passed.
+- E1-E10 implementation and local broad verification: complete.
+- Remaining closeout action: commit/tag/push and green final Node Evidence.
+- External track-closeout decision: pending.
+- Integration capstone C1-C4: not started and not authorized before external
+  closeout PASS.
+- Honest maturity label: **single-project validation + cross-project contract alignment**.
+
+This document is the one-place acceptance input required by the final program.
+It does not claim the cross-project program is complete and does not grant
+production execution authority.
+
+## E1-E10 gate table
+
+| Gate | Implementation | Mechanical check | Evidence/result |
+| --- | --- | --- | --- |
+| E1 build and CI | Node 22 workflow with dependency install, typecheck, gates, coverage, build, safe smoke, and exact server cleanup | `.github/workflows/node-evidence.yml`; `npm run build` | local build/smoke green; v2189 run 29131852707 green; v2190 run required after push |
+| E2 static analysis | ESLint flat config and a non-growing warning ceiling | `npm run lint` | 0 errors; maximum 261 warnings, below N0's 263 |
+| E3 coverage | V8 all-source coverage with shrink-only floors | `npm run test:coverage` | 550 files / 1,674 tests; actual statements 95.92%, branches 87.59%, functions 98.64%, lines 95.88%; floors 94/86/97/94 |
+| E4 security and configuration | repository secret/config scanner, fail-closed production template, threat model, exact synthetic-fixture waivers | `npm run security:scan`; `test/securityConfigScan.test.ts` | 18/18 safe-config checks; every accepted signal pinned by digest and count |
+| E5 observability | UUID request IDs, response correlation header/body, structured audit timing, `/health`, and upstream metrics | `test/app.test.ts`, `test/auditLog.test.ts`, `test/upstreamMetrics.test.ts`; CI smoke | health and metrics remain read-only with probes/actions false |
+| E6 error handling and lifecycle | typed upstream errors, HTTP abort timeout, TCP socket timeout, SIGINT/SIGTERM graceful Fastify close | focused client/app tests; `src/server.ts`; full suite | explicit timeout and shutdown paths are part of the tested runtime |
+| E7 documentation honesty | README, START_HERE, boundaries, security, and final evidence share the same maturity statement | `test/productionExcellenceDocs.test.ts`; `test/nodeTrackFinalEvidence.test.ts` | C1-C4 and production execution remain explicitly blocked |
+| E8 release discipline | git tags are canonical, package version policy remains explicit, changelog is mandatory | `CHANGELOG.md`; `test/productionExcellenceDocs.test.ts` | v2190 tag/push is the final local closeout action |
+| E9 code health | renderer builder census, AST composition-only waiver validation, governance-growth ratchet, and 800-line source ceiling | `npm run renderer:census`; `npm run source:size:census`; focused ratchet tests | 245 total / 242 standardized / 3 waived / 0 non-waived; 1,234 source files / 0 oversized |
+| E10 archive retention | versioned-root index, machine-readable limits, filesystem census, negative tests, CI gate | `npm run archive:retention:census`; `test/archiveRetentionCensus.test.ts` | final 7,017 files / 65,537,435 bytes; no violations or waivers |
+
+## Complete waiver inventory
+
+No waiver outside this section is accepted by the Node closeout.
+
+### Renderer composition-only waivers: 3
+
+The canonical manifest is
+`docs/plans/renderer-consolidation-waivers.json`; the census parses each file's
+TypeScript AST and rejects formatting ownership or a stale child-call list.
+
+1. `controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalProfileSectionRenderer.ts`
+2. `controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyProfileSectionRenderer.ts`
+3. `controlledReadOnlyShardPreviewSignedApprovalArtifactDraftTextPackageProfileSectionRenderer.ts`
+
+Each file only concatenates already-standardized child section arrays. Moving
+it into the generic builder would add indirection without absorbing any
+Markdown token, heading, row, spacing, or fallback rule.
+
+### Security scan waivers: 5 entries, 6 matches
+
+`docs/security-scan-waivers.json` pins five path/type/digest entries covering
+six occurrences. They are synthetic credential-bearing URL inputs and their
+redacted expected output in three tests and one frozen historical walkthrough.
+The scanner rejects an unknown match, changed digest, excess count, missing
+match, or stale entry; the manifest cannot waive a generic path or signal type.
+
+### Zero-waiver gates
+
+- Source size: 0 waivers and an empty remediation baseline.
+- Archive retention: 0 waivers; every configured budget is hard.
+- Coverage: 0 exclusions beyond the committed `src/**/*.ts` scope.
+- Lint: 0 errors; the warning ceiling is a ratchet, not a waiver manifest.
+
+## End-state census
+
+| Census | Reproduction | Closeout state |
+| --- | --- | --- |
+| Renderers | `npm run renderer:census -- --json` | 245 total, 242 standardized, 3 AST waivers, 0 non-waived |
+| Source size | `node scripts/source-size-census.mjs --json` | 1,234 files, threshold 800, 0 oversized, 0 remediation entries |
+| Governance growth | focused `governanceGrowthRatchet.test.ts` | services <=1,125; routes <=80 |
+| Security/config | `node scripts/security-config-scan.mjs --json` | 18/18 config checks, 6/6 exact synthetic matches accepted, 0 unwaived |
+| Archive retention | `node scripts/archive-retention-census.mjs --json` | 7,017 files / 65,537,435 bytes; largest version `d/341` at 785,057 bytes; no violation |
+
+## CI and reproducible commands
+
+- N5 baseline: [Node Evidence 29131852707](https://github.com/wul012/nodeproj/actions/runs/29131852707), green in 14m05s at tag `v2189`.
+- v2190 executable-gate run: added after the candidate push.
+- v2190 tagged run: must be green before requesting external closeout review;
+  its immutable URL is reported in the closeout response because a commit
+  cannot contain the URL of the workflow run that its own push creates.
+
+```powershell
+npm run typecheck
+npm run lint
+npm run security:scan
+npm run archive:retention:census
+npm run renderer:census
+npm run source:size:census
+npm run test:coverage -- --maxWorkers=2
+npm run build
+```
+
+The full suite requirement is not replaced by focused tests. Focused negative
+tests prove that new gates fail; the local coverage run executed all 550 test
+files and 1,674 tests with at most two workers in 2,225.2 seconds, covering all
+source files. Safe HTTP and browser smoke run only against a controlled Node
+process with probes/actions false, and that exact process is stopped afterward.
+
+The controlled local smoke used PID 27912 on port 4190. Root and health
+returned 200/ok, metrics reported zero Java and mini-kv requests, and the
+release-evidence gate remained `executionAllowed=false`. Playwright at
+1440x1000 found 118 buttons, one script, both upstream cards disabled, and no
+horizontal overflow. The only console error was the existing missing
+`favicon.ico`; the browser closed, PID 27912 stopped, and port 4190 was free.
+
+## Remaining boundary
+
+Passing E1-E10 means the Node repository has a mechanically enforced local
+quality baseline. It does not mean Java or mini-kv were started, current live
+responses were consumed, unauthenticated writes were rejected across the real
+three-process system, or one readiness command aggregated fresh C1-C3 results.
+Those are precisely the separate C1-C4 capstone. Until that capstone passes,
+README and boundary documents must retain the current maturity label and every
+real write path remains unauthorized.
+
+Java and mini-kv are recommended parallel for this closeout: no fresh sibling
+evidence is required and Node is not their pre-approval blocker. This version
+performs no sibling build, test, start, stop, or repository write.

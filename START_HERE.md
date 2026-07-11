@@ -67,11 +67,19 @@ By default, upstream probes and upstream actions are disabled. This is intention
 
 ## Latest version summary
 
-Recent roadmap state: **Node v242 historical evidence fallback for GitHub CI**.
+Current roadmap state: **Node v2190 production-excellence track closeout**.
 
-The latest docs update closes the old v237 plan and starts the next v242-derived roadmap. The next stage is centered on command package verification, upstream echo verification, and sandbox connection precheck while still keeping real managed-audit connections closed.
+Milestones N0-N5 are complete and externally reviewed through the N5 checkpoint.
+The closeout version mechanically audits E1-E10, raises coverage floors, caps
+lint warnings, scans committed configuration for credential signals, and
+places the versioned archives under a reproducible retention budget. It does
+not add product behavior or open an upstream window.
 
-In simple terms: the project is moving from “we can prepare a safe disabled dry-run package” toward “we can verify that package across Node, Java, and mini-kv without opening real production connections.”
+**Maturity: single-project validation + cross-project contract alignment.**
+The C1-C4 live integration capstone has not been executed. Node is still a
+read-only rehearsal/control-plane prototype and is not authorized for production execution.
+After v2190 receives external closeout PASS, the capstone becomes a separate
+reviewed series.
 
 ## Where to look next
 

@@ -2,9 +2,9 @@
 
 ## Review status
 
-- Implementation checkpoint: `v2189` candidate.
-- External N5 decision: pending.
-- Phase 3: not started; the checkpoint rule blocks it until external review.
+- Implementation checkpoint: `v2189`, commit `325bbe9e`.
+- External N5 decision: `PASS, no corrections` (2026-07-11).
+- Phase 3: unblocked and owned by the separate v2190 closeout roadmap.
 - Scope: internal module ownership and permanent source-size ratchet only.
 
 ## Reproducible acceptance commands
@@ -56,6 +56,6 @@ The canonical census result is 1234 files scanned, threshold 800, zero oversized
 - No route, response schema, fixture, sibling contract, production authority, or upstream action setting changed.
 - Java and mini-kv are recommended parallel. No fresh sibling evidence is required, and Node is not their pre-approval blocker.
 
-## Pending reviewer inputs
+## Reviewer decision evidence
 
-The final local eight-shard suite passed 546 files and 1662 tests; aggregate Vitest duration was 3251.70 seconds. The walkthrough quality gate passed 2 files and 8 tests, and the v2189 walkthrough contains 3283 Chinese characters across 10 H2 sections. Commit/tag/push and the replacement Node Evidence run remain pending. Full local details and the interrupted-wrapper deviation are recorded in `d/2189/evidence/n5-source-size-closure-v2189-summary.json`. External review should reproduce the census and inspect the empty baseline before granting N5 PASS.
+The final local eight-shard suite passed 546 files and 1662 tests; aggregate Vitest duration was 3251.70 seconds. The walkthrough quality gate passed 2 files and 8 tests, and the v2189 walkthrough contains 3283 Chinese characters across 10 H2 sections. Tag `v2189` points to commit `325bbe9e`; GitHub Actions Node Evidence run [29131852707](https://github.com/wul012/nodeproj/actions/runs/29131852707) passed in 14m05s. Full local details and the interrupted-wrapper deviation are recorded in `d/2189/evidence/n5-source-size-closure-v2189-summary.json`. Claude reproduced the empty census and granted N5 PASS with no corrections on 2026-07-11.
