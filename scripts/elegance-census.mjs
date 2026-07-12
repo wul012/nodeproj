@@ -197,7 +197,7 @@ function addNameViolation(records, input) {
   records.set(key, { ...input, length, key });
 }
 
-function structuralFamily(file, stem) {
+export function structuralFamily(file, stem) {
   const words = stem.match(/[A-Z]+(?=[A-Z][a-z]|$)|[A-Z]?[a-z]+|\d+/g) ?? [stem];
   const role = [...words].reverse().find((word) => !/^\d+$/.test(word)) ?? stem;
   return `${normalizePath(path.dirname(file))}:${role.toLowerCase()}`;
@@ -271,7 +271,7 @@ function validateBaseline(baseline, errors) {
   }
 }
 
-async function listTypeScriptFiles(root) {
+export async function listTypeScriptFiles(root) {
   if (!existsSync(root)) return [];
   const files = [];
   for (const entry of await readdir(root, { withFileTypes: true })) {

@@ -85,6 +85,9 @@ jobs:
       - name: Elegance ratchet
         run: npm run elegance:census
 
+      - name: Family logic census
+        run: npm run elegance:families
+
       - name: Test
         run: npm run test:coverage
 

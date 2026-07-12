@@ -15,7 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
-| Active maintenance track | `docs/plans/elegance-hotspot-program-node.md`; at most 5 versions and subordinate to Java program-close |
+| Active maintenance track | `docs/plans/elegance-round2-program-node.md`; at most 3 versions and subordinate to Java program-close |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule
@@ -169,6 +169,7 @@ Engineering quality rules:
 - Progress-table rows: at most ~3 lines per milestone/batch; details live in `d/<version>/evidence/` files, the row keeps a pointer. Never grow a row into a paragraph wall (the N1 row is the cautionary tale).
 - Lesson promotion: when the same deviation or workaround is recorded twice, promote it into this file as a rule instead of recording it a third time.
 - CI-only failures are never debugged by pushing (recurred v2171–73, v2176–77, v2180–82; promoted 2026-07-10): when a parity/test failure reproduces only in CI, reproduce it locally first (fake absolute paths, CRLF, missing sibling repos, fresh clone) or bundle diagnostics into ONE push; one fix = one version, and a red run on master from an iteration attempt is a closeout violation. For renderer-migration parity specifically: before pushing a migration batch, scan the migrated renderers' outputs for ANY machine-dependent token (absolute path, timestamp, byte count, sha256/digest in any phrasing) and extend `test/rendererMigrationParityUtils.ts` proactively in the same commit — do not wait for CI to reveal the next digest phrasing one red run at a time.
+- Any version that touches a parity utility, parity oracle, or byte-frozen response surface must complete the local six-surface mixed/LF/CRLF pass before push. A portability-class CI red is a closeout violation, not a discovery mechanism.
 - Method kernel: apply the 12-rule kernel and task-brief skeleton from `D:\C\四项目理解统筹\模型使用手册\00-通用方法内核.md` (read once per session; also mirrored in the global `~/.codex/AGENTS.md`).
 
 ## Elegance Gates (promoted 2026-07-11, program-end review)

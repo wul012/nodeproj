@@ -11,6 +11,26 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2199 - 2026-07-12
+
+- Started the bounded second elegance round with a reproducible AST family-logic
+  census. It ranks all 52 shrink-only structural families while treating the
+  already standardized renderer wrappers as data rather than formatting logic,
+  records the top-five feasibility audit, and selects the internal promotion
+  renderer and readiness-summary families for two byte-frozen engine versions.
+
+## v2198 - 2026-07-12
+
+- Closed the five-version first elegance track with final shrink-only census,
+  deliberate-retention reasons, local and remote gate evidence, and an external
+  review packet. Claude subsequently reviewed v2194-v2198 and issued PASS.
+
+## v2197 - 2026-07-12
+
+- Replaced three copied raw archive loaders with `archiveEvidenceEngine`, moved
+  the pure engine outside the capped services directory, and preserved six JSON
+  and Markdown responses across mixed, LF, and CRLF checkouts.
+
 ## v2196 - 2026-07-12
 
 - Repaired the v2195 parity oracle after CI proved that raw historical archive

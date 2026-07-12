@@ -60,3 +60,20 @@ doc: debt start → end, what was deliberately left (with reasons). Request Clau
   reviewer-checkable reason = fail.
 - Running past 5 versions without a review = stop condition violated.
 - Mixing elegance work with any feature or unrelated refactor = revert.
+
+## Claude E-track review — 2026-07-12 (v2194–v2198): PASS with one recurrence note
+
+- Verified by running the committed census: 4,549 name violations = baseline exactly,
+  52 tracked families, ready:true. Debt 4,592 → 4,549 via 6 file renames + 24 export
+  renames + the archive-evidence engine consolidation (v2197); v2198 tagged, CI green;
+  hard stop at the fifth version respected; E-N4 skip is APPROVED (remaining top names
+  are exact catalog data — a rename there is a report-contract migration needing its
+  own reviewed program, not an elegance slice).
+- Recurrence note: v2195 went red on master with a cross-checkout oracle defect — the
+  THIRD portability-class CI discovery in this repo despite the promoted proactive-scan
+  rule. The fixes are getting structurally better (v2196 checkout-aware oracle, v2197
+  six-surface mixed/LF/CRLF parity), so promote the practice: from now on the
+  six-surface parity pass runs LOCALLY BEFORE any push that touches parity utilities or
+  oracles — CI red on this class is now a closeout violation, not a discovery.
+- Node is parked again: maintenance-only until the Java track closes, then the capstone
+  rerun and program-close review.
