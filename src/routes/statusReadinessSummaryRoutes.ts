@@ -17,9 +17,9 @@ import {
   renderProductionReadinessSummaryV4Markdown,
 } from "../services/productionReadinessSummaryV4.js";
 import {
-  loadProductionReadinessSummaryV5,
-  renderProductionReadinessSummaryV5Markdown,
-} from "../services/productionReadinessSummaryV5.js";
+  loadV5Case,
+  renderV5Case,
+} from "../services/productionReadinessCaseV5.js";
 import {
   loadProductionReadinessSummaryV6,
   renderProductionReadinessSummaryV6Markdown,
@@ -85,12 +85,12 @@ export function registerStatusReadinessSummaryRoutes(
     ),
     statusJsonMarkdownRoute(
       "/api/v1/production/readiness-summary-v5",
-      () => loadProductionReadinessSummaryV5({
+      () => loadV5Case({
         config: deps.config,
         auditLog: deps.auditLog,
         auditStoreRuntime: deps.auditStoreRuntime,
       }),
-      renderProductionReadinessSummaryV5Markdown,
+      renderV5Case,
     ),
     statusJsonMarkdownRoute(
       "/api/v1/production/readiness-summary-v6",

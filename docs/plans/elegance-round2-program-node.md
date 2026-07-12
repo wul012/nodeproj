@@ -37,7 +37,7 @@ closeout violation, not a discovery.
 
 ## Cross-project progress
 
-- Java: v1862 is the latest committed/tagged boundary; a separate session has an uncommitted v1863 extraction slice. Java is recommended parallel and Node is not its pre-approval blocker.
+- Java: v1863/J73 is committed, tagged, clean, and CI-green, but direct root remains 174 against the 104 final target and no final-evidence/review artifact exists. Java is recommended parallel and Node is not its pre-approval blocker.
 - mini-kv: v1661 is the latest committed/tagged boundary; its own Round 2 plan is uncommitted. mini-kv is recommended parallel and shares no files with this Node track.
 - Capstone: not triggered. If Java reaches program-final while this track is active, Node pauses at the next version boundary and follows the capstone rule above.
 
@@ -46,8 +46,11 @@ closeout violation, not a discovery.
 | Milestone | Version | State | Evidence |
 |---|---|---|---|
 | E2-N1 family triage | v2199 | complete; commit/tag/push and Node Evidence CI green | commit `8dda347f`; run `29189927574`; 52 families ranked; full 1709/1709; top five audited |
-| E2-N2 promotion renderer engine | v2200 | local final gates and six-surface parity complete; commit/tag/push pending | stable 15-renderer entry; mixed/LF/CRLF parity; full 1712/1712; family 8 -> 6; names 4549 -> 4538 |
-| E2-N3 readiness summary engine | v2201 | selected; not started | keep V6-V13 module paths, move repeated Markdown behavior, replace internal V5 module; family 15 -> 14 |
+| E2-N2 promotion renderer engine | v2200 | complete; commit/tag/push and remote CI green | commit `1c57de95`; run `29191299368`; mixed/LF/CRLF parity; full 1712/1712; family 8 -> 6 |
+| E2-N3 readiness summary engine | v2201 | local final gates and six-surface parity complete; commit/tag/push/CI pending | V6-V13 paths stable; 18-body mixed/LF/CRLF gate; full 1716/1716; family 15 -> 14; formatting 1185 -> 511 |
+
+Round 2 has reached its three-version hard cap. After v2201 is pushed and CI is green,
+no fourth family is authorized; the next action is external review of v2199-v2201.
 
 ## Fail conditions
 

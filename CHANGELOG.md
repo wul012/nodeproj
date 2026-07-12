@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2201 - 2026-07-12
+
+- Consolidated readiness-summary V5-V13 Markdown grammar into a shared engine.
+  V6-V13 retain their direct module paths as typed data wrappers; V5 moves to a
+  short route-only case API. The summary family shrank from 15 to 14, local
+  formatting logic fell from 1,185 to 511 lines, and all 18 JSON/Markdown route
+  bodies remain byte-identical to v2200.
+
 ## v2200 - 2026-07-12
 
 - Consolidated the promotion archive and handoff Markdown family behind a

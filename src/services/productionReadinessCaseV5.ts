@@ -13,14 +13,21 @@ import {
   loadProductionReadinessSummaryV4,
   type ProductionReadinessSummaryV4,
 } from "./productionReadinessSummaryV4.js";
+import {
+  renderReadinessDocument,
+  renderReadinessEntries,
+  renderReadinessItems,
+  renderReadinessList,
+  renderReadinessMessages,
+} from "./readinessMarkdownEngine.js";
 
-export type ProductionReadinessV5CategoryId =
+type ProductionReadinessV5CategoryId =
   | "upstream-boundary-evidence"
   | "auth-enforcement"
   | "audit-retention"
   | "execution-safety";
 
-export interface ProductionReadinessSummaryV5 {
+interface ProductionReadinessSummaryV5 {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -77,7 +84,7 @@ export interface ProductionReadinessSummaryV5 {
   nextActions: string[];
 }
 
-export interface AuthEnforcementV5Summary {
+interface AuthEnforcementV5Summary {
   profileVersion: string;
   authMode: "disabled" | "rehearsal";
   enforcementEnabled: boolean;
@@ -87,7 +94,7 @@ export interface AuthEnforcementV5Summary {
   productionBlockerCodes: string[];
 }
 
-export interface AuditRetentionIntegrityV5Summary {
+interface AuditRetentionIntegrityV5Summary {
   evidenceVersion: "audit-retention-integrity-evidence.v1";
   runtimeStoreKind: "memory" | "file";
   retentionDaysConfigured: boolean;
@@ -100,7 +107,7 @@ export interface AuditRetentionIntegrityV5Summary {
   productionBlockerCodes: string[];
 }
 
-export interface ProductionReadinessV5Category {
+interface ProductionReadinessV5Category {
   id: ProductionReadinessV5CategoryId;
   title: string;
   ready: boolean;
@@ -113,7 +120,7 @@ export interface ProductionReadinessV5Category {
   note: string;
 }
 
-export interface ProductionReadinessV5Message {
+interface ProductionReadinessV5Message {
   category: ProductionReadinessV5CategoryId;
   code: string;
   severity: "blocker" | "warning" | "recommendation";
@@ -130,13 +137,13 @@ const ENDPOINTS = Object.freeze({
   auditEventsJson: "/api/v1/audit/events?limit=50",
 });
 
-export async function loadProductionReadinessSummaryV5(input: {
+export async function loadV5Case(input: {
   config: AppConfig;
   auditLog: AuditLog;
   auditStoreRuntime: AuditStoreRuntimeDescription;
 }): Promise<ProductionReadinessSummaryV5> {
   const previousSummary = await loadProductionReadinessSummaryV4(input.config);
-  return createProductionReadinessSummaryV5({
+  return createV5Summary({
     config: input.config,
     previousSummary,
     authEnforcement: createAuthEnforcementRehearsalProfile(input.config),
@@ -148,7 +155,7 @@ export async function loadProductionReadinessSummaryV5(input: {
   });
 }
 
-export function createProductionReadinessSummaryV5(input: {
+function createV5Summary(input: {
   config: Pick<AppConfig, "upstreamActionsEnabled">;
   previousSummary: ProductionReadinessSummaryV4;
   authEnforcement: AuthEnforcementRehearsalProfile;
@@ -228,56 +235,46 @@ export function createProductionReadinessSummaryV5(input: {
   };
 }
 
-export function renderProductionReadinessSummaryV5Markdown(summary: ProductionReadinessSummaryV5): string {
-  return [
-    "# Production readiness summary v5",
-    "",
-    `- Service: ${summary.service}`,
-    `- Generated at: ${summary.generatedAt}`,
-    `- Summary version: ${summary.summaryVersion}`,
-    `- Maturity target: ${summary.maturityTarget}`,
-    `- Ready for production operations: ${summary.readyForProductionOperations}`,
-    `- Read only: ${summary.readOnly}`,
-    `- Execution allowed: ${summary.executionAllowed}`,
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(summary.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(summary.summary),
-    "",
-    "## Evidence",
-    "",
-    ...renderEntries(summary.evidence.previousSummary, "previousSummary"),
-    ...renderEntries(summary.evidence.authEnforcement, "authEnforcement"),
-    ...renderEntries(summary.evidence.auditRetentionIntegrity, "auditRetentionIntegrity"),
-    "",
-    "## Categories",
-    "",
-    ...summary.categories.flatMap(renderCategory),
-    "## Production Blockers",
-    "",
-    ...renderMessages(summary.productionBlockers, "No production readiness blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(summary.warnings, "No production readiness warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(summary.recommendations, "No production readiness recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(summary.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(summary.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+export function renderV5Case(summary: ProductionReadinessSummaryV5): string {
+  return renderReadinessDocument("Production readiness summary v5", [
+    ["Service", summary.service],
+    ["Generated at", summary.generatedAt],
+    ["Summary version", summary.summaryVersion],
+    ["Maturity target", summary.maturityTarget],
+    ["Ready for production operations", summary.readyForProductionOperations],
+    ["Read only", summary.readOnly],
+    ["Execution allowed", summary.executionAllowed],
+  ], [
+    ["Checks", renderReadinessEntries(summary.checks)],
+    ["Summary", renderReadinessEntries(summary.summary)],
+    ["Evidence", [
+      ...renderReadinessEntries(summary.evidence.previousSummary, "previousSummary"),
+      ...renderReadinessEntries(summary.evidence.authEnforcement, "authEnforcement"),
+      ...renderReadinessEntries(summary.evidence.auditRetentionIntegrity, "auditRetentionIntegrity"),
+    ]],
+    ["Categories", renderReadinessItems(summary.categories, (category) => [
+      ["Title", category.title],
+      ["Ready", category.ready],
+      ["Read only", category.readOnly],
+      ["Execution allowed", category.executionAllowed],
+      ["Blocker count", category.blockerCount],
+      ["Warning count", category.warningCount],
+      ["Recommendation count", category.recommendationCount],
+      ["Evidence endpoints", category.evidenceEndpoints.join(", ")],
+      ["Note", category.note],
+    ])],
+    ["Production Blockers", renderReadinessMessages(
+      summary.productionBlockers,
+      "No production readiness blockers.",
+    )],
+    ["Warnings", renderReadinessMessages(summary.warnings, "No production readiness warnings.")],
+    ["Recommendations", renderReadinessMessages(
+      summary.recommendations,
+      "No production readiness recommendations.",
+    )],
+    ["Evidence Endpoints", renderReadinessEntries(summary.evidenceEndpoints)],
+    ["Next Actions", renderReadinessList(summary.nextActions, "No next actions.")],
+  ]);
 }
 
 function summarizeAuthEnforcement(profile: AuthEnforcementRehearsalProfile): AuthEnforcementV5Summary {
@@ -444,47 +441,4 @@ function fromProfileMessage(
 
 function countMessages(messages: ProductionReadinessV5Message[], category: ProductionReadinessV5CategoryId): number {
   return messages.filter((message) => message.category === category).length;
-}
-
-function renderCategory(category: ProductionReadinessV5Category): string[] {
-  return [
-    `### ${category.id}`,
-    "",
-    `- Title: ${category.title}`,
-    `- Ready: ${category.ready}`,
-    `- Read only: ${category.readOnly}`,
-    `- Execution allowed: ${category.executionAllowed}`,
-    `- Blocker count: ${category.blockerCount}`,
-    `- Warning count: ${category.warningCount}`,
-    `- Recommendation count: ${category.recommendationCount}`,
-    `- Evidence endpoints: ${category.evidenceEndpoints.join(", ")}`,
-    `- Note: ${category.note}`,
-    "",
-  ];
-}
-
-function renderMessages(messages: ProductionReadinessV5Message[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
-
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.category}, ${message.source}): ${message.message}`);
-}
-
-function renderEntries(record: object, prefix?: string): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${prefix === undefined ? key : `${prefix}.${key}`}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

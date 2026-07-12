@@ -2,7 +2,7 @@
 
 Date: 2026-07-12
 Version: v2199 / E2-N1
-State: v2199 complete and remote CI green; v2200 local final gates and six-surface parity complete.
+State: v2199-v2200 complete and CI-green; v2201 local final gates and six-surface parity complete.
 
 ## Scanner design note
 
@@ -87,6 +87,15 @@ move V5 behind a short internal case API, and delete `productionReadinessSummary
 family 15 -> 14 while HTTP paths and all V5-V13 response bytes stay fixed. Oracle surface: JSON and
 Markdown for readiness-summary V5 through V13 under a fixed clock, across mixed/LF/CRLF.
 
+#### v2201 engine design note
+
+- Abstraction: `readinessMarkdownEngine` owns V6-V13 document skeleton, entries, categories, messages, lists, values, and separators.
+- Data boundary: V6-V13 keep their public paths and typed functions; each wrapper supplies title, optional status record, and category fields.
+- V5 boundary: `productionReadinessCaseV5` keeps creation policy behind short route-only exports and uses the same low-level grammar.
+- Compatibility: fixed-clock V5-V13 JSON plus Markdown raw bodies are frozen before migration; existing expectations never move.
+- Capacity: v2200's one-file service headroom funds one engine plus one V5 case while deleting the old V5 summary module.
+- Stop rule: summary family must shrink 15 -> 14 and name debt must shrink; any route, JSON, Markdown, fixture, or direct V6-V13 import drift reverts.
+
 ### Rejected: contract and packet families
 
 The 16 contracts cover unrelated identity, JWKS, audit, rollback, connection, and execution boundaries;
@@ -110,6 +119,16 @@ commit; failure to produce either shrink means that family version reverts inste
 - Mechanical shrink: renderer family 8 -> 6, service files 1,125 -> 1,124, long-name debt 4,549 -> 4,538.
 - Local byte gate: fixed clock, 15 route bodies, byte length plus SHA-256; the expectation was frozen on v2199 before source migration.
 - Final local gate state: mixed/LF/CRLF each passed engine plus 15-route byte parity; full Vitest passed 1,137 suites and 1,712 tests; typecheck, lint, security, build, docs, source-size, archive, elegance, family, and renderer gates passed.
+
+## v2201 execution checkpoint
+
+- Stable modules: V6-V13 retain their existing files and exported function names; each now supplies only title, status record, and category signal data.
+- Internal V5: `productionReadinessSummaryV5.ts` becomes `productionReadinessCaseV5.ts`; the route uses `loadV5Case` and `renderV5Case`, and no direct consumer existed.
+- Shared behavior: the 148-line engine owns standard V6-V13 sections plus low-level document, entries, items, messages, list, value, and connection-field grammar.
+- Mechanical shrink: summary family 15 -> 14, name debt 4,538 -> 4,537, formatting logic 1,185 -> 511; service files return 1,124 -> 1,125 without exceeding the original cap.
+- Local byte gate: fixed clock, V5-V13, JSON plus Markdown, 18 raw payload length/SHA-256 pairs frozen on v2200 before migration and unchanged after it.
+- Final local gate state: mixed/LF/CRLF each passed engine plus 18-route byte parity; full Vitest passed 1,141 suites and 1,716 tests; typecheck, lint, security, build, docs, source-size, archive, elegance, family, and renderer gates passed.
+- Hard stop: this is the second family version and third Round 2 version. After commit/tag/push and green final CI, request external review; do not select another family.
 
 ## Local verification
 

@@ -3,6 +3,7 @@ import type { AuditLog } from "./auditLog.js";
 import type { AuditStoreRuntimeDescription } from "./auditStoreFactory.js";
 import { createJwksVerifierFixtureRehearsalProfile } from "./jwksVerifierFixtureRehearsal.js";
 import { createManagedAuditAdapterComplianceProfile } from "./managedAuditAdapterCompliance.js";
+import { readinessConnectionFields, renderReadinessReport } from "./readinessMarkdownEngine.js";
 import { loadProductionReadinessSummaryV7 } from "./productionReadinessSummaryV7.js";
 
 export interface ProductionReadinessSummaryV8 {
@@ -180,56 +181,15 @@ export async function loadProductionReadinessSummaryV8(input: {
 }
 
 export function renderProductionReadinessSummaryV8Markdown(summary: ProductionReadinessSummaryV8): string {
-  return [
-    "# Production readiness summary v8",
-    "",
-    `- Service: ${summary.service}`,
-    `- Generated at: ${summary.generatedAt}`,
-    `- Summary version: ${summary.summaryVersion}`,
-    `- Ready for production operations: ${summary.readyForProductionOperations}`,
-    `- Read only: ${summary.readOnly}`,
-    `- Execution allowed: ${summary.executionAllowed}`,
-    "",
-    "## Stage",
-    "",
-    ...renderEntries(summary.stage),
-    "",
-    "## Rehearsal Status",
-    "",
-    ...renderEntries(summary.rehearsalStatus),
-    "",
-    "## Categories",
-    "",
-    ...summary.categories.flatMap(renderCategory),
-    "## Checks",
-    "",
-    ...renderEntries(summary.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(summary.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(summary.productionBlockers, "No production blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(summary.warnings, "No warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(summary.recommendations, "No recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(summary.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(summary.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderReadinessReport({
+    title: "Production readiness summary v8",
+    report: summary,
+    status: ["Rehearsal Status", summary.rehearsalStatus],
+    categoryFields: (category) => readinessConnectionFields(
+      category,
+      ["Rehearsal passes", category.rehearsalPasses],
+    ),
+  });
 }
 
 function createCategories(checks: ProductionReadinessSummaryV8["checks"]): ProductionReadinessV8Category[] {
@@ -340,43 +300,4 @@ function addMessage(
   if (!condition) {
     messages.push({ code, severity: "blocker", source, message });
   }
-}
-
-function renderCategory(category: ProductionReadinessV8Category): string[] {
-  return [
-    `### ${category.id}`,
-    "",
-    `- Rehearsal passes: ${category.rehearsalPasses}`,
-    `- Production connected: ${category.productionConnected}`,
-    `- Status: ${category.status}`,
-    `- Evidence: ${category.evidence}`,
-    `- Note: ${category.note}`,
-    "",
-  ];
-}
-
-function renderMessages(messages: ProductionReadinessV8Message[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
-
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.source}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }

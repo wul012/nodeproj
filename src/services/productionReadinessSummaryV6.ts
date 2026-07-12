@@ -3,6 +3,7 @@ import type { AuditLog } from "./auditLog.js";
 import type { AuditStoreRuntimeDescription } from "./auditStoreFactory.js";
 import { createDeploymentEnvironmentReadinessGate } from "./deploymentEnvironmentReadiness.js";
 import { createManagedAuditReadinessSummary } from "./managedAuditReadinessSummary.js";
+import { renderReadinessReport } from "./readinessMarkdownEngine.js";
 import { createVerifiedIdentityAuditBindingProfile } from "./verifiedIdentityAuditBinding.js";
 
 export interface ProductionReadinessSummaryV6 {
@@ -146,52 +147,15 @@ export function loadProductionReadinessSummaryV6(input: {
 }
 
 export function renderProductionReadinessSummaryV6Markdown(summary: ProductionReadinessSummaryV6): string {
-  return [
-    "# Production readiness summary v6",
-    "",
-    `- Service: ${summary.service}`,
-    `- Generated at: ${summary.generatedAt}`,
-    `- Summary version: ${summary.summaryVersion}`,
-    `- Ready for production operations: ${summary.readyForProductionOperations}`,
-    `- Read only: ${summary.readOnly}`,
-    `- Execution allowed: ${summary.executionAllowed}`,
-    "",
-    "## Stage",
-    "",
-    ...renderEntries(summary.stage),
-    "",
-    "## Categories",
-    "",
-    ...summary.categories.flatMap(renderCategory),
-    "## Checks",
-    "",
-    ...renderEntries(summary.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(summary.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(summary.productionBlockers, "No production blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(summary.warnings, "No warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(summary.recommendations, "No recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(summary.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(summary.nextActions, "No next actions."),
-    "",
-  ].join("\n");
+  return renderReadinessReport({
+    title: "Production readiness summary v6",
+    report: summary,
+    categoryFields: (category) => [
+      ["Status", category.status],
+      ["Evidence", category.evidence],
+      ["Note", category.note],
+    ],
+  });
 }
 
 function createCategories(checks: ProductionReadinessSummaryV6["checks"]): ProductionReadinessCategory[] {
@@ -282,41 +246,4 @@ function addMessage(
   if (!condition) {
     messages.push({ code, severity: "blocker", source, message });
   }
-}
-
-function renderCategory(category: ProductionReadinessCategory): string[] {
-  return [
-    `### ${category.id}`,
-    "",
-    `- Status: ${category.status}`,
-    `- Evidence: ${category.evidence}`,
-    `- Note: ${category.note}`,
-    "",
-  ];
-}
-
-function renderMessages(messages: ProductionReadinessSummaryV6Message[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
-
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.source}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }
