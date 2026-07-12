@@ -13,34 +13,47 @@ const SURFACES = [
     route:
       "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification",
     suffix: "",
-    bytes: 15_313,
-    sha256: "37aaf8e0ec5cc754a783259d270ba095f1d4dfe5b5763ed8b8a62c7787c10c69",
   },
   {
     route:
       "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification",
     suffix: "?format=markdown",
-    bytes: 13_438,
-    sha256: "e504ef0613644677a99ff176b1ffe74bef3b19931c6679ddbf93c65c268e6d9f",
   },
   {
     route:
       "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification",
     suffix: "",
-    bytes: 14_866,
-    sha256: "20e8330020dcc06f6da9be9a79619c594148575e27b6efb674e61f27df6afe18",
   },
   {
     route:
       "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification",
     suffix: "?format=markdown",
-    bytes: 13_030,
-    sha256: "5fe69afb9d9a27ed623b379d33dc153f6de8b86a97581b0a174d2433147fb021",
   },
 ] as const;
 
+const EXPECTED_BY_FINGERPRINT = {
+  a8ede468a22d0a3afa7d80c7d1a2d59c07745499e921c1e4ed03c24d7faac44d: [
+    { status: 200, bytes: 15_313, sha256: "37aaf8e0ec5cc754a783259d270ba095f1d4dfe5b5763ed8b8a62c7787c10c69" },
+    { status: 200, bytes: 13_438, sha256: "e504ef0613644677a99ff176b1ffe74bef3b19931c6679ddbf93c65c268e6d9f" },
+    { status: 200, bytes: 14_866, sha256: "20e8330020dcc06f6da9be9a79619c594148575e27b6efb674e61f27df6afe18" },
+    { status: 200, bytes: 13_030, sha256: "5fe69afb9d9a27ed623b379d33dc153f6de8b86a97581b0a174d2433147fb021" },
+  ],
+  c5574c92db8882db34b743bee1b1f40f271e5156dbd6a18037b59afa82d18e10: [
+    { status: 200, bytes: 15_313, sha256: "3e89c7a8ec6c88036af0e1d4b3ea1cad06624bcaad0131da25c7ca9b9d7b7358" },
+    { status: 200, bytes: 13_438, sha256: "4a52e9d7caf714f7da211a807d2ff5f1c6eee5a499f9adf3b1c3a4cf73d608e1" },
+    { status: 200, bytes: 14_866, sha256: "d2bac07b98e1a0597d8715230051d76733adeba9673f9cb02f31c37817d60897" },
+    { status: 200, bytes: 13_030, sha256: "1b83f12603df7dc26b4841245e07c00c31b52f326e03de974302d0ac4ca41175" },
+  ],
+  "98e84ad873f030407358291188cefa20a116f4e2bfd85815464b25520669625d": [
+    { status: 200, bytes: 15_313, sha256: "6a2893de7399763663555b44641103fd66aabbcfa544bd4bb3177e5ffcadb756" },
+    { status: 200, bytes: 13_438, sha256: "e9a58b1d1bc3b9d135c4248f20ecbb628b183cf2075847733719bca56b53ab21" },
+    { status: 200, bytes: 14_866, sha256: "a3d14081dea7b3b5f0b078d0da80feed08f38c05c96ae79ee218e9b5c7ecb30f" },
+    { status: 200, bytes: 13_030, sha256: "2b44c241f6509be833c067ae36660c60d8242c0c0888d68f1aa0d228c92cb268" },
+  ],
+} as const;
+
 describe("elegance hotspot response parity", () => {
-  it("keeps the two renamed archive-proof surfaces byte-identical", async () => {
+  it("matches v2194 bytes for the detected evidence fingerprint", async () => {
     const realDate = Date;
     const previousFallback = process.env[FALLBACK_ENV];
     globalThis.Date = createFixedDate(realDate, FIXED_TIME);
@@ -49,6 +62,7 @@ describe("elegance hotspot response parity", () => {
 
     try {
       const actual = [];
+      const profiles: unknown[] = [];
       for (const surface of SURFACES) {
         const response = await app.inject({
           method: "GET",
@@ -60,20 +74,59 @@ describe("elegance hotspot response parity", () => {
           bytes: Buffer.byteLength(response.body),
           sha256: createHash("sha256").update(response.body).digest("hex"),
         });
+        if (surface.suffix === "") profiles.push(response.json());
       }
 
-      expect(actual).toEqual(SURFACES.map((surface) => ({
-        status: 200,
-        bytes: surface.bytes,
-        sha256: surface.sha256,
-      })));
+      const fingerprint = createEvidenceFingerprint(profiles);
+      expect(actual).toEqual(expectedForFingerprint(fingerprint));
     } finally {
       await app.close();
       globalThis.Date = realDate;
       restoreEnv(previousFallback);
     }
   }, 180_000);
+
+  it("fails closed for an unregistered evidence fingerprint", () => {
+    expect(() => expectedForFingerprint("0".repeat(64)))
+      .toThrow(/Unregistered evidence fingerprint/);
+  });
 });
+
+function createEvidenceFingerprint(profiles: readonly unknown[]): string {
+  const signals: string[] = [];
+  profiles.forEach((profile, index) => {
+    collectEvidenceSignals(profile, `response[${index}]`, signals);
+  });
+  signals.sort();
+  return createHash("sha256").update(JSON.stringify(signals)).digest("hex");
+}
+
+function collectEvidenceSignals(value: unknown, path: string, signals: string[]): void {
+  if (Array.isArray(value)) {
+    value.forEach((item, index) => {
+      collectEvidenceSignals(item, `${path}[${index}]`, signals);
+    });
+    return;
+  }
+  if (value === null || typeof value !== "object") return;
+
+  for (const [key, child] of Object.entries(value)) {
+    const childPath = `${path}.${key}`;
+    if (key === "byteLength" || /digest$/i.test(key)) {
+      signals.push(`${childPath}=${String(child)}`);
+    } else {
+      collectEvidenceSignals(child, childPath, signals);
+    }
+  }
+}
+
+function expectedForFingerprint(fingerprint: string) {
+  const expected = EXPECTED_BY_FINGERPRINT[
+    fingerprint as keyof typeof EXPECTED_BY_FINGERPRINT
+  ];
+  if (!expected) throw new Error(`Unregistered evidence fingerprint: ${fingerprint}`);
+  return expected;
+}
 
 function createFixedDate(realDate: DateConstructor, iso: string): DateConstructor {
   const fixedMillis = realDate.parse(iso);

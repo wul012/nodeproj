@@ -85,6 +85,14 @@ test/eleganceHotspotParity.test.ts keeps those old-HEAD bytes as a permanent reg
 - Local process HTTP smoke returned 200 for health and all four target surfaces; the owned process
   and port were closed immediately afterward.
 
+## CI correction
+
+GitHub run 29180385904 passed every pre-test gate and 558/559 test files, then rejected the new
+parity oracle because the Linux checkout materialized historical evidence bytes differently from
+the current Windows worktree. All response lengths stayed equal and the production tests passed.
+v2196 corrects the oracle by keying exact v2194 response baselines to measured evidence-byte
+fingerprints; it does not alter this migration, product code, archives, or fixtures.
+
 ## Fail conditions
 
 - Any response byte/hash, route path, JSON key, Markdown copy, fixture, or existing expectation changes.

@@ -1,0 +1,112 @@
+{
+  "schemaVersion": 1,
+  "version": "v2196",
+  "track": "E-N2 cross-checkout parity repair",
+  "productSourceChanged": false,
+  "routeChanged": false,
+  "fixtureChanged": false,
+  "archiveChanged": false,
+  "businessExpectationChanged": false,
+  "priorFailure": {
+    "version": "v2195",
+    "runId": 29180385904,
+    "failedStep": "test:coverage",
+    "failedFile": "test/eleganceHotspotParity.test.ts",
+    "otherPassedFiles": 558,
+    "otherPassedTests": 1702,
+    "rootCause": "The oracle treated one checkout's raw archive-byte outputs as an environment-independent constant."
+  },
+  "fingerprints": {
+    "signalCount": 104,
+    "signalRule": "Sorted field-path/value pairs for byteLength and keys ending in digest.",
+    "unknownFingerprintFails": true,
+    "variants": [
+      {
+        "name": "current Windows mixed tree",
+        "fingerprint": "a8ede468a22d0a3afa7d80c7d1a2d59c07745499e921c1e4ed03c24d7faac44d",
+        "responseHashes": [
+          "37aaf8e0ec5cc754a783259d270ba095f1d4dfe5b5763ed8b8a62c7787c10c69",
+          "e504ef0613644677a99ff176b1ffe74bef3b19931c6679ddbf93c65c268e6d9f",
+          "20e8330020dcc06f6da9be9a79619c594148575e27b6efb674e61f27df6afe18",
+          "5fe69afb9d9a27ed623b379d33dc153f6de8b86a97581b0a174d2433147fb021"
+        ]
+      },
+      {
+        "name": "raw Git blob / Linux checkout",
+        "fingerprint": "c5574c92db8882db34b743bee1b1f40f271e5156dbd6a18037b59afa82d18e10",
+        "responseHashes": [
+          "3e89c7a8ec6c88036af0e1d4b3ea1cad06624bcaad0131da25c7ca9b9d7b7358",
+          "4a52e9d7caf714f7da211a807d2ff5f1c6eee5a499f9adf3b1c3a4cf73d608e1",
+          "d2bac07b98e1a0597d8715230051d76733adeba9673f9cb02f31c37817d60897",
+          "1b83f12603df7dc26b4841245e07c00c31b52f326e03de974302d0ac4ca41175"
+        ]
+      },
+      {
+        "name": "Windows CRLF checkout",
+        "fingerprint": "98e84ad873f030407358291188cefa20a116f4e2bfd85815464b25520669625d",
+        "responseHashes": [
+          "6a2893de7399763663555b44641103fd66aabbcfa544bd4bb3177e5ffcadb756",
+          "e9a58b1d1bc3b9d135c4248f20ecbb628b183cf2075847733719bca56b53ab21",
+          "a3d14081dea7b3b5f0b078d0da80feed08f38c05c96ae79ee218e9b5c7ecb30f",
+          "2b44c241f6509be833c067ae36660c60d8242c0c0888d68f1aa0d228c92cb268"
+        ]
+      }
+    ],
+    "oldNewPairwiseMatch": true,
+    "fixedClock": "2026-07-12T00:00:00.000Z"
+  },
+  "verification": {
+    "currentFocused": { "files": 1, "tests": 2, "passed": true, "durationSeconds": 8.93 },
+    "linuxCheckoutFocused": { "files": 1, "tests": 2, "passed": true, "durationSeconds": 9.57 },
+    "crlfCheckoutFocused": { "files": 1, "tests": 2, "passed": true, "durationSeconds": 9.14 },
+    "readabilityRepairFocused": { "files": 3, "tests": 5, "passed": true, "durationSeconds": 19.25 },
+    "fullVitest": { "files": 559, "tests": 1704, "passed": true, "durationSeconds": 690.0, "maxWorkers": 6 },
+    "typecheck": true,
+    "lintErrors": 0,
+    "lintWarnings": 261,
+    "build": true,
+    "eleganceNameDebt": 4562,
+    "eleganceReady": true,
+    "securityTextFiles": 8194,
+    "securitySignals": 6,
+    "securityNarrowWaivers": 6,
+    "securityConfigChecksPassed": 18,
+    "securityConfigChecksTotal": 18,
+    "rendererStandardized": 242,
+    "rendererWaived": 3,
+    "rendererNonWaived": 0,
+    "sourceFilesAbove800Lines": 0,
+    "archiveFiles": 7049,
+    "archiveMiB": 62.74,
+    "archiveBudgetMiB": 80,
+    "httpSmoke": {
+      "port": 31196,
+      "health": 200,
+      "artifactIntakeJson": 200,
+      "artifactIntakeMarkdown": 200,
+      "packetStopJson": 200,
+      "packetStopMarkdown": 200
+    }
+  },
+  "walkthrough": {
+    "path": "代码讲解记录_生产雏形阶段3/r2000/2166-parity-repair-v2196.md",
+    "chineseCharacters": 3572,
+    "requiredShapeCompliant": true
+  },
+  "screenshot": {
+    "applicable": false,
+    "reason": "The version changes a test oracle and documentation only; no UI or HTML behavior changed."
+  },
+  "cleanup": {
+    "temporaryWorktreesRemoved": true,
+    "junctionsRemoved": true,
+    "vitestWorkersRemaining": 0,
+    "smokePid": 11208,
+    "smokeProcessStopped": true,
+    "smokePortClosed": true,
+    "distRemoved": true
+  },
+  "ci": {
+    "state": "pending commit and push"
+  }
+}

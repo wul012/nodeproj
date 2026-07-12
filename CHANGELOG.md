@@ -11,6 +11,15 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2196 - 2026-07-12
+
+- Repaired the v2195 parity oracle after CI proved that raw historical archive
+  bytes can differ across Git checkout filters. The test now fingerprints all
+  104 digest and byte-length inputs, selects one of three independently
+  reproduced v2194 response baselines, and fails closed for unknown evidence.
+  Product code, routes, fixtures, archives, and business expectations remain
+  unchanged.
+
 ## v2195 - 2026-07-12
 
 - Replaced the five longest safe filename offenders, plus the sixth file needed

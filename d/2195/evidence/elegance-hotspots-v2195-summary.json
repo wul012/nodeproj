@@ -122,6 +122,11 @@
     "distRemoved": true
   },
   "ci": {
-    "state": "pending commit and push"
+    "state": "failed in parity oracle only",
+    "runId": 29180385904,
+    "preTestGatesPassed": true,
+    "passedTestFiles": 558,
+    "passedTests": 1702,
+    "correctionVersion": "v2196"
   }
 }
