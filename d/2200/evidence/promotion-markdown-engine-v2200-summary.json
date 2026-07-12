@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "version": "v2200",
+  "track": "E2-N2 promotion renderer engine",
+  "state": "local-final-gates-passed-remote-ci-pending",
+  "parent": {
+    "version": "v2199",
+    "commit": "8dda347fa1af7fff90d74b02abb08c37f5a65e92",
+    "ciRun": 29189927574,
+    "ciConclusion": "success"
+  },
+  "crossProjectBoundary": {
+    "java": "v1862 committed; separate uncommitted v1863 extraction in progress; not program-final",
+    "miniKv": "independent and recommended parallel",
+    "capstoneRequiredNow": false
+  },
+  "change": {
+    "stablePublicModule": "src/services/opsPromotionArchiveRenderers.ts",
+    "stablePublicRendererCount": 15,
+    "engine": "src/services/promotionMarkdownEngine.ts",
+    "engineLines": 47,
+    "stableModuleLines": 742,
+    "deletedInternalModules": [
+      "src/services/opsPromotionArchiveBaseRenderers.ts",
+      "src/services/opsPromotionArchiveHandoffRenderers.ts"
+    ],
+    "rendererFamily": "8 -> 6",
+    "serviceFiles": "1125 -> 1124",
+    "nameDebt": "4549 -> 4538",
+    "exportNameDebt": "3565 -> 3554",
+    "newOrGrownFamilies": 0
+  },
+  "parity": {
+    "baseline": "v2199 fixed-clock raw route payload byte length plus SHA-256",
+    "clock": "2026-07-12T10:00:00.000Z",
+    "routeCount": 15,
+    "expectationFrozenBeforeMigration": true,
+    "existingExpectationEditedAfterMigration": false,
+    "materializationCommit": "a23ea703b5520da9ec6d38b07d3444b9d422dad3",
+    "surfaces": [
+      {"name": "mixed-engine", "eol": "w/lf", "result": "passed"},
+      {"name": "mixed-route-bytes", "eol": "w/lf", "result": "passed"},
+      {"name": "lf-engine", "eol": "w/lf", "result": "passed"},
+      {"name": "lf-route-bytes", "eol": "w/lf", "result": "passed"},
+      {"name": "crlf-engine", "eol": "w/crlf", "result": "passed"},
+      {"name": "crlf-route-bytes", "eol": "w/crlf", "result": "passed"}
+    ],
+    "eachMaterialization": "2 files / 3 tests passed"
+  },
+  "verification": {
+    "promotionSurface": "22 files passed",
+    "typecheck": "passed",
+    "lint": "passed: 0 errors, 180 budgeted warnings",
+    "security": "passed: 8214 text files, 6/6 narrow waivers, 18/18 config checks",
+    "renderer": "passed: 242/245 standardized, 3 composition waivers, 0 non-waived",
+    "elegance": "passed: 4538 names, 984 files, 3554 exports, 52 tracked families",
+    "familyCensus": "passed: renderer family 6 members; ready=true",
+    "sourceSize": "passed: 0 files above 800 lines",
+    "documentationQuality": "passed: walkthrough 3224 Chinese characters; no padding or oversized section",
+    "fullVitest": "passed: 1137/1137 suites, 1712/1712 tests, 0 failed, 0 pending",
+    "build": "passed",
+    "archiveBudget": "passed: 7065 files, 62.85 MiB / 80.00 MiB",
+    "remoteCi": "pending after push"
+  },
+  "boundaries": {
+    "routeChanged": false,
+    "jsonChanged": false,
+    "markdownByteChanged": false,
+    "fixtureChanged": false,
+    "authChanged": false,
+    "siblingEvidenceChanged": false,
+    "unrelatedJavaBriefStaged": false
+  },
+  "artifacts": {
+    "program": "docs/plans/elegance-round2-program-node.md",
+    "triage": "docs/plans/elegance-round2-triage.md",
+    "explanation": "d/2200/解释/promotion-markdown-engine-v2200.md",
+    "walkthrough": "代码讲解记录_生产雏形阶段3/r2000/2170-promotion-markdown-engine-v2200.md",
+    "screenshot": null,
+    "screenshotReason": "No HTML, page, route shape, or visual state changed; exact payload bytes are the applicable proof."
+  },
+  "cleanup": {
+    "temporaryWorktreesRemoved": true,
+    "nodeModulesJunctionCreated": false,
+    "vitestReportRemoved": true,
+    "distPresent": false,
+    "ownedVitestWorkers": 0,
+    "backgroundProcessesStarted": false
+  }
+}

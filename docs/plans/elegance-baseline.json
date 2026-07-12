@@ -3,10 +3,10 @@
   "maxNameLength": 40,
   "familyThreshold": 3,
   "nameDebt": {
-    "count": 4549,
+    "count": 4538,
     "fileCount": 984,
-    "exportCount": 3565,
-    "keyDigest": "sha256:a31b133d878f10d1c819c47f25de3e8efa1ae51a44c9ee70bb7166918ed7441d"
+    "exportCount": 3554,
+    "keyDigest": "sha256:bfbaaba24cf940ee88b0b280417155248cef8471d460b3e7a3e00d7e6f30fdf6"
   },
   "structuralFamilies": {
     "src/evidence:evidence": 7,
@@ -48,7 +48,7 @@
     "src/services:references": 10,
     "src/services:rehearsal": 6,
     "src/services:renderer": 245,
-    "src/services:renderers": 8,
+    "src/services:renderers": 6,
     "src/services:report": 19,
     "src/services:request": 4,
     "src/services:review": 21,

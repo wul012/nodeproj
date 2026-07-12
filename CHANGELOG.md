@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2200 - 2026-07-12
+
+- Consolidated the promotion archive and handoff Markdown family behind a
+  47-line formatting engine while keeping all 15 public renderers on the stable
+  barrel path. Two internal renderer modules and 11 long-name debt entries were
+  removed; the renderer family shrank from 8 to 6 and all v2199 route bodies
+  remain byte-identical under a fixed-clock digest gate.
+
 ## v2199 - 2026-07-12
 
 - Started the bounded second elegance round with a reproducible AST family-logic

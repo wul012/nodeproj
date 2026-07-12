@@ -2,7 +2,7 @@
 
 Date: 2026-07-12
 Version: v2199 / E2-N1
-State: local final gates passed; commit, tag, push, and clean-checkout CI pending.
+State: v2199 complete and remote CI green; v2200 local final gates and six-surface parity complete.
 
 ## Scanner design note
 
@@ -61,6 +61,15 @@ once in the stable barrel, and delete both internal modules. Expected result: fa
 promotion archive/handoff Markdown function plus its existing focused tests; pre/post body digests must
 match in mixed, LF, and CRLF materializations before push.
 
+#### v2200 engine design note
+
+- Abstraction: `promotionMarkdownEngine` owns document, field, section, item, bullet, digest, and optional-value grammar.
+- Data boundary: `opsPromotionArchiveRenderers` keeps the 15 stable public functions and their exact field/section order.
+- Behavior boundary: the engine adds only the separators and Markdown prefixes already duplicated by every renderer.
+- Compatibility: the stable barrel path and all exported names remain unchanged; the two internal modules have no direct consumers.
+- Size boundary: neither touched source file may exceed 800 lines, and no third promotion renderer file is introduced.
+- Stop rule: any body digest, route byte, fixture, public import, family baseline, or name ratchet drift reverts the slice.
+
 ### Rejected: verification family
 
 The 98-member suffix bucket mixes upstream echo, archive proof, live smoke, deployment, and receipt
@@ -92,6 +101,15 @@ Treating their shared nouns as shared behavior would add indirection without del
 
 No third family version is authorized. Both versions must shrink family and name baselines in their own
 commit; failure to produce either shrink means that family version reverts instead of becoming a partial win.
+
+## v2200 execution checkpoint
+
+- Stable public surface: all 15 archive/handoff functions remain exported from `opsPromotionArchiveRenderers.ts`.
+- Shared behavior: `promotionMarkdownEngine.ts` owns document, field, section, item, bullet, digest, and optional-value grammar in 47 lines.
+- Deleted duplication: the internal base and handoff renderer modules are gone; no source or test imported either path directly.
+- Mechanical shrink: renderer family 8 -> 6, service files 1,125 -> 1,124, long-name debt 4,549 -> 4,538.
+- Local byte gate: fixed clock, 15 route bodies, byte length plus SHA-256; the expectation was frozen on v2199 before source migration.
+- Final local gate state: mixed/LF/CRLF each passed engine plus 15-route byte parity; full Vitest passed 1,137 suites and 1,712 tests; typecheck, lint, security, build, docs, source-size, archive, elegance, family, and renderer gates passed.
 
 ## Local verification
 

@@ -45,8 +45,8 @@ closeout violation, not a discovery.
 
 | Milestone | Version | State | Evidence |
 |---|---|---|---|
-| E2-N1 family triage | v2199 | local final gates complete; commit/tag/push/CI pending | `npm run elegance:families`; 52 families ranked; focused 15/15; full 1709/1709; top five audited |
-| E2-N2 promotion renderer engine | v2200 | selected; not started | remove internal base/handoff formatter modules behind the stable archive barrel; family 8 -> 6 |
+| E2-N1 family triage | v2199 | complete; commit/tag/push and Node Evidence CI green | commit `8dda347f`; run `29189927574`; 52 families ranked; full 1709/1709; top five audited |
+| E2-N2 promotion renderer engine | v2200 | local final gates and six-surface parity complete; commit/tag/push pending | stable 15-renderer entry; mixed/LF/CRLF parity; full 1712/1712; family 8 -> 6; names 4549 -> 4538 |
 | E2-N3 readiness summary engine | v2201 | selected; not started | keep V6-V13 module paths, move repeated Markdown behavior, replace internal V5 module; family 15 -> 14 |
 
 ## Fail conditions
