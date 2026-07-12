@@ -1,27 +1,32 @@
-import { createHash } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
-import path from "node:path";
-
 import type { AppConfig } from "../config.js";
+import {
+  archiveNumber as numberValue,
+  archiveString as stringValue,
+  archiveValueAt as valueAt,
+  createArchiveEvidenceRefs,
+  isSha256 as isDigest,
+  listArchiveEvidenceFiles as archiveFiles,
+  readArchiveEvidence,
+} from "../evidence/archiveEvidenceEngine.js";
+import type { ArchiveEvidenceContent as ParsedArchive } from "../evidence/archiveEvidenceEngine.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlan,
 } from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlan.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationProfile,
-  RuntimeLiveReadGatePlanArchiveReferences,
-  RuntimeLiveReadGatePlanArchiveVerificationChecks,
-  RuntimeLiveReadGatePlanArchiveVerificationFileReference,
-  RuntimeLiveReadGatePlanArchiveVerificationMessage,
-  RuntimeLiveReadGatePlanArchiveVerificationRecord,
-  RuntimeLiveReadGatePlanArchiveVerificationSummary,
-  RuntimeLiveReadGatePlanReplayReference,
-  SourceNodeV390RuntimeLiveReadGatePlanReference,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationTypes.js";
+  LiveGateArchiveChecks,
+  LiveGateArchiveMessage,
+  LiveGateArchiveProfile,
+  LiveGateArchiveRecord,
+  LiveGateArchiveRefs,
+  LiveGateArchiveReplay,
+  LiveGateArchiveSource,
+  LiveGateArchiveSummary,
+} from "./liveGateArchiveVerificationTypes.js";
 
 export {
-  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationMarkdown,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationRenderer.js";
+  renderLiveGateArchiveMarkdown,
+} from "./liveGateArchiveRenderer.js";
 
 const PROFILE_VERSION =
   "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification.v1";
@@ -37,6 +42,14 @@ const ARCHIVE_ROOT = "e/390" as const;
 const V390_BASENAME = "java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-v390";
 const CODE_WALKTHROUGH =
   "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/395-java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-v390.md";
+const ARCHIVE_SPEC = {
+  archiveRoot: ARCHIVE_ROOT,
+  basename: V390_BASENAME,
+  codeWalkthrough: CODE_WALKTHROUGH,
+  sourcePlan: ACTIVE_PLAN,
+  plansIndex: "docs/plans3/README.md",
+  archiveIndex: "e/README.md",
+} as const;
 const REQUIRED_RUNTIME_GATE_ARTIFACTS = [
   "operator approval record",
   "concrete loopback port assignment",
@@ -44,24 +57,12 @@ const REQUIRED_RUNTIME_GATE_ARTIFACTS = [
   "cleanup proof",
 ] as const;
 
-interface ParsedArchive {
-  json: Record<string, unknown> | null;
-  markdown: string;
-  summary: Record<string, unknown> | null;
-  browserSnapshot: string;
-  explanation: string;
-  codeWalkthrough: string;
-  sourcePlan: string;
-  plansIndex: string;
-  archiveIndex: string;
-}
-
-export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerification(
+export function loadLiveGateArchiveVerification(
   input: { config: AppConfig; archiveRoot?: string },
-): ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationProfile {
+): LiveGateArchiveProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
-  const archiveReferences = createArchiveReferences(projectRoot);
-  const parsed = readParsedArchive(projectRoot, archiveReferences);
+  const archiveReferences = createArchiveEvidenceRefs(projectRoot, ARCHIVE_SPEC);
+  const parsed = readArchiveEvidence(projectRoot, archiveReferences);
   const sourceNodeV390 = createSourceNodeV390(parsed);
   const replay = replayFromFrozenEvidence(input.config, projectRoot);
   const draftVerification = createArchiveVerification(sourceNodeV390, archiveReferences, replay, false);
@@ -153,56 +154,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMin
   };
 }
 
-function createArchiveReferences(projectRoot: string): RuntimeLiveReadGatePlanArchiveReferences {
-  return {
-    archiveRoot: ARCHIVE_ROOT,
-    jsonEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V390_BASENAME}-http.json`),
-    markdownEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V390_BASENAME}-http.md`),
-    summaryEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V390_BASENAME}-summary.json`),
-    browserSnapshot: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V390_BASENAME}-browser-snapshot.md`),
-    htmlArchive: fileReference(projectRoot, ARCHIVE_ROOT, `${V390_BASENAME}.html`),
-    screenshot: fileReference(projectRoot, ARCHIVE_ROOT, "\u56fe\u7247", `${V390_BASENAME}.png`),
-    explanation: fileReference(projectRoot, ARCHIVE_ROOT, "\u89e3\u91ca", `${V390_BASENAME}.md`),
-    codeWalkthrough: fileReference(projectRoot, CODE_WALKTHROUGH),
-    sourcePlan: fileReference(projectRoot, ACTIVE_PLAN),
-    plansIndex: fileReference(projectRoot, "docs", "plans3", "README.md"),
-    archiveIndex: fileReference(projectRoot, "e", "README.md"),
-  };
-}
-
-function fileReference(
-  projectRoot: string,
-  ...segments: string[]
-): RuntimeLiveReadGatePlanArchiveVerificationFileReference {
-  const relativePath = path.join(...segments).replace(/\\/g, "/");
-  const absolutePath = path.join(projectRoot, ...segments);
-  if (!existsSync(absolutePath)) {
-    return { path: relativePath, exists: false, byteLength: 0, digest: null };
-  }
-  const content = readFileSync(absolutePath);
-  return {
-    path: relativePath,
-    exists: true,
-    byteLength: statSync(absolutePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function readParsedArchive(projectRoot: string, refs: RuntimeLiveReadGatePlanArchiveReferences): ParsedArchive {
-  return {
-    json: readJsonFile(projectRoot, refs.jsonEvidence.path),
-    markdown: readTextFile(projectRoot, refs.markdownEvidence.path),
-    summary: readJsonFile(projectRoot, refs.summaryEvidence.path),
-    browserSnapshot: readTextFile(projectRoot, refs.browserSnapshot.path),
-    explanation: readTextFile(projectRoot, refs.explanation.path),
-    codeWalkthrough: readTextFile(projectRoot, refs.codeWalkthrough.path),
-    sourcePlan: readTextFile(projectRoot, refs.sourcePlan.path),
-    plansIndex: readTextFile(projectRoot, refs.plansIndex.path),
-    archiveIndex: readTextFile(projectRoot, refs.archiveIndex.path),
-  };
-}
-
-function createSourceNodeV390(archive: ParsedArchive): SourceNodeV390RuntimeLiveReadGatePlanReference {
+function createSourceNodeV390(archive: ParsedArchive): LiveGateArchiveSource {
   return {
     sourceVersion: "Node v390",
     profileVersion: stringValue(valueAt(archive.json, "profileVersion")),
@@ -257,7 +209,7 @@ function createSourceNodeV390(archive: ParsedArchive): SourceNodeV390RuntimeLive
   };
 }
 
-function replayFromFrozenEvidence(config: AppConfig, projectRoot: string): RuntimeLiveReadGatePlanReplayReference {
+function replayFromFrozenEvidence(config: AppConfig, projectRoot: string): LiveGateArchiveReplay {
   const profile =
     loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlan({
       config,
@@ -318,11 +270,11 @@ function replayFromFrozenEvidence(config: AppConfig, projectRoot: string): Runti
 }
 
 function createArchiveVerification(
-  source: SourceNodeV390RuntimeLiveReadGatePlanReference,
-  refs: RuntimeLiveReadGatePlanArchiveReferences,
-  replay: RuntimeLiveReadGatePlanReplayReference,
+  source: LiveGateArchiveSource,
+  refs: LiveGateArchiveRefs,
+  replay: LiveGateArchiveReplay,
   ready: boolean,
-): RuntimeLiveReadGatePlanArchiveVerificationRecord {
+): LiveGateArchiveRecord {
   const archiveFileDigests = archiveFiles(refs)
     .map((file) => ({ path: file.path, digest: file.digest, byteLength: file.byteLength }));
   const record = {
@@ -356,12 +308,12 @@ function createArchiveVerification(
 }
 
 function createChecks(
-  source: SourceNodeV390RuntimeLiveReadGatePlanReference,
-  refs: RuntimeLiveReadGatePlanArchiveReferences,
+  source: LiveGateArchiveSource,
+  refs: LiveGateArchiveRefs,
   archive: ParsedArchive,
-  replay: RuntimeLiveReadGatePlanReplayReference,
-  verification: RuntimeLiveReadGatePlanArchiveVerificationRecord,
-): RuntimeLiveReadGatePlanArchiveVerificationChecks {
+  replay: LiveGateArchiveReplay,
+  verification: LiveGateArchiveRecord,
+): LiveGateArchiveChecks {
   return {
     archiveFilesPresent: archiveFiles(refs).every((file) => file.exists),
     jsonEvidenceReadable: archive.json !== null,
@@ -460,14 +412,14 @@ function createChecks(
 }
 
 function createSummary(
-  source: SourceNodeV390RuntimeLiveReadGatePlanReference,
-  refs: RuntimeLiveReadGatePlanArchiveReferences,
-  replay: RuntimeLiveReadGatePlanReplayReference,
-  checks: RuntimeLiveReadGatePlanArchiveVerificationChecks,
-  productionBlockers: readonly RuntimeLiveReadGatePlanArchiveVerificationMessage[],
-  warnings: readonly RuntimeLiveReadGatePlanArchiveVerificationMessage[],
-  recommendations: readonly RuntimeLiveReadGatePlanArchiveVerificationMessage[],
-): RuntimeLiveReadGatePlanArchiveVerificationSummary {
+  source: LiveGateArchiveSource,
+  refs: LiveGateArchiveRefs,
+  replay: LiveGateArchiveReplay,
+  checks: LiveGateArchiveChecks,
+  productionBlockers: readonly LiveGateArchiveMessage[],
+  warnings: readonly LiveGateArchiveMessage[],
+  recommendations: readonly LiveGateArchiveMessage[],
+): LiveGateArchiveSummary {
   return {
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -486,8 +438,8 @@ function createSummary(
 }
 
 function collectProductionBlockers(
-  checks: RuntimeLiveReadGatePlanArchiveVerificationChecks,
-): RuntimeLiveReadGatePlanArchiveVerificationMessage[] {
+  checks: LiveGateArchiveChecks,
+): LiveGateArchiveMessage[] {
   const rules: Array<[boolean, string, string, string]> = [
     [checks.archiveFilesPresent, "ARCHIVE_FILES_MISSING", "archive", "All v390 archive files must be present."],
     [checks.jsonEvidenceReadable, "ARCHIVE_JSON_UNREADABLE", "archive", "v390 JSON archive must be readable."],
@@ -512,7 +464,7 @@ function collectProductionBlockers(
     .map(([, code, source, message]) => ({ code, severity: "blocker" as const, source, message }));
 }
 
-function collectWarnings(): RuntimeLiveReadGatePlanArchiveVerificationMessage[] {
+function collectWarnings(): LiveGateArchiveMessage[] {
   return [{
     code: "ARCHIVE_VERIFICATION_IS_NOT_RUNTIME_EXECUTION",
     severity: "warning",
@@ -521,7 +473,7 @@ function collectWarnings(): RuntimeLiveReadGatePlanArchiveVerificationMessage[] 
   }];
 }
 
-function collectRecommendations(ready: boolean): RuntimeLiveReadGatePlanArchiveVerificationMessage[] {
+function collectRecommendations(ready: boolean): LiveGateArchiveMessage[] {
   return [{
     code: ready ? "PREPARE_SEPARATE_RUNTIME_EXECUTION_PACKET" : "REPAIR_V390_ARCHIVE_BEFORE_RETRY",
     severity: "recommendation",
@@ -530,69 +482,4 @@ function collectRecommendations(ready: boolean): RuntimeLiveReadGatePlanArchiveV
       ? "Prepare a separate Node v392 runtime execution packet only after operator approval, concrete ports, GET-only smoke command, and cleanup proof are available."
       : "Repair the v390 archive before moving forward.",
   }];
-}
-
-function archiveFiles(
-  refs: RuntimeLiveReadGatePlanArchiveReferences,
-): RuntimeLiveReadGatePlanArchiveVerificationFileReference[] {
-  return [
-    refs.jsonEvidence,
-    refs.markdownEvidence,
-    refs.summaryEvidence,
-    refs.browserSnapshot,
-    refs.htmlArchive,
-    refs.screenshot,
-    refs.explanation,
-    refs.codeWalkthrough,
-    refs.sourcePlan,
-    refs.plansIndex,
-    refs.archiveIndex,
-  ];
-}
-
-function readJsonFile(projectRoot: string, relativePath: string): Record<string, unknown> | null {
-  const content = readTextFile(projectRoot, relativePath);
-  if (content.length === 0) {
-    return null;
-  }
-  try {
-    return JSON.parse(content) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-function readTextFile(projectRoot: string, relativePath: string): string {
-  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
-  if (!existsSync(absolutePath)) {
-    return "";
-  }
-  return stripBom(readFileSync(absolutePath, "utf8"));
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
-}
-
-function isDigest(value: string | null): boolean {
-  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
-}
-
-function stripBom(content: string): string {
-  return content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
 }

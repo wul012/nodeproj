@@ -1,11 +1,6 @@
-export interface RuntimeLiveReadGatePlanArchiveVerificationFileReference {
-  path: string;
-  exists: boolean;
-  byteLength: number;
-  digest: string | null;
-}
+import type { ArchiveEvidenceRefs } from "../evidence/archiveEvidenceEngine.js";
 
-export interface SourceNodeV390RuntimeLiveReadGatePlanReference {
+export interface LiveGateArchiveSource {
   sourceVersion: "Node v390";
   profileVersion: string;
   planState: string;
@@ -54,7 +49,7 @@ export interface SourceNodeV390RuntimeLiveReadGatePlanReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface RuntimeLiveReadGatePlanReplayReference {
+export interface LiveGateArchiveReplay {
   replayState: "ready" | "blocked";
   replayedProfileVersion: string;
   planState: string;
@@ -87,22 +82,9 @@ export interface RuntimeLiveReadGatePlanReplayReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface RuntimeLiveReadGatePlanArchiveReferences {
-  archiveRoot: "e/390";
-  jsonEvidence: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  markdownEvidence: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  summaryEvidence: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  browserSnapshot: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  htmlArchive: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  screenshot: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  explanation: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  codeWalkthrough: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  sourcePlan: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  plansIndex: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-  archiveIndex: RuntimeLiveReadGatePlanArchiveVerificationFileReference;
-}
+export type LiveGateArchiveRefs = ArchiveEvidenceRefs<"e/390">;
 
-export interface RuntimeLiveReadGatePlanArchiveVerificationRecord {
+export interface LiveGateArchiveRecord {
   archiveVerificationDigest: string;
   verificationMode: "java-mini-kv-declared-operator-lifecycle-runtime-live-read-gate-plan-archive-verification";
   sourceSpan: "Node v390 declared operator lifecycle runtime live-read gate plan";
@@ -128,7 +110,7 @@ export interface RuntimeLiveReadGatePlanArchiveVerificationRecord {
   nextNodeVersionSuggested: "Node v392";
 }
 
-export interface RuntimeLiveReadGatePlanArchiveVerificationChecks {
+export interface LiveGateArchiveChecks {
   archiveFilesPresent: boolean;
   jsonEvidenceReadable: boolean;
   jsonProfileVersionValid: boolean;
@@ -169,7 +151,7 @@ export interface RuntimeLiveReadGatePlanArchiveVerificationChecks {
   readyForDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerification: boolean;
 }
 
-export interface RuntimeLiveReadGatePlanArchiveVerificationSummary {
+export interface LiveGateArchiveSummary {
   checkCount: number;
   passedCheckCount: number;
   archiveFileCount: number;
@@ -185,14 +167,14 @@ export interface RuntimeLiveReadGatePlanArchiveVerificationSummary {
   recommendationCount: number;
 }
 
-export interface RuntimeLiveReadGatePlanArchiveVerificationMessage {
+export interface LiveGateArchiveMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationProfile {
+export interface LiveGateArchiveProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -235,15 +217,15 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  archiveReferences: RuntimeLiveReadGatePlanArchiveReferences;
-  sourceNodeV390: SourceNodeV390RuntimeLiveReadGatePlanReference;
-  replay: RuntimeLiveReadGatePlanReplayReference;
-  archiveVerification: RuntimeLiveReadGatePlanArchiveVerificationRecord;
-  checks: RuntimeLiveReadGatePlanArchiveVerificationChecks;
-  summary: RuntimeLiveReadGatePlanArchiveVerificationSummary;
-  productionBlockers: RuntimeLiveReadGatePlanArchiveVerificationMessage[];
-  warnings: RuntimeLiveReadGatePlanArchiveVerificationMessage[];
-  recommendations: RuntimeLiveReadGatePlanArchiveVerificationMessage[];
+  archiveReferences: LiveGateArchiveRefs;
+  sourceNodeV390: LiveGateArchiveSource;
+  replay: LiveGateArchiveReplay;
+  archiveVerification: LiveGateArchiveRecord;
+  checks: LiveGateArchiveChecks;
+  summary: LiveGateArchiveSummary;
+  productionBlockers: LiveGateArchiveMessage[];
+  warnings: LiveGateArchiveMessage[];
+  recommendations: LiveGateArchiveMessage[];
   evidenceEndpoints: {
     archiveVerificationJson: string;
     archiveVerificationMarkdown: string;

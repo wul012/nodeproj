@@ -1,9 +1,6 @@
-export interface PacketStopArchiveFileRef {
-  path: string;
-  exists: boolean;
-  byteLength: number;
-  digest: string | null;
-}
+import type { ArchiveEvidenceFile, ArchiveEvidenceRefs } from "../evidence/archiveEvidenceEngine.js";
+
+export type PacketStopArchiveFileRef = ArchiveEvidenceFile;
 
 export interface PacketStopArchiveSource {
   sourceVersion: "Node v392";
@@ -93,20 +90,7 @@ export interface PacketStopArchiveReplay {
   activeShardPrototypeEnabled: false;
 }
 
-export interface PacketStopArchiveRefs {
-  archiveRoot: "e/392";
-  jsonEvidence: PacketStopArchiveFileRef;
-  markdownEvidence: PacketStopArchiveFileRef;
-  summaryEvidence: PacketStopArchiveFileRef;
-  browserSnapshot: PacketStopArchiveFileRef;
-  htmlArchive: PacketStopArchiveFileRef;
-  screenshot: PacketStopArchiveFileRef;
-  explanation: PacketStopArchiveFileRef;
-  codeWalkthrough: PacketStopArchiveFileRef;
-  sourcePlan: PacketStopArchiveFileRef;
-  plansIndex: PacketStopArchiveFileRef;
-  archiveIndex: PacketStopArchiveFileRef;
-}
+export type PacketStopArchiveRefs = ArchiveEvidenceRefs<"e/392">;
 
 export interface PacketStopArchiveRecord {
   archiveVerificationDigest: string;

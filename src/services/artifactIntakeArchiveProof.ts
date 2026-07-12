@@ -1,8 +1,16 @@
-import { createHash } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
-import path from "node:path";
-
 import type { AppConfig } from "../config.js";
+import {
+  archiveNumber as numberValue,
+  archiveString as stringValue,
+  archiveStrings as arrayOfString,
+  archiveValueAt as valueAt,
+  createArchiveEvidenceRefs,
+  hasAllStrings as includesAll,
+  isSha256 as isDigest,
+  listArchiveEvidenceFiles as archiveFiles,
+  readArchiveEvidence,
+} from "../evidence/archiveEvidenceEngine.js";
+import type { ArchiveEvidenceContent as ParsedArchive } from "../evidence/archiveEvidenceEngine.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight,
@@ -12,7 +20,6 @@ import type {
   ArtifactIntakeArchiveRefs,
   ArtifactIntakeArchiveReplay,
   ArtifactIntakeArchiveChecks,
-  ArtifactIntakeArchiveFileRef,
   ArtifactIntakeArchiveMessage,
   ArtifactIntakeArchiveRecord,
   ArtifactIntakeArchiveSummary,
@@ -38,6 +45,14 @@ const V394_BASENAME =
   "java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394";
 const CODE_WALKTHROUGH =
   "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/399-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-v394.md";
+const ARCHIVE_SPEC = {
+  archiveRoot: ARCHIVE_ROOT,
+  basename: V394_BASENAME,
+  codeWalkthrough: CODE_WALKTHROUGH,
+  sourcePlan: ACTIVE_PLAN,
+  plansIndex: "docs/plans3/README.md",
+  archiveIndex: "e/README.md",
+} as const;
 const REQUIRED_RUNTIME_GATE_ARTIFACT_COUNT = 4;
 const REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT = 6;
 const MISSING_REASON_CODES = [
@@ -49,24 +64,12 @@ const MISSING_REASON_CODES = [
   "PROCESS_CLEANUP_RULES_MISSING",
 ] as const;
 
-interface ParsedArchive {
-  json: Record<string, unknown> | null;
-  markdown: string;
-  summary: Record<string, unknown> | null;
-  browserSnapshot: string;
-  explanation: string;
-  codeWalkthrough: string;
-  sourcePlan: string;
-  plansIndex: string;
-  archiveIndex: string;
-}
-
 export function loadArtifactIntakeArchiveProof(
   input: { config: AppConfig; archiveRoot?: string },
 ): ArtifactIntakeArchiveProofProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
-  const archiveReferences = createArchiveReferences(projectRoot);
-  const parsed = readParsedArchive(projectRoot, archiveReferences);
+  const archiveReferences = createArchiveEvidenceRefs(projectRoot, ARCHIVE_SPEC);
+  const parsed = readArchiveEvidence(projectRoot, archiveReferences);
   const sourceNodeV394 = createSourceNodeV394(parsed);
   const replay = replayFromFrozenEvidence(input.config, projectRoot);
   const draftVerification = createArchiveVerification(sourceNodeV394, archiveReferences, replay, false);
@@ -159,58 +162,6 @@ export function loadArtifactIntakeArchiveProof(
         "Repair the v394 artifact intake preflight archive before moving forward.",
         "Do not start Java or mini-kv from this archive verification.",
       ],
-  };
-}
-
-function createArchiveReferences(projectRoot: string): ArtifactIntakeArchiveRefs {
-  return {
-    archiveRoot: ARCHIVE_ROOT,
-    jsonEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V394_BASENAME}-http.json`),
-    markdownEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V394_BASENAME}-http.md`),
-    summaryEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V394_BASENAME}-summary.json`),
-    browserSnapshot: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V394_BASENAME}-browser-snapshot.md`),
-    htmlArchive: fileReference(projectRoot, ARCHIVE_ROOT, `${V394_BASENAME}.html`),
-    screenshot: fileReference(projectRoot, ARCHIVE_ROOT, "\u56fe\u7247", `${V394_BASENAME}.png`),
-    explanation: fileReference(projectRoot, ARCHIVE_ROOT, "\u89e3\u91ca", `${V394_BASENAME}.md`),
-    codeWalkthrough: fileReference(projectRoot, CODE_WALKTHROUGH),
-    sourcePlan: fileReference(projectRoot, ACTIVE_PLAN),
-    plansIndex: fileReference(projectRoot, "docs", "plans3", "README.md"),
-    archiveIndex: fileReference(projectRoot, "e", "README.md"),
-  };
-}
-
-function fileReference(
-  projectRoot: string,
-  ...segments: string[]
-): ArtifactIntakeArchiveFileRef {
-  const relativePath = path.join(...segments).replace(/\\/g, "/");
-  const absolutePath = path.join(projectRoot, ...segments);
-  if (!existsSync(absolutePath)) {
-    return { path: relativePath, exists: false, byteLength: 0, digest: null };
-  }
-  const content = readFileSync(absolutePath);
-  return {
-    path: relativePath,
-    exists: true,
-    byteLength: statSync(absolutePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function readParsedArchive(
-  projectRoot: string,
-  refs: ArtifactIntakeArchiveRefs,
-): ParsedArchive {
-  return {
-    json: readJsonFile(projectRoot, refs.jsonEvidence.path),
-    markdown: readTextFile(projectRoot, refs.markdownEvidence.path),
-    summary: readJsonFile(projectRoot, refs.summaryEvidence.path),
-    browserSnapshot: readTextFile(projectRoot, refs.browserSnapshot.path),
-    explanation: readTextFile(projectRoot, refs.explanation.path),
-    codeWalkthrough: readTextFile(projectRoot, refs.codeWalkthrough.path),
-    sourcePlan: readTextFile(projectRoot, refs.sourcePlan.path),
-    plansIndex: readTextFile(projectRoot, refs.plansIndex.path),
-    archiveIndex: readTextFile(projectRoot, refs.archiveIndex.path),
   };
 }
 
@@ -573,80 +524,4 @@ function collectRecommendations(ready: boolean): ArtifactIntakeArchiveMessage[] 
       ? "Wait for all six concrete runtime execution artifacts before any renewed execution packet attempt."
       : "Repair the v394 archive before moving forward.",
   }];
-}
-
-function archiveFiles(
-  refs: ArtifactIntakeArchiveRefs,
-): ArtifactIntakeArchiveFileRef[] {
-  return [
-    refs.jsonEvidence,
-    refs.markdownEvidence,
-    refs.summaryEvidence,
-    refs.browserSnapshot,
-    refs.htmlArchive,
-    refs.screenshot,
-    refs.explanation,
-    refs.codeWalkthrough,
-    refs.sourcePlan,
-    refs.plansIndex,
-    refs.archiveIndex,
-  ];
-}
-
-function readJsonFile(projectRoot: string, relativePath: string): Record<string, unknown> | null {
-  const content = readTextFile(projectRoot, relativePath);
-  if (content.length === 0) {
-    return null;
-  }
-  try {
-    return JSON.parse(content) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-function readTextFile(projectRoot: string, relativePath: string): string {
-  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
-  if (!existsSync(absolutePath)) {
-    return "";
-  }
-  return stripBom(readFileSync(absolutePath, "utf8"));
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function arrayOfString(value: unknown): string[] {
-  if (!Array.isArray(value)) {
-    return [];
-  }
-  return value.filter((item): item is string => typeof item === "string");
-}
-
-function includesAll(values: readonly string[], required: readonly string[]): boolean {
-  return required.every((value) => values.includes(value));
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
-}
-
-function isDigest(value: string | null): boolean {
-  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
-}
-
-function stripBom(content: string): string {
-  return content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
 }

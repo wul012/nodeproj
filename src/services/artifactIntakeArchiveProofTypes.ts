@@ -1,9 +1,6 @@
-export interface ArtifactIntakeArchiveFileRef {
-  path: string;
-  exists: boolean;
-  byteLength: number;
-  digest: string | null;
-}
+import type { ArchiveEvidenceFile, ArchiveEvidenceRefs } from "../evidence/archiveEvidenceEngine.js";
+
+export type ArtifactIntakeArchiveFileRef = ArchiveEvidenceFile;
 
 export interface ArtifactIntakeArchiveSource {
   sourceVersion: "Node v394";
@@ -88,20 +85,7 @@ export interface ArtifactIntakeArchiveReplay {
   activeShardPrototypeEnabled: false;
 }
 
-export interface ArtifactIntakeArchiveRefs {
-  archiveRoot: "e/394";
-  jsonEvidence: ArtifactIntakeArchiveFileRef;
-  markdownEvidence: ArtifactIntakeArchiveFileRef;
-  summaryEvidence: ArtifactIntakeArchiveFileRef;
-  browserSnapshot: ArtifactIntakeArchiveFileRef;
-  htmlArchive: ArtifactIntakeArchiveFileRef;
-  screenshot: ArtifactIntakeArchiveFileRef;
-  explanation: ArtifactIntakeArchiveFileRef;
-  codeWalkthrough: ArtifactIntakeArchiveFileRef;
-  sourcePlan: ArtifactIntakeArchiveFileRef;
-  plansIndex: ArtifactIntakeArchiveFileRef;
-  archiveIndex: ArtifactIntakeArchiveFileRef;
-}
+export type ArtifactIntakeArchiveRefs = ArchiveEvidenceRefs<"e/394">;
 
 export interface ArtifactIntakeArchiveRecord {
   archiveVerificationDigest: string;

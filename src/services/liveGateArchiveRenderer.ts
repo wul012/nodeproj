@@ -1,10 +1,8 @@
 import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
-import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationTypes.js";
+import type { LiveGateArchiveProfile } from "./liveGateArchiveVerificationTypes.js";
 
-export function renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanArchiveVerificationProfile,
+export function renderLiveGateArchiveMarkdown(
+  profile: LiveGateArchiveProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: profile.title,

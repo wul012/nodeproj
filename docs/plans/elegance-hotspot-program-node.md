@@ -46,8 +46,9 @@ doc: debt start → end, what was deliberately left (with reasons). Request Clau
 |---|---|---|---|
 | E-N1 mechanical gates | v2194 | complete; committed, tagged, pushed, CI green | 4592 name violations, 52 tracked families; run 29178967561; `d/2194/evidence/elegance-gates-v2194-summary.json` |
 | E-N2 top-5 names | v2195 | implementation complete; CI run 29180385904 exposed a cross-checkout oracle defect | 4562 name violations; local 559/1703; six files and 24 exports shortened; product behavior remained green |
-| E-N2 parity repair | v2196 | local complete; commit/tag/push/CI pending | three checkout focused passes; 559/1704 full suite; unknown fingerprints fail closed |
-| E-N3/E-N4 remediation | pending | not started | driven by census; skip duplication work if no reviewer-checkable shared behavior exists |
+| E-N2 parity repair | v2196 | complete; committed, tagged, pushed, CI green | commit `25bc10fd`; run 29182204688; three checkout focused passes; 559/1704 full suite; unknown fingerprints fail closed |
+| E-N3 duplication remediation | v2197 | local complete; commit/tag/push/CI pending | 4,562 to 4,549; engine in `src/evidence`; mixed/LF/CRLF six-surface parity; 560/1706 final full suite |
+| E-N4 remediation | pending | not started | reassess only at the v2197 boundary; skip if Java reaches program close |
 | E-N5 close | pending | not started | hard stop no later than fifth E-track version |
 
 ## Fail conditions

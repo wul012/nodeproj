@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "version": "v2197",
+  "track": "E-N3 duplication remediation",
+  "state": "local-final-gates-passed-remote-ci-pending",
+  "scope": {
+    "featureAdded": false,
+    "routeChanged": false,
+    "responseContractChanged": false,
+    "fixtureChanged": false,
+    "archiveBytesChanged": false
+  },
+  "implementation": {
+    "engine": "src/evidence/archiveEvidenceEngine.ts",
+    "consumers": [
+      "src/services/artifactIntakeArchiveProof.ts",
+      "src/services/packetStopArchiveProof.ts",
+      "src/services/liveGateArchiveVerification.ts"
+    ],
+    "shortFamily": [
+      "src/services/liveGateArchiveVerification.ts",
+      "src/services/liveGateArchiveRenderer.ts",
+      "src/services/liveGateArchiveVerificationTypes.ts"
+    ],
+    "rawByteSemantics": "SHA-256 and byteLength use the original file Buffer; BOM removal applies only to parsed text",
+    "businessBoundary": "source mapping, replay, checks, summaries, profile construction, and rendering remain consumer-owned"
+  },
+  "debt": {
+    "nameViolationsBefore": 4562,
+    "nameViolationsAfter": 4549,
+    "fileViolationsBefore": 987,
+    "fileViolationsAfter": 984,
+    "exportViolationsBefore": 3575,
+    "exportViolationsAfter": 3565,
+    "trackedFamilies": 52,
+    "verificationFamilyBefore": 98,
+    "verificationFamilyAfter": 98,
+    "baselineDigest": "sha256:a31b133d878f10d1c819c47f25de3e8efa1ae51a44c9ee70bb7166918ed7441d"
+  },
+  "parity": {
+    "fixedTime": "2026-07-12T00:00:00.000Z",
+    "surfaceCount": 6,
+    "jsonProfileCount": 3,
+    "signalCount": 154,
+    "checkoutModes": [
+      "current-mixed",
+      "raw-git-lf",
+      "windows-crlf"
+    ],
+    "unknownFingerprintFailsClosed": true,
+    "focusedRuns": "three checkout modes passed 1 file and 2 tests each"
+  },
+  "verification": {
+    "typecheck": "passed",
+    "focused": "5 files, 13 tests passed",
+    "lint": "passed with 0 errors and the pinned 261 warnings",
+    "elegance": "ready at 4549",
+    "walkthroughQuality": "3 files and 11 tests passed; 3219 Chinese characters",
+    "firstFullVitest": "559/560 files and 1705/1706 tests passed; only governanceGrowthRatchet failed because src/services temporarily reached 1126 files",
+    "governanceCorrection": "moved the pure engine to src/evidence; the 1125 service baseline was not changed",
+    "fullVitest": "560 files and 1706 tests passed in 915.57 seconds with maxWorkers=6",
+    "build": "passed",
+    "security": "8200 text files; 6/6 narrowly waived credential signals; 18/18 config checks",
+    "renderer": "242/245 standardized; 3 composition waivers; 0 non-waived",
+    "sourceSize": "0 files above 800 lines",
+    "archiveBudget": "7053 files; 62.77 MiB / 80 MiB",
+    "httpSmoke": "health plus six target surfaces returned 200 on port 31197; PID 3632 stopped and port closed",
+    "remoteCi": "pending"
+  },
+  "artifacts": {
+    "roadmap": "docs/plans/v2197-archive-engine-roadmap.md",
+    "explanation": "d/2197/解释/archive-engine-v2197.md",
+    "walkthrough": "代码讲解记录_生产雏形阶段3/r2000/2167-archive-evidence-engine-v2197.md",
+    "screenshot": null,
+    "screenshotReason": "No UI, HTML, or visual state changed; byte parity and HTTP smoke are the applicable evidence."
+  },
+  "cleanup": {
+    "lfWorktreeRemoved": true,
+    "crlfWorktreeRemoved": true,
+    "junctionCleanupDeviation": "PowerShell could not unlink the validation junctions before worktree removal; removing the worktrees emptied the main node_modules target.",
+    "mainDependenciesRestored": "npm ci restored 198 lockfile-pinned packages; package.json and package-lock.json remained unchanged",
+    "smokeLogsRemoved": true,
+    "smokePortClosed": true,
+    "ownedBackgroundProcess": "none"
+  }
+}

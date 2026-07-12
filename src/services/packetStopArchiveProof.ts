@@ -1,8 +1,16 @@
-import { createHash } from "node:crypto";
-import { existsSync, readFileSync, statSync } from "node:fs";
-import path from "node:path";
-
 import type { AppConfig } from "../config.js";
+import {
+  archiveArray as arrayOfString,
+  archiveNumber as numberValue,
+  archiveString as stringValue,
+  archiveValueAt as valueAt,
+  createArchiveEvidenceRefs,
+  hasAllStrings as includesAll,
+  isSha256 as isDigest,
+  listArchiveEvidenceFiles as archiveFiles,
+  readArchiveEvidence,
+} from "../evidence/archiveEvidenceEngine.js";
+import type { ArchiveEvidenceContent as ParsedArchive } from "../evidence/archiveEvidenceEngine.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord,
@@ -12,7 +20,6 @@ import type {
   PacketStopArchiveRefs,
   PacketStopArchiveReplay,
   PacketStopArchiveChecks,
-  PacketStopArchiveFileRef,
   PacketStopArchiveMessage,
   PacketStopArchiveRecord,
   PacketStopArchiveSummary,
@@ -38,6 +45,14 @@ const V392_BASENAME =
   "java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-v392";
 const CODE_WALKTHROUGH =
   "\u4ee3\u7801\u8bb2\u89e3\u8bb0\u5f55_\u751f\u4ea7\u96cf\u5f62\u9636\u6bb53/r0000/397-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-v392.md";
+const ARCHIVE_SPEC = {
+  archiveRoot: ARCHIVE_ROOT,
+  basename: V392_BASENAME,
+  codeWalkthrough: CODE_WALKTHROUGH,
+  sourcePlan: ACTIVE_PLAN,
+  plansIndex: "docs/plans3/README.md",
+  archiveIndex: "e/README.md",
+} as const;
 const STOP_REASON_CODES = [
   "OPERATOR_APPROVAL_RECORD_MISSING",
   "CONCRETE_LOOPBACK_PORTS_MISSING",
@@ -49,24 +64,12 @@ const STOP_REASON_CODES = [
 const REQUIRED_RUNTIME_GATE_ARTIFACT_COUNT = 4;
 const REQUIRED_RUNTIME_EXECUTION_ARTIFACT_COUNT = STOP_REASON_CODES.length;
 
-interface ParsedArchive {
-  json: Record<string, unknown> | null;
-  markdown: string;
-  summary: Record<string, unknown> | null;
-  browserSnapshot: string;
-  explanation: string;
-  codeWalkthrough: string;
-  sourcePlan: string;
-  plansIndex: string;
-  archiveIndex: string;
-}
-
 export function loadPacketStopArchiveProof(
   input: { config: AppConfig; archiveRoot?: string },
 ): PacketStopArchiveProofProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
-  const archiveReferences = createArchiveReferences(projectRoot);
-  const parsed = readParsedArchive(projectRoot, archiveReferences);
+  const archiveReferences = createArchiveEvidenceRefs(projectRoot, ARCHIVE_SPEC);
+  const parsed = readArchiveEvidence(projectRoot, archiveReferences);
   const sourceNodeV392 = createSourceNodeV392(parsed);
   const replay = replayFromFrozenEvidence(input.config, projectRoot);
   const draftVerification = createArchiveVerification(sourceNodeV392, archiveReferences, replay, false);
@@ -154,58 +157,6 @@ export function loadPacketStopArchiveProof(
         "Repair the v392 stop record archive before moving forward.",
         "Do not start Java or mini-kv from this archive verification.",
       ],
-  };
-}
-
-function createArchiveReferences(projectRoot: string): PacketStopArchiveRefs {
-  return {
-    archiveRoot: ARCHIVE_ROOT,
-    jsonEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V392_BASENAME}-http.json`),
-    markdownEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V392_BASENAME}-http.md`),
-    summaryEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V392_BASENAME}-summary.json`),
-    browserSnapshot: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V392_BASENAME}-browser-snapshot.md`),
-    htmlArchive: fileReference(projectRoot, ARCHIVE_ROOT, `${V392_BASENAME}.html`),
-    screenshot: fileReference(projectRoot, ARCHIVE_ROOT, "\u56fe\u7247", `${V392_BASENAME}.png`),
-    explanation: fileReference(projectRoot, ARCHIVE_ROOT, "\u89e3\u91ca", `${V392_BASENAME}.md`),
-    codeWalkthrough: fileReference(projectRoot, CODE_WALKTHROUGH),
-    sourcePlan: fileReference(projectRoot, ACTIVE_PLAN),
-    plansIndex: fileReference(projectRoot, "docs", "plans3", "README.md"),
-    archiveIndex: fileReference(projectRoot, "e", "README.md"),
-  };
-}
-
-function fileReference(
-  projectRoot: string,
-  ...segments: string[]
-): PacketStopArchiveFileRef {
-  const relativePath = path.join(...segments).replace(/\\/g, "/");
-  const absolutePath = path.join(projectRoot, ...segments);
-  if (!existsSync(absolutePath)) {
-    return { path: relativePath, exists: false, byteLength: 0, digest: null };
-  }
-  const content = readFileSync(absolutePath);
-  return {
-    path: relativePath,
-    exists: true,
-    byteLength: statSync(absolutePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function readParsedArchive(
-  projectRoot: string,
-  refs: PacketStopArchiveRefs,
-): ParsedArchive {
-  return {
-    json: readJsonFile(projectRoot, refs.jsonEvidence.path),
-    markdown: readTextFile(projectRoot, refs.markdownEvidence.path),
-    summary: readJsonFile(projectRoot, refs.summaryEvidence.path),
-    browserSnapshot: readTextFile(projectRoot, refs.browserSnapshot.path),
-    explanation: readTextFile(projectRoot, refs.explanation.path),
-    codeWalkthrough: readTextFile(projectRoot, refs.codeWalkthrough.path),
-    sourcePlan: readTextFile(projectRoot, refs.sourcePlan.path),
-    plansIndex: readTextFile(projectRoot, refs.plansIndex.path),
-    archiveIndex: readTextFile(projectRoot, refs.archiveIndex.path),
   };
 }
 
@@ -563,77 +514,4 @@ function collectRecommendations(ready: boolean): PacketStopArchiveMessage[] {
       ? "Collect the six required runtime execution artifacts before any renewed execution packet attempt."
       : "Repair the v392 archive before moving forward.",
   }];
-}
-
-function archiveFiles(
-  refs: PacketStopArchiveRefs,
-): PacketStopArchiveFileRef[] {
-  return [
-    refs.jsonEvidence,
-    refs.markdownEvidence,
-    refs.summaryEvidence,
-    refs.browserSnapshot,
-    refs.htmlArchive,
-    refs.screenshot,
-    refs.explanation,
-    refs.codeWalkthrough,
-    refs.sourcePlan,
-    refs.plansIndex,
-    refs.archiveIndex,
-  ];
-}
-
-function readJsonFile(projectRoot: string, relativePath: string): Record<string, unknown> | null {
-  const content = readTextFile(projectRoot, relativePath);
-  if (content.length === 0) {
-    return null;
-  }
-  try {
-    return JSON.parse(content) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-function readTextFile(projectRoot: string, relativePath: string): string {
-  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
-  if (!existsSync(absolutePath)) {
-    return "";
-  }
-  return stripBom(readFileSync(absolutePath, "utf8"));
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function arrayOfString(value: unknown): unknown[] {
-  return Array.isArray(value) ? value : [];
-}
-
-function includesAll(values: readonly string[], required: readonly string[]): boolean {
-  return required.every((value) => values.includes(value));
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
-}
-
-function isDigest(value: string | null): boolean {
-  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
-}
-
-function stripBom(content: string): string {
-  return content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
 }
