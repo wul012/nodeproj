@@ -8,20 +8,20 @@ import {
   loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight,
 } from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationProfile,
-  RuntimeExecutionArtifactIntakePreflightArchiveReferences,
-  RuntimeExecutionArtifactIntakePreflightArchiveReplayReference,
-  RuntimeExecutionArtifactIntakePreflightArchiveVerificationChecks,
-  RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference,
-  RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage,
-  RuntimeExecutionArtifactIntakePreflightArchiveVerificationRecord,
-  RuntimeExecutionArtifactIntakePreflightArchiveVerificationSummary,
-  SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationTypes.js";
+  ArtifactIntakeArchiveProofProfile,
+  ArtifactIntakeArchiveRefs,
+  ArtifactIntakeArchiveReplay,
+  ArtifactIntakeArchiveChecks,
+  ArtifactIntakeArchiveFileRef,
+  ArtifactIntakeArchiveMessage,
+  ArtifactIntakeArchiveRecord,
+  ArtifactIntakeArchiveSummary,
+  ArtifactIntakeArchiveSource,
+} from "./artifactIntakeArchiveProofTypes.js";
 
 export {
-  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationMarkdown,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationRenderer.js";
+  renderArtifactIntakeArchiveProofMarkdown,
+} from "./artifactIntakeArchiveProofRenderer.js";
 
 const PROFILE_VERSION =
   "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification.v1";
@@ -61,9 +61,9 @@ interface ParsedArchive {
   archiveIndex: string;
 }
 
-export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification(
+export function loadArtifactIntakeArchiveProof(
   input: { config: AppConfig; archiveRoot?: string },
-): ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationProfile {
+): ArtifactIntakeArchiveProofProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
   const archiveReferences = createArchiveReferences(projectRoot);
   const parsed = readParsedArchive(projectRoot, archiveReferences);
@@ -162,7 +162,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMin
   };
 }
 
-function createArchiveReferences(projectRoot: string): RuntimeExecutionArtifactIntakePreflightArchiveReferences {
+function createArchiveReferences(projectRoot: string): ArtifactIntakeArchiveRefs {
   return {
     archiveRoot: ARCHIVE_ROOT,
     jsonEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V394_BASENAME}-http.json`),
@@ -182,7 +182,7 @@ function createArchiveReferences(projectRoot: string): RuntimeExecutionArtifactI
 function fileReference(
   projectRoot: string,
   ...segments: string[]
-): RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference {
+): ArtifactIntakeArchiveFileRef {
   const relativePath = path.join(...segments).replace(/\\/g, "/");
   const absolutePath = path.join(projectRoot, ...segments);
   if (!existsSync(absolutePath)) {
@@ -199,7 +199,7 @@ function fileReference(
 
 function readParsedArchive(
   projectRoot: string,
-  refs: RuntimeExecutionArtifactIntakePreflightArchiveReferences,
+  refs: ArtifactIntakeArchiveRefs,
 ): ParsedArchive {
   return {
     json: readJsonFile(projectRoot, refs.jsonEvidence.path),
@@ -216,7 +216,7 @@ function readParsedArchive(
 
 function createSourceNodeV394(
   archive: ParsedArchive,
-): SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference {
+): ArtifactIntakeArchiveSource {
   return {
     sourceVersion: "Node v394",
     profileVersion: stringValue(valueAt(archive.json, "profileVersion")),
@@ -271,7 +271,7 @@ function createSourceNodeV394(
 function replayFromFrozenEvidence(
   config: AppConfig,
   projectRoot: string,
-): RuntimeExecutionArtifactIntakePreflightArchiveReplayReference {
+): ArtifactIntakeArchiveReplay {
   const profile =
     loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight({
       config,
@@ -346,11 +346,11 @@ function replayFromFrozenEvidence(
 }
 
 function createArchiveVerification(
-  source: SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference,
-  refs: RuntimeExecutionArtifactIntakePreflightArchiveReferences,
-  replay: RuntimeExecutionArtifactIntakePreflightArchiveReplayReference,
+  source: ArtifactIntakeArchiveSource,
+  refs: ArtifactIntakeArchiveRefs,
+  replay: ArtifactIntakeArchiveReplay,
   ready: boolean,
-): RuntimeExecutionArtifactIntakePreflightArchiveVerificationRecord {
+): ArtifactIntakeArchiveRecord {
   const archiveFileDigests = archiveFiles(refs)
     .map((file) => ({ path: file.path, digest: file.digest, byteLength: file.byteLength }));
   const record = {
@@ -385,12 +385,12 @@ function createArchiveVerification(
 }
 
 function createChecks(
-  source: SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference,
-  refs: RuntimeExecutionArtifactIntakePreflightArchiveReferences,
+  source: ArtifactIntakeArchiveSource,
+  refs: ArtifactIntakeArchiveRefs,
   archive: ParsedArchive,
-  replay: RuntimeExecutionArtifactIntakePreflightArchiveReplayReference,
-  verification: RuntimeExecutionArtifactIntakePreflightArchiveVerificationRecord,
-): RuntimeExecutionArtifactIntakePreflightArchiveVerificationChecks {
+  replay: ArtifactIntakeArchiveReplay,
+  verification: ArtifactIntakeArchiveRecord,
+): ArtifactIntakeArchiveChecks {
   return {
     archiveFilesPresent: archiveFiles(refs).every((file) => file.exists),
     jsonEvidenceReadable: archive.json !== null,
@@ -502,14 +502,14 @@ function createChecks(
 }
 
 function createSummary(
-  source: SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference,
-  refs: RuntimeExecutionArtifactIntakePreflightArchiveReferences,
-  replay: RuntimeExecutionArtifactIntakePreflightArchiveReplayReference,
-  checks: RuntimeExecutionArtifactIntakePreflightArchiveVerificationChecks,
-  productionBlockers: readonly RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[],
-  warnings: readonly RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[],
-  recommendations: readonly RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[],
-): RuntimeExecutionArtifactIntakePreflightArchiveVerificationSummary {
+  source: ArtifactIntakeArchiveSource,
+  refs: ArtifactIntakeArchiveRefs,
+  replay: ArtifactIntakeArchiveReplay,
+  checks: ArtifactIntakeArchiveChecks,
+  productionBlockers: readonly ArtifactIntakeArchiveMessage[],
+  warnings: readonly ArtifactIntakeArchiveMessage[],
+  recommendations: readonly ArtifactIntakeArchiveMessage[],
+): ArtifactIntakeArchiveSummary {
   return {
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -531,8 +531,8 @@ function createSummary(
 }
 
 function collectProductionBlockers(
-  checks: RuntimeExecutionArtifactIntakePreflightArchiveVerificationChecks,
-): RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[] {
+  checks: ArtifactIntakeArchiveChecks,
+): ArtifactIntakeArchiveMessage[] {
   const rules: Array<[boolean, string, string, string]> = [
     [checks.archiveFilesPresent, "ARCHIVE_FILES_MISSING", "archive", "All v394 archive files must be present."],
     [checks.jsonEvidenceReadable, "ARCHIVE_JSON_UNREADABLE", "archive", "v394 JSON archive must be readable."],
@@ -555,7 +555,7 @@ function collectProductionBlockers(
     .map(([, code, source, message]) => ({ code, severity: "blocker" as const, source, message }));
 }
 
-function collectWarnings(): RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[] {
+function collectWarnings(): ArtifactIntakeArchiveMessage[] {
   return [{
     code: "ARCHIVE_VERIFICATION_IS_NOT_RUNTIME_ARTIFACT_INTAKE",
     severity: "warning",
@@ -564,7 +564,7 @@ function collectWarnings(): RuntimeExecutionArtifactIntakePreflightArchiveVerifi
   }];
 }
 
-function collectRecommendations(ready: boolean): RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[] {
+function collectRecommendations(ready: boolean): ArtifactIntakeArchiveMessage[] {
   return [{
     code: ready ? "WAIT_FOR_CONCRETE_RUNTIME_ARTIFACTS" : "REPAIR_V394_ARCHIVE_BEFORE_RETRY",
     severity: "recommendation",
@@ -576,8 +576,8 @@ function collectRecommendations(ready: boolean): RuntimeExecutionArtifactIntakeP
 }
 
 function archiveFiles(
-  refs: RuntimeExecutionArtifactIntakePreflightArchiveReferences,
-): RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference[] {
+  refs: ArtifactIntakeArchiveRefs,
+): ArtifactIntakeArchiveFileRef[] {
   return [
     refs.jsonEvidence,
     refs.markdownEvidence,

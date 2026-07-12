@@ -1,10 +1,10 @@
 import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationTypes.js";
+  PacketStopArchiveProofProfile,
+} from "./packetStopArchiveProofTypes.js";
 
-export function renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationProfile,
+export function renderPacketStopArchiveProofMarkdown(
+  profile: PacketStopArchiveProofProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: profile.title,

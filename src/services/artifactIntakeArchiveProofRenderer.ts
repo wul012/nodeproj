@@ -1,10 +1,10 @@
 import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationTypes.js";
+  ArtifactIntakeArchiveProofProfile,
+} from "./artifactIntakeArchiveProofTypes.js";
 
-export function renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationProfile,
+export function renderArtifactIntakeArchiveProofMarkdown(
+  profile: ArtifactIntakeArchiveProofProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: profile.title,

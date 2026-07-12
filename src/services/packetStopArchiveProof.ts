@@ -8,20 +8,20 @@ import {
   loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord,
 } from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationProfile,
-  RuntimeExecutionPacketStopRecordArchiveReferences,
-  RuntimeExecutionPacketStopRecordArchiveReplayReference,
-  RuntimeExecutionPacketStopRecordArchiveVerificationChecks,
-  RuntimeExecutionPacketStopRecordArchiveVerificationFileReference,
-  RuntimeExecutionPacketStopRecordArchiveVerificationMessage,
-  RuntimeExecutionPacketStopRecordArchiveVerificationRecord,
-  RuntimeExecutionPacketStopRecordArchiveVerificationSummary,
-  SourceNodeV392RuntimeExecutionPacketStopRecordReference,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationTypes.js";
+  PacketStopArchiveProofProfile,
+  PacketStopArchiveRefs,
+  PacketStopArchiveReplay,
+  PacketStopArchiveChecks,
+  PacketStopArchiveFileRef,
+  PacketStopArchiveMessage,
+  PacketStopArchiveRecord,
+  PacketStopArchiveSummary,
+  PacketStopArchiveSource,
+} from "./packetStopArchiveProofTypes.js";
 
 export {
-  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationMarkdown,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationRenderer.js";
+  renderPacketStopArchiveProofMarkdown,
+} from "./packetStopArchiveProofRenderer.js";
 
 const PROFILE_VERSION =
   "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification.v1";
@@ -61,9 +61,9 @@ interface ParsedArchive {
   archiveIndex: string;
 }
 
-export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification(
+export function loadPacketStopArchiveProof(
   input: { config: AppConfig; archiveRoot?: string },
-): ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationProfile {
+): PacketStopArchiveProofProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
   const archiveReferences = createArchiveReferences(projectRoot);
   const parsed = readParsedArchive(projectRoot, archiveReferences);
@@ -157,7 +157,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMin
   };
 }
 
-function createArchiveReferences(projectRoot: string): RuntimeExecutionPacketStopRecordArchiveReferences {
+function createArchiveReferences(projectRoot: string): PacketStopArchiveRefs {
   return {
     archiveRoot: ARCHIVE_ROOT,
     jsonEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V392_BASENAME}-http.json`),
@@ -177,7 +177,7 @@ function createArchiveReferences(projectRoot: string): RuntimeExecutionPacketSto
 function fileReference(
   projectRoot: string,
   ...segments: string[]
-): RuntimeExecutionPacketStopRecordArchiveVerificationFileReference {
+): PacketStopArchiveFileRef {
   const relativePath = path.join(...segments).replace(/\\/g, "/");
   const absolutePath = path.join(projectRoot, ...segments);
   if (!existsSync(absolutePath)) {
@@ -194,7 +194,7 @@ function fileReference(
 
 function readParsedArchive(
   projectRoot: string,
-  refs: RuntimeExecutionPacketStopRecordArchiveReferences,
+  refs: PacketStopArchiveRefs,
 ): ParsedArchive {
   return {
     json: readJsonFile(projectRoot, refs.jsonEvidence.path),
@@ -209,7 +209,7 @@ function readParsedArchive(
   };
 }
 
-function createSourceNodeV392(archive: ParsedArchive): SourceNodeV392RuntimeExecutionPacketStopRecordReference {
+function createSourceNodeV392(archive: ParsedArchive): PacketStopArchiveSource {
   return {
     sourceVersion: "Node v392",
     profileVersion: stringValue(valueAt(archive.json, "profileVersion")),
@@ -272,7 +272,7 @@ function createSourceNodeV392(archive: ParsedArchive): SourceNodeV392RuntimeExec
 function replayFromFrozenEvidence(
   config: AppConfig,
   projectRoot: string,
-): RuntimeExecutionPacketStopRecordArchiveReplayReference {
+): PacketStopArchiveReplay {
   const profile =
     loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord({
       config,
@@ -342,11 +342,11 @@ function replayFromFrozenEvidence(
 }
 
 function createArchiveVerification(
-  source: SourceNodeV392RuntimeExecutionPacketStopRecordReference,
-  refs: RuntimeExecutionPacketStopRecordArchiveReferences,
-  replay: RuntimeExecutionPacketStopRecordArchiveReplayReference,
+  source: PacketStopArchiveSource,
+  refs: PacketStopArchiveRefs,
+  replay: PacketStopArchiveReplay,
   ready: boolean,
-): RuntimeExecutionPacketStopRecordArchiveVerificationRecord {
+): PacketStopArchiveRecord {
   const archiveFileDigests = archiveFiles(refs)
     .map((file) => ({ path: file.path, digest: file.digest, byteLength: file.byteLength }));
   const record = {
@@ -381,12 +381,12 @@ function createArchiveVerification(
 }
 
 function createChecks(
-  source: SourceNodeV392RuntimeExecutionPacketStopRecordReference,
-  refs: RuntimeExecutionPacketStopRecordArchiveReferences,
+  source: PacketStopArchiveSource,
+  refs: PacketStopArchiveRefs,
   archive: ParsedArchive,
-  replay: RuntimeExecutionPacketStopRecordArchiveReplayReference,
-  verification: RuntimeExecutionPacketStopRecordArchiveVerificationRecord,
-): RuntimeExecutionPacketStopRecordArchiveVerificationChecks {
+  replay: PacketStopArchiveReplay,
+  verification: PacketStopArchiveRecord,
+): PacketStopArchiveChecks {
   return {
     archiveFilesPresent: archiveFiles(refs).every((file) => file.exists),
     jsonEvidenceReadable: archive.json !== null,
@@ -493,14 +493,14 @@ function createChecks(
 }
 
 function createSummary(
-  source: SourceNodeV392RuntimeExecutionPacketStopRecordReference,
-  refs: RuntimeExecutionPacketStopRecordArchiveReferences,
-  replay: RuntimeExecutionPacketStopRecordArchiveReplayReference,
-  checks: RuntimeExecutionPacketStopRecordArchiveVerificationChecks,
-  productionBlockers: readonly RuntimeExecutionPacketStopRecordArchiveVerificationMessage[],
-  warnings: readonly RuntimeExecutionPacketStopRecordArchiveVerificationMessage[],
-  recommendations: readonly RuntimeExecutionPacketStopRecordArchiveVerificationMessage[],
-): RuntimeExecutionPacketStopRecordArchiveVerificationSummary {
+  source: PacketStopArchiveSource,
+  refs: PacketStopArchiveRefs,
+  replay: PacketStopArchiveReplay,
+  checks: PacketStopArchiveChecks,
+  productionBlockers: readonly PacketStopArchiveMessage[],
+  warnings: readonly PacketStopArchiveMessage[],
+  recommendations: readonly PacketStopArchiveMessage[],
+): PacketStopArchiveSummary {
   return {
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -521,8 +521,8 @@ function createSummary(
 }
 
 function collectProductionBlockers(
-  checks: RuntimeExecutionPacketStopRecordArchiveVerificationChecks,
-): RuntimeExecutionPacketStopRecordArchiveVerificationMessage[] {
+  checks: PacketStopArchiveChecks,
+): PacketStopArchiveMessage[] {
   const rules: Array<[boolean, string, string, string]> = [
     [checks.archiveFilesPresent, "ARCHIVE_FILES_MISSING", "archive", "All v392 archive files must be present."],
     [checks.jsonEvidenceReadable, "ARCHIVE_JSON_UNREADABLE", "archive", "v392 JSON archive must be readable."],
@@ -545,7 +545,7 @@ function collectProductionBlockers(
     .map(([, code, source, message]) => ({ code, severity: "blocker" as const, source, message }));
 }
 
-function collectWarnings(): RuntimeExecutionPacketStopRecordArchiveVerificationMessage[] {
+function collectWarnings(): PacketStopArchiveMessage[] {
   return [{
     code: "ARCHIVE_VERIFICATION_IS_NOT_RUNTIME_EXECUTION",
     severity: "warning",
@@ -554,7 +554,7 @@ function collectWarnings(): RuntimeExecutionPacketStopRecordArchiveVerificationM
   }];
 }
 
-function collectRecommendations(ready: boolean): RuntimeExecutionPacketStopRecordArchiveVerificationMessage[] {
+function collectRecommendations(ready: boolean): PacketStopArchiveMessage[] {
   return [{
     code: ready ? "COLLECT_RUNTIME_EXECUTION_ARTIFACTS" : "REPAIR_V392_ARCHIVE_BEFORE_RETRY",
     severity: "recommendation",
@@ -566,8 +566,8 @@ function collectRecommendations(ready: boolean): RuntimeExecutionPacketStopRecor
 }
 
 function archiveFiles(
-  refs: RuntimeExecutionPacketStopRecordArchiveReferences,
-): RuntimeExecutionPacketStopRecordArchiveVerificationFileReference[] {
+  refs: PacketStopArchiveRefs,
+): PacketStopArchiveFileRef[] {
   return [
     refs.jsonEvidence,
     refs.markdownEvidence,

@@ -7,8 +7,8 @@ import { describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification.js";
+  loadPacketStopArchiveProof,
+} from "../src/services/packetStopArchiveProof.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification";
@@ -17,7 +17,7 @@ const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 describe("managed audit manual sandbox connection credential resolver Java/mini-kv declared operator lifecycle runtime execution packet stop record archive verification", () => {
   it("verifies the Node v392 stop record archive and frozen evidence replay", () => {
     const profile = withForcedHistoricalFallback(() =>
-      loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification({
+      loadPacketStopArchiveProof({
         config: loadTestConfig(),
       }));
 
@@ -235,7 +235,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
 
     try {
       const profile = withForcedHistoricalFallback(() =>
-        loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification({
+        loadPacketStopArchiveProof({
           config: loadTestConfig(),
           archiveRoot: emptyProjectRoot,
         }));

@@ -7,8 +7,8 @@ import { describe, expect, it } from "vitest";
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification.js";
+  loadArtifactIntakeArchiveProof,
+} from "../src/services/artifactIntakeArchiveProof.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification";
@@ -17,7 +17,7 @@ const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 describe("managed audit manual sandbox connection credential resolver Java/mini-kv declared operator lifecycle runtime execution artifact intake preflight archive verification", () => {
   it("verifies the Node v394 blocked preflight archive and frozen evidence replay", () => {
     const profile = withForcedHistoricalFallback(() =>
-      loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification({
+      loadArtifactIntakeArchiveProof({
         config: loadTestConfig(),
       }));
 
@@ -236,7 +236,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
 
     try {
       const profile = withForcedHistoricalFallback(() =>
-        loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification({
+        loadArtifactIntakeArchiveProof({
           config: loadTestConfig(),
           archiveRoot: emptyProjectRoot,
         }));

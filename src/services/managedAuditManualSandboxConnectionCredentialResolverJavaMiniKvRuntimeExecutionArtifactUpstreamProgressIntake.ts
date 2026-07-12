@@ -2,8 +2,8 @@ import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import { evidenceFile, readJsonObject } from "./historicalEvidenceReportUtils.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification.js";
+  loadArtifactIntakeArchiveProof,
+} from "./artifactIntakeArchiveProof.js";
 import type {
   JavaV162RuntimeArtifactCandidateReference,
   ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntakeProfile,
@@ -168,7 +168,7 @@ function createSourceNodeV395(
   archiveRoot: string | undefined,
 ): SourceNodeV395RuntimeExecutionArtifactIntakePreflightArchiveReference {
   const profile =
-    loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification({
+    loadArtifactIntakeArchiveProof({
       config,
       archiveRoot,
     });

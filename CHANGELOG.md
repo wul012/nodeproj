@@ -11,6 +11,16 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2195 - 2026-07-12
+
+- Replaced the five longest safe filename offenders, plus the sixth file needed
+  to close both concepts, with `ArtifactIntakeArchiveProof` and
+  `PacketStopArchiveProof`. The synchronized ratchet removes 30 name violations
+  and lowers the verification-family ceiling from 100 to 98. A fixed-clock,
+  shared-evidence-root regression now proves both JSON and Markdown surfaces
+  remain byte-identical to v2194 while routes, fixtures, and wire fields stay
+  unchanged.
+
 ## v2194 - 2026-07-12
 
 - Established the bounded elegance program's mechanical foundation: an AST-based

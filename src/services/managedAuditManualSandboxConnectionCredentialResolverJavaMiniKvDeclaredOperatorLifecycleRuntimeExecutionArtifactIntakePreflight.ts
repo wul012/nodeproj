@@ -5,8 +5,8 @@ import path from "node:path";
 import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification.js";
+  loadPacketStopArchiveProof,
+} from "./packetStopArchiveProof.js";
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightProfile,
   RuntimeExecutionArtifactIntakePreflightChecks,
@@ -272,7 +272,7 @@ function replayFromFrozenEvidence(
   projectRoot: string,
 ): RuntimeExecutionArtifactIntakePreflightReplayReference {
   const profile =
-    loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification({
+    loadPacketStopArchiveProof({
       config,
       archiveRoot: projectRoot,
     });

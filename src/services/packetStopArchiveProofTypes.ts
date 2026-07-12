@@ -1,11 +1,11 @@
-export interface RuntimeExecutionPacketStopRecordArchiveVerificationFileReference {
+export interface PacketStopArchiveFileRef {
   path: string;
   exists: boolean;
   byteLength: number;
   digest: string | null;
 }
 
-export interface SourceNodeV392RuntimeExecutionPacketStopRecordReference {
+export interface PacketStopArchiveSource {
   sourceVersion: "Node v392";
   profileVersion: string;
   stopRecordState: string;
@@ -56,7 +56,7 @@ export interface SourceNodeV392RuntimeExecutionPacketStopRecordReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface RuntimeExecutionPacketStopRecordArchiveReplayReference {
+export interface PacketStopArchiveReplay {
   replayState: "ready" | "blocked";
   replayedProfileVersion: string;
   stopRecordState: string;
@@ -93,22 +93,22 @@ export interface RuntimeExecutionPacketStopRecordArchiveReplayReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface RuntimeExecutionPacketStopRecordArchiveReferences {
+export interface PacketStopArchiveRefs {
   archiveRoot: "e/392";
-  jsonEvidence: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  markdownEvidence: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  summaryEvidence: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  browserSnapshot: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  htmlArchive: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  screenshot: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  explanation: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  codeWalkthrough: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  sourcePlan: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  plansIndex: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
-  archiveIndex: RuntimeExecutionPacketStopRecordArchiveVerificationFileReference;
+  jsonEvidence: PacketStopArchiveFileRef;
+  markdownEvidence: PacketStopArchiveFileRef;
+  summaryEvidence: PacketStopArchiveFileRef;
+  browserSnapshot: PacketStopArchiveFileRef;
+  htmlArchive: PacketStopArchiveFileRef;
+  screenshot: PacketStopArchiveFileRef;
+  explanation: PacketStopArchiveFileRef;
+  codeWalkthrough: PacketStopArchiveFileRef;
+  sourcePlan: PacketStopArchiveFileRef;
+  plansIndex: PacketStopArchiveFileRef;
+  archiveIndex: PacketStopArchiveFileRef;
 }
 
-export interface RuntimeExecutionPacketStopRecordArchiveVerificationRecord {
+export interface PacketStopArchiveRecord {
   archiveVerificationDigest: string;
   verificationMode: "java-mini-kv-declared-operator-lifecycle-runtime-execution-packet-stop-record-archive-verification";
   sourceSpan: "Node v392 runtime execution packet stop record";
@@ -132,7 +132,7 @@ export interface RuntimeExecutionPacketStopRecordArchiveVerificationRecord {
   nextNodeVersionSuggested: "Node v394";
 }
 
-export interface RuntimeExecutionPacketStopRecordArchiveVerificationChecks {
+export interface PacketStopArchiveChecks {
   archiveFilesPresent: boolean;
   jsonEvidenceReadable: boolean;
   jsonProfileVersionValid: boolean;
@@ -172,7 +172,7 @@ export interface RuntimeExecutionPacketStopRecordArchiveVerificationChecks {
   readyForDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerification: boolean;
 }
 
-export interface RuntimeExecutionPacketStopRecordArchiveVerificationSummary {
+export interface PacketStopArchiveSummary {
   checkCount: number;
   passedCheckCount: number;
   archiveFileCount: number;
@@ -190,14 +190,14 @@ export interface RuntimeExecutionPacketStopRecordArchiveVerificationSummary {
   recommendationCount: number;
 }
 
-export interface RuntimeExecutionPacketStopRecordArchiveVerificationMessage {
+export interface PacketStopArchiveMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordArchiveVerificationProfile {
+export interface PacketStopArchiveProofProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -237,15 +237,15 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  archiveReferences: RuntimeExecutionPacketStopRecordArchiveReferences;
-  sourceNodeV392: SourceNodeV392RuntimeExecutionPacketStopRecordReference;
-  replay: RuntimeExecutionPacketStopRecordArchiveReplayReference;
-  archiveVerification: RuntimeExecutionPacketStopRecordArchiveVerificationRecord;
-  checks: RuntimeExecutionPacketStopRecordArchiveVerificationChecks;
-  summary: RuntimeExecutionPacketStopRecordArchiveVerificationSummary;
-  productionBlockers: RuntimeExecutionPacketStopRecordArchiveVerificationMessage[];
-  warnings: RuntimeExecutionPacketStopRecordArchiveVerificationMessage[];
-  recommendations: RuntimeExecutionPacketStopRecordArchiveVerificationMessage[];
+  archiveReferences: PacketStopArchiveRefs;
+  sourceNodeV392: PacketStopArchiveSource;
+  replay: PacketStopArchiveReplay;
+  archiveVerification: PacketStopArchiveRecord;
+  checks: PacketStopArchiveChecks;
+  summary: PacketStopArchiveSummary;
+  productionBlockers: PacketStopArchiveMessage[];
+  warnings: PacketStopArchiveMessage[];
+  recommendations: PacketStopArchiveMessage[];
   evidenceEndpoints: {
     archiveVerificationJson: string;
     archiveVerificationMarkdown: string;

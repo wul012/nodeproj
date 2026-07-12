@@ -1,11 +1,11 @@
-export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference {
+export interface ArtifactIntakeArchiveFileRef {
   path: string;
   exists: boolean;
   byteLength: number;
   digest: string | null;
 }
 
-export interface SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference {
+export interface ArtifactIntakeArchiveSource {
   sourceVersion: "Node v394";
   profileVersion: string;
   intakePreflightState: string;
@@ -50,7 +50,7 @@ export interface SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference 
   activeShardPrototypeEnabled: false;
 }
 
-export interface RuntimeExecutionArtifactIntakePreflightArchiveReplayReference {
+export interface ArtifactIntakeArchiveReplay {
   replayState: "ready" | "blocked";
   replayedProfileVersion: string;
   intakePreflightState: string;
@@ -88,22 +88,22 @@ export interface RuntimeExecutionArtifactIntakePreflightArchiveReplayReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface RuntimeExecutionArtifactIntakePreflightArchiveReferences {
+export interface ArtifactIntakeArchiveRefs {
   archiveRoot: "e/394";
-  jsonEvidence: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  markdownEvidence: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  summaryEvidence: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  browserSnapshot: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  htmlArchive: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  screenshot: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  explanation: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  codeWalkthrough: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  sourcePlan: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  plansIndex: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
-  archiveIndex: RuntimeExecutionArtifactIntakePreflightArchiveVerificationFileReference;
+  jsonEvidence: ArtifactIntakeArchiveFileRef;
+  markdownEvidence: ArtifactIntakeArchiveFileRef;
+  summaryEvidence: ArtifactIntakeArchiveFileRef;
+  browserSnapshot: ArtifactIntakeArchiveFileRef;
+  htmlArchive: ArtifactIntakeArchiveFileRef;
+  screenshot: ArtifactIntakeArchiveFileRef;
+  explanation: ArtifactIntakeArchiveFileRef;
+  codeWalkthrough: ArtifactIntakeArchiveFileRef;
+  sourcePlan: ArtifactIntakeArchiveFileRef;
+  plansIndex: ArtifactIntakeArchiveFileRef;
+  archiveIndex: ArtifactIntakeArchiveFileRef;
 }
 
-export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationRecord {
+export interface ArtifactIntakeArchiveRecord {
   archiveVerificationDigest: string;
   verificationMode: "java-mini-kv-declared-operator-lifecycle-runtime-execution-artifact-intake-preflight-archive-verification";
   sourceSpan: "Node v394 runtime execution artifact intake preflight";
@@ -129,7 +129,7 @@ export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationRecor
   nextNodeVersionSuggested: "Node v396";
 }
 
-export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationChecks {
+export interface ArtifactIntakeArchiveChecks {
   archiveFilesPresent: boolean;
   jsonEvidenceReadable: boolean;
   jsonProfileVersionValid: boolean;
@@ -169,7 +169,7 @@ export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationCheck
   readyForDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerification: boolean;
 }
 
-export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationSummary {
+export interface ArtifactIntakeArchiveSummary {
   checkCount: number;
   passedCheckCount: number;
   archiveFileCount: number;
@@ -188,14 +188,14 @@ export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationSumma
   recommendationCount: number;
 }
 
-export interface RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage {
+export interface ArtifactIntakeArchiveMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflightArchiveVerificationProfile {
+export interface ArtifactIntakeArchiveProofProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -240,15 +240,15 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  archiveReferences: RuntimeExecutionArtifactIntakePreflightArchiveReferences;
-  sourceNodeV394: SourceNodeV394RuntimeExecutionArtifactIntakePreflightReference;
-  replay: RuntimeExecutionArtifactIntakePreflightArchiveReplayReference;
-  archiveVerification: RuntimeExecutionArtifactIntakePreflightArchiveVerificationRecord;
-  checks: RuntimeExecutionArtifactIntakePreflightArchiveVerificationChecks;
-  summary: RuntimeExecutionArtifactIntakePreflightArchiveVerificationSummary;
-  productionBlockers: RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[];
-  warnings: RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[];
-  recommendations: RuntimeExecutionArtifactIntakePreflightArchiveVerificationMessage[];
+  archiveReferences: ArtifactIntakeArchiveRefs;
+  sourceNodeV394: ArtifactIntakeArchiveSource;
+  replay: ArtifactIntakeArchiveReplay;
+  archiveVerification: ArtifactIntakeArchiveRecord;
+  checks: ArtifactIntakeArchiveChecks;
+  summary: ArtifactIntakeArchiveSummary;
+  productionBlockers: ArtifactIntakeArchiveMessage[];
+  warnings: ArtifactIntakeArchiveMessage[];
+  recommendations: ArtifactIntakeArchiveMessage[];
   evidenceEndpoints: {
     archiveVerificationJson: string;
     archiveVerificationMarkdown: string;

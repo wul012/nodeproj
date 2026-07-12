@@ -44,8 +44,8 @@ doc: debt start → end, what was deliberately left (with reasons). Request Clau
 
 | Milestone | Version | State | Evidence |
 |---|---|---|---|
-| E-N1 mechanical gates | v2194 | local complete; commit/tag/push/CI pending | 4592 name violations, 52 tracked families; AST/ratchet negative tests; 558 files / 1702 tests; `d/2194/evidence/elegance-gates-v2194-summary.json` |
-| E-N2 top-5 names | pending | not started | select only after v2194 boundary and Java close check |
+| E-N1 mechanical gates | v2194 | complete; committed, tagged, pushed, CI green | 4592 name violations, 52 tracked families; run 29178967561; `d/2194/evidence/elegance-gates-v2194-summary.json` |
+| E-N2 top-5 names | v2195 | local complete; commit/tag/push/CI pending | 4562 name violations; 559/1703 full suite; fixed-clock four-surface byte parity; six files and 24 exports shortened |
 | E-N3/E-N4 remediation | pending | not started | driven by census; skip duplication work if no reviewer-checkable shared behavior exists |
 | E-N5 close | pending | not started | hard stop no later than fifth E-track version |
 

@@ -1,0 +1,127 @@
+{
+  "schemaVersion": 1,
+  "version": "v2195",
+  "track": "E-N2 top-5 name hotspot remediation",
+  "startingCommit": "343583c32813d72ee8ec5ee4992cfa9d58c0f4ea",
+  "behaviorChange": false,
+  "routeChange": false,
+  "fixtureChange": false,
+  "existingExpectationChange": false,
+  "selection": {
+    "safeFilenameOffendersClosed": 5,
+    "cohesiveFamilyFilesAlsoClosed": 1,
+    "renamedFiles": 6,
+    "renamedExports": 24,
+    "rejectedLongerCandidatesReason": "Exact filenames are emitted by current source catalogs and would change report bytes."
+  },
+  "nameDebt": {
+    "start": 4592,
+    "end": 4562,
+    "delta": -30,
+    "fileStart": 993,
+    "fileEnd": 987,
+    "exportStart": 3599,
+    "exportEnd": 3575,
+    "verificationFamilyStart": 100,
+    "verificationFamilyEnd": 98,
+    "proofFamilyEnd": 2,
+    "trackedFamilies": 52,
+    "ready": true
+  },
+  "replacementNameBudget": {
+    "maximum": 40,
+    "longest": "renderArtifactIntakeArchiveProofMarkdown",
+    "longestLength": 40
+  },
+  "byteParity": {
+    "clock": "2026-07-12T00:00:00.000Z",
+    "sameEvidenceRoot": true,
+    "headAndWorktreeMatched": true,
+    "permanentTest": "test/eleganceHotspotParity.test.ts",
+    "surfaces": [
+      {
+        "name": "artifact intake JSON",
+        "bytes": 15313,
+        "sha256": "37aaf8e0ec5cc754a783259d270ba095f1d4dfe5b5763ed8b8a62c7787c10c69"
+      },
+      {
+        "name": "artifact intake Markdown",
+        "bytes": 13438,
+        "sha256": "e504ef0613644677a99ff176b1ffe74bef3b19931c6679ddbf93c65c268e6d9f"
+      },
+      {
+        "name": "packet stop JSON",
+        "bytes": 14866,
+        "sha256": "20e8330020dcc06f6da9be9a79619c594148575e27b6efb674e61f27df6afe18"
+      },
+      {
+        "name": "packet stop Markdown",
+        "bytes": 13030,
+        "sha256": "5fe69afb9d9a27ed623b379d33dc153f6de8b86a97581b0a174d2433147fb021"
+      }
+    ]
+  },
+  "mechanicalRewriteAudit": {
+    "trackedFilesCompared": 11,
+    "nonReplacementDifferences": 0,
+    "method": "Apply the declared rename map to each HEAD blob and compare it byte-for-byte with the worktree file."
+  },
+  "verification": {
+    "focused": {
+      "files": 6,
+      "tests": 18,
+      "durationSeconds": 16.47,
+      "passed": true
+    },
+    "fullVitest": {
+      "files": 559,
+      "tests": 1703,
+      "durationSeconds": 928.83,
+      "maxWorkers": 6,
+      "passed": true
+    },
+    "typecheck": true,
+    "lintErrors": 0,
+    "lintWarnings": 261,
+    "build": true,
+    "securityTextFiles": 8190,
+    "securitySignals": 6,
+    "securityNarrowWaivers": 6,
+    "securityConfigChecksPassed": 18,
+    "securityConfigChecksTotal": 18,
+    "rendererStandardized": 242,
+    "rendererWaived": 3,
+    "rendererNonWaived": 0,
+    "sourceFilesAbove800Lines": 0,
+    "archiveFiles": 7045,
+    "archiveMiB": 62.71,
+    "archiveBudgetMiB": 80,
+    "httpSmoke": {
+      "port": 31195,
+      "health": 200,
+      "artifactIntakeJson": 200,
+      "artifactIntakeMarkdown": 200,
+      "packetStopJson": 200,
+      "packetStopMarkdown": 200
+    }
+  },
+  "walkthrough": {
+    "path": "代码讲解记录_生产雏形阶段3/r2000/2165-elegance-hotspots-v2195.md",
+    "chineseCharacters": 3194
+  },
+  "screenshot": {
+    "applicable": false,
+    "reason": "Internal module names changed while all existing HTTP bytes stayed identical; no UI or HTML surface was added."
+  },
+  "cleanup": {
+    "temporaryHeadWorktreeRemoved": true,
+    "nodeVitestWorkersRemaining": 0,
+    "smokePid": 28728,
+    "smokeProcessStopped": true,
+    "smokePortClosed": true,
+    "distRemoved": true
+  },
+  "ci": {
+    "state": "pending commit and push"
+  }
+}
