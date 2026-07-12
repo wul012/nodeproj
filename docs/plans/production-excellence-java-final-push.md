@@ -156,3 +156,19 @@ frozen archive paths; shrink-only SpotBugs baseline; route strings byte-identica
   its job under a moving HEAD.
 - 366 non-controller root files remain (~15 batches). Continue; next checkpoint after
   5 more.
+
+## Claude checkpoint review — 2026-07-12 (v1853–v1857): PASS, no corrections — endgame in sight
+
+- Verified by running the committed census: direct-root 471 → 249 (221 files in exactly
+  5 batches, including the 118-file ReleaseApproval closure as one green version);
+  UnassignedFiles empty; all rows closed in-session with run ids — third consecutive
+  clean ledger cycle.
+- Java is the FIRST repo to commit the Elegance Gates (swept into v1854's AGENTS.md).
+  The gates' mechanical check (name census extension of
+  `scripts/java-maintainability-census.ps1` + shrink-only baseline) is due in a
+  governance version before track close.
+- 145 non-controller files remain — roughly 3–4 batches to the 105-file endgame target.
+  When the census hits target: run Phase 2 track closeout as briefed (final census
+  pinned, E1–E10 self-audit, `docs/java-track-final-evidence.md`), then request the
+  Java track final review — that review triggers the PROGRAM-close sequence (capstone
+  rerun against Java's final tag).

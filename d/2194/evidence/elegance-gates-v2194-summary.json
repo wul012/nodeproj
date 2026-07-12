@@ -1,0 +1,140 @@
+{
+  "schema_version": "orderops.elegance-gates.v1",
+  "version": "v2194",
+  "date": "2026-07-12",
+  "baseline": {
+    "source_files": 1245,
+    "max_name_length": 40,
+    "family_threshold": 3,
+    "name_violations": 4592,
+    "filename_violations": 993,
+    "export_violations": 3599,
+    "name_key_digest": "sha256:fa92ba837b8ccabe533295b64654a83bc51406ad6b3c5251eb8f6190a7fdf675",
+    "structural_families": 134,
+    "tracked_families": 52,
+    "baseline_lines": 65,
+    "baseline_bytes": 1921,
+    "baseline_sha256": "375010123d263b97501d44be60756b58e51cdadf8e7e418d50b74a41063502cf"
+  },
+  "top_families": [
+    { "family": "src/services:renderer", "file_count": 245 },
+    { "family": "src/services:types", "file_count": 221 },
+    { "family": "src/services:verification", "file_count": 100 },
+    { "family": "src/routes:routes", "file_count": 73 },
+    { "family": "src/services:artifacts", "file_count": 46 },
+    { "family": "src/services:catalog", "file_count": 41 },
+    { "family": "src/services:builder", "file_count": 36 },
+    { "family": "src/services:intake", "file_count": 27 }
+  ],
+  "gate_contract": {
+    "daily_command": "npm run elegance:census",
+    "json_command": "node scripts/elegance-census.mjs --json",
+    "baseline_refresh_command": "node scripts/elegance-census.mjs --refresh-baseline",
+    "default_mode_writes_baseline": false,
+    "json_mode_writes_baseline": false,
+    "ci_wired": true,
+    "runtime_source_changed": false,
+    "runtime_output_changed": false
+  },
+  "verification": {
+    "focused_elegance_tests": {
+      "status": "pass",
+      "test_files": 1,
+      "tests": 5
+    },
+    "focused_walkthrough_tests": {
+      "status": "pass",
+      "test_files": 3,
+      "tests": 9,
+      "walkthrough_chinese_characters": 3130
+    },
+    "focused_archive_elegance_tests": {
+      "status": "pass",
+      "test_files": 2,
+      "tests": 7
+    },
+    "typecheck": "pass",
+    "full_test": {
+      "status": "pass",
+      "strategy": "16 sequential Vitest shards, maxWorkers=2",
+      "test_files": 558,
+      "tests": 1702,
+      "total_reported_duration_seconds": 4282.08,
+      "shards": [
+        { "shard": "1/16", "test_files": 35, "tests": 102, "duration_seconds": 261.52 },
+        { "shard": "2/16", "test_files": 35, "tests": 104, "duration_seconds": 206.54 },
+        { "shard": "3/16", "test_files": 35, "tests": 105, "duration_seconds": 438.96 },
+        { "shard": "4/16", "test_files": 35, "tests": 91, "duration_seconds": 296.54 },
+        { "shard": "5/16", "test_files": 35, "tests": 109, "duration_seconds": 256.95 },
+        { "shard": "6/16", "test_files": 35, "tests": 115, "duration_seconds": 407.36 },
+        { "shard": "7/16", "test_files": 35, "tests": 147, "duration_seconds": 265.35 },
+        { "shard": "8/16", "test_files": 35, "tests": 103, "duration_seconds": 233.09 },
+        { "shard": "9/16", "test_files": 35, "tests": 106, "duration_seconds": 253.57 },
+        { "shard": "10/16", "test_files": 35, "tests": 100, "duration_seconds": 271.09 },
+        { "shard": "11/16", "test_files": 35, "tests": 98, "duration_seconds": 265.13 },
+        { "shard": "12/16", "test_files": 35, "tests": 109, "duration_seconds": 250.72 },
+        { "shard": "13/16", "test_files": 35, "tests": 108, "duration_seconds": 150.25 },
+        { "shard": "14/16", "test_files": 35, "tests": 98, "duration_seconds": 179.41 },
+        { "shard": "15/16", "test_files": 34, "tests": 114, "duration_seconds": 284.26 },
+        { "shard": "16/16", "test_files": 34, "tests": 93, "duration_seconds": 261.34 }
+      ]
+    },
+    "build": "pass",
+    "lint": {
+      "status": "pass",
+      "errors": 0,
+      "warnings": 261,
+      "warning_ceiling": 261
+    },
+    "security_config_scan": {
+      "status": "pass",
+      "text_files": 8185,
+      "credential_signals": 6,
+      "narrowly_waived_signals": 6,
+      "config_checks_passed": 18,
+      "config_checks_total": 18
+    },
+    "renderer_census": {
+      "status": "pass",
+      "standardized": 242,
+      "total": 245,
+      "composition_only_waivers": 3,
+      "non_waived_unstandardized": 0
+    },
+    "source_size_census": {
+      "status": "pass",
+      "threshold_lines": 800,
+      "oversized_files": 0
+    },
+    "archive_retention_census": {
+      "status": "pass",
+      "files": 7041,
+      "size_mib": 62.69,
+      "budget_mib": 80.0
+    },
+    "elegance_census": "pass"
+  },
+  "deviations": [
+    {
+      "issue": "The first per-file baseline was 444454 bytes and exceeded the existing 128 KiB bounded-file budget.",
+      "resolution": "Replaced it with exact count, class counts, key-set SHA-256, and family ceilings; archive budget was not loosened."
+    },
+    {
+      "issue": "The 2/8 Vitest shard timed out without assertion output.",
+      "resolution": "Stopped owned PIDs 26576 and 4936, then passed the complete suite as 16 deterministic shards."
+    }
+  ],
+  "cross_project_state": {
+    "java_committed_tag": "v1859-order-platform-production-excellence-ops-route-cleanup-upkeep-core-extraction",
+    "java_active_work": "v1860 extraction in progress",
+    "java_final_review_complete": false,
+    "mini_kv_committed_tag": "v1658",
+    "sibling_inspection": "read-only"
+  },
+  "production_execution_authorized": false,
+  "stage_2_authorized": false,
+  "screenshot": {
+    "created": false,
+    "reason": "No UI or runtime behavior changed; machine gates and baseline evidence are stronger."
+  }
+}

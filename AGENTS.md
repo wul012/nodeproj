@@ -15,6 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
+| Active maintenance track | `docs/plans/elegance-hotspot-program-node.md`; at most 5 versions and subordinate to Java program-close |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule
@@ -169,6 +170,29 @@ Engineering quality rules:
 - Lesson promotion: when the same deviation or workaround is recorded twice, promote it into this file as a rule instead of recording it a third time.
 - CI-only failures are never debugged by pushing (recurred v2171–73, v2176–77, v2180–82; promoted 2026-07-10): when a parity/test failure reproduces only in CI, reproduce it locally first (fake absolute paths, CRLF, missing sibling repos, fresh clone) or bundle diagnostics into ONE push; one fix = one version, and a red run on master from an iteration attempt is a closeout violation. For renderer-migration parity specifically: before pushing a migration batch, scan the migrated renderers' outputs for ANY machine-dependent token (absolute path, timestamp, byte count, sha256/digest in any phrasing) and extend `test/rendererMigrationParityUtils.ts` proactively in the same commit — do not wait for CI to reveal the next digest phrasing one red run at a time.
 - Method kernel: apply the 12-rule kernel and task-brief skeleton from `D:\C\四项目理解统筹\模型使用手册\00-通用方法内核.md` (read once per session; also mirrored in the global `~/.codex/AGENTS.md`).
+
+## Elegance Gates (promoted 2026-07-11, program-end review)
+
+The post-capstone review judged this codebase fortified but not elegant: naming by
+concatenation, generation-scale duplication (245 renderers consolidated after the fact),
+scaffolding substituting for design. These gates buy elegance upstream. They apply to
+NEW and TOUCHED code only; existing violations enter a committed baseline that may only
+shrink. Each rule must become a committed mechanical check that fails CI — the next
+governance version commits the gates (the renderer-census machinery is the model);
+until then they bind as authoring rules enforced at review. Ratchets only tighten.
+
+- Name budget: no new identifier or filename over 40 characters. A name that wants more
+  nouns means a missing abstraction — extract and name the concept instead. Existing
+  over-budget names: baseline census, shrink-only; renames only where contracts allow.
+- Rule of three: a third structurally-similar file in any family is a STOP condition —
+  build the shared engine/builder first, then land the third case as data/config.
+- Generation cap: a feature version adds at most 400 new source lines (dedup, refactor,
+  split, and migration versions exempt). Needing more means the version splits.
+- Family design note: before creating a new file family, write ≤10 lines in the
+  walkthrough naming the abstraction and the data-vs-behavior split — BEFORE
+  implementation, the same discipline as freezing a parity oracle before migrating.
+- Boy-scout rule: any touched file must leave within this section's name and size
+  budgets.
 
 ## Final Response Requirement
 

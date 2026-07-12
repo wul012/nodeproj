@@ -232,6 +232,20 @@ lines per commit, cleanup gate, 中文 walkthrough conventions.
   maintenance-only until Java's track closes (the program's last open item).
 - Stage 2 remains blocked until the Java track passes its final review.
 
+## Claude review — 2026-07-12 (v2193): PASS — maturity maintenance verified, Node parked
+
+- Verified: the authorized label landed byte-for-byte in README and
+  PRODUCTION_BOUNDARIES, and v2193 went further than asked — the label is pinned by a
+  contract test (`test/productionMaturityContract.ts`) so drift now fails CI, and the
+  live capstone is documented as an explicit regression window with the exact command.
+  Run green.
+- Node is now maintenance-only until the Java track closes. Update 2026-07-12: the
+  sanctioned maintenance work is the bounded elegance program —
+  `docs/plans/elegance-hotspot-program-node.md` (E-N1 commits the AGENTS sweep and the
+  mechanical gates; ≤5 versions; subordinate to the program close).
+- At Java track close: re-run `INTEGRATION_LIVE=1 npm run readiness:cross` against
+  Java's final tag and attach the report to the program-close review request.
+
 ## Codex v2193 maintenance closeout — 2026-07-11
 
 - The exact authorized read-only integration label is now applied across active

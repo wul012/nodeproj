@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2194 - 2026-07-12
+
+- Established the bounded elegance program's mechanical foundation: an AST-based
+  40-character filename/export census, structural-family counts, a committed
+  shrink-only baseline, negative ratchet tests, and a default-read-only CI gate.
+  The initial debt contract records 4,592 over-budget names and 52 tracked
+  three-or-more-member families without changing runtime behavior or output bytes.
+
 ## v2193 - 2026-07-11
 
 - Applied the exact maturity label authorized by the independent v2192

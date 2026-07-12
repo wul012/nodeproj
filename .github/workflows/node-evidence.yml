@@ -16,6 +16,7 @@ on:
       - "docs/archive-retention-budget.json"
       - "docs/archive-retention-index.md"
       - "docs/plans/node-track-final-evidence.md"
+      - "docs/plans/elegance-baseline.json"
       - "fixtures/MANIFEST.md"
       - "src/**"
       - "test/**"
@@ -36,6 +37,7 @@ on:
       - "docs/archive-retention-budget.json"
       - "docs/archive-retention-index.md"
       - "docs/plans/node-track-final-evidence.md"
+      - "docs/plans/elegance-baseline.json"
       - "fixtures/MANIFEST.md"
       - "src/**"
       - "test/**"
@@ -79,6 +81,9 @@ jobs:
 
       - name: Archive retention budget
         run: npm run archive:retention:census
+
+      - name: Elegance ratchet
+        run: npm run elegance:census
 
       - name: Test
         run: npm run test:coverage

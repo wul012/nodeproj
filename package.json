@@ -17,6 +17,7 @@
     "lint": "eslint src test --max-warnings 261",
     "security:scan": "node scripts/security-config-scan.mjs",
     "archive:retention:census": "node scripts/archive-retention-census.mjs",
+    "elegance:census": "node scripts/elegance-census.mjs",
     "renderer:census": "node scripts/renderer-census.mjs --max-unstandardized=3 --max-waived=3 --max-non-waived=0",
     "source:size:census": "node scripts/source-size-census.mjs",
     "readiness:cross": "tsx src/integration/readinessCrossCli.ts"
