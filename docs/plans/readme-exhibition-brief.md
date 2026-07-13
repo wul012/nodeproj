@@ -79,7 +79,23 @@ in GitHub Settings → General → Social preview.
 | Visual verification | complete | GitHub GFM desktop 1440x1000 and mobile 390x844; four badges loaded; one Mermaid SVG; screenshot under `d/2202/图片/` |
 | Version artifacts | complete | explanation, evidence summary, CHANGELOG, playbook row, and Chinese walkthrough 2172 |
 | Final local gates | complete | focused docs 15/15; full Vitest 1141/1141 suites and 1716/1716 tests; typecheck/build/lint/security/archive/elegance/family/renderer/source-size green |
-| Commit/tag/push/Node Evidence | pending | close only after remote workflow is green |
+| Commit/tag/push/Node Evidence | complete | commit `a81590bf` = tag `v2202`, pushed; Node Evidence run 29231188913 success at exactly that SHA |
+
+## External review verdict (Claude, 2026-07-13): PASS
+
+Reproduced, not trusted: focused docs contract rerun locally (7/7 in
+`productionExcellenceDocs.test.ts`, pinned expectations untouched); maturity label
+verified byte-exact against `test/productionMaturityContract.ts` and present exactly
+once in `README.md`; every repository-relative README link confirmed to exist by an
+independent sweep; displayed numbers traced to their committed sources (1716 in the
+v2201 full-suite summary, 4537 in `docs/plans/elegance-baseline.json`, 245/242/3/0 in
+the v2184 renderer closeout, coverage-rounding disclosure present in the README
+itself); CI run 29231188913 green at `a81590bf`; v2202 evidence summary complete with
+screenshot SHA-256 and boundary flags all false/read-only. Requirement-evidence
+matrix: all seven rows complete. This closes the four-repo README exhibition series
+(mini-kv v1664 PASS, Java v1868 PASS, aiproj v1278 self-executed, Node v2202 PASS).
+Remaining manual step is user-owned: upload the social-preview image in GitHub
+Settings.
 
 ## Fail conditions
 
