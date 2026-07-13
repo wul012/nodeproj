@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "version": "v2202",
+  "goal": "Turn README.md into a 30-second, evidence-linked GitHub exhibit without changing runtime behavior or maturity claims.",
+  "surfaces": {
+    "readme": "README.md",
+    "orientation": "START_HERE.md",
+    "brief": "docs/plans/readme-exhibition-brief.md",
+    "screenshot": "d/2202/图片/readme-exhibition-v2202.png",
+    "explanation": "d/2202/解释/readme-exhibition-v2202.md",
+    "walkthrough": "代码讲解记录_生产雏形阶段3/r2000/2172-readme-exhibition-v2202.md"
+  },
+  "displayedMetrics": {
+    "tests": "1716/1716 from committed v2201 full-suite evidence",
+    "coverage": "95.9% badge, rounded from committed 95.92% statements; full S/B/F/L remains 95.92/87.59/98.64/95.88",
+    "lint": "current 0 errors / 180 warnings; enforced maximum 261, below the original 263 ceiling",
+    "renderers": "245 total / 242 standardized / 3 AST-valid waivers / 0 non-waived",
+    "oversizedSourceFiles": 0,
+    "eleganceNameDebt": "4537 shrink-only"
+  },
+  "visualValidation": {
+    "renderer": "GitHub Markdown API in gfm mode plus GitHub Markdown CSS and Mermaid 11",
+    "desktopViewport": "1440x1000",
+    "mobileViewport": "390x844",
+    "badgesLoaded": 4,
+    "mermaidSvgCount": 1,
+    "pageLevelHorizontalOverflow": false,
+    "imageLoadFailures": 0,
+    "screenshotBytes": 135167,
+    "screenshotSha256": "25b3dfddda3b0e57ae60ee01270ca07313bd060b866bce29f3e8827c247aa55c"
+  },
+  "boundaries": {
+    "runtimeCodeChanged": false,
+    "crossProjectContractChanged": false,
+    "liveCapstoneTriggered": false,
+    "productionExecutionAuthorized": false,
+    "stage2Started": false,
+    "javaMiniKvAiprojMayContinueIndependently": true
+  },
+  "validation": {
+    "focusedDocs": "passed final group: 3 files / 15 tests; pinned expectations unchanged",
+    "relativeLinks": "passed: all repository-relative README targets exist",
+    "typecheck": "passed",
+    "lint": "passed: 0 errors / 180 warnings under max 261",
+    "security": "passed: 8225 text files, 6/6 narrow waivers, 18/18 config checks",
+    "archive": "passed: 7073 files, below 80 MiB / 8000-file budgets, ready=true",
+    "elegance": "passed: 4537 names / 984 filenames / 3553 exports / 52 tracked families, ready=true",
+    "familyLogic": "passed: 52/52 ranked, ready=true",
+    "renderer": "passed: 245/242/3/0",
+    "sourceSize": "passed: 1246 source files / 0 oversized, ready=true",
+    "fullVitest": "passed: 1141/1141 suites / 1716/1716 tests / 0 failed / 0 pending",
+    "build": "passed",
+    "nodeEvidenceCi": "pending push"
+  }
+}

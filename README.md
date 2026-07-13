@@ -1,508 +1,127 @@
 # OrderOps Node
 
-Node.js control plane for two local practice systems:
+[![Node Evidence](https://github.com/wul012/nodeproj/actions/workflows/node-evidence.yml/badge.svg)](https://github.com/wul012/nodeproj/actions/workflows/node-evidence.yml)
+[![Tests](https://img.shields.io/badge/tests-1716%20passing-brightgreen)](d/2201/evidence/readiness-markdown-engine-v2201-summary.json)
+[![Coverage](https://img.shields.io/badge/coverage-95.9%25-brightgreen)](d/2190/evidence/node-track-closeout-v2190-summary.json)
+[![Source files over 800 lines](https://img.shields.io/badge/source%20files%20%3E800%20lines-0-brightgreen)](docs/plans/source-size-remediation-baseline.json)
 
-- Java order platform: `D:\javaproj\advanced-order-platform`
-- C++ mini-kv: `D:\C\mini-kv`
+OrderOps Node is an order-operations governance platform built with Fastify and TypeScript. It turns operational state into byte-stable JSON and Markdown evidence that can be reviewed, archived, and reproduced. Mechanical ratchets keep coverage, code size, renderer migration, archive growth, and known naming debt from silently regressing. It also owns the env-gated live capstone that reads the other three projects without granting itself write or execution authority.
 
-This project keeps Node as the gateway, live operations view, and integration shell. The Java service keeps order consistency logic, and mini-kv keeps storage/network internals.
-
-## Current maturity
-
-The Node production-excellence track completed N0-N5 and received its v2190
-E1-E10 external closeout PASS. The corrected v2192 four-project C1-C4 capstone
-received an external program-end PASS after an independent live rerun.
+OrderOps Node 是一个面向订单运维治理的 Fastify + TypeScript 平台：它把运行状态转换为可复核、可归档、可重复生成的 JSON 与 Markdown 证据，用机械化门禁防止覆盖率、源码体积、渲染器迁移、归档规模和命名债务倒退，并负责以只读方式联合检查 Java、mini-kv 与 aiproj，而不取得写入或执行权限。
 
 **Maturity: single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority).**
-This repository is not authorized for production execution. Stage 2 remains
-blocked until the Java track passes its final review.
-See `docs/plans/node-track-final-evidence.md` and
-`docs/PRODUCTION_BOUNDARIES.md` for the reproducible gates and remaining
-boundaries.
 
-## Features
+The Node production-excellence track completed N0-N5 and received its v2190 E1-E10 external closeout PASS. The corrected v2192 four-project C1-C4 capstone received an external program-end PASS after an independent live rerun.
 
-- Fastify + TypeScript service
-- Browser dashboard at `/`
-- Health endpoint at `/health`
-- Java order platform proxy endpoints
-- mini-kv TCP command client for `PING`, `GET`, `SET`, `DEL`, `TTL`, `SIZE`, `EXPIRE`, `HEALTH`, `STATSJSON`, `INFOJSON`, `COMMANDSJSON`, `KEYS`, `KEYSJSON`, `EXPLAINJSON`, and `CHECKJSON`
-- Live SSE status stream at `/api/v1/events/ops`
-- In-memory audit log and request summary endpoints
-- Safe default upstream probe mode with `UPSTREAM_PROBES_ENABLED=false`
-- Safe default upstream action mode with `UPSTREAM_ACTIONS_ENABLED=false`
-- Env-gated `npm run readiness:cross` capstone for a real Java jar read, fresh
-  mini-kv CLI evidence, an aiproj registry-listed artifact read, no-write and
-  no-promotion proofs, and one JSON/Markdown result
-- Live capstone regression rerun at Java track close through
-  `INTEGRATION_LIVE=1 npm run readiness:cross`; default CI remains intentionally
-  isolated from local sibling runtimes
-- Read-only upstream overview at `/api/v1/upstreams/overview` for Java health, Java ops overview, Java failed-event summary, and mini-kv operational, identity, and command risk signals
-- Dashboard upstream overview detail panel for Java governance and mini-kv command risk signals
-- Read-only Java failed-event replay readiness proxy and Dashboard lookup guarded by `UPSTREAM_PROBES_ENABLED`
-- Read-only mini-kv `KEYSJSON` key inventory proxy and Dashboard panel guarded by `UPSTREAM_PROBES_ENABLED`
-- Local action-plan dry-run endpoint for checking what a real operation would do before touching upstreams
-- In-memory operation intent flow with role policy and explicit confirmation text
-- In-memory operation intent event feed and per-intent timeline
-- Idempotency-Key support for operation intent creation and duplicate-submit replay
-- In-memory dry-run dispatch ledger for confirmed intents without touching upstreams
-- Local operation preflight evidence bundle that combines intent policy, confirmation, dispatch history, Java replay readiness evidence, and mini-kv command/key inventory evidence before any real upstream execution
-- Local operation preflight Markdown report, SHA-256 digest, and verification endpoint for archiving operation evidence
-- Local operation execution preview that combines preflight digest, Java replay simulation, mini-kv EXPLAINJSON, would-call summary, and expected side effects
-- In-memory operation approval request ledger that binds preflight and execution-preview digests before any real upstream execution
-- In-memory operation approval decision ledger for recording reviewer approve/reject decisions with SHA-256 digests and no upstream execution
-- Local operation approval evidence report, verification, handoff bundle, execution gate preview, archive record, archive verification, execution-contract archive bundle, and mismatch diagnostics for archiving request, decision, digest chain, Java approval-status and execution-contract evidence, mini-kv `command_digest` / `side_effect_count` / `CHECKJSON` contract evidence, and upstream untouched proof before any real execution
-- Local upstream execution-contract fixture report for reading Java v43 and mini-kv v52 stable samples before fixture-driven smoke
-- Local upstream execution-contract fixture drift diagnostics for catching fixture field, type, digest, and diagnostics-mapping drift
-- In-memory mutation rate limiter for intent and dispatch POST operations
-- Local ops summary for audit, intents, dispatches, events, rate limits, and safety flags
-- Local readiness gate for deciding whether the control plane is safe to promote toward real upstream execution
-- Local ops handoff report in JSON or Markdown for debugging, review, and version archives
-- Local ops runbook checklist for turning readiness signals into operator-facing preflight steps
-- In-memory ops checkpoint ledger with SHA-256 digests for capturing local readiness evidence
-- Local ops checkpoint diff for comparing readiness, runbook totals, signals, and step status changes
-- Local ops baseline tracking for comparing the latest checkpoint against a selected checkpoint baseline
-- Local ops promotion review for combining readiness, runbook, checkpoint, and baseline drift into a promotion decision
-- In-memory ops promotion decision ledger for recording promotion reviews with reviewer notes and SHA-256 digests
-- Local promotion decision digest verification for rechecking recorded evidence before handoff or promotion
-- Local promotion decision evidence report in JSON or Markdown for operator review and archival
-- Local promotion decision ledger integrity check with a rolling SHA-256 root digest
-- Local promotion decision ledger integrity report in Markdown for human review and archival
-- Local promotion archive bundle in JSON or Markdown for combining latest evidence and ledger integrity
-- Local promotion archive manifest with SHA-256 artifact digests for final archive fingerprinting
-- Local promotion archive verification for rechecking manifest and artifact digests
-- Local promotion archive attestation with a sealed handoff digest
-- Local promotion archive attestation verification for rechecking sealed handoff digests
-- Local promotion handoff package with attachment digests and a package digest
-- Local promotion handoff package verification for rechecking package and attachment digests
-- Local promotion handoff certificate with a shareable certificate digest
-- Local promotion handoff certificate verification for rechecking certificate digests and package references
-- Local promotion handoff receipt with receipt digest and verified handoff milestones
-- Local promotion handoff receipt verification for rechecking receipt digests and milestone references
-- Local promotion handoff closure with closure digest for final handoff closeout
-- Local promotion handoff closure verification for rechecking closure digests and closeout item references
-- Local promotion handoff completion record for packaging verified closure evidence into final archive closeout
-- Local promotion handoff completion verification for rechecking completion digests and final closeout steps
-- Local promotion release evidence record for packaging verified completion evidence into a final release archive digest
-- Local promotion release evidence verification for rechecking final evidence digests and release archive items
-- Local promotion release archive manifest for sealing verified release evidence into the final deployment approval record
-- Local promotion release archive verification for rechecking final archive digests and deployment approval references
-- Local promotion deployment approval record for attaching verified release archive digests to deployment change records
-- Local promotion deployment approval verification for rechecking approval digests and approval item references
-- Local promotion deployment change record for carrying verified approval digests into release execution logs
-- Local promotion deployment change record verification for rechecking change digests and change item references
-- Local promotion deployment execution record for assigning a verified execution digest before release execution
-- Local promotion deployment execution record verification for rechecking execution digests and execution item references
-- Local promotion deployment execution receipt for carrying verified execution digests into release audit trails
-- Local promotion deployment execution receipt verification for rechecking receipt digests and receipt item references
-- Local promotion release audit trail record for carrying verified receipt digests into final release reporting
-- Production readiness summary v2 for categorizing upstream observability, audit durability, access control, and execution safety blockers while keeping upstream execution disabled
-- Access policy profile for defining route groups, minimum roles, and request identity contract before enabling enforcement
-- Access guard dry-run headers and readiness profile for evaluating route group, required role, matched roles, and would-deny evidence without rejecting requests
-- Access guard dry-run audit context on request audit events, so `/api/v1/audit/events` records route group, required role, matched roles, would-deny, and reason
-- Operator identity contract profile and audit context for rehearsing `x-orderops-operator-id` / `x-orderops-roles` parsing, invalid-role filtering, and audit evidence without trusting headers as production auth
-- Auth enforcement rehearsal profile and middleware switch for explicitly testing 401/403/200 access guard behavior while default runtime remains observe-only
-- Signed auth token contract rehearsal for HMAC-based local token samples covering missing token, bad signature, expiry, insufficient role, and allowed role without exposing secrets
-- Verified identity audit binding for writing signed-token subject, roles, issuer, and verification result into audit context while real IdP integration remains blocked
-- IdP verifier boundary for checking future OIDC/JWT issuer, audience, JWKS URL, and clock skew configuration without fetching keys or authorizing requests
-- JWKS verifier fixture rehearsal for locally checking RS256 issuer, audience, expiry, role, and kid rejection behavior without fetching external IdP keys
-- JWKS cache contract rehearsal for local cache hit, unknown kid, expired entry, and rotation-marker behavior without fetching external IdP keys
-- Audit store factory wiring for `AUDIT_STORE_KIND=memory|file`, including file-backed restart rehearsal while database storage remains future work
-- File audit restart evidence report for proving file-backed audit reload behavior with digest checks while keeping managed production audit storage as a blocker
-- Audit retention integrity evidence for checking local retention knobs, file digest stability, and managed-store blockers without deleting or rotating audit files
-- Managed audit store contract profile for append-only write, requestId query, digest verification, retention metadata, and backup/restore marker coverage through a fake adapter while real managed storage remains blocked
-- Managed audit readiness summary for combining fake adapter capability coverage, file audit integrity evidence, retention/backup knobs, managed store URL, and real adapter blockers
-- Managed audit adapter boundary for documenting `memory`, `file`, and `managed-unimplemented` audit runtime states before any real database adapter is connected
-- Managed audit adapter compliance harness for exercising append-only write, requestId query, digest stability, and backup marker behavior against a local adapter before real storage is connected
-- Managed audit adapter harness runner for exercising the same adapter checks against memory and temporary file-candidate targets before real storage is connected
-- Production readiness summary v3 for rechecking Java v47, mini-kv v56, access policy coverage, access guard dry-run coverage, and audit runtime kind while keeping production operations blocked
-- Production readiness summary v4 for combining Java v48 operator auth boundary, mini-kv v57 recovery retention boundary, Node access guard audit context, operator identity contract, and file audit restart evidence while keeping production operations blocked
-- Production readiness summary v5 for rechecking auth enforcement rehearsal and audit retention integrity evidence while signed auth and managed audit storage remain production blockers
-- Deployment environment readiness gate for checking auth token config, audit retention and backup config, managed audit URL, upstream action safety, and remaining real IdP / managed adapter blockers
-- Production connection config contract for documenting managed audit and IdP target kinds, required env, missing env, and disabled real-connection state before any external connection is attempted
-- Production connection failure-mode rehearsal for simulating audit connection missing, JWKS timeout, credentials missing, and safe fallback without external calls
-- Production connection implementation precheck for combining config contract, failure rehearsal, summary v10, and missing human approvals before any real connection work
-- Production connection dry-run change request for reviewing managed audit adapter, IdP/JWKS, rollback, and owner approval work as a non-executable archive-ready change
-- Production connection dry-run approval ledger for recording approve/reject reviewer decisions against the current change request digest without executing real connections
-- Production connection archive verification for checking precheck version, change request digest, approval digest, and no-real-connection evidence before archive handoff
-- Production live probe readiness contract for defining Java and mini-kv read-only live probe targets, skipped/pass/blocked semantics, and no-write boundaries before probing
-- Production live probe smoke harness for recording pass or graceful skipped evidence for Java health/ops overview and mini-kv HEALTH/INFOJSON/STATSJSON without writes
-- Production live probe evidence archive for sealing the live probe contract, smoke harness, and summary v13 evidence into a digest-backed archive record
-- Production live probe evidence archive verification for rechecking archive digest, version references, probe counts, no-write evidence, and skipped-not-production-pass boundaries
-- Production live probe evidence archive bundle for packaging the archive record, verification, screenshots, runbooks, and bundle digest without adding another summary version
-- Production live probe operator handoff checklist for turning skipped archive evidence into an operator-readable real read-only smoke checklist without starting upstreams automatically
-- Production live probe real-read smoke readiness switch for making the explicit read-only probe window visible while keeping the default state closed and write actions disabled
-- Production live probe real-read smoke archive adapter for normalizing smoke harness pass/skipped results into release evidence records without promoting skipped evidence to production pass
-- Production live probe real-read smoke execution request for producing an operator-reviewed command profile, required environment, and forbidden-write list before opening a live read-only smoke window
-- Production live probe real-read smoke result importer for normalizing pass/skipped smoke output into a schema-backed import envelope before release evidence gating
-- Production live probe real-read smoke release evidence gate for deciding whether imported smoke records can become production pass evidence while keeping production operations gated
-- Production live probe real-read smoke dry-run command package for bundling execution request, result importer, and release gate digests into one operator package before real upstream capture
-- Production live probe real-read smoke evidence capture for sealing skipped/mixed/pass capture status without automatically starting Java or mini-kv
-- Production live probe real-read smoke production pass evidence verification for checking whether v148 capture can become production pass evidence without opening production operations
-- Production live probe real-read smoke production pass evidence archive for sealing v149 verification, v148 capture, and v146 release gate digests before Java and mini-kv add fresh read-only evidence
-- Production live probe real-read smoke production pass evidence archive verification for recomputing v150 archive digests and referencing Java v49 / mini-kv v58 read-only evidence without runtime cross-repo file reads
-- Production live probe real-read smoke operator runbook for turning v152 archive verification into manual Java / mini-kv read-only startup steps, allowed probe targets, forbidden writes, and environment gates
-- Production live probe real-read smoke operator runbook verification for recomputing the v153 runbook digest and checking step order, read-only targets, forbidden operations, and no-auto-start boundaries
-- Production live probe real-read smoke read-only window readiness packet for bundling v152 archive verification, v153 runbook, and v154 runbook verification into a manual review package before any Java / mini-kv startup
-- Production live probe real-read smoke read-only window live capture for consuming the v155 packet and recording pass/skipped read-only Java and mini-kv probe evidence without opening production operations
-- Production live probe real-read smoke read-only window capture archive for freezing the v156 capture digest, v155 readiness packet digest, and Java v50 / mini-kv v59 version references before verification
-- Production live probe real-read smoke read-only window capture archive verification for recomputing the v157 archive digest and proving skipped/mixed capture stays out of production pass evidence
-- Production live probe real-read smoke read-only window capture release evidence review for combining the v158 archive verification with Java v51 and mini-kv v60 field guides while keeping production operations closed
-- Shared live-probe report helpers for stable digest generation, Markdown rendering, and repeated JSON/Markdown route registration without changing existing endpoints
-- Shared release report helpers for stable check summaries and SHA-256 digest validation across the v165-v169 production evidence report chain
-- Rollback execution preflight contract for consuming Java v58 rollback SQL review gate and mini-kv v67 restore dry-run package while keeping rollback execution blocked
-- Production environment preflight checklist for consuming Java v59 secret source contract and mini-kv v68 digest compatibility matrix without reading secrets, connecting production databases, or executing restore
-- Post-v166 readiness summary for closing the rollback/environment preflight stage and starting a non-overlapping v169-derived plan
-- Deployment evidence intake gate for consuming Java v60 deployment runbook contract and mini-kv v69 release artifact digest package while keeping deployment, rollback, SQL, secret, database, and restore execution blocked
-- Deployment evidence verification for rechecking the v171 intake digest, Java v60 runbook fields, mini-kv v69 digest package fields, and no-execution boundaries before requesting the next upstream evidence stage
-- Release window readiness packet for combining Node v171/v172, Java v61 rollback approval record fixture, and mini-kv v70 restore drill evidence into a manual review packet with production release, rollback, SQL, secret, database, and restore execution still blocked
-- Production release dry-run envelope for wrapping the v173 release window packet into non-executing release preparation evidence before Java v62 and mini-kv v71 handoff fixtures
-- Production readiness summary v6 for combining verified identity audit binding, managed audit readiness, deployment environment gate, and upstream action safety into the next production-hardening gate
-- Production readiness summary v7 for distinguishing adapter and IdP boundary existence from real production connections while keeping upstream execution disabled
-- Production readiness summary v8 for combining managed audit compliance and JWKS fixture rehearsal while separating local rehearsal success from missing production connections
-- Production readiness summary v9 for combining managed audit adapter runner and JWKS cache contract evidence while keeping real production connections blocked
-- Production readiness summary v10 for combining production connection config contract and failure-mode rehearsal while separating readiness evidence from real production connections
-- Production readiness summary v11 for combining implementation precheck and dry-run change request readiness while keeping owner approval and real connection blockers explicit
-- Production readiness summary v12 for combining dry-run approval ledger and archive verification readiness while keeping real production connections blocked
-- Production readiness summary v13 for combining v12 review evidence, live probe contract readiness, and live probe smoke evidence while keeping production operations blocked
+## Engineering Highlights
 
-## Setup
+| Surface | Committed result / gate | Command | Committed evidence |
+|---|---:|---|---|
+| Test suite | 1,716 / 1,716 tests passing | `npx vitest run` | [v2201 full-suite summary](d/2201/evidence/readiness-markdown-engine-v2201-summary.json) |
+| V8 coverage | floors S/B/F/L = 94/86/97/94; closeout actual = 95.92/87.59/98.64/95.88 | `npm run test:coverage` | [E3 coverage gate](docs/plans/node-track-final-evidence.md#e1-e10-evidence-matrix) |
+| ESLint | 0 errors; enforced maximum 261 <= the original 263 ceiling | `npm run lint` | [v2189 close evidence](d/2189/evidence/n5-source-size-closure-v2189-summary.json) |
+| Renderer census | 245 total / 242 standardized / 3 AST-valid waivers / 0 non-waived | `npm run renderer:census` | [committed census result](d/2184/evidence/renderer-consolidation-n1-closeout-v2184-summary.json) and [waiver manifest](docs/plans/renderer-consolidation-waivers.json) |
+| Source-size ceiling | 0 source files over 800 lines | `npm run source:size:census` | [shrink-only baseline](docs/plans/source-size-remediation-baseline.json) |
+| Elegance ratchet | 4,537 known name violations, shrink-only | `npm run elegance:census` | [committed baseline](docs/plans/elegance-baseline.json) and [v2201 result](d/2201/evidence/readiness-markdown-engine-v2201-summary.json) |
 
-```powershell
-npm install
-npm run dev
+The badge rounds the committed 95.92% statement coverage measurement to 95.9%; the table preserves the complete statements/branches/functions/lines result and its enforced floors.
+
+## Architecture
+
+```mermaid
+flowchart LR
+  subgraph Node["OrderOps Node"]
+    direction TB
+    App["Fastify app"] --> Services["Governance services"]
+    Services --> Renderers["Shared render engines"]
+    Renderers --> Evidence["Stable JSON + Markdown"]
+  end
+
+  subgraph Capstone["Env-gated read-only capstone"]
+    direction TB
+    Command["npm run readiness:cross"] --> Probes["Capstone probes"]
+    Probes -->|"HTTP GET only"| Java["Java order platform"]
+    Probes -->|"fresh CLI read"| MiniKv["mini-kv"]
+    Probes -->|"artifact file read"| AiProj["aiproj"]
+    Java --> Report["C1-C4 readiness report"]
+    MiniKv --> Report
+    AiProj --> Report
+    Report --> Boundary["read_only=true<br/>execution_allowed=false"]
+  end
+
+  Evidence -. "separate live gate" .-> Command
 ```
 
-Open:
+The normal Fastify path serves operational views and evidence reports. The capstone is a separate, explicit regression surface: it starts a packaged Java process for GET-only probes, invokes a fresh mini-kv CLI process with read-only commands, validates one committed aiproj artifact file, writes one aggregate JSON/Markdown report, and cleans up the processes it owns.
 
-```text
-http://127.0.0.1:4100
-```
+## Quickstart
 
-The service reads configuration from environment variables. Use `.env.example` as a reference when your shell or runner loads environment files, or set variables directly in PowerShell:
+Node.js 22 or later is required.
 
 ```powershell
-$env:ORDER_PLATFORM_URL = "http://localhost:8080"
-$env:MINIKV_PORT = "6379"
+npm ci
+npm run typecheck
+npx vitest run
+```
+
+The local dashboard starts with upstream access closed by default:
+
+```powershell
 $env:UPSTREAM_PROBES_ENABLED = "false"
 $env:UPSTREAM_ACTIONS_ENABLED = "false"
-$env:MUTATION_RATE_LIMIT_MAX = "30"
-$env:MUTATION_RATE_LIMIT_WINDOW_MS = "60000"
 npm run dev
 ```
 
-By default, upstream probes are disabled so the dashboard does not automatically touch the Java or mini-kv processes while they are being debugged.
-Upstream proxy actions are also disabled by default, so dashboard buttons that would call Java or mini-kv return a Node-side 403 until `UPSTREAM_ACTIONS_ENABLED=true`.
-Enable read-only probes only inside a separately reviewed integration window.
-Do not enable upstream actions as part of ordinary setup or evidence review.
+Open `http://127.0.0.1:4100`. Configuration examples live in [`.env.example`](.env.example) and [`.env.production.example`](.env.production.example).
 
-Optional upstream services:
+### Reproduce The Mechanical Censuses
 
 ```powershell
-# Java order platform
-cd D:\javaproj\advanced-order-platform
-mvn spring-boot:run
-
-# mini-kv server
-cd D:\C\mini-kv
-.\cmake-build-debug\minikv_server.exe 6379
+npm run archive:retention:census
+npm run elegance:census
+npm run renderer:census
+npm run source:size:census
 ```
 
-## API
+Each command exits non-zero when its committed budget or shrink-only baseline is violated.
 
-```text
-GET    /health
-GET    /api/v1/sources/status
-GET    /api/v1/upstreams/overview
-GET    /api/v1/upstream-contract-fixtures
-GET    /api/v1/upstream-contract-fixtures?format=markdown
-GET    /api/v1/upstream-contract-fixtures/drift-diagnostics
-GET    /api/v1/upstream-contract-fixtures/drift-diagnostics?format=markdown
-GET    /api/v1/upstreams/production-evidence-intake
-GET    /api/v1/upstreams/production-evidence-intake?format=markdown
-GET    /api/v1/production/readiness-summary
-GET    /api/v1/production/readiness-summary?format=markdown
-GET    /api/v1/production/readiness-summary-v2
-GET    /api/v1/production/readiness-summary-v2?format=markdown
-GET    /api/v1/production/readiness-summary-v3
-GET    /api/v1/production/readiness-summary-v3?format=markdown
-GET    /api/v1/production/readiness-summary-v4
-GET    /api/v1/production/readiness-summary-v4?format=markdown
-GET    /api/v1/production/readiness-summary-v5
-GET    /api/v1/production/readiness-summary-v5?format=markdown
-GET    /api/v1/production/readiness-summary-v6
-GET    /api/v1/production/readiness-summary-v6?format=markdown
-GET    /api/v1/production/readiness-summary-v7
-GET    /api/v1/production/readiness-summary-v7?format=markdown
-GET    /api/v1/production/readiness-summary-v8
-GET    /api/v1/production/readiness-summary-v8?format=markdown
-GET    /api/v1/production/readiness-summary-v9
-GET    /api/v1/production/readiness-summary-v9?format=markdown
-GET    /api/v1/production/readiness-summary-v10
-GET    /api/v1/production/readiness-summary-v10?format=markdown
-GET    /api/v1/production/readiness-summary-v11
-GET    /api/v1/production/readiness-summary-v11?format=markdown
-GET    /api/v1/production/readiness-summary-v12
-GET    /api/v1/production/readiness-summary-v12?format=markdown
-GET    /api/v1/production/readiness-summary-v13
-GET    /api/v1/production/readiness-summary-v13?format=markdown
-GET    /api/v1/production/deployment-evidence-intake-gate
-GET    /api/v1/production/deployment-evidence-intake-gate?format=markdown
-GET    /api/v1/production/deployment-evidence-verification
-GET    /api/v1/production/deployment-evidence-verification?format=markdown
-GET    /api/v1/production/release-window-readiness-packet
-GET    /api/v1/production/release-window-readiness-packet?format=markdown
-GET    /api/v1/production/release-dry-run-envelope
-GET    /api/v1/production/release-dry-run-envelope?format=markdown
-GET    /api/v1/audit/store-profile
-GET    /api/v1/audit/store-profile?format=markdown
-GET    /api/v1/audit/store-config-profile
-GET    /api/v1/audit/store-config-profile?format=markdown
-GET    /api/v1/audit/file-restart-evidence
-GET    /api/v1/audit/file-restart-evidence?format=markdown
-GET    /api/v1/audit/retention-integrity-evidence
-GET    /api/v1/audit/retention-integrity-evidence?format=markdown
-GET    /api/v1/audit/managed-store-contract
-GET    /api/v1/audit/managed-store-contract?format=markdown
-GET    /api/v1/audit/managed-readiness-summary
-GET    /api/v1/audit/managed-readiness-summary?format=markdown
-GET    /api/v1/audit/managed-adapter-boundary
-GET    /api/v1/audit/managed-adapter-boundary?format=markdown
-GET    /api/v1/audit/managed-adapter-compliance
-GET    /api/v1/audit/managed-adapter-compliance?format=markdown
-GET    /api/v1/audit/managed-adapter-runner
-GET    /api/v1/audit/managed-adapter-runner?format=markdown
-GET    /api/v1/security/access-control-readiness
-GET    /api/v1/security/access-control-readiness?format=markdown
-GET    /api/v1/security/access-policy
-GET    /api/v1/security/access-policy?format=markdown
-GET    /api/v1/security/access-guard-readiness
-GET    /api/v1/security/access-guard-readiness?format=markdown
-GET    /api/v1/security/auth-enforcement-rehearsal
-GET    /api/v1/security/auth-enforcement-rehearsal?format=markdown
-GET    /api/v1/security/operator-identity-contract
-GET    /api/v1/security/operator-identity-contract?format=markdown
-GET    /api/v1/security/signed-auth-token-contract
-GET    /api/v1/security/signed-auth-token-contract?format=markdown
-GET    /api/v1/security/verified-identity-audit-binding
-GET    /api/v1/security/verified-identity-audit-binding?format=markdown
-GET    /api/v1/security/idp-verifier-boundary
-GET    /api/v1/security/idp-verifier-boundary?format=markdown
-GET    /api/v1/security/jwks-verifier-fixture-rehearsal
-GET    /api/v1/security/jwks-verifier-fixture-rehearsal?format=markdown
-GET    /api/v1/security/jwks-cache-contract
-GET    /api/v1/security/jwks-cache-contract?format=markdown
-GET    /api/v1/deployment/environment-readiness
-GET    /api/v1/deployment/environment-readiness?format=markdown
-GET    /api/v1/production/connection-config-contract
-GET    /api/v1/production/connection-config-contract?format=markdown
-GET    /api/v1/production/connection-failure-mode-rehearsal
-GET    /api/v1/production/connection-failure-mode-rehearsal?format=markdown
-GET    /api/v1/production/connection-implementation-precheck
-GET    /api/v1/production/connection-implementation-precheck?format=markdown
-GET    /api/v1/production/connection-dry-run-change-request
-GET    /api/v1/production/connection-dry-run-change-request?format=markdown
-GET    /api/v1/production/connection-dry-run-approvals
-GET    /api/v1/production/connection-dry-run-approvals?format=markdown
-GET    /api/v1/production/connection-dry-run-approvals/latest
-GET    /api/v1/production/connection-dry-run-approvals/latest?format=markdown
-GET    /api/v1/production/connection-dry-run-approvals/:approvalId
-GET    /api/v1/production/connection-dry-run-approvals/:approvalId?format=markdown
-POST   /api/v1/production/connection-dry-run-approvals
-GET    /api/v1/production/connection-archive-verification
-GET    /api/v1/production/connection-archive-verification?format=markdown
-GET    /api/v1/production/live-probe-readiness-contract
-GET    /api/v1/production/live-probe-readiness-contract?format=markdown
-GET    /api/v1/production/live-probe-smoke-harness
-GET    /api/v1/production/live-probe-smoke-harness?format=markdown
-GET    /api/v1/production/live-probe-evidence-archive
-GET    /api/v1/production/live-probe-evidence-archive?format=markdown
-GET    /api/v1/production/live-probe-evidence-archive/verification
-GET    /api/v1/production/live-probe-evidence-archive/verification?format=markdown
-GET    /api/v1/production/live-probe-evidence-archive/bundle
-GET    /api/v1/production/live-probe-evidence-archive/bundle?format=markdown
-GET    /api/v1/production/live-probe-handoff-checklist
-GET    /api/v1/production/live-probe-handoff-checklist?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-readiness-switch
-GET    /api/v1/production/live-probe-real-read-smoke-readiness-switch?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-archive-adapter
-GET    /api/v1/production/live-probe-real-read-smoke-archive-adapter?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-execution-request
-GET    /api/v1/production/live-probe-real-read-smoke-execution-request?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-result-importer
-GET    /api/v1/production/live-probe-real-read-smoke-result-importer?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-release-evidence-gate
-GET    /api/v1/production/live-probe-real-read-smoke-release-evidence-gate?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-dry-run-command-package
-GET    /api/v1/production/live-probe-real-read-smoke-dry-run-command-package?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-evidence-capture
-GET    /api/v1/production/live-probe-real-read-smoke-evidence-capture?format=markdown
-GET    /api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification
-GET    /api/v1/production/live-probe-real-read-smoke-production-pass-evidence-verification?format=markdown
-GET    /api/v1/production/rollback-execution-preflight-contract
-GET    /api/v1/production/rollback-execution-preflight-contract?format=markdown
-GET    /api/v1/production/environment-preflight-checklist
-GET    /api/v1/production/environment-preflight-checklist?format=markdown
-GET    /api/v1/production/post-v166-readiness-summary
-GET    /api/v1/production/post-v166-readiness-summary?format=markdown
-GET    /api/v1/events/ops
-GET    /api/v1/runtime/config
-GET    /api/v1/ops/summary
-GET    /api/v1/ops/readiness
-GET    /api/v1/ops/promotion-archive
-GET    /api/v1/ops/promotion-archive?format=markdown
-GET    /api/v1/ops/promotion-archive/manifest
-GET    /api/v1/ops/promotion-archive/manifest?format=markdown
-GET    /api/v1/ops/promotion-archive/verification
-GET    /api/v1/ops/promotion-archive/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/attestation
-GET    /api/v1/ops/promotion-archive/attestation?format=markdown
-GET    /api/v1/ops/promotion-archive/attestation/verification
-GET    /api/v1/ops/promotion-archive/attestation/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-package
-GET    /api/v1/ops/promotion-archive/handoff-package?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-package/verification
-GET    /api/v1/ops/promotion-archive/handoff-package/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-certificate
-GET    /api/v1/ops/promotion-archive/handoff-certificate?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-certificate/verification
-GET    /api/v1/ops/promotion-archive/handoff-certificate/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-receipt
-GET    /api/v1/ops/promotion-archive/handoff-receipt?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-receipt/verification
-GET    /api/v1/ops/promotion-archive/handoff-receipt/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-closure
-GET    /api/v1/ops/promotion-archive/handoff-closure?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-closure/verification
-GET    /api/v1/ops/promotion-archive/handoff-closure/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-completion
-GET    /api/v1/ops/promotion-archive/handoff-completion?format=markdown
-GET    /api/v1/ops/promotion-archive/handoff-completion/verification
-GET    /api/v1/ops/promotion-archive/handoff-completion/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/release-evidence
-GET    /api/v1/ops/promotion-archive/release-evidence?format=markdown
-GET    /api/v1/ops/promotion-archive/release-evidence/verification
-GET    /api/v1/ops/promotion-archive/release-evidence/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/release-archive
-GET    /api/v1/ops/promotion-archive/release-archive?format=markdown
-GET    /api/v1/ops/promotion-archive/release-archive/verification
-GET    /api/v1/ops/promotion-archive/release-archive/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-approval
-GET    /api/v1/ops/promotion-archive/deployment-approval?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-approval/verification
-GET    /api/v1/ops/promotion-archive/deployment-approval/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-change-record
-GET    /api/v1/ops/promotion-archive/deployment-change-record?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-change-record/verification
-GET    /api/v1/ops/promotion-archive/deployment-change-record/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-execution-record
-GET    /api/v1/ops/promotion-archive/deployment-execution-record?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-execution-record/verification
-GET    /api/v1/ops/promotion-archive/deployment-execution-record/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-execution-receipt
-GET    /api/v1/ops/promotion-archive/deployment-execution-receipt?format=markdown
-GET    /api/v1/ops/promotion-archive/deployment-execution-receipt/verification
-GET    /api/v1/ops/promotion-archive/deployment-execution-receipt/verification?format=markdown
-GET    /api/v1/ops/promotion-archive/release-audit-trail-record
-GET    /api/v1/ops/promotion-archive/release-audit-trail-record?format=markdown
-GET    /api/v1/ops/promotion-review
-GET    /api/v1/ops/promotion-decisions
-GET    /api/v1/ops/promotion-decisions/integrity
-GET    /api/v1/ops/promotion-decisions/integrity?format=markdown
-GET    /api/v1/ops/promotion-decisions/:decisionId/verification
-GET    /api/v1/ops/promotion-decisions/:decisionId/evidence
-GET    /api/v1/ops/promotion-decisions/:decisionId
-POST   /api/v1/ops/promotion-decisions
-GET    /api/v1/ops/runbook
-GET    /api/v1/ops/checkpoints
-GET    /api/v1/ops/checkpoints/diff
-GET    /api/v1/ops/checkpoints/:checkpointId
-POST   /api/v1/ops/checkpoints
-GET    /api/v1/ops/baseline
-PUT    /api/v1/ops/baseline
-DELETE /api/v1/ops/baseline
-GET    /api/v1/ops/handoff-report
-GET    /api/v1/action-plans/catalog
-POST   /api/v1/action-plans
-GET    /api/v1/operation-intents
-GET    /api/v1/operation-intents/:intentId
-GET    /api/v1/operation-intents/:intentId/preflight
-GET    /api/v1/operation-intents/:intentId/preflight/report
-GET    /api/v1/operation-intents/:intentId/preflight/verification
-GET    /api/v1/operation-intents/:intentId/execution-preview
-GET    /api/v1/operation-intents/:intentId/timeline
-GET    /api/v1/operation-intents/:intentId/dispatches
-GET    /api/v1/operation-intent-events
-GET    /api/v1/operation-approval-requests
-GET    /api/v1/operation-approval-requests/:requestId
-GET    /api/v1/operation-approval-requests/:requestId?format=markdown
-GET    /api/v1/operation-approval-requests/:requestId/evidence
-GET    /api/v1/operation-approval-requests/:requestId/evidence?format=markdown
-GET    /api/v1/operation-approval-requests/:requestId/verification
-GET    /api/v1/operation-approval-requests/:requestId/verification?format=markdown
-GET    /api/v1/operation-approval-requests/:requestId/evidence-bundle
-GET    /api/v1/operation-approval-requests/:requestId/evidence-bundle?format=markdown
-GET    /api/v1/operation-approval-requests/:requestId/execution-gate-preview
-GET    /api/v1/operation-approval-requests/:requestId/execution-gate-preview?format=markdown
-GET    /api/v1/operation-approval-execution-gate-archives
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId?format=markdown
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/verification
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/verification?format=markdown
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/execution-contract-bundle
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/execution-contract-bundle?format=markdown
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/execution-contract-diagnostics
-GET    /api/v1/operation-approval-execution-gate-archives/:archiveId/execution-contract-diagnostics?format=markdown
-GET    /api/v1/operation-approval-decisions
-GET    /api/v1/operation-approval-decisions/:decisionId
-GET    /api/v1/operation-approval-decisions/:decisionId?format=markdown
-POST   /api/v1/operation-intents
-POST   /api/v1/operation-intents/:intentId/confirm
-POST   /api/v1/operation-intents/:intentId/dispatch
-POST   /api/v1/operation-approval-requests
-POST   /api/v1/operation-approval-requests/:requestId/decision
-POST   /api/v1/operation-approval-requests/:requestId/execution-gate-archive
-GET    /api/v1/operation-dispatches
-GET    /api/v1/operation-dispatches/:dispatchId
-POST   /api/v1/operation-dispatches
-GET    /api/v1/audit/events
-GET    /api/v1/audit/summary
+### Run The Live Read-Only Capstone
 
-GET    /api/v1/order-platform/products
-GET    /api/v1/order-platform/failed-events/:failedEventId/approval-status
-GET    /api/v1/order-platform/failed-events/:failedEventId/replay-simulation
-GET    /api/v1/order-platform/outbox/events
-GET    /api/v1/order-platform/orders/:orderId
-POST   /api/v1/order-platform/orders
-POST   /api/v1/order-platform/orders/:orderId/pay
-POST   /api/v1/order-platform/orders/:orderId/cancel
+Build the Java jar and mini-kv CLI first, then pin all three upstream commits explicitly:
 
-GET    /api/v1/mini-kv/status
-GET    /api/v1/mini-kv/explain
-GET    /api/v1/mini-kv/:key
-PUT    /api/v1/mini-kv/:key
-DELETE /api/v1/mini-kv/:key
-POST   /api/v1/mini-kv/commands
+```powershell
+$env:INTEGRATION_LIVE = "1"
+$env:JAVA_CAPSTONE_JAR = "D:\path\to\advanced-order-platform.jar"
+$env:JAVA_CAPSTONE_COMMIT = "<java-commit>"
+$env:MINIKV_CLI_PATH = "D:\path\to\minikv_cli.exe"
+$env:MINIKV_CAPSTONE_COMMIT = "<mini-kv-commit>"
+$env:AIPROJ_ROOT = "D:\aiproj"
+$env:AIPROJ_CAPSTONE_COMMIT = "<aiproj-commit>"
+npm run readiness:cross
 ```
 
-`POST /api/v1/operation-intents` accepts an optional `Idempotency-Key` header. Repeating the same request with the same key returns the original intent with HTTP 200 and `idempotency.reused=true`.
-Mutation POST routes return `429 MUTATION_RATE_LIMITED` when the same actor exceeds `MUTATION_RATE_LIMIT_MAX` within `MUTATION_RATE_LIMIT_WINDOW_MS`.
+The command writes `cross-project-readiness.json` and `cross-project-readiness.md` under `.tmp/cross-project-readiness` unless `CROSS_READINESS_OUTPUT_DIR` is set. A live run is accepted only when C1-C4 pass, all upstream commits are pinned, `read_only=true`, `execution_allowed=false`, and every process started by Node is stopped.
 
-## Code Walkthrough
+## Evidence Map
 
-The Chinese code walkthrough lives in:
+| Question | Start here |
+|---|---|
+| What has the Node track mechanically proved? | [E1-E10 final evidence](docs/plans/node-track-final-evidence.md) |
+| Who independently accepted the four-project capstone? | [PROGRAM-END VERDICT](docs/plans/production-excellence-final-acceptance.md#program-end-verdict--claude-external-review-2026-07-11-capstone-c1c4-pass) |
+| What did the accepted live run actually report? | [v2192 readiness report](d/2192/evidence/cross-project-readiness/cross-project-readiness.md) and [machine JSON](d/2192/evidence/cross-project-readiness/cross-project-readiness.json) |
+| Which renderer exceptions remain, and why? | [renderer waiver manifest](docs/plans/renderer-consolidation-waivers.json) and [review notes](docs/plans/renderer-consolidation-waivers.md) |
+| Which security-scan exceptions remain? | [narrow security waivers](docs/security-scan-waivers.json) |
+| What is explicitly outside the current authority? | [production boundaries](docs/PRODUCTION_BOUNDARIES.md) |
+| Where should a maintainer enter the repository? | [START_HERE.md](START_HERE.md) |
 
-```text
-代码讲解记录_生产雏形阶段/
-```
+## Boundaries
 
-It keeps the same style as earlier walkthroughs: module role, core flow, real code excerpts, then a short summary.
+This repository is not authorized for production execution. It is a read-only rehearsal and governance control plane, not a production deployment or an operator approval system.
 
-## Next Ideas
+- `UPSTREAM_PROBES_ENABLED=false` is the normal default; live reads require a separately reviewed window.
+- `UPSTREAM_ACTIONS_ENABLED=false` is the normal default; this README does not authorize enabling upstream writes.
+- The capstone uses Java HTTP GETs, mini-kv read-only CLI commands, and an aiproj artifact-file read. It does not execute Java writes, mini-kv mutations or restore/compact/load operations, aiproj training or promotion, deployment, rollback, schema migration, or production secret access.
+- Default CI intentionally does not start sibling runtimes. `INTEGRATION_LIVE=1 npm run readiness:cross` is an explicit regression at Java final track close and after changes to the capstone contract surface.
+- Stage 2 remains blocked until the Java track passes its final review. Completing this README maintenance version does not start Stage 2 or change the authorized maturity label.
 
-- Persist audit logs in PostgreSQL
-- Persist operation intents and audit logs in PostgreSQL
-- Add login and bind roles to real users
-- Add rate limits and request signing for gateway calls
-- Store load-test runs and render comparison charts
-- Pull Prometheus/OpenTelemetry data from the Java service
+For the exhaustive route catalog and internal implementation, follow the Fastify registrations under [`src/routes/`](src/routes/) and the maintained orientation in [START_HERE.md](START_HERE.md).

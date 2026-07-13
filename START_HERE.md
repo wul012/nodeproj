@@ -67,7 +67,10 @@ By default, upstream probes and upstream actions are disabled. This is intention
 
 ## Latest version summary
 
-Current roadmap state: **Node v2193 capstone maintenance closeout**.
+Program-close documentation baseline: **Node v2193 capstone maintenance closeout**.
+The v2194-v2201 bounded elegance tracks then closed with external PASS, and
+v2202 turns the repository README into a concise, evidence-linked exhibit
+without changing runtime behavior or the authorized maturity label.
 
 Milestones N0-N5 and the v2190 E1-E10 closeout have external PASS. v2192
 corrects the env-gated C1-C4 slice: a fixed Java jar is read live, a real
@@ -85,7 +88,7 @@ closeout, rerun the live regression with
 
 ## Where to look next
 
-- `README.md` — full feature list and setup instructions.
+- `README.md` — 30-second project exhibit, verification commands, evidence map, and boundaries.
 - `docs/plans/` — current and historical roadmap documents.
 - `src/` — service implementation and route logic.
 - `test/` or project test folders — route, evidence, and safety-boundary tests.

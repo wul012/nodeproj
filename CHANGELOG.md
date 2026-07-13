@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2202 - 2026-07-13
+
+- Rebuilt the GitHub README as a concise, evidence-linked project exhibit with
+  sourced quality metrics, a two-lane Mermaid architecture, reproducible local and
+  live-capstone commands, an evidence map, and unchanged production boundaries.
+  GitHub-flavored desktop/mobile rendering is archived; no runtime or cross-project
+  contract changed.
+
 ## v2201 - 2026-07-12
 
 - Consolidated readiness-summary V5-V13 Markdown grammar into a shared engine.
