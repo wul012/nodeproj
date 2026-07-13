@@ -60,3 +60,17 @@ no fourth family is authorized; the next action is external review of v2199-v220
 - Pushing a parity-touching version without the recorded local six-surface pass = fail.
 - Baseline or family count loosened = revert. Mixing in features or renames-for-their-
   own-sake = revert.
+
+## Claude Round-2 review — 2026-07-13 (v2199–v2201): PASS — zero portability reds, program closed
+
+- Verified by running the committed census: 4,537 names = baseline exactly, ready:true;
+  three engines now consolidated across both rounds (archive-evidence, promotion
+  renderer 8→6, readiness summary 15→14 with that family's formatting lines 1185→511);
+  all three runs green; three-version hard cap respected.
+- The promoted six-surface parity practice WORKED: every parity-touching version ran the
+  mixed/LF/CRLF pass locally before pushing, and this is the first Node program since
+  the renderer migrations with ZERO portability reds on master.
+- Retro-elegance in Node is now closed alongside mini-kv's and aiproj's: remaining top
+  names are report-contract data; remaining families are below the consolidation-value
+  bar. Future elegance = the gates on new code. Node's next duty was the program-close
+  capstone rerun — already executed by the reviewer (see PROGRAM CLOSE verdict).

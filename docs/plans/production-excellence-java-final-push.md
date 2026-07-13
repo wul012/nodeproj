@@ -172,3 +172,32 @@ frozen archive paths; shrink-only SpotBugs baseline; route strings byte-identica
   pinned, E1–E10 self-audit, `docs/java-track-final-evidence.md`), then request the
   Java track final review — that review triggers the PROGRAM-close sequence (capstone
   rerun against Java's final tag).
+
+## Claude checkpoint review — 2026-07-12 晚 (v1858–v1862): PASS, no corrections
+
+- Verified by running the committed census: direct-root 249 → 187, UnassignedFiles
+  empty, all rows closed in-session with run ids (fourth consecutive clean cycle).
+- 83 non-controller files remain against the 104 target — roughly 2–3 batches. When
+  the census hits target: Phase-2 closeout as briefed (final census pinned, E1–E10
+  self-audit, `docs/java-track-final-evidence.md`, elegance name-census gate committed
+  per AGENTS), then request the Java track final review. That review triggers the
+  program-close sequence.
+
+## Claude Java TRACK FINAL REVIEW — 2026-07-13 (v1863–v1867): **PASS — Java Stage-1 track CLOSED**
+
+- Independently reproduced: ops-root census 104/104/0 remaining/0 unassigned — the
+  805→104 extraction campaign is complete, exactly on the v1828 contract; maintainability
+  census 1,483 production files, max 738 lines, over-750/1000 = 0/0 (BEAT the 35/3
+  budgets; zero source-size waivers repo-wide); evidence doc claims all verified.
+- The final evidence doc is honest and mechanical: candidate framing, per-gate failure
+  surfaces (JavaTrackCloseoutTests), coverage floors RAISED at closeout, elegance
+  name-census baseline committed, and a real v1867 cleanup bonus (735 reads repointed
+  to leaf owners, 239 forwarding aliases deleted, route bytes unchanged).
+- One red at the closeout commit: archive-hash portability (text hashes differed across
+  CI checkouts) — fixed in one version by canonicalizing text to LF before hashing, the
+  correct fix class. This is the cross-repo portability lesson's fifth appearance; the
+  kernel rule stands, no new rule needed.
+- With this PASS, ALL FOUR Stage-1 tracks are closed. The reviewer immediately reran the
+  full live capstone against this final state (jar rebuilt from v1867): C1–C4 pass,
+  read_only=true. See the PROGRAM CLOSE verdict in
+  `docs/plans/production-excellence-final-acceptance.md`.

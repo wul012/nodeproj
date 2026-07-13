@@ -149,3 +149,28 @@ mechanical-change limits, per-repo AGENTS conventions) bind every step.
 - Stop after v2193 commit/tag/push/green final CI. Node remains maintenance-only;
   the next live capstone evidence is produced at Java final track close, not by
   extending the Node readiness chain now.
+
+## PROGRAM CLOSE — Claude external review, 2026-07-13: ALL FOUR STAGE-1 TRACKS CLOSED, CAPSTONE RE-VERIFIED AT FINAL STATES
+
+- Track record: aiproj CLOSED 2026-07-10 (A0–A5); mini-kv CLOSED 2026-07-11 (v1658
+  final evidence); Node CLOSED 2026-07-11 (v2190 closeout + v2191/v2192 capstone);
+  Java CLOSED 2026-07-13 (v1867: root census 104/104/0, evidence doc verified,
+  coverage floors raised, zero size waivers).
+- Program-close capstone rerun, executed by the reviewer on 2026-07-13 against every
+  repo's FINAL track state (Java jar rebuilt from v1867; mini-kv v1663; aiproj v1276):
+  overall=pass, C1/C2/C3/C4 pass, read_only=true, execution_allowed=false, all three
+  upstream commits pinned in provenance. Three independent live verifications of the
+  capstone in total (v2191 C1–C3, v2192 four-project, this close).
+- Beyond the original scope, the program also completed an elegance meta-program:
+  gates (name budget / rule-of-three / generation cap / design notes / boy-scout) in
+  all four AGENTS.md with committed mechanical censuses, plus bounded remediation
+  rounds in every repo, each ending with a pin-audit proving remaining debt is
+  structurally pinned. Retro-elegance is closed program-wide.
+- Maturity label (program-wide, exact): `single-project validation + verified
+  read-only cross-project integration (env-gated, single machine, no execution
+  authority)`. Nothing stronger is authorized by this verdict.
+- **Stage 2 (Operational Reality) is now UNBLOCKED** — its briefs
+  (`stage2-operational-reality-program.md` + four per-repo briefs) remain INACTIVE
+  until the user explicitly launches them: VM deployment, drills, SLOs, and fuzzing
+  are budget/risk decisions the user owns. Until then all four repos are
+  maintenance-only; the capstone rerun command is the standing regression check.
