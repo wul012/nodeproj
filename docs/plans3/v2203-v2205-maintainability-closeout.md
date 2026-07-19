@@ -2,7 +2,7 @@
 
 Date: 2026-07-19
 Owner: Codex
-State: v2203-v2204 locally accepted; v2205 next
+State: v2203-v2205 locally accepted; batched push and remote Node Evidence pending
 
 ## Objective and stop condition
 
@@ -47,8 +47,8 @@ the maturity label remains:
 | Make zero warnings permanent | set ESLint warning ceiling to zero and update its contract test | focused contract test + CI | locally accepted in v2203; remote check batched |
 | Measure structural health | AST/import-graph census plus shrink-only baseline | `npm run maintainability:census` | locally accepted in v2204 |
 | Prevent gate drift | adversarial Vitest fixtures for new/grown/stale debt and cycles | `test/maintainabilityCensus.test.ts` | 8/8 passed in v2204 |
-| Repair real hotspots | reduce two selected >600-line files without public/output drift | focused parity digests + census shrink | pending |
-| Preserve behavior | no route, JSON, Markdown, fixture, or dashboard-byte changes | focused tests + full suite + smoke | pending |
+| Repair real hotspots | reduce two selected >600-line files without public/output drift | focused parity digests + census shrink | locally accepted in v2205 |
+| Preserve behavior | no route, JSON, Markdown, fixture, or dashboard-byte changes | focused tests + full suite + smoke | accepted: exact digests, 16/16 shards, 567 files / 1,726 tests, build, and 6/6 HTTP smoke |
 | Close remotely | commit/tag each version, push once at final boundary, inspect CI | git refs + Node Evidence URL | pending |
 
 ## Progress ledger
@@ -57,7 +57,7 @@ the maturity label remains:
 |---|---|---|
 | v2203 warning-zero | local acceptance complete; batched push/CI waits for v2205 | lint 0/0; typecheck; 16 focused files / 53 tests; security and all structural censuses ready; `d/2203/evidence/lint-zero-v2203-summary.json` |
 | v2204 maintainability census | local acceptance complete; batched push/CI waits for v2205 | current tree ready: 91 near-limit files, 122 long functions, 238 complex functions, 2 runtime cycles; adversarial test 8/8; typecheck and lint 0/0; `d/2204/evidence/maintainability-census-v2204-summary.json` |
-| v2205 hotspot repair | next | pending |
+| v2205 hotspot repair | local acceptance complete; remote check batched | `statusRoutes.ts` 795 -> 215; `dashboardMarkup.ts` 793 -> 531; 34 routes and both dashboard digests preserved; direct route files repaired from rejected 82 to 80; census 89 / 121 / 238 / 2 ready; 567 files / 1,726 tests, build, static gates, and 6/6 HTTP smoke pass |
 
 ## Necessity proof for the new gate
 
@@ -118,6 +118,48 @@ the maturity label remains:
   keys and ceilings remain unchanged.
 - Write the final evidence summary and explain why further broad refactoring has lower
   value than feature work under the permanent gates.
+
+## v2205 extraction design note
+
+- Route abstraction: `statusReportRoutes` owns two existing route groups through separate real-read and release-gate registration functions.
+- Route behavior boundary: one request-header-aware JSON/Markdown registrar removes repeated Fastify handlers.
+- Dashboard abstraction: `dashboardScenarioMarkup` owns matrix, verification, and archive-evidence panels.
+- Dashboard data boundary: markup remains raw text; the composed `dashboardMarkup` and full HTML stay byte-identical.
+- Test boundary: one pre-migration oracle freezes 34 GET paths plus markup and full-page digests.
+
+## v2205 final-regression deviation
+
+- Finding: full-suite shard execution stopped on `governanceGrowthRatchet.test.ts` with 82 direct
+  `src/routes/*.ts` files against the immutable ceiling of 80. This is a structural regression,
+  not a flaky assertion and not a reason to raise the ceiling.
+- Repair: keep the two route responsibilities as separate functions inside one
+  `statusReportRoutes` module, and fold the ten-line dashboard registration shell into the
+  existing `statusRoutes` module while preserving the call site and route order in `app.ts`.
+- Stop condition: direct route files return to 80, the failed test passes unchanged, the
+  maintainability census remains shrink-only, and route/dashboard parity remains exact.
+
+All four conditions passed. The failed test was not edited, the ceiling was not raised,
+and the final source layout contains one 369-line report-route module with two separate
+registration functions plus a 215-line status entry module.
+
+## v2205 final local verification
+
+- Complete Vitest: all 16 final-tree shards passed, covering 567 test files and 1,726
+  tests. `vitest list` independently reproduced the same totals.
+- Timeout triage: a dual-shard/single-worker attempt timed out on shard 6 without an
+  assertion failure. Its slow route file passed alone (1 file / 4 tests), and shard 6
+  then passed unchanged (36 files / 118 tests) with the same total two-worker budget.
+- Build and static gates: build, typecheck, zero-warning lint, maintainability, elegance,
+  family, source-size, renderer, security/config, and archive-retention checks passed.
+- Safe HTTP smoke: the owned process on port 31205 served health, metrics, runtime config,
+  migrated real-read JSON/Markdown, and Dashboard HTML with 6/6 status 200 responses;
+  the process stopped and the port closed afterward.
+- Browser evidence: desktop full-page rendering passed and is archived at
+  `d/2205/图片/dashboard-v2205-desktop.png`. Mobile inspection exposed long audit-button
+  overflow; the browser also reported a favicon 404. Source inspection had already found
+  duplicate document-shell tags. Because v2205 is byte-preserving, these pre-existing
+  shell defects are recorded rather than hidden inside the migration and require a
+  separately tested successor version.
 
 ## Verification cadence
 

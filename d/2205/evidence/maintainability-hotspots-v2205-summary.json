@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "version": "v2205",
+  "scope": "maintainability-only",
+  "behaviorChanged": false,
+  "before": {
+    "nearLimitFiles": 91,
+    "longFunctions": 122,
+    "complexFunctions": 238,
+    "runtimeImportCycles": 2,
+    "statusRoutesLines": 795,
+    "dashboardMarkupLines": 793
+  },
+  "after": {
+    "nearLimitFiles": 89,
+    "longFunctions": 121,
+    "complexFunctions": 238,
+    "runtimeImportCycles": 2,
+    "statusRoutesLines": 215,
+    "statusReportRoutesLines": 369,
+    "statusJsonMarkdownRouteLines": 88,
+    "dashboardMarkupLines": 531,
+    "dashboardScenarioMarkupLines": 265
+  },
+  "baseline": {
+    "path": "docs/plans3/maintainability-baseline.json",
+    "sha256": "ff45ebef9e05fe0aec4f5a76992a823fd2eda25cd3eb1ee282dc8bc5af199376",
+    "removedKeys": [
+      "src/routes/statusRoutes.ts",
+      "src/ui/dashboardMarkup.ts",
+      "src/routes/statusRoutes.ts|registerStatusRoutes"
+    ],
+    "addedKeys": [],
+    "grownKeys": []
+  },
+  "parity": {
+    "preservedGetPaths": 34,
+    "dashboardMarkupLength": 38137,
+    "dashboardMarkupSha256": "9c5bd6bd231afd62cd27fca0ecd46c55236cc8e6e1af67cc83a4f9b3221925dc",
+    "dashboardHtmlLength": 95724,
+    "dashboardHtmlSha256": "b2caa97b5be6bc7d44b35777d40e5c43cb9ef00cf77d338bab47951ef1882197"
+  },
+  "verification": {
+    "preMigrationOracle": "passed-2-of-2",
+    "representativeRouteTests": "passed-11-files-39-tests",
+    "postExtractionFocusedTests": "passed-4-files-11-tests",
+    "dashboardFocusedTests": "passed-2-files-4-tests",
+    "typecheck": "passed",
+    "lint": "passed-0-errors-0-warnings",
+    "maintainabilityCensus": "passed-ready-89-121-238-2",
+    "routeFileRatchet": "passed-80-of-80-after-initial-82-of-80-failure",
+    "fullSuite": "passed-16-of-16-shards-567-files-1726-tests",
+    "fullSuiteTriage": "one-worker-shard-6-timeout-only; slow-file-passed-1-file-4-tests; shard-6-passed-36-files-118-tests-with-2-workers",
+    "build": "passed",
+    "httpSmoke": "passed-6-of-6-health-metrics-runtime-config-real-read-json-real-read-markdown-dashboard",
+    "browserValidation": "desktop-render-passed; mobile-long-button-overflow-and-favicon-404-recorded-for-v2206",
+    "screenshot": "d/2205/图片/dashboard-v2205-desktop.png",
+    "remoteNodeEvidence": "pending-batched-push"
+  },
+  "browserFindings": [
+    "favicon.ico returns 404",
+    "some long audit buttons exceed the 302px mobile content column",
+    "duplicate document-shell tags predate this byte-preserving migration"
+  ],
+  "boundaries": {
+    "routePathsChanged": false,
+    "jsonOrMarkdownChanged": false,
+    "dashboardBytesChanged": false,
+    "fixturesChanged": false,
+    "siblingEvidenceChanged": false,
+    "executionAuthorityChanged": false,
+    "liveCapstoneTriggered": false
+  }
+}

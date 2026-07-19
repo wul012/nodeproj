@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2205 - 2026-07-19
+
+- Split the remaining 34 production status routes into two short registration
+  functions in one 369-line report-route module behind a request-header-aware
+  registrar. The first full-suite attempt correctly rejected an 82/80 route-file
+  draft; the final design preserves the immutable 80-file ceiling while reducing
+  `statusRoutes.ts` from 795 to 215 lines and its main function below 120 lines.
+  Extracted the complete scenario evidence markup into a 265-line fragment,
+  reducing `dashboardMarkup.ts` from 793 to 531 lines with exact markup/full-page
+  digests. All 1,726 tests, build, static gates, and six HTTP smoke checks pass;
+  the maintainability ledger tightened from 91 / 122 / 238 / 2 to 89 / 121 / 238 / 2.
+
 ## v2204 - 2026-07-19
 
 - Added a TypeScript-AST and runtime-import-graph maintainability census with a

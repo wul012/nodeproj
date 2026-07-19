@@ -1,4 +1,4 @@
-import type { FastifyInstance } from "fastify";
+import type { FastifyInstance, FastifyRequest } from "fastify";
 
 import type { FixtureReportQuery } from "./statusRouteTypes.js";
 
@@ -21,12 +21,37 @@ export function registerJsonMarkdownReportRoute<TProfile>(
   loadProfile: () => Promise<TProfile>,
   renderMarkdown: (profile: TProfile) => string,
 ): void {
+  registerRequestReportRoute(app, path, () => loadProfile(), renderMarkdown);
+}
+
+export function registerHeaderJsonMarkdownRoute<TProfile>(
+  app: FastifyInstance,
+  path: string,
+  loadProfile: (headers: FastifyRequest["headers"]) => TProfile | Promise<TProfile>,
+  renderMarkdown: (profile: TProfile) => string,
+): void {
+  registerRequestReportRoute(
+    app,
+    path,
+    (request) => Promise.resolve(loadProfile(request.headers)),
+    renderMarkdown,
+  );
+}
+
+function registerRequestReportRoute<TProfile>(
+  app: FastifyInstance,
+  path: string,
+  loadProfile: (
+    request: FastifyRequest<{ Querystring: FixtureReportQuery }>,
+  ) => Promise<TProfile>,
+  renderMarkdown: (profile: TProfile) => string,
+): void {
   app.get<{ Querystring: FixtureReportQuery }>(path, {
     schema: {
       querystring: fixtureReportQuerySchema,
     },
   }, async (request, reply) => {
-    const profile = await loadProfile();
+    const profile = await loadProfile(request);
 
     if (request.query.format === "markdown") {
       reply.type("text/markdown; charset=utf-8");

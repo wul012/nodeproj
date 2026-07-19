@@ -7,14 +7,6 @@
   },
   "nearLimitFiles": [
     {
-      "key": "src/routes/statusRoutes.ts",
-      "maxLines": 795
-    },
-    {
-      "key": "src/ui/dashboardMarkup.ts",
-      "maxLines": 793
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts",
       "maxLines": 788
     },
@@ -372,10 +364,6 @@
     }
   ],
   "longFunctions": [
-    {
-      "key": "src/routes/statusRoutes.ts|registerStatusRoutes",
-      "maxLines": 618
-    },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview.ts|loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview",
       "maxLines": 320

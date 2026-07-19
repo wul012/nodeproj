@@ -11,7 +11,6 @@ import type { AppConfig } from "./config.js";
 import { isAppHttpError } from "./errors.js";
 import { registerActionPlanRoutes } from "./routes/actionPlanRoutes.js";
 import { registerAuditRoutes } from "./routes/auditRoutes.js";
-import { registerDashboardRoutes } from "./routes/dashboardRoutes.js";
 import { registerMiniKvRoutes } from "./routes/miniKvRoutes.js";
 import { registerOrderPlatformRoutes } from "./routes/orderPlatformRoutes.js";
 import { registerOpsSummaryRoutes } from "./routes/opsSummaryRoutes.js";
@@ -22,7 +21,7 @@ import { registerOperationApprovalRequestRoutes } from "./routes/operationApprov
 import { registerOperationDispatchRoutes } from "./routes/operationDispatchRoutes.js";
 import { registerOperationIntentRoutes } from "./routes/operationIntentRoutes.js";
 import { registerOperationPreflightRoutes } from "./routes/operationPreflightRoutes.js";
-import { registerStatusRoutes } from "./routes/statusRoutes.js";
+import { registerDashboardRoutes, registerStatusRoutes } from "./routes/statusRoutes.js";
 import { evaluateAccessGuard, type AccessGuardEvaluation } from "./services/accessGuard.js";
 import { authEnforcementActive } from "./services/authEnforcementRehearsal.js";
 import type { AuditAccessGuardContext, AuditOperatorIdentityContext } from "./services/auditLog.js";
