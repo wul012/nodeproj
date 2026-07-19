@@ -1,0 +1,51 @@
+{
+  "schemaVersion": 1,
+  "version": "v2204",
+  "scope": "maintainability-only",
+  "behaviorChanged": false,
+  "baseline": {
+    "path": "docs/plans3/maintainability-baseline.json",
+    "sha256": "44a8c269e2367f6c10d7524dfe0fc73c99f734c634f71ae6a0e1b9fa8ef938f4",
+    "nearLimitLines": 600,
+    "longFunctionLines": 120,
+    "complexFunctionScore": 20
+  },
+  "measurement": {
+    "fileLines": "physical-lines",
+    "functionLines": "physical-source-span",
+    "complexity": "branch-score",
+    "importCycles": "static-runtime-relative-import-scc"
+  },
+  "current": {
+    "sourceFiles": 1246,
+    "namedFunctions": 6622,
+    "nearLimitFiles": 91,
+    "longFunctions": 122,
+    "complexFunctions": 238,
+    "runtimeImportCycles": 2,
+    "ready": true
+  },
+  "failClosedRules": [
+    "unknown-debt-key",
+    "metric-growth",
+    "stale-baseline-entry",
+    "threshold-drift",
+    "new-runtime-import-cycle"
+  ],
+  "verification": {
+    "maintainabilityCensus": "passed-ready",
+    "focusedTestFiles": 1,
+    "focusedTests": 8,
+    "focusedFailures": 0,
+    "typecheck": "passed",
+    "lint": "passed-0-errors-0-warnings",
+    "fullSuite": "deferred-to-v2205-final-boundary"
+  },
+  "boundaries": {
+    "routesChanged": false,
+    "fixturesChanged": false,
+    "siblingEvidenceChanged": false,
+    "executionAuthorityChanged": false,
+    "liveCapstoneTriggered": false
+  }
+}

@@ -2,7 +2,7 @@
 
 Date: 2026-07-19
 Owner: Codex
-State: v2203 locally accepted; v2204 next
+State: v2203-v2204 locally accepted; v2205 next
 
 ## Objective and stop condition
 
@@ -43,10 +43,10 @@ the maturity label remains:
 
 | Requirement | Implementation | Reproducible evidence | State |
 |---|---|---|---|
-| Remove lint debt | delete unused imports/locals; replace explicit `any` with checked types | `npm run lint` | in progress |
-| Make zero warnings permanent | set ESLint warning ceiling to zero and update its contract test | focused contract test + CI | pending |
-| Measure structural health | AST/import-graph census plus shrink-only baseline | `npm run maintainability:census` | pending |
-| Prevent gate drift | adversarial Vitest fixtures for new/grown/stale debt and cycles | `test/maintainabilityCensus.test.ts` | pending |
+| Remove lint debt | delete unused imports/locals; replace explicit `any` with checked types | `npm run lint` | locally accepted in v2203 |
+| Make zero warnings permanent | set ESLint warning ceiling to zero and update its contract test | focused contract test + CI | locally accepted in v2203; remote check batched |
+| Measure structural health | AST/import-graph census plus shrink-only baseline | `npm run maintainability:census` | locally accepted in v2204 |
+| Prevent gate drift | adversarial Vitest fixtures for new/grown/stale debt and cycles | `test/maintainabilityCensus.test.ts` | 8/8 passed in v2204 |
 | Repair real hotspots | reduce two selected >600-line files without public/output drift | focused parity digests + census shrink | pending |
 | Preserve behavior | no route, JSON, Markdown, fixture, or dashboard-byte changes | focused tests + full suite + smoke | pending |
 | Close remotely | commit/tag each version, push once at final boundary, inspect CI | git refs + Node Evidence URL | pending |
@@ -56,8 +56,8 @@ the maturity label remains:
 | Version | State | Evidence |
 |---|---|---|
 | v2203 warning-zero | local acceptance complete; batched push/CI waits for v2205 | lint 0/0; typecheck; 16 focused files / 53 tests; security and all structural censuses ready; `d/2203/evidence/lint-zero-v2203-summary.json` |
-| v2204 maintainability census | next | pending |
-| v2205 hotspot repair | pending | pending |
+| v2204 maintainability census | local acceptance complete; batched push/CI waits for v2205 | current tree ready: 91 near-limit files, 122 long functions, 238 complex functions, 2 runtime cycles; adversarial test 8/8; typecheck and lint 0/0; `d/2204/evidence/maintainability-census-v2204-summary.json` |
+| v2205 hotspot repair | next | pending |
 
 ## Necessity proof for the new gate
 
@@ -97,8 +97,8 @@ the maturity label remains:
 
 - Add `scripts/maintainability-scan.mjs`, `scripts/maintainability-census.mjs`, one
   baseline, and one focused test file.
-- Track exact legacy keys for source files over 600 logical lines, functions over 120
-  logical lines, functions with branch complexity over 20, and relative-import cycles.
+- Track exact legacy keys for source files over 600 physical lines, functions spanning
+  over 120 physical lines, functions with branch complexity over 20, and relative-import cycles.
 - Unknown/grown/stale baseline entries fail. Counts and exact key sets may only shrink;
   threshold changes fail validation.
 - Wire `npm run maintainability:census` into Node Evidence after the existing elegance
@@ -110,7 +110,7 @@ the maturity label remains:
 - Select two highest-value near-limit files using severity, recent churn, call-graph
   impact, and parity-oracle strength. Current leading candidates are
   `src/routes/statusRoutes.ts` and `src/ui/dashboardMarkup.ts`.
-- Reduce both selected files to at most 600 logical lines. Extract coherent concepts,
+- Reduce both selected files to at most 600 physical lines. Extract coherent concepts,
   not arbitrary line buckets; no third parallel family may appear.
 - Freeze relevant route registrations and dashboard bytes before migration. Existing
   tests or a dedicated digest oracle must prove byte-identical output afterward.

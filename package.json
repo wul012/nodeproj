@@ -19,6 +19,7 @@
     "archive:retention:census": "node scripts/archive-retention-census.mjs",
     "elegance:census": "node scripts/elegance-census.mjs",
     "elegance:families": "node scripts/family-logic-census.mjs",
+    "maintainability:census": "node scripts/maintainability-census.mjs",
     "renderer:census": "node scripts/renderer-census.mjs --max-unstandardized=3 --max-waived=3 --max-non-waived=0",
     "source:size:census": "node scripts/source-size-census.mjs",
     "readiness:cross": "tsx src/integration/readinessCrossCli.ts"

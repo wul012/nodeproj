@@ -17,6 +17,7 @@ on:
       - "docs/archive-retention-index.md"
       - "docs/plans/node-track-final-evidence.md"
       - "docs/plans/elegance-baseline.json"
+      - "docs/plans3/maintainability-baseline.json"
       - "fixtures/MANIFEST.md"
       - "src/**"
       - "test/**"
@@ -38,6 +39,7 @@ on:
       - "docs/archive-retention-index.md"
       - "docs/plans/node-track-final-evidence.md"
       - "docs/plans/elegance-baseline.json"
+      - "docs/plans3/maintainability-baseline.json"
       - "fixtures/MANIFEST.md"
       - "src/**"
       - "test/**"
@@ -87,6 +89,9 @@ jobs:
 
       - name: Family logic census
         run: npm run elegance:families
+
+      - name: Maintainability census
+        run: npm run maintainability:census
 
       - name: Test
         run: npm run test:coverage

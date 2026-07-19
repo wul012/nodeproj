@@ -1,0 +1,1826 @@
+{
+  "schemaVersion": 1,
+  "limits": {
+    "nearLimitLines": 600,
+    "longFunctionLines": 120,
+    "complexFunctionScore": 20
+  },
+  "nearLimitFiles": [
+    {
+      "key": "src/routes/statusRoutes.ts",
+      "maxLines": 795
+    },
+    {
+      "key": "src/ui/dashboardMarkup.ts",
+      "maxLines": 793
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts",
+      "maxLines": 788
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDryRunCommandPackage.ts",
+      "maxLines": 780
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts",
+      "maxLines": 779
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPreflightVerification.ts",
+      "maxLines": 778
+    },
+    {
+      "key": "src/services/managedAuditSandboxAdapterDryRunPackage.ts",
+      "maxLines": 778
+    },
+    {
+      "key": "src/services/productionReadinessSummaryV3.ts",
+      "maxLines": 776
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDryRunCommandUpstreamEchoVerification.ts",
+      "maxLines": 771
+    },
+    {
+      "key": "src/services/managedAuditIdentityApprovalProvenanceDryRunPacket.ts",
+      "maxLines": 768
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts",
+      "maxLines": 766
+    },
+    {
+      "key": "src/services/releaseRollbackReadinessRunbook.ts",
+      "maxLines": 761
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionRehearsalPacketReview.ts",
+      "maxLines": 760
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts",
+      "maxLines": 758
+    },
+    {
+      "key": "src/services/opsPromotionArchiveValidation.ts",
+      "maxLines": 756
+    },
+    {
+      "key": "src/services/managedAuditLocalAdapterCandidateDryRun.ts",
+      "maxLines": 755
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts",
+      "maxLines": 754
+    },
+    {
+      "key": "src/services/opsPromotionArchiveSteps.ts",
+      "maxLines": 748
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionEvidenceChecklist.ts",
+      "maxLines": 745
+    },
+    {
+      "key": "src/services/opsPromotionArchiveRenderers.ts",
+      "maxLines": 742
+    },
+    {
+      "key": "src/services/productionReadinessSummaryV4.ts",
+      "maxLines": 741
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts",
+      "maxLines": 740
+    },
+    {
+      "key": "src/services/managedAuditDryRunAdapterCandidate.ts",
+      "maxLines": 739
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.ts",
+      "maxLines": 733
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPacketVerification.ts",
+      "maxLines": 733
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionRehearsalGuard.ts",
+      "maxLines": 730
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts",
+      "maxLines": 730
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPreconditionIntake.ts",
+      "maxLines": 718
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentTypes.ts",
+      "maxLines": 716
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowChecklist.ts",
+      "maxLines": 710
+    },
+    {
+      "key": "src/services/ciEvidenceHardeningPacket.ts",
+      "maxLines": 699
+    },
+    {
+      "key": "src/services/crossProjectReleaseVerificationIntakeGate.ts",
+      "maxLines": 698
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeArchiveVerification.ts",
+      "maxLines": 696
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerification.ts",
+      "maxLines": 695
+    },
+    {
+      "key": "src/services/productionReleasePreApprovalPacket.ts",
+      "maxLines": 694
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts",
+      "maxLines": 691
+    },
+    {
+      "key": "src/services/managedAuditExternalAdapterConnectionReadinessReview.ts",
+      "maxLines": 689
+    },
+    {
+      "key": "src/services/threeProjectRealReadRuntimeSmokeExecutionPacket.ts",
+      "maxLines": 686
+    },
+    {
+      "key": "src/services/ciOperatorIdentityEvidencePacket.ts",
+      "maxLines": 678
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractUpstreamEchoVerification.ts",
+      "maxLines": 678
+    },
+    {
+      "key": "src/services/productionReadinessSummaryV2.ts",
+      "maxLines": 678
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts",
+      "maxLines": 676
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxAdapterConnectionRunbook.ts",
+      "maxLines": 675
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerification.ts",
+      "maxLines": 675
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketContributionReview.ts",
+      "maxLines": 671
+    },
+    {
+      "key": "src/services/controlledIdempotencyDrillRunbook.ts",
+      "maxLines": 670
+    },
+    {
+      "key": "src/services/rollbackExecutionPreflightContract.ts",
+      "maxLines": 669
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverExecutionDeniedUpstreamEchoVerification.ts",
+      "maxLines": 667
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerification.ts",
+      "maxLines": 665
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewArchiveVerification.ts",
+      "maxLines": 663
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntake.ts",
+      "maxLines": 661
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordArchiveVerification.ts",
+      "maxLines": 661
+    },
+    {
+      "key": "src/services/releaseApprovalDecisionRehearsalPacket.ts",
+      "maxLines": 659
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.ts",
+      "maxLines": 658
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification.ts",
+      "maxLines": 653
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionTestOnlyAdapterShellContract.ts",
+      "maxLines": 651
+    },
+    {
+      "key": "src/services/rollbackWindowReadinessChecklist.ts",
+      "maxLines": 649
+    },
+    {
+      "key": "src/services/releaseHandoffReadinessReview.ts",
+      "maxLines": 647
+    },
+    {
+      "key": "src/services/threeProjectRealReadRuntimeSmokePreflight.ts",
+      "maxLines": 643
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord.ts",
+      "maxLines": 641
+    },
+    {
+      "key": "src/services/crossProjectReleaseBundleGate.ts",
+      "maxLines": 640
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerification.ts",
+      "maxLines": 640
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionArchiveVerification.ts",
+      "maxLines": 638
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeOperatorRunbook.ts",
+      "maxLines": 638
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureUpstreamEchoVerification.ts",
+      "maxLines": 637
+    },
+    {
+      "key": "src/services/realReadAdapterImportedWindowResultPacket.ts",
+      "maxLines": 636
+    },
+    {
+      "key": "src/services/realReadRehearsalIntake.ts",
+      "maxLines": 636
+    },
+    {
+      "key": "src/services/managedAuditPersistenceBoundaryCandidate.ts",
+      "maxLines": 635
+    },
+    {
+      "key": "src/services/opsPromotionArchiveHandoffTypes.ts",
+      "maxLines": 631
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntakeArchiveVerification.ts",
+      "maxLines": 630
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.ts",
+      "maxLines": 629
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDryRunCommandPackageVerificationReport.ts",
+      "maxLines": 628
+    },
+    {
+      "key": "src/services/managedAuditIdentityApprovalBindingContract.ts",
+      "maxLines": 626
+    },
+    {
+      "key": "src/services/approvalLedgerDryRunEnvelope.ts",
+      "maxLines": 624
+    },
+    {
+      "key": "src/services/managedAuditPacketRestoreDrillPlan.ts",
+      "maxLines": 624
+    },
+    {
+      "key": "src/services/upstreamContractFixtureScenarioMatrix.ts",
+      "maxLines": 621
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractUpstreamEchoVerification.ts",
+      "maxLines": 620
+    },
+    {
+      "key": "src/services/realReadAdapterFailureTaxonomy.ts",
+      "maxLines": 619
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.ts",
+      "maxLines": 616
+    },
+    {
+      "key": "src/services/productionEnvironmentPreflightChecklist.ts",
+      "maxLines": 613
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerification.ts",
+      "maxLines": 611
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification.ts",
+      "maxLines": 611
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDecisionRecord.ts",
+      "maxLines": 611
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvShardReadinessEvidenceConsumption.ts",
+      "maxLines": 608
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientPrecheck.ts",
+      "maxLines": 608
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerification.ts",
+      "maxLines": 607
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureContractIntake.ts",
+      "maxLines": 606
+    },
+    {
+      "key": "src/services/realReadAdapterOperatorWindowRunbook.ts",
+      "maxLines": 606
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanBoundaryHandoffIntake.ts",
+      "maxLines": 602
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContract.ts",
+      "maxLines": 602
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateArchiveVerification.ts",
+      "maxLines": 601
+    }
+  ],
+  "longFunctions": [
+    {
+      "key": "src/routes/statusRoutes.ts|registerStatusRoutes",
+      "maxLines": 618
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview.ts|loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview",
+      "maxLines": 320
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createMiniKvV115Reference",
+      "maxLines": 264
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createMiniKvV116Reference",
+      "maxLines": 256
+    },
+    {
+      "key": "src/routes/opsSummaryRoutes.ts|registerOpsSummaryRoutes",
+      "maxLines": 239
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createMiniKvV114Reference",
+      "maxLines": 231
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
+      "maxLines": 230
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxLines": 230
+    },
+    {
+      "key": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSectionRenderer.ts|renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections",
+      "maxLines": 217
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateCatalog.ts|createRuntimeExecutionApprovalInputTemplates",
+      "maxLines": 216
+    },
+    {
+      "key": "src/app.ts|buildApp",
+      "maxLines": 213
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixRenderer.ts|renderControlledReadOnlyShardPreviewSourceMatrixSections",
+      "maxLines": 213
+    },
+    {
+      "key": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSectionRenderer.ts|renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSections",
+      "maxLines": 208
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createMiniKvV113Reference",
+      "maxLines": 202
+    },
+    {
+      "key": "src/routes/opsPromotionArchiveRoutes.ts|registerOpsPromotionArchiveRoutes",
+      "maxLines": 198
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.ts|renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections",
+      "maxLines": 197
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageRenderer.ts|renderControlledReadOnlyShardPreviewHandoffRouteCoverageSections",
+      "maxLines": 196
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts|createChecks",
+      "maxLines": 187
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|createChecks",
+      "maxLines": 178
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntake.ts|createChecks",
+      "maxLines": 171
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffSummaryRenderer.ts|renderControlledReadOnlyShardPreviewHandoffSummarySections",
+      "maxLines": 170
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight",
+      "maxLines": 167
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight",
+      "maxLines": 163
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass.ts|loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass",
+      "maxLines": 163
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts|createChecks",
+      "maxLines": 159
+    },
+    {
+      "key": "src/services/codeWalkthroughDocumentationQualityGate.ts|loadCodeWalkthroughDocumentationQualityGate",
+      "maxLines": 158
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeArchiveVerification.ts|createChecks",
+      "maxLines": 158
+    },
+    {
+      "key": "src/services/fFolderExplanationQualityGate.ts|loadFFolderExplanationQualityGate",
+      "maxLines": 156
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight",
+      "maxLines": 156
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationReferences.ts|createMiniKvV120Reference",
+      "maxLines": 156
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxLines": 156
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxLines": 156
+    },
+    {
+      "key": "src/services/productionLiveProbeEvidenceArchive.ts|loadProductionLiveProbeEvidenceArchive",
+      "maxLines": 156
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
+      "maxLines": 153
+    },
+    {
+      "key": "src/routes/opsPromotionArchiveRoutes.ts|createPromotionArchiveRouteArtifacts",
+      "maxLines": 152
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createMiniKvV117Reference",
+      "maxLines": 152
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionReleaseAuditTrailRecord",
+      "maxLines": 152
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewArchiveVerification.ts|createChecks",
+      "maxLines": 151
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
+      "maxLines": 151
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightGates",
+      "maxLines": 150
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordArchiveVerification.ts|createChecks",
+      "maxLines": 150
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationPolicy.ts|createChecks",
+      "maxLines": 149
+    },
+    {
+      "key": "src/routes/operationApprovalExecutionGateArchiveRoutes.ts|registerOperationApprovalExecutionGateArchiveRoutes",
+      "maxLines": 148
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft",
+      "maxLines": 148
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake",
+      "maxLines": 148
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeProductionPassEvidenceVerification.ts|loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification",
+      "maxLines": 147
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake",
+      "maxLines": 146
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerification.ts|createChecks",
+      "maxLines": 146
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createJavaV106Reference",
+      "maxLines": 146
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckGates",
+      "maxLines": 145
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createJavaV107Reference",
+      "maxLines": 144
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlan.ts|loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlan",
+      "maxLines": 143
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createMiniKvV112Reference",
+      "maxLines": 143
+    },
+    {
+      "key": "src/services/approvalDecisionPrerequisiteGateCore.ts|loadApprovalDecisionPrerequisiteGate",
+      "maxLines": 142
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake",
+      "maxLines": 142
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionDeploymentExecutionReceipt",
+      "maxLines": 142
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionDeploymentExecutionReceiptVerification",
+      "maxLines": 142
+    },
+    {
+      "key": "src/services/approvalLedgerDryRunEnvelope.ts|loadApprovalLedgerDryRunEnvelope",
+      "maxLines": 140
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationReferences.ts|createJavaV113Reference",
+      "maxLines": 140
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview.ts|loadManagedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview",
+      "maxLines": 139
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight",
+      "maxLines": 139
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightGates",
+      "maxLines": 139
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createMiniKvV119Reference",
+      "maxLines": 139
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createChecks",
+      "maxLines": 137
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createMiniKvV121Reference",
+      "maxLines": 137
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecision.ts|loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecision",
+      "maxLines": 137
+    },
+    {
+      "key": "src/services/approvalDecisionPrerequisiteGateCore.ts|createChecks",
+      "maxLines": 136
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness",
+      "maxLines": 136
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionDeploymentExecutionRecordVerification",
+      "maxLines": 135
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createJavaV105Reference",
+      "maxLines": 134
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightGates",
+      "maxLines": 133
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractUpstreamEchoVerification.ts|createMiniKvV139Reference",
+      "maxLines": 133
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerificationRenderer.ts|renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerificationMarkdown",
+      "maxLines": 133
+    },
+    {
+      "key": "src/services/productionReleasePreApprovalPacket.ts|loadProductionReleasePreApprovalPacket",
+      "maxLines": 133
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationCore.ts|loadManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerification",
+      "maxLines": 131
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate.ts|loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate",
+      "maxLines": 131
+    },
+    {
+      "key": "src/services/productionLiveProbeEvidenceArchiveVerification.ts|loadProductionLiveProbeEvidenceArchiveVerification",
+      "maxLines": 131
+    },
+    {
+      "key": "src/services/releaseApprovalDecisionRehearsalPacket.ts|loadReleaseApprovalDecisionRehearsalPacket",
+      "maxLines": 131
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheckArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck",
+      "maxLines": 130
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerificationRenderer.ts|renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerificationMarkdown",
+      "maxLines": 130
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createChecks",
+      "maxLines": 130
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionArchiveVerification.ts|createChecks",
+      "maxLines": 130
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeProductionPassEvidenceArchive.ts|loadProductionLiveProbeRealReadSmokeProductionPassEvidenceArchive",
+      "maxLines": 130
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessGates",
+      "maxLines": 129
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateArchiveVerificationRenderer.ts|renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateArchiveVerificationMarkdown",
+      "maxLines": 129
+    },
+    {
+      "key": "src/services/productionLiveProbeEvidenceArchiveBundle.ts|loadProductionLiveProbeEvidenceArchiveBundle",
+      "maxLines": 129
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeEvidenceCapture.ts|loadProductionLiveProbeRealReadSmokeEvidenceCapture",
+      "maxLines": 129
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight",
+      "maxLines": 128
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverExecutionDeniedUpstreamEchoVerification.ts|collectProductionBlockers",
+      "maxLines": 128
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationChecks.ts|collectProductionBlockers",
+      "maxLines": 128
+    },
+    {
+      "key": "src/routes/orderPlatformRoutes.ts|registerOrderPlatformRoutes",
+      "maxLines": 127
+    },
+    {
+      "key": "src/services/explanationReadabilityCloseoutProfile.ts|loadExplanationReadabilityCloseoutProfile",
+      "maxLines": 127
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightBuilder.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightLanes",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createJavaV112Reference",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerification.ts|createMiniKvV138Reference",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionDeploymentExecutionRecord",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeProductionPassEvidenceArchiveVerification.ts|loadProductionLiveProbeRealReadSmokeProductionPassEvidenceArchiveVerification",
+      "maxLines": 126
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification.ts|createMiniKvV136Reference",
+      "maxLines": 125
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntake.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntake",
+      "maxLines": 125
+    },
+    {
+      "key": "src/services/opsPromotionArchiveDeploymentApprovalBuilders.ts|createOpsPromotionDeploymentChangeRecordVerification",
+      "maxLines": 125
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.ts|createMiniKvV135Reference",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerificationRenderer.ts|renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerificationMarkdown",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunner.ts|loadManagedAuditManualSandboxConnectionCredentialResolverReadOnlyCrossProjectReadinessRunner",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeExecutionRequest.ts|loadProductionLiveProbeRealReadSmokeExecutionRequest",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/threeProjectRealReadRuntimeSmokePreflight.ts|loadThreeProjectRealReadRuntimeSmokePreflight",
+      "maxLines": 124
+    },
+    {
+      "key": "src/services/crossProjectEvidenceRetentionGate.ts|loadCrossProjectEvidenceRetentionGate",
+      "maxLines": 123
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.ts|loadManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake",
+      "maxLines": 123
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification",
+      "maxLines": 123
+    },
+    {
+      "key": "src/routes/statusLiveProbeRoutes.ts|registerStatusLiveProbeRoutes",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/ciOperatorIdentityEvidencePacket.ts|loadCiOperatorIdentityEvidencePacket",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification.ts|createChecks",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyIntakeArchiveVerificationRenderer.ts|renderManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyIntakeArchiveVerificationMarkdown",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContract.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputIntakeContract",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketContributionReview.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketContributionReview",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationCore.ts|loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/operationApprovalExecutionContractArchiveBundle.ts|createReferences",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/productionConnectionArchiveVerification.ts|loadProductionConnectionArchiveVerification",
+      "maxLines": 122
+    },
+    {
+      "key": "src/services/deploymentEvidenceIntakeGatePolicy.ts|createChecks",
+      "maxLines": 121
+    }
+  ],
+  "complexFunctions": [
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createMiniKvV115Reference",
+      "maxComplexity": 201
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createMiniKvV116Reference",
+      "maxComplexity": 194
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createMiniKvV114Reference",
+      "maxComplexity": 180
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
+      "maxComplexity": 160
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxComplexity": 152
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createMiniKvV113Reference",
+      "maxComplexity": 147
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 137
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxComplexity": 117
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxComplexity": 114
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
+      "maxComplexity": 109
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createMiniKvV117Reference",
+      "maxComplexity": 100
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationPolicy.ts|createChecks",
+      "maxComplexity": 100
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createMiniKvV112Reference",
+      "maxComplexity": 98
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
+      "maxComplexity": 95
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|createChecks",
+      "maxComplexity": 88
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 86
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts|createChecks",
+      "maxComplexity": 85
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationChecks.ts|createChecks",
+      "maxComplexity": 85
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntake.ts|createChecks",
+      "maxComplexity": 84
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 78
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordArchiveVerification.ts|createChecks",
+      "maxComplexity": 76
+    },
+    {
+      "key": "src/services/approvalDecisionPrerequisiteGateCore.ts|createChecks",
+      "maxComplexity": 76
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewArchiveVerification.ts|createChecks",
+      "maxComplexity": 72
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionReadinessGateReferences.ts|createMiniKvV101Reference",
+      "maxComplexity": 71
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 70
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 68
+    },
+    {
+      "key": "src/services/deploymentEvidenceIntakeGatePolicy.ts|createChecks",
+      "maxComplexity": 68
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupCurrentEvidence.ts|createChecks",
+      "maxComplexity": 67
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 67
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDryRunCommandUpstreamEchoVerification.ts|createMiniKvV107NonParticipationReference",
+      "maxComplexity": 67
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 63
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerification.ts|createChecks",
+      "maxComplexity": 62
+    },
+    {
+      "key": "src/services/releaseHandoffReadinessReview.ts|createChecks",
+      "maxComplexity": 62
+    },
+    {
+      "key": "src/services/crossProjectEvidenceRetentionGate.ts|createChecks",
+      "maxComplexity": 62
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake.ts|createChecks",
+      "maxComplexity": 61
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 60
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupVerificationChecklistEvidence.ts|createChecks",
+      "maxComplexity": 59
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBlockedReasons",
+      "maxComplexity": 59
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createJavaV106Reference",
+      "maxComplexity": 58
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerification.ts|createChecks",
+      "maxComplexity": 58
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanBoundaryHandoffIntake.ts|createChecks",
+      "maxComplexity": 58
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createJavaV107Reference",
+      "maxComplexity": 57
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts|createMiniKvV102Reference",
+      "maxComplexity": 57
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionArchiveVerification.ts|createChecks",
+      "maxComplexity": 56
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightBlockedReasons",
+      "maxComplexity": 56
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidateArchiveVerification.ts|createChecks",
+      "maxComplexity": 55
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureContractIntake.ts|createChecks",
+      "maxComplexity": 54
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntakeBlockedReasons",
+      "maxComplexity": 54
+    },
+    {
+      "key": "src/services/releaseApprovalDecisionRehearsalPacket.ts|createChecks",
+      "maxComplexity": 53
+    },
+    {
+      "key": "src/services/productionEnvironmentPreflightChecklist.ts|createChecks",
+      "maxComplexity": 53
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 53
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPreflightVerification.ts|createMiniKvV97Reference",
+      "maxComplexity": 53
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflightBlockedReasons",
+      "maxComplexity": 53
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlanArchiveVerification.ts|createChecks",
+      "maxComplexity": 52
+    },
+    {
+      "key": "src/services/deploymentEvidenceVerification.ts|createChecks",
+      "maxComplexity": 52
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessBlockedReasons",
+      "maxComplexity": 52
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightBlockedReasons",
+      "maxComplexity": 51
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerification.ts|createChecks",
+      "maxComplexity": 50
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 50
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 49
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createSourceNodeV262",
+      "maxComplexity": 49
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateArchiveVerification.ts|createChecks",
+      "maxComplexity": 47
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 47
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createJavaV105Reference",
+      "maxComplexity": 46
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationRegularGateArchiveVerification.ts|createChecks",
+      "maxComplexity": 46
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftOutlineArchiveVerification.ts|createChecks",
+      "maxComplexity": 46
+    },
+    {
+      "key": "src/services/releaseWindowReadinessPacketPolicy.ts|createChecks",
+      "maxComplexity": 46
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 46
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessBlockedReasons",
+      "maxComplexity": 46
+    },
+    {
+      "key": "src/services/artifactIntakeArchiveProof.ts|createChecks",
+      "maxComplexity": 45
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 45
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractIntake.ts|createChecks",
+      "maxComplexity": 45
+    },
+    {
+      "key": "src/services/managedAuditSandboxAdapterDryRunPackage.ts|createChecks",
+      "maxComplexity": 45
+    },
+    {
+      "key": "src/services/managedAuditIdentityApprovalProvenancePacketVerificationReport.ts|createChecks",
+      "maxComplexity": 45
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewArtifacts.ts|createApprovalPacketReviewBlockedReasons",
+      "maxComplexity": 45
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createSourceNodeV264",
+      "maxComplexity": 44
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContract.ts|createChecks",
+      "maxComplexity": 44
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractIntake.ts|createChecks",
+      "maxComplexity": 44
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createJavaV110Reference",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReviewArchiveVerification.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftCandidateArchiveVerification.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportAdapterDryRunVerificationPacket.ts|createChecks",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraftArtifacts.ts|createApprovalPacketDraftBlockedReasons",
+      "maxComplexity": 43
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationReferences.ts|createJavaV113Reference",
+      "maxComplexity": 42
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationCandidateGateInputHardeningDecision.ts|createChecks",
+      "maxComplexity": 42
+    },
+    {
+      "key": "src/services/liveGateArchiveVerification.ts|createChecks",
+      "maxComplexity": 41
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledImplementationCandidateReview.ts|createChecks",
+      "maxComplexity": 41
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPassEvidenceCloseout.ts|createChecks",
+      "maxComplexity": 40
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContract.ts|createSourceNodeV263",
+      "maxComplexity": 40
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionArtifactUpstreamProgressIntake.ts|createChecks",
+      "maxComplexity": 40
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketContributionReview.ts|createChecks",
+      "maxComplexity": 40
+    },
+    {
+      "key": "src/services/rollbackExecutionPreflightContract.ts|createChecks",
+      "maxComplexity": 40
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflightBlockedReasons",
+      "maxComplexity": 40
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createJavaV104Reference",
+      "maxComplexity": 39
+    },
+    {
+      "key": "src/services/packetStopArchiveProof.ts|createChecks",
+      "maxComplexity": 39
+    },
+    {
+      "key": "src/services/rollbackWindowReadinessChecklist.ts|createChecks",
+      "maxComplexity": 39
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createJavaV103Reference",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/crossProjectReleaseBundleGate.ts|createChecks",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvShardReadinessEvidenceConsumptionArchiveVerification.ts|createChecks",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview.ts|createChecks",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationPolicy.ts|createChecks",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionBlockedExecutionRehearsalReferences.ts|createMiniKvV99Reference",
+      "maxComplexity": 38
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.ts|createChecks",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessEvidence.ts|createChecks",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck.ts|createChecks",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverExecutionDeniedUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupLatestEvidence.ts|createChecks",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPacketVerification.ts|createMiniKvV96Reference",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflightBlockedReasons",
+      "maxComplexity": 37
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createSourceNodeV260",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveVerification.ts|createChecks",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContract.ts|createChecks",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixturePrerequisiteClosureReview.ts|createChecks",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellChainStopPrerequisiteUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPacket.ts|createChecks",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditDryRunAdapterCandidate.ts|createChecks",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionRehearsalPacketReview.ts|createMiniKvV98Reference",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflightBlockedReasons",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplateBlockedReasons",
+      "maxComplexity": 36
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreparationPlan.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadArchiveVerification.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecision.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupHandoffEvidence.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts|createOperatorWindowEvidenceVerification",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionReadinessGatePolicy.ts|createChecks",
+      "maxComplexity": 35
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyIntake.ts|createChecks",
+      "maxComplexity": 34
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationPassedArchiveVerification.ts|createChecks",
+      "maxComplexity": 34
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupReadinessHandoffEvidence.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReview.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecision.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftCandidateReview.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalPrerequisiteClosureReview.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeHarnessReadinessBlockedDecisionUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/operationApprovalEvidenceVerification.ts|summaryMatchesUpstreamEvidence",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecord.ts|createChecks",
+      "maxComplexity": 33
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReview.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftOutlineIntake.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessRegularGateArchiveVerification.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyCandidateReview.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalPrerequisiteClosureReview.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeHarnessReadinessDecisionRecord.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateDecisionRecord.ts|createChecks",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.ts|createValueSupplyEnvelopeBlockedReasons",
+      "maxComplexity": 32
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createJavaV102Reference",
+      "maxComplexity": 31
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlan.ts|createChecks",
+      "maxComplexity": 31
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheck.ts|createSourceNodeV261",
+      "maxComplexity": 31
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPreconditionIntake.ts|createMiniKvV100Reference",
+      "maxComplexity": 31
+    },
+    {
+      "key": "src/services/managedAuditAdapterProductionHardeningReadinessGate.ts|createChecks",
+      "maxComplexity": 31
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createJavaV112Reference",
+      "maxComplexity": 30
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 30
+    },
+    {
+      "key": "src/services/managedAuditSandboxAdapterDryRunPackage.ts|createMiniKvGuardReference",
+      "maxComplexity": 30
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningEvidence.ts|createMiniKvV143ReceiptReference",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/artifactIntakeArchiveProof.ts|replayFromFrozenEvidence",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationReferences.ts|createJavaV122V126Reference",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionPlanIntakeUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationSmokeArchiveVerification.ts|createChecks",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractIntake.ts|createChecks",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPrecheckPacket.ts|createChecks",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyDraftCandidate.ts|createChecks",
+      "maxComplexity": 29
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeProductionPassEvidenceVerification.ts|loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverNoNetworkSafetyFixtureUpstreamEchoVerification.ts|createMiniKvV141Reference",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createSourceNodeV258",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionPacketApprovalGateReview.ts|createChecks",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactPrerequisiteClosureReview.ts|createChecks",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupConsumerReadinessBatchCloseout.ts|createChecks",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupFreshBaselineBatchCloseout.ts|createChecks",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditIdentityApprovalProvenanceDryRunPacket.ts|createChecks",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionEvidenceChecklist.ts|createMiniKvV95Reference",
+      "maxComplexity": 28
+    },
+    {
+      "key": "src/services/productionConnectionArchiveVerification.ts|loadProductionConnectionArchiveVerification",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteIntake.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactIntakePlan.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingEvidenceIntake.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditPersistenceBoundaryCandidate.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFinalPrerequisiteClosureReview.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditPacketRestoreDrillPlan.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditAdapterImplementationPrecheckPacket.ts|createChecks",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftArtifacts.ts|createValueDraftBlockedReasons",
+      "maxComplexity": 27
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCredentialHandleApprovalContractUpstreamEchoVerification.ts|createMiniKvV139Reference",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSignedHumanApprovalArtifactContractUpstreamEchoVerification.ts|createMiniKvV138Reference",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewUpstreamEchoVerification.ts|createMiniKvV136Reference",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.ts|createMiniKvV135Reference",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/productionReleasePreApprovalPacket.ts|createChecks",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanEvidenceIntake.ts|createChecks",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionDryRunCommandUpstreamEchoVerification.ts|createChecks",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeArtifacts.ts|createFreshSiblingIntakeBlockedReasons",
+      "maxComplexity": 26
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflightGates",
+      "maxComplexity": 25
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadinessGates",
+      "maxComplexity": 25
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewPostEchoDecisionGate.ts|createChecks",
+      "maxComplexity": 25
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightArtifacts.ts|createImportPreflightBlockedReasons",
+      "maxComplexity": 25
+    },
+    {
+      "key": "src/services/productionLiveProbeEvidenceArchiveVerification.ts|loadProductionLiveProbeEvidenceArchiveVerification",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessValidator.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadinessGates",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/operationApprovalExecutionContractArchiveBundle.ts|createReferences",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationOperatorCiRegularGateHandoff.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvActiveShardPlanBoundaryHandoffIntakeArchiveVerification.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/realReadRehearsalIntake.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/packetStopArchiveProof.ts|replayFromFrozenEvidence",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.ts|replayFromFrozenEvidence",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/productionReadinessSummaryV11.ts|createCategories",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellChainStopOrPrerequisiteDecisionRecord.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPreflightVerification.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditExternalAdapterConnectionReadinessReview.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverManagedAuditDisabledReadOnlyIntegrationDecisionRecord.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecution.ts|createChecks",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageArtifacts.ts|createReviewPackageBlockedReasons",
+      "maxComplexity": 24
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationRegularGate.ts|createChecks",
+      "maxComplexity": 23
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignReview.ts|createReviewQuestions",
+      "maxComplexity": 23
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellPrePlanIntake.ts|createChecks",
+      "maxComplexity": 23
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketArchiveVerification.ts|createChecks",
+      "maxComplexity": 23
+    },
+    {
+      "key": "src/services/upstreamOverview.ts|buildNextActions",
+      "maxComplexity": 23
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellImplementationCandidateGate.ts|createChecks",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/services/javaMiniKvRouteCatalogCleanupLatestSiblingEvidenceArchiveVerification.ts|createChecks",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDecisionRecord.ts|createSourceNodeV259",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandlePreflightReview.ts|createChecks",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/clients/miniKvClient.ts|parseMiniKvExplainJson",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetArtifacts.ts|createWorksheetBlockedReasons",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts|miniKvBoundaryAccepted",
+      "maxComplexity": 22
+    },
+    {
+      "key": "src/services/productionLiveProbeRealReadSmokeEvidenceCapture.ts|loadProductionLiveProbeRealReadSmokeEvidenceCapture",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverEndpointHandleAllowlistApprovalContractUpstreamEchoVerification.ts|createMiniKvV140Reference",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewArtifacts.ts|createApprovalPacketReviewGates",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createJavaV99PrecheckEchoReference",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/approvalLedgerDryRunEnvelope.ts|createChecks",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationWindowReadinessCut.ts|createChecks",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvCompletedShardReadinessEvidenceIntake.ts|createChecks",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntake.ts|createChecks",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/productionReadinessSummaryV12.ts|createCategories",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvShardReadinessEvidenceConsumption.ts|createChecks",
+      "maxComplexity": 21
+    },
+    {
+      "key": "src/services/managedAuditLocalAdapterCandidateDryRun.ts|createChecks",
+      "maxComplexity": 21
+    }
+  ],
+  "importCycles": [
+    {
+      "key": "src/routes/auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseout.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerification.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeRouteArchiveVerifierSupport.ts|src/services/javaMiniKvRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseout.ts"
+    },
+    {
+      "key": "src/routes/auditJsonMarkdownRouteGroups.ts|src/routes/auditManagedAuditRouteQualityRoutes.ts|src/services/explanationReadabilityCloseoutProfile.ts|src/services/readabilityMaintenanceProfile.ts"
+    }
+  ]
+}

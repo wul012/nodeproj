@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2204 - 2026-07-19
+
+- Added a TypeScript-AST and runtime-import-graph maintainability census with a
+  shrink-only exact baseline for files over 600 lines, functions over 120 lines,
+  branch scores over 20, and relative-import cycles. Eight adversarial fixtures
+  prove new, grown, stale, threshold-drift, and cycle failures; the current tree is
+  ready at 91 / 122 / 238 / 2 and the gate now runs in Node Evidence.
+
 ## v2203 - 2026-07-19
 
 - Removed all 180 ESLint warnings without suppression, replaced six explicit-any
