@@ -35,10 +35,8 @@ import {
   createReleaseWindowSteps,
 } from "./releaseWindowReadinessPacketPolicy.js";
 import type {
-  ForbiddenOperation,
   PacketState,
   ReleaseWindowReadinessPacketProfile,
-  ReleaseWindowStep,
 } from "./releaseWindowReadinessPacketTypes.js";
 
 export type {

@@ -206,9 +206,9 @@ function createChecks(
   config: AppConfig,
   intakeGate: DeploymentEvidenceIntakeGateProfile,
 ): Record<string, boolean> {
-  const javaRunbook = intakeGate.artifacts.javaProductionDeploymentRunbookContract as Record<string, any>;
-  const miniKvPackage = intakeGate.artifacts.miniKvReleaseArtifactDigestPackage as Record<string, any>;
-  const sourceSummary = intakeGate.artifacts.sourcePostV166ReadinessSummary as Record<string, any>;
+  const javaRunbook = intakeGate.artifacts.javaProductionDeploymentRunbookContract;
+  const miniKvPackage = intakeGate.artifacts.miniKvReleaseArtifactDigestPackage;
+  const sourceSummary = intakeGate.artifacts.sourcePostV166ReadinessSummary;
 
   return {
     sourceIntakeGateReady: intakeGate.readyForDeploymentEvidenceIntakeGate
@@ -304,7 +304,7 @@ function summarizeIntakeGate(profile: DeploymentEvidenceIntakeGateProfile): Reco
 }
 
 function summarizeJavaRunbook(profile: DeploymentEvidenceIntakeGateProfile): Record<string, object | string | boolean | number | unknown> {
-  const javaRunbook = profile.artifacts.javaProductionDeploymentRunbookContract as Record<string, any>;
+  const javaRunbook = profile.artifacts.javaProductionDeploymentRunbookContract;
   return {
     plannedVersion: javaRunbook.plannedVersion,
     contractVersion: javaRunbook.contractVersion,
@@ -321,7 +321,7 @@ function summarizeJavaRunbook(profile: DeploymentEvidenceIntakeGateProfile): Rec
 }
 
 function summarizeMiniKvPackage(profile: DeploymentEvidenceIntakeGateProfile): Record<string, object | string | boolean | number | unknown> {
-  const miniKvPackage = profile.artifacts.miniKvReleaseArtifactDigestPackage as Record<string, any>;
+  const miniKvPackage = profile.artifacts.miniKvReleaseArtifactDigestPackage;
   return {
     plannedVersion: miniKvPackage.plannedVersion,
     packageVersion: miniKvPackage.packageVersion,

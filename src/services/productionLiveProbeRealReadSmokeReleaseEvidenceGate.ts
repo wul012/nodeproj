@@ -1,7 +1,4 @@
 ﻿import {
-  countPassedReportChecks,
-  countReportChecks,
-  formatValue,
   renderEntries,
   renderList,
   renderMessages,

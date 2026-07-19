@@ -5,7 +5,6 @@ import {
   readHistoricalEvidenceFile as readFileSync,
   statHistoricalEvidence as statSync,
 } from "./historicalEvidenceResolver.js";
-import { sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   ACCEPTED_MINI_KV_RUNTIME_SMOKE_WAL_REGRESSION_REFERENCES,
   JAVA_V90_CONTEXT_HEADER_FIELD_SOURCE,

@@ -1,9 +1,7 @@
 ﻿import type {
   OpsPromotionDeploymentApproval,
-  OpsPromotionDeploymentApprovalItem,
   OpsPromotionDeploymentApprovalVerification,
   OpsPromotionDeploymentChangeRecord,
-  OpsPromotionDeploymentChangeRecordItem,
   OpsPromotionDeploymentChangeRecordVerification,
   OpsPromotionReleaseArchive,
   OpsPromotionReleaseArchiveVerification,

@@ -245,7 +245,6 @@ function createMiniKvV128Reference(): MiniKvV128ExecutionDeniedNonParticipationR
   const sourceNodeV290Reference = objectField(receipt, "source_node_v290_reference");
   const executionDeniedRoutePreflight = objectField(receipt, "execution_denied_route_preflight");
   const summary = objectField(receipt, "summary");
-  const matched = (id: string) => expectedSnippets.some((match) => match.id === id && match.matched);
   return {
     sourceVersion: "mini-kv v128",
     evidenceFiles,

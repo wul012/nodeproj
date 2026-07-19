@@ -187,7 +187,6 @@ function createChecks(
   archiveVerification: RuntimeExecutionPassEvidenceArchiveVerificationRecord,
 ): RuntimeExecutionPassEvidenceArchiveVerificationChecks {
   const sourceNodeV406 = objectField(httpArchive, "sourceNodeV406");
-  const records = objectArrayField(httpArchive, "records");
   return {
     httpArchivePresent: archivePresent(archiveReferences, "v407-http-json"),
     summaryArchivePresent: archivePresent(archiveReferences, "v407-summary-json"),

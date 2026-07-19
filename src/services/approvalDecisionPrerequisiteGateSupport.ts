@@ -13,7 +13,6 @@ import type {
 import {
   ENDPOINTS,
   JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE,
-  MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST,
 } from "./approvalDecisionPrerequisiteGateData.js";
 import type { ProductionReleasePreApprovalPacketProfile } from "./productionReleasePreApprovalPacket.js";
 

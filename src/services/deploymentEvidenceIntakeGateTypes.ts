@@ -188,6 +188,26 @@ export interface MiniKvReleaseArtifactDigestPackageReference {
   executionAllowed: false;
 }
 
+export interface DeploymentEvidenceSummary {
+  summaryVersion: string;
+  summaryState: string;
+  stageDigest: string;
+  readyForPostV166ReadinessSummary: boolean;
+  readyForProductionRollback: boolean;
+  readyForProductionOperations: boolean;
+  executionAllowed: boolean;
+  passedCheckCount: number;
+  checkCount: number;
+  productionBlockerCount: number;
+}
+
+export interface DeploymentEvidenceArtifacts {
+  sourcePostV166ReadinessSummary: DeploymentEvidenceSummary;
+  javaProductionDeploymentRunbookContract: JavaDeploymentRunbookContractReference;
+  miniKvReleaseArtifactDigestPackage: MiniKvReleaseArtifactDigestPackageReference;
+  nodeIntakeEnvelope: Record<string, boolean>;
+}
+
 export interface DeploymentEvidenceIntakeGateProfile {
   service: "orderops-node";
   title: string;
@@ -203,7 +223,7 @@ export interface DeploymentEvidenceIntakeGateProfile {
   executionAllowed: false;
   gate: Record<string, unknown>;
   checks: Record<string, boolean>;
-  artifacts: Record<string, object>;
+  artifacts: DeploymentEvidenceArtifacts;
   intakeSteps: IntakeStep[];
   forbiddenOperations: ForbiddenOperation[];
   summary: Record<string, number>;

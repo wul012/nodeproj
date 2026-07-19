@@ -11,6 +11,14 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2203 - 2026-07-19
+
+- Removed all 180 ESLint warnings without suppression, replaced six explicit-any
+  boundaries with typed deployment evidence and a localized unknown renderer boundary,
+  deleted migration-tail imports/helpers, and tightened CI lint enforcement to zero
+  warnings. Sixteen focused files / 53 tests plus typecheck and static gates pass;
+  the complete suite is intentionally batched at the v2205 final boundary.
+
 ## v2202 - 2026-07-13
 
 - Rebuilt the GitHub README as a concise, evidence-linked project exhibit with

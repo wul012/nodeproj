@@ -5,11 +5,6 @@ import {
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
-  evidenceFile,
-  snippet,
-  snippetMatched,
-} from "./historicalEvidenceReportUtils.js";
-import {
   loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerification.js";
 import type {

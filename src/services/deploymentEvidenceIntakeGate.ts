@@ -29,6 +29,7 @@ import {
   createIntakeSteps,
 } from "./deploymentEvidenceIntakeGatePolicy.js";
 import type {
+  DeploymentEvidenceSummary,
   DeploymentEvidenceIntakeGateProfile,
   ForbiddenOperation,
   IntakeState,
@@ -203,11 +204,11 @@ export function renderDeploymentEvidenceIntakeGateMarkdown(
 
 function summarizePostV166Summary(
   profile: PostV166ReadinessSummaryProfile,
-): Record<string, object | string | boolean | number | unknown> {
+): DeploymentEvidenceSummary {
   return {
     summaryVersion: profile.summaryVersion,
     summaryState: profile.summaryState,
-    stageDigest: profile.stage.stageDigest,
+    stageDigest: String(profile.stage.stageDigest),
     readyForPostV166ReadinessSummary: profile.readyForPostV166ReadinessSummary,
     readyForProductionRollback: profile.readyForProductionRollback,
     readyForProductionOperations: profile.readyForProductionOperations,

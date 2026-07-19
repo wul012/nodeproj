@@ -39,7 +39,7 @@ export interface ReleaseReportMarkdownItemSection<TItem> {
 type AnyReleaseReportMarkdownItemSection = {
   heading: string;
   items: unknown[];
-  renderItem: (item: any) => string[];
+  renderItem(item: unknown): string[];
 };
 
 export interface ReleaseReportMarkdownMessageSection<TMessage extends LiveProbeReportMessage> {
@@ -211,17 +211,18 @@ export function renderReleaseReportTail(evidenceEndpoints: object, nextActions: 
 }
 
 export function renderReleaseReportStep(
-  step: Record<string, unknown>,
+  step: unknown,
   options: ReleaseReportStepRenderOptions,
 ): string[] {
+  const record = step as Record<string, unknown>;
   return [
-    `### Step ${String(step.order)}: ${String(step.phase)}`,
+    `### Step ${String(record.order)}: ${String(record.phase)}`,
     "",
-    `- ${options.identityLabel}: ${String(step[options.identityKey])}`,
-    `- Action: ${String(step.action)}`,
-    `- Evidence target: ${String(step.evidenceTarget)}`,
-    `- Expected evidence: ${String(step.expectedEvidence)}`,
-    ...options.booleanFields.map(([label, key]) => `- ${label}: ${String(step[key])}`),
+    `- ${options.identityLabel}: ${String(record[options.identityKey])}`,
+    `- Action: ${String(record.action)}`,
+    `- Evidence target: ${String(record.evidenceTarget)}`,
+    `- Expected evidence: ${String(record.expectedEvidence)}`,
+    ...options.booleanFields.map(([label, key]) => `- ${label}: ${String(record[key])}`),
     "",
   ];
 }

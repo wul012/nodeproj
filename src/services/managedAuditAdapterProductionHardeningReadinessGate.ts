@@ -13,7 +13,6 @@ import {
   createManagedAuditAdapterProductionHardeningGateDigest,
   MANAGED_AUDIT_ADAPTER_PRODUCTION_HARDENING_ENDPOINTS,
   MANAGED_AUDIT_ADAPTER_PRODUCTION_HARDENING_PREREQUISITES,
-  type ManagedAuditAdapterProductionHardeningReadinessGateChecks,
   type ReadinessGateMessage,
 } from "./managedAuditAdapterProductionHardeningReadinessGateHelpers.js";
 import {

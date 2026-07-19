@@ -2,13 +2,10 @@
   OpsPromotionDeploymentChangeRecord,
   OpsPromotionDeploymentChangeRecordVerification,
   OpsPromotionDeploymentExecutionReceipt,
-  OpsPromotionDeploymentExecutionReceiptItem,
   OpsPromotionDeploymentExecutionReceiptVerification,
   OpsPromotionDeploymentExecutionRecord,
-  OpsPromotionDeploymentExecutionRecordItem,
   OpsPromotionDeploymentExecutionRecordVerification,
   OpsPromotionReleaseAuditTrailRecord,
-  OpsPromotionReleaseAuditTrailRecordItem,
 } from "./opsPromotionArchiveBundleTypes.js";
 import {
   archiveDeploymentExecutionReceiptItems,

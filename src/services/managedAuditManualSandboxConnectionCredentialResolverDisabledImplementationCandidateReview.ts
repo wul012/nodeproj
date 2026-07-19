@@ -9,7 +9,6 @@ import {
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.js";
 import type {
   CredentialResolverPreImplementationBoundaryCode,
-  CredentialResolverPreImplementationRequirementCode,
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
 import type {
   CredentialResolverDisabledCandidateBoundaryDecision,

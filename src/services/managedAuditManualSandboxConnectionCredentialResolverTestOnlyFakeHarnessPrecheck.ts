@@ -8,9 +8,6 @@ import {
   loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification,
 } from "./managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationTypes.js";
-import type {
   ManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckProfile,
   SourceNodeV286ImplementationPlanUpstreamEchoVerificationReference,
   TestOnlyFakeHarnessPrecheck,

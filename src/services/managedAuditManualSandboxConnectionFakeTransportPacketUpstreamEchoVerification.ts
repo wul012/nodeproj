@@ -329,7 +329,6 @@ function createMiniKvV112Reference(): MiniKvV112FakeTransportPacketNonParticipat
   const receipt = objectField(readJsonObject(MINI_KV_V112_RECEIPT), "fake_transport_dry_run_packet_non_participation_receipt");
   const request = objectField(receipt, "request");
   const response = objectField(receipt, "response");
-  const cleanup = objectField(receipt, "cleanup");
   const expectedSnippets = [
     snippet("mini-kv-v112-receipt-version", MINI_KV_V112_RECEIPT, "mini-kv-fake-transport-dry-run-packet-non-participation-receipt.v1"),
     snippet("mini-kv-v112-consumer", MINI_KV_V112_RECEIPT, "Node v257 fake transport packet upstream echo verification"),

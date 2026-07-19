@@ -3,7 +3,6 @@ import {
   collectBlockingMessages,
   completeAggregateReadyCheck,
   digestReleaseReport,
-  isReleaseReportDigest,
   renderReleaseForbiddenOperation,
   renderReleaseReportMarkdown,
   renderReleaseReportStep,

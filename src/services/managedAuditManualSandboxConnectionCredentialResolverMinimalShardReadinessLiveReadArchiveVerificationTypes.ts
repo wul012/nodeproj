@@ -1,6 +1,5 @@
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateProfile,
-  MinimalShardReadinessLiveReadGateChecks,
   MinimalShardReadinessLiveReadObservation,
 } from "./managedAuditManualSandboxConnectionCredentialResolverMinimalShardReadinessLiveReadGateTypes.js";
 

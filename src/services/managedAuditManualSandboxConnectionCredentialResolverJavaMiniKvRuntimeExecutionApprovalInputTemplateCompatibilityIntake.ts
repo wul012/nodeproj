@@ -44,11 +44,6 @@ const CANONICAL_TARGETS = [
   "e/398/input/correlated-operator-approval-record-v398.json",
   "e/398/input/cross-project-runtime-execution-packet-v398.json",
 ] as const;
-const TEMPLATE_ARCHIVES = [
-  "e/402/input-templates/node-approved-runtime-window-v402.template.json",
-  "e/402/input-templates/correlated-operator-approval-record-v402.template.json",
-  "e/402/input-templates/cross-project-runtime-execution-packet-v402.template.json",
-] as const;
 
 export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateCompatibilityIntake(
   input: { config: AppConfig; archiveRoot?: string },

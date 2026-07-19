@@ -2,7 +2,6 @@ import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   getHumanApprovalArtifactReviewPostEchoPrerequisite,
-  JAVA_MINI_KV_DECISION_ECHO_PREREQUISITE_ID,
 } from "./managedAuditHumanApprovalArtifactReviewPostEchoPrerequisiteCatalog.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverHumanApprovalArtifactReviewGovernanceStopPrerequisiteClosureDecision,

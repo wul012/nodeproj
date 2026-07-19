@@ -1,7 +1,6 @@
 ﻿import {
   countPassedReportChecks,
   countReportChecks,
-  formatValue,
   renderEntries,
   renderList,
   renderMessages,
@@ -415,18 +414,6 @@ function addMessage(
   if (!condition) {
     messages.push({ code, severity: "blocker", source, message });
   }
-}
-
-function countVerificationChecks(
-  checks: ProductionLiveProbeRealReadSmokeProductionPassEvidenceVerificationProfile["checks"],
-): number {
-  return Object.keys(checks).length;
-}
-
-function countPassedVerificationChecks(
-  checks: ProductionLiveProbeRealReadSmokeProductionPassEvidenceVerificationProfile["checks"],
-): number {
-  return Object.values(checks).filter(Boolean).length;
 }
 
 function digestVerification(value: unknown): string {

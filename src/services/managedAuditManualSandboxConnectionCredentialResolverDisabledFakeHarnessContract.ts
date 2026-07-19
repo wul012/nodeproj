@@ -8,9 +8,6 @@ import {
   loadManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck,
 } from "./managedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheck.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverTestOnlyFakeHarnessPrecheckTypes.js";
-import type {
   DisabledFakeHarnessContract,
   DisabledFakeHarnessContractChecks,
   DisabledFakeHarnessContractMessage,

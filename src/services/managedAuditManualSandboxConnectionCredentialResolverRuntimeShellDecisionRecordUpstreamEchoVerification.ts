@@ -2,7 +2,6 @@ import type { AppConfig } from "../config.js";
 import {
   booleanField,
   evidenceFile,
-  numberField,
   objectField,
   readJsonObject,
   snippet,

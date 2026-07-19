@@ -23,7 +23,7 @@ describe("production excellence closeout ratchets", () => {
       scripts: Record<string, string>;
     };
 
-    expect(packageJson.scripts.lint).toBe("eslint src test --max-warnings 261");
+    expect(packageJson.scripts.lint).toBe("eslint src test --max-warnings 0");
     expect(packageJson.scripts["security:scan"]).toBe("node scripts/security-config-scan.mjs");
     expect(packageJson.scripts["archive:retention:census"]).toBe("node scripts/archive-retention-census.mjs");
   });
