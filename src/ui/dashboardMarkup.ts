@@ -1,8 +1,6 @@
 ﻿import { dashboardScenarioMarkup } from "./dashboardScenarioMarkup.js";
 
 export const dashboardMarkup = String.raw`
-</head>
-<body>
   <main class="shell">
     <header class="topbar">
       <div class="brand">

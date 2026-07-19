@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2206 - 2026-07-19
+
+- Repaired three browser-confirmed Dashboard shell defects in one test-first
+  maintenance version: `dashboardHtml` now solely owns the document shell and an
+  embedded data-SVG favicon, while long audit buttons shrink and wrap inside the
+  302px mobile content column without truncation. Structural tests deliberately
+  failed before implementation, and the intentional 38,122/96,100-byte results
+  now have explicit SHA-256 oracles. Desktop/mobile Playwright checks report zero
+  console errors and no favicon request; all 567 files / 1,729 tests, build, HTTP
+  smoke, and unchanged shrink-only gates pass.
+
 ## v2205 - 2026-07-19
 
 - Split the remaining 34 production status routes into two short registration

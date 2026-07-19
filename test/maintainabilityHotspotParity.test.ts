@@ -45,16 +45,16 @@ const MIGRATED_STATUS_GET_PATHS = [
 ] as const;
 
 describe("maintainability hotspot parity", () => {
-  it("freezes dashboard markup and full-page bytes before extraction", () => {
+  it("freezes the intentional v2206 dashboard shell result", () => {
     const html = dashboardHtml();
 
-    expect(dashboardMarkup).toHaveLength(38_137);
+    expect(dashboardMarkup).toHaveLength(38_122);
     expect(digest(dashboardMarkup)).toBe(
-      "9c5bd6bd231afd62cd27fca0ecd46c55236cc8e6e1af67cc83a4f9b3221925dc",
+      "61219ccfdf720b9fc62eef0ac07edb0d8ef7891be36494cb7438d68d574760c6",
     );
-    expect(html).toHaveLength(95_724);
+    expect(html).toHaveLength(96_100);
     expect(digest(html)).toBe(
-      "b2caa97b5be6bc7d44b35777d40e5c43cb9ef00cf77d338bab47951ef1882197",
+      "20cd81e4606f159be77f7586573e8bf8d207bdda3b520fdeb5c049387e80c95a",
     );
   });
 

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import { dashboardHtml } from "../src/ui/dashboard.js";
+import { dashboardMarkup } from "../src/ui/dashboardMarkup.js";
+import { dashboardStyles } from "../src/ui/dashboardStyles.js";
 
 describe("dashboardHtml", () => {
   it("renders upstream overview detail panels for v56", () => {
@@ -126,4 +128,33 @@ describe("dashboardHtml", () => {
     expect(html).toContain("<script>");
     expect(html).toContain("const $ = (id) => document.getElementById(id);");
   });
+
+  it("owns exactly one document shell", () => {
+    const html = dashboardHtml();
+
+    expect(countToken(html, "<!doctype html>")).toBe(1);
+    expect(countToken(html, "<html lang=\"en\">")).toBe(1);
+    expect(countToken(html, "<head>")).toBe(1);
+    expect(countToken(html, "</head>")).toBe(1);
+    expect(countToken(html, "<body>")).toBe(1);
+    expect(countToken(html, "</body>")).toBe(1);
+    expect(dashboardMarkup).not.toMatch(/<\/?(?:html|head|body)\b/i);
+  });
+
+  it("embeds the favicon without a second request", () => {
+    const html = dashboardHtml();
+
+    expect(html).toContain('<link rel="icon" href="data:image/svg+xml,');
+  });
+
+  it("allows long row buttons to shrink and wrap inside mobile columns", () => {
+    expect(dashboardStyles).toMatch(/\.row button\s*\{[^}]*flex:\s*0 1 auto;/s);
+    expect(dashboardStyles).toMatch(
+      /button\s*\{[^}]*max-width:\s*100%;[^}]*overflow-wrap:\s*anywhere;/s,
+    );
+  });
 });
+
+function countToken(value: string, token: string): number {
+  return value.split(token).length - 1;
+}

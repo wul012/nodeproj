@@ -15,7 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
-| Active maintenance track | `docs/plans3/v2203-v2205-maintainability-closeout.md`; v2203-v2205 locally accepted, batched remote Node Evidence pending; recorded page-shell findings require a separate successor version |
+| Active maintenance track | `docs/plans3/v2206-dashboard-shell-quality.md`; test-first repair of duplicate shell tags, mobile button overflow, and favicon 404; v2203-v2205 locally accepted and batched remote CI pending |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule

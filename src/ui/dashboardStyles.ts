@@ -225,7 +225,8 @@
     }
 
     .row button {
-      flex: 0 0 auto;
+      flex: 0 1 auto;
+      min-width: 0;
     }
 
     .stack {
@@ -267,6 +268,7 @@
     }
 
     button {
+      max-width: 100%;
       min-height: 40px;
       border: 1px solid var(--line);
       border-radius: 6px;
@@ -275,6 +277,8 @@
       padding: 8px 12px;
       font-weight: 650;
       cursor: pointer;
+      overflow-wrap: anywhere;
+      white-space: normal;
     }
 
     button.primary {

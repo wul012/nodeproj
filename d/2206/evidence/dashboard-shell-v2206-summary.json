@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "version": "v2206",
+  "scope": "dashboard-shell-quality",
+  "inputFindingVersion": "v2205",
+  "changes": {
+    "singleDocumentShell": true,
+    "embeddedDataFavicon": true,
+    "mobileButtonsShrinkAndWrap": true,
+    "routeOrApiContractChanged": false,
+    "fixtureChanged": false,
+    "executionAuthorityChanged": false
+  },
+  "testFirstEvidence": {
+    "redRun": "dashboard.test.ts: 5 tests, 3 expected failures",
+    "redReasons": [
+      "duplicate document shell",
+      "missing embedded favicon",
+      "buttons could not shrink or wrap"
+    ],
+    "greenRun": "dashboard and maintainability parity: 2 files, 7 tests passed"
+  },
+  "intentionalDashboardBytes": {
+    "markupLengthBefore": 38137,
+    "markupLengthAfter": 38122,
+    "markupSha256After": "61219ccfdf720b9fc62eef0ac07edb0d8ef7891be36494cb7438d68d574760c6",
+    "htmlLengthBefore": 95724,
+    "htmlLengthAfter": 96100,
+    "htmlSha256After": "20cd81e4606f159be77f7586573e8bf8d207bdda3b520fdeb5c049387e80c95a"
+  },
+  "browserEvidence": {
+    "desktopViewport": "1440x900",
+    "mobileViewport": "390x844",
+    "consoleErrors": 0,
+    "networkRequests": 14,
+    "externalFaviconRequests": 0,
+    "mobileContentWidthPx": 302,
+    "maximumObservedButtonWidthPx": 302,
+    "wrappedLongButtonHeightPx": 60,
+    "desktopScreenshot": "d/2206/图片/dashboard-v2206-desktop.png",
+    "mobileScreenshot": "d/2206/图片/dashboard-v2206-mobile.png"
+  },
+  "httpSmoke": {
+    "port": 31206,
+    "status": "passed-6-of-6",
+    "checks": [
+      "/health",
+      "/api/v1/metrics",
+      "/api/v1/runtime/config",
+      "/api/v1/production/real-read-adapter-rehearsal",
+      "/api/v1/production/real-read-adapter-rehearsal?format=markdown",
+      "/"
+    ],
+    "dashboardBytes": 96100,
+    "listenerCountAfterCleanup": 0
+  },
+  "governance": {
+    "maintainabilityCensus": "ready-89-121-238-2",
+    "directRouteFiles": "passed-80-of-80",
+    "newRoutes": 0,
+    "newServices": 0,
+    "ratchetsRaised": false
+  },
+  "verification": {
+    "focused": "passed-2-files-7-tests",
+    "growthAndStructureGroup": "passed-4-files-17-tests",
+    "documentationTriage": "initial-shard-4-failed-one-file-two-tests-for-missing-one-sentence-summary; focused-file-passed-2-of-2; repaired-shard-4-passed-36-files-93-tests",
+    "walkthroughScanner": "passed-3352-chinese-characters-9-h2-largest-584-score-100",
+    "typecheck": "passed",
+    "lint": "passed-0-errors-0-warnings",
+    "fullSuite": "passed-16-of-16-shards-567-files-1729-tests",
+    "independentTestList": "passed-567-files-1729-tests",
+    "documentationFocused": "passed-11-files-34-tests-on-final-documents",
+    "build": "passed-final-tree",
+    "staticGates": "passed-maintainability-elegance-families-source-size-renderer-security-config-archive-retention",
+    "remoteNodeEvidence": "pending-batched-push"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-no-node-dependency",
+    "miniKv": "recommended-parallel-no-node-dependency",
+    "liveCapstoneTriggered": false
+  }
+}
