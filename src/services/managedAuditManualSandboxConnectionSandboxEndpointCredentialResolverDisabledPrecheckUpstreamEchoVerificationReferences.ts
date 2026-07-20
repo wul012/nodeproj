@@ -1,14 +1,10 @@
+import { readV115Fields } from "../evidence/miniKvReceiptFields.js";
+import { isV115Ready } from "../evidence/miniKvReceiptReadiness.js";
 import {
-  booleanField,
   evidenceFile,
-  numberField,
-  objectArrayField,
-  objectField,
   readJsonObject,
   snippet,
   snippetMatched,
-  stringArrayField,
-  stringField,
 } from "./historicalEvidenceReportUtils.js";
 import type {
   ManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckProfile,
@@ -317,252 +313,17 @@ export function createMiniKvV115Reference(): MiniKvV115CredentialResolverDisable
     snippet("mini-kv-v115-runbook", MINI_KV_V115_RUNBOOK, "Node v263"),
     snippet("mini-kv-v115-walkthrough", MINI_KV_V115_WALKTHROUGH, "Node v263 可以从真实 runtime smoke 里读取同一份边界证明"),
   ];
-  const root = readJsonObject(MINI_KV_V115_RECEIPT);
-  const receipt = objectField(root, "disabled_credential_resolver_precheck_non_participation_receipt");
-  const disabledPrecheck = objectField(receipt, "disabled_precheck");
-  const dryRunResponseShape = objectField(receipt, "dry_run_response_shape");
-  const requiredEnvHandleNames = objectArrayField(receipt, "required_env_handles")
-    .map((handle) => stringField(handle, "name"))
-    .filter(isNonNullString);
-  const optInGateNames = objectArrayField(receipt, "opt_in_gates")
-    .map((gate) => stringField(gate, "gate_name"))
-    .filter(isNonNullString);
-  const reference = {
-    sourceVersion: "mini-kv v115" as const,
+  const reference: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference = {
+    sourceVersion: "mini-kv v115",
     tagLabel: "第一百一十五版禁用凭证解析器预检非参与回执",
     evidenceFiles,
     expectedSnippets,
     evidencePresent: evidenceFiles.every((file) => file.exists),
-    verificationDocumented: expectedSnippets.every((snippetMatch) => snippetMatch.matched),
-    receiptVersion: stringField(root, "receipt_version") ?? "",
-    releaseVersion: stringField(root, "release_version") ?? "",
-    consumerHint: stringField(root, "consumer_hint") ?? "",
-    receiptDigest: stringField(receipt, "receipt_digest") ?? "",
-    sourcePrecheckProfileVersion: stringField(receipt, "source_precheck_profile_version") ?? "",
-    sourcePrecheckState: stringField(receipt, "source_precheck_state") ?? "",
-    sourcePrecheckMode: stringField(receipt, "source_precheck_mode") ?? "",
-    sourceSpan: stringField(receipt, "source_span") ?? "",
-    sourceReadyForDisabledPrecheck: booleanField(receipt, "source_ready_for_disabled_credential_resolver_precheck") ?? false,
-    sourceReadyForManagedAuditSandboxAdapterConnection:
-      booleanField(receipt, "source_ready_for_managed_audit_sandbox_adapter_connection") ?? true,
-    sourceReadOnlyDisabledPrecheck: booleanField(receipt, "source_read_only_disabled_precheck") ?? false,
-    sourceDisabledCredentialResolverPrecheckOnly:
-      booleanField(receipt, "source_disabled_credential_resolver_precheck_only") ?? false,
-    sourceCredentialResolverExecutionAllowed:
-      booleanField(receipt, "source_credential_resolver_execution_allowed") ?? true,
-    sourceExecutionAllowed: booleanField(receipt, "source_execution_allowed") ?? true,
-    sourceConnectsManagedAudit: booleanField(receipt, "source_connects_managed_audit") ?? true,
-    sourceReadsManagedAuditCredential: booleanField(receipt, "source_reads_managed_audit_credential") ?? true,
-    sourceStoresManagedAuditCredential: booleanField(receipt, "source_stores_managed_audit_credential") ?? true,
-    sourceCredentialValueRead: booleanField(receipt, "source_credential_value_read") ?? true,
-    sourceCredentialValueLoaded: booleanField(receipt, "source_credential_value_loaded") ?? true,
-    sourceCredentialValueStored: booleanField(receipt, "source_credential_value_stored") ?? true,
-    sourceCredentialValueIncluded: booleanField(receipt, "source_credential_value_included") ?? true,
-    sourceRawEndpointUrlParsed: booleanField(receipt, "source_raw_endpoint_url_parsed") ?? true,
-    sourceRawEndpointUrlIncluded: booleanField(receipt, "source_raw_endpoint_url_included") ?? true,
-    sourceExternalRequestSent: booleanField(receipt, "source_external_request_sent") ?? true,
-    sourceSecretProviderInstantiated: booleanField(receipt, "source_secret_provider_instantiated") ?? true,
-    sourceResolverClientInstantiated: booleanField(receipt, "source_resolver_client_instantiated") ?? true,
-    sourceSchemaMigrationExecuted: booleanField(receipt, "source_schema_migration_executed") ?? true,
-    sourceAutomaticUpstreamStart: booleanField(receipt, "source_automatic_upstream_start") ?? true,
-    sourceRequiredEnvHandleCount: numberField(receipt, "source_required_env_handle_count") ?? 0,
-    sourceOptInGateCount: numberField(receipt, "source_opt_in_gate_count") ?? 0,
-    sourceFailureClassCount: numberField(receipt, "source_failure_class_count") ?? 0,
-    sourceDryRunResponseFieldCount: numberField(receipt, "source_dry_run_response_field_count") ?? 0,
-    sourceInheritedNoGoConditionCount: numberField(receipt, "source_inherited_no_go_condition_count") ?? 0,
-    sourceCheckCount: numberField(receipt, "source_check_count") ?? 0,
-    sourcePassedCheckCount: numberField(receipt, "source_passed_check_count") ?? 0,
-    sourceProductionBlockerCount: numberField(receipt, "source_production_blocker_count") ?? -1,
-    sourceWarningCount: numberField(receipt, "source_warning_count") ?? -1,
-    sourceRecommendationCount: numberField(receipt, "source_recommendation_count") ?? -1,
-    sourceNodeV261Ready: booleanField(receipt, "source_node_v261_ready") ?? false,
-    sourceNodeV261VerificationMode: stringField(receipt, "source_node_v261_verification_mode") ?? "",
-    sourceNodeV261Span: stringField(receipt, "source_node_v261_span") ?? "",
-    sourceNodeV261BlocksCredentialResolution:
-      booleanField(receipt, "source_node_v261_blocks_credential_resolution") ?? false,
-    sourceNodeV261CredentialBoundaryAligned:
-      booleanField(receipt, "source_node_v261_credential_boundary_aligned") ?? false,
-    sourceNodeV261RawEndpointBoundaryAligned:
-      booleanField(receipt, "source_node_v261_raw_endpoint_boundary_aligned") ?? false,
-    sourceNodeV261ConnectionBoundaryAligned:
-      booleanField(receipt, "source_node_v261_connection_boundary_aligned") ?? false,
-    sourceNodeV261WriteBoundaryAligned:
-      booleanField(receipt, "source_node_v261_write_boundary_aligned") ?? false,
-    sourceNodeV261AutoStartBoundaryAligned:
-      booleanField(receipt, "source_node_v261_auto_start_boundary_aligned") ?? false,
-    sourceNodeV261UpstreamActionsStillDisabled:
-      booleanField(receipt, "source_node_v261_upstream_actions_still_disabled") ?? false,
-    disabledPrecheckMode: stringField(disabledPrecheck, "precheck_mode") ?? "",
-    disabledPrecheckReadyState: stringField(disabledPrecheck, "ready_state") ?? "",
-    resolverImplementationStatus: stringField(disabledPrecheck, "resolver_implementation_status") ?? "",
-    secretProviderImplementationStatus: stringField(disabledPrecheck, "secret_provider_implementation_status") ?? "",
-    resolverClientMayBeInstantiated: booleanField(disabledPrecheck, "resolver_client_may_be_instantiated") ?? true,
-    secretProviderMayBeInstantiated: booleanField(disabledPrecheck, "secret_provider_may_be_instantiated") ?? true,
-    credentialValueMayBeLoaded: booleanField(disabledPrecheck, "credential_value_may_be_loaded") ?? true,
-    rawEndpointUrlMayBeParsed: booleanField(disabledPrecheck, "raw_endpoint_url_may_be_parsed") ?? true,
-    externalRequestMayBeSent: booleanField(disabledPrecheck, "external_request_may_be_sent") ?? true,
-    optInGateRequired: booleanField(disabledPrecheck, "opt_in_gate_required") ?? false,
-    requiredEnvHandleCount: numberField(disabledPrecheck, "required_env_handle_count") ?? 0,
-    optInGateCount: numberField(disabledPrecheck, "opt_in_gate_count") ?? 0,
-    failureClassCount: numberField(disabledPrecheck, "failure_class_count") ?? 0,
-    dryRunResponseFieldCount: numberField(disabledPrecheck, "dry_run_response_field_count") ?? 0,
-    inheritedNoGoConditionCount: numberField(disabledPrecheck, "inherited_no_go_condition_count") ?? 0,
-    requiredEnvHandleNames,
-    optInGateNames,
-    failureTaxonomyCodes: stringArrayField(receipt, "failure_taxonomy_codes"),
-    dryRunResponseFields: stringArrayField(dryRunResponseShape, "fields"),
-    inheritedNoGoConditions: stringArrayField(receipt, "inherited_no_go_conditions"),
-    readOnly: booleanField(receipt, "read_only") ?? false,
-    executionAllowed: booleanField(receipt, "execution_allowed") ?? true,
-    dryRunOnly: booleanField(receipt, "dry_run_only") ?? false,
-    disabledCredentialResolverPrecheckOnly:
-      booleanField(receipt, "disabled_credential_resolver_precheck_only") ?? false,
-    credentialResolverImplemented: booleanField(receipt, "credential_resolver_implemented") ?? true,
-    credentialResolverInvoked: booleanField(receipt, "credential_resolver_invoked") ?? true,
-    secretProviderInstantiated: booleanField(receipt, "secret_provider_instantiated") ?? true,
-    resolverClientInstantiated: booleanField(receipt, "resolver_client_instantiated") ?? true,
-    nodeAutoStartAllowed: booleanField(receipt, "node_auto_start_allowed") ?? true,
-    javaAutoStartAllowed: booleanField(receipt, "java_auto_start_allowed") ?? true,
-    miniKvAutoStartAllowed: booleanField(receipt, "mini_kv_auto_start_allowed") ?? true,
-    externalAuditServiceAutoStartAllowed: booleanField(receipt, "external_audit_service_auto_start_allowed") ?? true,
-    connectionExecutionAllowed: booleanField(receipt, "connection_execution_allowed") ?? true,
-    storageWriteAllowed: booleanField(receipt, "storage_write_allowed") ?? true,
-    managedAuditWriteExecuted: booleanField(receipt, "managed_audit_write_executed") ?? true,
-    approvalLedgerWriteAllowed: booleanField(receipt, "approval_ledger_write_allowed") ?? true,
-    approvalLedgerWriteExecuted: booleanField(receipt, "approval_ledger_write_executed") ?? true,
-    sandboxManagedAuditStateWriteAllowed: booleanField(receipt, "sandbox_managed_audit_state_write_allowed") ?? true,
-    credentialValueRequired: booleanField(receipt, "credential_value_required") ?? true,
-    credentialValueReadAllowed: booleanField(receipt, "credential_value_read_allowed") ?? true,
-    credentialValueLoaded: booleanField(receipt, "credential_value_loaded") ?? true,
-    credentialValueStored: booleanField(receipt, "credential_value_stored") ?? true,
-    credentialValueIncluded: booleanField(receipt, "credential_value_included") ?? true,
-    rawEndpointUrlParsed: booleanField(receipt, "raw_endpoint_url_parsed") ?? true,
-    rawEndpointUrlIncluded: booleanField(receipt, "raw_endpoint_url_included") ?? true,
-    externalRequestSent: booleanField(receipt, "external_request_sent") ?? true,
-    schemaRehearsalExecutionAllowed: booleanField(receipt, "schema_rehearsal_execution_allowed") ?? true,
-    schemaMigrationExecutionAllowed: booleanField(receipt, "schema_migration_execution_allowed") ?? true,
-    restoreExecutionAllowed: booleanField(receipt, "restore_execution_allowed") ?? true,
-    loadRestoreCompactExecuted: booleanField(receipt, "load_restore_compact_executed") ?? true,
-    setnxexExecutionAllowed: booleanField(receipt, "setnxex_execution_allowed") ?? true,
-    managedAuditStorageBackend: booleanField(receipt, "managed_audit_storage_backend") ?? true,
-    sandboxAuditStorageBackend: booleanField(receipt, "sandbox_audit_storage_backend") ?? true,
-    orderAuthoritative: booleanField(receipt, "order_authoritative") ?? true,
+    verificationDocumented: expectedSnippets.every((match) => match.matched),
+    ...readV115Fields(readJsonObject(MINI_KV_V115_RECEIPT)),
     readyForNodeV263Alignment: false,
   };
-
-  return {
-    ...reference,
-    readyForNodeV263Alignment:
-      reference.evidencePresent
-      && reference.verificationDocumented
-      && reference.receiptVersion === "mini-kv-disabled-credential-resolver-precheck-non-participation-receipt.v1"
-      && reference.releaseVersion === "v115"
-      && reference.consumerHint === "Node v263 disabled credential resolver upstream echo verification"
-      && /^fnv1a64:[a-f0-9]{16}$/.test(reference.receiptDigest)
-      && reference.sourcePrecheckProfileVersion
-        === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-disabled-precheck.v1"
-      && reference.sourcePrecheckState === "sandbox-endpoint-credential-resolver-disabled-precheck-ready"
-      && reference.sourcePrecheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only"
-      && reference.sourceSpan === "Node v260 + Java v105 + mini-kv v114"
-      && reference.sourceReadyForDisabledPrecheck
-      && !reference.sourceReadyForManagedAuditSandboxAdapterConnection
-      && reference.sourceReadOnlyDisabledPrecheck
-      && reference.sourceDisabledCredentialResolverPrecheckOnly
-      && !reference.sourceCredentialResolverExecutionAllowed
-      && !reference.sourceExecutionAllowed
-      && !reference.sourceConnectsManagedAudit
-      && !reference.sourceReadsManagedAuditCredential
-      && !reference.sourceStoresManagedAuditCredential
-      && !reference.sourceCredentialValueRead
-      && !reference.sourceCredentialValueLoaded
-      && !reference.sourceCredentialValueStored
-      && !reference.sourceCredentialValueIncluded
-      && !reference.sourceRawEndpointUrlParsed
-      && !reference.sourceRawEndpointUrlIncluded
-      && !reference.sourceExternalRequestSent
-      && !reference.sourceSecretProviderInstantiated
-      && !reference.sourceResolverClientInstantiated
-      && !reference.sourceSchemaMigrationExecuted
-      && !reference.sourceAutomaticUpstreamStart
-      && reference.sourceRequiredEnvHandleCount === 6
-      && reference.sourceOptInGateCount === 2
-      && reference.sourceFailureClassCount === 7
-      && reference.sourceDryRunResponseFieldCount === 12
-      && reference.sourceInheritedNoGoConditionCount === 9
-      && reference.sourceCheckCount === reference.sourcePassedCheckCount
-      && reference.sourceCheckCount === 24
-      && reference.sourceProductionBlockerCount === 0
-      && reference.sourceWarningCount === 2
-      && reference.sourceRecommendationCount === 2
-      && reference.sourceNodeV261Ready
-      && reference.sourceNodeV261VerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only"
-      && reference.sourceNodeV261Span === "Node v260 + Java v105 + mini-kv v114"
-      && reference.sourceNodeV261BlocksCredentialResolution
-      && reference.sourceNodeV261CredentialBoundaryAligned
-      && reference.sourceNodeV261RawEndpointBoundaryAligned
-      && reference.sourceNodeV261ConnectionBoundaryAligned
-      && reference.sourceNodeV261WriteBoundaryAligned
-      && reference.sourceNodeV261AutoStartBoundaryAligned
-      && reference.sourceNodeV261UpstreamActionsStillDisabled
-      && reference.disabledPrecheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only"
-      && reference.disabledPrecheckReadyState === "sandbox-endpoint-credential-resolver-disabled-precheck-ready"
-      && reference.resolverImplementationStatus === "not-implemented"
-      && reference.secretProviderImplementationStatus === "not-implemented"
-      && !reference.resolverClientMayBeInstantiated
-      && !reference.secretProviderMayBeInstantiated
-      && !reference.credentialValueMayBeLoaded
-      && !reference.rawEndpointUrlMayBeParsed
-      && !reference.externalRequestMayBeSent
-      && reference.optInGateRequired
-      && reference.requiredEnvHandleCount === 6
-      && reference.optInGateCount === 2
-      && reference.failureClassCount === 7
-      && reference.dryRunResponseFieldCount === 12
-      && reference.inheritedNoGoConditionCount === 9
-      && arraysEqual(reference.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES])
-      && arraysEqual(reference.optInGateNames, [...OPT_IN_GATE_NAMES])
-      && arraysEqual(reference.failureTaxonomyCodes, [...FAILURE_CLASS_CODES])
-      && arraysEqual(reference.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS])
-      && arraysEqual(reference.inheritedNoGoConditions, [...INHERITED_NO_GO_CONDITIONS])
-      && reference.readOnly
-      && !reference.executionAllowed
-      && reference.dryRunOnly
-      && reference.disabledCredentialResolverPrecheckOnly
-      && !reference.credentialResolverImplemented
-      && !reference.credentialResolverInvoked
-      && !reference.secretProviderInstantiated
-      && !reference.resolverClientInstantiated
-      && !reference.nodeAutoStartAllowed
-      && !reference.javaAutoStartAllowed
-      && !reference.miniKvAutoStartAllowed
-      && !reference.externalAuditServiceAutoStartAllowed
-      && !reference.connectionExecutionAllowed
-      && !reference.storageWriteAllowed
-      && !reference.managedAuditWriteExecuted
-      && !reference.approvalLedgerWriteAllowed
-      && !reference.approvalLedgerWriteExecuted
-      && !reference.sandboxManagedAuditStateWriteAllowed
-      && !reference.credentialValueRequired
-      && !reference.credentialValueReadAllowed
-      && !reference.credentialValueLoaded
-      && !reference.credentialValueStored
-      && !reference.credentialValueIncluded
-      && !reference.rawEndpointUrlParsed
-      && !reference.rawEndpointUrlIncluded
-      && !reference.externalRequestSent
-      && !reference.schemaRehearsalExecutionAllowed
-      && !reference.schemaMigrationExecutionAllowed
-      && !reference.restoreExecutionAllowed
-      && !reference.loadRestoreCompactExecuted
-      && !reference.setnxexExecutionAllowed
-      && !reference.managedAuditStorageBackend
-      && !reference.sandboxAuditStorageBackend
-      && !reference.orderAuthoritative,
-  };
-}
-
-function isNonNullString(value: string | null): value is string {
-  return value !== null;
+  return { ...reference, readyForNodeV263Alignment: isV115Ready(reference) };
 }
 
 export function arraysEqual(left: readonly string[], right: readonly string[]): boolean {

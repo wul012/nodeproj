@@ -15,7 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
-| Active maintenance track | `docs/plans3/v2210-historical-evidence-canonical-size.md`; v2209 is committed/tagged/pushed at 1c92b051 but run 29731349784 exposed raw CRLF/LF `sizeBytes`; v2210 owns the shared canonical metadata repair |
+| Active maintenance track | `docs/plans3/v2211-v2214-nine-point-batch.md`; v2210 is committed/tagged/pushed at fdd7e0fe and Node Evidence run 29737772586 is green; v2211 starts the measured elegance batch |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule

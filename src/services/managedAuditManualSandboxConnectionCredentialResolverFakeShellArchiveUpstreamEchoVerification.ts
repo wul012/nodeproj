@@ -1,18 +1,16 @@
 import type { AppConfig } from "../config.js";
+import { readV117Fields } from "../evidence/miniKvReceiptFields.js";
+import { isV117Ready } from "../evidence/miniKvReceiptReadiness.js";
 import {
   countPassedReportChecks,
   countReportChecks,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
-  booleanField,
   evidenceFile,
-  numberField,
-  objectField,
   readJsonObject,
   snippet,
   snippetMatched,
-  stringField,
 } from "./historicalEvidenceReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveVerification,
@@ -342,131 +340,17 @@ function createMiniKvV117Reference(): MiniKvV117FakeShellArchiveNonParticipation
     snippet("mini-kv-v117-runbook", MINI_KV_V117_RUNBOOK, "Node v267"),
     snippet("mini-kv-v117-walkthrough", MINI_KV_V117_WALKTHROUGH, "Node v267"),
   ];
-  const root = readJsonObject(MINI_KV_V117_RECEIPT);
-  const receipt = objectField(root, "credential_resolver_fake_shell_archive_non_participation_receipt");
-  const sourceNodeV264 = objectField(receipt, "source_node_v264");
-  const sourceNodeV265 = objectField(receipt, "source_node_v265");
-  const archivedEvidence = objectField(receipt, "archived_evidence");
-  const summary = objectField(receipt, "summary");
-  const reference = {
-    sourceVersion: "mini-kv v117" as const,
+  const reference: MiniKvV117FakeShellArchiveNonParticipationReference = {
+    sourceVersion: "mini-kv v117",
     tagLabel: "第一百一十七版假壳归档非参与回执",
     evidenceFiles,
     expectedSnippets,
     evidencePresent: evidenceFiles.every((file) => file.exists),
-    verificationDocumented: expectedSnippets.every((snippetMatch) => snippetMatch.matched),
-    receiptVersion: stringField(root, "receipt_version") ?? "",
-    releaseVersion: stringField(root, "release_version") ?? "",
-    consumerHint: stringField(root, "consumer_hint") ?? "",
-    receiptDigest: stringField(receipt, "receipt_digest") ?? "",
-    sourceArchiveProfileVersion: stringField(receipt, "source_archive_profile_version") ?? "",
-    sourceArchiveVerificationState: stringField(receipt, "source_archive_verification_state") ?? "",
-    sourceReadyForCredentialResolverFakeShellArchiveVerification:
-      booleanField(receipt, "source_ready_for_credential_resolver_fake_shell_archive_verification") ?? false,
-    sourceReadOnlyArchiveVerification: booleanField(receipt, "source_read_only_archive_verification") ?? false,
-    sourceArchiveVerificationRerunsFakeShellBehavior:
-      booleanField(receipt, "source_archive_verification_reruns_fake_shell_behavior") ?? true,
-    sourceNodeV264Ready: booleanField(sourceNodeV264, "ready") ?? false,
-    sourceNodeV265Ready: booleanField(sourceNodeV265, "ready") ?? false,
-    sourceNodeV265ConsumesUpstreamEchoes: booleanField(sourceNodeV265, "source_node_v264_ready") === true
-      && booleanField(sourceNodeV265, "java_v107_echo_ready") === true
-      && booleanField(sourceNodeV265, "mini_kv_v116_non_participation_ready") === true
-      && booleanField(sourceNodeV265, "java_v109_optimization_context_ready") === true,
-    archiveFileCount: numberField(archivedEvidence, "archive_file_count") ?? 0,
-    requiredSnippetCount: numberField(archivedEvidence, "required_snippet_count") ?? 0,
-    matchedSnippetCount: numberField(archivedEvidence, "matched_snippet_count") ?? 0,
-    checkCount: numberField(summary, "check_count") ?? 0,
-    passedCheckCount: numberField(summary, "passed_check_count") ?? 0,
-    productionBlockerCount: numberField(summary, "production_blocker_count") ?? -1,
-    warningCount: numberField(summary, "warning_count") ?? -1,
-    recommendationCount: numberField(summary, "recommendation_count") ?? -1,
-    archiveFilesReadByMiniKv: booleanField(receipt, "archive_files_read_by_mini_kv") ?? true,
-    archiveVerificationRerunsFakeShellBehavior:
-      booleanField(receipt, "archive_verification_reruns_fake_shell_behavior") ?? true,
-    readOnly: booleanField(receipt, "read_only") ?? false,
-    executionAllowed: booleanField(receipt, "execution_allowed") ?? true,
-    archiveVerificationOnly: booleanField(receipt, "archive_verification_only") ?? false,
-    credentialResolverImplemented: booleanField(receipt, "credential_resolver_implemented") ?? true,
-    credentialResolverInvoked: booleanField(receipt, "credential_resolver_invoked") ?? true,
-    resolverClientInstantiated: booleanField(receipt, "resolver_client_instantiated") ?? true,
-    secretProviderInstantiated: booleanField(receipt, "secret_provider_instantiated") ?? true,
-    nodeAutoStartAllowed: booleanField(receipt, "node_auto_start_allowed") ?? true,
-    javaAutoStartAllowed: booleanField(receipt, "java_auto_start_allowed") ?? true,
-    miniKvAutoStartAllowed: booleanField(receipt, "mini_kv_auto_start_allowed") ?? true,
-    externalAuditServiceAutoStartAllowed: booleanField(receipt, "external_audit_service_auto_start_allowed") ?? true,
-    connectionExecutionAllowed: booleanField(receipt, "connection_execution_allowed") ?? true,
-    storageWriteAllowed: booleanField(receipt, "storage_write_allowed") ?? true,
-    credentialValueReadAllowed: booleanField(receipt, "credential_value_read_allowed") ?? true,
-    credentialValueLoaded: booleanField(receipt, "credential_value_loaded") ?? true,
-    credentialValueStored: booleanField(receipt, "credential_value_stored") ?? true,
-    credentialValueIncluded: booleanField(receipt, "credential_value_included") ?? true,
-    rawEndpointUrlParsed: booleanField(receipt, "raw_endpoint_url_parsed") ?? true,
-    rawEndpointUrlIncluded: booleanField(receipt, "raw_endpoint_url_included") ?? true,
-    externalRequestSent: booleanField(receipt, "external_request_sent") ?? true,
-    schemaMigrationExecutionAllowed: booleanField(receipt, "schema_migration_execution_allowed") ?? true,
-    restoreExecutionAllowed: booleanField(receipt, "restore_execution_allowed") ?? true,
-    loadRestoreCompactExecuted: booleanField(receipt, "load_restore_compact_executed") ?? true,
-    setnxexExecutionAllowed: booleanField(receipt, "setnxex_execution_allowed") ?? true,
-    managedAuditStorageBackend: booleanField(receipt, "managed_audit_storage_backend") ?? true,
-    orderAuthoritative: booleanField(receipt, "order_authoritative") ?? true,
+    verificationDocumented: expectedSnippets.every((match) => match.matched),
+    ...readV117Fields(readJsonObject(MINI_KV_V117_RECEIPT)),
     readyForNodeV267Alignment: false,
   };
-
-  return {
-    ...reference,
-    readyForNodeV267Alignment:
-      reference.evidencePresent
-      && reference.verificationDocumented
-      && reference.receiptVersion === "mini-kv-credential-resolver-fake-shell-archive-non-participation-receipt.v1"
-      && reference.releaseVersion === "v117"
-      && reference.consumerHint === "Node v267 credential resolver fake-shell archive upstream echo verification"
-      && /^fnv1a64:[a-f0-9]{16}$/.test(reference.receiptDigest)
-      && reference.sourceArchiveProfileVersion
-        === "managed-audit-manual-sandbox-connection-credential-resolver-fake-shell-archive-verification.v1"
-      && reference.sourceArchiveVerificationState === "credential-resolver-fake-shell-archive-verification-ready"
-      && reference.sourceReadyForCredentialResolverFakeShellArchiveVerification
-      && reference.sourceReadOnlyArchiveVerification
-      && !reference.sourceArchiveVerificationRerunsFakeShellBehavior
-      && reference.sourceNodeV264Ready
-      && reference.sourceNodeV265Ready
-      && reference.sourceNodeV265ConsumesUpstreamEchoes
-      && reference.archiveFileCount === 9
-      && reference.requiredSnippetCount === 24
-      && reference.matchedSnippetCount === 24
-      && reference.checkCount === 28
-      && reference.passedCheckCount === 28
-      && reference.productionBlockerCount === 0
-      && reference.warningCount === 1
-      && reference.recommendationCount === 2
-      && !reference.archiveFilesReadByMiniKv
-      && !reference.archiveVerificationRerunsFakeShellBehavior
-      && reference.readOnly
-      && !reference.executionAllowed
-      && reference.archiveVerificationOnly
-      && !reference.credentialResolverImplemented
-      && !reference.credentialResolverInvoked
-      && !reference.resolverClientInstantiated
-      && !reference.secretProviderInstantiated
-      && !reference.nodeAutoStartAllowed
-      && !reference.javaAutoStartAllowed
-      && !reference.miniKvAutoStartAllowed
-      && !reference.externalAuditServiceAutoStartAllowed
-      && !reference.connectionExecutionAllowed
-      && !reference.storageWriteAllowed
-      && !reference.credentialValueReadAllowed
-      && !reference.credentialValueLoaded
-      && !reference.credentialValueStored
-      && !reference.credentialValueIncluded
-      && !reference.rawEndpointUrlParsed
-      && !reference.rawEndpointUrlIncluded
-      && !reference.externalRequestSent
-      && !reference.schemaMigrationExecutionAllowed
-      && !reference.restoreExecutionAllowed
-      && !reference.loadRestoreCompactExecuted
-      && !reference.setnxexExecutionAllowed
-      && !reference.managedAuditStorageBackend
-      && !reference.orderAuthoritative,
-  };
+  return { ...reference, readyForNodeV267Alignment: isV117Ready(reference) };
 }
 
 function createChecks(

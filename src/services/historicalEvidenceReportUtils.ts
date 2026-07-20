@@ -96,11 +96,41 @@ export function booleanField(input: Record<string, unknown>, key: string): boole
   return typeof value === "boolean" ? value : null;
 }
 
+export type ReceiptFieldSpec =
+  | readonly [target: string, source: string, kind: "text", fallback: string]
+  | readonly [target: string, source: string, kind: "flag", fallback: boolean]
+  | readonly [target: string, source: string, kind: "count", fallback: number];
+
+type ReceiptFieldValue<Spec extends ReceiptFieldSpec> =
+  Spec[2] extends "text" ? string
+    : Spec[2] extends "flag" ? boolean
+      : number;
+
+export type ReceiptFieldValues<Specs extends readonly ReceiptFieldSpec[]> = {
+  [Spec in Specs[number] as Spec[0]]: ReceiptFieldValue<Spec>;
+};
+
+export function mapReceiptFields<const Specs extends readonly ReceiptFieldSpec[]>(
+  input: Record<string, unknown>,
+  specs: Specs,
+): ReceiptFieldValues<Specs> {
+  const values: Record<string, string | boolean | number> = {};
+  for (const spec of specs) {
+    if (Object.hasOwn(values, spec[0])) {
+      throw new Error(`Duplicate receipt target field: ${spec[0]}`);
+    }
+    if (spec[2] === "text") values[spec[0]] = stringField(input, spec[1]) ?? spec[3];
+    else if (spec[2] === "flag") values[spec[0]] = booleanField(input, spec[1]) ?? spec[3];
+    else values[spec[0]] = numberField(input, spec[1]) ?? spec[3];
+  }
+  return values as ReceiptFieldValues<Specs>;
+}
+
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
 }
 
-function isNonNullString(value: unknown): value is string {
+export function isNonNullString(value: unknown): value is string {
   return typeof value === "string";
 }
 

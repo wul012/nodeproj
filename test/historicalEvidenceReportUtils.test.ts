@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { evidenceFile } from "../src/services/historicalEvidenceReportUtils.js";
+import { evidenceFile, mapReceiptFields } from "../src/services/historicalEvidenceReportUtils.js";
 
 describe("historical evidence report utilities", () => {
   const temporaryRoots: string[] = [];
@@ -50,6 +50,27 @@ describe("historical evidence report utilities", () => {
       sizeBytes: 0,
       digest: null,
     });
+  });
+
+  it("maps mixed receipt fields in declared order and fails closed on wrong types", () => {
+    const fields = mapReceiptFields(
+      { source_name: "mini-kv", source_ready: "not-a-boolean", source_count: 7 },
+      [
+        ["name", "source_name", "text", "missing"],
+        ["ready", "source_ready", "flag", false],
+        ["count", "source_count", "count", -1],
+      ] as const,
+    );
+
+    expect(Object.keys(fields)).toEqual(["name", "ready", "count"]);
+    expect(fields).toEqual({ name: "mini-kv", ready: false, count: 7 });
+  });
+
+  it("rejects duplicate output keys instead of silently overwriting a manifest field", () => {
+    expect(() => mapReceiptFields({}, [
+      ["state", "first_state", "text", "missing"],
+      ["state", "second_state", "text", "missing"],
+    ] as const)).toThrow("Duplicate receipt target field: state");
   });
 
   function writeEvidence(name: string, content: string): string {

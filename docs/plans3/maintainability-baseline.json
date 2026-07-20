@@ -151,10 +151,6 @@
       "maxLines": 678
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts",
-      "maxLines": 676
-    },
-    {
       "key": "src/services/managedAuditManualSandboxAdapterConnectionRunbook.ts",
       "maxLines": 675
     },
@@ -357,20 +353,8 @@
       "maxLines": 320
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createMiniKvV115Reference",
-      "maxLines": 264
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createMiniKvV116Reference",
-      "maxLines": 256
-    },
-    {
       "key": "src/routes/opsSummaryRoutes.ts|registerOpsSummaryRoutes",
       "maxLines": 239
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createMiniKvV114Reference",
-      "maxLines": 231
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
@@ -478,10 +462,6 @@
     },
     {
       "key": "src/routes/opsPromotionArchiveRoutes.ts|createPromotionArchiveRouteArtifacts",
-      "maxLines": 152
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createMiniKvV117Reference",
       "maxLines": 152
     },
     {
@@ -819,18 +799,6 @@
   ],
   "complexFunctions": [
     {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationReferences.ts|createMiniKvV115Reference",
-      "maxComplexity": 201
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationReferences.ts|createMiniKvV116Reference",
-      "maxComplexity": 194
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationReferences.ts|createMiniKvV114Reference",
-      "maxComplexity": 180
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
       "maxComplexity": 160
     },
@@ -849,10 +817,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
       "maxComplexity": 109
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createMiniKvV117Reference",
-      "maxComplexity": 100
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationPolicy.ts|createChecks",

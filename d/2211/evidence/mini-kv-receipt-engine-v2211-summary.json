@@ -1,0 +1,62 @@
+{
+  "schemaVersion": 1,
+  "version": "v2211",
+  "scope": "typed-mini-kv-non-participation-receipt-engine",
+  "behaviorChanged": false,
+  "oracle": {
+    "mode": "fixed-time-forced-historical-fallback-portable-paths",
+    "redBeforeImplementation": "passed-as-expected-one-placeholder-test-failed-with-eight-concrete-values",
+    "surfaces": [
+      { "version": "v114", "jsonBytes": 36249, "jsonSha256": "7d3905bb91f296e43271c3ac98320803cca2df63b0b08705ca424d853e91f01a", "markdownBytes": 35642, "markdownSha256": "4c617a8336dd8013690b9abec7088a98035e2874bb6d533d9ef861c32e8cf535" },
+      { "version": "v115", "jsonBytes": 36937, "jsonSha256": "0de871b30b2adf5d18ea2504d0d024a696c58026cdbb10fd2e959db22391bb66", "markdownBytes": 9367, "markdownSha256": "b33209898b45b43623fa1cdcdd1ba3e2631ffee1a1635ca72607848227c6ee37" },
+      { "version": "v116", "jsonBytes": 41218, "jsonSha256": "36e1101517897f20bf01028d976a74d441744c9cb4d7ad0c73025b26a67959c0", "markdownBytes": 10308, "markdownSha256": "d6e61cf239ad4440c3fe668a68245378707e73510f298a74c674320831fec16f" },
+      { "version": "v117", "jsonBytes": 27607, "jsonSha256": "6390036c745ea592daec92fe174c310f35ec2062679328542a875ec19ceb1b55", "markdownBytes": 27125, "markdownSha256": "652967413af4ff00ef919864355061385ac476be9c8aa4e4dd708fa25a9f5bc4" }
+    ]
+  },
+  "implementation": {
+    "orderedFieldEngine": "src/services/historicalEvidenceReportUtils.ts",
+    "fieldManifest": "src/evidence/miniKvReceiptFields.ts",
+    "readinessPolicy": "src/evidence/miniKvReceiptReadiness.ts",
+    "portableTestSupport": "test/support/portableProfileParity.ts",
+    "duplicateTargetRejected": true,
+    "fixturesChanged": false,
+    "routesChanged": false,
+    "publicExportsChanged": false
+  },
+  "maintainability": {
+    "before": { "nearLimitFiles": 86, "longFunctions": 116, "complexFunctions": 232, "importCycles": 2 },
+    "after": { "nearLimitFiles": 85, "longFunctions": 112, "complexFunctions": 228, "importCycles": 2 },
+    "staleEntriesRemoved": 9,
+    "unknownOrGrownEntries": 0,
+    "fieldManifestLines": 439,
+    "readinessPolicyLines": 375
+  },
+  "verification": {
+    "typecheck": "passed",
+    "fiveProfileSuites": "passed-5-files-20-tests",
+    "fieldEngineAndParity": "passed-2-files-6-tests",
+    "focusedLint": "passed-zero-errors-zero-warnings",
+    "maintainability": "passed-85-112-228-2",
+    "walkthroughGate": "passed-3370-chinese-25-h2-largest-166-score-100-no-repetition-oversize-or-forbidden-signals",
+    "documentationFocused": "passed-3-files-10-tests",
+    "finalFocused": "passed-15-files-62-tests",
+    "lint": "passed-zero-errors-zero-warnings",
+    "staticGates": "passed-security-config-8277-elegance-52-families-maintainability-renderer-source-size",
+    "fullSuite": "deferred-to-v2214-batch-close",
+    "build": "deferred-to-v2214-batch-close",
+    "httpSmoke": "deferred-to-v2214-batch-close",
+    "remoteNodeEvidence": "deferred-to-v2214-batch-close"
+  },
+  "boundaries": {
+    "profileKeyOrderChanged": false,
+    "jsonOrMarkdownBytesChanged": false,
+    "safetyDecisionChanged": false,
+    "executionAuthorityChanged": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-v1876-dirty-worktree-untouched-v1875-committed",
+    "miniKv": "recommended-parallel-v1674-dirty-worktree-untouched-v1673-committed"
+  }
+}

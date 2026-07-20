@@ -2,8 +2,8 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: all local implementation and verification complete; commit/tag/push and
-remote closeout remain
+State: complete; commit `fdd7e0fe`, tag `v2210`, push, and Node Evidence run
+`29737772586` are green
 
 ## Objective and stop condition
 
@@ -102,8 +102,9 @@ The test owns and deletes its temporary directory. It never edits committed fixt
   Build passes. Guarded forced-fallback HTTP smoke passes at health 200/93 bytes,
   JSON 200/40,003 bytes, and Markdown 200/39,564 bytes. The target report is
   ready with 26/26 checks while `executionAllowed` and `connectsManagedAudit`
-  remain false; exact PID 20428 was stopped and port 31210 released. Commit,
-  tag, push, and remote CI remain.
+  remain false; exact PID 20428 was stopped and port 31210 released. Commit
+  `fdd7e0fe`, lightweight tag `v2210`, and push completed; Node Evidence run
+  `29737772586` passed every gate.
 - Validation deviation: a diagnostic `vitest list --json <files>` invocation let
   the optional JSON output-path argument consume the first test path and overwrite
   `archiveRetentionCensus.test.ts`. The file was restored byte-for-byte from HEAD,

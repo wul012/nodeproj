@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2211 - 2026-07-20
+
+- Replaced four hand-written mini-kv v114-v117 non-participation receipt builders
+  with a typed ordered field manifest and a separate readiness policy. A shared
+  predicate now owns the common no-execution boundary, duplicate manifest targets
+  fail immediately, and three copied portable-parity helpers converge on one test
+  utility. Fixed-time forced-fallback oracles preserve all eight JSON/Markdown
+  byte and SHA-256 surfaces. The shrink-only ledger tightens from 86 / 116 / 232 / 2
+  to 85 / 112 / 228 / 2, removing the v117 near-limit service and all four builder
+  long/complex entries without replacement debt, fixture edits, route growth, or
+  expanded execution authority.
+
 ## v2210 - 2026-07-20
 
 - Made historical text evidence metadata platform-independent: `sizeBytes` and
