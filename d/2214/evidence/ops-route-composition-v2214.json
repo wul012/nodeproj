@@ -1,0 +1,64 @@
+{
+  "schemaVersion": 1,
+  "version": "v2214",
+  "scope": "ops-summary-route-composition",
+  "behaviorChanged": false,
+  "oracle": {
+    "mode": "test-only-registration-recorder",
+    "redBeforeImplementation": "legacy-implementation-reported-46-registrations-and-concrete-digest",
+    "registrationCount": 46,
+    "coveredFields": ["method", "path", "schema", "callOrder"],
+    "sha256": "7de62deb53695ed355e38286b69ad101453a0d42d00ae7aca08daaa6defc1957"
+  },
+  "implementation": {
+    "file": "src/routes/opsSummaryRoutes.ts",
+    "publicExportChanged": false,
+    "routeFileAdded": false,
+    "oldRegistrarLines": 239,
+    "compositionRootLines": 6,
+    "registrars": {
+      "summary": { "lines": 4, "complexity": 1 },
+      "promotion": { "lines": 91, "complexity": 1 },
+      "runbookCheckpoint": { "lines": 80, "complexity": 1 },
+      "baseline": { "lines": 38, "complexity": 1 },
+      "handoff": { "lines": 35, "complexity": 1 }
+    },
+    "topLevelServiceFiles": 1125,
+    "topLevelRouteFiles": 80
+  },
+  "maintainability": {
+    "before": { "nearLimitFiles": 85, "longFunctions": 111, "complexFunctions": 228, "importCycles": 0 },
+    "after": { "nearLimitFiles": 85, "longFunctions": 110, "complexFunctions": 228, "importCycles": 0 },
+    "staleEntriesRemoved": 1,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "routeOracle": "passed-1-file-1-test",
+    "representativeHandlers": "passed-5-files-11-tests",
+    "opsRouteMatrix": "passed-bounded-at-four-workers",
+    "governanceAndCensusTests": "passed-4-files-18-tests",
+    "typecheck": "passed",
+    "lint": "passed-repository-wide-zero-errors-zero-warnings",
+    "securityConfig": "passed-8294-files-18-of-18-checks",
+    "elegance": "passed-no-new-over-budget-name-and-52-families",
+    "renderer": "passed-242-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-zero-files-above-800-lines",
+    "archiveRetention": "passed-64.15-of-80-mib",
+    "maintainability": "passed-85-110-228-0",
+    "walkthroughGate": "passed-3284-chinese-36-h2-largest-111-score-100-no-quality-signals"
+  },
+  "boundaries": {
+    "routeOrderChanged": false,
+    "routePathOrMethodChanged": false,
+    "requestSchemaChanged": false,
+    "handlerOrResponseChanged": false,
+    "accessPolicyChanged": false,
+    "executionAuthorityChanged": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-independent-worktree-untouched",
+    "miniKv": "recommended-parallel-independent-worktree-untouched"
+  }
+}

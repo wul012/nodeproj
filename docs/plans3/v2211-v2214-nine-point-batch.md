@@ -3,7 +3,8 @@
 Date: 2026-07-20
 Owner: Codex
 State: active; v2211 committed/tagged locally at `88291d4c`; v2212 committed and
-tagged locally at `45dafd49`; v2213 final local gates passed and commit pending
+tagged locally at `45dafd49`; v2213 committed/tagged locally at `3ffd1e33`;
+v2214 final local gates passed and commit pending
 
 ## Background and instruction
 
@@ -55,7 +56,7 @@ it below the scanner, relaxing thresholds, or replacing exact contracts with pro
 | Preserve v114-v117 behavior | freeze full JSON/Markdown output, then introduce one typed receipt-field engine and shared safety-boundary manifests | fixed-time forced-fallback hash oracle + four focused suites | passed in v2211 |
 | Remove both cycles | move route counts/identities into a neutral declarative manifest; route registration and services consume one direction | import-graph census + manifest parity test | v2212 passed at 0 cycles |
 | Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | v2213 passed |
-| Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | pending |
+| Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | v2214 local gates passed; batch final pending |
 | Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | v2211 passed 85/112/228/2; later versions pending |
 | Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | pending |
 
@@ -165,8 +166,31 @@ Preserve the single route-file ownership boundary and split the 239-line
 runbook/checkpoint, baseline, and handoff groups. Shared request options remain
 centralized. No route file, path, schema, response, or access behavior may change.
 
+### New-file design note
+
+- `opsSummaryRouteComposition.test`: test-only recorder; freeze registration method,
+  path, order, and schema without starting Fastify or invoking handlers.
+- Production ownership stays in the existing route file; no new route family or
+  runtime abstraction is introduced.
+
 Target: remove the registrar from the long-function ledger while the route-file
 ceiling stays exactly 80 and every route inventory/digest test remains byte-stable.
+
+Executed evidence before the batch-final gate: a test-only recorder first failed
+on the legacy implementation with 46 registrations and then froze SHA-256
+`7de62deb53695ed355e38286b69ad101453a0d42d00ae7aca08daaa6defc1957` over
+method, path, schema, and call order. The refactored public composition root is 6
+lines; summary, promotion, runbook/checkpoint, baseline, and handoff registrars are
+4/91/80/38/35 lines, each at complexity 1. The oracle remains byte-identical, the
+complete ops-focused matrix passes with at most four workers, and governance tests
+keep 1125 top-level services / 80 routes. The pre-refresh census reported only the
+old 239-line entry stale and no unknown/grown debt; deleting exactly that entry
+tightens the ledger from 85/111/228/0 to 85/110/228/0. Typecheck and repository-wide
+zero-warning lint pass. Security/config scans 8,294 text files with 18/18 checks;
+elegance and all 52 family baselines pass; renderer remains 242+3/0, source-size
+remains zero, and archive retention is 64.15/80 MiB. The walkthrough gate reports
+3,284 Chinese characters, 36 scannable H2 sections, largest section 111 characters,
+score 100, and no missing, repetitive, oversized, placeholder, or forbidden signals.
 
 ## Verification rhythm
 

@@ -83,8 +83,18 @@ interface OpsCheckpointParams {
 }
 
 export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): Promise<void> {
+  registerSummaryRoutes(app, deps);
+  registerPromotionRoutes(app, deps);
+  registerRunbookCheckpointRoutes(app, deps);
+  registerHandoffRoute(app, deps);
+}
+
+function registerSummaryRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): void {
   app.get("/api/v1/ops/summary", async () => createOpsSummary(deps));
   app.get("/api/v1/ops/readiness", async () => createOpsReadiness(createOpsSummary(deps)));
+}
+
+function registerPromotionRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): void {
   registerOpsPromotionArchiveRoutes(app, deps);
   app.get("/api/v1/ops/promotion-review", async () => {
     return createPromotionReview(deps);
@@ -174,6 +184,9 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     reply.code(201);
     return decision;
   });
+}
+
+function registerRunbookCheckpointRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): void {
   app.get<{ Querystring: OpsRunbookQuery }>("/api/v1/ops/runbook", {
     schema: {
       querystring: {
@@ -224,6 +237,37 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
     deps.opsCheckpoints.get(request.query.baseId),
     deps.opsCheckpoints.get(request.query.targetId),
   ));
+  registerBaselineRoutes(app, deps);
+  app.get<{ Params: OpsCheckpointParams }>("/api/v1/ops/checkpoints/:checkpointId", async (request) =>
+    deps.opsCheckpoints.get(request.params.checkpointId));
+  app.post<{ Body: CreateOpsCheckpointBody }>("/api/v1/ops/checkpoints", {
+    schema: {
+      body: {
+        type: "object",
+        properties: {
+          actor: { type: "string", minLength: 1, maxLength: 80 },
+          note: { type: "string", minLength: 1, maxLength: 400 },
+        },
+        additionalProperties: false,
+      },
+    },
+  }, async (request, reply) => {
+    const summary = createOpsSummary(deps);
+    const readiness = createOpsReadiness(summary);
+    const checkpoint = deps.opsCheckpoints.create({
+      actor: request.body?.actor,
+      note: request.body?.note,
+      summary,
+      readiness,
+      runbook: createOpsRunbook(summary, readiness),
+    });
+
+    reply.code(201);
+    return checkpoint;
+  });
+}
+
+function registerBaselineRoutes(app: FastifyInstance, deps: OpsSummaryRouteDeps): void {
   app.get("/api/v1/ops/baseline", async () => {
     return createBaselineStatus(deps);
   });
@@ -260,33 +304,9 @@ export async function registerOpsSummaryRoutes(app: FastifyInstance, deps: OpsSu
       ...createOpsBaselineStatus({ latest }),
     };
   });
-  app.get<{ Params: OpsCheckpointParams }>("/api/v1/ops/checkpoints/:checkpointId", async (request) =>
-    deps.opsCheckpoints.get(request.params.checkpointId));
-  app.post<{ Body: CreateOpsCheckpointBody }>("/api/v1/ops/checkpoints", {
-    schema: {
-      body: {
-        type: "object",
-        properties: {
-          actor: { type: "string", minLength: 1, maxLength: 80 },
-          note: { type: "string", minLength: 1, maxLength: 400 },
-        },
-        additionalProperties: false,
-      },
-    },
-  }, async (request, reply) => {
-    const summary = createOpsSummary(deps);
-    const readiness = createOpsReadiness(summary);
-    const checkpoint = deps.opsCheckpoints.create({
-      actor: request.body?.actor,
-      note: request.body?.note,
-      summary,
-      readiness,
-      runbook: createOpsRunbook(summary, readiness),
-    });
+}
 
-    reply.code(201);
-    return checkpoint;
-  });
+function registerHandoffRoute(app: FastifyInstance, deps: OpsSummaryRouteDeps): void {
   app.get<{ Querystring: OpsHandoffReportQuery }>("/api/v1/ops/handoff-report", {
     schema: {
       querystring: {

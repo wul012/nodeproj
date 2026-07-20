@@ -349,10 +349,6 @@
   ],
   "longFunctions": [
     {
-      "key": "src/routes/opsSummaryRoutes.ts|registerOpsSummaryRoutes",
-      "maxLines": 239
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
       "maxLines": 230
     },

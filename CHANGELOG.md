@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2214 - 2026-07-20
+
+- Replaced the 239-line ops-summary route registrar with a 6-line composition
+  root and five cohesive in-file registrars. A pre-refactor recorder oracle pins
+  all 46 registrations by method, path, schema, and call order, while the full
+  ops route matrix preserves handlers and responses. The longest replacement is
+  91 lines with complexity 1, the route-file ceiling remains exactly 80, and the
+  shrink-only ledger tightens from 111 to 110 long functions. No route, schema,
+  fixture, access policy, public export, upstream probe, or execution authority
+  changes.
+
 ## v2213 - 2026-07-20
 
 - Recast the 320-line controlled shard-preview loader as a 9-line public facade
