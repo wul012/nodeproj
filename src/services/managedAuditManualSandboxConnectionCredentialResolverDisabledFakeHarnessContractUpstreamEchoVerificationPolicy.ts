@@ -7,6 +7,32 @@ import {
   REQUIRED_ARTIFACTS,
   REQUIRED_INPUTS,
 } from "./managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationConstants.js";
+import {
+  JAVA_BOUNDARY_FIELDS,
+  JAVA_EVIDENCE_FIELDS,
+  MINIKV_AUTHORITY_FIELDS,
+  MINIKV_AUTO_START_FIELDS,
+  MINIKV_CONNECTION_FIELDS,
+  MINIKV_CONTRACT_TRUE_FIELDS,
+  MINIKV_CREDENTIAL_FIELDS,
+  MINIKV_ENDPOINT_FIELDS,
+  MINIKV_PROVIDER_FIELDS,
+  MINIKV_RECEIPT_TRUE_FIELDS,
+  MINIKV_RUNTIME_FALSE_FIELDS,
+  MINIKV_WRITE_FIELDS,
+  SOURCE_AUTO_START_FIELDS,
+  SOURCE_CONNECTION_FIELDS,
+  SOURCE_CREDENTIAL_FIELDS,
+  SOURCE_DISABLED_FIELDS,
+  SOURCE_ENDPOINT_FIELDS,
+  SOURCE_PROVIDER_FIELDS,
+  SOURCE_WRITE_FIELDS,
+} from "./credentialPolicy/disabledHarnessFields.js";
+import {
+  allBooleanFieldsAre,
+  collectFailedReportRules,
+  type ReportRule,
+} from "./liveProbeReportUtils.js";
 import type {
   DisabledFakeHarnessContractUpstreamEchoVerificationChecks,
   DisabledFakeHarnessContractUpstreamEchoVerificationMessage,
@@ -21,6 +47,38 @@ export function createChecks(
   javaV122V126: JavaV122V126DisabledFakeHarnessEvidenceReference,
   miniKvV127: MiniKvV127DisabledFakeHarnessNonParticipationReference,
 ): DisabledFakeHarnessContractUpstreamEchoVerificationChecks {
+  const sourceChecks = createDisabledSourceChecks(sourceNodeV288, javaV122V126, miniKvV127);
+  const boundaryChecks = createDisabledBoundaryChecks(
+    sourceNodeV288,
+    javaV122V126,
+    miniKvV127,
+    sourceChecks,
+  );
+
+  return {
+    ...sourceChecks,
+    contractDigestAlignedWithMiniKv: miniKvV127.contractDigest === sourceNodeV288.contractDigest,
+    requiredInputsAlignedWithMiniKv: arraysEqual(miniKvV127.requiredInputs, REQUIRED_INPUTS),
+    allowedOutputsAlignedWithMiniKv: arraysEqual(miniKvV127.allowedOutputs, ALLOWED_OUTPUTS),
+    prohibitedInputsAlignedWithMiniKv: arraysEqual(miniKvV127.prohibitedInputs, PROHIBITED_INPUTS),
+    requiredArtifactsAlignedWithMiniKv: arraysEqual(miniKvV127.requiredArtifacts, REQUIRED_ARTIFACTS),
+    contractAssertionsAlignedWithMiniKv: arraysEqual(miniKvV127.contractAssertions, CONTRACT_ASSERTIONS),
+    prohibitedActionsAlignedWithMiniKv: arraysEqual(miniKvV127.prohibitedActions, PROHIBITED_ACTIONS),
+    ...boundaryChecks,
+    upstreamProbesStillDisabled: !config.upstreamProbesEnabled,
+    upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
+    productionAuditStillBlocked: true,
+    productionWindowStillBlocked: true,
+    readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerification:
+      false,
+  };
+}
+
+function createDisabledSourceChecks(
+  sourceNodeV288: SourceNodeV288DisabledFakeHarnessContractReference,
+  javaV122V126: JavaV122V126DisabledFakeHarnessEvidenceReference,
+  miniKvV127: MiniKvV127DisabledFakeHarnessNonParticipationReference,
+) {
   const sourceNodeV288Ready =
     sourceNodeV288.contractState === "disabled-fake-harness-contract-ready"
     && sourceNodeV288.readyForDisabledFakeHarnessContract
@@ -28,189 +86,38 @@ export function createChecks(
     && sourceNodeV288.sourceProductionBlockerCount === 0
     && sourceNodeV288.javaEchoRequiredNow
     && sourceNodeV288.miniKvEchoRequiredNow;
-  const sourceNodeV288ContractStillDisabled =
-    !sourceNodeV288.realResolverImplementationAllowed
-    && !sourceNodeV288.testOnlyFakeHarnessAllowed
-    && !sourceNodeV288.testOnlyFakeHarnessExecutionAllowed
-    && !sourceNodeV288.fakeHarnessRuntimeEnabled
-    && !sourceNodeV288.fakeHarnessInvocationAllowed
-    && !sourceNodeV288.executionAllowed
-    && !sourceNodeV288.connectsManagedAudit
-    && !sourceNodeV288.credentialValueRead
-    && !sourceNodeV288.credentialValueProvided
-    && !sourceNodeV288.rawEndpointUrlParsed
-    && !sourceNodeV288.rawEndpointUrlRendered
-    && !sourceNodeV288.externalRequestSent
-    && !sourceNodeV288.secretProviderInstantiated
-    && !sourceNodeV288.resolverClientInstantiated
-    && !sourceNodeV288.fakeSecretProviderInstantiated
-    && !sourceNodeV288.fakeResolverClientInstantiated
-    && !sourceNodeV288.schemaMigrationExecuted
-    && !sourceNodeV288.approvalLedgerWritten
-    && !sourceNodeV288.automaticUpstreamStart;
-  const javaV122V126EvidenceReady =
-    javaV122V126.evidencePresent
-    && javaV122V126.verificationDocumented
-    && javaV122V126.integrationTestSplitComplete
-    && javaV122V126.evidenceServiceCatalogStopgapApplied
-    && javaV122V126.boundaryCatalogPresent;
-  const javaDocumentsRuntimeBoundaries =
-    javaV122V126.noFakeHarnessRuntimeDocumented
-    && javaV122V126.credentialValueBoundaryDocumented
-    && javaV122V126.rawEndpointBoundaryDocumented
-    && javaV122V126.managedAuditConnectionBoundaryDocumented
-    && javaV122V126.ledgerAndSqlBoundaryDocumented
-    && javaV122V126.didNotModifyProductionCodeDuringV122V125
-    && javaV122V126.v126RefactorOnly;
+  const sourceNodeV288ContractStillDisabled = allBooleanFieldsAre(
+    sourceNodeV288,
+    SOURCE_DISABLED_FIELDS,
+    false,
+  );
+  const javaV122V126EvidenceReady = allBooleanFieldsAre(
+    javaV122V126,
+    JAVA_EVIDENCE_FIELDS,
+    true,
+  );
+  const javaDocumentsRuntimeBoundaries = allBooleanFieldsAre(
+    javaV122V126,
+    JAVA_BOUNDARY_FIELDS,
+    true,
+  );
   const miniKvV127ReceiptReady =
-    miniKvV127.evidencePresent
-    && miniKvV127.verificationDocumented
+    allBooleanFieldsAre(miniKvV127, MINIKV_RECEIPT_TRUE_FIELDS, true)
     && miniKvV127.receiptVersion === "mini-kv-credential-resolver-disabled-fake-harness-non-participation-receipt.v1"
     && miniKvV127.releaseVersion === "v127"
     && miniKvV127.consumerHint === "Node v289 disabled fake harness contract upstream echo verification"
     && miniKvV127.sourceContract === "Node v288 disabled fake harness contract"
-    && miniKvV127.sourceReadyForDisabledFakeHarnessContract === true
-    && miniKvV127.readyForNodeV289UpstreamEchoVerification === true
-    && miniKvV127.readOnly === true
     && miniKvV127.executionAllowed === false;
   const miniKvV127EchoesNodeV288Contract =
-    miniKvV127.consumesNodeV288DisabledFakeHarnessContract === true
+    allBooleanFieldsAre(miniKvV127, MINIKV_CONTRACT_TRUE_FIELDS, true)
     && miniKvV127.sourceProfileVersion
       === "managed-audit-manual-sandbox-connection-credential-resolver-disabled-fake-harness-contract.v1"
-    && miniKvV127.sourceContractState === "disabled-fake-harness-contract-ready"
-    && miniKvV127.sourceReadOnlyContract === true
-    && miniKvV127.sourceDisabledFakeHarnessContractOnly === true
-    && miniKvV127.disabledFakeHarnessContractOnly === true
-    && miniKvV127.disabledFakeHarnessNonParticipationReceiptOnly === true;
-  const miniKvV127KeepsRuntimeSideEffectsBlocked =
-    miniKvV127.fakeHarnessRuntimeEnabled === false
-    && miniKvV127.fakeHarnessInvocationAllowed === false
-    && miniKvV127.fakeHarnessRuntimeImplemented === false
-    && miniKvV127.fakeHarnessRuntimeInvoked === false
-    && miniKvV127.credentialResolverImplemented === false
-    && miniKvV127.credentialResolverInvoked === false
-    && miniKvV127.resolverClientInstantiated === false
-    && miniKvV127.secretProviderInstantiated === false
-    && miniKvV127.fakeSecretProviderInstantiated === false
-    && miniKvV127.fakeResolverClientInstantiated === false
-    && miniKvV127.credentialValueReadAllowed === false
-    && miniKvV127.credentialValueRead === false
-    && miniKvV127.credentialValueProvided === false
-    && miniKvV127.credentialValueLoaded === false
-    && miniKvV127.credentialValueStored === false
-    && miniKvV127.credentialValueIncluded === false
-    && miniKvV127.credentialValueRendered === false
-    && miniKvV127.rawEndpointUrlParseAllowed === false
-    && miniKvV127.rawEndpointUrlRenderAllowed === false
-    && miniKvV127.rawEndpointUrlParsed === false
-    && miniKvV127.rawEndpointUrlRendered === false
-    && miniKvV127.rawEndpointUrlProvided === false
-    && miniKvV127.rawEndpointUrlIncluded === false
-    && miniKvV127.externalRequestAllowed === false
-    && miniKvV127.externalRequestSent === false
-    && miniKvV127.httpTcpDialAllowed === false
-    && miniKvV127.connectsManagedAudit === false
-    && miniKvV127.readsManagedAuditCredential === false
-    && miniKvV127.storesManagedAuditCredential === false
-    && miniKvV127.managedAuditStore === false
-    && miniKvV127.managedAuditStorageBackend === false
-    && miniKvV127.sandboxAuditStorageBackend === false
-    && miniKvV127.storageWriteAllowed === false
-    && miniKvV127.writeCommandsExecuted === false
-    && miniKvV127.adminCommandsExecuted === false
-    && miniKvV127.runtimeWriteObserved === false
-    && miniKvV127.approvalLedgerWriteAllowed === false
-    && miniKvV127.approvalLedgerWritten === false
-    && miniKvV127.approvalLedgerWriteExecuted === false
-    && miniKvV127.managedAuditWriteExecuted === false
-    && miniKvV127.productionRecordWritten === false
-    && miniKvV127.schemaMigrationAllowed === false
-    && miniKvV127.schemaMigrationExecuted === false
-    && miniKvV127.restoreExecutionAllowed === false
-    && miniKvV127.loadRestoreCompactExecuted === false
-    && miniKvV127.setnxexExecutionAllowed === false
-    && miniKvV127.automaticUpstreamStartAllowed === false
-    && miniKvV127.automaticUpstreamStart === false
-    && miniKvV127.auditAuthoritative === false
-    && miniKvV127.orderAuthoritative === false;
-  const credentialBoundaryClosed =
-    !sourceNodeV288.credentialValueRead
-    && !sourceNodeV288.credentialValueProvided
-    && javaV122V126.credentialValueBoundaryDocumented
-    && miniKvV127.credentialValueReadAllowed === false
-    && miniKvV127.credentialValueRead === false
-    && miniKvV127.credentialValueProvided === false
-    && miniKvV127.credentialValueLoaded === false
-    && miniKvV127.credentialValueStored === false
-    && miniKvV127.credentialValueIncluded === false
-    && miniKvV127.credentialValueRendered === false;
-  const rawEndpointBoundaryClosed =
-    !sourceNodeV288.rawEndpointUrlParsed
-    && !sourceNodeV288.rawEndpointUrlRendered
-    && javaV122V126.rawEndpointBoundaryDocumented
-    && miniKvV127.rawEndpointUrlParseAllowed === false
-    && miniKvV127.rawEndpointUrlRenderAllowed === false
-    && miniKvV127.rawEndpointUrlParsed === false
-    && miniKvV127.rawEndpointUrlRendered === false
-    && miniKvV127.rawEndpointUrlProvided === false
-    && miniKvV127.rawEndpointUrlIncluded === false;
-  const providerClientBoundaryClosed =
-    !sourceNodeV288.secretProviderInstantiated
-    && !sourceNodeV288.resolverClientInstantiated
-    && !sourceNodeV288.fakeSecretProviderInstantiated
-    && !sourceNodeV288.fakeResolverClientInstantiated
-    && miniKvV127.secretProviderInstantiated === false
-    && miniKvV127.resolverClientInstantiated === false
-    && miniKvV127.fakeSecretProviderInstantiated === false
-    && miniKvV127.fakeResolverClientInstantiated === false;
-  const connectionBoundaryClosed =
-    !sourceNodeV288.connectsManagedAudit
-    && !sourceNodeV288.externalRequestSent
-    && javaV122V126.managedAuditConnectionBoundaryDocumented
-    && miniKvV127.externalRequestAllowed === false
-    && miniKvV127.externalRequestSent === false
-    && miniKvV127.httpTcpDialAllowed === false
-    && miniKvV127.connectsManagedAudit === false;
-  const writeBoundaryClosed =
-    !sourceNodeV288.executionAllowed
-    && !sourceNodeV288.schemaMigrationExecuted
-    && !sourceNodeV288.approvalLedgerWritten
-    && javaV122V126.ledgerAndSqlBoundaryDocumented
-    && miniKvV127.storageWriteAllowed === false
-    && miniKvV127.writeCommandsExecuted === false
-    && miniKvV127.adminCommandsExecuted === false
-    && miniKvV127.runtimeWriteObserved === false
-    && miniKvV127.approvalLedgerWriteAllowed === false
-    && miniKvV127.approvalLedgerWritten === false
-    && miniKvV127.approvalLedgerWriteExecuted === false
-    && miniKvV127.managedAuditWriteExecuted === false
-    && miniKvV127.productionRecordWritten === false
-    && miniKvV127.schemaMigrationAllowed === false
-    && miniKvV127.schemaMigrationExecuted === false
-    && miniKvV127.restoreExecutionAllowed === false
-    && miniKvV127.loadRestoreCompactExecuted === false
-    && miniKvV127.setnxexExecutionAllowed === false;
-  const autoStartBoundaryClosed =
-    !sourceNodeV288.automaticUpstreamStart
-    && miniKvV127.automaticUpstreamStartAllowed === false
-    && miniKvV127.automaticUpstreamStart === false;
-  const authorityBoundaryClosed =
-    miniKvV127.auditAuthoritative === false
-    && miniKvV127.orderAuthoritative === false
-    && miniKvV127.managedAuditStore === false
-    && miniKvV127.managedAuditStorageBackend === false
-    && miniKvV127.sandboxAuditStorageBackend === false;
-  const sideEffectBoundaryClosed =
-    credentialBoundaryClosed
-    && rawEndpointBoundaryClosed
-    && providerClientBoundaryClosed
-    && connectionBoundaryClosed
-    && writeBoundaryClosed
-    && autoStartBoundaryClosed
-    && authorityBoundaryClosed
-    && javaDocumentsRuntimeBoundaries
-    && sourceNodeV288ContractStillDisabled
-    && miniKvV127KeepsRuntimeSideEffectsBlocked;
+    && miniKvV127.sourceContractState === "disabled-fake-harness-contract-ready";
+  const miniKvV127KeepsRuntimeSideEffectsBlocked = allBooleanFieldsAre(
+    miniKvV127,
+    MINIKV_RUNTIME_FALSE_FIELDS,
+    false,
+  );
 
   return {
     sourceNodeV288Ready,
@@ -222,13 +129,43 @@ export function createChecks(
     miniKvV127ReceiptReady,
     miniKvV127EchoesNodeV288Contract,
     miniKvV127KeepsRuntimeSideEffectsBlocked,
-    contractDigestAlignedWithMiniKv: miniKvV127.contractDigest === sourceNodeV288.contractDigest,
-    requiredInputsAlignedWithMiniKv: arraysEqual(miniKvV127.requiredInputs, REQUIRED_INPUTS),
-    allowedOutputsAlignedWithMiniKv: arraysEqual(miniKvV127.allowedOutputs, ALLOWED_OUTPUTS),
-    prohibitedInputsAlignedWithMiniKv: arraysEqual(miniKvV127.prohibitedInputs, PROHIBITED_INPUTS),
-    requiredArtifactsAlignedWithMiniKv: arraysEqual(miniKvV127.requiredArtifacts, REQUIRED_ARTIFACTS),
-    contractAssertionsAlignedWithMiniKv: arraysEqual(miniKvV127.contractAssertions, CONTRACT_ASSERTIONS),
-    prohibitedActionsAlignedWithMiniKv: arraysEqual(miniKvV127.prohibitedActions, PROHIBITED_ACTIONS),
+  };
+}
+
+function createDisabledBoundaryChecks(
+  sourceNodeV288: SourceNodeV288DisabledFakeHarnessContractReference,
+  javaV122V126: JavaV122V126DisabledFakeHarnessEvidenceReference,
+  miniKvV127: MiniKvV127DisabledFakeHarnessNonParticipationReference,
+  sourceChecks: ReturnType<typeof createDisabledSourceChecks>,
+) {
+  const credentialBoundaryClosed =
+    allBooleanFieldsAre(sourceNodeV288, SOURCE_CREDENTIAL_FIELDS, false)
+    && javaV122V126.credentialValueBoundaryDocumented
+    && allBooleanFieldsAre(miniKvV127, MINIKV_CREDENTIAL_FIELDS, false);
+  const rawEndpointBoundaryClosed =
+    allBooleanFieldsAre(sourceNodeV288, SOURCE_ENDPOINT_FIELDS, false)
+    && javaV122V126.rawEndpointBoundaryDocumented
+    && allBooleanFieldsAre(miniKvV127, MINIKV_ENDPOINT_FIELDS, false);
+  const providerClientBoundaryClosed =
+    allBooleanFieldsAre(sourceNodeV288, SOURCE_PROVIDER_FIELDS, false)
+    && allBooleanFieldsAre(miniKvV127, MINIKV_PROVIDER_FIELDS, false);
+  const connectionBoundaryClosed =
+    allBooleanFieldsAre(sourceNodeV288, SOURCE_CONNECTION_FIELDS, false)
+    && javaV122V126.managedAuditConnectionBoundaryDocumented
+    && allBooleanFieldsAre(miniKvV127, MINIKV_CONNECTION_FIELDS, false);
+  const writeBoundaryClosed =
+    allBooleanFieldsAre(sourceNodeV288, SOURCE_WRITE_FIELDS, false)
+    && javaV122V126.ledgerAndSqlBoundaryDocumented
+    && allBooleanFieldsAre(miniKvV127, MINIKV_WRITE_FIELDS, false);
+  const autoStartBoundaryClosed =
+    allBooleanFieldsAre(sourceNodeV288, SOURCE_AUTO_START_FIELDS, false)
+    && allBooleanFieldsAre(miniKvV127, MINIKV_AUTO_START_FIELDS, false);
+  const authorityBoundaryClosed = allBooleanFieldsAre(
+    miniKvV127,
+    MINIKV_AUTHORITY_FIELDS,
+    false,
+  );
+  const boundaries = {
     credentialBoundaryClosed,
     rawEndpointBoundaryClosed,
     providerClientBoundaryClosed,
@@ -236,25 +173,25 @@ export function createChecks(
     writeBoundaryClosed,
     autoStartBoundaryClosed,
     authorityBoundaryClosed,
+  };
+  const sideEffectBoundaryClosed =
+    Object.values(boundaries).every(Boolean)
+    && sourceChecks.javaDocumentsRuntimeBoundaries
+    && sourceChecks.sourceNodeV288ContractStillDisabled
+    && sourceChecks.miniKvV127KeepsRuntimeSideEffectsBlocked;
+
+  return {
+    ...boundaries,
     sideEffectBoundaryClosed,
-    upstreamProbesStillDisabled: !config.upstreamProbesEnabled,
-    upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
-    productionAuditStillBlocked: true,
-    productionWindowStillBlocked: true,
-    readyForManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerification:
-      false,
   };
 }
 
 export function collectProductionBlockers(
   checks: DisabledFakeHarnessContractUpstreamEchoVerificationChecks,
 ): DisabledFakeHarnessContractUpstreamEchoVerificationMessage[] {
-  const rules: Array<{
-    condition: boolean;
-    code: string;
-    source: DisabledFakeHarnessContractUpstreamEchoVerificationMessage["source"];
-    message: string;
-  }> = [
+  const rules: readonly ReportRule<
+    DisabledFakeHarnessContractUpstreamEchoVerificationMessage["source"]
+  >[] = [
     {
       condition: checks.sourceNodeV288Ready,
       code: "NODE_V288_CONTRACT_NOT_READY",
@@ -341,14 +278,7 @@ export function collectProductionBlockers(
     },
   ];
 
-  return rules
-    .filter((rule) => !rule.condition)
-    .map((rule) => ({
-      code: rule.code,
-      severity: "blocker" as const,
-      source: rule.source,
-      message: rule.message,
-    }));
+  return collectFailedReportRules(rules);
 }
 
 export function collectWarnings(): DisabledFakeHarnessContractUpstreamEchoVerificationMessage[] {

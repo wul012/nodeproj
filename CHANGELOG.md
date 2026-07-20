@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2215 - 2026-07-20
+
+- Replaced two 230-line credential-policy check builders with typed, ordered
+  boolean field manifests, fail-closed shared evaluation, and small semantic
+  predicates. Empty, duplicate, nullable-missing, and non-boolean field cases
+  cannot pass; version strings, digests, counts, array order, and blocker text
+  remain explicit in their owning policies. Four fixed-time forced-fallback
+  JSON/Markdown byte and SHA-256 oracles remain identical. The composition roots
+  are now 32/27 lines at complexity 1/4, no replacement exceeds 57 lines or
+  complexity 14, and the shrink-only ledger tightens from 85/110/228/0 to
+  85/107/226/0 without fixture, route, access, or execution-authority changes.
+
 ## v2214 - 2026-07-20
 
 - Replaced the 239-line ops-summary route registrar with a 6-line composition

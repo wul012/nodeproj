@@ -349,14 +349,6 @@
   ],
   "longFunctions": [
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
-      "maxLines": 230
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationChecks.ts|createChecks",
-      "maxLines": 230
-    },
-    {
       "key": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSectionRenderer.ts|renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections",
       "maxLines": 217
     },
@@ -661,15 +653,7 @@
       "maxLines": 128
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationChecks.ts|collectProductionBlockers",
-      "maxLines": 128
-    },
-    {
       "key": "src/routes/orderPlatformRoutes.ts|registerOrderPlatformRoutes",
-      "maxLines": 127
-    },
-    {
-      "key": "src/services/explanationReadabilityCloseoutProfile.ts|loadExplanationReadabilityCloseoutProfile",
       "maxLines": 127
     },
     {
@@ -711,6 +695,10 @@
     {
       "key": "src/services/opsPromotionArchiveDeploymentApprovalBuilders.ts|createOpsPromotionDeploymentChangeRecordVerification",
       "maxLines": 125
+    },
+    {
+      "key": "src/services/explanationReadabilityCloseoutProfile.ts|loadExplanationReadabilityCloseoutProfile",
+      "maxLines": 124
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalPrerequisiteArtifactUpstreamEchoVerification.ts|createMiniKvV135Reference",
@@ -790,14 +778,6 @@
     }
   ],
   "complexFunctions": [
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationPolicy.ts|createChecks",
-      "maxComplexity": 160
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationChecks.ts|createChecks",
-      "maxComplexity": 152
-    },
     {
       "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts|createChecks",
       "maxComplexity": 117

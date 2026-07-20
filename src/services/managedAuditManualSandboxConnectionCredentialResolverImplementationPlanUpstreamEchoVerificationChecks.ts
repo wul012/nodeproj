@@ -1,4 +1,34 @@
 import type { AppConfig } from "../config.js";
+import {
+  PLAN_JAVA_AUTO_FIELDS,
+  PLAN_JAVA_BLOCKED_FIELDS,
+  PLAN_JAVA_CONNECTION_FIELDS,
+  PLAN_JAVA_CREDENTIAL_FIELDS,
+  PLAN_JAVA_ENDPOINT_FIELDS,
+  PLAN_JAVA_RESOLVER_FIELDS,
+  PLAN_JAVA_WRITE_FIELDS,
+  PLAN_MINIKV_AUTO_FIELDS,
+  PLAN_MINIKV_CONNECTION_FIELDS,
+  PLAN_MINIKV_CREDENTIAL_FIELDS,
+  PLAN_MINIKV_ENDPOINT_FIELDS,
+  PLAN_MINIKV_RECEIPT_TRUE_FIELDS,
+  PLAN_MINIKV_RESOLVER_FIELDS,
+  PLAN_MINIKV_RUNTIME_FIELDS,
+  PLAN_MINIKV_SIDE_EFFECT_FIELDS,
+  PLAN_MINIKV_WRITE_FIELDS,
+  PLAN_SOURCE_AUTO_FIELDS,
+  PLAN_SOURCE_BLOCKED_FIELDS,
+  PLAN_SOURCE_CONNECTION_FIELDS,
+  PLAN_SOURCE_CREDENTIAL_FIELDS,
+  PLAN_SOURCE_ENDPOINT_FIELDS,
+  PLAN_SOURCE_RESOLVER_FIELDS,
+  PLAN_SOURCE_WRITE_FIELDS,
+} from "./credentialPolicy/planEchoFields.js";
+import {
+  allBooleanFieldsAre,
+  collectFailedReportRules,
+  type ReportRule,
+} from "./liveProbeReportUtils.js";
 import { arraysEqual } from "./managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationReferences.js";
 import type {
   CredentialResolverImplementationPlanUpstreamEchoVerificationChecks,
@@ -14,217 +44,14 @@ export function createChecks(
   javaV121: JavaV121ImplementationPlanEchoReference,
   miniKvV126: MiniKvV126ImplementationPlanNonParticipationReference,
 ): CredentialResolverImplementationPlanUpstreamEchoVerificationChecks {
-  const planDigest = sourceNodeV283.planDigest;
-  const reviewDigest = sourceNodeV283.reviewDigest;
-  const sourceNodeV283Ready =
-    sourceNodeV283.planState === "credential-resolver-implementation-plan-draft-ready"
-    && sourceNodeV283.readyForImplementationPlanDraft
-    && sourceNodeV283.readyForJavaV121MiniKvV126Echo;
-  const sourceNodeV283KeepsImplementationBlocked =
-    !sourceNodeV283.realResolverImplementationAllowed
-    && !sourceNodeV283.testOnlyFakeHarnessAllowed
-    && !sourceNodeV283.executionAllowed
-    && !sourceNodeV283.connectsManagedAudit
-    && !sourceNodeV283.credentialValueRead
-    && !sourceNodeV283.rawEndpointUrlParsed
-    && !sourceNodeV283.rawEndpointUrlRendered
-    && !sourceNodeV283.externalRequestSent
-    && !sourceNodeV283.secretProviderInstantiated
-    && !sourceNodeV283.resolverClientInstantiated
-    && !sourceNodeV283.schemaMigrationExecuted
-    && !sourceNodeV283.approvalLedgerWritten
-    && !sourceNodeV283.automaticUpstreamStart;
-  const javaV121EchoReady =
-    javaV121.evidencePresent
-    && javaV121.verificationDocumented
-    && javaV121.readyForOriginalNodeV284Verification
-    && javaV121.readyForJavaV121MiniKvV126Echo
-    && javaV121.planEchoMode === "java-v121-credential-resolver-implementation-plan-echo-only"
-    && javaV121.sourceSpan === "Node v283"
-    && javaV121.originalExpectedNodeVerificationVersion === "Node v284"
-    && javaV121.javaPlanDigestRequirementNamed;
-  const javaV121DocumentsNodeV283Consumption =
-    javaV121.evidencePresent
-    && javaV121.verificationDocumented
-    && javaV121.proofClaimCount === 11
-    && javaV121.nodeVerificationActionCount === 11
-    && javaV121.interfaceBoundaryCount === sourceNodeV283.interfaceBoundaryCount
-    && javaV121.requiredArtifactCount === sourceNodeV283.requiredArtifactCount
-    && javaV121.interfaceBoundaryCodes.length === 7
-    && javaV121.requiredArtifactIds.length === 21;
-  const javaV121KeepsRuntimeSideEffectsBlocked =
-    javaV121.readyForManagedAuditResolverImplementation === false
-    && javaV121.readyForTestOnlyFakeHarnessPrecheck === false
-    && javaV121.credentialValueRead === false
-    && javaV121.rawEndpointUrlParsed === false
-    && javaV121.rawEndpointUrlRendered === false
-    && javaV121.externalRequestSent === false
-    && javaV121.secretProviderInstantiated === false
-    && javaV121.resolverClientInstantiated === false
-    && javaV121.connectsManagedAudit === false
-    && javaV121.approvalLedgerWritten === false
-    && javaV121.managedAuditStoreWritten === false
-    && javaV121.sqlExecuted === false
-    && javaV121.schemaMigrationExecuted === false
-    && javaV121.rollbackExecuted === false
-    && javaV121.automaticUpstreamStart === false
-    && javaV121.javaStartedNodeOrMiniKv === false;
-  const miniKvV126ReceiptReady =
-    miniKvV126.evidencePresent
-    && miniKvV126.verificationDocumented
-    && miniKvV126.readyForOriginalNodeV284Verification
-    && miniKvV126.readyForJavaV121MiniKvV126Echo
-    && miniKvV126.readOnly === true
-    && miniKvV126.executionAllowed === false
-    && miniKvV126.credentialResolverImplemented === false
-    && miniKvV126.credentialResolverInvoked === false
-    && miniKvV126.resolverClientInstantiated === false
-    && miniKvV126.secretProviderInstantiated === false
-    && miniKvV126.credentialValueReadAllowed === false
-    && miniKvV126.rawEndpointUrlParseAllowed === false
-    && miniKvV126.rawEndpointUrlRenderAllowed === false
-    && miniKvV126.externalRequestAllowed === false
-    && miniKvV126.connectsManagedAudit === false
-    && miniKvV126.storageWriteAllowed === false
-    && miniKvV126.approvalLedgerWriteAllowed === false
-    && miniKvV126.schemaMigrationExecuted === false
-    && miniKvV126.loadRestoreCompactExecuted === false
-    && miniKvV126.setnxexExecutionAllowed === false
-    && miniKvV126.automaticUpstreamStart === false
-    && miniKvV126.managedAuditStorageBackend === false
-    && miniKvV126.auditAuthoritative === false
-    && miniKvV126.orderAuthoritative === false;
-  const miniKvV126DocumentsNodeV283Consumption =
-    miniKvV126.planDigest === planDigest
-    && miniKvV126.reviewDigest === reviewDigest
-    && miniKvV126.sourcePlanState === "credential-resolver-implementation-plan-draft-ready"
-    && miniKvV126.interfaceBoundaryCount === sourceNodeV283.interfaceBoundaryCount
-    && miniKvV126.requiredArtifactCount === sourceNodeV283.requiredArtifactCount
-    && miniKvV126.prohibitedActionCount === sourceNodeV283.prohibitedActions.length
-    && miniKvV126.javaEchoRequirementCount === 4
-    && miniKvV126.miniKvReceiptRequirementCount === 4;
-  const miniKvV126KeepsRuntimeSideEffectsBlocked =
-    miniKvV126.credentialResolverImplemented === false
-    && miniKvV126.credentialResolverInvoked === false
-    && miniKvV126.resolverClientInstantiated === false
-    && miniKvV126.secretProviderInstantiated === false
-    && miniKvV126.credentialValueReadAllowed === false
-    && miniKvV126.credentialValueRead === false
-    && miniKvV126.credentialValueLoaded === false
-    && miniKvV126.credentialValueStored === false
-    && miniKvV126.credentialValueIncluded === false
-    && miniKvV126.rawEndpointUrlParseAllowed === false
-    && miniKvV126.rawEndpointUrlParsed === false
-    && miniKvV126.rawEndpointUrlRenderAllowed === false
-    && miniKvV126.rawEndpointUrlRendered === false
-    && miniKvV126.externalRequestAllowed === false
-    && miniKvV126.externalRequestSent === false
-    && miniKvV126.connectsManagedAudit === false
-    && miniKvV126.storageWriteAllowed === false
-    && miniKvV126.writeCommandsExecuted === false
-    && miniKvV126.adminCommandsExecuted === false
-    && miniKvV126.approvalLedgerWriteAllowed === false
-    && miniKvV126.approvalLedgerWritten === false
-    && miniKvV126.schemaMigrationExecuted === false
-    && miniKvV126.loadRestoreCompactExecuted === false
-    && miniKvV126.setnxexExecutionAllowed === false
-    && miniKvV126.automaticUpstreamStart === false
-    && miniKvV126.managedAuditStorageBackend === false
-    && miniKvV126.auditAuthoritative === false
-    && miniKvV126.orderAuthoritative === false;
-  const planDigestAlignedWithMiniKv = miniKvV126.planDigest === planDigest;
-  const reviewDigestAlignedWithMiniKv = miniKvV126.reviewDigest === reviewDigest;
-  const boundaryCodesAligned = arraysEqual(miniKvV126.interfaceBoundaryCodes, sourceNodeV283.interfaceBoundaryCodes);
-  const requiredArtifactsAligned = arraysEqual(miniKvV126.requiredArtifactIds, sourceNodeV283.requiredArtifactIds);
-  const prohibitedActionsAligned = arraysEqual(miniKvV126.prohibitedActions, sourceNodeV283.prohibitedActions);
-  const javaRequirementIdsAligned = arraysEqual(miniKvV126.javaRequirementIds, javaV121.javaRequirementIds);
-  const miniKvRequirementIdsAligned = arraysEqual(miniKvV126.miniKvRequirementIds, javaV121.miniKvRequirementIds);
-  const credentialBoundaryClosed =
-    sourceNodeV283.credentialValueRead === false
-    && javaV121.credentialValueRead === false
-    && miniKvV126.credentialValueReadAllowed === false
-    && miniKvV126.credentialValueRead === false
-    && miniKvV126.credentialValueLoaded === false
-    && miniKvV126.credentialValueStored === false
-    && miniKvV126.credentialValueIncluded === false;
-  const rawEndpointBoundaryClosed =
-    sourceNodeV283.rawEndpointUrlParsed === false
-    && sourceNodeV283.rawEndpointUrlRendered === false
-    && javaV121.rawEndpointUrlParsed === false
-    && javaV121.rawEndpointUrlRendered === false
-    && miniKvV126.rawEndpointUrlParseAllowed === false
-    && miniKvV126.rawEndpointUrlParsed === false
-    && miniKvV126.rawEndpointUrlRenderAllowed === false
-    && miniKvV126.rawEndpointUrlRendered === false
-    && miniKvV126.rawEndpointUrlIncluded === false;
-  const resolverBoundaryClosed =
-    sourceNodeV283.resolverClientInstantiated === false
-    && sourceNodeV283.secretProviderInstantiated === false
-    && javaV121.resolverClientInstantiated === false
-    && javaV121.secretProviderInstantiated === false
-    && miniKvV126.credentialResolverImplemented === false
-    && miniKvV126.credentialResolverInvoked === false
-    && miniKvV126.resolverClientInstantiated === false
-    && miniKvV126.secretProviderInstantiated === false;
-  const connectionBoundaryClosed =
-    sourceNodeV283.connectsManagedAudit === false
-    && sourceNodeV283.externalRequestSent === false
-    && javaV121.connectsManagedAudit === false
-    && javaV121.externalRequestSent === false
-    && miniKvV126.connectsManagedAudit === false
-    && miniKvV126.externalRequestAllowed === false
-    && miniKvV126.externalRequestSent === false;
-  const writeBoundaryClosed =
-    sourceNodeV283.executionAllowed === false
-    && sourceNodeV283.schemaMigrationExecuted === false
-    && sourceNodeV283.approvalLedgerWritten === false
-    && javaV121.approvalLedgerWritten === false
-    && javaV121.sqlExecuted === false
-    && javaV121.schemaMigrationExecuted === false
-    && miniKvV126.storageWriteAllowed === false
-    && miniKvV126.writeCommandsExecuted === false
-    && miniKvV126.adminCommandsExecuted === false
-    && miniKvV126.approvalLedgerWriteAllowed === false
-    && miniKvV126.approvalLedgerWritten === false
-    && miniKvV126.schemaMigrationExecuted === false
-    && miniKvV126.loadRestoreCompactExecuted === false
-    && miniKvV126.setnxexExecutionAllowed === false;
-  const autoStartBoundaryClosed =
-    sourceNodeV283.automaticUpstreamStart === false
-    && javaV121.automaticUpstreamStart === false
-    && javaV121.javaStartedNodeOrMiniKv === false
-    && miniKvV126.automaticUpstreamStart === false;
-  const sideEffectBoundaryClosed =
-    credentialBoundaryClosed
-    && rawEndpointBoundaryClosed
-    && resolverBoundaryClosed
-    && connectionBoundaryClosed
-    && writeBoundaryClosed
-    && autoStartBoundaryClosed;
+  const sourceChecks = createPlanSourceChecks(sourceNodeV283, javaV121, miniKvV126);
+  const alignmentChecks = createPlanAlignmentChecks(sourceNodeV283, javaV121, miniKvV126);
+  const boundaryChecks = createPlanBoundaryChecks(sourceNodeV283, javaV121, miniKvV126);
 
   return {
-    sourceNodeV283Ready,
-    sourceNodeV283KeepsImplementationBlocked,
-    javaV121EchoReady,
-    javaV121DocumentsNodeV283Consumption,
-    javaV121KeepsRuntimeSideEffectsBlocked,
-    miniKvV126ReceiptReady,
-    miniKvV126DocumentsNodeV283Consumption,
-    miniKvV126KeepsRuntimeSideEffectsBlocked,
-    planDigestAlignedWithMiniKv,
-    reviewDigestAlignedWithMiniKv,
-    boundaryCodesAligned,
-    requiredArtifactsAligned,
-    prohibitedActionsAligned,
-    javaRequirementIdsAligned,
-    miniKvRequirementIdsAligned,
-    credentialBoundaryClosed,
-    rawEndpointBoundaryClosed,
-    resolverBoundaryClosed,
-    connectionBoundaryClosed,
-    writeBoundaryClosed,
-    autoStartBoundaryClosed,
-    sideEffectBoundaryClosed,
+    ...sourceChecks,
+    ...alignmentChecks,
+    ...boundaryChecks,
     nodeVersionOffsetDocumented:
       sourceNodeV283.sourceVersion === "Node v283"
       && javaV121.originalExpectedNodeVerificationVersion === "Node v284"
@@ -239,15 +66,144 @@ export function createChecks(
   };
 }
 
+function createPlanSourceChecks(
+  sourceNodeV283: SourceNodeV283ImplementationPlanDraftReference,
+  javaV121: JavaV121ImplementationPlanEchoReference,
+  miniKvV126: MiniKvV126ImplementationPlanNonParticipationReference,
+) {
+  return {
+    sourceNodeV283Ready: isPlanSourceReady(sourceNodeV283),
+    sourceNodeV283KeepsImplementationBlocked: allBooleanFieldsAre(
+      sourceNodeV283,
+      PLAN_SOURCE_BLOCKED_FIELDS,
+      false,
+    ),
+    javaV121EchoReady: isJavaEchoReady(javaV121),
+    javaV121DocumentsNodeV283Consumption: isJavaConsumptionDocumented(sourceNodeV283, javaV121),
+    javaV121KeepsRuntimeSideEffectsBlocked: allBooleanFieldsAre(javaV121, PLAN_JAVA_BLOCKED_FIELDS, false),
+    miniKvV126ReceiptReady:
+      allBooleanFieldsAre(miniKvV126, PLAN_MINIKV_RECEIPT_TRUE_FIELDS, true)
+      && allBooleanFieldsAre(miniKvV126, PLAN_MINIKV_RUNTIME_FIELDS, false),
+    miniKvV126DocumentsNodeV283Consumption: isMiniKvConsumptionDocumented(sourceNodeV283, miniKvV126),
+    miniKvV126KeepsRuntimeSideEffectsBlocked: allBooleanFieldsAre(
+      miniKvV126,
+      PLAN_MINIKV_SIDE_EFFECT_FIELDS,
+      false,
+    ),
+  };
+}
+
+function isPlanSourceReady(source: SourceNodeV283ImplementationPlanDraftReference): boolean {
+  return source.planState === "credential-resolver-implementation-plan-draft-ready"
+    && source.readyForImplementationPlanDraft
+    && source.readyForJavaV121MiniKvV126Echo;
+}
+
+function isJavaEchoReady(javaEcho: JavaV121ImplementationPlanEchoReference): boolean {
+  return javaEcho.evidencePresent
+    && javaEcho.verificationDocumented
+    && javaEcho.readyForOriginalNodeV284Verification
+    && javaEcho.readyForJavaV121MiniKvV126Echo
+    && javaEcho.planEchoMode === "java-v121-credential-resolver-implementation-plan-echo-only"
+    && javaEcho.sourceSpan === "Node v283"
+    && javaEcho.originalExpectedNodeVerificationVersion === "Node v284"
+    && javaEcho.javaPlanDigestRequirementNamed;
+}
+
+function isJavaConsumptionDocumented(
+  source: SourceNodeV283ImplementationPlanDraftReference,
+  javaEcho: JavaV121ImplementationPlanEchoReference,
+): boolean {
+  return javaEcho.evidencePresent
+    && javaEcho.verificationDocumented
+    && javaEcho.proofClaimCount === 11
+    && javaEcho.nodeVerificationActionCount === 11
+    && javaEcho.interfaceBoundaryCount === source.interfaceBoundaryCount
+    && javaEcho.requiredArtifactCount === source.requiredArtifactCount
+    && javaEcho.interfaceBoundaryCodes.length === 7
+    && javaEcho.requiredArtifactIds.length === 21;
+}
+
+function isMiniKvConsumptionDocumented(
+  source: SourceNodeV283ImplementationPlanDraftReference,
+  receipt: MiniKvV126ImplementationPlanNonParticipationReference,
+): boolean {
+  return receipt.planDigest === source.planDigest
+    && receipt.reviewDigest === source.reviewDigest
+    && receipt.sourcePlanState === "credential-resolver-implementation-plan-draft-ready"
+    && receipt.interfaceBoundaryCount === source.interfaceBoundaryCount
+    && receipt.requiredArtifactCount === source.requiredArtifactCount
+    && receipt.prohibitedActionCount === source.prohibitedActions.length
+    && receipt.javaEchoRequirementCount === 4
+    && receipt.miniKvReceiptRequirementCount === 4;
+}
+
+function createPlanAlignmentChecks(
+  source: SourceNodeV283ImplementationPlanDraftReference,
+  javaEcho: JavaV121ImplementationPlanEchoReference,
+  receipt: MiniKvV126ImplementationPlanNonParticipationReference,
+) {
+  return {
+    planDigestAlignedWithMiniKv: receipt.planDigest === source.planDigest,
+    reviewDigestAlignedWithMiniKv: receipt.reviewDigest === source.reviewDigest,
+    boundaryCodesAligned: arraysEqual(receipt.interfaceBoundaryCodes, source.interfaceBoundaryCodes),
+    requiredArtifactsAligned: arraysEqual(receipt.requiredArtifactIds, source.requiredArtifactIds),
+    prohibitedActionsAligned: arraysEqual(receipt.prohibitedActions, source.prohibitedActions),
+    javaRequirementIdsAligned: arraysEqual(receipt.javaRequirementIds, javaEcho.javaRequirementIds),
+    miniKvRequirementIdsAligned: arraysEqual(receipt.miniKvRequirementIds, javaEcho.miniKvRequirementIds),
+  };
+}
+
+function createPlanBoundaryChecks(
+  source: SourceNodeV283ImplementationPlanDraftReference,
+  javaEcho: JavaV121ImplementationPlanEchoReference,
+  receipt: MiniKvV126ImplementationPlanNonParticipationReference,
+) {
+  const credentialBoundaryClosed =
+    allBooleanFieldsAre(source, PLAN_SOURCE_CREDENTIAL_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, PLAN_JAVA_CREDENTIAL_FIELDS, false)
+    && allBooleanFieldsAre(receipt, PLAN_MINIKV_CREDENTIAL_FIELDS, false);
+  const rawEndpointBoundaryClosed =
+    allBooleanFieldsAre(source, PLAN_SOURCE_ENDPOINT_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, PLAN_JAVA_ENDPOINT_FIELDS, false)
+    && allBooleanFieldsAre(receipt, PLAN_MINIKV_ENDPOINT_FIELDS, false);
+  const resolverBoundaryClosed =
+    allBooleanFieldsAre(source, PLAN_SOURCE_RESOLVER_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, PLAN_JAVA_RESOLVER_FIELDS, false)
+    && allBooleanFieldsAre(receipt, PLAN_MINIKV_RESOLVER_FIELDS, false);
+  const connectionBoundaryClosed =
+    allBooleanFieldsAre(source, PLAN_SOURCE_CONNECTION_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, PLAN_JAVA_CONNECTION_FIELDS, false)
+    && allBooleanFieldsAre(receipt, PLAN_MINIKV_CONNECTION_FIELDS, false);
+  const writeBoundaryClosed =
+    allBooleanFieldsAre(source, PLAN_SOURCE_WRITE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, PLAN_JAVA_WRITE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, PLAN_MINIKV_WRITE_FIELDS, false);
+  const autoStartBoundaryClosed =
+    allBooleanFieldsAre(source, PLAN_SOURCE_AUTO_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, PLAN_JAVA_AUTO_FIELDS, false)
+    && allBooleanFieldsAre(receipt, PLAN_MINIKV_AUTO_FIELDS, false);
+  const boundaries = {
+    credentialBoundaryClosed,
+    rawEndpointBoundaryClosed,
+    resolverBoundaryClosed,
+    connectionBoundaryClosed,
+    writeBoundaryClosed,
+    autoStartBoundaryClosed,
+  };
+
+  return {
+    ...boundaries,
+    sideEffectBoundaryClosed: Object.values(boundaries).every(Boolean),
+  };
+}
+
 export function collectProductionBlockers(
   checks: CredentialResolverImplementationPlanUpstreamEchoVerificationChecks,
 ): CredentialResolverImplementationPlanUpstreamEchoVerificationMessage[] {
-  const rules: Array<{
-    condition: boolean;
-    code: string;
-    source: CredentialResolverImplementationPlanUpstreamEchoVerificationMessage["source"];
-    message: string;
-  }> = [
+  const rules: readonly ReportRule<
+    CredentialResolverImplementationPlanUpstreamEchoVerificationMessage["source"]
+  >[] = [
     {
       condition: checks.sourceNodeV283Ready,
       code: "NODE_V283_PLAN_NOT_READY",
@@ -358,14 +314,7 @@ export function collectProductionBlockers(
     },
   ];
 
-  return rules
-    .filter((rule) => !rule.condition)
-    .map((rule) => ({
-      code: rule.code,
-      severity: "blocker" as const,
-      source: rule.source,
-      message: rule.message,
-    }));
+  return collectFailedReportRules(rules);
 }
 
 export function collectWarnings(): CredentialResolverImplementationPlanUpstreamEchoVerificationMessage[] {

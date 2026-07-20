@@ -24,7 +24,7 @@
 
 | 要求 | 实现边界 | 机械证据 | 状态 |
 | --- | --- | --- | --- |
-| 两套凭据策略不再手写超长布尔链 | 类型化字段清单 + 共享全字段判定 + 小型语义谓词 | 两份冻结 profile 字节/摘要、focused tests、基线收紧 | 待 v2215 |
+| 两套凭据策略不再手写超长布尔链 | 类型化字段清单 + 共享全字段判定 + 小型语义谓词 | 两份冻结 profile 字节/摘要、focused tests、基线收紧 | v2215 passed |
 | `buildApp` 只表达应用装配意图 | shell、运行时依赖、钩子、路由顺序分层 | 路由清单、钩子行为、访问审计、现有应用测试 | 待 v2216 |
 | 28 条 promotion 路由由单一清单拥有 | 有序 route manifest + 分阶段工件流水线 | 路由方法/路径/顺序、profile parity、focused route tests | 待 v2217 |
 | 三个批准输入模板由数据定义 | 模板定义与验证行为分离，目录 facade 稳定 | 模板顺序/键/摘要/目标路径、验证器和 live gate tests | 待 v2218 |
@@ -73,6 +73,15 @@
   `f56f269e4bcf5b17c1eca178b7427c8d51a180a2a5bd6ed9655cd3248ed9eb70`。
 
 预期基线：85 / 107 / 226 / 0。
+
+### v2215 收口证据
+
+两份 230 行 `createChecks` 已变为 32/27 行组合根，复杂度由 160/152 降为
+1/4；最大替代函数 57 行、复杂度 13。共享 helper 对空、重复和 nullable 缺失值均
+fail-closed。固定时间并强制历史回退的四组 JSON/Markdown 字节与 SHA-256 保持不变。
+focused 与文档门共 6 文件 24 测试通过，typecheck、定向零警告 lint、security、archive、
+elegance、family、renderer、source-size 和 maintainability 全绿。账本已机械收紧到
+85 / 107 / 226 / 0。
 
 ## v2216：应用装配分层
 

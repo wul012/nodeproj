@@ -8,6 +8,7 @@ import {
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification.js";
 import { loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification as loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationCore } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationCore.js";
 import { renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown as renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdownModule } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationRenderer.js";
+import { normalizeForParity, normalizeText, sha256 } from "./support/portableProfileParity.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-implementation-plan-upstream-echo-verification";
@@ -231,6 +232,40 @@ describe("managed audit manual sandbox connection credential resolver implementa
       "UPSTREAM_PROBES_ENABLED",
       "UPSTREAM_ACTIONS_ENABLED",
     ]));
+  });
+
+  it("freezes portable profile bytes across the field-manifest refactor", () => {
+    const previous = process.env[FORCE_FALLBACK_ENV];
+    process.env[FORCE_FALLBACK_ENV] = "true";
+
+    try {
+      const profile = loadManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerification({
+        config: loadTestConfig(),
+      });
+      const stableProfile = { ...profile, generatedAt: "2026-07-21T00:00:00.000Z" };
+      const normalizedProfile = normalizeForParity(stableProfile) as typeof stableProfile;
+      const json = JSON.stringify(normalizedProfile);
+      const markdown = normalizeText(
+        renderManagedAuditManualSandboxConnectionCredentialResolverImplementationPlanUpstreamEchoVerificationMarkdown(
+          normalizedProfile,
+        ),
+      );
+
+      expect.soft(Buffer.byteLength(json, "utf8")).toBe(29_872);
+      expect.soft(sha256(json)).toBe(
+        "06f95e701f098644032194e848bc7636d35f7a7bbfc361e74109febcee5ea734",
+      );
+      expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(8_182);
+      expect.soft(sha256(markdown)).toBe(
+        "f56f269e4bcf5b17c1eca178b7427c8d51a180a2a5bd6ed9655cd3248ed9eb70",
+      );
+    } finally {
+      if (previous === undefined) {
+        delete process.env[FORCE_FALLBACK_ENV];
+      } else {
+        process.env[FORCE_FALLBACK_ENV] = previous;
+      }
+    }
   });
 
   it("keeps historical fixture fallback viable for GitHub runner checks", () => {

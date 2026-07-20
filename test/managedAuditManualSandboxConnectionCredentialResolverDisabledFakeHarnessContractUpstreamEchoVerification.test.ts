@@ -4,7 +4,9 @@ import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerification.js";
+import { normalizeForParity, normalizeText, sha256 } from "./support/portableProfileParity.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-disabled-fake-harness-contract-upstream-echo-verification";
@@ -285,6 +287,40 @@ describe("managed audit manual sandbox connection credential resolver disabled f
       "UPSTREAM_PROBES_ENABLED",
       "UPSTREAM_ACTIONS_ENABLED",
     ]));
+  });
+
+  it("freezes portable profile bytes across the field-manifest refactor", () => {
+    const previous = process.env[FORCE_FALLBACK_ENV];
+    process.env[FORCE_FALLBACK_ENV] = "true";
+
+    try {
+      const profile = loadManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerification({
+        config: loadTestConfig(),
+      });
+      const stableProfile = { ...profile, generatedAt: "2026-07-21T00:00:00.000Z" };
+      const normalizedProfile = normalizeForParity(stableProfile) as typeof stableProfile;
+      const json = JSON.stringify(normalizedProfile);
+      const markdown = normalizeText(
+        renderManagedAuditManualSandboxConnectionCredentialResolverDisabledFakeHarnessContractUpstreamEchoVerificationMarkdown(
+          normalizedProfile,
+        ),
+      );
+
+      expect.soft(Buffer.byteLength(json, "utf8")).toBe(32_490);
+      expect.soft(sha256(json)).toBe(
+        "e6ba14bd44a3870774a00a6aaec125724dd7788e978937c596e560c24e748838",
+      );
+      expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(9_456);
+      expect.soft(sha256(markdown)).toBe(
+        "90cfc91d1b72a749303f3cd4b1793d25014f4b4f2eb2f98ba170844579f84805",
+      );
+    } finally {
+      if (previous === undefined) {
+        delete process.env[FORCE_FALLBACK_ENV];
+      } else {
+        process.env[FORCE_FALLBACK_ENV] = previous;
+      }
+    }
   });
 
   it("keeps historical fixture fallback viable for sibling evidence", () => {

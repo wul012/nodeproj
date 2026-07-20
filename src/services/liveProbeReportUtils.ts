@@ -26,6 +26,12 @@ export interface FailedReportRule<Source extends string = string> {
   message: string;
 }
 
+export type BooleanFieldKey<Value> = Extract<{
+  [Key in keyof Value]-?: Value[Key] extends boolean | null | undefined
+    ? Extract<Value[Key], boolean> extends never ? never : Key
+    : never;
+}[keyof Value], string>;
+
 export function sha256StableJson(value: unknown): string {
   return createHash("sha256")
     .update(stableJson(value))
@@ -46,6 +52,16 @@ export function allReportChecksPassExcept<Checks extends object>(
 ): boolean {
   return Object.entries(checks)
     .every(([key, value]) => key === excludedKey || value === true);
+}
+
+export function allBooleanFieldsAre<Value extends object>(
+  value: Value,
+  fields: readonly BooleanFieldKey<Value>[],
+  expected: boolean,
+): boolean {
+  return fields.length > 0
+    && new Set(fields).size === fields.length
+    && fields.every((field) => value[field] === expected);
 }
 
 export function collectFailedReportRules<Source extends string>(

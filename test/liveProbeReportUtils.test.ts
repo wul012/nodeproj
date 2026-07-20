@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import {
+  allBooleanFieldsAre,
   allReportChecksPassExcept,
   collectFailedReportRules,
 } from "../src/services/liveProbeReportUtils.js";
@@ -25,5 +26,22 @@ describe("live probe report utilities", () => {
       { code: "FIRST", severity: "blocker", source: "source-a", message: "first failed" },
       { code: "SECOND", severity: "blocker", source: "source-c", message: "second failed" },
     ]);
+  });
+
+  it("evaluates typed boolean field manifests without accepting empty policy", () => {
+    const boundary = Object.freeze({
+      enabled: true,
+      invoked: false,
+      label: "disabled",
+    });
+
+    expect(allBooleanFieldsAre(boundary, ["enabled"], true)).toBe(true);
+    expect(allBooleanFieldsAre(boundary, ["invoked"], false)).toBe(true);
+    expect(allBooleanFieldsAre(boundary, ["enabled", "invoked"], false)).toBe(false);
+    expect(allBooleanFieldsAre(boundary, ["invoked", "invoked"], false)).toBe(false);
+    expect(allBooleanFieldsAre(boundary, [], false)).toBe(false);
+
+    const missing: { invoked: boolean | null } = { invoked: null };
+    expect(allBooleanFieldsAre(missing, ["invoked"], false)).toBe(false);
   });
 });
