@@ -56,7 +56,7 @@
     "controlledPreviewSmoke": "passed-json-200-1763296-bytes-markdown-200-80224-bytes-blocked-probes-disabled-execution-false-connect-false",
     "opsCompositionSmoke": "passed-summary-200-1423-bytes-readiness-200-1993-bytes",
     "serverCleanup": "passed-pid-30712-stopped-port-31214-released",
-    "remoteNodeEvidence": "first-run-29751934434-failed-portable-parity-repair-rerun-pending"
+    "remoteNodeEvidence": "passed-run-29754499031-head-bd495903-575-files-1748-tests-build-and-safe-smokes"
   },
   "crossPlatformParityRepair": {
     "failedRunId": 29751934434,
@@ -68,7 +68,12 @@
     "fixtureChanged": false,
     "frozenExpectationChanged": false,
     "windowsFocused": "passed-2-files-3-tests",
-    "linuxNode22Focused": "passed-2-files-3-tests-clean-container"
+    "linuxNode22Focused": "passed-2-files-3-tests-clean-container",
+    "successfulRunId": 29754499031,
+    "successfulRunHead": "bd495903909098e352772094a43fb37e6014bb8b",
+    "successfulRunDuration": "14m20s",
+    "remoteFullSuite": "passed-575-files-1748-tests-795.56-seconds",
+    "remoteBuildAndSmokes": "passed-build-health-metrics-release-evidence-readiness"
   },
   "boundaries": {
     "routeOrderChanged": false,

@@ -58,7 +58,7 @@ it below the scanner, relaxing thresholds, or replacing exact contracts with pro
 | Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | v2213 passed |
 | Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | v2214 local gates passed |
 | Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | passed from 86/116/232/2 to 85/110/228/0 |
-| Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | local/push/tags passed; first CI exposed a portable-oracle defect; repair rerun pending |
+| Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | passed locally and in repair CI run 29754499031 |
 
 ## v2211: Typed non-participation receipt engine
 
@@ -216,8 +216,11 @@ one file record and one snippet record: Windows treated
 historical path string. `portableProfileParity` now normalizes both the runtime
 root and the declared repository root at a path boundary. The frozen byte/hash
 expectations, fixtures, and production code were not edited. The original three
-focused assertions pass on Windows and in a clean Linux Node 22 container; the
-final remote rerun remains the only open gate.
+focused assertions pass on Windows and in a clean Linux Node 22 container.
+Repair run `29754499031` at head `bd495903` then passed all 575 files / 1,748
+tests in 795.56 seconds, build, health smoke, metrics smoke, and release-evidence
+readiness smoke. The cross-platform oracle repair and the v2211-v2214 batch are
+therefore mechanically closed.
 
 ## Verification rhythm
 
