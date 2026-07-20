@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
 
+const DECLARED_REPO_ROOT = "D:/nodeproj/orderops-node";
+
 export function normalizeForParity(value: unknown): unknown {
   if (typeof value === "string") return normalizeText(value);
   if (Array.isArray(value)) return value.map(normalizeForParity);
@@ -11,11 +13,22 @@ export function normalizeForParity(value: unknown): unknown {
   return value;
 }
 
-export function normalizeText(value: string): string {
-  const repositoryRoot = process.cwd().replace(/\\/g, "/");
-  return value.replace(/\\/g, "/").replaceAll(repositoryRoot, "<repo>");
+export function normalizeText(value: string, repositoryRoot = process.cwd()): string {
+  const roots = [repositoryRoot, DECLARED_REPO_ROOT]
+    .map((root) => root.replace(/\\/g, "/").replace(/\/$/, ""))
+    .filter((root, index, all) => root.length > 0 && all.indexOf(root) === index)
+    .sort((left, right) => right.length - left.length);
+
+  return roots.reduce(
+    (portable, root) => portable.replace(new RegExp(`${escapeRegex(root)}(?=$|/)`, "gi"), "<repo>"),
+    value.replace(/\\/g, "/"),
+  );
 }
 
 export function sha256(value: string): string {
   return createHash("sha256").update(value).digest("hex");
+}
+
+function escapeRegex(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 }

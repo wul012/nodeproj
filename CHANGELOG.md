@@ -23,6 +23,12 @@ All notable Node project changes are tracked by git tags.
   changes. The four-version batch closes with all 8 bounded shards green at 574
   unique files / 1,746 tests, matching independent discovery; build and guarded
   forced-fallback HTTP smoke also pass.
+- Repaired the batch parity gate after the first Linux Node Evidence run proved
+  that a declared `D:/nodeproj/orderops-node` evidence path was normalized only
+  when it happened to equal the host working directory. The shared test helper
+  now normalizes runtime and declared repository roots at path boundaries, with
+  focused Windows/Linux regression coverage. Production output, fixtures, and
+  the four frozen JSON/Markdown expectations remain unchanged.
 
 ## v2213 - 2026-07-20
 

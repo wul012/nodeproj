@@ -2,9 +2,9 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: locally complete; v2211-v2214 committed/tagged at `88291d4c`, `45dafd49`,
-`3ffd1e33`, and `a119754a`; all local batch gates passed; push and final Node
-Evidence run pending
+State: repair locally verified; v2211-v2214 committed/tagged at `88291d4c`,
+`45dafd49`, `3ffd1e33`, and `a119754a`; all local batch gates and the Linux
+cross-platform repair gate passed; final Node Evidence rerun pending
 
 ## Background and instruction
 
@@ -56,9 +56,9 @@ it below the scanner, relaxing thresholds, or replacing exact contracts with pro
 | Preserve v114-v117 behavior | freeze full JSON/Markdown output, then introduce one typed receipt-field engine and shared safety-boundary manifests | fixed-time forced-fallback hash oracle + four focused suites | passed in v2211 |
 | Remove both cycles | move route counts/identities into a neutral declarative manifest; route registration and services consume one direction | import-graph census + manifest parity test | v2212 passed at 0 cycles |
 | Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | v2213 passed |
-| Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | v2214 local gates passed; batch final pending |
-| Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | v2211 passed 85/112/228/2; later versions pending |
-| Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | local passed; push/CI pending |
+| Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | v2214 local gates passed |
+| Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | passed from 86/116/232/2 to 85/110/228/0 |
+| Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | local/push/tags passed; first CI exposed a portable-oracle defect; repair rerun pending |
 
 ## v2211: Typed non-participation receipt engine
 
@@ -186,10 +186,10 @@ complete ops-focused matrix passes with at most four workers, and governance tes
 keep 1125 top-level services / 80 routes. The pre-refresh census reported only the
 old 239-line entry stale and no unknown/grown debt; deleting exactly that entry
 tightens the ledger from 85/111/228/0 to 85/110/228/0. Typecheck and repository-wide
-zero-warning lint pass. Security/config scans 8,294 text files with 18/18 checks;
+zero-warning lint pass. Security/config scans 8,295 text files with 18/18 checks;
 elegance and all 52 family baselines pass; renderer remains 242+3/0, source-size
-remains zero, and archive retention is 64.15/80 MiB. The walkthrough gate reports
-3,284 Chinese characters, 36 scannable H2 sections, largest section 111 characters,
+remains zero, and archive retention is 64.16/80 MiB. The walkthrough gate reports
+3,799 Chinese characters, 38 scannable H2 sections, largest section 234 characters,
 score 100, and no missing, repetitive, oversized, placeholder, or forbidden signals.
 
 The batch-final local gate passes all 8 bounded shards with at most 4 workers:
@@ -202,7 +202,22 @@ both evidence paths under frozen sibling fixtures, and execution/managed-audit
 connection false. The v2213 preview returns JSON 200/1,763,296 bytes and Markdown
 200/80,224 bytes in the expected blocked probes-disabled state; v2214 ops summary
 and readiness return 200/1,423 and 200/1,993 bytes. PID 30712 was stopped and port
-31214 released. Push and the final remote Node Evidence run remain the only open gates.
+31214 released. The four version commits and tags were pushed with closeout commit
+`e2ffe26e`.
+
+The first remote Node Evidence run `29751934434` passed install, typecheck, lint,
+and every static gate, then failed only
+`controlledReadOnlyShardPreviewParity.test.ts`. Its Linux JSON surfaces were
+38 bytes larger while both Markdown hashes remained identical. A Linux Node 22
+container reproduced the exact runner hash `a3b206ca...f1957bc`. Recursive field
+fingerprints isolated the entire drift to the same declared Node evidence path in
+one file record and one snippet record: Windows treated
+`D:/nodeproj/orderops-node` as the current root, while Linux treated it only as a
+historical path string. `portableProfileParity` now normalizes both the runtime
+root and the declared repository root at a path boundary. The frozen byte/hash
+expectations, fixtures, and production code were not edited. The original three
+focused assertions pass on Windows and in a clean Linux Node 22 container; the
+final remote rerun remains the only open gate.
 
 ## Verification rhythm
 

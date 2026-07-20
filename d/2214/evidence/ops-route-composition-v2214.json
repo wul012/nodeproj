@@ -39,13 +39,13 @@
     "governanceAndCensusTests": "passed-4-files-18-tests",
     "typecheck": "passed",
     "lint": "passed-repository-wide-zero-errors-zero-warnings",
-    "securityConfig": "passed-8294-files-18-of-18-checks",
+    "securityConfig": "passed-8295-files-18-of-18-checks",
     "elegance": "passed-no-new-over-budget-name-and-52-families",
     "renderer": "passed-242-standardized-3-waived-0-non-waived",
     "sourceSize": "passed-zero-files-above-800-lines",
-    "archiveRetention": "passed-64.15-of-80-mib",
+    "archiveRetention": "passed-64.16-of-80-mib",
     "maintainability": "passed-85-110-228-0",
-    "walkthroughGate": "passed-3284-chinese-36-h2-largest-111-score-100-no-quality-signals"
+    "walkthroughGate": "passed-3799-chinese-38-h2-largest-234-score-100-no-quality-signals"
   },
   "batchFinal": {
     "boundedFullSuite": "passed-8-of-8-shards-max-4-workers-574-unique-files-1746-tests-zero-duplicates",
@@ -56,7 +56,19 @@
     "controlledPreviewSmoke": "passed-json-200-1763296-bytes-markdown-200-80224-bytes-blocked-probes-disabled-execution-false-connect-false",
     "opsCompositionSmoke": "passed-summary-200-1423-bytes-readiness-200-1993-bytes",
     "serverCleanup": "passed-pid-30712-stopped-port-31214-released",
-    "remoteNodeEvidence": "pending-push"
+    "remoteNodeEvidence": "first-run-29751934434-failed-portable-parity-repair-rerun-pending"
+  },
+  "crossPlatformParityRepair": {
+    "failedRunId": 29751934434,
+    "failedRunHead": "e2ffe26e2f565cf37ae8c746c2b84ae43b4e2173",
+    "windowsJson": "1752385-bytes-e9b1421217e5bdf505fd3040a80981c8cb105eb9d8398e9762ffa7b1bdbba8d7",
+    "linuxJsonBeforeRepair": "1752423-bytes-a3b206ca050658db49d75cd81095982c362f802ab3ef22483364958977a1f7bc",
+    "difference": "same-declared-node-evidence-path-was-normalized-at-two-windows-only-locations",
+    "productionCodeChanged": false,
+    "fixtureChanged": false,
+    "frozenExpectationChanged": false,
+    "windowsFocused": "passed-2-files-3-tests",
+    "linuxNode22Focused": "passed-2-files-3-tests-clean-container"
   },
   "boundaries": {
     "routeOrderChanged": false,

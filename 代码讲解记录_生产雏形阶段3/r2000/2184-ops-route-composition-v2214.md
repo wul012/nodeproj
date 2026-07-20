@@ -140,6 +140,18 @@ GET 路由继续调用 list/get/integrity/sample 等既有读方法，POST promo
 
 本讲解在批末大验证前写成，避免先看到绿色结果再用文档为实现找理由。接下来统一执行 repository-wide lint、静态门、受限分片全测、独立测试发现、build 与 historical fallback HTTP smoke；结果写回归档证据和计划。若任何门失败，先修代码或讲解，再重跑相关层，不修改冻结合同来迁就实现。
 
-## 三十六、一句话结论
+## 三十六、远端首次失败揭示了什么
 
-v2214 用一个覆盖 46 条 method、path、schema 与顺序的旧实现 oracle，证明在 HTTP 合同和权限边界不变的前提下，把 239 行 ops 路由入口收敛为 6 行组合根与五个低复杂度职责区，并将长函数账本从 111 项机械收紧到 110 项。
+首次 Node Evidence 在安装、类型检查、零告警 lint 和所有静态门通过后，只在 preview parity oracle 上失败。两种 ready 状态的 JSON 都比 Windows 结果多 38 字节，但 Markdown 字节和摘要完全一致。这说明路由重构本身没有改变，差异位于 Markdown 未展示的 JSON 字段。用 Linux Node 22 容器挂载同一仓库后，能够精确复现 runner 的 1,752,423 字节和 `a3b206ca...f1957bc` 摘要，排除了 CI 并发、Node 版本和偶发时钟因素。
+
+随后按对象树逐层计算子摘要，唯一漂移子树是 value-supply approval packet draft。继续下钻后发现，同一个 Node 历史证据路径分别出现在 files 记录和 snippets 记录中，每处在 Linux 恰好多 19 字节。原 helper 只把当前工作目录替换成 `<repo>`：Windows 当前目录正好是 `D:/nodeproj/orderops-node`，Linux 当前目录却是 `/repo`，所以同一声明路径在两个系统上被不对称处理。这个问题属于 oracle 的可移植性缺陷，不是产品 profile 漂移。
+
+## 三十七、修复为什么没有削弱 oracle
+
+修复没有更改四个冻结字节数和 SHA-256，没有修改 fixture，也没有触碰生产 loader、assessment、profile 或 renderer。`normalizeText` 仍先统一斜杠，只是把“运行时仓库根”和“证据中声明的仓库根”都作为明确根路径处理，并要求后面必须是字符串结束或 `/`。因此 `D:/nodeproj/orderops-node/src/a.ts` 会归一化，而 `D:/nodeproj/orderops-node-copy/src/a.ts` 不会被误伤。新增测试分别覆盖 POSIX 运行目录、Windows 反斜杠声明路径、前缀碰撞和嵌套对象递归。
+
+Windows 上原有 parity oracle 与新增测试共 2 文件 3 项通过；随后在只读挂载源码、使用匿名依赖卷的干净 Linux Node 22 容器里执行 `npm ci`，同样 2 文件 3 项通过。因为期望值未动，而且 Linux 现在必须产生与旧 Windows oracle 相同的摘要，这次修复提高了契约强度：以后任何宿主路径差异都不能冒充业务变化，真实字段、顺序或字节漂移仍会让摘要立即失败。
+
+## 三十八、一句话结论
+
+v2214 用覆盖 46 条 method、path、schema 与顺序的旧实现 oracle，证明在 HTTP 合同和权限边界不变的前提下，把 239 行 ops 路由入口收敛为 6 行组合根与五个低复杂度职责区，将长函数账本从 111 项机械收紧到 110 项，并把首次远端运行发现的跨平台路径噪声转化为 Windows/Linux 都必须通过的严格回归门。
