@@ -2,7 +2,7 @@
 
 Date: 2026-07-19
 Owner: Codex
-State: local acceptance complete; commit/tag/push and v2207 Node Evidence pending
+State: complete; commit cd1cac35, tag v2207, and Node Evidence run 29712753670 passed
 
 ## Objective and stop condition
 
@@ -109,4 +109,5 @@ plus both local and historical evidence paths pass.
   and Markdown (13,925); it stopped and the port returned to zero listeners.
 - The complete suite passed all 16 shards at 567 files / 1,730 tests with two
   workers per shard. A separate `vitest list --json` run independently reproduced
-  567 files / 1,730 tests. Commit/tag/push and v2207 Node Evidence remain.
+  567 files / 1,730 tests. Commit `cd1cac35`, tag `v2207`, push, and Node Evidence
+  run `29712753670` completed successfully, including build and safe smoke cleanup.

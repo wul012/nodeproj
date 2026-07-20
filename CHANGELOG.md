@@ -11,6 +11,19 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2208 - 2026-07-20
+
+- Split the 779-line sandbox endpoint-handle upstream echo hotspot into a
+  134-line public facade, 513-line grouped evidence-source module, and 229-line
+  assessment module. The mini-kv v113 parser now names metadata, review, and
+  side-effect groups instead of concentrating 202 lines and complexity 147 in
+  one function. Fixed-time fallback oracles preserve the original 26,606-byte
+  JSON and 27,561-byte Markdown outputs. The shrink-only ledger removes exactly
+  one file, one long function, and four complexity debts, tightening from
+  88 / 120 / 237 / 2 to 87 / 119 / 233 / 2 without route or service growth.
+  All 16 shards pass at 567 files / 1,731 tests; the independent test list,
+  zero-warning lint, build, static gates, and three-route HTTP smoke also pass.
+
 ## v2207 - 2026-07-20
 
 - Split the 788-line approval-required implementation-readiness echo service into

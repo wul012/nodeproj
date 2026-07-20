@@ -1,9 +1,12 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
@@ -243,6 +246,30 @@ describe("managed audit manual sandbox connection sandbox endpoint handle upstre
     );
   });
 
+  it("freezes portable fallback JSON and Markdown across the hotspot split", () => {
+    process.env[FORCE_FALLBACK_ENV] = "true";
+    const profile = loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    const stableProfile = {
+      ...profile,
+      generatedAt: "2026-07-20T00:00:00.000Z",
+    };
+    const json = JSON.stringify(normalizeForParity(stableProfile));
+    const markdown = normalizeText(
+      renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown(stableProfile),
+    );
+
+    expect.soft(Buffer.byteLength(json, "utf8")).toBe(26_606);
+    expect.soft(sha256(json)).toBe(
+      "060e69684b6305216ccc92cb10028a4a38c5fc648caed67f0f8a0373545a1584",
+    );
+    expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(27_561);
+    expect.soft(sha256(markdown)).toBe(
+      "619e52c9248ab54ff0957d5baa25def3b3c2eb0c95c076154b6f9d008d88373b",
+    );
+  });
+
   it("blocks when upstream actions are enabled", () => {
     const profile = loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification({
       config: loadTestConfig({
@@ -338,4 +365,28 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     PORT: "4359",
     ...overrides,
   });
+}
+
+function normalizeForParity(value: unknown): unknown {
+  if (typeof value === "string") {
+    return normalizeText(value);
+  }
+  if (Array.isArray(value)) {
+    return value.map(normalizeForParity);
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, normalizeForParity(entry)]),
+    );
+  }
+  return value;
+}
+
+function normalizeText(value: string): string {
+  const repositoryRoot = process.cwd().replace(/\\/g, "/");
+  return value.replace(/\\/g, "/").replaceAll(repositoryRoot, "<repo>");
+}
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }

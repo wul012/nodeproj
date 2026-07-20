@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "version": "v2208",
+  "scope": "byte-preserving-sandbox-endpoint-echo-hotspot-repair",
+  "behaviorChanged": false,
+  "before": {
+    "nearLimitFiles": 88,
+    "longFunctions": 120,
+    "complexFunctions": 237,
+    "runtimeImportCycles": 2,
+    "facadeLines": 779,
+    "miniKvReferenceLines": 202,
+    "miniKvReferenceComplexity": 147,
+    "checksComplexity": 60,
+    "javaReferenceComplexity": 39,
+    "sourceReferenceComplexity": 28,
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "after": {
+    "nearLimitFiles": 87,
+    "longFunctions": 119,
+    "complexFunctions": 233,
+    "runtimeImportCycles": 2,
+    "facadeLines": 134,
+    "sourcesLines": 513,
+    "checksLines": 229,
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "portableFallbackOracle": {
+    "generatedAt": "2026-07-20T00:00:00.000Z",
+    "normalization": "recursive-repository-root-and-separator-normalization",
+    "jsonBytes": 26606,
+    "jsonSha256": "060e69684b6305216ccc92cb10028a4a38c5fc648caed67f0f8a0373545a1584",
+    "markdownBytes": 27561,
+    "markdownSha256": "619e52c9248ab54ff0957d5baa25def3b3c2eb0c95c076154b6f9d008d88373b"
+  },
+  "baseline": {
+    "path": "docs/plans3/maintainability-baseline.json",
+    "removedKeys": [
+      "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts",
+      "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createMiniKvV113Reference (long)",
+      "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createMiniKvV113Reference (complex)",
+      "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createChecks (complex)",
+      "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createJavaV104Reference (complex)",
+      "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createSourceNodeV258 (complex)"
+    ],
+    "addedKeys": [],
+    "grownKeys": []
+  },
+  "verification": {
+    "previousRemoteNodeEvidence": "passed-run-29712753670",
+    "oracleRed": "passed-as-expected-1-failed-4-passed-four-placeholder-mismatches",
+    "oracleBeforeExtraction": "passed-1-file-5-tests",
+    "typecheck": "passed",
+    "oracleAfterExtraction": "passed-1-file-5-tests",
+    "firstMaintainabilityAttempt": "expected-six-stale-plus-one-unknown-122-line-function",
+    "maintainabilityBeforeBaseline": "expected-failure-exactly-six-stale-no-unknown-no-grown",
+    "maintainabilityAfterBaseline": "passed-ready-87-119-233-2",
+    "focusedConsumersAndGates": "passed-6-files-27-tests",
+    "lint": "passed-0-errors-0-warnings",
+    "staticGates": "passed-security-config-elegance-families-source-size-renderer",
+    "documentationFocused": "passed-11-files-42-tests",
+    "walkthroughScanner": "passed-3122-chinese-characters-17-h2-largest-264-score-100",
+    "archiveRetention": "passed-7099-files-64.00MiB-of-80MiB",
+    "build": "passed-final-source-tree",
+    "httpSmoke": "passed-3-of-3-health-91-json-27922-markdown-27561-port-31208-cleaned",
+    "fullSuite": "passed-16-of-16-shards-567-files-1731-tests",
+    "independentTestList": "passed-567-files-1731-tests",
+    "remoteNodeEvidence": "pending-v2208-push"
+  },
+  "boundaries": {
+    "publicModuleChanged": false,
+    "profileOrFieldOrderChanged": false,
+    "jsonOrMarkdownChanged": false,
+    "fixturesChanged": false,
+    "routesChanged": false,
+    "siblingEvidenceChanged": false,
+    "executionAuthorityChanged": false,
+    "liveCapstoneTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-output-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-v1872-clean-independent",
+    "miniKv": "recommended-parallel-v1667-exhibition-doc-independent"
+  }
+}
