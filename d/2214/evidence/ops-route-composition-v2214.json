@@ -47,6 +47,17 @@
     "maintainability": "passed-85-110-228-0",
     "walkthroughGate": "passed-3284-chinese-36-h2-largest-111-score-100-no-quality-signals"
   },
+  "batchFinal": {
+    "boundedFullSuite": "passed-8-of-8-shards-max-4-workers-574-unique-files-1746-tests-zero-duplicates",
+    "independentDiscovery": "passed-574-files-1746-tests",
+    "build": "passed",
+    "healthSmoke": "passed-200-93-bytes",
+    "forcedFallbackReport": "passed-json-200-28777-bytes-markdown-200-28295-bytes-18-of-18-checks-java-and-minikv-fixtures-execution-false-connect-false",
+    "controlledPreviewSmoke": "passed-json-200-1763296-bytes-markdown-200-80224-bytes-blocked-probes-disabled-execution-false-connect-false",
+    "opsCompositionSmoke": "passed-summary-200-1423-bytes-readiness-200-1993-bytes",
+    "serverCleanup": "passed-pid-30712-stopped-port-31214-released",
+    "remoteNodeEvidence": "pending-push"
+  },
   "boundaries": {
     "routeOrderChanged": false,
     "routePathOrMethodChanged": false,

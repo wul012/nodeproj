@@ -20,7 +20,9 @@ All notable Node project changes are tracked by git tags.
   91 lines with complexity 1, the route-file ceiling remains exactly 80, and the
   shrink-only ledger tightens from 111 to 110 long functions. No route, schema,
   fixture, access policy, public export, upstream probe, or execution authority
-  changes.
+  changes. The four-version batch closes with all 8 bounded shards green at 574
+  unique files / 1,746 tests, matching independent discovery; build and guarded
+  forced-fallback HTTP smoke also pass.
 
 ## v2213 - 2026-07-20
 

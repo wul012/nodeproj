@@ -2,9 +2,9 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: active; v2211 committed/tagged locally at `88291d4c`; v2212 committed and
-tagged locally at `45dafd49`; v2213 committed/tagged locally at `3ffd1e33`;
-v2214 final local gates passed and commit pending
+State: locally complete; v2211-v2214 committed/tagged at `88291d4c`, `45dafd49`,
+`3ffd1e33`, and `a119754a`; all local batch gates passed; push and final Node
+Evidence run pending
 
 ## Background and instruction
 
@@ -58,7 +58,7 @@ it below the scanner, relaxing thresholds, or replacing exact contracts with pro
 | Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | v2213 passed |
 | Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | v2214 local gates passed; batch final pending |
 | Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | v2211 passed 85/112/228/2; later versions pending |
-| Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | pending |
+| Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | local passed; push/CI pending |
 
 ## v2211: Typed non-participation receipt engine
 
@@ -191,6 +191,18 @@ elegance and all 52 family baselines pass; renderer remains 242+3/0, source-size
 remains zero, and archive retention is 64.15/80 MiB. The walkthrough gate reports
 3,284 Chinese characters, 36 scannable H2 sections, largest section 111 characters,
 score 100, and no missing, repetitive, oversized, placeholder, or forbidden signals.
+
+The batch-final local gate passes all 8 bounded shards with at most 4 workers:
+574 unique files / 1,746 tests, all green, with zero duplicate files across shard
+reports. Independent `vitest list --json` discovery reproduces exactly 574 / 1,746.
+Build passes. A hidden server on port 31214 with probes/actions disabled and forced
+historical fallback returns health 200/93 bytes; the v2211 Java/mini-kv report
+returns JSON 200/28,777 bytes and Markdown 200/28,295 bytes with 18/18 checks,
+both evidence paths under frozen sibling fixtures, and execution/managed-audit
+connection false. The v2213 preview returns JSON 200/1,763,296 bytes and Markdown
+200/80,224 bytes in the expected blocked probes-disabled state; v2214 ops summary
+and readiness return 200/1,423 and 200/1,993 bytes. PID 30712 was stopped and port
+31214 released. Push and the final remote Node Evidence run remain the only open gates.
 
 ## Verification rhythm
 

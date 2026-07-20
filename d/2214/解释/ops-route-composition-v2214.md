@@ -47,3 +47,8 @@ route 文件或跨模块依赖。
 typecheck、定向零告警 lint、治理与 census 4 文件 18 项测试均通过。中文代码讲解先于
 批末全量验证写入；随后 v2211 至 v2214 统一执行全仓零告警 lint、静态门、受限 worker
 测试分片、独立发现、build、historical fallback HTTP smoke、推送与远端 Node Evidence。
+最终 8 个分片在最多 4 个 worker 下覆盖 574 个唯一文件、1,746 项测试，全部一次通过；
+独立 discovery 得到相同数字，build 通过。强制 fallback 报告的 Java 与 mini-kv 路径都
+位于冻结 fixture，18/18 检查通过；preview 保持 probes-disabled、blocked、execution=false、
+connectsManagedAudit=false，ops summary/readiness 均返回 200。smoke PID 30712 已停止，
+31214 端口已释放，远端 Node Evidence 留到推送后最终核验。
