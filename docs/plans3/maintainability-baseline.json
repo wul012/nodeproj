@@ -357,10 +357,6 @@
       "maxLines": 216
     },
     {
-      "key": "src/app.ts|buildApp",
-      "maxLines": 213
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixRenderer.ts|renderControlledReadOnlyShardPreviewSourceMatrixSections",
       "maxLines": 213
     },

@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "version": "v2216",
+  "scope": "application-composition-boundaries",
+  "behaviorChanged": false,
+  "publicContract": {
+    "entrypoint": "src/app.ts|buildApp",
+    "signatureChanged": false,
+    "returnTypeChanged": false,
+    "serverImportChanged": false
+  },
+  "modules": {
+    "shell": "src/app/createAppShell.ts",
+    "requestHooks": "src/app/requestHooks.ts",
+    "runtimeDependencies": "src/app/runtimeDeps.ts",
+    "routeRegistration": "src/app/registerRoutes.ts"
+  },
+  "routeOracle": {
+    "mode": "Fastify-printRoutes-commonPrefix-false",
+    "stageCount": 15,
+    "stageNames": [
+      "dashboard",
+      "audit",
+      "action-plan",
+      "operation-preflight",
+      "approval-request",
+      "approval-decision",
+      "approval-evidence",
+      "execution-gate-archive",
+      "operation-intent",
+      "operation-dispatch",
+      "ops-summary",
+      "status",
+      "metrics",
+      "order-platform",
+      "mini-kv"
+    ],
+    "routeTreeBytes": 41596,
+    "routeTreeLines": 460,
+    "routeTreeSha256": "e8fbc705761b2cf5f774d18e4879caf1b46ee6cb11046f4acdb71d6bbd778de9"
+  },
+  "lifecycle": {
+    "errorHandlerInstalledBeforeHooks": true,
+    "baseHeaderHookBeforeAccessHook": true,
+    "corsOptionsBeforeRuntimeRoutes": true,
+    "auditTimerHookAfterRuntimeCreation": true,
+    "auditResponseHookUsesSameAccessWeakMaps": true,
+    "dependencyConstructionOrderPreserved": true,
+    "sharedLedgerAndClientIdentityPreserved": true
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 85,
+      "longFunctions": 107,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "buildAppLines": 213
+    },
+    "after": {
+      "nearLimitFiles": 85,
+      "longFunctions": 106,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "buildAppLines": 10
+    },
+    "largestReplacement": {
+      "name": "installAccessHooks",
+      "lines": 63,
+      "complexity": 1
+    },
+    "highestReplacementComplexity": 3,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "redOracle": "failed-before-source-split-missing-registerRoutes-module",
+    "composition": "passed-1-file-2-tests",
+    "representativeAppSurface": "passed-18-files-63-tests",
+    "typecheck": "passed",
+    "lint": "passed-targeted-app-composition-surface-zero-warnings",
+    "staticGates": {
+      "maintainability": "passed-85-near-limit-106-long-226-complex-0-cycles",
+      "security": "passed-8309-text-files-18-of-18-config-checks",
+      "archiveRetention": "passed-7127-files-64.21-of-80.00-mib",
+      "elegance": "passed-52-tracked-families",
+      "familyLogic": "passed-52-of-52-ranked",
+      "renderer": "passed-242-of-245-3-waived-0-non-waived",
+      "sourceSize": "passed-0-files-above-800-lines"
+    },
+    "walkthroughGate": "passed-3356-chinese-40-h2-largest-114-score-100-no-quality-signals"
+  },
+  "boundaries": {
+    "routeMethodPathSchemaChanged": false,
+    "routeRegistrationOrderChanged": false,
+    "errorResponseChanged": false,
+    "accessHeaderOrEnforcementChanged": false,
+    "auditContextOrTimingChanged": false,
+    "runtimeDependencyChanged": false,
+    "fixtureChanged": false,
+    "executionAuthorityChanged": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-independent-worktree-untouched",
+    "miniKv": "recommended-parallel-independent-worktree-untouched"
+  }
+}

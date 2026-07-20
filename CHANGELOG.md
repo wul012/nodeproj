@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2216 - 2026-07-20
+
+- Recast the 213-line `buildApp` as a 10-line composition root over a Fastify
+  shell, request/audit hooks, ordered runtime dependency construction, and 15
+  named route stages. A pre-refactor Fastify route-tree oracle remains exactly
+  41,596 bytes / 460 lines with the same SHA-256, while focused inject coverage
+  preserves global headers, CORS, error mapping, access/audit contexts, approval
+  state identity, metrics, and upstream route wiring. No replacement function
+  exceeds 63 lines or complexity 3; the shrink-only ledger tightens from
+  85/107/226/0 to 85/106/226/0 without route, schema, fixture, configuration,
+  storage, access-policy, or execution-authority changes.
+
 ## v2215 - 2026-07-20
 
 - Replaced two 230-line credential-policy check builders with typed, ordered
