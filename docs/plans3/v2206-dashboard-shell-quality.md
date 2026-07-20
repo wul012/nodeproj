@@ -2,7 +2,7 @@
 
 Date: 2026-07-19
 Owner: Codex
-State: local acceptance complete; commit/tag/batched push and remote Node Evidence pending
+State: complete; commit 4a9471ce, tag v2206, and Node Evidence run 29693804255 passed
 
 ## Objective and stop condition
 
@@ -14,8 +14,8 @@ remain unchanged or shrink.
 
 ## Step-0 reconciliation and cross-project progress
 
-- Node is clean at commit `fbbb991e`, tag `v2205`; v2203-v2205 are locally accepted
-  and await one batched push/Node Evidence run after this repair.
+- Node started at commit `fbbb991e`, tag `v2205`; v2203-v2206 were later pushed
+  together and cumulative Node Evidence run `29693804255` passed.
 - Java is committed/pushed at `8bb577d6`, tag
   `v1869-order-platform-diff-aware-elegance-gates`, with an active uncommitted
   v1870-like core error-boundary slice. Java is recommended parallel; Node does not
@@ -36,7 +36,7 @@ remain unchanged or shrink.
 | Existing UI behavior stays | retain element ids, actions, scripts, route order, and content | existing dashboard tests + focused route parity | passed in 4 files / 17 tests and complete 567-file suite |
 | Intentional bytes are explicit | refresh only dashboard length/digest after the shell fix | old digest fails, new digest recorded with rationale | passed; 38122/96100 and both SHA-256 values archived |
 | Governance does not grow | no new route/service module; direct routes remain 80 | growth ratchet + maintainability census | passed; 80 routes and census 89 / 121 / 238 / 2 |
-| Close locally/remotely | focused tests, typecheck, lint, build, HTTP/browser, batched CI | commands, archive, git refs, Node Evidence | local passed; git refs and remote CI pending |
+| Close locally/remotely | focused tests, typecheck, lint, build, HTTP/browser, batched CI | commands, archive, git refs, Node Evidence | passed; commit 4a9471ce, tag v2206, run 29693804255 |
 
 ## Necessity and growth stop
 
@@ -93,8 +93,8 @@ remain unchanged or shrink.
   passed 108 files / 317 tests before the documentation correction; repaired shard
   4 and shards 5-16 passed afterward. `vitest list --json` independently returned
   the same 567 files / 1,729 tests. The final documents passed 11 focused files /
-  34 tests and the final tree built successfully. Commit/tag, batched push, and
-  remote Node Evidence remain before closeout.
+  34 tests and the final tree built successfully. Commit `4a9471ce`, tag `v2206`,
+  push, and cumulative Node Evidence run `29693804255` all completed successfully.
 
 ## Fail conditions
 

@@ -1,9 +1,12 @@
+import { createHash } from "node:crypto";
+
 import { describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.js";
 
 const ROUTE =
@@ -216,6 +219,40 @@ describe("managed audit manual sandbox connection credential resolver approval-r
     }
   });
 
+  it("freezes portable fallback JSON and Markdown across the hotspot split", () => {
+    const previous = process.env[FORCE_FALLBACK_ENV];
+    process.env[FORCE_FALLBACK_ENV] = "true";
+
+    try {
+      const profile = loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification({
+        config: loadTestConfig(),
+      });
+      const stableProfile = {
+        ...profile,
+        generatedAt: "2026-07-19T00:00:00.000Z",
+      };
+      const json = JSON.stringify(normalizeForParity(stableProfile));
+      const markdown = normalizeText(
+        renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerificationMarkdown(stableProfile),
+      );
+
+      expect.soft(Buffer.byteLength(json, "utf8")).toBe(27_742);
+      expect.soft(sha256(json)).toBe(
+        "b0946c5593e697b2278f8cba3efb6a365cc59627a55c26f8eaa174d1cd8da957",
+      );
+      expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(13_925);
+      expect.soft(sha256(markdown)).toBe(
+        "6b3349cad1adcaee9b0dd6bbcf6996a5f505e6c40405bc9d46b06409c0107377",
+      );
+    } finally {
+      if (previous === undefined) {
+        delete process.env[FORCE_FALLBACK_ENV];
+      } else {
+        process.env[FORCE_FALLBACK_ENV] = previous;
+      }
+    }
+  });
+
   it("exposes JSON and Markdown routes through the audit route table", async () => {
     const app = await buildApp(loadTestConfig());
 
@@ -288,4 +325,28 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     PORT: "4382",
     ...overrides,
   });
+}
+
+function normalizeForParity(value: unknown): unknown {
+  if (typeof value === "string") {
+    return normalizeText(value);
+  }
+  if (Array.isArray(value)) {
+    return value.map(normalizeForParity);
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, normalizeForParity(entry)]),
+    );
+  }
+  return value;
+}
+
+function normalizeText(value: string): string {
+  const repositoryRoot = process.cwd().replace(/\\/g, "/");
+  return value.replace(/\\/g, "/").replaceAll(repositoryRoot, "<repo>");
+}
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }

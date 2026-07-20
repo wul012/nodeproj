@@ -55,7 +55,7 @@
     "httpSmoke": "passed-6-of-6-health-metrics-runtime-config-real-read-json-real-read-markdown-dashboard",
     "browserValidation": "desktop-render-passed; mobile-long-button-overflow-and-favicon-404-recorded-for-v2206",
     "screenshot": "d/2205/图片/dashboard-v2205-desktop.png",
-    "remoteNodeEvidence": "pending-batched-push"
+    "remoteNodeEvidence": "passed-cumulative-run-29693804255"
   },
   "browserFindings": [
     "favicon.ico returns 404",

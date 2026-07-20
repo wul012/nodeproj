@@ -2,7 +2,7 @@
 
 Date: 2026-07-19
 Owner: Codex
-State: v2203-v2205 locally accepted; batched push and remote Node Evidence pending
+State: complete; v2203-v2205 pushed and cumulative Node Evidence run 29693804255 passed
 
 ## Objective and stop condition
 
@@ -49,7 +49,7 @@ the maturity label remains:
 | Prevent gate drift | adversarial Vitest fixtures for new/grown/stale debt and cycles | `test/maintainabilityCensus.test.ts` | 8/8 passed in v2204 |
 | Repair real hotspots | reduce two selected >600-line files without public/output drift | focused parity digests + census shrink | locally accepted in v2205 |
 | Preserve behavior | no route, JSON, Markdown, fixture, or dashboard-byte changes | focused tests + full suite + smoke | accepted: exact digests, 16/16 shards, 567 files / 1,726 tests, build, and 6/6 HTTP smoke |
-| Close remotely | commit/tag each version, push once at final boundary, inspect CI | git refs + Node Evidence URL | pending |
+| Close remotely | commit/tag each version, push once at final boundary, inspect CI | git refs + Node Evidence URL | passed in cumulative run 29693804255 |
 
 ## Progress ledger
 

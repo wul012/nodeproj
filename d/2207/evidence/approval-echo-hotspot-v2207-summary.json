@@ -1,0 +1,84 @@
+{
+  "schemaVersion": 1,
+  "version": "v2207",
+  "scope": "byte-preserving-maintainability-hotspot-repair",
+  "behaviorChanged": false,
+  "before": {
+    "nearLimitFiles": 89,
+    "longFunctions": 121,
+    "complexFunctions": 238,
+    "runtimeImportCycles": 2,
+    "facadeLines": 788,
+    "createChecksLines": 187,
+    "createChecksComplexity": 137,
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "after": {
+    "nearLimitFiles": 88,
+    "longFunctions": 120,
+    "complexFunctions": 237,
+    "runtimeImportCycles": 2,
+    "facadeLines": 158,
+    "sourcesLines": 256,
+    "checksLines": 482,
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "portableFallbackOracle": {
+    "normalization": "fixed-generatedAt-recursive-repository-root-and-separator-normalization",
+    "jsonBytes": 27742,
+    "jsonSha256": "b0946c5593e697b2278f8cba3efb6a365cc59627a55c26f8eaa174d1cd8da957",
+    "markdownBytes": 13925,
+    "markdownSha256": "6b3349cad1adcaee9b0dd6bbcf6996a5f505e6c40405bc9d46b06409c0107377"
+  },
+  "baseline": {
+    "path": "docs/plans3/maintainability-baseline.json",
+    "removedKeys": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts|createChecks (long)",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts|createChecks (complex)"
+    ],
+    "addedKeys": [],
+    "grownKeys": []
+  },
+  "verification": {
+    "oracleRed": "passed-as-expected-1-failed-4-passed-with-four-placeholder-mismatches",
+    "oracleBeforeExtraction": "passed-1-file-5-tests",
+    "migrationTriage": "wrong-java-walkthrough-directory-caused-4-failed-1-passed; restored-exact-v2206-path",
+    "oracleAfterExtraction": "passed-1-file-5-tests",
+    "focusedConsumersAndGates": "passed-5-files-24-tests",
+    "typecheck": "passed",
+    "lint": "passed-0-errors-0-warnings",
+    "maintainabilityBeforeBaseline": "expected-failure-exactly-three-stale-no-added-no-grown",
+    "maintainabilityAfterBaseline": "passed-ready-88-120-237-2",
+    "staticGates": "passed-elegance-families-source-size-renderer-security-config",
+    "walkthroughScanner": "passed-3266-chinese-characters-11-h2-largest-372-score-100",
+    "fullSuite": "passed-16-of-16-shards-567-files-1730-tests",
+    "independentTestList": "passed-567-files-1730-tests",
+    "documentationFocused": "passed-11-files-42-tests-after-closeout-updates",
+    "build": "passed-final-source-tree",
+    "httpSmoke": "passed-3-of-3-health-92-json-28596-markdown-13925-port-31207-cleaned",
+    "archiveRetention": "passed-7095-files-63.97MiB-of-80MiB",
+    "remoteNodeEvidence": "pending-v2207-push"
+  },
+  "boundaries": {
+    "publicModuleChanged": false,
+    "profileOrFieldOrderChanged": false,
+    "jsonOrMarkdownChanged": false,
+    "fixturesChanged": false,
+    "siblingEvidenceChanged": false,
+    "executionAuthorityChanged": false,
+    "liveCapstoneTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-output-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-v1872-independent",
+    "miniKv": "recommended-parallel-v1667-exhibition-doc-independent"
+  },
+  "previousRemoteCloseout": {
+    "versions": "v2203-v2206",
+    "nodeEvidenceRun": 29693804255,
+    "conclusion": "success"
+  }
+}

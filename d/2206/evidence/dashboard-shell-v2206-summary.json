@@ -73,7 +73,7 @@
     "documentationFocused": "passed-11-files-34-tests-on-final-documents",
     "build": "passed-final-tree",
     "staticGates": "passed-maintainability-elegance-families-source-size-renderer-security-config-archive-retention",
-    "remoteNodeEvidence": "pending-batched-push"
+    "remoteNodeEvidence": "passed-run-29693804255"
   },
   "parallelProjects": {
     "java": "recommended-parallel-no-node-dependency",

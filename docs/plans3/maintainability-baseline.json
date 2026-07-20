@@ -7,10 +7,6 @@
   },
   "nearLimitFiles": [
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts",
-      "maxLines": 788
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionDryRunCommandPackage.ts",
       "maxLines": 780
     },
@@ -427,10 +423,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageRenderer.ts|renderControlledReadOnlyShardPreviewHandoffRouteCoverageSections",
       "maxLines": 196
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts|createChecks",
-      "maxLines": 187
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|createChecks",
@@ -873,10 +865,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification.ts|createMiniKvV113Reference",
       "maxComplexity": 147
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification.ts|createChecks",
-      "maxComplexity": 137
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts|createChecks",

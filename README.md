@@ -1,7 +1,7 @@
 # OrderOps Node
 
 [![Node Evidence](https://github.com/wul012/nodeproj/actions/workflows/node-evidence.yml/badge.svg)](https://github.com/wul012/nodeproj/actions/workflows/node-evidence.yml)
-[![Tests](https://img.shields.io/badge/tests-1729%20passing-brightgreen)](d/2206/evidence/dashboard-shell-v2206-summary.json)
+[![Tests](https://img.shields.io/badge/tests-1730%20passing-brightgreen)](d/2207/evidence/approval-echo-hotspot-v2207-summary.json)
 [![Coverage](https://img.shields.io/badge/coverage-95.9%25-brightgreen)](d/2190/evidence/node-track-closeout-v2190-summary.json)
 [![Source files over 800 lines](https://img.shields.io/badge/source%20files%20%3E800%20lines-0-brightgreen)](docs/plans/source-size-remediation-baseline.json)
 
@@ -17,10 +17,10 @@ The Node production-excellence track completed N0-N5 and received its v2190 E1-E
 
 | Surface | Committed result / gate | Command | Committed evidence |
 |---|---:|---|---|
-| Test suite | 1,729 / 1,729 tests passing | `npx vitest run` | [v2206 full-suite summary](d/2206/evidence/dashboard-shell-v2206-summary.json) |
+| Test suite | 1,730 / 1,730 tests passing | `npx vitest run` | [v2207 full-suite summary](d/2207/evidence/approval-echo-hotspot-v2207-summary.json) |
 | V8 coverage | floors S/B/F/L = 94/86/97/94; closeout actual = 95.92/87.59/98.64/95.88 | `npm run test:coverage` | [E3 coverage gate](docs/plans/node-track-final-evidence.md#e1-e10-evidence-matrix) |
 | ESLint | 0 errors / 0 warnings; enforced maximum 0 | `npm run lint` | [v2203 warning-zero evidence](d/2203/evidence/lint-zero-v2203-summary.json) |
-| Maintainability ratchet | 89 near-limit files / 121 long functions / 238 complex functions / 2 runtime cycles; exact debt may only shrink | `npm run maintainability:census` | [v2205 hotspot evidence](d/2205/evidence/maintainability-hotspots-v2205-summary.json) |
+| Maintainability ratchet | 88 near-limit files / 120 long functions / 237 complex functions / 2 runtime cycles; exact debt may only shrink | `npm run maintainability:census` | [v2207 hotspot evidence](d/2207/evidence/approval-echo-hotspot-v2207-summary.json) |
 | Renderer census | 245 total / 242 standardized / 3 AST-valid waivers / 0 non-waived | `npm run renderer:census` | [committed census result](d/2184/evidence/renderer-consolidation-n1-closeout-v2184-summary.json) and [waiver manifest](docs/plans/renderer-consolidation-waivers.json) |
 | Source-size ceiling | 0 source files over 800 lines | `npm run source:size:census` | [shrink-only baseline](docs/plans/source-size-remediation-baseline.json) |
 | Elegance ratchet | 4,537 known name violations, shrink-only | `npm run elegance:census` | [committed baseline](docs/plans/elegance-baseline.json) and [v2201 result](d/2201/evidence/readiness-markdown-engine-v2201-summary.json) |

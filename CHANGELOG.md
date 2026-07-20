@@ -11,6 +11,19 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2207 - 2026-07-20
+
+- Split the 788-line approval-required implementation-readiness echo service into
+  a 158-line public facade, 256-line evidence-source module, and 482-line ordered
+  assessment module without adding service or route files. A portable fixed-time
+  fallback oracle freezes the original 27,742-byte JSON and 13,925-byte Markdown
+  outputs, while local/fallback and downstream-consumer tests preserve all safety
+  decisions. The maintainability baseline removes exactly one file, one long
+  function, and one complexity debt, tightening from 89 / 121 / 238 / 2 to
+  88 / 120 / 237 / 2. All 16 shards pass at 567 files / 1,730 tests; the
+  independent test list, zero-warning lint, build, static gates, and three-route
+  HTTP smoke also pass.
+
 ## v2206 - 2026-07-19
 
 - Repaired three browser-confirmed Dashboard shell defects in one test-first
