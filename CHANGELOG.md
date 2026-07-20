@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2213 - 2026-07-20
+
+- Recast the 320-line controlled shard-preview loader as a 9-line public facade
+  over explicit source acquisition, assessment, and profile assembly stages.
+  Five short assessment pipeline functions preserve the full ordered artifact
+  graph without hiding it in a generic executor. Fixed-time oracles keep ready
+  and probes-disabled JSON/Markdown surfaces byte-identical across four outputs,
+  including both 1.7 MB nested profiles. The long-function ledger tightens from
+  112 to 111 while top-level service/route counts stay 1125/80; no fixture,
+  route, public export, safety decision, or execution authority changes.
+
 ## v2212 - 2026-07-20
 
 - Replaced two reverse imports from report services into route-registration

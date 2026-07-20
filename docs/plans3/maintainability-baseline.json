@@ -349,10 +349,6 @@
   ],
   "longFunctions": [
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview.ts|loadManagedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview",
-      "maxLines": 320
-    },
-    {
       "key": "src/routes/opsSummaryRoutes.ts|registerOpsSummaryRoutes",
       "maxLines": 239
     },

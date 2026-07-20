@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "version": "v2213",
+  "scope": "controlled-shard-preview-orchestration-split",
+  "behaviorChanged": false,
+  "oracle": {
+    "mode": "fixed-time-portable-full-profile-and-markdown",
+    "redBeforeImplementation": "passed-as-expected-placeholder-failed-with-four-concrete-surfaces",
+    "surfaces": [
+      {
+        "case": "ready",
+        "jsonBytes": 1752385,
+        "jsonSha256": "e9b1421217e5bdf505fd3040a80981c8cb105eb9d8398e9762ffa7b1bdbba8d7",
+        "markdownBytes": 81829,
+        "markdownSha256": "a87109e40e6b145b86e293ed7d82919ee84aadd9e62db0185c3f68316993be8d"
+      },
+      {
+        "case": "probes-disabled",
+        "jsonBytes": 1760303,
+        "jsonSha256": "19360cb813fa4867fc5d26a6d4ab76a7590ce40fd5b4a0f4301cd5c0637ff0a2",
+        "markdownBytes": 80224,
+        "markdownSha256": "afb9f1c85dea7ee31fadcc20809d9eb05f8dc4ebecd329ed41247c8a45c563a4"
+      }
+    ]
+  },
+  "implementation": {
+    "publicFacade": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreview.ts",
+    "sourceBoundary": "src/services/shardPreview/sources.ts",
+    "assessmentBoundary": "src/services/shardPreview/assessment.ts",
+    "profileBoundary": "src/services/shardPreview/profile.ts",
+    "oldPublicFileLines": 455,
+    "newPublicFileLines": 29,
+    "oldLoaderLines": 320,
+    "newLoaderLines": 9,
+    "largestNewFunctionLines": 72,
+    "highestNewFunctionComplexity": 4,
+    "topLevelServiceFiles": 1125,
+    "topLevelRouteFiles": 80
+  },
+  "maintainability": {
+    "before": { "nearLimitFiles": 85, "longFunctions": 112, "complexFunctions": 228, "importCycles": 0 },
+    "after": { "nearLimitFiles": 85, "longFunctions": 111, "complexFunctions": 228, "importCycles": 0 },
+    "staleEntriesRemoved": 1,
+    "unknownOrGrownEntries": 0
+  },
+  "verification": {
+    "oracle": "passed-1-file-1-test-four-full-surfaces",
+    "mainAndSourceFailure": "passed-3-files-4-tests",
+    "downstreamShardPreview": "passed-58-files-259-tests",
+    "governanceGrowth": "passed-1125-services-80-routes",
+    "typecheck": "passed",
+    "focusedLint": "passed-zero-errors-zero-warnings",
+    "maintainability": "passed-85-111-228-0",
+    "finalFocused": "passed-63-files-268-tests",
+    "walkthroughGate": "passed-3158-chinese-33-h2-largest-147-score-100-no-missing-repetition-oversize-placeholder-or-forbidden-signals",
+    "lint": "passed-repository-wide-zero-errors-zero-warnings",
+    "staticGates": "passed-security-config-8290-files-18-checks-elegance-no-new-over-budget-name-52-families-maintainability-renderer-source-size-archive-retention",
+    "fullSuite": "deferred-to-v2214-batch-close",
+    "build": "deferred-to-v2214-batch-close",
+    "httpSmoke": "deferred-to-v2214-batch-close",
+    "remoteNodeEvidence": "deferred-to-v2214-batch-close"
+  },
+  "boundaries": {
+    "publicExportChanged": false,
+    "profileKeyOrderChanged": false,
+    "jsonOrMarkdownBytesChanged": false,
+    "sourceReadConcurrencyChanged": false,
+    "failClosedObservationChanged": false,
+    "executionAuthorityChanged": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-independent-worktree-untouched",
+    "miniKv": "recommended-parallel-independent-worktree-untouched"
+  }
+}

@@ -2,8 +2,8 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: active; v2211 committed/tagged locally at `88291d4c`; v2212 final local
-gates passed and commit pending
+State: active; v2211 committed/tagged locally at `88291d4c`; v2212 committed and
+tagged locally at `45dafd49`; v2213 final local gates passed and commit pending
 
 ## Background and instruction
 
@@ -54,7 +54,7 @@ it below the scanner, relaxing thresholds, or replacing exact contracts with pro
 |---|---|---|---|
 | Preserve v114-v117 behavior | freeze full JSON/Markdown output, then introduce one typed receipt-field engine and shared safety-boundary manifests | fixed-time forced-fallback hash oracle + four focused suites | passed in v2211 |
 | Remove both cycles | move route counts/identities into a neutral declarative manifest; route registration and services consume one direction | import-graph census + manifest parity test | v2212 passed at 0 cycles |
-| Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | pending |
+| Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | v2213 passed |
 | Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | pending |
 | Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | v2211 passed 85/112/228/2; later versions pending |
 | Close the batch | walkthroughs before final verify; typecheck, lint, static gates, full suite/list, build, guarded smoke, push/tags/CI | reproducible commands and archive evidence | pending |
@@ -127,8 +127,36 @@ loader along the real flow: evidence acquisition, policy assessment, then immuta
 profile assembly. Reuse existing domain contracts; do not create another report
 chain or alter live-operation authority. The public loader remains the only facade.
 
+### New-file design note
+
+- `shardPreview/sources`: I/O boundary only; acquire Java and mini-kv observations with existing fail-closed semantics.
+- `shardPreview/assessment`: behavior only; derive the ordered artifact chain, checks, messages, state, and summary inputs.
+- `shardPreview/profile`: assembly only; preserve the public profile key order and endpoint facts from typed observations plus assessment.
+- The existing long-named service remains the public async facade and renderer/type re-export owner.
+- Internal domain modules do not add a top-level service or route file; the 1125/80 growth ratchet remains unchanged.
+
 Target: remove the named 320-line long-function entry and all complexity entries
 made stale by the split, with no replacement function over 120 lines or score 20.
+
+Executed evidence before final static verification: one placeholder oracle failed
+with four exact legacy surfaces before production edits. The frozen ready profile
+is 1,752,385-byte JSON / 81,829-byte Markdown; probes-disabled is 1,760,303-byte
+JSON / 80,224-byte Markdown, each pinned by SHA-256. After extraction those four
+surfaces remain byte-identical. The public file shrinks from 455 to 29 lines and
+its loader from 320 to 9; internal sources/profile/assessment modules are
+64/71/437 lines. The largest new function is 72 lines and the highest complexity
+is 4. The first census reports only the old loader entry stale, no unknown/grown
+debt; after deleting that one entry it passes at 85 / 111 / 228 / 0. All 58
+shard-preview files / 259 tests pass, a direct dual-source failure test proves
+both concurrent reads fail closed, and the top-level growth ratchet stays exactly
+1125 services / 80 routes.
+The final local gate passes 63 files / 268 tests, typecheck, repository-wide
+zero-warning lint, 18/18 security/config checks across 8,290 text files, elegance
+with no new over-budget name, all 52 tracked families, renderer 242+3/0,
+source-size zero, and archive retention at 64.13 / 80.00 MiB. The walkthrough
+gate reports 3,158 Chinese characters, 33 scannable H2 sections, a 147-character
+largest section, score 100, and no missing, repetitive, oversized, placeholder,
+or forbidden-execution signals.
 
 ## v2214: Ops-summary route composition
 

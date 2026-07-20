@@ -1,0 +1,437 @@
+import type { AppConfig } from "../../config.js";
+import {
+  collectProductionBlockers,
+  collectRecommendations,
+  collectWarnings,
+  createChecks,
+  createNextActions,
+} from "../managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewChecks.js";
+import {
+  createControlledReadOnlyShardPreviewCandidateDocumentIntakePacket,
+  createControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage,
+  createControlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheck,
+  createControlledReadOnlyShardPreviewCandidateDocumentRequestPackage,
+  createControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck,
+  createControlledReadOnlyShardPreviewExecutionGapMatrix,
+  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate,
+  createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage,
+  createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger,
+  createSourceMatrixArchiveSnapshot,
+  createSourceMatrixArchiveSnapshotSummaryExport,
+  createSourceMatrixConsumer,
+  createSourceMatrixConsumptionPlan,
+  createSourceMatrixDriftSummary,
+  createSourceMatrixHandoffNotes,
+  createSourceMatrixHandoffRouteCoverage,
+  createSourceMatrixHandoffRouteCoverageArchiveSnapshot,
+  createSourceMatrixHandoffRouteCoverageArchiveSummary,
+  createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
+  createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+  createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
+  createSourceMatrixHandoffRouteCoverageArchiveVerification,
+  createSourceMatrixHandoffRouteCoverageVerification,
+  createSourceMatrixHandoffSummary,
+  createSourceMatrixHandoffSummaryConsumer,
+  createSourceMatrixHandoffSummaryConsumerExport,
+  createSourceMatrixHandoffSummaryConsumerReceipt,
+  createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+  createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+  createSourceMatrixReviewChecklist,
+  createSourceMatrixReviewDigest,
+} from "../managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewReviewArtifacts.js";
+import {
+  createPreviewDigest,
+  createSourceMatrix,
+  createSummary,
+} from "../managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSupport.js";
+import type {
+  ControlledReadOnlyShardPreviewPreviewGraph,
+  ControlledReadOnlyShardPreviewProfile,
+  ControlledReadOnlyShardPreviewReads,
+} from "../managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
+
+type PreviewBaseKey =
+  | "java"
+  | "miniKv"
+  | "combinedSlotCount"
+  | "combinedShardCount"
+  | "bothReadOnly"
+  | "bothExecutionBlocked";
+type DerivedPreview = Omit<ControlledReadOnlyShardPreviewPreviewGraph, PreviewBaseKey>;
+
+export interface ShardPreviewAssessment {
+  ready: boolean;
+  previewState: ControlledReadOnlyShardPreviewProfile["previewState"];
+  preview: DerivedPreview;
+  checks: ControlledReadOnlyShardPreviewProfile["checks"];
+  summary: ControlledReadOnlyShardPreviewProfile["summary"];
+  productionBlockers: ControlledReadOnlyShardPreviewProfile["productionBlockers"];
+  warnings: ControlledReadOnlyShardPreviewProfile["warnings"];
+  recommendations: ControlledReadOnlyShardPreviewProfile["recommendations"];
+  nextActions: ControlledReadOnlyShardPreviewProfile["nextActions"];
+}
+
+export function assessShardPreview(
+  config: AppConfig,
+  reads: ControlledReadOnlyShardPreviewReads,
+): ShardPreviewAssessment {
+  const { java, miniKv } = reads;
+  const previewDigest = createPreviewDigest(java, miniKv);
+  const matrix = createMatrixArtifacts(java, miniKv);
+  const checks = createChecks(config, java, miniKv, previewDigest, matrix.sourceMatrixConsumptionPlan);
+  checks.readyForControlledReadOnlyShardPreview = Object.entries(checks)
+    .filter(([key]) => key !== "readyForControlledReadOnlyShardPreview")
+    .every(([, value]) => value);
+  const ready = checks.readyForControlledReadOnlyShardPreview;
+  const productionBlockers = collectProductionBlockers(checks);
+  const warnings = collectWarnings(java, miniKv);
+  const recommendations = collectRecommendations(ready, matrix.sourceMatrixConsumptionPlan);
+  const previewState: ControlledReadOnlyShardPreviewProfile["previewState"] = ready
+    ? "controlled-read-only-shard-preview-ready"
+    : "blocked";
+  const window = createWindowArtifacts(previewState, ready, matrix.sourceMatrix);
+  const approval = createApprovalArtifacts(window.liveReadOnlyWindowOperatorEvidenceImportPreflight);
+  const textPackage = createTextPackageArtifacts(
+    approval.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
+  );
+  const candidate = createCandidateArtifacts(
+    textPackage.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake,
+  );
+
+  return {
+    ready,
+    previewState,
+    preview: {
+      ...matrix,
+      ...window,
+      ...approval,
+      ...textPackage,
+      ...candidate,
+      previewDigest,
+    },
+    checks,
+    summary: createSummary([java, miniKv], checks, productionBlockers, warnings, recommendations),
+    productionBlockers,
+    warnings,
+    recommendations,
+    nextActions: createNextActions(ready, matrix.sourceMatrixConsumptionPlan),
+  };
+}
+
+function createMatrixArtifacts(
+  java: ControlledReadOnlyShardPreviewReads["java"],
+  miniKv: ControlledReadOnlyShardPreviewReads["miniKv"],
+) {
+  const sourceMatrix = createSourceMatrix(java, miniKv);
+  const sourceMatrixConsumer = createSourceMatrixConsumer(sourceMatrix);
+  const sourceMatrixDriftSummary = createSourceMatrixDriftSummary(sourceMatrix, sourceMatrixConsumer);
+  const sourceMatrixConsumptionPlan = createSourceMatrixConsumptionPlan(sourceMatrixConsumer, sourceMatrixDriftSummary);
+  const sourceMatrixReviewChecklist = createSourceMatrixReviewChecklist(sourceMatrixDriftSummary);
+  const sourceMatrixReviewDigest = createSourceMatrixReviewDigest(sourceMatrixReviewChecklist);
+  const sourceMatrixArchiveSnapshot = createSourceMatrixArchiveSnapshot(sourceMatrixReviewDigest);
+  const sourceMatrixArchiveSnapshotSummaryExport =
+    createSourceMatrixArchiveSnapshotSummaryExport(sourceMatrixArchiveSnapshot);
+  const sourceMatrixHandoffNotes = createSourceMatrixHandoffNotes(sourceMatrixArchiveSnapshotSummaryExport);
+  const sourceMatrixHandoffSummary = createSourceMatrixHandoffSummary(sourceMatrixHandoffNotes);
+  const sourceMatrixHandoffSummaryConsumer = createSourceMatrixHandoffSummaryConsumer(sourceMatrixHandoffSummary);
+  const sourceMatrixHandoffSummaryConsumerExport =
+    createSourceMatrixHandoffSummaryConsumerExport(sourceMatrixHandoffSummaryConsumer);
+  const sourceMatrixHandoffSummaryConsumerReceipt =
+    createSourceMatrixHandoffSummaryConsumerReceipt(sourceMatrixHandoffSummaryConsumerExport);
+  const sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot =
+    createSourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot(sourceMatrixHandoffSummaryConsumerReceipt);
+  const sourceMatrixHandoffSummaryConsumerReceiptArchiveVerification =
+    createSourceMatrixHandoffSummaryConsumerReceiptArchiveVerification(
+      sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+    );
+  const sourceMatrixHandoffRouteCoverage =
+    createSourceMatrixHandoffRouteCoverage(sourceMatrixHandoffSummaryConsumerReceiptArchiveVerification);
+  const sourceMatrixHandoffRouteCoverageVerification =
+    createSourceMatrixHandoffRouteCoverageVerification(sourceMatrixHandoffRouteCoverage);
+  const sourceMatrixHandoffRouteCoverageArchiveSnapshot =
+    createSourceMatrixHandoffRouteCoverageArchiveSnapshot(sourceMatrixHandoffRouteCoverageVerification);
+  const sourceMatrixHandoffRouteCoverageArchiveVerification =
+    createSourceMatrixHandoffRouteCoverageArchiveVerification(sourceMatrixHandoffRouteCoverageArchiveSnapshot);
+  const sourceMatrixHandoffRouteCoverageArchiveSummary =
+    createSourceMatrixHandoffRouteCoverageArchiveSummary(sourceMatrixHandoffRouteCoverageArchiveVerification);
+  const sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt =
+    createSourceMatrixHandoffRouteCoverageArchiveSummaryReceipt(sourceMatrixHandoffRouteCoverageArchiveSummary);
+  const sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot =
+    createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot(
+      sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
+    );
+  const sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification =
+    createSourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification(
+      sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+    );
+  return {
+    sourceMatrix,
+    sourceMatrixConsumer,
+    sourceMatrixDriftSummary,
+    sourceMatrixConsumptionPlan,
+    sourceMatrixReviewChecklist,
+    sourceMatrixReviewDigest,
+    sourceMatrixArchiveSnapshot,
+    sourceMatrixArchiveSnapshotSummaryExport,
+    sourceMatrixHandoffNotes,
+    sourceMatrixHandoffSummary,
+    sourceMatrixHandoffSummaryConsumer,
+    sourceMatrixHandoffSummaryConsumerExport,
+    sourceMatrixHandoffSummaryConsumerReceipt,
+    sourceMatrixHandoffSummaryConsumerReceiptArchiveSnapshot,
+    sourceMatrixHandoffSummaryConsumerReceiptArchiveVerification,
+    sourceMatrixHandoffRouteCoverage,
+    sourceMatrixHandoffRouteCoverageVerification,
+    sourceMatrixHandoffRouteCoverageArchiveSnapshot,
+    sourceMatrixHandoffRouteCoverageArchiveVerification,
+    sourceMatrixHandoffRouteCoverageArchiveSummary,
+    sourceMatrixHandoffRouteCoverageArchiveSummaryReceipt,
+    sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveSnapshot,
+    sourceMatrixHandoffRouteCoverageArchiveSummaryReceiptArchiveVerification,
+  };
+}
+
+function createWindowArtifacts(
+  previewState: ControlledReadOnlyShardPreviewProfile["previewState"],
+  ready: boolean,
+  sourceMatrix: ControlledReadOnlyShardPreviewPreviewGraph["sourceMatrix"],
+) {
+  const executionGapMatrix = createControlledReadOnlyShardPreviewExecutionGapMatrix({
+    previewState,
+    readyForControlledReadOnlyShardPreview: ready,
+    executionAllowed: false,
+    writeRoutingAllowed: false,
+    loadRestoreCompactAllowed: false,
+    sourceMatrix,
+  });
+  const liveReadOnlyPacketCandidate =
+    createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidate(executionGapMatrix);
+  const liveReadOnlyPacketCandidateVerification =
+    createControlledReadOnlyShardPreviewLiveReadOnlyPacketCandidateVerification(liveReadOnlyPacketCandidate);
+  const liveReadOnlyWindowStageLedger =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowStageLedger(liveReadOnlyPacketCandidateVerification);
+  const liveReadOnlyWindowRunbookPackage =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowRunbookPackage(liveReadOnlyWindowStageLedger);
+  const liveReadOnlyWindowRehearsalPacket =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowRehearsalPacket(liveReadOnlyWindowRunbookPackage);
+  const liveReadOnlyWindowCommandWorksheet =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowCommandWorksheet(liveReadOnlyWindowRehearsalPacket);
+  const liveReadOnlyWindowEvidencePacket =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidencePacket(liveReadOnlyWindowCommandWorksheet);
+  const liveReadOnlyWindowEvidenceIntakeLedger =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeLedger(liveReadOnlyWindowEvidencePacket);
+  const liveReadOnlyWindowEvidenceIntakeReviewPackage =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackage(
+      liveReadOnlyWindowEvidenceIntakeLedger,
+    );
+  const liveReadOnlyWindowManualEvidenceEntryWorksheet =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheet(
+      liveReadOnlyWindowEvidenceIntakeReviewPackage,
+    );
+  const liveReadOnlyWindowOperatorEvidenceImportPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight(
+      liveReadOnlyWindowManualEvidenceEntryWorksheet,
+    );
+  return {
+    executionGapMatrix,
+    liveReadOnlyPacketCandidate,
+    liveReadOnlyPacketCandidateVerification,
+    liveReadOnlyWindowStageLedger,
+    liveReadOnlyWindowRunbookPackage,
+    liveReadOnlyWindowRehearsalPacket,
+    liveReadOnlyWindowCommandWorksheet,
+    liveReadOnlyWindowEvidencePacket,
+    liveReadOnlyWindowEvidenceIntakeLedger,
+    liveReadOnlyWindowEvidenceIntakeReviewPackage,
+    liveReadOnlyWindowManualEvidenceEntryWorksheet,
+    liveReadOnlyWindowOperatorEvidenceImportPreflight,
+  };
+}
+
+function createApprovalArtifacts(
+  importPreflight: ControlledReadOnlyShardPreviewPreviewGraph[
+    "liveReadOnlyWindowOperatorEvidenceImportPreflight"
+  ],
+) {
+  const liveReadOnlyWindowOperatorEvidenceValueDraft =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft(importPreflight);
+  const liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake(
+      liveReadOnlyWindowOperatorEvidenceValueDraft,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope(
+      liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft(
+      liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview(
+      liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate(
+      liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
+    );
+  return {
+    liveReadOnlyWindowOperatorEvidenceValueDraft,
+    liveReadOnlyWindowOperatorEvidenceFreshSiblingIntake,
+    liveReadOnlyWindowOperatorEvidenceValueSupplyEnvelope,
+    liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketDraft,
+    liveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReview,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalTemplate,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftPreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReadiness,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftReviewPackagePreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftAuthoringReadiness,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight,
+  };
+}
+
+function createTextPackageArtifacts(
+  instruction: ControlledReadOnlyShardPreviewPreviewGraph[
+    "liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftInstructionPreflight"
+  ],
+) {
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake(
+      instruction,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake =
+    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate,
+    );
+  return {
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageIntake,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonAcceptancePrecheck,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceEvaluationPreflight,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidate,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake,
+  };
+}
+
+function createCandidateArtifacts(
+  candidateIntake: ControlledReadOnlyShardPreviewPreviewGraph[
+    "liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateIntake"
+  ],
+) {
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage =
+    createControlledReadOnlyShardPreviewCandidateDocumentRequestPackage(candidateIntake);
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck =
+    createControlledReadOnlyShardPreviewCandidateDocumentSubmissionPrecheck(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket =
+    createControlledReadOnlyShardPreviewCandidateDocumentIntakePacket(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage =
+    createControlledReadOnlyShardPreviewCandidateDocumentMaterialRequestPackage(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket,
+    );
+  const liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialSubmissionPrecheck =
+    createControlledReadOnlyShardPreviewCandidateDocumentMaterialSubmissionPrecheck(
+      liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage,
+    );
+  return {
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentRequestPackage,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentSubmissionPrecheck,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentIntakePacket,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialRequestPackage,
+    liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedEvidenceCandidateDocumentMaterialSubmissionPrecheck,
+  };
+}
