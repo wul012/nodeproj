@@ -231,9 +231,10 @@ describe("managed audit manual sandbox connection credential resolver approval-r
         ...profile,
         generatedAt: "2026-07-19T00:00:00.000Z",
       };
-      const json = JSON.stringify(normalizeForParity(stableProfile));
+      const normalizedProfile = normalizeForParity(stableProfile) as typeof stableProfile;
+      const json = JSON.stringify(normalizedProfile);
       const markdown = normalizeText(
-        renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerificationMarkdown(stableProfile),
+        renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerificationMarkdown(normalizedProfile),
       );
 
       expect.soft(Buffer.byteLength(json, "utf8")).toBe(27_742);

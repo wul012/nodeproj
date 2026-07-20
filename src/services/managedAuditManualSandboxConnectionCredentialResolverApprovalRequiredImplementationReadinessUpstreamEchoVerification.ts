@@ -12,7 +12,10 @@ import {
   createJavaV116Reference,
   createMiniKvV122Reference,
 } from "../evidence/approvalReadinessEchoSources.js";
-import { sha256StableJson } from "./liveProbeReportUtils.js";
+import {
+  allReportChecksPassExcept,
+  sha256StableJson,
+} from "./liveProbeReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReview,
 } from "./managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessReview.js";
@@ -41,10 +44,10 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverApprova
   const miniKvV122 = createMiniKvV122Reference();
   const checks = createChecks(input.config, sourceNodeV281, javaV116, miniKvV122);
   checks.readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification =
-    Object.entries(checks)
-      .filter(([key]) =>
-        key !== "readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification")
-      .every(([, value]) => value);
+    allReportChecksPassExcept(
+      checks,
+      "readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification",
+    );
   const verificationState = checks.readyForManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredImplementationReadinessUpstreamEchoVerification
     ? "credential-resolver-approval-required-implementation-readiness-upstream-echo-verification-ready"
     : "blocked";

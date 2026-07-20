@@ -255,18 +255,19 @@ describe("managed audit manual sandbox connection sandbox endpoint handle upstre
       ...profile,
       generatedAt: "2026-07-20T00:00:00.000Z",
     };
-    const json = JSON.stringify(normalizeForParity(stableProfile));
+    const normalizedProfile = normalizeForParity(stableProfile) as typeof stableProfile;
+    const json = JSON.stringify(normalizedProfile);
     const markdown = normalizeText(
-      renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown(stableProfile),
+      renderManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationMarkdown(normalizedProfile),
     );
 
     expect.soft(Buffer.byteLength(json, "utf8")).toBe(26_606);
     expect.soft(sha256(json)).toBe(
       "060e69684b6305216ccc92cb10028a4a38c5fc648caed67f0f8a0373545a1584",
     );
-    expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(27_561);
+    expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(26_245);
     expect.soft(sha256(markdown)).toBe(
-      "619e52c9248ab54ff0957d5baa25def3b3c2eb0c95c076154b6f9d008d88373b",
+      "159a5ccc99ae6033cbf4de0f4ea1b763d0e5706c2eefbf36e179662453b7ff5b",
     );
   });
 

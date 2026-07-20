@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "version": "v2209",
+  "scope": "byte-preserving-approval-boundary-echo-hotspot-repair-and-third-instance-deduplication",
+  "behaviorChanged": false,
+  "before": {
+    "nearLimitFiles": 87,
+    "longFunctions": 119,
+    "complexFunctions": 233,
+    "runtimeImportCycles": 2,
+    "facadeLines": 766,
+    "checksLines": 137,
+    "miniKvReferenceLines": 137,
+    "loaderLines": 124,
+    "checksComplexity": 78,
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "after": {
+    "nearLimitFiles": 86,
+    "longFunctions": 116,
+    "complexFunctions": 232,
+    "runtimeImportCycles": 2,
+    "facadeLines": 131,
+    "referenceLines": 419,
+    "assessmentLines": 395,
+    "sharedUtilityLines": 119,
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "portableFallbackOracle": {
+    "generatedAt": "2026-07-20T00:00:00.000Z",
+    "normalization": "recursive-profile-normalization-before-json-and-markdown-rendering",
+    "jsonBytes": 38431,
+    "jsonSha256": "120a8e1bcdb290673052a3b33dcce21fd8a71b4033ce9350bce1c489e223abac",
+    "markdownBytes": 37992,
+    "markdownSha256": "c86bf5b70675efe48d778ff2c037da24be470cafc760804bdb6cce42e8530db8"
+  },
+  "sharedMechanics": {
+    "utility": "src/services/liveProbeReportUtils.ts",
+    "added": [
+      "allReportChecksPassExcept",
+      "collectFailedReportRules"
+    ],
+    "consumers": [
+      "approval-required-implementation-readiness-echo-v2207",
+      "sandbox-endpoint-handle-echo-v2208",
+      "approval-required-boundary-echo-v2209"
+    ],
+    "directTests": "test/liveProbeReportUtils.test.ts"
+  },
+  "baseline": {
+    "path": "docs/plans3/maintainability-baseline.json",
+    "removedKeys": [
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createChecks (long)",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createMiniKvV121Reference (long)",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification (long)",
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createChecks (complex)"
+    ],
+    "addedKeys": [],
+    "grownKeys": []
+  },
+  "verification": {
+    "previousRemoteNodeEvidence": "failed-run-29723132772-test-step-only-platform-specific-v2208-markdown-oracle",
+    "oracleRed": "passed-as-expected-1-failed-4-passed-four-placeholder-mismatches",
+    "sourceExtractionGuard": "typecheck-rejected-terminal-truncation-marker-before-behavior-tests",
+    "firstMaintainabilityAttempt": "expected-five-stale-plus-one-unknown-mini-kv-long-function",
+    "maintainabilityBeforeBaseline": "expected-failure-exactly-five-stale-no-unknown-no-grown",
+    "maintainabilityAfterBaseline": "passed-ready-86-116-232-2",
+    "focusedConsumersAndGates": "passed-8-files-31-tests",
+    "threeGenerationPortableOracles": "passed-3-files-15-tests",
+    "initialSuiteLaunch": "rejected-unsupported-basic-reporter-before-any-test-started",
+    "typecheck": "passed",
+    "lint": "passed-0-errors-0-warnings",
+    "staticGates": "passed-security-config-elegance-52-families-source-size-renderer-governance",
+    "documentationFocused": "passed-11-files-42-tests",
+    "walkthroughScanner": "passed-3647-chinese-characters-19-h2-largest-221-score-100",
+    "archiveRetention": "passed-7103-files-64.03MiB-of-80MiB",
+    "build": "passed-final-source-tree",
+    "httpSmoke": "passed-3-of-3-health-200-93-json-200-40003-markdown-200-39564-port-31209-pid-27808-cleaned",
+    "fullSuite": "passed-16-of-16-shards-568-files-1734-tests-after-outer-60-minute-batch-budget-interrupted-shard-12-and-isolated-rerun-passed",
+    "independentTestList": "passed-568-files-1734-tests",
+    "remoteNodeEvidence": "pending-v2209-push"
+  },
+  "boundaries": {
+    "publicModuleChanged": false,
+    "profileOrFieldOrderChanged": false,
+    "jsonOrMarkdownChanged": false,
+    "fixturesChanged": false,
+    "routesChanged": false,
+    "siblingEvidenceChanged": false,
+    "executionAuthorityChanged": false,
+    "liveCapstoneTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-output-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-v1872-clean-independent",
+    "miniKv": "recommended-parallel-v1670-independent-worktree-untouched"
+  }
+}

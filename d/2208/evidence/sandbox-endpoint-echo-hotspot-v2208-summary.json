@@ -30,11 +30,11 @@
   },
   "portableFallbackOracle": {
     "generatedAt": "2026-07-20T00:00:00.000Z",
-    "normalization": "recursive-repository-root-and-separator-normalization",
+    "normalization": "recursive-profile-normalization-before-json-and-markdown-rendering",
     "jsonBytes": 26606,
     "jsonSha256": "060e69684b6305216ccc92cb10028a4a38c5fc648caed67f0f8a0373545a1584",
-    "markdownBytes": 27561,
-    "markdownSha256": "619e52c9248ab54ff0957d5baa25def3b3c2eb0c95c076154b6f9d008d88373b"
+    "markdownBytes": 26245,
+    "markdownSha256": "159a5ccc99ae6033cbf4de0f4ea1b763d0e5706c2eefbf36e179662453b7ff5b"
   },
   "baseline": {
     "path": "docs/plans3/maintainability-baseline.json",
@@ -68,7 +68,7 @@
     "httpSmoke": "passed-3-of-3-health-91-json-27922-markdown-27561-port-31208-cleaned",
     "fullSuite": "passed-16-of-16-shards-567-files-1731-tests",
     "independentTestList": "passed-567-files-1731-tests",
-    "remoteNodeEvidence": "pending-v2208-push"
+    "remoteNodeEvidence": "failed-run-29723132772-test-step-only-windows-specific-markdown-oracle-repaired-in-v2209"
   },
   "boundaries": {
     "publicModuleChanged": false,

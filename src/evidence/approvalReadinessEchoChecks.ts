@@ -1,8 +1,10 @@
 import type { AppConfig } from "../config.js";
 import {
+  collectFailedReportRules,
   countPassedReportChecks,
   countReportChecks,
 } from "../services/liveProbeReportUtils.js";
+import type { ReportRule } from "../services/liveProbeReportUtils.js";
 import type {
   ApprovalRequiredImplementationReadinessNodeV281Reference,
   ApprovalRequiredImplementationReadinessUpstreamEchoVerification,
@@ -66,12 +68,9 @@ export function createEchoVerification(
 export function collectProductionBlockers(
   checks: ApprovalRequiredImplementationReadinessUpstreamEchoVerificationChecks,
 ): ApprovalRequiredImplementationReadinessUpstreamEchoVerificationMessage[] {
-  const rules: Array<{
-    condition: boolean;
-    code: string;
-    source: ApprovalRequiredImplementationReadinessUpstreamEchoVerificationMessage["source"];
-    message: string;
-  }> = [
+  const rules: ReportRule<
+    ApprovalRequiredImplementationReadinessUpstreamEchoVerificationMessage["source"]
+  >[] = [
     {
       condition: checks.sourceNodeV281Ready,
       code: "NODE_V281_REVIEW_NOT_READY",
@@ -152,14 +151,7 @@ export function collectProductionBlockers(
     },
   ];
 
-  return rules
-    .filter((rule) => !rule.condition)
-    .map((rule) => ({
-      code: rule.code,
-      severity: "blocker" as const,
-      source: rule.source,
-      message: rule.message,
-    }));
+  return collectFailedReportRules(rules);
 }
 
 export function collectWarnings(): ApprovalRequiredImplementationReadinessUpstreamEchoVerificationMessage[] {

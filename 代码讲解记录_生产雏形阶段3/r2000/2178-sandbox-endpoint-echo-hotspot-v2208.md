@@ -10,7 +10,7 @@
 
 ## 三、为什么先建立强制 fallback 的字节预言机
 
-原测试能够证明关键字段为真、危险边界为假，也覆盖 JSON 和 Markdown 路由，但它没有冻结整个对象。拆分数十个字段时，最容易漏掉的是一个默认值、一个路径形式或一个对象键位置。新增测试直接设置 `ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true`，确保解析器使用仓库内已提交的 Java v104 与 mini-kv v113 快照，而不是依赖开发机上恰好存在的兄弟仓库。测试把 `generatedAt` 固定为 `2026-07-20T00:00:00.000Z`，递归归一化仓库绝对路径和斜杠，再冻结完整 JSON 与 Markdown。占位阶段准确得到四个失败：JSON 26,606 字节、SHA-256 为 `060e...1584`，Markdown 27,561 字节、SHA-256 为 `619e...8373`；原有四项测试仍通过，说明红灯只来自新预言机。
+原测试能够证明关键字段为真、危险边界为假，也覆盖 JSON 和 Markdown 路由，但它没有冻结整个对象。拆分数十个字段时，最容易漏掉的是一个默认值、一个路径形式或一个对象键位置。新增测试直接设置 `ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK=true`，确保解析器使用仓库内已提交的 Java v104 与 mini-kv v113 快照，而不是依赖开发机上恰好存在的兄弟仓库。测试把 `generatedAt` 固定为 `2026-07-20T00:00:00.000Z`。v2208 占位阶段在 Windows 得到 JSON 26,606 字节、SHA-256 `060e...1584`，以及原始 Markdown 27,561 字节、SHA-256 `619e...8373`；原有四项测试仍通过。随后 v2209 的 Linux CI 证明后两项包含平台路径转义差异：renderer 在 profile 规范化之前执行时，Windows 的反斜杠会先被 JSON 转义成双反斜杠，事后替换无法得到与 Linux 相同的文本。修复后的预言机先递归规范化 profile，再同时生成 JSON 和 Markdown；JSON 摘要保持不变，跨平台 Markdown 固定为 26,245 字节、SHA-256 `159a...7ff5`。这次修正改变的是预言机的可移植性，不是业务输出、fixture 或重构验收标准。
 
 ## 四、公共 facade 现在只负责协议装配
 

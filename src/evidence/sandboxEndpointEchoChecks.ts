@@ -1,4 +1,6 @@
 import type { AppConfig } from "../config.js";
+import { collectFailedReportRules } from "../services/liveProbeReportUtils.js";
+import type { ReportRule } from "../services/liveProbeReportUtils.js";
 import type {
   JavaV104SandboxEndpointHandlePreflightEchoMarkerReference,
   MiniKvV113SandboxEndpointHandleNonParticipationReference,
@@ -122,12 +124,9 @@ export function createChecks(
 export function collectProductionBlockers(
   checks: SandboxEndpointHandleUpstreamEchoVerificationChecks,
 ): SandboxEndpointHandleUpstreamEchoVerificationMessage[] {
-  const rules: Array<{
-    condition: boolean;
-    code: string;
-    source: SandboxEndpointHandleUpstreamEchoVerificationMessage["source"];
-    message: string;
-  }> = [
+  const rules: ReportRule<
+    SandboxEndpointHandleUpstreamEchoVerificationMessage["source"]
+  >[] = [
     {
       condition: checks.sourceNodeV258Ready,
       code: "NODE_V258_SOURCE_NOT_READY",
@@ -180,14 +179,7 @@ export function collectProductionBlockers(
     },
   ];
 
-  return rules
-    .filter((rule) => !rule.condition)
-    .map((rule) => ({
-      code: rule.code,
-      severity: "blocker" as const,
-      source: rule.source,
-      message: rule.message,
-    }));
+  return collectFailedReportRules(rules);
 }
 
 export function collectWarnings(): SandboxEndpointHandleUpstreamEchoVerificationMessage[] {

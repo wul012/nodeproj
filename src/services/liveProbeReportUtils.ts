@@ -12,6 +12,20 @@ export interface ProfileEntrySection {
   lines: readonly string[];
 }
 
+export interface ReportRule<Source extends string = string> {
+  condition: boolean;
+  code: string;
+  source: Source;
+  message: string;
+}
+
+export interface FailedReportRule<Source extends string = string> {
+  code: string;
+  severity: "blocker";
+  source: Source;
+  message: string;
+}
+
 export function sha256StableJson(value: unknown): string {
   return createHash("sha256")
     .update(stableJson(value))
@@ -24,6 +38,27 @@ export function countReportChecks(checks: object): number {
 
 export function countPassedReportChecks(checks: object): number {
   return Object.values(checks).filter(Boolean).length;
+}
+
+export function allReportChecksPassExcept<Checks extends object>(
+  checks: Checks,
+  excludedKey: Extract<keyof Checks, string>,
+): boolean {
+  return Object.entries(checks)
+    .every(([key, value]) => key === excludedKey || value === true);
+}
+
+export function collectFailedReportRules<Source extends string>(
+  rules: readonly ReportRule<Source>[],
+): FailedReportRule<Source>[] {
+  return rules
+    .filter((rule) => !rule.condition)
+    .map((rule) => ({
+      code: rule.code,
+      severity: "blocker",
+      source: rule.source,
+      message: rule.message,
+    }));
 }
 
 export function renderMessages<T extends LiveProbeReportMessage>(

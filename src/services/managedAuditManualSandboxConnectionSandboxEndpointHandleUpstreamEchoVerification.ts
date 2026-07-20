@@ -19,6 +19,7 @@ import {
   ROUTE_PATH,
 } from "../evidence/managedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerificationEvidence.js";
 import {
+  allReportChecksPassExcept,
   countPassedReportChecks,
   countReportChecks,
   sha256StableJson,
@@ -43,9 +44,11 @@ export function loadManagedAuditManualSandboxConnectionSandboxEndpointHandleUpst
   const javaV104 = createJavaV104Reference();
   const miniKvV113 = createMiniKvV113Reference();
   const checks = createChecks(input.config, sourceNodeV258, javaV104, miniKvV113);
-  checks.readyForManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification = Object.entries(checks)
-    .filter(([key]) => key !== "readyForManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification")
-    .every(([, value]) => value);
+  checks.readyForManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification =
+    allReportChecksPassExcept(
+      checks,
+      "readyForManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification",
+    );
   const verificationState = checks.readyForManagedAuditManualSandboxConnectionSandboxEndpointHandleUpstreamEchoVerification
     ? "sandbox-endpoint-handle-upstream-echo-verification-ready"
     : "blocked";

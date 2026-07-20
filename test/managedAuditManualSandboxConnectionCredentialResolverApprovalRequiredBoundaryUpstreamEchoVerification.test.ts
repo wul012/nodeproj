@@ -1,9 +1,12 @@
+import { createHash } from "node:crypto";
+
 import { afterEach, describe, expect, it } from "vitest";
 
 import { buildApp } from "../src/app.js";
 import { loadConfig } from "../src/config.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
@@ -275,6 +278,33 @@ describe("managed audit manual sandbox connection credential resolver approval-r
     );
   });
 
+  it("freezes portable fallback JSON and Markdown across the hotspot split", () => {
+    process.env[FORCE_FALLBACK_ENV] = "true";
+    const profile = loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    const stableProfile = {
+      ...profile,
+      generatedAt: "2026-07-20T00:00:00.000Z",
+    };
+    const normalizedProfile = normalizeForParity(stableProfile) as typeof stableProfile;
+    const json = JSON.stringify(normalizedProfile);
+    const markdown = normalizeText(
+      renderManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerificationMarkdown(
+        normalizedProfile,
+      ),
+    );
+
+    expect.soft(Buffer.byteLength(json, "utf8")).toBe(38_431);
+    expect.soft(sha256(json)).toBe(
+      "120a8e1bcdb290673052a3b33dcce21fd8a71b4033ce9350bce1c489e223abac",
+    );
+    expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(37_992);
+    expect.soft(sha256(markdown)).toBe(
+      "c86bf5b70675efe48d778ff2c037da24be470cafc760804bdb6cce42e8530db8",
+    );
+  });
+
   it("blocks when upstream probes or actions are enabled", () => {
     const profile = loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification({
       config: loadTestConfig({
@@ -385,4 +415,28 @@ function loadTestConfig(overrides: Record<string, string> = {}) {
     PORT: "4375",
     ...overrides,
   });
+}
+
+function normalizeForParity(value: unknown): unknown {
+  if (typeof value === "string") {
+    return normalizeText(value);
+  }
+  if (Array.isArray(value)) {
+    return value.map(normalizeForParity);
+  }
+  if (value !== null && typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value).map(([key, entry]) => [key, normalizeForParity(entry)]),
+    );
+  }
+  return value;
+}
+
+function normalizeText(value: string): string {
+  const repositoryRoot = process.cwd().replace(/\\/g, "/");
+  return value.replace(/\\/g, "/").replaceAll(repositoryRoot, "<repo>");
+}
+
+function sha256(value: string): string {
+  return createHash("sha256").update(value).digest("hex");
 }

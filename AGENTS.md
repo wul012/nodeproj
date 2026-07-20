@@ -15,7 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
-| Active maintenance track | `docs/plans3/v2208-sandbox-endpoint-echo-hotspot.md`; 134/513/229-line split, byte oracle, exact six-debt shrink, local acceptance passed at 567 files / 1,731 tests; commit/tag/push/CI pending; v2207 remote run 29712753670 passed |
+| Active maintenance track | `docs/plans3/v2209-approval-boundary-echo-hotspot.md`; local acceptance complete for shared report mechanics, the 766-line five-debt hotspot, and the v2208 portability repair; v2209 commit/tag/push/remote closeout pending |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule

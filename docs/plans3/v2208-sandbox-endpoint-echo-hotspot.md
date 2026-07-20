@@ -2,7 +2,8 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: local acceptance complete; commit/tag/push/CI pending
+State: commit/tag/push complete; remote run 29723132772 failed only the
+Windows-specific Markdown oracle; portability repair belongs to v2209
 
 ## Objective and stop condition
 
@@ -46,13 +47,13 @@ disappear from the shrink-only baseline with no replacement debt or runtime cycl
 
 | Requirement | Implementation | Mechanical evidence | State |
 |---|---|---|---|
-| Freeze output before refactor | fixed-time forced-fallback JSON/Markdown byte and SHA-256 oracle | red then green target test | passed; 26606/27561 bytes and both hashes stable |
+| Freeze output before refactor | fixed-time forced-fallback JSON/Markdown byte and SHA-256 oracle | red then green target test | passed; 26606/26245 canonical bytes and both hashes stable |
 | Separate source data | move Node v258, Java v104, and grouped mini-kv v113 parsing to `sandboxEndpointEchoSources.ts` | typecheck + local/fallback parity | passed; source module 513 lines |
 | Separate assessment | move ordered checks and messages to `sandboxEndpointEchoChecks.ts` | key-order digest oracle + downstream tests | passed; checks module 229 lines |
 | Remove real complexity | split mini-kv metadata, review, and side-effect fields; use declarative conjunctions | maintainability scan | passed at 87/119/233/2 |
 | Preserve hard ceilings | add modules only under `src/evidence`; services/routes remain 1125/80 | governance growth ratchet | passed |
 | Tighten only | baseline must first report exactly six stale entries, zero unknown/grown entries | census before/after baseline edit | passed after one 122-line unknown was removed |
-| Close safely | focused consumers, typecheck, lint, static gates, complete suite, build, docs, commit/tag/push/CI | commands + archive | local acceptance passed; remote closeout pending |
+| Close safely | focused consumers, typecheck, lint, static gates, complete suite, build, docs, commit/tag/push/CI | commands + archive | local acceptance and push passed; run 29723132772 exposed a platform-specific oracle and v2209 owns the repair |
 
 ## New-file design note
 
@@ -82,7 +83,9 @@ disappear from the shrink-only baseline with no replacement debt or runtime cycl
 - Oracle red failed exactly one new test while the four existing tests passed;
   all four placeholder byte/hash assertions reported the untouched output values.
   The original and extracted implementations both pass 1 file / 5 tests at JSON
-  26,606 bytes and Markdown 27,561 bytes with unchanged SHA-256 values.
+  26,606 bytes and canonical normalized Markdown 26,245 bytes with unchanged
+  logical content. v2209 repaired the oracle to normalize the profile before
+  rendering; the original 27,561 measurement was Windows-path-specific.
 - The first split correctly failed maintainability with the six expected stale
   keys plus one unknown 122-line `createMiniKvV113Reference`. Extracting the
   snippet catalog removed the new debt. The second pre-baseline run reported only
@@ -102,7 +105,12 @@ disappear from the shrink-only baseline with no replacement debt or runtime cycl
   with zero listeners. Archive retention passes at 7,099 files / 64.00 MiB.
 - All 16 test shards pass at 567 files / 1,731 tests. An independent
   `vitest list --json` discovery pass confirms the same 567 / 1,731 inventory.
-  Commit/tag/push and v2208 Node Evidence remain.
+  Commit `8c858eac`, tag `v2208`, and push completed. Node Evidence run
+  `29723132772` passed every step through maintainability, then failed only the
+  Markdown byte/hash assertion in `Test`; build and smoke were consequently
+  skipped. Linux produced the canonical 26,245-byte / `159a...7ff5` form while
+  the v2208 expectation was the Windows-only 27,561-byte / `619e...8373` form.
+  v2209 repairs the test by normalizing the profile before either renderer runs.
 
 ## Fail conditions
 

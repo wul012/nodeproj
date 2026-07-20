@@ -11,14 +11,30 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2209 - 2026-07-20
+
+- Split the 766-line approval-required boundary upstream echo hotspot into a
+  131-line public facade, 419-line evidence reference, and 395-line assessment.
+  The third similar echo now shares directly tested readiness and failed-rule
+  mechanics across v2207-v2209 instead of copying another report skeleton.
+  Portable fixed-time fallback oracles preserve the 38,431-byte JSON and
+  37,992-byte Markdown outputs and repair v2208's Windows-only test normalization.
+  The maintainability ledger removes exactly one file, three long functions, and
+  one complexity debt, tightening from 87 / 119 / 233 / 2 to 86 / 116 / 232 / 2
+  without service, route, fixture, sibling evidence, or execution-authority growth.
+  All 16 shards pass at 568 files / 1,734 tests; independent discovery confirms
+  the same inventory, and typecheck, zero-warning lint, build, guarded HTTP smoke,
+  and all static gates pass.
+
 ## v2208 - 2026-07-20
 
 - Split the 779-line sandbox endpoint-handle upstream echo hotspot into a
   134-line public facade, 513-line grouped evidence-source module, and 229-line
   assessment module. The mini-kv v113 parser now names metadata, review, and
   side-effect groups instead of concentrating 202 lines and complexity 147 in
-  one function. Fixed-time fallback oracles preserve the original 26,606-byte
-  JSON and 27,561-byte Markdown outputs. The shrink-only ledger removes exactly
+  one function. Fixed-time fallback oracles preserve the 26,606-byte JSON and
+  26,245-byte platform-normalized Markdown outputs; v2209 corrected the original
+  Windows-only 27,561-byte Markdown measurement. The shrink-only ledger removes exactly
   one file, one long function, and four complexity debts, tightening from
   88 / 120 / 237 / 2 to 87 / 119 / 233 / 2 without route or service growth.
   All 16 shards pass at 567 files / 1,731 tests; the independent test list,

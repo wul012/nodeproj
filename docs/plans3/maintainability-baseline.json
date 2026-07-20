@@ -31,10 +31,6 @@
       "maxLines": 768
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts",
-      "maxLines": 766
-    },
-    {
       "key": "src/services/releaseRollbackReadinessRunbook.ts",
       "maxLines": 761
     },
@@ -597,14 +593,6 @@
       "maxLines": 139
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createChecks",
-      "maxLines": 137
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createMiniKvV121Reference",
-      "maxLines": 137
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecision.ts|loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecision",
       "maxLines": 137
     },
@@ -757,10 +745,6 @@
       "maxLines": 124
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|loadManagedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification",
-      "maxLines": 124
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntakeArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparedPackageEvidenceIntake",
       "maxLines": 124
     },
@@ -901,10 +885,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntake.ts|createChecks",
       "maxComplexity": 84
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverApprovalRequiredBoundaryUpstreamEchoVerification.ts|createChecks",
-      "maxComplexity": 78
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateDecisionRecordArchiveVerification.ts|createChecks",
