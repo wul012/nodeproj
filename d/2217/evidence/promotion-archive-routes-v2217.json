@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "version": "v2217",
+  "scope": "promotion-archive-route-manifest-and-artifact-stages",
+  "behaviorChanged": false,
+  "publicContract": {
+    "entrypoint": "src/routes/opsPromotionArchiveRoutes.ts|registerOpsPromotionArchiveRoutes",
+    "signatureChanged": false,
+    "routeCount": 28,
+    "method": "GET",
+    "querySchemaChanged": false,
+    "jsonOrMarkdownNegotiationChanged": false
+  },
+  "modules": {
+    "facade": "src/routes/opsPromotionArchiveRoutes.ts",
+    "artifacts": "src/routes/promotionArchive/artifacts.ts",
+    "routeManifest": "src/routes/promotionArchive/routeManifest.ts"
+  },
+  "routeOracle": {
+    "manifestEntries": 28,
+    "uniqueMethodPaths": 28,
+    "uniqueArtifactKeys": 28,
+    "opsSummaryRegistrationSha256": "7de62deb53695ed355e38286b69ad101453a0d42d00ae7aca08daaa6defc1957",
+    "fastifyRouteTreeBytes": 41596,
+    "fastifyRouteTreeLines": 460,
+    "fastifyRouteTreeSha256": "e8fbc705761b2cf5f774d18e4879caf1b46ee6cb11046f4acdb71d6bbd778de9",
+    "fixedTimeMarkdownDigestsPreserved": 15,
+    "manifestFrozen": true,
+    "entriesFrozen": true,
+    "emptyDuplicateMissingUnknownFailClosed": true
+  },
+  "artifactPipeline": {
+    "artifactCount": 28,
+    "stages": [
+      "archive-core",
+      "handoff",
+      "release",
+      "deployment"
+    ],
+    "objectKeyOrderChanged": false,
+    "builderArgumentsChanged": false,
+    "latestDecisionLookupChanged": false,
+    "latestEvidenceLookupChanged": false
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 85,
+      "longFunctions": 106,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "routeFileLines": 467,
+      "routeRegistrarLines": 198,
+      "artifactBuilderLines": 152
+    },
+    "after": {
+      "nearLimitFiles": 85,
+      "longFunctions": 104,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "routeFileLines": 54,
+      "artifactModuleLines": 266,
+      "manifestModuleLines": 245,
+      "topLevelRouteFiles": 80
+    },
+    "largestReplacement": {
+      "name": "createHandoffArtifacts",
+      "lines": 66,
+      "complexity": 1
+    },
+    "highestReplacementComplexity": 7,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "redOracle": "failed-before-source-change-missing-promotionArchive-routeManifest-module",
+    "manifestAndLegacyOracles": "passed-3-files-4-tests",
+    "promotionRouteMatrix": "passed-18-files-39-tests",
+    "finalRouteOracles": "passed-4-files-6-tests",
+    "typecheck": "passed",
+    "lint": "passed-targeted-promotion-archive-surface-zero-warnings",
+    "staticGates": {
+      "maintainability": "passed-85-near-limit-104-long-226-complex-0-cycles",
+      "security": "passed-8315-text-files-18-of-18-config-checks",
+      "archiveRetention": "passed-7130-files-64.23-of-80.00-mib",
+      "elegance": "passed-52-tracked-families",
+      "familyLogic": "passed-52-of-52-ranked",
+      "renderer": "passed-242-of-245-3-waived-0-non-waived",
+      "sourceSize": "passed-0-files-above-800-lines"
+    },
+    "walkthroughGate": "passed-3722-chinese-42-h2-largest-116-score-100-no-quality-signals"
+  },
+  "boundaries": {
+    "routeMethodPathOrOrderChanged": false,
+    "schemaOrResponseChanged": false,
+    "rendererChanged": false,
+    "fixtureChanged": false,
+    "accessPolicyChanged": false,
+    "executionAuthorityChanged": false,
+    "networkConnectionAdded": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-independent-worktree-untouched",
+    "miniKv": "recommended-parallel-independent-worktree-untouched"
+  }
+}

@@ -365,10 +365,6 @@
       "maxLines": 208
     },
     {
-      "key": "src/routes/opsPromotionArchiveRoutes.ts|registerOpsPromotionArchiveRoutes",
-      "maxLines": 198
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.ts|renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections",
       "maxLines": 197
     },
@@ -439,10 +435,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
       "maxLines": 153
-    },
-    {
-      "key": "src/routes/opsPromotionArchiveRoutes.ts|createPromotionArchiveRouteArtifacts",
-      "maxLines": 152
     },
     {
       "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionReleaseAuditTrailRecord",

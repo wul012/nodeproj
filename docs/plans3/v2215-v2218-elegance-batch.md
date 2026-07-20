@@ -26,7 +26,7 @@
 | --- | --- | --- | --- |
 | 两套凭据策略不再手写超长布尔链 | 类型化字段清单 + 共享全字段判定 + 小型语义谓词 | 两份冻结 profile 字节/摘要、focused tests、基线收紧 | v2215 passed |
 | `buildApp` 只表达应用装配意图 | shell、运行时依赖、钩子、路由顺序分层 | 路由清单、钩子行为、访问审计、现有应用测试 | v2216 passed |
-| 28 条 promotion 路由由单一清单拥有 | 有序 route manifest + 分阶段工件流水线 | 路由方法/路径/顺序、profile parity、focused route tests | 待 v2217 |
+| 28 条 promotion 路由由单一清单拥有 | 有序 route manifest + 分阶段工件流水线 | 路由方法/路径/顺序、profile parity、focused route tests | v2217 passed |
 | 三个批准输入模板由数据定义 | 模板定义与验证行为分离，目录 facade 稳定 | 模板顺序/键/摘要/目标路径、验证器和 live gate tests | 待 v2218 |
 | 文档先于最终验证 | 每版解释 + 中文代码讲解 | 每篇 >=3000 中文字符且可扫描门通过 | 每版阻塞项 |
 | 只在批次末跑完整 CI | 每版 focused/typecheck/static；v2218 后 full/build/smoke/CI | 一次最终 Node Evidence run | 批次阻塞项 |
@@ -117,6 +117,17 @@ SHA-256 `e8fbc705761b2cf5f774d18e4879caf1b46ee6cb11046f4acdb71d6bbd778de9`。
 - 公开 `registerOpsPromotionArchiveRoutes` 和响应对象保持不变；route/file 数不得增长。
 
 预期基线：85 / 104 / 226 / 0。
+
+### v2217 收口证据
+
+28 条 GET 路由现在由冻结 manifest 唯一拥有，artifactKey 与 renderer 通过泛型相关联；空、缺失、
+重复 method/path、重复工件键和未知键均 fail-closed。原 152 行工件构建链按 archive core、handoff、
+release、deployment 四个有向阶段展开，完整对象键顺序保持。旧 46 路由 recorder SHA-256 与 15 份
+固定时间 Markdown 字节摘要不变，完整 promotion 矩阵通过 18 个文件、39 个测试。顶层 route 文件
+仍为 80，维护性基线实际收紧为 85 / 104 / 226 / 0；未修改 schema、fixture、访问策略、renderer、
+上游连接或执行权限，Java 与 mini-kv 可继续并行。
+最终 Fastify 路由树 oracle、typecheck、定向 lint、七项静态门和讲解质量门均通过；讲解含 3,722 个
+中文字符、42 个二级章节，最大单节 116 字，无重复填充或超大讲解段落。
 
 ## v2218：批准输入模板目录
 

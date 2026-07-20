@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2217 - 2026-07-20
+
+- Replaced 28 hand-written promotion archive route registrations with one
+  frozen, ordered, type-correlated manifest that rejects empty, missing,
+  duplicate, and unknown entries. Split the 152-line artifact chain into four
+  explicit archive, handoff, release, and deployment stages without changing
+  per-request construction or object order. The existing 46-route registration
+  digest, 15 fixed-time Markdown byte digests, and the full promotion route
+  matrix remain green. The top-level route count stays 80, while the shrink-only
+  ledger tightens from 85/106/226/0 to 85/104/226/0 without schema, fixture,
+  access-policy, renderer, upstream, or execution-authority changes.
+
 ## v2216 - 2026-07-20
 
 - Recast the 213-line `buildApp` as a 10-line composition root over a Fastify
