@@ -6,7 +6,9 @@ import {
 import path from "node:path";
 
 import type { AppConfig } from "../config.js";
-import { auditJsonMarkdownRouteGroups } from "../routes/auditJsonMarkdownRouteGroups.js";
+import {
+  ROUTE_QUALITY_ROUTE_COUNT,
+} from "../contracts/auditRouteManifest.js";
 import {
   EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
 } from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
@@ -43,14 +45,12 @@ export function loadReadabilityMaintenanceProfile(input: {
   const projectRoot = input.projectRoot ?? process.cwd();
   const documents = READABILITY_MAINTENANCE_DOCUMENTS.map((document) =>
     evaluateReadabilityDocument(projectRoot, document));
-  const routeQualityGroup = auditJsonMarkdownRouteGroups
-    .find((group) => group.id === "managed-audit-route-quality");
   const routeCatalog = {
     expectedGroupCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.groupCount,
     expectedRouteCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
     managedAuditRouteCount:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["managed-audit"],
-    routeQualityRouteCount: routeQualityGroup?.routes.length ?? 0,
+    routeQualityRouteCount: ROUTE_QUALITY_ROUTE_COUNT,
   };
   const checks = {
     architectureDocumentsPresent: documents.every((document) => document.exists),

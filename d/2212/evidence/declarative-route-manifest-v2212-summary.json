@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "version": "v2212",
+  "scope": "declarative-route-manifest-and-acyclic-ownership",
+  "behaviorChanged": false,
+  "defectEvidence": {
+    "v2211DirectImport": "failed-reference-error-cannot-access-managed-audit-route-quality-routes-before-initialization",
+    "failureLocation": "src/routes/auditJsonMarkdownRouteGroups.ts:68",
+    "failureClass": "esm-temporal-dead-zone",
+    "v2212DirectImport": { "qualityRouteCount": 6, "cleanupHandoffRouteCount": 30 }
+  },
+  "implementation": {
+    "neutralManifest": "src/contracts/auditRouteManifest.ts",
+    "manifestLines": 11,
+    "qualityPaths": 6,
+    "cleanupHandoffRoutes": 30,
+    "serviceToRegistrationReverseImportsRemoved": 4,
+    "routesAdded": 0,
+    "serviceFilesAdded": 0,
+    "fixturesChanged": false
+  },
+  "contractEvidence": {
+    "qualityRegistrationOrderCompared": true,
+    "qualityRegistrationUniquenessChecked": true,
+    "cleanupRegistrationCountCompared": true,
+    "cleanupRegistrationUniquenessChecked": true,
+    "readabilityRouteCatalog": {
+      "expectedGroupCount": 51,
+      "expectedRouteCount": 254,
+      "managedAuditRouteCount": 56,
+      "routeQualityRouteCount": 6
+    },
+    "cleanupRouteCatalog": {
+      "groupCount": 51,
+      "routeCount": 254,
+      "javaMiniKvDomainRouteCount": 85,
+      "cleanupHandoffRouteGroupRouteCount": 30
+    },
+    "wholeReportHashRejectedReason": "document-byte-metadata-and-archive-line-endings-are-unrelated-dynamic-inputs"
+  },
+  "maintainability": {
+    "before": { "nearLimitFiles": 85, "longFunctions": 112, "complexFunctions": 228, "importCycles": 2 },
+    "after": { "nearLimitFiles": 85, "longFunctions": 112, "complexFunctions": 228, "importCycles": 0 },
+    "staleEntriesRemoved": 2,
+    "unknownOrGrownEntries": 0
+  },
+  "verification": {
+    "focused": "passed-6-files-11-tests",
+    "typecheck": "passed",
+    "focusedLint": "passed-zero-errors-zero-warnings",
+    "maintainability": "passed-85-112-228-0",
+    "finalFocused": "passed-8-files-15-tests",
+    "walkthroughGate": "passed-3239-chinese-25-h2-largest-177-score-100-no-missing-repetition-oversize-placeholder-or-forbidden-signals",
+    "lint": "passed-repository-wide-zero-errors-zero-warnings",
+    "staticGates": "passed-security-config-8282-files-18-checks-elegance-52-families-maintainability-renderer-source-size-archive-retention",
+    "fullSuite": "deferred-to-v2214-batch-close",
+    "build": "deferred-to-v2214-batch-close",
+    "httpSmoke": "deferred-to-v2214-batch-close",
+    "remoteNodeEvidence": "deferred-to-v2214-batch-close"
+  },
+  "boundaries": {
+    "routePathChanged": false,
+    "routeOrderChanged": false,
+    "handlerOrSchemaChanged": false,
+    "reportRouteCatalogProjectionChanged": false,
+    "executionAuthorityChanged": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-independent-worktree-untouched",
+    "miniKv": "recommended-parallel-independent-worktree-untouched"
+  }
+}

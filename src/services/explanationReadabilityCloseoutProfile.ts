@@ -1,5 +1,8 @@
 import type { AppConfig } from "../config.js";
-import { auditJsonMarkdownRouteGroups } from "../routes/auditJsonMarkdownRouteGroups.js";
+import {
+  ROUTE_QUALITY_PATHS,
+  ROUTE_QUALITY_ROUTE_COUNT,
+} from "../contracts/auditRouteManifest.js";
 import {
   EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
 } from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
@@ -21,7 +24,7 @@ import {
   type ExplanationReadabilityGateSummary,
 } from "./explanationReadabilityCloseoutProfileTypes.js";
 
-const CLOSEOUT_ROUTE = "/api/v1/audit/explanation-readability-closeout-profile";
+const CLOSEOUT_ROUTE = ROUTE_QUALITY_PATHS.explanationCloseout;
 const ENDPOINTS = Object.freeze({
   closeoutProfileJson: CLOSEOUT_ROUTE,
   closeoutProfileMarkdown: `${CLOSEOUT_ROUTE}?format=markdown`,
@@ -38,15 +41,12 @@ export function loadExplanationReadabilityCloseoutProfile(input: {
   const codeWalkthroughGate = loadCodeWalkthroughDocumentationQualityGate(input);
   const fFolderSummary = summarizeFFolderGate(fFolderGate);
   const codeWalkthroughSummary = summarizeCodeWalkthroughGate(codeWalkthroughGate);
-  const routeQualityGroup = auditJsonMarkdownRouteGroups
-    .find((group) => group.id === "managed-audit-route-quality");
-  const closeoutRouteRegistered = routeQualityGroup?.routes
-    .some((route) => route.path === CLOSEOUT_ROUTE) ?? false;
+  const closeoutRouteRegistered = Object.values(ROUTE_QUALITY_PATHS).includes(CLOSEOUT_ROUTE);
   const routeCatalog = {
     expectedRouteCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
     managedAuditRouteCount:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["managed-audit"],
-    routeQualityRouteCount: routeQualityGroup?.routes.length ?? 0,
+    routeQualityRouteCount: ROUTE_QUALITY_ROUTE_COUNT,
     closeoutRouteRegistered,
   };
   const gates = {

@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2212 - 2026-07-20
+
+- Replaced two reverse imports from report services into route-registration
+  modules with one neutral declarative route manifest. The six quality paths and
+  30-route cleanup-handoff count are now consumed in one direction and checked
+  against the real registration arrays for order, uniqueness, and cardinality.
+  This removes both runtime import cycles (2 -> 0) and fixes a reproducible ESM
+  TDZ failure when the quality route module is imported directly. Focused report
+  projections preserve the v2211 route catalog facts; no path, handler, schema,
+  fixture, report decision, route/service count, or execution authority changes.
+
 ## v2211 - 2026-07-20
 
 - Replaced four hand-written mini-kv v114-v117 non-participation receipt builders

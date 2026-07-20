@@ -1,6 +1,6 @@
 import {
-  javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes,
-} from "../routes/auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.js";
+  CLEANUP_HANDOFF_ROUTE_COUNT,
+} from "../contracts/auditRouteManifest.js";
 import {
   EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
 } from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
@@ -52,6 +52,6 @@ export function currentLatestSiblingLiveSmokeRouteCatalogCounts(): LatestSibling
     routeCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
     javaMiniKvDomainRouteCount:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"],
-    cleanupHandoffRouteGroupRouteCount: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length,
+    cleanupHandoffRouteGroupRouteCount: CLEANUP_HANDOFF_ROUTE_COUNT,
   };
 }

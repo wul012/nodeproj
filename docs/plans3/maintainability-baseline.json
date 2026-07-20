@@ -1711,12 +1711,5 @@
       "maxComplexity": 21
     }
   ],
-  "importCycles": [
-    {
-      "key": "src/routes/auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseout.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerification.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerification.ts|src/services/javaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeRouteArchiveVerifierSupport.ts|src/services/javaMiniKvRouteCatalogCleanupSiblingWorkspaceAvailabilityCloseout.ts"
-    },
-    {
-      "key": "src/routes/auditJsonMarkdownRouteGroups.ts|src/routes/auditManagedAuditRouteQualityRoutes.ts|src/services/explanationReadabilityCloseoutProfile.ts|src/services/readabilityMaintenanceProfile.ts"
-    }
-  ]
+  "importCycles": []
 }

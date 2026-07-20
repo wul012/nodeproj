@@ -2,8 +2,8 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: active; v2211 local implementation and verification complete, commit/tag
-remain before v2212 begins
+State: active; v2211 committed/tagged locally at `88291d4c`; v2212 final local
+gates passed and commit pending
 
 ## Background and instruction
 
@@ -53,7 +53,7 @@ it below the scanner, relaxing thresholds, or replacing exact contracts with pro
 | Requirement | Implementation | Mechanical evidence | State |
 |---|---|---|---|
 | Preserve v114-v117 behavior | freeze full JSON/Markdown output, then introduce one typed receipt-field engine and shared safety-boundary manifests | fixed-time forced-fallback hash oracle + four focused suites | passed in v2211 |
-| Remove both cycles | move route counts/identities into a neutral declarative manifest; route registration and services consume one direction | import-graph census + manifest parity test | pending |
+| Remove both cycles | move route counts/identities into a neutral declarative manifest; route registration and services consume one direction | import-graph census + manifest parity test | v2212 passed at 0 cycles |
 | Clarify preview orchestration | separate source acquisition, assessment, and assembly from the controlled shard-preview loader | frozen output oracle + focused/downstream tests | pending |
 | Clarify ops route composition | split the 239-line registrar into coherent in-file registrars while retaining the 80-file route cap | route inventory/digest tests + census | pending |
 | Tighten debt only | delete exactly stale baseline entries after a pre-refresh census | maintainability adversarial tests | v2211 passed 85/112/228/2; later versions pending |
@@ -102,6 +102,23 @@ preserve every route path, count, handler, schema, and report byte.
 
 Target: import cycles 2 -> 0. Any reverse import from a service into a route
 registration module, or duplicated manually maintained count without parity, fails.
+
+Executed evidence before final static verification: importing the v2211 quality
+route module directly reproduced an ESM temporal-dead-zone failure at
+`auditJsonMarkdownRouteGroups.ts:68`. The neutral 11-line manifest makes the same
+direct import return `quality=6` and `cleanup=30`. The manifest test pins all six
+paths in declaration order, rejects duplicate registered paths, compares the
+cleanup constant with the 30-entry registration table, and freezes the two report
+route-catalog projections that were identical before and after extraction. Six
+focused files / 11 tests, typecheck, focused zero-warning lint, and the refreshed
+maintainability census pass at 85 / 112 / 228 / 0. The pre-refresh census reported
+only the two exact cycle entries as stale and no unknown or grown debt.
+The final local gate passes 8 files / 15 tests, typecheck, repository-wide
+zero-warning lint, 18/18 security/config checks across 8,282 text files, elegance,
+all 52 tracked families, renderer 242+3/0, source-size zero, and archive retention
+at 64.10 / 80.00 MiB. The walkthrough gate reports 3,239 Chinese characters,
+25 scannable H2 sections, a 177-character largest section, score 100, and no
+missing, repetitive, oversized, placeholder, or forbidden-execution signals.
 
 ## v2213: Controlled shard-preview orchestration split
 

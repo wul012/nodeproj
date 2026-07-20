@@ -1,8 +1,8 @@
 import type { AppConfig } from "../config.js";
+import { CLEANUP_HANDOFF_ROUTE_COUNT } from "../contracts/auditRouteManifest.js";
 import {
   EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY,
 } from "../routes/auditJsonMarkdownRouteCatalogSummary.js";
-import { javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes } from "../routes/auditJavaMiniKvRouteCatalogCleanupHandoffRoutes.js";
 import { countPassedReportChecks, countReportChecks } from "./liveProbeReportUtils.js";
 import {
   loadJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveVerificationRouteArchiveVerificationRouteArchiveVerification,
@@ -136,7 +136,7 @@ export function loadJavaMiniKvRouteCatalogCleanupLatestSiblingLiveSmokeArchiveCh
     routeCount: EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.routeCount,
     javaMiniKvDomainRouteCount:
       EXPECTED_AUDIT_JSON_MARKDOWN_ROUTE_CATALOG_SUMMARY.domainRouteCounts["java-mini-kv"],
-    cleanupHandoffRouteGroupRouteCount: javaMiniKvRouteCatalogCleanupHandoffAuditJsonMarkdownRoutes.length,
+    cleanupHandoffRouteGroupRouteCount: CLEANUP_HANDOFF_ROUTE_COUNT,
   } as const;
   const checks = createChecks({ latestVerifier: latestVerifierSummary, currentRouteCatalog });
   checks.readyForRouteCatalogCleanupLatestSiblingLiveSmokeArchiveChainCloseout = Object.entries(checks)

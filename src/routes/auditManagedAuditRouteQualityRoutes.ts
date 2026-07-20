@@ -1,3 +1,4 @@
+import { ROUTE_QUALITY_PATHS } from "../contracts/auditRouteManifest.js";
 import {
   loadCodeWalkthroughDocumentationQualityGate,
   renderCodeWalkthroughDocumentationQualityGateMarkdown,
@@ -28,30 +29,30 @@ import {
 } from "./auditJsonMarkdownRouteRegistrar.js";
 
 export const managedAuditRouteQualityAuditJsonMarkdownRoutes: readonly AuditJsonMarkdownRouteRegistration[] = [
-  auditJsonMarkdownRoute("/api/v1/audit/code-walkthrough-documentation-quality-gate", (deps) =>
+  auditJsonMarkdownRoute(ROUTE_QUALITY_PATHS.codeWalkthrough, (deps) =>
     loadCodeWalkthroughDocumentationQualityGate({
       config: deps.config,
     }), renderCodeWalkthroughDocumentationQualityGateMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/f-folder-explanation-quality-gate", (deps) =>
+  auditJsonMarkdownRoute(ROUTE_QUALITY_PATHS.fFolderExplanation, (deps) =>
     loadFFolderExplanationQualityGate({
       config: deps.config,
     }), renderFFolderExplanationQualityGateMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/explanation-readability-closeout-profile", (deps) =>
+  auditJsonMarkdownRoute(ROUTE_QUALITY_PATHS.explanationCloseout, (deps) =>
     loadExplanationReadabilityCloseoutProfile({
       config: deps.config,
     }), renderExplanationReadabilityCloseoutProfileMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-helper-quality-pass", (deps) => loadManagedAuditRouteHelperQualityPass({
+  auditJsonMarkdownRoute(ROUTE_QUALITY_PATHS.routeHelper, (deps) => loadManagedAuditRouteHelperQualityPass({
     config: deps.config,
   }), renderManagedAuditRouteHelperQualityPassMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-route-registration-table-quality-pass", (deps) => loadManagedAuditRouteRegistrationTableQualityPass({
+  auditJsonMarkdownRoute(ROUTE_QUALITY_PATHS.registrationTable, (deps) => loadManagedAuditRouteRegistrationTableQualityPass({
     config: deps.config,
   }), renderManagedAuditRouteRegistrationTableQualityPassMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-readability-maintenance-profile", (deps) => loadReadabilityMaintenanceProfile({
+  auditJsonMarkdownRoute(ROUTE_QUALITY_PATHS.readabilityMaintenance, (deps) => loadReadabilityMaintenanceProfile({
     config: deps.config,
   }), renderReadabilityMaintenanceProfileMarkdown),
 ];
