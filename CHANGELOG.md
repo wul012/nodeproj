@@ -11,6 +11,20 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2210 - 2026-07-20
+
+- Made historical text evidence metadata platform-independent: `sizeBytes` and
+  SHA-256 now derive from the same BOM-free, LF-normalized UTF-8 content instead
+  of pairing a normalized digest with raw filesystem size. Direct LF/CRLF/BOM
+  adversarial tests fail before and pass after the repair; v2207-v2208 remain
+  byte-stable, while v2209 converges on one canonical 38,431-byte JSON and
+  37,992-byte Markdown result. Fixtures, resolver mappings, routes, safety
+  decisions, service/route ceilings, and all shrink-only structural gates remain
+  unchanged. All 8 bounded shards pass at 569 files / 1,737 tests, and an
+  independent test discovery confirms the same inventory. Build and guarded
+  historical-fallback HTTP smoke pass with 26/26 report checks while execution
+  and managed-audit connection remain disabled.
+
 ## v2209 - 2026-07-20
 
 - Split the 766-line approval-required boundary upstream echo hotspot into a
@@ -18,7 +32,8 @@ All notable Node project changes are tracked by git tags.
   The third similar echo now shares directly tested readiness and failed-rule
   mechanics across v2207-v2209 instead of copying another report skeleton.
   Portable fixed-time fallback oracles preserve the 38,431-byte JSON and
-  37,992-byte Markdown outputs and repair v2208's Windows-only test normalization.
+  37,992-byte Markdown outputs and repair v2208's Windows-only test normalization;
+  v2210 later aligned their historical size metadata with normalized digests.
   The maintainability ledger removes exactly one file, three long functions, and
   one complexity debt, tightening from 87 / 119 / 233 / 2 to 86 / 116 / 232 / 2
   without service, route, fixture, sibling evidence, or execution-authority growth.

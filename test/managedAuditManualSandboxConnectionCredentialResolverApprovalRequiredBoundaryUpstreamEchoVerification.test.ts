@@ -297,11 +297,11 @@ describe("managed audit manual sandbox connection credential resolver approval-r
 
     expect.soft(Buffer.byteLength(json, "utf8")).toBe(38_431);
     expect.soft(sha256(json)).toBe(
-      "120a8e1bcdb290673052a3b33dcce21fd8a71b4033ce9350bce1c489e223abac",
+      "fe1823311fcd14e730e875dc546548df777c041ef76c9e2c978a2ac5c96bfade",
     );
     expect.soft(Buffer.byteLength(markdown, "utf8")).toBe(37_992);
     expect.soft(sha256(markdown)).toBe(
-      "c86bf5b70675efe48d778ff2c037da24be470cafc760804bdb6cce42e8530db8",
+      "6f29d65826ad60d4f960a88835b7d8b202f2b1979695551295b8690e17dca1c8",
     );
   });
 

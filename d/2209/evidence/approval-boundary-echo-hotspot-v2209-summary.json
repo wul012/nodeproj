@@ -30,11 +30,11 @@
   },
   "portableFallbackOracle": {
     "generatedAt": "2026-07-20T00:00:00.000Z",
-    "normalization": "recursive-profile-normalization-before-json-and-markdown-rendering",
+    "normalization": "recursive-profile-normalization-plus-canonical-historical-utf8-size-before-json-and-markdown-rendering",
     "jsonBytes": 38431,
-    "jsonSha256": "120a8e1bcdb290673052a3b33dcce21fd8a71b4033ce9350bce1c489e223abac",
+    "jsonSha256": "fe1823311fcd14e730e875dc546548df777c041ef76c9e2c978a2ac5c96bfade",
     "markdownBytes": 37992,
-    "markdownSha256": "c86bf5b70675efe48d778ff2c037da24be470cafc760804bdb6cce42e8530db8"
+    "markdownSha256": "6f29d65826ad60d4f960a88835b7d8b202f2b1979695551295b8690e17dca1c8"
   },
   "sharedMechanics": {
     "utility": "src/services/liveProbeReportUtils.ts",
@@ -81,7 +81,7 @@
     "httpSmoke": "passed-3-of-3-health-200-93-json-200-40003-markdown-200-39564-port-31209-pid-27808-cleaned",
     "fullSuite": "passed-16-of-16-shards-568-files-1734-tests-after-outer-60-minute-batch-budget-interrupted-shard-12-and-isolated-rerun-passed",
     "independentTestList": "passed-568-files-1734-tests",
-    "remoteNodeEvidence": "pending-v2209-push"
+    "remoteNodeEvidence": "failed-run-29731349784-test-step-only-raw-historical-size-portability-repaired-in-v2210"
   },
   "boundaries": {
     "publicModuleChanged": false,

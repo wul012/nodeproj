@@ -5,7 +5,6 @@ import {
   historicalEvidenceExists,
   readHistoricalEvidenceFile,
   resolveHistoricalEvidencePath,
-  statHistoricalEvidence,
 } from "./historicalEvidenceResolver.js";
 
 export interface HistoricalEvidenceFile {
@@ -36,7 +35,7 @@ export function evidenceFile(id: string, filePath: string): HistoricalEvidenceFi
     path: filePath,
     resolvedPath,
     exists: true,
-    sizeBytes: statHistoricalEvidence(filePath).size,
+    sizeBytes: Buffer.byteLength(content, "utf8"),
     digest: createHash("sha256").update(content).digest("hex"),
   };
 }

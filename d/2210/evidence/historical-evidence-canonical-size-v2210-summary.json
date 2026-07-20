@@ -1,0 +1,109 @@
+{
+  "schemaVersion": 1,
+  "version": "v2210",
+  "scope": "cross-platform-canonical-historical-evidence-text-metadata",
+  "behaviorChanged": true,
+  "behaviorChange": "HistoricalEvidenceFile.sizeBytes now measures normalized BOM-free LF UTF-8 text, matching the byte stream used by digest",
+  "previousRemoteFailure": {
+    "runId": 29731349784,
+    "commit": "1c92b051a97de8a533a2e8d7516ae3afb40e2951",
+    "passedBeforeTest": [
+      "typecheck",
+      "lint",
+      "security-config",
+      "archive-retention",
+      "elegance",
+      "family-logic",
+      "maintainability"
+    ],
+    "failedAssertions": [
+      "v2209-json-sha256",
+      "v2209-markdown-sha256"
+    ],
+    "byteLengthsChanged": false
+  },
+  "reproduction": {
+    "windowsRawSizes": {
+      "java-v115-ops-evidence-service": 55853,
+      "mini-kv-v121-runbook": 1284
+    },
+    "gitBlobRawSizes": {
+      "java-v115-ops-evidence-service": 55243,
+      "mini-kv-v121-runbook": 1283
+    },
+    "canonicalUtf8Sizes": {
+      "java-v115-ops-evidence-service": 55243,
+      "mini-kv-v121-runbook": 1280
+    },
+    "ciRawMetadataJsonSha256": "f52e441928c74664231cfe34ee85880a168c4a62809bc38fac6e00aa53545293",
+    "ciRawMetadataMarkdownSha256": "f25039fb9f533fe4d4d649849161e42f6389c240199f690ebeae27054b0580e6",
+    "ciHashesReproducedLocallyFromGitBlobSizes": true
+  },
+  "canonicalV2209Oracle": {
+    "generatedAt": "2026-07-20T00:00:00.000Z",
+    "jsonBytes": 38431,
+    "jsonSha256": "fe1823311fcd14e730e875dc546548df777c041ef76c9e2c978a2ac5c96bfade",
+    "markdownBytes": 37992,
+    "markdownSha256": "6f29d65826ad60d4f960a88835b7d8b202f2b1979695551295b8690e17dca1c8"
+  },
+  "implementation": {
+    "utility": "src/services/historicalEvidenceReportUtils.ts",
+    "test": "test/historicalEvidenceReportUtils.test.ts",
+    "sizeSourceBefore": "statHistoricalEvidence(filePath).size",
+    "sizeSourceAfter": "Buffer.byteLength(normalizedContent, utf8)",
+    "digestSourceChanged": false,
+    "fixturesChanged": false,
+    "resolverMappingsChanged": false
+  },
+  "impact": {
+    "codeGraphSymbols": 223,
+    "directSourceFiles": 67,
+    "maintainability": {
+      "nearLimitFiles": 86,
+      "longFunctions": 116,
+      "complexFunctions": 232,
+      "runtimeImportCycles": 2
+    },
+    "serviceFiles": 1125,
+    "routeFiles": 80
+  },
+  "verification": {
+    "directRed": "passed-as-expected-1-file-2-failed-1-passed-crlf-13-vs-11-bom-mixed-23-vs-19",
+    "utilityAndResolverGreen": "passed-2-files-6-tests",
+    "threeGenerationOracles": "passed-3-files-15-tests-v2207-v2208-unchanged-v2209-canonical",
+    "combinedPortabilityFocused": "passed-5-files-21-tests",
+    "sizeArchiveParityFocused": "passed-13-files-48-tests",
+    "typecheck": "passed",
+    "lint": "passed-0-errors-0-warnings",
+    "staticGates": "passed-security-config-8266-elegance-52-families-maintainability-renderer-source-size",
+    "archiveRetention": "passed-7104-files-64.04MiB-of-80MiB",
+    "documentationFocused": "passed-14-files-49-tests",
+    "walkthroughScanner": "passed-3120-chinese-characters-21-h2-largest-197-score-100",
+    "fullSuite": "passed-8-of-8-bounded-shards-569-files-1737-tests",
+    "independentTestList": "passed-569-files-1737-tests",
+    "build": "passed",
+    "httpSmoke": "passed-forced-fallback-health-200-93B-json-200-40003B-markdown-200-39564B-ready-26-of-26-execution-false-connect-false",
+    "remoteNodeEvidence": "pending-v2210-push"
+  },
+  "validationDeviation": {
+    "cause": "vitest-list-json-optional-output-path-consumed-first-test-argument",
+    "affectedFile": "test/archiveRetentionCensus.test.ts",
+    "repair": "restored-byte-for-byte-from-HEAD",
+    "proof": "git-diff-empty-focused-1-file-2-tests-and-final-docs-14-files-49-tests-passed"
+  },
+  "boundaries": {
+    "historicalTextContentChanged": false,
+    "historicalFixtureChanged": false,
+    "pathOrExistenceSemanticsChanged": false,
+    "snippetOrJsonParsingChanged": false,
+    "routesChanged": false,
+    "siblingEvidenceChanged": false,
+    "executionAuthorityChanged": false,
+    "liveCapstoneTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-output-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-v1876-independent-worktree-untouched-v1875-pushed",
+    "miniKv": "recommended-parallel-v1674-independent-worktree-untouched-v1673-pushed"
+  }
+}

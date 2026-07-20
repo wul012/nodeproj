@@ -2,7 +2,8 @@
 
 Date: 2026-07-20
 Owner: Codex
-State: local acceptance complete; commit/tag/push and remote closeout remain
+State: commit/tag/push complete; run 29731349784 failed only raw historical
+`sizeBytes` portability; shared canonical metadata repair belongs to v2210
 
 ## Objective and stop condition
 
@@ -62,13 +63,13 @@ and behavior-specific modules.
 
 | Requirement | Implementation | Mechanical evidence | State |
 |---|---|---|---|
-| Freeze output before movement | fixed-time forced-fallback JSON/Markdown byte and SHA-256 oracle | red then green target test | passed; 38431-byte JSON and 37992-byte canonical Markdown frozen |
+| Freeze output before movement | fixed-time forced-fallback JSON/Markdown byte and SHA-256 oracle | red then green target test | passed; 38431-byte JSON and 37992-byte canonical Markdown frozen; v2210 canonicalized historical size metadata |
 | Reuse third-instance mechanics | add tested readiness and failed-rule helpers; migrate v2207/v2208/v2209 | utility + three focused echo tests | passed; three oracle files / 15 tests |
 | Separate source data | move constants plus Node v274, Java v115, and mini-kv v121 assembly to `approvalBoundaryReference.ts` | typecheck + local/fallback parity | passed; reference module 419 lines |
 | Separate behavior | move ordered checks, echo projection, summary, and messages to `approvalBoundaryAssessment.ts` | byte oracle + downstream tests | passed; assessment module 395 lines |
 | Tighten only | baseline must report exactly five stale entries and zero unknown/grown entries before edit | maintainability census | passed at 86/116/232/2 |
 | Preserve ceilings | new modules live under `src/evidence`; services/routes remain 1125/80 | governance growth ratchet | passed at 1125/80 |
-| Close safely | focused consumers, typecheck, lint, static gates, full suite/list, build, docs, smoke, commit/tag/push/CI | commands + archive | local acceptance passed; commit/tag/push/remote pending |
+| Close safely | focused consumers, typecheck, lint, static gates, full suite/list, build, docs, smoke, commit/tag/push/CI | commands + archive | local acceptance, commit, tag, and push passed; run 29731349784 exposed shared raw-size portability and v2210 owns repair |
 
 ## New-file design note
 
@@ -96,9 +97,9 @@ and behavior-specific modules.
 
 - The untouched target produced exactly one expected red oracle test with four
   passing legacy tests. Its fixed-time forced-fallback values are JSON 38,431
-  bytes / SHA-256 `120a8e1bcdb290673052a3b33dcce21fd8a71b4033ce9350bce1c489e223abac`
+  bytes / canonical SHA-256 `fe1823311fcd14e730e875dc546548df777c041ef76c9e2c978a2ac5c96bfade`
   and canonical Markdown 37,992 bytes / SHA-256
-  `c86bf5b70675efe48d778ff2c037da24be470cafc760804bdb6cce42e8530db8`.
+  `6f29d65826ad60d4f960a88835b7d8b202f2b1979695551295b8690e17dca1c8`.
 - The facade is 131 lines, the reference module is 419 lines, and the assessment
   module is 395 lines. The first source move briefly contained a terminal-output
   truncation marker; typecheck rejected it before any behavior test ran. Rebuilding
@@ -136,6 +137,10 @@ and behavior-specific modules.
   PID 27808, returned health `200/93`, target JSON `200/40003`, and target Markdown
   `200/39564`. The profile was ready while `executionAllowed=false` and
   `connectsManagedAudit=false`; the owned PID was stopped and listeners returned to zero.
+- Commit `1c92b051`, tag `v2209`, and push completed. Node Evidence run
+  `29731349784` passed through maintainability and failed only the v2209 hash
+  assertions: byte lengths stayed fixed while raw CRLF/LF file sizes differed.
+  v2210 reproduced both CI hashes from Git blob sizes and owns the shared repair.
 
 ## Fail conditions
 
