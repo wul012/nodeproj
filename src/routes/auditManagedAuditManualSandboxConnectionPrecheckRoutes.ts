@@ -3,9 +3,9 @@ import {
   renderManagedAuditManualSandboxConnectionPrecheckPacketMarkdown,
 } from "../services/managedAuditManualSandboxConnectionPrecheckPacket.js";
 import {
-  loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification,
-  renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown,
-} from "../services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
+  loadPrecheckReceiptVerification,
+  renderPrecheckReceiptMarkdown,
+} from "../services/precheckReceipt/verification.js";
 import {
   loadManagedAuditManualSandboxConnectionRehearsalGuard,
   renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown,
@@ -24,9 +24,9 @@ export const managedAuditManualSandboxConnectionPrecheckAuditJsonMarkdownRoutes:
     config: deps.config,
   }), renderManagedAuditManualSandboxConnectionPrecheckPacketMarkdown),
 
-  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-upstream-receipt-verification", (deps) => loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+  auditJsonMarkdownRoute("/api/v1/audit/managed-audit-manual-sandbox-connection-precheck-upstream-receipt-verification", (deps) => loadPrecheckReceiptVerification({
     config: deps.config,
-  }), renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown),
+  }), renderPrecheckReceiptMarkdown),
 
   auditJsonMarkdownRoute("/api/v1/audit/managed-audit-sandbox-code-health-pass", (deps) => loadManagedAuditSandboxCodeHealthPass({
     config: deps.config,

@@ -2,25 +2,25 @@ import {
   countPassedReportChecks,
   countReportChecks,
   sha256StableJson,
-} from "./liveProbeReportUtils.js";
-import { ENDPOINTS } from "./managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationConstants.js";
+} from "../liveProbeReportUtils.js";
+import { ENDPOINTS } from "./constants.js";
 import type {
-  JavaV99PrecheckEchoReference,
-  ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
-  MiniKvV108PrecheckNonParticipationReference,
-  PrecheckUpstreamReceiptVerificationChecks,
-  PrecheckUpstreamReceiptVerificationMessage,
-} from "./managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationTypes.js";
+  JavaV99Echo,
+  PrecheckReceiptProfile,
+  MiniKvV108Receipt,
+  PrecheckReceiptChecks,
+  PrecheckReceiptMessage,
+} from "./types.js";
 
-export function createPrecheckUpstreamReceiptVerificationProfile(input: {
-  sourceNodeV245: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile["sourceNodeV245"];
-  javaV99: JavaV99PrecheckEchoReference;
-  miniKvV108: MiniKvV108PrecheckNonParticipationReference;
-  checks: PrecheckUpstreamReceiptVerificationChecks;
-  productionBlockers: PrecheckUpstreamReceiptVerificationMessage[];
-  warnings: PrecheckUpstreamReceiptVerificationMessage[];
-  recommendations: PrecheckUpstreamReceiptVerificationMessage[];
-}): ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile {
+export function createPrecheckReceiptProfile(input: {
+  sourceNodeV245: PrecheckReceiptProfile["sourceNodeV245"];
+  javaV99: JavaV99Echo;
+  miniKvV108: MiniKvV108Receipt;
+  checks: PrecheckReceiptChecks;
+  productionBlockers: PrecheckReceiptMessage[];
+  warnings: PrecheckReceiptMessage[];
+  recommendations: PrecheckReceiptMessage[];
+}): PrecheckReceiptProfile {
   const verificationState = input.checks.readyForManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification
     ? "manual-sandbox-precheck-upstream-receipt-verification-ready"
     : "blocked";

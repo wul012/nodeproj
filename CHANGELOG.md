@@ -11,6 +11,22 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2227 - 2026-07-21
+
+- Replaced the flat precheck upstream-receipt verification family with a
+  bounded `precheckReceipt` context. Java text evidence, mini-kv JSON
+  narrowing, ordered checks, policy messages, public profile assembly, and
+  rendering now have explicit owners. Root-over-nested compatibility fields
+  retain `??` precedence, malformed arrays and scalar types fail closed, and
+  focused negative tests protect explicit empty, zero, and false values. All
+  four fixed-time READY/BLOCKED JSON and Markdown byte oracles remain exactly
+  identical. Target naming debt fell by 17 to zero; repository name debt
+  tightened from 4,461 to 4,444 and maintainability from 82/90/211/0 to
+  82/89/208/0. The final batch regression also aligned the workflow evidence
+  verifier with the reviewed `setup-node@v7` pin and proves that retired v4 is
+  rejected. No route, public field, fixture, access-policy, sibling-workspace,
+  network, write, or execution-authority change was introduced.
+
 ## v2226 - 2026-07-21
 
 - Replaced the 758-line pre-implementation plan echo service with a bounded

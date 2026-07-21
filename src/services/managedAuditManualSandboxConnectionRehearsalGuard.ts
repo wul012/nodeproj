@@ -8,9 +8,9 @@ import {
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
-  loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification,
-  type ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
-} from "./managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
+  loadPrecheckReceiptVerification,
+  type PrecheckReceiptProfile,
+} from "./precheckReceipt/verification.js";
 import {
   loadManagedAuditSandboxCodeHealthPass,
   type ManagedAuditSandboxCodeHealthPassProfile,
@@ -62,8 +62,8 @@ export interface ManagedAuditManualSandboxConnectionRehearsalGuardProfile {
   automaticUpstreamStart: false;
   sourceNodeV247: {
     sourceVersion: "Node v247";
-    profileVersion: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile["profileVersion"];
-    verificationState: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile["verificationState"];
+    profileVersion: PrecheckReceiptProfile["profileVersion"];
+    verificationState: PrecheckReceiptProfile["verificationState"];
     verificationDigest: string;
     readyForPrecheckReceiptVerification: boolean;
     javaV99Ready: boolean;
@@ -191,7 +191,7 @@ export function loadManagedAuditManualSandboxConnectionRehearsalGuard(input: {
   config: AppConfig;
 }): ManagedAuditManualSandboxConnectionRehearsalGuardProfile {
   const sourceNodeV247 = createSourceNodeV247(
-    loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+    loadPrecheckReceiptVerification({
       config: input.config,
     }),
   );
@@ -358,7 +358,7 @@ export function renderManagedAuditManualSandboxConnectionRehearsalGuardMarkdown(
 }
 
 function createSourceNodeV247(
-  source: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
+  source: PrecheckReceiptProfile,
 ): ManagedAuditManualSandboxConnectionRehearsalGuardProfile["sourceNodeV247"] {
   return {
     sourceVersion: "Node v247",

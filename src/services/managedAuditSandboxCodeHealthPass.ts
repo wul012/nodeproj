@@ -10,9 +10,9 @@ import {
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
-  loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification,
-  type ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
-} from "./managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
+  loadPrecheckReceiptVerification,
+  type PrecheckReceiptProfile,
+} from "./precheckReceipt/verification.js";
 
 export interface ManagedAuditSandboxCodeHealthPassProfile {
   service: "orderops-node";
@@ -34,8 +34,8 @@ export interface ManagedAuditSandboxCodeHealthPassProfile {
   automaticUpstreamStart: false;
   sourceNodeV247: {
     sourceVersion: "Node v247";
-    profileVersion: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile["profileVersion"];
-    verificationState: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile["verificationState"];
+    profileVersion: PrecheckReceiptProfile["profileVersion"];
+    verificationState: PrecheckReceiptProfile["verificationState"];
     verificationDigest: string;
     readyForPrecheckUpstreamReceiptVerification: boolean;
     javaReady: boolean;
@@ -140,18 +140,21 @@ type CodeHealthPassChecks = {
 };
 
 const V247_SERVICE =
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.ts";
+  "src/services/precheckReceipt/verification.ts";
 const V247_SERVICE_MODULES = Object.freeze([
   V247_SERVICE,
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationConstants.ts",
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationCore.ts",
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationPolicy.ts",
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts",
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationRenderer.ts",
-  "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationTypes.ts",
+  "src/services/precheckReceipt/constants.ts",
+  "src/services/precheckReceipt/profile.ts",
+  "src/services/precheckReceipt/checks.ts",
+  "src/services/precheckReceipt/messages.ts",
+  "src/services/precheckReceipt/sourceNode.ts",
+  "src/services/precheckReceipt/javaEcho.ts",
+  "src/services/precheckReceipt/miniKvReceipt.ts",
+  "src/services/precheckReceipt/precheckReceiptRenderer.ts",
+  "src/services/precheckReceipt/types.ts",
 ]);
 const V247_TEST =
-  "test/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.test.ts";
+  "test/precheckReceipt/verification.test.ts";
 const ROUTE_TABLE = "src/routes/auditJsonMarkdownRoutes.ts";
 const PRECHECK_ROUTE_GROUP =
   "src/routes/auditManagedAuditManualSandboxConnectionPrecheckRoutes.ts";
@@ -192,7 +195,7 @@ const ENDPOINTS = Object.freeze({
 export function loadManagedAuditSandboxCodeHealthPass(input: {
   config: AppConfig;
 }): ManagedAuditSandboxCodeHealthPassProfile {
-  const sourceV247 = loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+  const sourceV247 = loadPrecheckReceiptVerification({
     config: input.config,
   });
   const sourceNodeV247 = createSourceNodeV247(sourceV247);
@@ -331,7 +334,7 @@ export function renderManagedAuditSandboxCodeHealthPassMarkdown(
 }
 
 function createSourceNodeV247(
-  source: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
+  source: PrecheckReceiptProfile,
 ): ManagedAuditSandboxCodeHealthPassProfile["sourceNodeV247"] {
   return {
     sourceVersion: "Node v247",
@@ -352,9 +355,9 @@ function createRegressionCoverage(): ManagedAuditSandboxCodeHealthPassProfile["r
   const precheckRouteGroupSource = readText(PRECHECK_ROUTE_GROUP);
   const registeredThroughPrecheckRouteGroup =
     precheckRouteGroupSource.includes(V247_ROUTE_PATH)
-    && precheckRouteGroupSource.includes("loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification");
+    && precheckRouteGroupSource.includes("loadPrecheckReceiptVerification");
   const renderedThroughPrecheckRouteGroup =
-    precheckRouteGroupSource.includes("renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown");
+    precheckRouteGroupSource.includes("renderPrecheckReceiptMarkdown");
 
   return {
     serviceFile: codeEvidenceFile(V247_SERVICE),

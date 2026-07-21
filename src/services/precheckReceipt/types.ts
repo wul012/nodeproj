@@ -1,8 +1,12 @@
 import type {
   ManagedAuditManualSandboxConnectionPrecheckPacketProfile,
-} from "./managedAuditManualSandboxConnectionPrecheckPacket.js";
+} from "../managedAuditManualSandboxConnectionPrecheckPacket.js";
+import type {
+  HistoricalEvidenceFile,
+  HistoricalSnippetMatch,
+} from "../historicalEvidenceReportUtils.js";
 
-export interface ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile {
+export interface PrecheckReceiptProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -42,8 +46,8 @@ export interface ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerif
     miniKvWritePermissionRequested: false;
   };
   upstreamReceipts: {
-    javaV99: JavaV99PrecheckEchoReference;
-    miniKvV108: MiniKvV108PrecheckNonParticipationReference;
+    javaV99: JavaV99Echo;
+    miniKvV108: MiniKvV108Receipt;
   };
   receiptVerification: {
     verificationDigest: string;
@@ -61,7 +65,7 @@ export interface ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerif
     routeRegistrationAccepted: boolean;
     nodeV247BlocksRealConnection: true;
   };
-  checks: PrecheckUpstreamReceiptVerificationChecks;
+  checks: PrecheckReceiptChecks;
   summary: {
     checkCount: number;
     passedCheckCount: number;
@@ -71,9 +75,9 @@ export interface ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerif
     warningCount: number;
     recommendationCount: number;
   };
-  productionBlockers: PrecheckUpstreamReceiptVerificationMessage[];
-  warnings: PrecheckUpstreamReceiptVerificationMessage[];
-  recommendations: PrecheckUpstreamReceiptVerificationMessage[];
+  productionBlockers: PrecheckReceiptMessage[];
+  warnings: PrecheckReceiptMessage[];
+  recommendations: PrecheckReceiptMessage[];
   evidenceEndpoints: {
     precheckUpstreamReceiptVerificationJson: string;
     precheckUpstreamReceiptVerificationMarkdown: string;
@@ -83,7 +87,7 @@ export interface ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerif
   nextActions: string[];
 }
 
-export interface JavaV99PrecheckEchoReference {
+export interface JavaV99Echo {
   sourceVersion: "Java v99";
   tagLabel: string;
   evidenceFiles: VerificationEvidenceFile[];
@@ -109,7 +113,7 @@ export interface JavaV99PrecheckEchoReference {
   readyForNodeV247Alignment: boolean;
 }
 
-export interface MiniKvV108PrecheckNonParticipationReference {
+export interface MiniKvV108Receipt {
   sourceVersion: "mini-kv v108";
   tagLabel: string;
   evidenceFiles: VerificationEvidenceFile[];
@@ -157,24 +161,11 @@ export interface MiniKvV108PrecheckNonParticipationReference {
   readyForNodeV247Alignment: boolean;
 }
 
-export interface VerificationEvidenceFile {
-  id: string;
-  path: string;
-  resolvedPath: string;
-  exists: boolean;
-  sizeBytes: number;
-  digest: string | null;
-}
+export type VerificationEvidenceFile = HistoricalEvidenceFile;
 
-export interface VerificationSnippetMatch {
-  id: string;
-  path: string;
-  resolvedPath: string;
-  expectedText: string;
-  matched: boolean;
-}
+export type VerificationSnippetMatch = HistoricalSnippetMatch;
 
-export interface PrecheckUpstreamReceiptVerificationMessage {
+export interface PrecheckReceiptMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source:
@@ -186,7 +177,7 @@ export interface PrecheckUpstreamReceiptVerificationMessage {
   message: string;
 }
 
-export type PrecheckUpstreamReceiptVerificationChecks = {
+export type PrecheckReceiptChecks = {
   sourceNodeV245Ready: boolean;
   sourceNodeV245StillReadOnly: boolean;
   javaV99EchoReady: boolean;

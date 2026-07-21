@@ -42,7 +42,7 @@
 | operator service lifecycle 成为可读 bounded context | 短目录/短文件/短导出，loader 与 checks 分层 | 完整 profile oracle、route/archive tests、name/maintainability ratchet | v2224 passed |
 | declared lifecycle 复用同一内核和目录语汇 | 不创建第三套 reader/check engine | 完整 profile oracle、负向测试、导入环为 0 | v2225 passed |
 | 758 行预实现 intake 不再承担读取、引用、检查和组合四责 | sources/checks/profile 分离并复用已有 historical helper | local/forced fallback、JSON/Markdown hash、维护性基线 | v2226 passed |
-| v108 预检 receipt 使用声明式字段映射和具名安全谓词 | references 不再拥有 153 行复杂 builder | 缺失/错类型 fail-closed、完整输出 parity | v2227 pending |
+| v108 预检 receipt 使用声明式字段映射和具名安全谓词 | references 不再拥有 153 行复杂 builder | 缺失/错类型 fail-closed、完整输出 parity | v2227 local passed; remote batch pending |
 | 文档先于最终验证 | 每版 explanation/evidence/中文 walkthrough | 每篇至少 3,000 中文字符且通过文档门 | 每版阻塞项 |
 | CI 按批次执行 | 每版 focused/typecheck/lint/static；v2227 后一次 full/build/smoke/CI | 单次最终 run；失败只允许证据化根因修复 | pending |
 
@@ -170,6 +170,30 @@ no-network/no-write 等具名谓词组成。
 本版结束时精确重跑 93 条目标命名 debt census。目标是全部新/触及 API 均不超过 40 字符，并将
 全仓 name debt 至少从 4,537 收紧到 4,470；未达到 67 条净减少视为批次未完成。维护性目标至少
 为 82 / 89 / 211 / 0；实际下降更多时按实际值刷新 baseline，绝不保留宽松余量。
+
+### v2227 Step-0 现实修正
+
+计划初稿所写“758 行单文件”已经被历史版本部分拆分，当前现实是 7 个平铺生产文件：入口 57 行、
+references 363 行、policy 207 行、core 100 行、types 208 行、renderer 48 行及 constants；测试 255 行。
+现实仍未完成本计划的关键目标：v108 builder 为 153 行/复杂度 95，Java builder 复杂度 21，policy
+`createChecks` 复杂度 38，家族还有 17 条文件/导出命名债，入口还复制 truthy aggregate-ready。
+
+因此执行切片修正为：整个家族迁入 `precheckReceipt/`，references 按 Node/Java/mini-kv 所有者分开，
+v108 以 typed field specs + 显式 root-over-nested `??` 保持 false/0/空串语义，checks 按 shape 与安全
+边界拆分，并复用 `reportCheckAssembly` 的 strict-true 完成机制。目标 precheck profile 的 READY/BLOCKED
+JSON 与 Markdown 必须保持完整字节一致。`managedAuditSandboxCodeHealthPass` 会把 live source/test inventory
+更新到新真实路径，故仅该路径元数据及派生 digest 允许变化；其 readiness、checks、边界、route 与下游
+rehearsal 语义必须不变。该例外用于保持代码健康报告诚实，不是公共执行合同或权限变化。
+
+### v2227 收口证据
+
+现实中的七个平铺生产文件和一个测试已迁入 `precheckReceipt/`，由十个短职责生产文件与两个测试承接。编排入口只建立 Node source、Java echo、mini-kv receipt、checks、消息和 profile；Java 文本证据改为有序 snippet 规格；mini-kv v108 使用 typed field specs、具名 pair reader 和显式 `??` 优先级；checks 按 source、计数、credential、connection、write 与 auto-start 边界组织，并复用 `reportCheckAssembly` 的 strict-true 完成机制。仓内消费者均改用 `loadPrecheckReceiptVerification`、`renderPrecheckReceiptMarkdown` 与短类型，未留下超长兼容 alias。
+
+固定时间、强制 historical fallback 下，READY JSON/Markdown 仍为 21,595/21,169 字节，SHA-256 仍为 `f4ca0827...b685563` 与 `36014563...12f30d`；打开 upstream actions 的 BLOCKED 输出仍为 22,180/21,578 字节，SHA-256 仍为 `16d588e7...1577fae` 与 `ff3b3a90...32892`，18/18 与 14/18 checks、零/三个 blocker、三条 warning、两条 recommendation 均未漂移。负向测试证明显式空串、零和 false 不会被 nested compatibility 值覆盖，缺失、错类型和混合数组保持失败关闭；测试期望与 fixture 未修改。
+
+目标家族十七条命名债归零，全仓 name debt 从 4,461 收紧到 4,444，其中文件债 966→959、导出债 3,495→3,485；维护性从 82/90/211/0 收紧到 82/89/208/0，一个长函数和三个复杂函数消失，替代实现没有进入账本。受管 family 仍为 52、导入环仍为零、renderer 仍为 242/245 且三个 raw renderer 全有 composition waiver、源码仍无超过 800 行文件。`managedAuditSandboxCodeHealthPass` 仅把 live inventory 更新为新真实路径并重算其派生 digest，其 readiness、route、边界与 downstream rehearsal 继续由 focused tests 锁定。最终 shard 验证还发现 v2223 升级 workflow 后，`workflowEvidenceVerification` 仍硬编码 `setup-node@v4`；本版修正为审定的 v7，并新增“退回 v4 必须 blocked”的负向测试，不修改失败期望。
+
+本地批次验收已完成：独立发现 582 个测试文件；单体限四 worker 运行在 1,204 秒工具边界仅超时、无断言失败，精确停止该进程树后改用四个顺序 shard，最终树通过 582 个文件、1,780 项测试。typecheck、全仓零告警 lint、build、security 18/18、archive 64.51/80 MiB、全部 elegance/maintainability/renderer/source-size ratchet 通过。HTTP smoke 在强制 access guard 模式验证受保护 v2227 JSON/Markdown 为 18/18 与 200，在 CI 默认安全模式验证 health、零请求 metrics 和 release readiness，两个服务均按 PID 停止且 `dist` 已删除。中文讲解为 4,479 汉字、19 个章节。现在只剩一次远端 Node Evidence CI；Java 与 mini-kv 继续 recommended parallel，Node 未要求或修改新鲜上游证据。
 
 ## 每版交付物
 

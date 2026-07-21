@@ -401,10 +401,6 @@
       "maxLines": 156
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
-      "maxLines": 153
-    },
-    {
       "key": "src/services/opsPromotionArchiveDeploymentExecutionBuilders.ts|createOpsPromotionReleaseAuditTrailRecord",
       "maxLines": 152
     },
@@ -698,10 +694,6 @@
     }
   ],
   "complexFunctions": [
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
-      "maxComplexity": 95
-    },
     {
       "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationChecks.ts|createChecks",
       "maxComplexity": 85
@@ -1024,10 +1016,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverCandidateGateUpstreamHardeningReview.ts|createChecks",
-      "maxComplexity": 38
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationPolicy.ts|createChecks",
       "maxComplexity": 38
     },
     {
@@ -1508,10 +1496,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyApprovalPacketReviewArtifacts.ts|createApprovalPacketReviewGates",
-      "maxComplexity": 21
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createJavaV99PrecheckEchoReference",
       "maxComplexity": 21
     },
     {

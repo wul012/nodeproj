@@ -1,0 +1,169 @@
+{
+  "schemaVersion": 1,
+  "version": "v2227",
+  "scope": "precheck-upstream-receipt-bounded-context",
+  "behaviorChanged": false,
+  "step0Reality": {
+    "planAssumptionCorrected": true,
+    "oldFlatProductionFiles": 7,
+    "oldTestFiles": 1,
+    "oldLargestBuilderLines": 153,
+    "oldLargestBuilderComplexity": 95,
+    "oldChecksComplexity": 38,
+    "oldJavaBuilderComplexity": 21,
+    "targetFamilyNameDebt": 17
+  },
+  "boundedContext": {
+    "root": "src/services/precheckReceipt",
+    "productionFiles": 10,
+    "testRoot": "test/precheckReceipt",
+    "testFiles": 2,
+    "publicLoader": "loadPrecheckReceiptVerification",
+    "publicRenderer": "renderPrecheckReceiptMarkdown",
+    "compatibilityAliasesKept": 0,
+    "owners": {
+      "verification.ts": "orchestration only",
+      "sourceNode.ts": "Node v245 source narrowing",
+      "javaEcho.ts": "Java v99 text evidence interpretation",
+      "miniKvReceipt.ts": "mini-kv v108 JSON narrowing and compatibility precedence",
+      "checks.ts": "ordered domain and safety predicates",
+      "messages.ts": "blocker, warning, and recommendation policy",
+      "profile.ts": "public object order, digest, summary, and endpoints",
+      "types.ts": "public and internal report shapes",
+      "constants.ts": "frozen evidence paths and expected ordered fields",
+      "precheckReceiptRenderer.ts": "Markdown formatting only"
+    }
+  },
+  "narrowingSemantics": {
+    "sharedEvidenceReader": "src/services/historicalEvidenceReportUtils.ts",
+    "sharedFunctions": [
+      "evidenceFile",
+      "snippet",
+      "snippetMatched",
+      "readJsonObject",
+      "objectField",
+      "mapReceiptFields",
+      "stringField",
+      "numberField",
+      "booleanField",
+      "stringArrayField"
+    ],
+    "rawTextModePreservesHistoricalFileBytes": true,
+    "rootOverNestedUsesNullishPrecedence": true,
+    "explicitEmptyZeroFalsePreserved": true,
+    "mixedRuntimeArraysRejected": true,
+    "missingAndWrongTypesFailClosed": true,
+    "strictAggregateReadiness": true
+  },
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "forcedHistoricalFallback": true,
+    "beforeAndAfterEqual": true,
+    "ready": {
+      "verificationState": "manual-sandbox-precheck-upstream-receipt-verification-ready",
+      "checks": "18-of-18",
+      "productionBlockers": 0,
+      "warnings": 3,
+      "recommendations": 2,
+      "jsonBytes": 21595,
+      "jsonSha256": "f4ca082735d59dd441b96055dfed43b88a05885e1c118c6729d54fc70b685563",
+      "markdownBytes": 21169,
+      "markdownSha256": "3601456362c2decc6a5a69678c135ea895ede65a830f175550f422636012f30d"
+    },
+    "blocked": {
+      "runtimeOverride": "UPSTREAM_ACTIONS_ENABLED=true",
+      "verificationState": "blocked",
+      "checks": "14-of-18",
+      "productionBlockers": 3,
+      "warnings": 3,
+      "recommendations": 2,
+      "jsonBytes": 22180,
+      "jsonSha256": "16d588e7d67b0111dff4055396f3770eb31cf2538eb6540ed124a77aa1577fae",
+      "markdownBytes": 21578,
+      "markdownSha256": "ff3b3a90dcea7a61ca4be3960bb928a72762c83ee527b3ece2feb68e0ac32892"
+    },
+    "testExpectationsChanged": false,
+    "fixturesChanged": false
+  },
+  "downstreamInventoryException": {
+    "consumer": "src/services/managedAuditSandboxCodeHealthPass.ts",
+    "allowedChanges": [
+      "live source path inventory",
+      "live test path inventory",
+      "derived source digest"
+    ],
+    "readinessChanged": false,
+    "routeChanged": false,
+    "safetyBoundariesChanged": false,
+    "rehearsalSemanticsChanged": false
+  },
+  "batchRegressionRepair": {
+    "detectedBy": "vitest-shard-2-of-4",
+    "cause": "workflow evidence verifier still required actions/setup-node@v4 after the reviewed workflow pin moved to v7",
+    "implementation": "src/services/workflowEvidenceVerification.ts now requires actions/setup-node@v7 with Node 22",
+    "negativeProof": "replacing v7 with retired v4 makes nodeSetupPresent false and emits NODE_SETUP_MISSING",
+    "testExpectationsChanged": false,
+    "focusedResult": "passed-1-file-4-tests-zero-lint-warnings"
+  },
+  "ratchets": {
+    "maintainabilityBefore": "82/90/211/0",
+    "maintainabilityAfter": "82/89/208/0",
+    "longFunctionsRemoved": 1,
+    "complexFunctionsRemoved": 3,
+    "replacementLongFunctions": 0,
+    "replacementComplexFunctions": 0,
+    "nameDebtBefore": 4461,
+    "nameDebtAfter": 4444,
+    "fileNameDebtBefore": 966,
+    "fileNameDebtAfter": 959,
+    "exportNameDebtBefore": 3495,
+    "exportNameDebtAfter": 3485,
+    "targetFamilyNameDebtAfter": 0,
+    "trackedFamilies": 52,
+    "importCycles": 0,
+    "renderers": "242-of-245-standardized-3-waived-0-non-waived",
+    "sourceFilesAbove800Lines": 0,
+    "baselinesRefreshedDownward": true
+  },
+  "localVerification": {
+    "preDocumentationFocusedTests": "passed-8-files-26-tests-max-4-workers",
+    "typecheck": "passed",
+    "targetedLint": "passed-zero-errors-zero-warnings",
+    "fullRepositoryLint": "passed-zero-errors-zero-warnings",
+    "fixedOutputParity": "passed-four-of-four-full-byte-oracles",
+    "independentTestDiscovery": "passed-582-files",
+    "monolithicTestAttempt": "timeout-only-after-1204-seconds-with-no-assertion-failure-output; exact vitest tree stopped",
+    "fullTests": "passed-four-sequential-shards-582-files-1780-tests-max-4-workers",
+    "finalFocusedTests": "passed-5-files-18-tests",
+    "walkthrough": "passed-4479-han-characters-19-h2-sections",
+    "build": "passed-and-dist-removed-after-smoke",
+    "protectedHttpSmoke": "passed-json-18-of-18-markdown-200-execution-false-with-access-guard-enforced",
+    "ciModeHttpSmoke": "passed-health-metrics-zero-release-readiness-execution-false",
+    "security": "passed-8374-files-18-of-18-config-checks",
+    "archive": "passed-7162-files-64.51-of-80-mib",
+    "elegance": "passed-4444-name-debt-52-tracked-families",
+    "maintainability": "passed-82-89-208-0",
+    "renderer": "passed-242-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-0-above-800",
+    "finalBatchValidation": "passed-local",
+    "remoteNodeEvidenceCi": "pending-after-batch-push"
+  },
+  "boundaries": {
+    "routePathsChanged": false,
+    "publicProfileFieldsChanged": false,
+    "checkKeysOrOrderChanged": false,
+    "blockerWarningRecommendationTextChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityAdded": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvModified": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel-read-only-from-node",
+    "miniKv": "recommended-parallel-read-only-from-node",
+    "freshEvidenceRequired": false,
+    "nodeIsApprovalBlocker": false
+  }
+}

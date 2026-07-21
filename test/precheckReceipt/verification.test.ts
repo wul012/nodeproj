@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { buildApp } from "../src/app.js";
-import { loadConfig } from "../src/config.js";
+import { buildApp } from "../../src/app.js";
+import { loadConfig } from "../../src/config.js";
 import {
-  loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification,
-} from "../src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification.js";
+  loadPrecheckReceiptVerification,
+} from "../../src/services/precheckReceipt/verification.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
@@ -20,7 +20,7 @@ describe("managed audit manual sandbox connection precheck upstream receipt veri
   });
 
   it("verifies Node v245 with Java v99 and mini-kv v108 without opening a connection", () => {
-    const profile = loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+    const profile = loadPrecheckReceiptVerification({
       config: loadTestConfig(),
     });
 
@@ -152,7 +152,7 @@ describe("managed audit manual sandbox connection precheck upstream receipt veri
   it("uses committed historical fixture fallback for GitHub runner style checks", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
 
-    const profile = loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+    const profile = loadPrecheckReceiptVerification({
       config: loadTestConfig(),
     });
 
@@ -168,7 +168,7 @@ describe("managed audit manual sandbox connection precheck upstream receipt veri
   });
 
   it("blocks when upstream actions are enabled", () => {
-    const profile = loadManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerification({
+    const profile = loadPrecheckReceiptVerification({
       config: loadTestConfig({
         UPSTREAM_ACTIONS_ENABLED: "true",
       }),

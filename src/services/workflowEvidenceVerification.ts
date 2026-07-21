@@ -87,7 +87,7 @@ export function createWorkflowEvidenceVerification(
     permissionsReadOnly: workflowContent.includes("permissions:")
       && workflowContent.includes("contents: read")
       && !workflowContent.includes("contents: write"),
-    nodeSetupPresent: workflowContent.includes("actions/setup-node@v4")
+    nodeSetupPresent: workflowContent.includes("actions/setup-node@v7")
       && workflowContent.includes("node-version: \"22\""),
     npmCiPresent: workflowContent.includes("npm ci"),
     typecheckPresent: workflowContent.includes("npm run typecheck"),

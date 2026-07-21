@@ -1,10 +1,10 @@
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+import { renderVerificationReportMarkdown } from "../verificationReportBuilder.js";
 import type {
-  ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
-} from "./managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationTypes.js";
+  PrecheckReceiptProfile,
+} from "./types.js";
 
-export function renderManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationProfile,
+export function renderPrecheckReceiptMarkdown(
+  profile: PrecheckReceiptProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: "Managed audit manual sandbox connection precheck upstream receipt verification",

@@ -78,6 +78,21 @@ describe("workflow evidence verification", () => {
     ]));
   });
 
+  it("requires the reviewed setup-node v7 runtime instead of accepting the retired v4 pin", async () => {
+    const workflow = await readFile(
+      path.join(process.cwd(), ".github", "workflows", "node-evidence.yml"),
+      "utf8",
+    );
+    const verification = createWorkflowEvidenceVerification(
+      "node-evidence.yml",
+      workflow.replace("actions/setup-node@v7", "actions/setup-node@v4"),
+    );
+
+    expect(verification.valid).toBe(false);
+    expect(verification.checks.nodeSetupPresent).toBe(false);
+    expect(verification.blockers.map((blocker) => blocker.code)).toContain("NODE_SETUP_MISSING");
+  });
+
   it("exposes workflow evidence verification routes in JSON and Markdown", async () => {
     const app = await buildApp(loadConfig({
       LOG_LEVEL: "silent",
