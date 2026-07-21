@@ -4,19 +4,19 @@ import {
   stringValue,
   stringValues,
   valueAt,
-} from "../../evidence/projectJson.js";
+} from "../../../evidence/projectJson.js";
 import {
   historicalEvidenceExists,
   readHistoricalEvidenceFile,
   resolveHistoricalEvidencePath,
   statHistoricalEvidence,
-} from "../historicalEvidenceResolver.js";
+} from "../../historicalEvidenceResolver.js";
 import type {
   JavaServiceLifecycle,
   FrozenLiveReadPlan,
   MiniKvServiceTemplate,
   LifecycleEvidenceFile,
-} from "./serviceTypes.js";
+} from "./intakeTypes.js";
 
 export function createLifecycleFile(
   id: string,

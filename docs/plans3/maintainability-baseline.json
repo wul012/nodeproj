@@ -381,10 +381,6 @@
       "maxLines": 163
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts|createChecks",
-      "maxLines": 159
-    },
-    {
       "key": "src/services/codeWalkthroughDocumentationQualityGate.ts|loadCodeWalkthroughDocumentationQualityGate",
       "maxLines": 158
     },
@@ -466,10 +462,6 @@
     },
     {
       "key": "src/services/approvalDecisionPrerequisiteGateCore.ts|loadApprovalDecisionPrerequisiteGate",
-      "maxLines": 142
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake",
       "maxLines": 142
     },
     {
@@ -733,10 +725,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createChecks",
       "maxComplexity": 86
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts|createChecks",
-      "maxComplexity": 85
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverUpstreamEchoVerificationChecks.ts|createChecks",
@@ -1049,10 +1037,6 @@
     {
       "key": "src/services/rollbackWindowReadinessChecklist.ts|createChecks",
       "maxComplexity": 39
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification.ts|createChecks",
-      "maxComplexity": 38
     },
     {
       "key": "src/services/crossProjectReleaseBundleGate.ts|createChecks",

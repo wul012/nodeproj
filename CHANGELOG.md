@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2225 - 2026-07-21
+
+- Completed the operator-lifecycle bounded context with separate `service` and
+  `declared` subdomains, short public APIs, and no long compatibility aliases.
+  Added a pure fail-closed check completion primitive shared by all four intake
+  and archive flows, then split declared source mapping, ordered checks, public
+  profile assembly, archive checks, types, and renderers into explicit owners.
+  Eight full fixed-time JSON/Markdown byte oracles remain identical. Target
+  naming debt fell by 30 to zero, repository name debt tightened from 4,505 to
+  4,475, and maintainability tightened from 83/96/215/0 to 83/94/213/0 without
+  route, fixture, report, sibling-workspace, network, write, or execution change.
+
 ## v2224 - 2026-07-21
 
 - Moved the operator service lifecycle intake and archive verifier into a

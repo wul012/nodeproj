@@ -2,26 +2,37 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
-import type { AppConfig } from "../config.js";
-import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
+import type { AppConfig } from "../../../config.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.js";
+  isSha256,
+  numberValue,
+  readProjectJson,
+  stringValue,
+  valueAt,
+} from "../../../evidence/projectJson.js";
+import { stripJsonBom } from "../../jsonEvidenceUtils.js";
+import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../../liveProbeReportUtils.js";
+import { completeChecks } from "../checkAssembly.js";
+import { createDeclaredArchiveChecks } from "./archiveChecks.js";
+import {
+  loadDeclaredIntake,
+} from "./intake.js";
 import type {
-  DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference,
-  DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences,
-  DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationChecks,
-  DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage,
-  DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRecord,
-  DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationSummary,
-  DeclaredOperatorLifecycleEvidenceIntakeReplayReference,
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationProfile,
-  SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationTypes.js";
+  DeclaredArchiveFile,
+  DeclaredArchiveRefs,
+  DeclaredArchiveChecks,
+  DeclaredArchiveMessage,
+  DeclaredArchiveRecord,
+  DeclaredArchiveSummary,
+  DeclaredReplay,
+  DeclaredArchiveProfile,
+  ParsedDeclaredArchive,
+  SourceV388DeclaredIntake,
+} from "./archiveTypes.js";
 
 export {
-  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMarkdown,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRenderer.js";
+  renderDeclaredArchiveMarkdown,
+} from "./archiveRenderer.js";
 
 const PROFILE_VERSION =
   "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-evidence-intake-archive-verification.v1";
@@ -38,34 +49,26 @@ const V388_BASENAME = "java-mini-kv-declared-operator-lifecycle-evidence-intake-
 const CODE_WALKTHROUGH =
   "代码讲解记录_生产雏形阶段3/r0000/393-java-mini-kv-declared-operator-lifecycle-evidence-intake-v388.md";
 
-interface ParsedArchive {
-  json: Record<string, unknown> | null;
-  markdown: string;
-  summary: Record<string, unknown> | null;
-  browserSnapshot: string;
-  explanation: string;
-  codeWalkthrough: string;
-  sourcePlan: string;
-  plansIndex: string;
-  archiveIndex: string;
-}
-
-export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification(
+export function loadDeclaredArchive(
   input: { config: AppConfig; archiveRoot?: string },
-): ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationProfile {
+): DeclaredArchiveProfile {
   const projectRoot = input.archiveRoot ?? process.cwd();
   const archiveReferences = createArchiveReferences(projectRoot);
   const parsed = readParsedArchive(projectRoot, archiveReferences);
   const sourceNodeV388 = createSourceNodeV388(parsed);
   const replay = replayFromFrozenEvidence(input.config, projectRoot);
   const draftVerification = createArchiveVerification(sourceNodeV388, archiveReferences, replay, false);
-  const checks = createChecks(sourceNodeV388, archiveReferences, parsed, replay, draftVerification);
-  checks.readyForDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification = Object.entries(checks)
-    .filter(([key]) => key !== "readyForDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification")
-    .every(([, value]) => value);
-  const ready = checks.readyForDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification;
+  const completed = completeChecks(createDeclaredArchiveChecks({
+    source: sourceNodeV388,
+    files: archiveFiles(archiveReferences),
+    archive: parsed,
+    replay,
+    verification: draftVerification,
+    sourceRoute: SOURCE_NODE_V388_ROUTE,
+  }), "readyForDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification");
+  const { checks, ready } = completed;
   const archiveVerification = createArchiveVerification(sourceNodeV388, archiveReferences, replay, ready);
-  checks.archiveVerificationDigestStable = isDigest(archiveVerification.archiveVerificationDigest);
+  checks.archiveVerificationDigestStable = isSha256(archiveVerification.archiveVerificationDigest);
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings();
   const recommendations = collectRecommendations(ready);
@@ -137,7 +140,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMin
   };
 }
 
-function createArchiveReferences(projectRoot: string): DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences {
+function createArchiveReferences(projectRoot: string): DeclaredArchiveRefs {
   return {
     archiveRoot: ARCHIVE_ROOT,
     jsonEvidence: fileReference(projectRoot, ARCHIVE_ROOT, "evidence", `${V388_BASENAME}-http.json`),
@@ -157,7 +160,7 @@ function createArchiveReferences(projectRoot: string): DeclaredOperatorLifecycle
 function fileReference(
   projectRoot: string,
   ...segments: string[]
-): DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference {
+): DeclaredArchiveFile {
   const relativePath = path.join(...segments).replace(/\\/g, "/");
   const absolutePath = path.join(projectRoot, ...segments);
   if (!existsSync(absolutePath)) {
@@ -174,12 +177,12 @@ function fileReference(
 
 function readParsedArchive(
   projectRoot: string,
-  refs: DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences,
-): ParsedArchive {
+  refs: DeclaredArchiveRefs,
+): ParsedDeclaredArchive {
   return {
-    json: readJsonFile(projectRoot, refs.jsonEvidence.path),
+    json: readProjectJson(projectRoot, refs.jsonEvidence.path),
     markdown: readTextFile(projectRoot, refs.markdownEvidence.path),
-    summary: readJsonFile(projectRoot, refs.summaryEvidence.path),
+    summary: readProjectJson(projectRoot, refs.summaryEvidence.path),
     browserSnapshot: readTextFile(projectRoot, refs.browserSnapshot.path),
     explanation: readTextFile(projectRoot, refs.explanation.path),
     codeWalkthrough: readTextFile(projectRoot, refs.codeWalkthrough.path),
@@ -189,7 +192,7 @@ function readParsedArchive(
   };
 }
 
-function createSourceNodeV388(archive: ParsedArchive): SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference {
+function createSourceNodeV388(archive: ParsedDeclaredArchive): SourceV388DeclaredIntake {
   return {
     sourceVersion: "Node v388",
     profileVersion: stringValue(valueAt(archive.json, "profileVersion")),
@@ -245,8 +248,8 @@ function createSourceNodeV388(archive: ParsedArchive): SourceNodeV388DeclaredOpe
 function replayFromFrozenEvidence(
   config: AppConfig,
   projectRoot: string,
-): DeclaredOperatorLifecycleEvidenceIntakeReplayReference {
-  const profile = loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake({
+): DeclaredReplay {
+  const profile = loadDeclaredIntake({
     config,
     archiveRoot: projectRoot,
   });
@@ -301,11 +304,11 @@ function replayFromFrozenEvidence(
 }
 
 function createArchiveVerification(
-  source: SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference,
-  refs: DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences,
-  replay: DeclaredOperatorLifecycleEvidenceIntakeReplayReference,
+  source: SourceV388DeclaredIntake,
+  refs: DeclaredArchiveRefs,
+  replay: DeclaredReplay,
   ready: boolean,
-): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRecord {
+): DeclaredArchiveRecord {
   const archiveFileDigests = archiveFiles(refs)
     .map((file) => ({ path: file.path, digest: file.digest, byteLength: file.byteLength }));
   const record = {
@@ -337,114 +340,15 @@ function createArchiveVerification(
   };
 }
 
-function createChecks(
-  source: SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference,
-  refs: DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences,
-  archive: ParsedArchive,
-  replay: DeclaredOperatorLifecycleEvidenceIntakeReplayReference,
-  verification: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRecord,
-): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationChecks {
-  return {
-    archiveFilesPresent: archiveFiles(refs).every((file) => file.exists),
-    jsonEvidenceReadable: archive.json !== null,
-    jsonProfileVersionValid:
-      source.profileVersion ===
-      "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-declared-operator-lifecycle-evidence-intake.v1",
-    jsonIntakeReady:
-      source.readyForDeclaredOperatorLifecycleEvidenceIntake && source.readyForNodeV389ArchiveVerification,
-    jsonSourceNodeV387ArchiveVerified:
-      stringValue(valueAt(archive.json, "sourceNodeV387", "archiveVerificationState"))
-      === "java-mini-kv-operator-service-lifecycle-evidence-intake-archive-verified",
-    jsonEvidenceVersionsMatch:
-      source.javaDeclaredOperatorLifecycleVersion === "Java v161"
-      && source.miniKvDeclaredOperatorLifecycleReleaseVersion === "v152"
-      && source.miniKvFrozenOperatorTemplateReleaseVersion === "v151",
-    jsonRuntimeGateClosed:
-      !source.readyForRuntimeLiveReadGate && !source.liveReadGateAllowed && !source.runtimeProbeAllowed,
-    jsonRuntimeGateRequiresSeparateApproval: source.runtimeGateRequiresSeparateApproval,
-    jsonActiveShardPrototypeDisabled: !source.activeShardPrototypeEnabled,
-    jsonIntakeDigestStable: isDigest(source.intakeDigest),
-    jsonChecksAllPassed: source.checkCount > 0 && source.checkCount === source.passedCheckCount,
-    jsonUsesFrozenHistoricalSnapshots:
-      source.javaDeclaredOperatorLifecycleUsesHistoricalFallback
-      && source.miniKvDeclaredOperatorLifecycleUsesHistoricalFallback
-      && source.miniKvFrozenOperatorTemplateUsesHistoricalFallback,
-    jsonDeclaredOperatorEvidencePresent:
-      source.declaredOperatorLifecycleEvidencePresent
-      && source.declaredOperatorEvidenceSourceCount === 2
-      && source.readyEvidenceSourceCount === 3
-      && source.miniKvRequiredBeforeRuntimeGateCount === 4,
-    summaryMatchesJson:
-      valueAt(archive.summary, "intakeState") === source.intakeState
-      && valueAt(archive.summary, "checkCount") === source.checkCount
-      && valueAt(archive.summary, "passedCheckCount") === source.passedCheckCount
-      && valueAt(archive.summary, "readyForRuntimeLiveReadGate") === false
-      && valueAt(archive.summary, "declaredOperatorEvidenceSourceCount") === 2,
-    markdownRecordsDeclaredOperatorLifecycle:
-      archive.markdown.includes(
-        "Intake decision: consume-java-v161-and-mini-kv-v152-declared-operator-lifecycle-evidence",
-      )
-      && archive.markdown.includes("mini-kv v152 Declared Operator Lifecycle")
-      && archive.markdown.includes("Ready for runtime live-read gate: false"),
-    browserSnapshotPresent:
-      refs.browserSnapshot.exists
-      && archive.browserSnapshot.includes("java-mini-kv-declared-operator-lifecycle-evidence-intake-ready"),
-    screenshotAndHtmlPresent: refs.screenshot.exists && refs.htmlArchive.exists,
-    explanationRecordsRuntimeGateBlockedAndChecks:
-      archive.explanation.includes("readyForRuntimeLiveReadGate: false") && archive.explanation.includes("45/45"),
-    codeWalkthroughPresent:
-      refs.codeWalkthrough.exists && archive.codeWalkthrough.includes("v388")
-      && archive.codeWalkthrough.includes("shard-readiness-v152.json"),
-    sourcePlanPointsToV389ArchiveVerification:
-      archive.sourcePlan.includes("Node v389 archives and verifies the v388 declared lifecycle intake")
-      || archive.sourcePlan.includes("Node v389 should archive and verify this v388 intake"),
-    planIndexReferencesV388AndV389:
-      archive.plansIndex.includes("v388-post-java-mini-kv-declared-operator-lifecycle-evidence-intake-roadmap.md")
-      && archive.plansIndex.includes("v389-post-java-mini-kv-declared-operator-lifecycle-evidence-intake-archive-verification-roadmap.md"),
-    archiveIndexReferencesV388:
-      archive.archiveIndex.includes("388: Java v161 + mini-kv v152 declared operator lifecycle evidence intake"),
-    routeRecordedInArchive:
-      stringValue(valueAt(archive.json, "evidenceEndpoints", "declaredOperatorLifecycleEvidenceIntakeJson"))
-      === SOURCE_NODE_V388_ROUTE,
-    replayReady: replay.replayState === "ready" && replay.productionBlockerCount === 0,
-    replayUsesFrozenJavaV161MiniKvV152AndV151:
-      replay.javaDeclaredOperatorLifecycleUsedHistoricalFallback
-      && replay.miniKvDeclaredOperatorLifecycleUsedHistoricalFallback
-      && replay.miniKvFrozenOperatorTemplateUsedHistoricalFallback
-      && replay.javaDeclaredOperatorLifecycleVersion === "Java v161"
-      && replay.miniKvDeclaredOperatorLifecycleReleaseVersion === "v152"
-      && replay.miniKvFrozenOperatorTemplateReleaseVersion === "v151",
-    replayKeepsRuntimeGateClosed:
-      !replay.readyForRuntimeLiveReadGate && !replay.liveReadGateAllowed && !replay.runtimeProbeAllowed
-      && replay.runtimeGateRequiresSeparateApproval,
-    replayKeepsActiveShardPrototypeDisabled: !replay.activeShardPrototypeEnabled,
-    replayKeepsDeclaredOperatorEvidence:
-      replay.declaredOperatorLifecycleEvidencePresent
-      && replay.declaredOperatorEvidenceSourceCount === 2
-      && replay.readyEvidenceSourceCount === 3
-      && replay.miniKvRequiredBeforeRuntimeGateCount === 4,
-    archiveVerificationDoesNotRerunLiveRead: !verification.rerunsLiveRead,
-    noAutomaticUpstreamStartStop: !verification.startsUpstreamServices && !verification.stopsUpstreamServices,
-    noUpstreamMutation: !verification.writesUpstreamState,
-    noManagedAuditConnection: !verification.opensManagedAuditConnection,
-    noCredentialValueRead: true,
-    noRawEndpointUrlParsed: true,
-    productionAuditStillBlocked: true,
-    productionWindowStillBlocked: true,
-    archiveVerificationDigestStable: isDigest(verification.archiveVerificationDigest),
-    readyForDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification: false,
-  };
-}
-
 function createSummary(
-  source: SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference,
-  refs: DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences,
-  replay: DeclaredOperatorLifecycleEvidenceIntakeReplayReference,
-  checks: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationChecks,
-  productionBlockers: readonly DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[],
-  warnings: readonly DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[],
-  recommendations: readonly DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[],
-): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationSummary {
+  source: SourceV388DeclaredIntake,
+  refs: DeclaredArchiveRefs,
+  replay: DeclaredReplay,
+  checks: DeclaredArchiveChecks,
+  productionBlockers: readonly DeclaredArchiveMessage[],
+  warnings: readonly DeclaredArchiveMessage[],
+  recommendations: readonly DeclaredArchiveMessage[],
+): DeclaredArchiveSummary {
   return {
     checkCount: countReportChecks(checks),
     passedCheckCount: countPassedReportChecks(checks),
@@ -462,8 +366,8 @@ function createSummary(
 }
 
 function collectProductionBlockers(
-  checks: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationChecks,
-): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[] {
+  checks: DeclaredArchiveChecks,
+): DeclaredArchiveMessage[] {
   const rules: Array<[boolean, string, string, string]> = [
     [checks.archiveFilesPresent, "ARCHIVE_FILES_MISSING", "archive", "All v388 archive files must be present."],
     [checks.jsonEvidenceReadable, "ARCHIVE_JSON_UNREADABLE", "archive", "v388 JSON archive must be readable."],
@@ -486,7 +390,7 @@ function collectProductionBlockers(
     .map(([, code, source, message]) => ({ code, severity: "blocker" as const, source, message }));
 }
 
-function collectWarnings(): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[] {
+function collectWarnings(): DeclaredArchiveMessage[] {
   return [{
     code: "ARCHIVE_VERIFICATION_IS_NOT_RUNTIME_GATE",
     severity: "warning",
@@ -495,7 +399,7 @@ function collectWarnings(): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerifi
   }];
 }
 
-function collectRecommendations(ready: boolean): DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[] {
+function collectRecommendations(ready: boolean): DeclaredArchiveMessage[] {
   return [{
     code: ready ? "WRITE_SEPARATE_RUNTIME_GATE_PLAN" : "REPAIR_V388_ARCHIVE_BEFORE_RETRY",
     severity: "recommendation",
@@ -507,8 +411,8 @@ function collectRecommendations(ready: boolean): DeclaredOperatorLifecycleEviden
 }
 
 function archiveFiles(
-  refs: DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences,
-): DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference[] {
+  refs: DeclaredArchiveRefs,
+): DeclaredArchiveFile[] {
   return [
     refs.jsonEvidence,
     refs.markdownEvidence,
@@ -524,49 +428,10 @@ function archiveFiles(
   ];
 }
 
-function readJsonFile(projectRoot: string, relativePath: string): Record<string, unknown> | null {
-  const content = readTextFile(projectRoot, relativePath);
-  if (content.length === 0) {
-    return null;
-  }
-  try {
-    return JSON.parse(content) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
 function readTextFile(projectRoot: string, relativePath: string): string {
   const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
   if (!existsSync(absolutePath)) {
     return "";
   }
-  return stripBom(readFileSync(absolutePath, "utf8"));
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
-}
-
-function isDigest(value: string | null): boolean {
-  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
-}
-
-function stripBom(content: string): string {
-  return content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
+  return stripJsonBom(readFileSync(absolutePath, "utf8"));
 }

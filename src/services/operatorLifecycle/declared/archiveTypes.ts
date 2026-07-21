@@ -1,11 +1,23 @@
-export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference {
+export interface DeclaredArchiveFile {
   path: string;
   exists: boolean;
   byteLength: number;
   digest: string | null;
 }
 
-export interface SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference {
+export interface ParsedDeclaredArchive {
+  json: Record<string, unknown> | null;
+  markdown: string;
+  summary: Record<string, unknown> | null;
+  browserSnapshot: string;
+  explanation: string;
+  codeWalkthrough: string;
+  sourcePlan: string;
+  plansIndex: string;
+  archiveIndex: string;
+}
+
+export interface SourceV388DeclaredIntake {
   sourceVersion: "Node v388";
   profileVersion: string;
   intakeState: string;
@@ -46,7 +58,7 @@ export interface SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference 
   executionAllowed: false;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeReplayReference {
+export interface DeclaredReplay {
   replayState: "ready" | "blocked";
   replayedProfileVersion: string;
   readyForDeclaredOperatorLifecycleEvidenceIntake: boolean;
@@ -75,22 +87,22 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeReplayReference {
   executionAllowed: false;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences {
+export interface DeclaredArchiveRefs {
   archiveRoot: "e/388";
-  jsonEvidence: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  markdownEvidence: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  summaryEvidence: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  browserSnapshot: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  htmlArchive: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  screenshot: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  explanation: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  codeWalkthrough: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  sourcePlan: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  plansIndex: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
-  archiveIndex: DeclaredOperatorLifecycleEvidenceIntakeArchiveFileReference;
+  jsonEvidence: DeclaredArchiveFile;
+  markdownEvidence: DeclaredArchiveFile;
+  summaryEvidence: DeclaredArchiveFile;
+  browserSnapshot: DeclaredArchiveFile;
+  htmlArchive: DeclaredArchiveFile;
+  screenshot: DeclaredArchiveFile;
+  explanation: DeclaredArchiveFile;
+  codeWalkthrough: DeclaredArchiveFile;
+  sourcePlan: DeclaredArchiveFile;
+  plansIndex: DeclaredArchiveFile;
+  archiveIndex: DeclaredArchiveFile;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRecord {
+export interface DeclaredArchiveRecord {
   archiveVerificationDigest: string;
   verificationMode: "java-mini-kv-declared-operator-lifecycle-evidence-intake-archive-verification";
   sourceSpan: "Node v388 declared operator lifecycle evidence intake";
@@ -113,7 +125,7 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRecor
   nextNodeVersionSuggested: "Node v390";
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationChecks {
+export interface DeclaredArchiveChecks {
   archiveFilesPresent: boolean;
   jsonEvidenceReadable: boolean;
   jsonProfileVersionValid: boolean;
@@ -154,7 +166,7 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationCheck
   readyForDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification: boolean;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationSummary {
+export interface DeclaredArchiveSummary {
   checkCount: number;
   passedCheckCount: number;
   archiveFileCount: number;
@@ -169,14 +181,14 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationSumma
   recommendationCount: number;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage {
+export interface DeclaredArchiveMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationProfile {
+export interface DeclaredArchiveProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -207,15 +219,15 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  archiveReferences: DeclaredOperatorLifecycleEvidenceIntakeArchiveReferences;
-  sourceNodeV388: SourceNodeV388DeclaredOperatorLifecycleEvidenceIntakeReference;
-  replay: DeclaredOperatorLifecycleEvidenceIntakeReplayReference;
-  archiveVerification: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationRecord;
-  checks: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationChecks;
-  summary: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationSummary;
-  productionBlockers: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[];
-  warnings: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[];
-  recommendations: DeclaredOperatorLifecycleEvidenceIntakeArchiveVerificationMessage[];
+  archiveReferences: DeclaredArchiveRefs;
+  sourceNodeV388: SourceV388DeclaredIntake;
+  replay: DeclaredReplay;
+  archiveVerification: DeclaredArchiveRecord;
+  checks: DeclaredArchiveChecks;
+  summary: DeclaredArchiveSummary;
+  productionBlockers: DeclaredArchiveMessage[];
+  warnings: DeclaredArchiveMessage[];
+  recommendations: DeclaredArchiveMessage[];
   evidenceEndpoints: {
     archiveVerificationJson: string;
     archiveVerificationMarkdown: string;

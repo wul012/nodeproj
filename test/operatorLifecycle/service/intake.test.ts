@@ -4,11 +4,11 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { buildApp } from "../../src/app.js";
-import { loadConfig } from "../../src/config.js";
+import { buildApp } from "../../../src/app.js";
+import { loadConfig } from "../../../src/config.js";
 import {
   loadServiceIntake,
-} from "../../src/services/operatorLifecycle/serviceIntake.js";
+} from "../../../src/services/operatorLifecycle/service/intake.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-operator-service-lifecycle-evidence-intake";

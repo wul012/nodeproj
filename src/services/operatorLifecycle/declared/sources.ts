@@ -1,23 +1,24 @@
 import { createHash } from "node:crypto";
 
+import { stringValue, stringValues, valueAt } from "../../../evidence/projectJson.js";
 import {
   historicalEvidenceExists,
   readHistoricalEvidenceFile,
   resolveHistoricalEvidencePath,
   statHistoricalEvidence,
-} from "./historicalEvidenceResolver.js";
+} from "../../historicalEvidenceResolver.js";
 import type {
-  DeclaredOperatorLifecycleEvidenceFileReference,
-  JavaDeclaredOperatorLifecycleReference,
-  MiniKvDeclaredOperatorLifecycleReference,
-  MiniKvFrozenOperatorTemplateReference,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeTypes.js";
+  DeclaredEvidenceFile,
+  JavaDeclaredLifecycle,
+  MiniKvDeclaredLifecycle,
+  FrozenOperatorTemplate,
+} from "./intakeTypes.js";
 
-export function createDeclaredOperatorLifecycleEvidenceFileReference(
+export function createDeclaredFile(
   id: string,
   configuredPath: string,
   historicalFallbackPath: string,
-): DeclaredOperatorLifecycleEvidenceFileReference {
+): DeclaredEvidenceFile {
   const resolvedPath = resolveHistoricalEvidencePath(configuredPath);
   const exists = historicalEvidenceExists(configuredPath);
   if (!exists) {
@@ -45,20 +46,9 @@ export function createDeclaredOperatorLifecycleEvidenceFileReference(
   };
 }
 
-export function readHistoricalJson(inputPath: string): Record<string, unknown> | null {
-  if (!historicalEvidenceExists(inputPath)) {
-    return null;
-  }
-  try {
-    return JSON.parse(readHistoricalEvidenceFile(inputPath, "utf8")) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-export function createJavaDeclaredOperatorLifecycle(
+export function createJavaDeclaredLifecycle(
   json: Record<string, unknown> | null,
-): JavaDeclaredOperatorLifecycleReference {
+): JavaDeclaredLifecycle {
   return {
     project: valueAt(json, "project") === "advanced-order-platform" ? "advanced-order-platform" : "unknown",
     version: stringValue(valueAt(json, "version")),
@@ -82,21 +72,21 @@ export function createJavaDeclaredOperatorLifecycle(
     javaStopOwner: stringOrNull(valueAt(json, "javaStopOwner")),
     declaredWorkingDirectory: stringOrNull(valueAt(json, "declaredWorkingDirectory")),
     declaredStartupCommand: stringOrNull(valueAt(json, "declaredStartupCommand")),
-    declaredPorts: stringArray(valueAt(json, "declaredPorts")),
+    declaredPorts: stringValues(valueAt(json, "declaredPorts")),
     javaBaseUrlHandle: stringOrNull(valueAt(json, "javaBaseUrlHandle")),
-    getOnlySmokeTargets: stringArray(valueAt(json, "getOnlySmokeTargets")),
-    failClosedRules: stringArray(valueAt(json, "failClosedRules")),
-    cleanupResponsibilities: stringArray(valueAt(json, "cleanupResponsibilities")),
-    runtimeGatePrerequisites: stringArray(valueAt(json, "runtimeGatePrerequisites")),
-    stopConditions: stringArray(valueAt(json, "stopConditions")),
+    getOnlySmokeTargets: stringValues(valueAt(json, "getOnlySmokeTargets")),
+    failClosedRules: stringValues(valueAt(json, "failClosedRules")),
+    cleanupResponsibilities: stringValues(valueAt(json, "cleanupResponsibilities")),
+    runtimeGatePrerequisites: stringValues(valueAt(json, "runtimeGatePrerequisites")),
+    stopConditions: stringValues(valueAt(json, "stopConditions")),
     evidencePath: stringOrNull(valueAt(json, "evidencePath")),
     status: stringValue(valueAt(json, "status")),
   };
 }
 
-export function createMiniKvDeclaredOperatorLifecycle(
+export function createMiniKvDeclaredLifecycle(
   json: Record<string, unknown> | null,
-): MiniKvDeclaredOperatorLifecycleReference {
+): MiniKvDeclaredLifecycle {
   return {
     project: valueAt(json, "project") === "mini-kv" ? "mini-kv" : "unknown",
     contract: stringValue(valueAt(json, "contract")),
@@ -122,7 +112,7 @@ export function createMiniKvDeclaredOperatorLifecycle(
     nodeV387ArchiveVerificationPreserved:
       valueAt(json, "historicalFallback", "nodeV387ArchiveVerificationPreserved") === true,
     nodeV388ReadsUnfinishedUpstream: valueAt(json, "historicalFallback", "nodeV388ReadsUnfinishedUpstream") === true,
-    archivedNodeVersions: stringArray(valueAt(json, "archiveCompatibility", "archivedNodeVersions")),
+    archivedNodeVersions: stringValues(valueAt(json, "archiveCompatibility", "archivedNodeVersions")),
     changesArchivedNodeEvidence: valueAt(json, "archiveCompatibility", "changesArchivedNodeEvidence") === true,
     futureNodeConsumer: stringOrNull(valueAt(json, "archiveCompatibility", "futureNodeConsumer"))
       ?? stringOrNull(valueAt(json, "diagnostics", "nodeConsumer")),
@@ -158,7 +148,7 @@ export function createMiniKvDeclaredOperatorLifecycle(
     startupCommandDeclared: valueAt(json, "operatorServiceLifecycleEvidence", "startupCommandDeclared") === true,
     startupCommand: stringOrNull(valueAt(json, "operatorServiceLifecycleEvidence", "startupCommand")),
     portListDeclared: valueAt(json, "operatorServiceLifecycleEvidence", "portListDeclared") === true,
-    declaredPortHandles: stringArray(valueAt(json, "operatorServiceLifecycleEvidence", "declaredPortHandles")),
+    declaredPortHandles: stringValues(valueAt(json, "operatorServiceLifecycleEvidence", "declaredPortHandles")),
     getOnlySmokeTargetDeclared:
       valueAt(json, "operatorServiceLifecycleEvidence", "getOnlySmokeTargetDeclared") === true,
     getOnlySmokeTarget: stringOrNull(valueAt(json, "operatorServiceLifecycleEvidence", "getOnlySmokeTarget")),
@@ -181,14 +171,14 @@ export function createMiniKvDeclaredOperatorLifecycle(
     requiresSeparateRuntimeGate:
       valueAt(json, "operatorServiceLifecycleEvidence", "requiresSeparateRuntimeGate") === true,
     requiredBeforeRuntimeGate:
-      stringArray(valueAt(json, "operatorServiceLifecycleEvidence", "requiredBeforeRuntimeGate")),
+      stringValues(valueAt(json, "operatorServiceLifecycleEvidence", "requiredBeforeRuntimeGate")),
     evidenceDigest: stringOrNull(valueAt(json, "evidenceDigest")),
   };
 }
 
-export function createMiniKvFrozenOperatorTemplate(
+export function createFrozenOperatorTemplate(
   json: Record<string, unknown> | null,
-): MiniKvFrozenOperatorTemplateReference {
+): FrozenOperatorTemplate {
   return {
     project: valueAt(json, "project") === "mini-kv" ? "mini-kv" : "unknown",
     releaseVersion: stringValue(valueAt(json, "releaseVersion")),
@@ -211,25 +201,6 @@ export function createMiniKvFrozenOperatorTemplate(
     executionAllowedByOperatorTemplate:
       valueAt(json, "operatorServiceLifecycleTemplate", "executionAllowed") === true,
   };
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function stringArray(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
 }
 
 function stringOrNull(value: unknown): string | null {

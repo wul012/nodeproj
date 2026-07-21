@@ -1,10 +1,10 @@
-import { renderVerificationReportMarkdown } from "../verificationReportBuilder.js";
+import { renderVerificationReportMarkdown } from "../../verificationReportBuilder.js";
 import type {
-  ServiceArchiveProfile,
-} from "./serviceArchiveTypes.js";
+  DeclaredArchiveProfile,
+} from "./archiveTypes.js";
 
-export function renderServiceArchiveMarkdown(
-  profile: ServiceArchiveProfile,
+export function renderDeclaredArchiveMarkdown(
+  profile: DeclaredArchiveProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: profile.title,
@@ -16,7 +16,7 @@ export function renderServiceArchiveMarkdown(
       ["Archive verification decision", profile.archiveVerificationDecision],
       ["Active Node version", profile.activeNodeVersion],
       ["Source Node version", profile.sourceNodeVersion],
-      ["Ready for Node v388 declared operator evidence or runtime gate", profile.readyForNodeV388DeclaredOperatorEvidenceOrRuntimeGate],
+      ["Ready for Node v390 runtime gate plan", profile.readyForNodeV390RuntimeGatePlan],
       ["Ready for runtime live-read gate", profile.readyForRuntimeLiveReadGate],
       ["Archive verification only", profile.archiveVerificationOnly],
       ["Reruns live read", profile.rerunsLiveRead],
@@ -29,7 +29,7 @@ export function renderServiceArchiveMarkdown(
       ["Active shard prototype enabled", profile.activeShardPrototypeEnabled],
     ],
     sections: [
-      { heading: "Source Node v386", entries: profile.sourceNodeV386 },
+      { heading: "Source Node v388", entries: profile.sourceNodeV388 },
       { heading: "Replay From Frozen Evidence", entries: profile.replay },
       { heading: "Archive Verification", entries: profile.archiveVerification },
       {

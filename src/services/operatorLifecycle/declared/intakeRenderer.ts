@@ -1,10 +1,10 @@
 import type {
-  ServiceIntakeProfile,
-} from "./serviceTypes.js";
-import { renderVerificationReportMarkdown } from "../verificationReportBuilder.js";
+  DeclaredIntakeProfile,
+} from "./intakeTypes.js";
+import { renderVerificationReportMarkdown } from "../../verificationReportBuilder.js";
 
-export function renderServiceIntakeMarkdown(
-  profile: ServiceIntakeProfile,
+export function renderDeclaredIntakeMarkdown(
+  profile: DeclaredIntakeProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: profile.title,
@@ -16,12 +16,13 @@ export function renderServiceIntakeMarkdown(
       ["Intake decision", profile.intakeDecision],
       ["Active Node version", profile.activeNodeVersion],
       ["Source Node version", profile.sourceNodeVersion],
-      ["Ready for Node v387 archive verification", profile.readyForNodeV387ArchiveVerification],
+      ["Ready for Node v389 archive verification", profile.readyForNodeV389ArchiveVerification],
       ["Ready for runtime live-read gate", profile.readyForRuntimeLiveReadGate],
       ["Evidence intake only", profile.evidenceIntakeOnly],
+      ["Declared operator lifecycle evidence present", profile.declaredOperatorLifecycleEvidencePresent],
+      ["Runtime gate requires separate approval", profile.runtimeGateRequiresSeparateApproval],
       ["Live read gate allowed", profile.liveReadGateAllowed],
       ["Runtime probe allowed", profile.runtimeProbeAllowed],
-      ["Reruns live read", profile.rerunsLiveRead],
       ["Starts Java service", profile.startsJavaService],
       ["Starts mini-kv service", profile.startsMiniKvService],
       ["Stops Java service", profile.stopsJavaService],
@@ -31,16 +32,16 @@ export function renderServiceIntakeMarkdown(
       ["Active shard prototype enabled", profile.activeShardPrototypeEnabled],
     ],
     sections: [
-      { heading: "Source Node v385", entries: profile.sourceNodeV385 },
-      { heading: "Java v160 Operator Service Lifecycle", entries: profile.javaOperatorServiceLifecycle },
-      { heading: "mini-kv v151 Operator Service Lifecycle Template", entries: profile.miniKvOperatorServiceLifecycleTemplate },
-      { heading: "mini-kv v150 Frozen Live Read Gate Plan", entries: profile.miniKvFrozenLiveReadGatePlan },
+      { heading: "Source Node v387", entries: profile.sourceNodeV387 },
+      { heading: "Java v161 Declared Operator Lifecycle", entries: profile.javaDeclaredOperatorLifecycle },
+      { heading: "mini-kv v152 Declared Operator Lifecycle", entries: profile.miniKvDeclaredOperatorLifecycle },
+      { heading: "mini-kv v151 Frozen Operator Template", entries: profile.miniKvFrozenOperatorTemplate },
       {
         heading: "Evidence Files",
         lines: [
-          profile.javaOperatorServiceLifecycleFile,
-          profile.miniKvOperatorServiceLifecycleTemplateFile,
-          profile.miniKvFrozenLiveReadGatePlanFile,
+          profile.javaDeclaredOperatorLifecycleFile,
+          profile.miniKvDeclaredOperatorLifecycleFile,
+          profile.miniKvFrozenOperatorTemplateFile,
         ].map((file) =>
           `- ${file.id}: exists=${file.exists}; fallback=${file.usedHistoricalFallback}; bytes=${file.byteLength}; digest=${file.digest}; resolved=${file.resolvedPath}`),
       },

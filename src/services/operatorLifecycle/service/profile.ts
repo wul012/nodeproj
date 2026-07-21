@@ -9,7 +9,7 @@ import type {
   ServiceIntakeRecord,
   ServiceIntakeSummary,
   SourceV385Archive,
-} from "./serviceTypes.js";
+} from "./intakeTypes.js";
 
 // Design: this module owns public profile assembly and key order.
 // Loaders acquire data; checks decide readiness; renderers format the profile.

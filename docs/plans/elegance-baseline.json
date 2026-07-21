@@ -3,10 +3,10 @@
   "maxNameLength": 40,
   "familyThreshold": 3,
   "nameDebt": {
-    "count": 4505,
-    "fileCount": 977,
-    "exportCount": 3528,
-    "keyDigest": "sha256:bf86b24bd8dd192d10d2cf1ee246bdd64cc02880043b31ccd16776278234507d"
+    "count": 4475,
+    "fileCount": 970,
+    "exportCount": 3505,
+    "keyDigest": "sha256:e1efd6d9f8873ef6eee360516e3c0748a5d68450e49e2eafe8c3e22924e2bd9b"
   },
   "structuralFamilies": {
     "src/evidence:evidence": 7,
@@ -29,10 +29,10 @@
     "src/services:decision": 8,
     "src/services:entries": 7,
     "src/services:envelope": 5,
-    "src/services:evidence": 19,
+    "src/services:evidence": 18,
     "src/services:gate": 21,
     "src/services:guard": 3,
-    "src/services:intake": 26,
+    "src/services:intake": 25,
     "src/services:package": 3,
     "src/services:packet": 15,
     "src/services:pass": 5,
@@ -47,7 +47,7 @@
     "src/services:record": 8,
     "src/services:references": 10,
     "src/services:rehearsal": 6,
-    "src/services:renderer": 243,
+    "src/services:renderer": 241,
     "src/services:renderers": 6,
     "src/services:report": 19,
     "src/services:request": 4,
@@ -55,11 +55,11 @@
     "src/services:runbook": 7,
     "src/services:summary": 14,
     "src/services:support": 6,
-    "src/services:types": 219,
+    "src/services:types": 217,
     "src/services:utils": 3,
     "src/services:validation": 3,
     "src/services:validator": 16,
-    "src/services:verification": 97,
+    "src/services:verification": 96,
     "src/ui:script": 4
   }
 }

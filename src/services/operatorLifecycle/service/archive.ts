@@ -2,20 +2,21 @@ import { createHash } from "node:crypto";
 import { existsSync, readFileSync, statSync } from "node:fs";
 import path from "node:path";
 
-import type { AppConfig } from "../../config.js";
+import type { AppConfig } from "../../../config.js";
 import {
   isSha256,
   numberValue,
   readProjectJson,
   stringValue,
   valueAt,
-} from "../../evidence/projectJson.js";
-import { stripJsonBom } from "../jsonEvidenceUtils.js";
-import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../liveProbeReportUtils.js";
-import { createServiceArchiveChecks } from "./serviceArchiveChecks.js";
+} from "../../../evidence/projectJson.js";
+import { stripJsonBom } from "../../jsonEvidenceUtils.js";
+import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../../liveProbeReportUtils.js";
+import { completeChecks } from "../checkAssembly.js";
+import { createServiceArchiveChecks } from "./archiveChecks.js";
 import {
   loadServiceIntake,
-} from "./serviceIntake.js";
+} from "./intake.js";
 import type {
   ServiceArchiveProfile,
   ServiceArchiveFile,
@@ -27,11 +28,11 @@ import type {
   ServiceReplay,
   ParsedServiceArchive,
   SourceV386ServiceIntake,
-} from "./serviceArchiveTypes.js";
+} from "./archiveTypes.js";
 
 export {
   renderServiceArchiveMarkdown,
-} from "./serviceArchiveRenderer.js";
+} from "./archiveRenderer.js";
 
 const PROFILE_VERSION =
   "managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-operator-service-lifecycle-evidence-intake-archive-verification.v1";
@@ -57,18 +58,15 @@ export function loadServiceArchive(
   const sourceNodeV386 = createSourceNodeV386(parsed);
   const replay = replayFromFrozenEvidence(input.config, projectRoot);
   const draftVerification = createArchiveVerification(sourceNodeV386, archiveReferences, replay, false);
-  const checks = createServiceArchiveChecks({
+  const completed = completeChecks(createServiceArchiveChecks({
     source: sourceNodeV386,
     files: archiveFiles(archiveReferences),
     archive: parsed,
     replay,
     verification: draftVerification,
     sourceRoute: SOURCE_NODE_V386_ROUTE,
-  });
-  checks.readyForOperatorServiceLifecycleEvidenceIntakeArchiveVerification = Object.entries(checks)
-    .filter(([key]) => key !== "readyForOperatorServiceLifecycleEvidenceIntakeArchiveVerification")
-    .every(([, value]) => value);
-  const ready = checks.readyForOperatorServiceLifecycleEvidenceIntakeArchiveVerification;
+  }), "readyForOperatorServiceLifecycleEvidenceIntakeArchiveVerification");
+  const { checks, ready } = completed;
   const archiveVerification = createArchiveVerification(sourceNodeV386, archiveReferences, replay, ready);
   checks.archiveVerificationDigestStable = isSha256(archiveVerification.archiveVerificationDigest);
   const productionBlockers = collectProductionBlockers(checks);

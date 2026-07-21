@@ -2,11 +2,11 @@ import { describe, expect, it } from "vitest";
 
 import { loadConfig } from "../src/config.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.js";
+  loadDeclaredIntake,
+} from "../src/services/operatorLifecycle/declared/intake.js";
 import {
-  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeMarkdown,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeRenderer.js";
+  renderDeclaredIntakeMarkdown,
+} from "../src/services/operatorLifecycle/declared/intakeRenderer.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.js";
@@ -21,10 +21,10 @@ import {
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordRenderer.js";
 import {
   loadServiceIntake,
-} from "../src/services/operatorLifecycle/serviceIntake.js";
+} from "../src/services/operatorLifecycle/service/intake.js";
 import {
   renderServiceIntakeMarkdown,
-} from "../src/services/operatorLifecycle/serviceRenderer.js";
+} from "../src/services/operatorLifecycle/service/intakeRenderer.js";
 import { normalizeRendererMigrationMarkdown, sha256 } from "./rendererMigrationParityUtils.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
@@ -72,8 +72,8 @@ describe("renderer migration v2170 parity", () => {
         {
           name: "declaredOperatorLifecycle",
           render: () =>
-            renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeMarkdown({
-              ...loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake({
+            renderDeclaredIntakeMarkdown({
+              ...loadDeclaredIntake({
                 config,
               }),
               generatedAt: GENERATED_AT,

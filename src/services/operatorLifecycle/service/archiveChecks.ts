@@ -1,4 +1,4 @@
-import { isSha256, stringValue, valueAt } from "../../evidence/projectJson.js";
+import { isSha256, stringValue, valueAt } from "../../../evidence/projectJson.js";
 
 import type {
   ParsedServiceArchive,
@@ -7,7 +7,7 @@ import type {
   ServiceArchiveRecord,
   ServiceReplay,
   SourceV386ServiceIntake,
-} from "./serviceArchiveTypes.js";
+} from "./archiveTypes.js";
 
 // Design: this module owns archive-verification readiness behavior.
 // Asset, JSON, replay, and safety predicates remain independently reviewable.

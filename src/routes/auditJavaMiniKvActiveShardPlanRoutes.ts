@@ -25,11 +25,11 @@ import {
 import {
   loadServiceIntake,
   renderServiceIntakeMarkdown,
-} from "../services/operatorLifecycle/serviceIntake.js";
+} from "../services/operatorLifecycle/service/intake.js";
 import {
   loadServiceArchive,
   renderServiceArchiveMarkdown,
-} from "../services/operatorLifecycle/serviceArchive.js";
+} from "../services/operatorLifecycle/service/archive.js";
 import {
   auditJsonMarkdownRoute,
   type AuditJsonMarkdownRouteRegistration,

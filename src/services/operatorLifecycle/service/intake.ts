@@ -1,21 +1,22 @@
-import type { AppConfig } from "../../config.js";
+import type { AppConfig } from "../../../config.js";
 import {
   isSha256,
   numberValue,
   readProjectJson,
   stringValue,
   valueAt,
-} from "../../evidence/projectJson.js";
-import { readJsonObject } from "../historicalEvidenceReportUtils.js";
-import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../liveProbeReportUtils.js";
-import { createServiceChecks } from "./serviceChecks.js";
-import { createServiceProfile } from "./serviceProfile.js";
+} from "../../../evidence/projectJson.js";
+import { readJsonObject } from "../../historicalEvidenceReportUtils.js";
+import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../../liveProbeReportUtils.js";
+import { completeChecks } from "../checkAssembly.js";
+import { createServiceChecks } from "./intakeChecks.js";
+import { createServiceProfile } from "./profile.js";
 import {
   createLifecycleFile,
   createFrozenLiveReadPlan,
   createJavaServiceLifecycle,
   createMiniKvServiceTemplate,
-} from "./serviceSources.js";
+} from "./sources.js";
 import type {
   JavaServiceLifecycle,
   ServiceIntakeProfile,
@@ -27,11 +28,11 @@ import type {
   ServiceIntakeRecord,
   ServiceIntakeSummary,
   SourceV385Archive,
-} from "./serviceTypes.js";
+} from "./intakeTypes.js";
 
 export {
   renderServiceIntakeMarkdown,
-} from "./serviceRenderer.js";
+} from "./intakeRenderer.js";
 
 const SOURCE_NODE_V385_ARCHIVE =
   "e/385/evidence/java-mini-kv-live-read-gate-plan-intake-archive-verification-v385-http.json";
@@ -96,7 +97,7 @@ export function loadServiceIntake(
     miniKvOperatorServiceLifecycleTemplate,
     false,
   );
-  const checks = createServiceChecks({
+  const completed = completeChecks(createServiceChecks({
     source: sourceNodeV385,
     javaFile: javaOperatorServiceLifecycleFile,
     miniTemplateFile: miniKvOperatorServiceLifecycleTemplateFile,
@@ -105,11 +106,8 @@ export function loadServiceIntake(
     miniKv: miniKvOperatorServiceLifecycleTemplate,
     frozenPlan: miniKvFrozenLiveReadGatePlan,
     intake: draftIntake,
-  });
-  checks.readyForOperatorServiceLifecycleEvidenceIntake = Object.entries(checks)
-    .filter(([key]) => key !== "readyForOperatorServiceLifecycleEvidenceIntake")
-    .every(([, value]) => value);
-  const ready = checks.readyForOperatorServiceLifecycleEvidenceIntake;
+  }), "readyForOperatorServiceLifecycleEvidenceIntake");
+  const { checks, ready } = completed;
   const intake = createIntake(
     sourceNodeV385,
     javaOperatorServiceLifecycleFile,

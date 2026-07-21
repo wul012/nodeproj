@@ -1,4 +1,4 @@
-import { includesAll, isSha256 } from "../../evidence/projectJson.js";
+import { includesAll, isSha256 } from "../../../evidence/projectJson.js";
 
 import type {
   FrozenLiveReadPlan,
@@ -8,7 +8,7 @@ import type {
   ServiceIntakeChecks,
   ServiceIntakeRecord,
   SourceV385Archive,
-} from "./serviceTypes.js";
+} from "./intakeTypes.js";
 
 // Design: this module owns service-lifecycle readiness behavior.
 // Source models remain data; each predicate group owns one evidence boundary.

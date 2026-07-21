@@ -1,4 +1,4 @@
-export interface DeclaredOperatorLifecycleEvidenceFileReference {
+export interface DeclaredEvidenceFile {
   id: string;
   configuredPath: string;
   resolvedPath: string;
@@ -9,7 +9,7 @@ export interface DeclaredOperatorLifecycleEvidenceFileReference {
   digest: string | null;
 }
 
-export interface SourceNodeV387ArchiveVerificationReference {
+export interface SourceV387Archive {
   sourceVersion: "Node v387";
   profileVersion: string;
   archiveVerificationState: string;
@@ -37,7 +37,7 @@ export interface SourceNodeV387ArchiveVerificationReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface JavaDeclaredOperatorLifecycleReference {
+export interface JavaDeclaredLifecycle {
   project: "advanced-order-platform" | "unknown";
   version: string;
   readOnly: boolean;
@@ -71,7 +71,7 @@ export interface JavaDeclaredOperatorLifecycleReference {
   status: string;
 }
 
-export interface MiniKvDeclaredOperatorLifecycleReference {
+export interface MiniKvDeclaredLifecycle {
   project: "mini-kv" | "unknown";
   contract: string;
   releaseVersion: string;
@@ -136,7 +136,7 @@ export interface MiniKvDeclaredOperatorLifecycleReference {
   evidenceDigest: string | null;
 }
 
-export interface MiniKvFrozenOperatorTemplateReference {
+export interface FrozenOperatorTemplate {
   project: "mini-kv" | "unknown";
   releaseVersion: string;
   readOnly: boolean;
@@ -155,7 +155,7 @@ export interface MiniKvFrozenOperatorTemplateReference {
   executionAllowedByOperatorTemplate: boolean;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeRecord {
+export interface DeclaredIntakeRecord {
   intakeDigest: string;
   intakeMode: "java-mini-kv-declared-operator-lifecycle-evidence-intake";
   sourceSpan: "Node v387 + Java v161 + mini-kv v152";
@@ -182,7 +182,7 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeRecord {
   ready: boolean;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeChecks {
+export interface DeclaredIntakeChecks {
   sourceNodeV387Ready: boolean;
   sourceNodeV387ArchiveVerified: boolean;
   sourceNodeV387ChecksAllPassed: boolean;
@@ -230,7 +230,7 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeChecks {
   readyForDeclaredOperatorLifecycleEvidenceIntake: boolean;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeSummary {
+export interface DeclaredIntakeSummary {
   evidenceSourceCount: number;
   readyEvidenceSourceCount: number;
   javaSmokeTargetCount: number;
@@ -246,14 +246,14 @@ export interface DeclaredOperatorLifecycleEvidenceIntakeSummary {
   recommendationCount: number;
 }
 
-export interface DeclaredOperatorLifecycleEvidenceIntakeMessage {
+export interface DeclaredIntakeMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeProfile {
+export interface DeclaredIntakeProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -288,19 +288,19 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  sourceNodeV387: SourceNodeV387ArchiveVerificationReference;
-  javaDeclaredOperatorLifecycleFile: DeclaredOperatorLifecycleEvidenceFileReference;
-  miniKvDeclaredOperatorLifecycleFile: DeclaredOperatorLifecycleEvidenceFileReference;
-  miniKvFrozenOperatorTemplateFile: DeclaredOperatorLifecycleEvidenceFileReference;
-  javaDeclaredOperatorLifecycle: JavaDeclaredOperatorLifecycleReference;
-  miniKvDeclaredOperatorLifecycle: MiniKvDeclaredOperatorLifecycleReference;
-  miniKvFrozenOperatorTemplate: MiniKvFrozenOperatorTemplateReference;
-  intake: DeclaredOperatorLifecycleEvidenceIntakeRecord;
-  checks: DeclaredOperatorLifecycleEvidenceIntakeChecks;
-  summary: DeclaredOperatorLifecycleEvidenceIntakeSummary;
-  productionBlockers: DeclaredOperatorLifecycleEvidenceIntakeMessage[];
-  warnings: DeclaredOperatorLifecycleEvidenceIntakeMessage[];
-  recommendations: DeclaredOperatorLifecycleEvidenceIntakeMessage[];
+  sourceNodeV387: SourceV387Archive;
+  javaDeclaredOperatorLifecycleFile: DeclaredEvidenceFile;
+  miniKvDeclaredOperatorLifecycleFile: DeclaredEvidenceFile;
+  miniKvFrozenOperatorTemplateFile: DeclaredEvidenceFile;
+  javaDeclaredOperatorLifecycle: JavaDeclaredLifecycle;
+  miniKvDeclaredOperatorLifecycle: MiniKvDeclaredLifecycle;
+  miniKvFrozenOperatorTemplate: FrozenOperatorTemplate;
+  intake: DeclaredIntakeRecord;
+  checks: DeclaredIntakeChecks;
+  summary: DeclaredIntakeSummary;
+  productionBlockers: DeclaredIntakeMessage[];
+  warnings: DeclaredIntakeMessage[];
+  recommendations: DeclaredIntakeMessage[];
   evidenceEndpoints: {
     declaredOperatorLifecycleEvidenceIntakeJson: string;
     declaredOperatorLifecycleEvidenceIntakeMarkdown: string;

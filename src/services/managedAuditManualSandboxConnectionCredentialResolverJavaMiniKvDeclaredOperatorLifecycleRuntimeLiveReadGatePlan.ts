@@ -4,11 +4,11 @@ import path from "node:path";
 import type { AppConfig } from "../config.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.js";
+  loadDeclaredIntake,
+} from "./operatorLifecycle/declared/intake.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification.js";
+  loadDeclaredArchive,
+} from "./operatorLifecycle/declared/archive.js";
 import type {
   ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlanProfile,
   RuntimeLiveReadGatePlanChecks,
@@ -173,7 +173,7 @@ function createSourceNodeV389(
 
 function createSourceNodeV389Replay(config: AppConfig, projectRoot: string): SourceNodeV389ArchiveReplayReference {
   const profile =
-    loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification({
+    loadDeclaredArchive({
       config,
       archiveRoot: projectRoot,
     });
@@ -221,7 +221,7 @@ function createSourceNodeV388Replay(
   config: AppConfig,
   projectRoot: string,
 ): SourceNodeV388DeclaredOperatorLifecycleReplayReference {
-  const profile = loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake({
+  const profile = loadDeclaredIntake({
     config,
     archiveRoot: projectRoot,
   });
