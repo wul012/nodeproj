@@ -33,7 +33,7 @@
 | v111 证据读取只有一个字段真相源 | 复用 `historicalEvidenceReportUtils` 和 `mapReceiptFields`，sources 独立拥有解析与 readiness | 本地与强制 fallback 完整字节、缺失值 fail-closed、focused tests | v2221 passed |
 | v112 证据读取复用相同范式 | 声明式字段规格、具名 readiness、服务组合根不再拥有底层 JSON helper | 本地与强制 fallback 完整字节、缺失值 fail-closed、focused tests | v2222 passed |
 | 文档先于最终验证 | 每版解释、evidence、中文代码讲解 | 每篇至少 3000 中文字符且通过讲解质量门 | 每版阻塞项 |
-| CI 不按版本重复运行 | 每版 focused/typecheck/static；v2222 后一次 full/build/smoke/remote CI | 一次基线 run；失败时仅根因修复后复验 | repair pending |
+| CI 不按版本重复运行 | 每版 focused/typecheck/static；v2222 后一次 full/build/smoke/remote CI | 一次基线 run；失败时仅根因修复后复验 | passed after one repair |
 
 ## 数据与行为边界设计
 
@@ -138,7 +138,7 @@ Windows raw 与跨平台 `<repo>` 的 local、forced fallback、ready、blocked 
 近限文件、一个长函数和三个复杂函数，新模块没有替代热点或导入环。定向 typecheck、零警告 lint、
 6 文件 22 项测试和全部静态门通过。第 7 全量分片捕获 service 文件数 1127 的真实阻塞后，两份纯历史
 来源模块迁入仓库既有 `src/evidence` 边界，未修改 1125/80 硬上限。最终 repo lint、全量测试、build、
-smoke 已通过；首轮远端 CI 已在统一推送后执行，portable oracle 根因修复待复验。
+smoke 已通过；首轮远端 CI 已在统一推送后执行，portable oracle 根因修复及复验均已完成。
 
 ### v2219-v2222 本地批次验收
 
@@ -159,8 +159,11 @@ GitHub Actions run `29801098105` 的 install、typecheck、lint、security、arc
 source-size 与 maintainability 均通过；Test 只在 v2220-v2222 portable profile 哈希上失败，相关 JSON/Markdown
 字节长度没有变化。原 helper 只规范路径，却让 `textMode: "raw"` 产生的 CRLF/LF `sizeBytes/digest` 留在
 portable 副本中。修复增加窄结构守卫，按 LF 文本重算测试副本的证据元数据后再规范路径；生产 raw 输出、
-fixture、renderer 和业务检查不变。Windows 修复值与首轮 Linux 实际值一致，focused 2 文件 8 项通过；远端
-复验是本批最终阻塞项。
+fixture、renderer 和业务检查不变。Windows 修复值与首轮 Linux 实际值一致；修复最小集 2 文件 8 项、扩展
+历史证据与文档门集合 5 文件 18 项均通过。远端
+复验 run `29803696909` 在提交 `882a551e` 上通过 579 个测试文件、1,765 项测试、coverage、build、三项安全
+smoke、服务停止与 post-cleanup。测试阶段 830.61 秒；statements/branches/functions/lines coverage 为
+95.67/87.95/98.52/95.64%。本批最终阻塞项关闭。
 
 ## 每版交付物
 

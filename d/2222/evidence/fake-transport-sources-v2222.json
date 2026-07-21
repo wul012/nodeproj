@@ -108,8 +108,16 @@
     "build": "passed-typescript-build",
     "httpSmoke": "passed-guarded-health-metrics-zero-requests-release-route-403-missing-policy-profile-json-markdown-200-ready-19-of-19-execution-false-connect-false-markdown-25977-bytes",
     "smokeCleanup": "passed-pid-22556-stopped-port-43122-released-log-directory-removed",
-    "remoteCi": "first-run-29801098105-failed-only-portable-oracle-line-ending-noise-repair-in-progress",
-    "portableParityRepair": "passed-2-files-8-tests-windows-canonical-hashes-match-first-linux-ci-actuals"
+    "remoteCi": "passed-run-29803696909-head-882a551e-579-files-1765-tests-build-and-safe-smoke",
+    "remoteCiFirstRun": "29801098105-failed-only-portable-oracle-line-ending-noise",
+    "remoteCiTestDurationSeconds": 830.61,
+    "remoteCiCoverage": {
+      "statementsPercent": 95.67,
+      "branchesPercent": 87.95,
+      "functionsPercent": 98.52,
+      "linesPercent": 95.64
+    },
+    "portableParityRepair": "passed-local-5-files-18-tests-and-linux-ci-windows-canonical-hashes-match-first-linux-actuals"
   },
   "boundaries": {
     "routeOrReportAdded": false,
