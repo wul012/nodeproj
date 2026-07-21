@@ -1,0 +1,99 @@
+{
+  "schemaVersion": 1,
+  "version": "v2218",
+  "scope": "runtime-approval-template-data-catalog",
+  "behaviorChanged": false,
+  "publicContract": {
+    "catalogModule": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateCatalog.ts",
+    "publicExportChanged": false,
+    "createFunctionChanged": false,
+    "targetValidationChanged": false,
+    "constantExportsChanged": false,
+    "templateCount": 3
+  },
+  "modules": {
+    "constants": "src/services/runtimeApprovalTemplates/constants.ts",
+    "definitions": "src/services/runtimeApprovalTemplates/definitions.ts",
+    "validation": "src/services/runtimeApprovalTemplates/validation.ts",
+    "catalogFacade": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateCatalog.ts"
+  },
+  "catalogOracle": {
+    "jsonBytes": 7304,
+    "sha256": "ead27560546b4dda1a640ec3141378573f5fd9cb395a6b617f7096cfcd85b08b",
+    "orderedKeys": [
+      "nodeApprovedRuntimeWindow",
+      "correlatedOperatorApprovalRecord",
+      "crossProjectRuntimeExecutionPacket"
+    ],
+    "templateDigests": {
+      "nodeApprovedRuntimeWindow": "258c81c2680b82ae43293e06f8265fa9ec54dd3b676bb66c3e3192f3e10dfec8",
+      "correlatedOperatorApprovalRecord": "94fe9195220890c21ef4917dcac909a7d861895046eb940bdcc275ed595dae03",
+      "crossProjectRuntimeExecutionPacket": "5d244abb08e9ccfc383ee88e4e5de0f5b55a2bded07a0589d928d0f501db0ad7"
+    },
+    "freshNestedValuesPerRead": true,
+    "definitionArrayFrozen": true,
+    "definitionEntriesFrozen": true
+  },
+  "failClosedValidation": {
+    "exactCount": true,
+    "orderedKeyOwnerTargetLayout": true,
+    "archivePathSeparateAndCanonical": true,
+    "requiredFieldsPresentUniqueAndNonEmpty": true,
+    "expectedConstantsMatchTemplate": true,
+    "semanticRulesUniqueAndNonEmpty": true,
+    "schemaVersionAndInputKindMatch": true
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 85,
+      "longFunctions": 104,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "catalogFileLines": 373,
+      "templateBuilderLines": 216
+    },
+    "after": {
+      "nearLimitFiles": 85,
+      "longFunctions": 103,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "catalogFileLines": 150,
+      "validationFileLines": 104,
+      "definitionsFileLines": 233,
+      "constantsFileLines": 4,
+      "templateBuilderLines": 3
+    },
+    "largestNewValidationFunctionLines": 32,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "redOracle": "failed-before-source-change-missing-runtimeApprovalTemplates-definitions-module",
+    "catalogAndValidator": "passed-2-files-6-tests",
+    "consumerMatrix": "passed-10-files-25-tests-including-forced-fallback-compatibility-canonical-live-gate-and-loopback",
+    "typecheck": "passed",
+    "lint": "passed-repository-wide-zero-errors-zero-warnings",
+    "staticGates": "passed-security-8322-files-18-of-18-archive-64.26-of-80-mib-elegance-158-families-52-tracked-family-52-of-52-renderer-242-standardized-3-waived-0-non-waived-source-size-0-above-800-maintainability-85-103-226-0",
+    "walkthroughGate": "passed-3487-chinese-45-h2-largest-105-and-3-files-10-document-quality-tests",
+    "batchFullTest": "passed-8-of-8-shards-max-4-workers-578-unique-files-1758-tests-zero-failures-zero-duplicates",
+    "independentDiscovery": "passed-578-files-1758-tests-zero-missing-zero-unexpected",
+    "build": "passed-typescript-build",
+    "httpSmoke": "passed-guarded-health-92-bytes-forced-fallback-json-10483-markdown-7052-30-of-30-three-historical-sources-preview-json-1763296-markdown-80224-blocked-execution-false-connect-false-ops-summary-1461-readiness-1993",
+    "smokeCleanup": "passed-pids-16832-and-25124-stopped-port-31218-released",
+    "remoteCi": "pending-single-batch-run-after-push"
+  },
+  "boundaries": {
+    "templateTextOrOrderChanged": false,
+    "targetOrArchivePathChanged": false,
+    "fixtureChanged": false,
+    "concreteApprovalInputCreated": false,
+    "runtimeGateOpened": false,
+    "javaOrMiniKvStarted": false,
+    "executionAuthorityChanged": false,
+    "liveIntegrationTriggered": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-independent-worktree-untouched",
+    "miniKv": "recommended-parallel-independent-worktree-untouched"
+  }
+}

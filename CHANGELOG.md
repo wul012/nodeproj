@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2218 - 2026-07-20
+
+- Separated the three runtime approval template definitions and canonical paths
+  from catalog behavior. The public catalog now validates exact count, ordered
+  key/owner/target layout, archive-path separation, required fields, constants,
+  semantic rules, and template identity before returning fresh deep-cloned
+  values. The full catalog remains byte-identical at 7,304 bytes with the same
+  SHA-256 and three template digests. The 216-line constructor becomes a 3-line
+  composition function, tightening the shrink-only ledger from 85/104/226/0 to
+  85/103/226/0 without creating approval inputs, opening a runtime gate, changing
+  fixtures, starting sibling services, or expanding execution authority.
+
 ## v2217 - 2026-07-20
 
 - Replaced 28 hand-written promotion archive route registrations with one

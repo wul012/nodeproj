@@ -353,10 +353,6 @@
       "maxLines": 217
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvRuntimeExecutionApprovalInputTemplateCatalog.ts|createRuntimeExecutionApprovalInputTemplates",
-      "maxLines": 216
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixRenderer.ts|renderControlledReadOnlyShardPreviewSourceMatrixSections",
       "maxLines": 213
     },
