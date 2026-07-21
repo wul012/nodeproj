@@ -12,6 +12,129 @@ import type {
   MiniKvV120DisabledImplementationCandidateNonParticipationReference,
   SourceNodeV273DisabledImplementationCandidateReviewReference,
 } from "./managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationTypes.js";
+import {
+  allBooleanFieldsAre,
+  collectFailedReportRules,
+  type ReportRule,
+} from "./liveProbeReportUtils.js";
+
+const SOURCE_READY_TRUE_FIELDS = [
+  "readyForDisabledImplementationCandidateReview",
+  "sourceNodeV272Ready",
+  "sourceNodeV272KeepsReadOnlyEchoOnly",
+  "sourceNodeV272KeepsRealResolverBlocked",
+  "sourceNodeV272KeepsBoundaryAlignment",
+] as const;
+
+const SOURCE_REVIEW_TRUE_FIELDS = [
+  "disabledImplementationCandidateReviewOnly",
+  "readOnlyCandidateReview",
+] as const;
+
+const SOURCE_RESOLVER_FALSE_FIELDS = [
+  "realResolverImplementationAllowed",
+  "connectsManagedAudit",
+  "externalRequestSent",
+  "resolverClientInstantiated",
+  "secretProviderInstantiated",
+] as const;
+
+const MINIKV_INTERFACE_FALSE_FIELDS = [
+  "includesCredentialValue",
+  "includesRawEndpointUrl",
+  "sendsExternalRequest",
+  "instantiatesSecretProvider",
+  "instantiatesResolverClient",
+] as const;
+
+const MINIKV_FAKE_FALSE_FIELDS = [
+  "fakeRuntimeInstantiated",
+  "realSecretProviderAllowed",
+  "realManagedAuditTransportAllowed",
+] as const;
+
+const SOURCE_CREDENTIAL_FALSE_FIELDS = [
+  "readsManagedAuditCredential",
+  "storesManagedAuditCredential",
+  "credentialValueRead",
+] as const;
+
+const MINIKV_CREDENTIAL_FALSE_FIELDS = [
+  "sourceReadsManagedAuditCredential",
+  "sourceStoresManagedAuditCredential",
+  "sourceCredentialValueRead",
+  "credentialValueReadAllowed",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+] as const;
+
+const MINIKV_ENDPOINT_FALSE_FIELDS = [
+  "sourceRawEndpointUrlParsed",
+  "rawEndpointUrlParseAllowed",
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+] as const;
+
+const SOURCE_RESOLVER_CLIENT_FIELDS = [
+  "resolverClientInstantiated",
+  "secretProviderInstantiated",
+] as const;
+
+const JAVA_RESOLVER_CLIENT_FIELDS = [
+  "resolverClientInstantiated",
+  "secretProviderInstantiated",
+] as const;
+
+const MINIKV_RESOLVER_FALSE_FIELDS = [
+  "credentialResolverImplemented",
+  "credentialResolverInvoked",
+  "resolverClientInstantiated",
+  "secretProviderInstantiated",
+  "secretProviderRuntimeAllowed",
+] as const;
+
+const MINIKV_CONNECTION_FALSE_FIELDS = [
+  "connectsManagedAudit",
+  "externalRequestAllowed",
+  "externalRequestSent",
+  "readyForManagedAuditSandboxAdapterConnection",
+] as const;
+
+const SOURCE_WRITE_FALSE_FIELDS = [
+  "executionAllowed",
+  "schemaMigrationExecuted",
+  "approvalLedgerWritten",
+] as const;
+
+const JAVA_WRITE_FALSE_FIELDS = [
+  "approvalLedgerWritten",
+  "sqlExecuted",
+  "schemaMigrationExecuted",
+] as const;
+
+const MINIKV_WRITE_FALSE_FIELDS = [
+  "executionAllowed",
+  "storageWriteAllowed",
+  "writeCommandsExecuted",
+  "adminCommandsExecuted",
+  "approvalLedgerWriteAllowed",
+  "approvalLedgerWritten",
+  "managedAuditWriteExecuted",
+  "schemaMigrationAllowed",
+  "schemaMigrationExecuted",
+  "restoreExecutionAllowed",
+  "loadRestoreCompactExecuted",
+  "setnxexExecutionAllowed",
+  "managedAuditStorageBackend",
+  "auditAuthoritative",
+  "orderAuthoritative",
+] as const;
+
+const MINIKV_AUTOSTART_FALSE_FIELDS = [
+  "automaticUpstreamStartAllowed",
+  "automaticUpstreamStart",
+] as const;
 
 export function createChecks(
   config: AppConfig,
@@ -20,139 +143,24 @@ export function createChecks(
   miniKvV120: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
 ): CredentialResolverDisabledCandidateUpstreamEchoVerificationChecks {
   return {
-    sourceNodeV273Ready:
-      sourceNodeV273.reviewState === "credential-resolver-disabled-implementation-candidate-review-ready"
-      && sourceNodeV273.readyForDisabledImplementationCandidateReview
-      && sourceNodeV273.sourceNodeV272Ready
-      && sourceNodeV273.sourceNodeV272KeepsReadOnlyEchoOnly
-      && sourceNodeV273.sourceNodeV272KeepsRealResolverBlocked
-      && sourceNodeV273.sourceNodeV272KeepsBoundaryAlignment,
-    sourceNodeV273KeepsReviewOnly:
-      sourceNodeV273.disabledImplementationCandidateReviewOnly
-      && sourceNodeV273.readOnlyCandidateReview,
-    sourceNodeV273KeepsRealResolverBlocked:
-      !sourceNodeV273.realResolverImplementationAllowed
-      && !sourceNodeV273.connectsManagedAudit
-      && !sourceNodeV273.externalRequestSent
-      && !sourceNodeV273.resolverClientInstantiated
-      && !sourceNodeV273.secretProviderInstantiated,
-    sourceNodeV273KeepsBoundaryAlignment:
-      sourceNodeV273.candidateDecisionCount === BOUNDARY_CODES.length
-      && sourceNodeV273.candidateReadyDecisionCount === CANDIDATE_READY_BOUNDARY_CODES.length
-      && sourceNodeV273.approvalRequiredDecisionCount === APPROVAL_REQUIRED_BOUNDARY_CODES.length
-      && arrayEquals(sourceNodeV273.boundaryCodes, [...BOUNDARY_CODES])
-      && arrayEquals(sourceNodeV273.requirementCodes, [...REQUIREMENT_CODES]),
+    sourceNodeV273Ready: isSourceReady(sourceNodeV273),
+    sourceNodeV273KeepsReviewOnly: keepsReviewOnly(sourceNodeV273),
+    sourceNodeV273KeepsRealResolverBlocked: keepsRealResolverBlocked(sourceNodeV273),
+    sourceNodeV273KeepsBoundaryAlignment: keepsBoundaryAlignment(sourceNodeV273),
     javaV113EchoReady: javaV113.readyForNodeV274Alignment,
     miniKvV120NonParticipationReady: miniKvV120.readyForNodeV274Alignment,
-    candidateCountsAligned:
-      javaV113.checkCount === sourceNodeV273.checkCount
-      && miniKvV120.checkCount === sourceNodeV273.checkCount
-      && javaV113.passedCheckCount === sourceNodeV273.passedCheckCount
-      && miniKvV120.passedCheckCount === sourceNodeV273.passedCheckCount
-      && javaV113.sourceCheckCount === sourceNodeV273.sourceCheckCount
-      && miniKvV120.sourceCheckCount === sourceNodeV273.sourceCheckCount
-      && javaV113.candidateDecisionCount === sourceNodeV273.candidateDecisionCount
-      && miniKvV120.candidateDecisionCount === sourceNodeV273.candidateDecisionCount
-      && javaV113.candidateReadyDecisionCount === sourceNodeV273.candidateReadyDecisionCount
-      && miniKvV120.candidateReadyDecisionCount === sourceNodeV273.candidateReadyDecisionCount
-      && javaV113.approvalRequiredDecisionCount === sourceNodeV273.approvalRequiredDecisionCount
-      && miniKvV120.approvalRequiredDecisionCount === sourceNodeV273.approvalRequiredDecisionCount,
-    boundaryCodesAligned:
-      javaV113.boundaryCodesEchoed
-      && arrayEquals(sourceNodeV273.boundaryCodes, [...BOUNDARY_CODES])
-      && arrayEquals(miniKvV120.sourceNodeV272BoundaryCodes, [...BOUNDARY_CODES]),
-    candidateReadyBoundaryCodesAligned:
-      javaV113.candidateReadyBoundaryCodesEchoed
-      && arrayEquals(sourceNodeV273.candidateReadyBoundaryCodes, [...CANDIDATE_READY_BOUNDARY_CODES])
-      && arrayEquals(miniKvV120.candidateReadyBoundaryCodes, [...CANDIDATE_READY_BOUNDARY_CODES]),
-    approvalRequiredBoundaryCodesAligned:
-      javaV113.approvalRequiredBoundaryCodesEchoed
-      && arrayEquals(sourceNodeV273.approvalRequiredBoundaryCodes, [...APPROVAL_REQUIRED_BOUNDARY_CODES])
-      && arrayEquals(miniKvV120.approvalRequiredBoundaryCodes, [...APPROVAL_REQUIRED_BOUNDARY_CODES]),
-    interfaceShapeAligned:
-      javaV113.interfaceShapeEchoed
-      && miniKvV120.requestFieldCount === sourceNodeV273.requestFields.length
-      && miniKvV120.responseFieldCount === sourceNodeV273.responseFields.length
-      && miniKvV120.failureClassCount === sourceNodeV273.failureClasses.length
-      && miniKvV120.handleOnlyRequest === true
-      && miniKvV120.includesCredentialValue === false
-      && miniKvV120.includesRawEndpointUrl === false
-      && miniKvV120.sendsExternalRequest === false
-      && miniKvV120.instantiatesSecretProvider === false
-      && miniKvV120.instantiatesResolverClient === false,
-    fakeWiringAligned:
-      javaV113.fakeWiringEchoed
-      && sourceNodeV273.fakeWiringReviewOnly
-      && !sourceNodeV273.fakeRuntimeInstantiated
-      && miniKvV120.fakeWiringReviewOnly === true
-      && miniKvV120.fakeRuntimeInstantiated === false
-      && miniKvV120.realSecretProviderAllowed === false
-      && miniKvV120.realManagedAuditTransportAllowed === false,
-    credentialBoundaryAligned:
-      !sourceNodeV273.readsManagedAuditCredential
-      && !sourceNodeV273.storesManagedAuditCredential
-      && !sourceNodeV273.credentialValueRead
-      && !javaV113.credentialValueRead
-      && miniKvV120.sourceReadsManagedAuditCredential === false
-      && miniKvV120.sourceStoresManagedAuditCredential === false
-      && miniKvV120.sourceCredentialValueRead === false
-      && miniKvV120.credentialValueReadAllowed === false
-      && miniKvV120.credentialValueLoaded === false
-      && miniKvV120.credentialValueStored === false
-      && miniKvV120.credentialValueIncluded === false,
-    rawEndpointBoundaryAligned:
-      !sourceNodeV273.rawEndpointUrlParsed
-      && !javaV113.rawEndpointUrlParsed
-      && miniKvV120.sourceRawEndpointUrlParsed === false
-      && miniKvV120.rawEndpointUrlParseAllowed === false
-      && miniKvV120.rawEndpointUrlParsed === false
-      && miniKvV120.rawEndpointUrlIncluded === false,
-    resolverBoundaryAligned:
-      !sourceNodeV273.resolverClientInstantiated
-      && !sourceNodeV273.secretProviderInstantiated
-      && !javaV113.resolverClientInstantiated
-      && !javaV113.secretProviderInstantiated
-      && miniKvV120.credentialResolverImplemented === false
-      && miniKvV120.credentialResolverInvoked === false
-      && miniKvV120.resolverClientInstantiated === false
-      && miniKvV120.secretProviderInstantiated === false
-      && miniKvV120.secretProviderRuntimeAllowed === false,
-    connectionBoundaryAligned:
-      !sourceNodeV273.connectsManagedAudit
-      && !sourceNodeV273.externalRequestSent
-      && !javaV113.connectsManagedAudit
-      && !javaV113.externalRequestSent
-      && miniKvV120.connectsManagedAudit === false
-      && miniKvV120.externalRequestAllowed === false
-      && miniKvV120.externalRequestSent === false
-      && miniKvV120.readyForManagedAuditSandboxAdapterConnection === false,
-    writeBoundaryAligned:
-      !sourceNodeV273.executionAllowed
-      && !sourceNodeV273.schemaMigrationExecuted
-      && !sourceNodeV273.approvalLedgerWritten
-      && !javaV113.approvalLedgerWritten
-      && !javaV113.sqlExecuted
-      && !javaV113.schemaMigrationExecuted
-      && miniKvV120.executionAllowed === false
-      && miniKvV120.storageWriteAllowed === false
-      && miniKvV120.writeCommandsExecuted === false
-      && miniKvV120.adminCommandsExecuted === false
-      && miniKvV120.approvalLedgerWriteAllowed === false
-      && miniKvV120.approvalLedgerWritten === false
-      && miniKvV120.managedAuditWriteExecuted === false
-      && miniKvV120.schemaMigrationAllowed === false
-      && miniKvV120.schemaMigrationExecuted === false
-      && miniKvV120.restoreExecutionAllowed === false
-      && miniKvV120.loadRestoreCompactExecuted === false
-      && miniKvV120.setnxexExecutionAllowed === false
-      && miniKvV120.managedAuditStorageBackend === false
-      && miniKvV120.auditAuthoritative === false
-      && miniKvV120.orderAuthoritative === false,
-    autoStartBoundaryAligned:
-      !sourceNodeV273.automaticUpstreamStart
-      && !javaV113.automaticUpstreamStart
-      && miniKvV120.automaticUpstreamStartAllowed === false
-      && miniKvV120.automaticUpstreamStart === false,
+    candidateCountsAligned: hasAlignedCandidateCounts(sourceNodeV273, javaV113, miniKvV120),
+    boundaryCodesAligned: hasAlignedBoundaryCodes(sourceNodeV273, javaV113, miniKvV120),
+    candidateReadyBoundaryCodesAligned: hasAlignedReadyCodes(sourceNodeV273, javaV113, miniKvV120),
+    approvalRequiredBoundaryCodesAligned: hasAlignedApprovalCodes(sourceNodeV273, javaV113, miniKvV120),
+    interfaceShapeAligned: hasAlignedInterfaceShape(sourceNodeV273, javaV113, miniKvV120),
+    fakeWiringAligned: hasAlignedFakeWiring(sourceNodeV273, javaV113, miniKvV120),
+    credentialBoundaryAligned: isCredentialBoundaryClosed(sourceNodeV273, javaV113, miniKvV120),
+    rawEndpointBoundaryAligned: isEndpointBoundaryClosed(sourceNodeV273, javaV113, miniKvV120),
+    resolverBoundaryAligned: isResolverBoundaryClosed(sourceNodeV273, javaV113, miniKvV120),
+    connectionBoundaryAligned: isConnectionBoundaryClosed(sourceNodeV273, javaV113, miniKvV120),
+    writeBoundaryAligned: isWriteBoundaryClosed(sourceNodeV273, javaV113, miniKvV120),
+    autoStartBoundaryAligned: isAutoStartBoundaryClosed(sourceNodeV273, javaV113, miniKvV120),
     javaEchoWorkflowTemplateApplied: javaV113.echoWorkflowTemplateApplied,
     upstreamProbesStillDisabled: !config.upstreamProbesEnabled,
     upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
@@ -163,15 +171,175 @@ export function createChecks(
   };
 }
 
+function isSourceReady(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+): boolean {
+  return source.reviewState === "credential-resolver-disabled-implementation-candidate-review-ready"
+    && allBooleanFieldsAre(source, SOURCE_READY_TRUE_FIELDS, true);
+}
+
+function keepsReviewOnly(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_REVIEW_TRUE_FIELDS, true);
+}
+
+function keepsRealResolverBlocked(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_RESOLVER_FALSE_FIELDS, false);
+}
+
+function keepsBoundaryAlignment(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+): boolean {
+  return source.candidateDecisionCount === BOUNDARY_CODES.length
+    && source.candidateReadyDecisionCount === CANDIDATE_READY_BOUNDARY_CODES.length
+    && source.approvalRequiredDecisionCount === APPROVAL_REQUIRED_BOUNDARY_CODES.length
+    && arrayEquals(source.boundaryCodes, [...BOUNDARY_CODES])
+    && arrayEquals(source.requirementCodes, [...REQUIREMENT_CODES]);
+}
+
+function hasAlignedCandidateCounts(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return javaEcho.checkCount === source.checkCount
+    && receipt.checkCount === source.checkCount
+    && javaEcho.passedCheckCount === source.passedCheckCount
+    && receipt.passedCheckCount === source.passedCheckCount
+    && javaEcho.sourceCheckCount === source.sourceCheckCount
+    && receipt.sourceCheckCount === source.sourceCheckCount
+    && javaEcho.candidateDecisionCount === source.candidateDecisionCount
+    && receipt.candidateDecisionCount === source.candidateDecisionCount
+    && javaEcho.candidateReadyDecisionCount === source.candidateReadyDecisionCount
+    && receipt.candidateReadyDecisionCount === source.candidateReadyDecisionCount
+    && javaEcho.approvalRequiredDecisionCount === source.approvalRequiredDecisionCount
+    && receipt.approvalRequiredDecisionCount === source.approvalRequiredDecisionCount;
+}
+
+function hasAlignedBoundaryCodes(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return javaEcho.boundaryCodesEchoed
+    && arrayEquals(source.boundaryCodes, [...BOUNDARY_CODES])
+    && arrayEquals(receipt.sourceNodeV272BoundaryCodes, [...BOUNDARY_CODES]);
+}
+
+function hasAlignedReadyCodes(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return javaEcho.candidateReadyBoundaryCodesEchoed
+    && arrayEquals(source.candidateReadyBoundaryCodes, [...CANDIDATE_READY_BOUNDARY_CODES])
+    && arrayEquals(receipt.candidateReadyBoundaryCodes, [...CANDIDATE_READY_BOUNDARY_CODES]);
+}
+
+function hasAlignedApprovalCodes(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return javaEcho.approvalRequiredBoundaryCodesEchoed
+    && arrayEquals(source.approvalRequiredBoundaryCodes, [...APPROVAL_REQUIRED_BOUNDARY_CODES])
+    && arrayEquals(receipt.approvalRequiredBoundaryCodes, [...APPROVAL_REQUIRED_BOUNDARY_CODES]);
+}
+
+function hasAlignedInterfaceShape(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return javaEcho.interfaceShapeEchoed
+    && receipt.requestFieldCount === source.requestFields.length
+    && receipt.responseFieldCount === source.responseFields.length
+    && receipt.failureClassCount === source.failureClasses.length
+    && receipt.handleOnlyRequest === true
+    && allBooleanFieldsAre(receipt, MINIKV_INTERFACE_FALSE_FIELDS, false);
+}
+
+function hasAlignedFakeWiring(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return javaEcho.fakeWiringEchoed
+    && source.fakeWiringReviewOnly
+    && source.fakeRuntimeInstantiated === false
+    && receipt.fakeWiringReviewOnly === true
+    && allBooleanFieldsAre(receipt, MINIKV_FAKE_FALSE_FIELDS, false);
+}
+
+function isCredentialBoundaryClosed(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_CREDENTIAL_FALSE_FIELDS, false)
+    && javaEcho.credentialValueRead === false
+    && allBooleanFieldsAre(receipt, MINIKV_CREDENTIAL_FALSE_FIELDS, false);
+}
+
+function isEndpointBoundaryClosed(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return source.rawEndpointUrlParsed === false
+    && javaEcho.rawEndpointUrlParsed === false
+    && allBooleanFieldsAre(receipt, MINIKV_ENDPOINT_FALSE_FIELDS, false);
+}
+
+function isResolverBoundaryClosed(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_RESOLVER_CLIENT_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_RESOLVER_CLIENT_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_RESOLVER_FALSE_FIELDS, false);
+}
+
+function isConnectionBoundaryClosed(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return source.connectsManagedAudit === false
+    && source.externalRequestSent === false
+    && javaEcho.connectsManagedAudit === false
+    && javaEcho.externalRequestSent === false
+    && allBooleanFieldsAre(receipt, MINIKV_CONNECTION_FALSE_FIELDS, false);
+}
+
+function isWriteBoundaryClosed(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_WRITE_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_WRITE_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_WRITE_FALSE_FIELDS, false);
+}
+
+function isAutoStartBoundaryClosed(
+  source: SourceNodeV273DisabledImplementationCandidateReviewReference,
+  javaEcho: JavaV113DisabledImplementationCandidateEchoReceiptReference,
+  receipt: MiniKvV120DisabledImplementationCandidateNonParticipationReference,
+): boolean {
+  return source.automaticUpstreamStart === false
+    && javaEcho.automaticUpstreamStart === false
+    && allBooleanFieldsAre(receipt, MINIKV_AUTOSTART_FALSE_FIELDS, false);
+}
+
 export function collectProductionBlockers(
   checks: CredentialResolverDisabledCandidateUpstreamEchoVerificationChecks,
 ): CredentialResolverDisabledCandidateUpstreamEchoVerificationMessage[] {
-  const rules: Array<{
-    condition: boolean;
-    code: string;
-    source: CredentialResolverDisabledCandidateUpstreamEchoVerificationMessage["source"];
-    message: string;
-  }> = [
+  const rules: ReportRule<CredentialResolverDisabledCandidateUpstreamEchoVerificationMessage["source"]>[] = [
     {
       condition: checks.sourceNodeV273Ready,
       code: "SOURCE_NODE_V273_NOT_READY",
@@ -258,14 +426,7 @@ export function collectProductionBlockers(
     },
   ];
 
-  return rules
-    .filter((rule) => !rule.condition)
-    .map((rule) => ({
-      code: rule.code,
-      severity: "blocker" as const,
-      source: rule.source,
-      message: rule.message,
-    }));
+  return collectFailedReportRules(rules);
 }
 
 export function collectWarnings(): CredentialResolverDisabledCandidateUpstreamEchoVerificationMessage[] {

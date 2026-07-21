@@ -1,0 +1,91 @@
+{
+  "schemaVersion": 1,
+  "version": "v2220",
+  "scope": "disabled-candidate-policy-composition",
+  "behaviorChanged": false,
+  "source": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationPolicy.ts",
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "forcedHistoricalFallback": true,
+    "ready": {
+      "state": "credential-resolver-disabled-candidate-upstream-echo-verification-ready",
+      "checkCount": 25,
+      "blockerCount": 0,
+      "jsonBytes": 51391,
+      "jsonSha256": "6a372391b0712e4b213d6298b5444016fd1b55ee4f83fe50a1b5874240515fd9",
+      "markdownBytes": 50911,
+      "markdownSha256": "25ce0a46d926ac3d2da291d19c9d104ae21d25b64900999a657df0f7af5f8e0b"
+    },
+    "blocked": {
+      "state": "blocked",
+      "passedCheckCount": 20,
+      "blockerCount": 4,
+      "blockerCodes": [
+        "SOURCE_NODE_V273_NOT_READY",
+        "CANDIDATE_COUNTS_NOT_ALIGNED",
+        "UPSTREAM_PROBES_ENABLED",
+        "UPSTREAM_ACTIONS_ENABLED"
+      ],
+      "jsonBytes": 52245,
+      "jsonSha256": "3a77c29f51f0d1e16c9db234b0e27bf41dc19fb4b3dd5b305f99a329dfc8d4b6",
+      "markdownBytes": 51554,
+      "markdownSha256": "d1cc7af7a2dc23a1ad1ea976dfc842f2aa106858a4cc22d34f1aadec686c345e"
+    },
+    "oracleTest": "test/resolverEchoParity.test.ts",
+    "passedBeforeSourceChange": true,
+    "passedAfterSourceChange": true
+  },
+  "design": {
+    "sharedBooleanEngine": "src/services/liveProbeReportUtils.ts#allBooleanFieldsAre",
+    "sharedBlockerEngine": "src/services/liveProbeReportUtils.ts#collectFailedReportRules",
+    "checkKeyOrderChanged": false,
+    "blockerRuleOrderOrTextChanged": false,
+    "nullableReceiptFieldsRemainStrict": true,
+    "fieldListsAreTypeChecked": true,
+    "publicExportChanged": false
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 85,
+      "longFunctions": 101,
+      "complexFunctions": 224,
+      "importCycles": 0,
+      "createChecksLines": 149,
+      "createChecksComplexity": 100
+    },
+    "after": {
+      "nearLimitFiles": 85,
+      "longFunctions": 100,
+      "complexFunctions": 223,
+      "importCycles": 0,
+      "policyFileLines": 468,
+      "touchedLongFunctions": 0,
+      "touchedComplexFunctions": 0
+    },
+    "ratchetRefreshedDownward": true,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "focused": "passed-2-files-7-tests-max-2-workers",
+    "typecheck": "passed-after-restoring-strict-nullable-receipt-comparisons",
+    "maintainability": "passed-85-100-223-0",
+    "lint": "passed-targeted-zero-errors-zero-warnings",
+    "staticGates": "passed-security-8330-files-18-of-18-archive-7140-files-64.31-of-80-mib-elegance-158-families-52-tracked-family-52-of-52-renderer-242-standardized-3-waived-0-non-waived-source-size-0-above-800-maintainability-85-100-223-0",
+    "walkthroughGate": "passed-3370-chinese-31-h2-and-4-files-15-tests"
+  },
+  "boundaries": {
+    "fixtureChanged": false,
+    "routeOrReportAdded": false,
+    "realResolverAllowed": false,
+    "credentialReadAdded": false,
+    "networkOrWritePathAdded": false,
+    "executionAuthorityChanged": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvWorktreeChanged": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-existing-v1881-work-untouched",
+    "miniKv": "recommended-parallel-user-doc-change-untouched"
+  }
+}

@@ -4,6 +4,10 @@ import { afterEach, describe, expect, it } from "vitest";
 
 import { loadConfig } from "../src/config.js";
 import {
+  loadManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerification.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification,
   renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification.js";
@@ -72,6 +76,60 @@ describe("resolver echo report parity", () => {
       sha256: "ec8640aeca9d44f828f54a7102aa779f03eaeaf694695899da1c252d47608e5b",
     });
   });
+
+  it("freezes disabled-candidate ready and blocked reports", () => {
+    process.env[FALLBACK_ENV] = "true";
+    const ready = loadManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    ready.generatedAt = FROZEN_TIME;
+
+    expect(ready.summary.checkCount).toBe(25);
+    expect(ready.verificationState).toBe(
+      "credential-resolver-disabled-candidate-upstream-echo-verification-ready",
+    );
+    expect(reportIdentity(
+      ready,
+      renderManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationMarkdown,
+    )).toEqual({
+      json: {
+        bytes: 51_391,
+        sha256: "6a372391b0712e4b213d6298b5444016fd1b55ee4f83fe50a1b5874240515fd9",
+      },
+      markdown: {
+        bytes: 50_911,
+        sha256: "25ce0a46d926ac3d2da291d19c9d104ae21d25b64900999a657df0f7af5f8e0b",
+      },
+    });
+
+    const blocked = loadManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerification({
+      config: loadTestConfig({
+        UPSTREAM_PROBES_ENABLED: "true",
+        UPSTREAM_ACTIONS_ENABLED: "true",
+      }),
+    });
+    blocked.generatedAt = FROZEN_TIME;
+
+    expect(blocked.productionBlockers.map((item) => item.code)).toEqual([
+      "SOURCE_NODE_V273_NOT_READY",
+      "CANDIDATE_COUNTS_NOT_ALIGNED",
+      "UPSTREAM_PROBES_ENABLED",
+      "UPSTREAM_ACTIONS_ENABLED",
+    ]);
+    expect(reportIdentity(
+      blocked,
+      renderManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationMarkdown,
+    )).toEqual({
+      json: {
+        bytes: 52_245,
+        sha256: "3a77c29f51f0d1e16c9db234b0e27bf41dc19fb4b3dd5b305f99a329dfc8d4b6",
+      },
+      markdown: {
+        bytes: 51_554,
+        sha256: "d1cc7af7a2dc23a1ad1ea976dfc842f2aa106858a4cc22d34f1aadec686c345e",
+      },
+    });
+  });
 });
 
 function artifactIdentity(content: string) {
@@ -81,7 +139,17 @@ function artifactIdentity(content: string) {
   };
 }
 
-function loadTestConfig() {
+function reportIdentity<Profile>(
+  profile: Profile,
+  render: (value: Profile) => string,
+) {
+  return {
+    json: artifactIdentity(JSON.stringify(profile)),
+    markdown: artifactIdentity(render(profile)),
+  };
+}
+
+function loadTestConfig(overrides: Record<string, string> = {}) {
   return loadConfig({
     LOG_LEVEL: "silent",
     UPSTREAM_PROBES_ENABLED: "false",
@@ -100,5 +168,6 @@ function loadTestConfig() {
     AUDIT_BACKUP_ENABLED: "true",
     AUDIT_STORE_URL: "managed-audit://contract-only",
     PORT: "4365",
+    ...overrides,
   });
 }

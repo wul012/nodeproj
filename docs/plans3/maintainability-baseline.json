@@ -445,10 +445,6 @@
       "maxLines": 150
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationPolicy.ts|createChecks",
-      "maxLines": 149
-    },
-    {
       "key": "src/routes/operationApprovalExecutionGateArchiveRoutes.ts|registerOperationApprovalExecutionGateArchiveRoutes",
       "maxLines": 148
     },
@@ -757,10 +753,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
       "maxComplexity": 109
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationPolicy.ts|createChecks",
-      "maxComplexity": 100
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createMiniKvV112Reference",

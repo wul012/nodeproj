@@ -29,7 +29,7 @@
 | 要求 | 实现边界 | 机械证据 | 状态 |
 | --- | --- | --- | --- |
 | 两套 resolver echo 检查可按语义阅读 | 复用 `allBooleanFieldsAre`，字段清单受 `keyof` 约束，非布尔规则保留具名谓词 | 固定时间 JSON/Markdown oracle、focused tests、complexity ratchet | v2219 passed |
-| disabled candidate 不再是一条 149 行判定链 | review/count/interface/boundary 分组，blocker 复用通用规则收集器 | 完整 profile oracle、负向配置测试、基线收紧 | pending v2220 |
+| disabled candidate 不再是一条 149 行判定链 | review/count/interface/boundary 分组，blocker 复用通用规则收集器 | 完整 profile oracle、负向配置测试、基线收紧 | v2220 passed |
 | v111 证据读取只有一个字段真相源 | 复用 `historicalEvidenceReportUtils` 和 `mapReceiptFields`，references 独立拥有解析与 readiness | 本地与强制 fallback 完整字节、缺失值 fail-closed、focused tests | pending v2221 |
 | v112 证据读取复用相同范式 | 声明式字段规格、具名 readiness、服务组合根不再拥有底层 JSON helper | 本地与强制 fallback 完整字节、缺失值 fail-closed、focused tests | pending v2222 |
 | 文档先于最终验证 | 每版解释、evidence、中文代码讲解 | 每篇至少 3000 中文字符且通过讲解质量门 | 每版阻塞项 |
@@ -81,6 +81,17 @@ JSON/Markdown 字节与 SHA-256 在源码改动前后完全一致；原业务、
 
 必须保持 25 个 checks 的既有顺序（以实际 oracle 为准）、所有 blocker code/source/message、
 默认 blocked 语义与两项 runtime 开关行为。预期基线最多为 85 / 100 / 223 / 0。
+
+### v2220 收口证据
+
+149 行、复杂度 100 的 `createChecks` 已变为 25 个稳定键的组合根；source review、三方计数、
+三组 boundary code、interface、fake wiring 与六类副作用边界均有具名谓词，纯布尔字段复用
+类型安全 helper。blocker 规则定义不变，收集过程复用通用 engine。固定时间、强制历史回退的
+ready profile（25 checks）与 probes/actions 双开 blocked profile（4 个有序 blocker）共四份
+JSON/Markdown 字节和摘要在源码改动前后完全一致。focused 与文档门共 4 文件 15 项测试通过，
+typecheck、定向 lint、七项静态门均通过；nullable receipt 字段保持严格 true 语义。维护性账本
+收紧为 85 / 100 / 223 / 0，策略文件内无替代热点。讲解含 3,370 个中文字符、31 个二级章节；
+未修改 fixture、路由、执行权限或兄弟项目，也未启动后台服务。
 
 ## v2221：v111 disabled-adapter 证据所有权
 
