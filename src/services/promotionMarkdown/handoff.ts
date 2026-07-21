@@ -19,6 +19,14 @@ import {
   type MarkdownDigest,
   type MarkdownDocumentSpec,
 } from "../promotionMarkdownEngine.js";
+import {
+  checkedItemLines,
+  decisionLines,
+  simpleItemLines,
+  summaryLines,
+  type CheckedItem,
+  type SimpleItem,
+} from "./stage.js";
 
 export function certificateSpec(
   certificate: OpsPromotionHandoffCertificate,
@@ -96,6 +104,7 @@ export function certificateCheckSpec(
       )],
       ["Summary", summaryLines(verification.summary, [
         ["Attachment count", verification.summary.attachmentCount],
+        ["Handoff ready", verification.summary.handoffReady],
       ])],
       ["Next Actions", renderMarkdownBullets(verification.nextActions)],
     ],
@@ -186,6 +195,7 @@ export function receiptCheckSpec(
       )],
       ["Summary", summaryLines(verification.summary, [
         ["Milestone count", verification.summary.milestoneCount],
+        ["Handoff ready", verification.summary.handoffReady],
       ])],
       ["Next Actions", renderMarkdownBullets(verification.nextActions)],
     ],
@@ -284,6 +294,7 @@ export function closureCheckSpec(
       )],
       ["Summary", summaryLines(verification.summary, [
         ["Closure item count", verification.summary.closureItemCount],
+        ["Handoff ready", verification.summary.handoffReady],
       ])],
       ["Next Actions", renderMarkdownBullets(verification.nextActions)],
     ],
@@ -372,7 +383,7 @@ export function completionCheckSpec(
       ["Completion Steps", checkedStepLines(verification.completionSteps)],
       ["Summary", summaryLines(verification.summary, [
         ["Completion step count", verification.summary.completionStepCount],
-      ], [
+        ["Handoff ready", verification.summary.handoffReady],
         ["Closeout ready", verification.summary.closeoutReady],
       ])],
       ["Next Actions", renderMarkdownBullets(verification.nextActions)],
@@ -418,6 +429,7 @@ export function packageCheckSpec(
       )],
       ["Summary", summaryLines(verification.summary, [
         ["Attachment count", verification.summary.attachmentCount],
+        ["Handoff ready", verification.summary.handoffReady],
       ])],
       ["Next Actions", renderMarkdownBullets(verification.nextActions)],
     ],
@@ -455,33 +467,6 @@ export function packageSpec(pkg: OpsPromotionHandoffPackage): MarkdownDocumentSp
   };
 }
 
-interface DecisionSummary {
-  totalDecisions: number;
-  latestDecisionId?: string;
-  latestOutcome?: string;
-}
-
-interface HandoffSummary extends DecisionSummary {
-  handoffReady: boolean;
-}
-
-interface SimpleItem {
-  name: string;
-  valid: boolean;
-  digest: MarkdownDigest;
-  source: string;
-}
-
-interface CheckedItem {
-  name: string;
-  valid: boolean;
-  validMatches: boolean;
-  sourceMatches: boolean;
-  digestMatches: boolean;
-  recomputedDigest: MarkdownDigest;
-  source: string;
-}
-
 interface CompletionStep extends SimpleItem {
   ready: boolean;
   detail: string;
@@ -492,52 +477,6 @@ interface CheckedStep extends CheckedItem {
   detailMatches: boolean;
   completionDigest: MarkdownDigest;
   detail: string;
-}
-
-function decisionLines(decision: DecisionSummary): string[] {
-  return renderMarkdownFields([
-    ["Total decisions", decision.totalDecisions],
-    ["Latest decision id", optionalMarkdownValue(decision.latestDecisionId)],
-    ["Latest outcome", optionalMarkdownValue(decision.latestOutcome)],
-  ]);
-}
-
-function summaryLines(
-  summary: HandoffSummary,
-  fields: readonly (readonly [string, unknown])[],
-  tail: readonly (readonly [string, unknown])[] = [],
-): string[] {
-  return renderMarkdownFields([
-    ["Total decisions", summary.totalDecisions],
-    ["Latest decision id", optionalMarkdownValue(summary.latestDecisionId)],
-    ...fields,
-    ["Handoff ready", summary.handoffReady],
-    ...tail,
-  ]);
-}
-
-function simpleItemLines(items: readonly SimpleItem[]): string[] {
-  return renderMarkdownItems(items, (item) => [
-    ["Valid", item.valid],
-    ["Digest", formatMarkdownDigest(item.digest)],
-    ["Source", item.source],
-  ]);
-}
-
-function checkedItemLines<T extends CheckedItem>(
-  items: readonly T[],
-  digestLabel: string,
-  digest: (item: T) => MarkdownDigest,
-): string[] {
-  return renderMarkdownItems(items, (item) => [
-    ["Valid", item.valid],
-    ["Valid matches", item.validMatches],
-    ["Source matches", item.sourceMatches],
-    ["Digest matches", item.digestMatches],
-    [digestLabel, formatMarkdownDigest(digest(item))],
-    ["Recomputed digest", formatMarkdownDigest(item.recomputedDigest)],
-    ["Source", item.source],
-  ]);
 }
 
 function completionStepLines(steps: readonly CompletionStep[]): string[] {

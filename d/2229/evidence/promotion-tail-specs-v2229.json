@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "version": "v2229",
+  "scope": "promotion-release-deployment-markdown-specs",
+  "behaviorChanged": false,
+  "startingPoint": {
+    "commit": "cfccfa90",
+    "tag": "v2228",
+    "rendererFamilyLogicAtBatchStart": 1681,
+    "rendererFamilyLogicBeforeVersion": 1110,
+    "maintainability": "81/89/208/0",
+    "nameDebt": 4444,
+    "trackedFamilies": 52
+  },
+  "migratedDocuments": {
+    "release": [
+      "release-evidence",
+      "release-evidence-verification",
+      "release-archive",
+      "release-archive-verification"
+    ],
+    "approvalAndChange": [
+      "deployment-approval",
+      "deployment-approval-verification",
+      "deployment-change-record",
+      "deployment-change-record-verification"
+    ],
+    "execution": [
+      "deployment-execution-record",
+      "deployment-execution-record-verification",
+      "deployment-execution-receipt",
+      "deployment-execution-receipt-verification"
+    ]
+  },
+  "sharedStage": {
+    "file": "src/services/promotionMarkdown/stage.ts",
+    "lines": 110,
+    "owns": [
+      "decision fields",
+      "summary prefix fields",
+      "simple item grammar",
+      "checked item grammar",
+      "detail item grammar",
+      "checked detail item grammar"
+    ],
+    "doesNotOwn": [
+      "domain field order",
+      "readiness derivation",
+      "digest computation",
+      "route selection",
+      "permission decisions"
+    ],
+    "dynamicStringPaths": false
+  },
+  "moduleShape": {
+    "stableEntrypointLines": {
+      "release": 37,
+      "approvalChange": 37,
+      "execution": 37
+    },
+    "specLines": {
+      "release": 223,
+      "approval": 243,
+      "execution": 277,
+      "handoffAfterSharedStage": 505
+    },
+    "publicPathsChanged": false,
+    "publicExportNamesChanged": false
+  },
+  "behaviorOracle": {
+    "fixedTime": "2026-07-21T10:00:00.000Z",
+    "fixedDecisionId": "11111111-1111-4111-8111-111111111111",
+    "newOracleArtifacts": 28,
+    "newOracleStates": 2,
+    "newOracleSurfaces": 56,
+    "historicalOracleSurfaces": 15,
+    "expectedValuesChanged": false,
+    "fixturesChanged": false,
+    "normalizerChanged": false,
+    "result": "passed-byte-identical-on-first-migration-run"
+  },
+  "ratchets": {
+    "rendererFamilyLogicBefore": 1110,
+    "rendererFamilyLogicAfter": 247,
+    "rendererFamilyLogicBatchStart": 1681,
+    "rendererFamilyLogicTerminalLimit": 700,
+    "rendererLogicReady": true,
+    "maintainabilityBefore": "81/89/208/0",
+    "maintainabilityAfter": "81/89/208/0",
+    "newNearLimitFiles": 0,
+    "newLongFunctions": 0,
+    "newComplexFunctions": 0,
+    "nameDebtBefore": 4444,
+    "nameDebtAfter": 4444,
+    "trackedFamilies": 52,
+    "importCycles": 0,
+    "sourceFilesAbove800": 0
+  },
+  "verification": {
+    "focused": "passed-source-oracles-and-document-quality-max-4-workers",
+    "typecheck": "passed",
+    "familyLogic": "passed-renderers-247",
+    "maintainability": "passed-81-89-208-0",
+    "elegance": "passed-4444-name-debt-52-tracked-families",
+    "finalLintAndStatic": "passed-lint-security-archive-elegance-family-maintainability-renderer-source-size",
+    "sixSurfaceParity": "passed-mixed-lf-crlf-new-56-plus-historical-15-raw-payloads",
+    "fullTestBuildSmokeCi": "deferred-to-v2232-batch-close"
+  },
+  "ninePointGate": {
+    "newlyPassed": ["renderersLogic"],
+    "remainingFailed": [
+      "nearLimitFiles",
+      "longFunctions",
+      "complexFunctions",
+      "maxFunctionLines",
+      "maxComplexity",
+      "nameDebt",
+      "verificationLogic"
+    ],
+    "ready": false
+  },
+  "boundaries": {
+    "routesChanged": false,
+    "jsonChanged": false,
+    "markdownChanged": false,
+    "permissionsChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityAdded": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false,
+    "nodeIsApprovalBlocker": false
+  }
+}
