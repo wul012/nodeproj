@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "version": "v2221",
+  "scope": "disabled-adapter-v111-evidence-ownership",
+  "behaviorChanged": false,
+  "modules": {
+    "profileService": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts",
+    "sourceOwner": "src/services/disabledAdapterSources.ts",
+    "sharedEvidenceEngine": "src/services/historicalEvidenceReportUtils.ts",
+    "portableOracleSupport": "test/support/portableProfileParity.ts"
+  },
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "localAndForcedFallbackBothVerified": true,
+    "rawWindows": {
+      "readyJsonBytes": 22564,
+      "readyJsonSha256": "cfb955e3a4cce072e67c2b601e8a2b2fd24cdf87088b649930d860382fa4feac",
+      "readyMarkdownBytes": 22177,
+      "readyMarkdownSha256": "e8305c4a55fb533e8c6723fc8019e10746da7077f463234a8886331988c0eee3"
+    },
+    "portableCi": {
+      "normalization": "resolved-repository-root-to-<repo>-and-forward-slashes",
+      "readyState": "disabled-adapter-client-upstream-echo-verification-ready",
+      "readyChecks": "17-of-17",
+      "readyJsonBytes": 21502,
+      "readyJsonSha256": "b51ebacc7b10d101176b8ca245d7f86155443b0166e602b66abb143bd7084047",
+      "readyMarkdownBytes": 21115,
+      "readyMarkdownSha256": "293393d31d69e894e7939b53a4c1b95488d6efb092cfb9d0b29a520e45e3207f",
+      "blockedPassedChecks": "13-of-17",
+      "blockedCodes": [
+        "NODE_SOURCES_NOT_READY",
+        "UPSTREAM_ACTIONS_ENABLED"
+      ],
+      "blockedJsonBytes": 21818,
+      "blockedJsonSha256": "1fae1e5e8243bd9d098602629d8be8f1589772ebfb3e485ebf23479333cbaf6b",
+      "blockedMarkdownBytes": 21284,
+      "blockedMarkdownSha256": "07f4dbbef30ca49d452624b4e4ffbbe8e8ad684bd4e4e826f0e40219bca90738"
+    },
+    "oracleTest": "test/resolverEchoParity.test.ts",
+    "passedBeforeBehaviorSwitch": true,
+    "passedAfterBehaviorSwitch": true
+  },
+  "fieldMapping": {
+    "engine": "mapReceiptFields",
+    "specGroups": [
+      "V111_SOURCE_FIELDS",
+      "V111_REQUEST_FIELDS",
+      "V111_RESPONSE_FIELDS",
+      "V111_BOUNDARY_FIELDS",
+      "V111_POST_RESTORE_FIELDS"
+    ],
+    "rootOverNestedFieldsRemainExplicit": [
+      "receiptVersion",
+      "releaseVersion",
+      "consumerHint",
+      "readOnly",
+      "executionAllowed",
+      "restoreExecutionAllowed",
+      "orderAuthoritative"
+    ],
+    "nullishPrecedencePreserved": true,
+    "objectKeyOrderPreserved": true,
+    "safeDefaultsPreserved": true,
+    "rawEvidenceMetadataMode": "explicit-textMode-raw"
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 85,
+      "longFunctions": 100,
+      "complexFunctions": 223,
+      "importCycles": 0,
+      "serviceLines": 691,
+      "miniKvBuilderLines": 151,
+      "miniKvBuilderComplexity": 109,
+      "checksComplexity": 50,
+      "javaBuilderComplexity": 31
+    },
+    "after": {
+      "nearLimitFiles": 84,
+      "longFunctions": 99,
+      "complexFunctions": 220,
+      "importCycles": 0,
+      "serviceLines": 412,
+      "evidenceModuleLines": 345,
+      "touchedLongFunctions": 0,
+      "touchedComplexFunctions": 0
+    },
+    "ratchetRefreshedDownward": true,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "focused": "passed-3-files-14-tests-max-2-workers",
+    "typecheck": "passed",
+    "maintainability": "passed-84-99-220-0",
+    "temporaryComparisonWorktree": "removed-with-junction-and-path-verified",
+    "lint": "passed-targeted-zero-errors-zero-warnings",
+    "staticGates": "passed-security-8334-files-18-of-18-archive-7143-files-64.34-of-80-mib-elegance-159-families-52-tracked-family-52-of-52-renderer-242-standardized-3-waived-0-non-waived-source-size-0-above-800-maintainability-84-99-220-0",
+    "walkthroughGate": "passed-3091-chinese-29-h2-and-5-files-22-tests"
+  },
+  "boundaries": {
+    "fixtureChanged": false,
+    "receiptFieldOrDefaultChanged": false,
+    "routeOrReportAdded": false,
+    "credentialReadAdded": false,
+    "networkOrWritePathAdded": false,
+    "executionAuthorityChanged": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvWorktreeChanged": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-existing-v1881-work-untouched",
+    "miniKv": "recommended-parallel-user-doc-change-untouched"
+  }
+}

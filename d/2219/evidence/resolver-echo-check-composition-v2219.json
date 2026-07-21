@@ -8,6 +8,7 @@
     "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationChecks.ts"
   ],
   "behaviorOracles": {
+    "oracleMode": "local-windows-raw-resolved-paths",
     "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
     "forcedHistoricalFallback": true,
     "disabledPrecheck": {
@@ -28,7 +29,18 @@
     },
     "oracleTest": "test/resolverEchoParity.test.ts",
     "passedBeforeSourceChange": true,
-    "passedAfterSourceChange": true
+    "passedAfterSourceChange": true,
+    "portableCi": {
+      "normalization": "resolved-repository-root-to-<repo>-and-forward-slashes",
+      "disabledPrecheckJsonBytes": 36937,
+      "disabledPrecheckJsonSha256": "31686dd71d504b9676ef50e8555aab15a64a6aded4dc339be02cb910dd5b8c86",
+      "disabledPrecheckMarkdownBytes": 9367,
+      "disabledPrecheckMarkdownSha256": "aa6fd14cd0c0c62b4a2499e749ba34df7c8c5a3c5f3be057bc6dadb8b2b7f4a0",
+      "testOnlyShellJsonBytes": 41218,
+      "testOnlyShellJsonSha256": "ac4488d6cfe1fb244f9c3c8959696b2aea12bc29a6101dde815b4a3656aa8a20",
+      "testOnlyShellMarkdownBytes": 10308,
+      "testOnlyShellMarkdownSha256": "f0b13efe96136f997590f1e7116787ea56ef5a317566d53b3d960d1fe1e8923c"
+    }
   },
   "design": {
     "sharedEngine": "src/services/liveProbeReportUtils.ts#allBooleanFieldsAre",

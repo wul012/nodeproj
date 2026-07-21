@@ -127,10 +127,6 @@
       "maxLines": 694
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts",
-      "maxLines": 691
-    },
-    {
       "key": "src/services/managedAuditExternalAdapterConnectionReadinessReview.ts",
       "maxLines": 689
     },
@@ -430,10 +426,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPrerequisiteClosureReviewArchiveVerification.ts|createChecks",
-      "maxLines": 151
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
       "maxLines": 151
     },
     {
@@ -751,10 +743,6 @@
   ],
   "complexFunctions": [
     {
-      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
-      "maxComplexity": 109
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createMiniKvV112Reference",
       "maxComplexity": 98
     },
@@ -928,10 +916,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellDesignDraftBodyPreDraftDecisionArchiveVerification.ts|createChecks",
-      "maxComplexity": 50
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createChecks",
       "maxComplexity": 50
     },
     {
@@ -1297,10 +1281,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.ts|createValueSupplyEnvelopeBlockedReasons",
       "maxComplexity": 32
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createJavaV102Reference",
-      "maxComplexity": 31
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeLiveReadGatePlan.ts|createChecks",

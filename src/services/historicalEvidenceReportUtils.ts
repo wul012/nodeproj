@@ -24,10 +24,29 @@ export interface HistoricalSnippetMatch {
   matched: boolean;
 }
 
-export function evidenceFile(id: string, filePath: string): HistoricalEvidenceFile {
+export interface EvidenceFileOptions {
+  textMode?: "normalized" | "raw";
+}
+
+export function evidenceFile(
+  id: string,
+  filePath: string,
+  options: EvidenceFileOptions = {},
+): HistoricalEvidenceFile {
   const resolvedPath = resolveHistoricalEvidencePath(filePath);
   if (!historicalEvidenceExists(filePath)) {
     return { id, path: filePath, resolvedPath, exists: false, sizeBytes: 0, digest: null };
+  }
+  if (options.textMode === "raw") {
+    const content = readHistoricalEvidenceFile(filePath);
+    return {
+      id,
+      path: filePath,
+      resolvedPath,
+      exists: true,
+      sizeBytes: content.byteLength,
+      digest: createHash("sha256").update(content).digest("hex"),
+    };
   }
   const content = normalizeHistoricalEvidenceText(readHistoricalEvidenceFile(filePath, "utf8"));
   return {

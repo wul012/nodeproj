@@ -1,4 +1,5 @@
 import { mkdtempSync, rmSync, writeFileSync } from "node:fs";
+import { createHash } from "node:crypto";
 import os from "node:os";
 import path from "node:path";
 
@@ -37,6 +38,17 @@ describe("historical evidence report utilities", () => {
       exists: true,
       sizeBytes: Buffer.byteLength(canonicalText, "utf8"),
       digest: canonical.digest,
+    });
+  });
+
+  it("preserves raw byte metadata when a legacy report requires it", () => {
+    const content = "alpha\r\nbeta\r\n";
+    const raw = evidenceFile("raw", writeEvidence("raw.txt", content), { textMode: "raw" });
+
+    expect(raw).toMatchObject({
+      exists: true,
+      sizeBytes: Buffer.byteLength(content, "utf8"),
+      digest: createHash("sha256").update(content).digest("hex"),
     });
   });
 

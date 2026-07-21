@@ -8,6 +8,10 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerification.js";
 import {
+  loadManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification,
   renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification.js";
@@ -15,6 +19,7 @@ import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification,
   renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification.js";
+import { normalizeForParity, normalizeText } from "./support/portableProfileParity.js";
 
 const FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const FROZEN_TIME = "2026-07-21T00:00:00.000Z";
@@ -38,13 +43,15 @@ describe("resolver echo report parity", () => {
     expect(profile.verificationState).toBe(
       "sandbox-endpoint-credential-resolver-disabled-precheck-upstream-echo-verification-ready",
     );
-    expect(artifactIdentity(JSON.stringify(profile))).toEqual({
-      bytes: 38_343,
-      sha256: "aede3ab9c385c357c21cfea8b86cafdf18054bb38717462e28c85cc8ced59480",
+    expect(artifactIdentity(JSON.stringify(normalizeForParity(profile)))).toEqual({
+      bytes: 36_937,
+      sha256: "31686dd71d504b9676ef50e8555aab15a64a6aded4dc339be02cb910dd5b8c86",
     });
     expect(artifactIdentity(
-      renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown(
-        profile,
+      normalizeText(
+        renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown(
+          normalizeForParity(profile) as typeof profile,
+        ),
       ),
     )).toEqual({
       bytes: 9_367,
@@ -63,17 +70,19 @@ describe("resolver echo report parity", () => {
     expect(profile.verificationState).toBe(
       "sandbox-endpoint-credential-resolver-test-only-shell-upstream-echo-verification-ready",
     );
-    expect(artifactIdentity(JSON.stringify(profile))).toEqual({
-      bytes: 43_068,
-      sha256: "d4b4d534e2a571eb290d2f4b436dfe5db4b77fe64aaad5464a6a9458748c7179",
+    expect(artifactIdentity(JSON.stringify(normalizeForParity(profile)))).toEqual({
+      bytes: 41_218,
+      sha256: "ac4488d6cfe1fb244f9c3c8959696b2aea12bc29a6101dde815b4a3656aa8a20",
     });
     expect(artifactIdentity(
-      renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationMarkdown(
-        profile,
+      normalizeText(
+        renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationMarkdown(
+          normalizeForParity(profile) as typeof profile,
+        ),
       ),
     )).toEqual({
-      bytes: 10_582,
-      sha256: "ec8640aeca9d44f828f54a7102aa779f03eaeaf694695899da1c252d47608e5b",
+      bytes: 10_308,
+      sha256: "f0b13efe96136f997590f1e7116787ea56ef5a317566d53b3d960d1fe1e8923c",
     });
   });
 
@@ -93,12 +102,12 @@ describe("resolver echo report parity", () => {
       renderManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationMarkdown,
     )).toEqual({
       json: {
-        bytes: 51_391,
-        sha256: "6a372391b0712e4b213d6298b5444016fd1b55ee4f83fe50a1b5874240515fd9",
+        bytes: 48_784,
+        sha256: "f31103cc64bfdff7b866821d8cfbd71991d757803b09c8949abc6f4f60ab04c6",
       },
       markdown: {
-        bytes: 50_911,
-        sha256: "25ce0a46d926ac3d2da291d19c9d104ae21d25b64900999a657df0f7af5f8e0b",
+        bytes: 48_304,
+        sha256: "c7b8b4fab1f3b3c6dc81de908eb679f6eb553a468bc9cfcf2294cd62db05977e",
       },
     });
 
@@ -121,12 +130,67 @@ describe("resolver echo report parity", () => {
       renderManagedAuditManualSandboxConnectionCredentialResolverDisabledCandidateUpstreamEchoVerificationMarkdown,
     )).toEqual({
       json: {
-        bytes: 52_245,
-        sha256: "3a77c29f51f0d1e16c9db234b0e27bf41dc19fb4b3dd5b305f99a329dfc8d4b6",
+        bytes: 49_638,
+        sha256: "a42cd1034dc35d1d81b62f1ba9d64d9ad3a24b9edc331e53424c6e73df03bfc3",
       },
       markdown: {
-        bytes: 51_554,
-        sha256: "d1cc7af7a2dc23a1ad1ea976dfc842f2aa106858a4cc22d34f1aadec686c345e",
+        bytes: 48_947,
+        sha256: "eccfe3ee84745785f91ef9dfdf0bd04eb975fc68ac0cbf65dfaf4e798788952d",
+      },
+    });
+  });
+
+  it("freezes disabled-adapter local, fallback, and blocked reports", () => {
+    delete process.env[FALLBACK_ENV];
+    const local = loadManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    local.generatedAt = FROZEN_TIME;
+
+    process.env[FALLBACK_ENV] = "true";
+    const fallback = loadManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    fallback.generatedAt = FROZEN_TIME;
+
+    const readyIdentity = {
+      json: {
+        bytes: 21_502,
+        sha256: "b51ebacc7b10d101176b8ca245d7f86155443b0166e602b66abb143bd7084047",
+      },
+      markdown: {
+        bytes: 21_115,
+        sha256: "293393d31d69e894e7939b53a4c1b95488d6efb092cfb9d0b29a520e45e3207f",
+      },
+    };
+    expect(reportIdentity(
+      local,
+      renderManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationMarkdown,
+    )).toEqual(readyIdentity);
+    expect(reportIdentity(
+      fallback,
+      renderManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationMarkdown,
+    )).toEqual(readyIdentity);
+
+    const blocked = loadManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification({
+      config: loadTestConfig({ UPSTREAM_ACTIONS_ENABLED: "true" }),
+    });
+    blocked.generatedAt = FROZEN_TIME;
+    expect(blocked.productionBlockers.map((item) => item.code)).toEqual([
+      "NODE_SOURCES_NOT_READY",
+      "UPSTREAM_ACTIONS_ENABLED",
+    ]);
+    expect(reportIdentity(
+      blocked,
+      renderManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationMarkdown,
+    )).toEqual({
+      json: {
+        bytes: 21_818,
+        sha256: "1fae1e5e8243bd9d098602629d8be8f1589772ebfb3e485ebf23479333cbaf6b",
+      },
+      markdown: {
+        bytes: 21_284,
+        sha256: "07f4dbbef30ca49d452624b4e4ffbbe8e8ad684bd4e4e826f0e40219bca90738",
       },
     });
   });
@@ -143,9 +207,10 @@ function reportIdentity<Profile>(
   profile: Profile,
   render: (value: Profile) => string,
 ) {
+  const portableProfile = normalizeForParity(profile) as Profile;
   return {
-    json: artifactIdentity(JSON.stringify(profile)),
-    markdown: artifactIdentity(render(profile)),
+    json: artifactIdentity(JSON.stringify(portableProfile)),
+    markdown: artifactIdentity(normalizeText(render(portableProfile))),
   };
 }
 
