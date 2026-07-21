@@ -146,7 +146,15 @@
     "renderer": "passed-242-standardized-3-waived-0-non-waived",
     "sourceSize": "passed-0-above-800",
     "finalBatchValidation": "passed-local",
-    "remoteNodeEvidenceCi": "pending-after-batch-push"
+    "remoteNodeEvidenceCi": {
+      "status": "passed",
+      "runId": 29815849432,
+      "jobId": 88586909075,
+      "headSha": "5621e01d7d5f78e9941c6cc7237be37568d76464",
+      "duration": "14m21s",
+      "steps": "checkout-setup-node-v7-install-typecheck-lint-security-archive-elegance-family-maintainability-coverage-test-build-health-metrics-release-readiness-cleanup",
+      "url": "https://github.com/wul012/nodeproj/actions/runs/29815849432"
+    }
   },
   "boundaries": {
     "routePathsChanged": false,
