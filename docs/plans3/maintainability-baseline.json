@@ -417,14 +417,6 @@
       "maxLines": 156
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts|createChecks",
-      "maxLines": 156
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationChecks.ts|createChecks",
-      "maxLines": 156
-    },
-    {
       "key": "src/services/productionLiveProbeEvidenceArchive.ts|loadProductionLiveProbeEvidenceArchive",
       "maxLines": 156
     },
@@ -762,14 +754,6 @@
     }
   ],
   "complexFunctions": [
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts|createChecks",
-      "maxComplexity": 117
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationChecks.ts|createChecks",
-      "maxComplexity": 114
-    },
     {
       "key": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts|createMiniKvV111Reference",
       "maxComplexity": 109

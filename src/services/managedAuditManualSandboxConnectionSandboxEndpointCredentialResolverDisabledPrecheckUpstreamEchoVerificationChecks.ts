@@ -14,6 +14,136 @@ import type {
   MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
   SourceNodeV262CredentialResolverDisabledPrecheckReference,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationTypes.js";
+import { allBooleanFieldsAre } from "./liveProbeReportUtils.js";
+
+const SOURCE_PRECHECK_FALSE_FIELDS = [
+  "resolverClientMayBeInstantiated",
+  "secretProviderMayBeInstantiated",
+] as const;
+
+const MINIKV_PRECHECK_FALSE_FIELDS = [
+  "resolverClientMayBeInstantiated",
+  "secretProviderMayBeInstantiated",
+] as const;
+
+const SOURCE_V261_TRUE_FIELDS = [
+  "sourceNodeV261Ready",
+  "sourceBlocksCredentialResolution",
+  "sourceCredentialBoundaryAligned",
+  "sourceRawEndpointBoundaryAligned",
+  "sourceConnectionBoundaryAligned",
+  "sourceWriteBoundaryAligned",
+  "sourceAutoStartBoundaryAligned",
+] as const;
+
+const MINIKV_V261_TRUE_FIELDS = [
+  "sourceNodeV261Ready",
+  "sourceNodeV261BlocksCredentialResolution",
+  "sourceNodeV261CredentialBoundaryAligned",
+  "sourceNodeV261RawEndpointBoundaryAligned",
+  "sourceNodeV261ConnectionBoundaryAligned",
+  "sourceNodeV261WriteBoundaryAligned",
+  "sourceNodeV261AutoStartBoundaryAligned",
+] as const;
+
+const SOURCE_CREDENTIAL_FALSE_FIELDS = [
+  "credentialResolverExecutionAllowed",
+  "credentialValueRead",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+  "credentialValueMayBeLoaded",
+] as const;
+
+const JAVA_CREDENTIAL_FALSE_FIELDS = [
+  "credentialResolverExecutionAllowed",
+  "credentialValueRead",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+  "credentialValueMayBeLoaded",
+] as const;
+
+const MINIKV_CREDENTIAL_FALSE_FIELDS = [
+  "sourceCredentialResolverExecutionAllowed",
+  "sourceCredentialValueRead",
+  "sourceCredentialValueLoaded",
+  "sourceCredentialValueStored",
+  "sourceCredentialValueIncluded",
+  "credentialValueRequired",
+  "credentialValueReadAllowed",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+] as const;
+
+const SOURCE_ENDPOINT_FALSE_FIELDS = [
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+  "rawEndpointUrlMayBeParsed",
+] as const;
+
+const JAVA_ENDPOINT_FALSE_FIELDS = [
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+  "rawEndpointUrlMayBeParsed",
+] as const;
+
+const MINIKV_ENDPOINT_FALSE_FIELDS = [
+  "sourceRawEndpointUrlParsed",
+  "sourceRawEndpointUrlIncluded",
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+  "rawEndpointUrlMayBeParsed",
+] as const;
+
+const SOURCE_CONNECTION_FALSE_FIELDS = [
+  "externalRequestSent",
+  "externalRequestMayBeSent",
+  "connectsManagedAudit",
+] as const;
+
+const JAVA_CONNECTION_FALSE_FIELDS = [
+  "externalRequestSent",
+  "externalRequestMayBeSent",
+  "connectsManagedAudit",
+] as const;
+
+const MINIKV_CONNECTION_FALSE_FIELDS = [
+  "sourceConnectsManagedAudit",
+  "sourceExternalRequestSent",
+  "connectionExecutionAllowed",
+  "externalRequestSent",
+  "credentialResolverImplemented",
+  "credentialResolverInvoked",
+  "secretProviderInstantiated",
+  "resolverClientInstantiated",
+] as const;
+
+const MINIKV_WRITE_FALSE_FIELDS = [
+  "sourceSchemaMigrationExecuted",
+  "schemaRehearsalExecutionAllowed",
+  "schemaMigrationExecutionAllowed",
+  "storageWriteAllowed",
+  "managedAuditWriteExecuted",
+  "approvalLedgerWriteAllowed",
+  "approvalLedgerWriteExecuted",
+  "sandboxManagedAuditStateWriteAllowed",
+  "restoreExecutionAllowed",
+  "loadRestoreCompactExecuted",
+  "setnxexExecutionAllowed",
+  "managedAuditStorageBackend",
+  "sandboxAuditStorageBackend",
+  "orderAuthoritative",
+] as const;
+
+const MINIKV_AUTOSTART_FALSE_FIELDS = [
+  "sourceAutomaticUpstreamStart",
+  "nodeAutoStartAllowed",
+  "javaAutoStartAllowed",
+  "miniKvAutoStartAllowed",
+  "externalAuditServiceAutoStartAllowed",
+] as const;
 
 export function createChecks(
   config: AppConfig,
@@ -25,151 +155,165 @@ export function createChecks(
     sourceNodeV262Ready: sourceNodeV262.readyForNodeV263DisabledPrecheckUpstreamEchoVerification,
     javaV106EchoReady: javaV106.readyForNodeV263SandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification,
     miniKvV115NonParticipationReady: miniKvV115.readyForNodeV263Alignment,
-    disabledPrecheckAligned:
-      sourceNodeV262.precheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only"
-      && javaV106.precheckMode === sourceNodeV262.precheckMode
-      && miniKvV115.disabledPrecheckMode === sourceNodeV262.precheckMode
-      && miniKvV115.sourcePrecheckMode === sourceNodeV262.precheckMode
-      && miniKvV115.sourcePrecheckState === sourceNodeV262.precheckState
-      && javaV106.consumedNodeProfile === sourceNodeV262.profileVersion
-      && !sourceNodeV262.resolverClientMayBeInstantiated
-      && !sourceNodeV262.secretProviderMayBeInstantiated
-      && !miniKvV115.resolverClientMayBeInstantiated
-      && !miniKvV115.secretProviderMayBeInstantiated,
-    requiredEnvHandlesAligned:
-      sourceNodeV262.requiredEnvHandleCount === 6
-      && javaV106.requiredEnvHandleCount === 6
-      && miniKvV115.sourceRequiredEnvHandleCount === 6
-      && miniKvV115.requiredEnvHandleCount === 6
-      && arraysEqual(sourceNodeV262.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES])
-      && arraysEqual(miniKvV115.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES]),
-    optInGatesAligned:
-      sourceNodeV262.optInGateCount === 2
-      && javaV106.optInGateCount === 2
-      && miniKvV115.sourceOptInGateCount === 2
-      && miniKvV115.optInGateCount === 2
-      && arraysEqual(sourceNodeV262.optInGateNames, [...OPT_IN_GATE_NAMES])
-      && arraysEqual(miniKvV115.optInGateNames, [...OPT_IN_GATE_NAMES]),
-    failureTaxonomyAligned:
-      sourceNodeV262.failureClassCount === 7
-      && javaV106.failureClassCount === 7
-      && miniKvV115.sourceFailureClassCount === 7
-      && miniKvV115.failureClassCount === 7
-      && arraysEqual(sourceNodeV262.failureClassCodes, [...FAILURE_CLASS_CODES])
-      && arraysEqual(miniKvV115.failureTaxonomyCodes, [...FAILURE_CLASS_CODES]),
-    dryRunResponseShapeAligned:
-      sourceNodeV262.dryRunResponseFieldCount === 12
-      && javaV106.dryRunResponseFieldCount === 12
-      && miniKvV115.sourceDryRunResponseFieldCount === 12
-      && miniKvV115.dryRunResponseFieldCount === 12
-      && arraysEqual(sourceNodeV262.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS])
-      && arraysEqual(miniKvV115.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS])
-      && miniKvV115.disabledPrecheckReadyState === sourceNodeV262.precheckState,
-    inheritedNoGoConditionsAligned:
-      sourceNodeV262.inheritedNoGoConditionCount === 9
-      && javaV106.inheritedNoGoConditionCount === 9
-      && miniKvV115.sourceInheritedNoGoConditionCount === 9
-      && miniKvV115.inheritedNoGoConditionCount === 9
-      && arraysEqual([...sourceNodeV262.inheritedNoGoConditions], [...INHERITED_NO_GO_CONDITIONS])
-      && arraysEqual(miniKvV115.inheritedNoGoConditions, [...INHERITED_NO_GO_CONDITIONS]),
-    sourceNodeV261Aligned:
-      sourceNodeV262.sourceNodeV261Ready
-      && miniKvV115.sourceNodeV261Ready
-      && sourceNodeV262.sourceVerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only"
-      && miniKvV115.sourceNodeV261VerificationMode === sourceNodeV262.sourceVerificationMode
-      && miniKvV115.sourceNodeV261Span === sourceNodeV262.sourceSpan
-      && sourceNodeV262.sourceBlocksCredentialResolution
-      && miniKvV115.sourceNodeV261BlocksCredentialResolution
-      && sourceNodeV262.sourceCredentialBoundaryAligned
-      && miniKvV115.sourceNodeV261CredentialBoundaryAligned
-      && sourceNodeV262.sourceRawEndpointBoundaryAligned
-      && miniKvV115.sourceNodeV261RawEndpointBoundaryAligned
-      && sourceNodeV262.sourceConnectionBoundaryAligned
-      && miniKvV115.sourceNodeV261ConnectionBoundaryAligned
-      && sourceNodeV262.sourceWriteBoundaryAligned
-      && miniKvV115.sourceNodeV261WriteBoundaryAligned
-      && sourceNodeV262.sourceAutoStartBoundaryAligned
-      && miniKvV115.sourceNodeV261AutoStartBoundaryAligned,
-    credentialBoundaryAligned:
-      !sourceNodeV262.credentialResolverExecutionAllowed
-      && !sourceNodeV262.credentialValueRead
-      && !sourceNodeV262.credentialValueLoaded
-      && !sourceNodeV262.credentialValueStored
-      && !sourceNodeV262.credentialValueIncluded
-      && !sourceNodeV262.credentialValueMayBeLoaded
-      && !javaV106.credentialResolverExecutionAllowed
-      && !javaV106.credentialValueRead
-      && !javaV106.credentialValueLoaded
-      && !javaV106.credentialValueStored
-      && !javaV106.credentialValueIncluded
-      && !javaV106.credentialValueMayBeLoaded
-      && !miniKvV115.sourceCredentialResolverExecutionAllowed
-      && !miniKvV115.sourceCredentialValueRead
-      && !miniKvV115.sourceCredentialValueLoaded
-      && !miniKvV115.sourceCredentialValueStored
-      && !miniKvV115.sourceCredentialValueIncluded
-      && !miniKvV115.credentialValueRequired
-      && !miniKvV115.credentialValueReadAllowed
-      && !miniKvV115.credentialValueLoaded
-      && !miniKvV115.credentialValueStored
-      && !miniKvV115.credentialValueIncluded,
-    rawEndpointBoundaryAligned:
-      !sourceNodeV262.rawEndpointUrlParsed
-      && !sourceNodeV262.rawEndpointUrlIncluded
-      && !sourceNodeV262.rawEndpointUrlMayBeParsed
-      && !javaV106.rawEndpointUrlParsed
-      && !javaV106.rawEndpointUrlIncluded
-      && !javaV106.rawEndpointUrlMayBeParsed
-      && !miniKvV115.sourceRawEndpointUrlParsed
-      && !miniKvV115.sourceRawEndpointUrlIncluded
-      && !miniKvV115.rawEndpointUrlParsed
-      && !miniKvV115.rawEndpointUrlIncluded
-      && !miniKvV115.rawEndpointUrlMayBeParsed,
-    connectionBoundaryAligned:
-      !sourceNodeV262.externalRequestSent
-      && !sourceNodeV262.externalRequestMayBeSent
-      && !sourceNodeV262.connectsManagedAudit
-      && !javaV106.externalRequestSent
-      && !javaV106.externalRequestMayBeSent
-      && !javaV106.connectsManagedAudit
-      && !miniKvV115.sourceConnectsManagedAudit
-      && !miniKvV115.sourceExternalRequestSent
-      && !miniKvV115.connectionExecutionAllowed
-      && !miniKvV115.externalRequestSent
-      && !miniKvV115.credentialResolverImplemented
-      && !miniKvV115.credentialResolverInvoked
-      && !miniKvV115.secretProviderInstantiated
-      && !miniKvV115.resolverClientInstantiated,
-    writeBoundaryAligned:
-      !sourceNodeV262.schemaMigrationExecuted
-      && !javaV106.schemaMigrationExecuted
-      && !miniKvV115.sourceSchemaMigrationExecuted
-      && !miniKvV115.schemaRehearsalExecutionAllowed
-      && !miniKvV115.schemaMigrationExecutionAllowed
-      && !miniKvV115.storageWriteAllowed
-      && !miniKvV115.managedAuditWriteExecuted
-      && !miniKvV115.approvalLedgerWriteAllowed
-      && !miniKvV115.approvalLedgerWriteExecuted
-      && !miniKvV115.sandboxManagedAuditStateWriteAllowed
-      && !miniKvV115.restoreExecutionAllowed
-      && !miniKvV115.loadRestoreCompactExecuted
-      && !miniKvV115.setnxexExecutionAllowed
-      && !miniKvV115.managedAuditStorageBackend
-      && !miniKvV115.sandboxAuditStorageBackend
-      && !miniKvV115.orderAuthoritative,
-    autoStartBoundaryAligned:
-      !sourceNodeV262.automaticUpstreamStart
-      && !javaV106.automaticUpstreamStart
-      && !miniKvV115.sourceAutomaticUpstreamStart
-      && !miniKvV115.nodeAutoStartAllowed
-      && !miniKvV115.javaAutoStartAllowed
-      && !miniKvV115.miniKvAutoStartAllowed
-      && !miniKvV115.externalAuditServiceAutoStartAllowed,
+    disabledPrecheckAligned: isDisabledPrecheckAligned(sourceNodeV262, javaV106, miniKvV115),
+    requiredEnvHandlesAligned: hasAlignedRequiredEnvHandles(sourceNodeV262, javaV106, miniKvV115),
+    optInGatesAligned: hasAlignedOptInGates(sourceNodeV262, javaV106, miniKvV115),
+    failureTaxonomyAligned: hasAlignedFailureTaxonomy(sourceNodeV262, javaV106, miniKvV115),
+    dryRunResponseShapeAligned: hasAlignedDryRunShape(sourceNodeV262, javaV106, miniKvV115),
+    inheritedNoGoConditionsAligned: hasAlignedNoGoConditions(sourceNodeV262, javaV106, miniKvV115),
+    sourceNodeV261Aligned: isSourceV261Aligned(sourceNodeV262, miniKvV115),
+    credentialBoundaryAligned: isCredentialBoundaryClosed(sourceNodeV262, javaV106, miniKvV115),
+    rawEndpointBoundaryAligned: isRawEndpointBoundaryClosed(sourceNodeV262, javaV106, miniKvV115),
+    connectionBoundaryAligned: isConnectionBoundaryClosed(sourceNodeV262, javaV106, miniKvV115),
+    writeBoundaryAligned: isWriteBoundaryClosed(sourceNodeV262, javaV106, miniKvV115),
+    autoStartBoundaryAligned: isAutoStartBoundaryClosed(sourceNodeV262, javaV106, miniKvV115),
     upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
     productionAuditStillBlocked: true,
     productionWindowStillBlocked: true,
     readyForManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification: false,
   };
+}
+
+function isDisabledPrecheckAligned(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.precheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only"
+    && javaEcho.precheckMode === source.precheckMode
+    && receipt.disabledPrecheckMode === source.precheckMode
+    && receipt.sourcePrecheckMode === source.precheckMode
+    && receipt.sourcePrecheckState === source.precheckState
+    && javaEcho.consumedNodeProfile === source.profileVersion
+    && allBooleanFieldsAre(source, SOURCE_PRECHECK_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_PRECHECK_FALSE_FIELDS, false);
+}
+
+function hasAlignedRequiredEnvHandles(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.requiredEnvHandleCount === REQUIRED_ENV_HANDLE_NAMES.length
+    && javaEcho.requiredEnvHandleCount === REQUIRED_ENV_HANDLE_NAMES.length
+    && receipt.sourceRequiredEnvHandleCount === REQUIRED_ENV_HANDLE_NAMES.length
+    && receipt.requiredEnvHandleCount === REQUIRED_ENV_HANDLE_NAMES.length
+    && arraysEqual(source.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES])
+    && arraysEqual(receipt.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES]);
+}
+
+function hasAlignedOptInGates(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.optInGateCount === OPT_IN_GATE_NAMES.length
+    && javaEcho.optInGateCount === OPT_IN_GATE_NAMES.length
+    && receipt.sourceOptInGateCount === OPT_IN_GATE_NAMES.length
+    && receipt.optInGateCount === OPT_IN_GATE_NAMES.length
+    && arraysEqual(source.optInGateNames, [...OPT_IN_GATE_NAMES])
+    && arraysEqual(receipt.optInGateNames, [...OPT_IN_GATE_NAMES]);
+}
+
+function hasAlignedFailureTaxonomy(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.failureClassCount === FAILURE_CLASS_CODES.length
+    && javaEcho.failureClassCount === FAILURE_CLASS_CODES.length
+    && receipt.sourceFailureClassCount === FAILURE_CLASS_CODES.length
+    && receipt.failureClassCount === FAILURE_CLASS_CODES.length
+    && arraysEqual(source.failureClassCodes, [...FAILURE_CLASS_CODES])
+    && arraysEqual(receipt.failureTaxonomyCodes, [...FAILURE_CLASS_CODES]);
+}
+
+function hasAlignedDryRunShape(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.dryRunResponseFieldCount === DRY_RUN_RESPONSE_FIELDS.length
+    && javaEcho.dryRunResponseFieldCount === DRY_RUN_RESPONSE_FIELDS.length
+    && receipt.sourceDryRunResponseFieldCount === DRY_RUN_RESPONSE_FIELDS.length
+    && receipt.dryRunResponseFieldCount === DRY_RUN_RESPONSE_FIELDS.length
+    && arraysEqual(source.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS])
+    && arraysEqual(receipt.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS])
+    && receipt.disabledPrecheckReadyState === source.precheckState;
+}
+
+function hasAlignedNoGoConditions(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.inheritedNoGoConditionCount === INHERITED_NO_GO_CONDITIONS.length
+    && javaEcho.inheritedNoGoConditionCount === INHERITED_NO_GO_CONDITIONS.length
+    && receipt.sourceInheritedNoGoConditionCount === INHERITED_NO_GO_CONDITIONS.length
+    && receipt.inheritedNoGoConditionCount === INHERITED_NO_GO_CONDITIONS.length
+    && arraysEqual([...source.inheritedNoGoConditions], [...INHERITED_NO_GO_CONDITIONS])
+    && arraysEqual(receipt.inheritedNoGoConditions, [...INHERITED_NO_GO_CONDITIONS]);
+}
+
+function isSourceV261Aligned(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.sourceVerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only"
+    && receipt.sourceNodeV261VerificationMode === source.sourceVerificationMode
+    && receipt.sourceNodeV261Span === source.sourceSpan
+    && allBooleanFieldsAre(source, SOURCE_V261_TRUE_FIELDS, true)
+    && allBooleanFieldsAre(receipt, MINIKV_V261_TRUE_FIELDS, true);
+}
+
+function isCredentialBoundaryClosed(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_CREDENTIAL_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_CREDENTIAL_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_CREDENTIAL_FALSE_FIELDS, false);
+}
+
+function isRawEndpointBoundaryClosed(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_ENDPOINT_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_ENDPOINT_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_ENDPOINT_FALSE_FIELDS, false);
+}
+
+function isConnectionBoundaryClosed(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_CONNECTION_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_CONNECTION_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_CONNECTION_FALSE_FIELDS, false);
+}
+
+function isWriteBoundaryClosed(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.schemaMigrationExecuted === false
+    && javaEcho.schemaMigrationExecuted === false
+    && allBooleanFieldsAre(receipt, MINIKV_WRITE_FALSE_FIELDS, false);
+}
+
+function isAutoStartBoundaryClosed(
+  source: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+  javaEcho: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+  receipt: MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
+): boolean {
+  return source.automaticUpstreamStart === false
+    && javaEcho.automaticUpstreamStart === false
+    && allBooleanFieldsAre(receipt, MINIKV_AUTOSTART_FALSE_FIELDS, false);
 }
 
 export function collectProductionBlockers(

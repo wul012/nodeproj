@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "version": "v2219",
+  "scope": "resolver-echo-check-composition",
+  "behaviorChanged": false,
+  "sources": [
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationChecks.ts",
+    "src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationChecks.ts"
+  ],
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "forcedHistoricalFallback": true,
+    "disabledPrecheck": {
+      "state": "sandbox-endpoint-credential-resolver-disabled-precheck-upstream-echo-verification-ready",
+      "checkCount": 19,
+      "jsonBytes": 38343,
+      "jsonSha256": "aede3ab9c385c357c21cfea8b86cafdf18054bb38717462e28c85cc8ced59480",
+      "markdownBytes": 9367,
+      "markdownSha256": "aa6fd14cd0c0c62b4a2499e749ba34df7c8c5a3c5f3be057bc6dadb8b2b7f4a0"
+    },
+    "testOnlyShell": {
+      "state": "sandbox-endpoint-credential-resolver-test-only-shell-upstream-echo-verification-ready",
+      "checkCount": 20,
+      "jsonBytes": 43068,
+      "jsonSha256": "d4b4d534e2a571eb290d2f4b436dfe5db4b77fe64aaad5464a6a9458748c7179",
+      "markdownBytes": 10582,
+      "markdownSha256": "ec8640aeca9d44f828f54a7102aa779f03eaeaf694695899da1c252d47608e5b"
+    },
+    "oracleTest": "test/resolverEchoParity.test.ts",
+    "passedBeforeSourceChange": true,
+    "passedAfterSourceChange": true
+  },
+  "design": {
+    "sharedEngine": "src/services/liveProbeReportUtils.ts#allBooleanFieldsAre",
+    "fieldListsAreTypeChecked": true,
+    "emptyAndDuplicateListsFailClosed": true,
+    "semanticRelationsRemainNamed": true,
+    "checkKeyOrderChanged": false,
+    "blockerOrderOrTextChanged": false,
+    "publicExportChanged": false
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 85,
+      "longFunctions": 103,
+      "complexFunctions": 226,
+      "importCycles": 0,
+      "disabledCreateChecksLines": 156,
+      "disabledCreateChecksComplexity": 117,
+      "shellCreateChecksLines": 156,
+      "shellCreateChecksComplexity": 114
+    },
+    "after": {
+      "nearLimitFiles": 85,
+      "longFunctions": 101,
+      "complexFunctions": 224,
+      "importCycles": 0,
+      "touchedLongFunctions": 0,
+      "touchedComplexFunctions": 0
+    },
+    "ratchetRefreshedDownward": true,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "focused": "passed-3-files-12-tests-max-2-workers",
+    "typecheck": "passed",
+    "maintainability": "passed-85-101-224-0",
+    "lint": "passed-targeted-zero-errors-zero-warnings",
+    "staticGates": "passed-security-8327-files-18-of-18-archive-7137-files-64.29-of-80-mib-elegance-158-families-52-tracked-family-52-of-52-renderer-242-standardized-3-waived-0-non-waived-source-size-0-above-800-maintainability-85-101-224-0",
+    "walkthroughGate": "passed-3470-chinese-25-h2-and-3-files-10-quality-tests"
+  },
+  "boundaries": {
+    "fixtureChanged": false,
+    "routeOrReportAdded": false,
+    "credentialReadAdded": false,
+    "networkOrWritePathAdded": false,
+    "executionAuthorityChanged": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvWorktreeChanged": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-existing-v1881-work-untouched",
+    "miniKv": "recommended-parallel-user-doc-change-untouched"
+  }
+}

@@ -14,6 +14,119 @@ import type {
   MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
   SourceNodeV264CredentialResolverTestOnlyShellContractReference,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationTypes.js";
+import { allBooleanFieldsAre } from "./liveProbeReportUtils.js";
+
+const SOURCE_PROBE_TRUE_FIELDS = [
+  "fakeResolverProbeCovered",
+  "fakeResolverProbeNoCredentialRead",
+  "fakeResolverProbeNoExternalRequest",
+  "fakeResolverProbeNoProductionWrite",
+] as const;
+
+const MINIKV_PROBE_TRUE_FIELDS = [
+  "fakeResolverProbeAcceptedByFakeResolver",
+  "fakeResolverProbeNoCredentialRead",
+  "fakeResolverProbeNoExternalRequest",
+  "fakeResolverProbeNoProductionWrite",
+] as const;
+
+const SOURCE_CREDENTIAL_FALSE_FIELDS = [
+  "credentialResolverExecutionAllowed",
+  "credentialValueRead",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+] as const;
+
+const JAVA_CREDENTIAL_FALSE_FIELDS = [
+  "credentialResolverExecutionAllowed",
+  "credentialValueRead",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+] as const;
+
+const MINIKV_CREDENTIAL_FALSE_FIELDS = [
+  "sourceCredentialResolverExecutionAllowed",
+  "sourceCredentialValueRead",
+  "sourceCredentialValueLoaded",
+  "sourceCredentialValueStored",
+  "sourceCredentialValueIncluded",
+  "credentialValueRequired",
+  "credentialValueReadAllowed",
+  "credentialValueLoaded",
+  "credentialValueStored",
+  "credentialValueIncluded",
+] as const;
+
+const SOURCE_ENDPOINT_FALSE_FIELDS = [
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+] as const;
+
+const JAVA_ENDPOINT_FALSE_FIELDS = [
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+] as const;
+
+const MINIKV_ENDPOINT_FALSE_FIELDS = [
+  "sourceRawEndpointUrlParsed",
+  "sourceRawEndpointUrlIncluded",
+  "rawEndpointUrlParsed",
+  "rawEndpointUrlIncluded",
+] as const;
+
+const SOURCE_CONNECTION_FALSE_FIELDS = [
+  "externalRequestSent",
+  "connectsManagedAudit",
+  "secretProviderInstantiated",
+  "resolverClientInstantiated",
+] as const;
+
+const JAVA_CONNECTION_FALSE_FIELDS = [
+  "externalRequestSent",
+  "connectsManagedAudit",
+  "secretProviderInstantiated",
+  "resolverClientInstantiated",
+] as const;
+
+const MINIKV_CONNECTION_FALSE_FIELDS = [
+  "sourceConnectsManagedAudit",
+  "sourceExternalRequestSent",
+  "connectionExecutionAllowed",
+  "externalRequestSent",
+  "secretProviderInstantiated",
+  "resolverClientInstantiated",
+  "credentialResolverImplemented",
+  "credentialResolverInvoked",
+] as const;
+
+const MINIKV_WRITE_FALSE_FIELDS = [
+  "sourceSchemaMigrationExecuted",
+  "sourceProductionRecordWritten",
+  "schemaRehearsalExecutionAllowed",
+  "schemaMigrationExecutionAllowed",
+  "storageWriteAllowed",
+  "managedAuditWriteExecuted",
+  "approvalLedgerWriteAllowed",
+  "approvalLedgerWriteExecuted",
+  "sandboxManagedAuditStateWriteAllowed",
+  "restoreExecutionAllowed",
+  "loadRestoreCompactExecuted",
+  "setnxexExecutionAllowed",
+  "managedAuditStore",
+  "managedAuditStorageBackend",
+  "sandboxAuditStorageBackend",
+  "orderAuthoritative",
+] as const;
+
+const MINIKV_AUTOSTART_FALSE_FIELDS = [
+  "sourceAutomaticUpstreamStart",
+  "nodeAutoStartAllowed",
+  "javaAutoStartAllowed",
+  "miniKvAutoStartAllowed",
+  "externalAuditServiceAutoStartAllowed",
+] as const;
 
 export function createChecks(
   config: AppConfig,
@@ -27,149 +140,171 @@ export function createChecks(
     javaV107EchoReady: javaV107.readyForNodeV265SandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification,
     miniKvV116NonParticipationReady: miniKvV116.readyForNodeV265Alignment,
     javaV109OptimizationContextReady: javaV109.alignedWithNodeV265,
-    testOnlyShellContractAligned:
-      sourceNodeV264.shellMode === javaV107.shellMode
-      && sourceNodeV264.shellMode === miniKvV116.sourceShellMode
-      && sourceNodeV264.shellName === javaV107.shellName
-      && sourceNodeV264.shellName === miniKvV116.sourceShellName
-      && sourceNodeV264.resolverKind === javaV107.resolverKind
-      && sourceNodeV264.resolverKind === miniKvV116.sourceResolverKind
-      && sourceNodeV264.profileVersion === javaV107.consumedNodeProfile
-      && sourceNodeV264.profileVersion === miniKvV116.sourceContractProfileVersion
-      && sourceNodeV264.shellContractState === miniKvV116.sourceContractState
-      && sourceNodeV264.readyForTestOnlyShellContract
-      && javaV107.fakeResolverOnlyEchoed
-      && miniKvV116.sourceFakeResolverOnly,
-    requestShapeAligned:
-      sourceNodeV264.requestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
-      && javaV107.requestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
-      && miniKvV116.sourceRequestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
-      && arraysEqual(sourceNodeV264.requestShapeFields, REQUEST_SHAPE_FIELDS)
-      && arraysEqual(miniKvV116.requestShapeFields, REQUEST_SHAPE_FIELDS)
-      && sourceNodeV264.handleOnlyRequest
-      && miniKvV116.sourceHandleOnlyRequest
-      && miniKvV116.handleOnlyRequest
-      && javaV107.requestShapeEchoed,
-    responseShapeAligned:
-      sourceNodeV264.responseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
-      && javaV107.responseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
-      && miniKvV116.sourceResponseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
-      && arraysEqual(sourceNodeV264.responseShapeFields, RESPONSE_SHAPE_FIELDS)
-      && arraysEqual(miniKvV116.responseShapeFields, RESPONSE_SHAPE_FIELDS)
-      && javaV107.responseShapeEchoed,
-    failureMappingAligned:
-      sourceNodeV264.failureMappingCount === FAILURE_CLASS_CODES.length
-      && javaV107.failureMappingCount === FAILURE_CLASS_CODES.length
-      && miniKvV116.sourceFailureMappingCount === FAILURE_CLASS_CODES.length
-      && arraysEqual(sourceNodeV264.failureClassCodes, FAILURE_CLASS_CODES)
-      && arraysEqual(miniKvV116.failureClassCodes, FAILURE_CLASS_CODES)
-      && javaV107.failureMappingEchoed,
-    guardConditionsAligned:
-      sourceNodeV264.guardConditionCount === GUARD_CONDITION_CODES.length
-      && javaV107.guardConditionCount === GUARD_CONDITION_CODES.length
-      && miniKvV116.sourceGuardConditionCount === GUARD_CONDITION_CODES.length
-      && arraysEqual(sourceNodeV264.guardConditionCodes, GUARD_CONDITION_CODES)
-      && arraysEqual(miniKvV116.guardConditionCodes, GUARD_CONDITION_CODES)
-      && javaV107.guardConditionsEchoed,
-    fakeResolverProbeAligned:
-      sourceNodeV264.fakeResolverProbeCovered
-      && sourceNodeV264.fakeResolverProbeNoCredentialRead
-      && sourceNodeV264.fakeResolverProbeNoExternalRequest
-      && sourceNodeV264.fakeResolverProbeNoProductionWrite
-      && javaV107.fakeResolverProbeEchoed
-      && miniKvV116.fakeResolverProbeRequestId === "managed-audit-v264-test-only-resolver-shell-probe"
-      && miniKvV116.fakeResolverProbeAcceptedByFakeResolver
-      && miniKvV116.fakeResolverProbeNoCredentialRead
-      && miniKvV116.fakeResolverProbeNoExternalRequest
-      && miniKvV116.fakeResolverProbeNoProductionWrite
-      && !miniKvV116.fakeResolverProbeExecuted,
-    credentialBoundaryAligned:
-      !sourceNodeV264.credentialResolverExecutionAllowed
-      && !sourceNodeV264.credentialValueRead
-      && !sourceNodeV264.credentialValueLoaded
-      && !sourceNodeV264.credentialValueStored
-      && !sourceNodeV264.credentialValueIncluded
-      && !javaV107.credentialResolverExecutionAllowed
-      && !javaV107.credentialValueRead
-      && !javaV107.credentialValueLoaded
-      && !javaV107.credentialValueStored
-      && !javaV107.credentialValueIncluded
-      && !miniKvV116.sourceCredentialResolverExecutionAllowed
-      && !miniKvV116.sourceCredentialValueRead
-      && !miniKvV116.sourceCredentialValueLoaded
-      && !miniKvV116.sourceCredentialValueStored
-      && !miniKvV116.sourceCredentialValueIncluded
-      && !miniKvV116.credentialValueRequired
-      && !miniKvV116.credentialValueReadAllowed
-      && !miniKvV116.credentialValueLoaded
-      && !miniKvV116.credentialValueStored
-      && !miniKvV116.credentialValueIncluded,
-    rawEndpointBoundaryAligned:
-      !sourceNodeV264.rawEndpointUrlParsed
-      && !sourceNodeV264.rawEndpointUrlIncluded
-      && !javaV107.rawEndpointUrlParsed
-      && !javaV107.rawEndpointUrlIncluded
-      && !miniKvV116.sourceRawEndpointUrlParsed
-      && !miniKvV116.sourceRawEndpointUrlIncluded
-      && !miniKvV116.rawEndpointUrlParsed
-      && !miniKvV116.rawEndpointUrlIncluded,
-    connectionBoundaryAligned:
-      !sourceNodeV264.externalRequestSent
-      && !sourceNodeV264.connectsManagedAudit
-      && !sourceNodeV264.secretProviderInstantiated
-      && !sourceNodeV264.resolverClientInstantiated
-      && !javaV107.externalRequestSent
-      && !javaV107.connectsManagedAudit
-      && !javaV107.secretProviderInstantiated
-      && !javaV107.resolverClientInstantiated
-      && !miniKvV116.sourceConnectsManagedAudit
-      && !miniKvV116.sourceExternalRequestSent
-      && !miniKvV116.connectionExecutionAllowed
-      && !miniKvV116.externalRequestSent
-      && !miniKvV116.secretProviderInstantiated
-      && !miniKvV116.resolverClientInstantiated
-      && !miniKvV116.credentialResolverImplemented
-      && !miniKvV116.credentialResolverInvoked,
-    writeBoundaryAligned:
-      !sourceNodeV264.schemaMigrationExecuted
-      && !javaV107.schemaMigrationExecuted
-      && !javaV107.productionRecordWritten
-      && !miniKvV116.sourceSchemaMigrationExecuted
-      && !miniKvV116.sourceProductionRecordWritten
-      && !miniKvV116.schemaRehearsalExecutionAllowed
-      && !miniKvV116.schemaMigrationExecutionAllowed
-      && !miniKvV116.storageWriteAllowed
-      && !miniKvV116.managedAuditWriteExecuted
-      && !miniKvV116.approvalLedgerWriteAllowed
-      && !miniKvV116.approvalLedgerWriteExecuted
-      && !miniKvV116.sandboxManagedAuditStateWriteAllowed
-      && !miniKvV116.restoreExecutionAllowed
-      && !miniKvV116.loadRestoreCompactExecuted
-      && !miniKvV116.setnxexExecutionAllowed
-      && !miniKvV116.managedAuditStore
-      && !miniKvV116.managedAuditStorageBackend
-      && !miniKvV116.sandboxAuditStorageBackend
-      && !miniKvV116.orderAuthoritative,
-    autoStartBoundaryAligned:
-      !sourceNodeV264.automaticUpstreamStart
-      && !javaV107.automaticUpstreamStart
-      && !miniKvV116.sourceAutomaticUpstreamStart
-      && !miniKvV116.nodeAutoStartAllowed
-      && !miniKvV116.javaAutoStartAllowed
-      && !miniKvV116.miniKvAutoStartAllowed
-      && !miniKvV116.externalAuditServiceAutoStartAllowed,
-    miniKvNonParticipationAligned:
-      miniKvV116.readyForNodeV265Alignment
-      && miniKvV116.readOnly
-      && !miniKvV116.executionAllowed
-      && miniKvV116.testOnlyResolverShellContractOnly
-      && !miniKvV116.fakeResolverProbeExecuted,
+    testOnlyShellContractAligned: isShellContractAligned(sourceNodeV264, javaV107, miniKvV116),
+    requestShapeAligned: hasAlignedRequestShape(sourceNodeV264, javaV107, miniKvV116),
+    responseShapeAligned: hasAlignedResponseShape(sourceNodeV264, javaV107, miniKvV116),
+    failureMappingAligned: hasAlignedFailureMapping(sourceNodeV264, javaV107, miniKvV116),
+    guardConditionsAligned: hasAlignedGuardConditions(sourceNodeV264, javaV107, miniKvV116),
+    fakeResolverProbeAligned: isFakeResolverProbeAligned(sourceNodeV264, javaV107, miniKvV116),
+    credentialBoundaryAligned: isCredentialBoundaryClosed(sourceNodeV264, javaV107, miniKvV116),
+    rawEndpointBoundaryAligned: isRawEndpointBoundaryClosed(sourceNodeV264, javaV107, miniKvV116),
+    connectionBoundaryAligned: isConnectionBoundaryClosed(sourceNodeV264, javaV107, miniKvV116),
+    writeBoundaryAligned: isWriteBoundaryClosed(sourceNodeV264, javaV107, miniKvV116),
+    autoStartBoundaryAligned: isAutoStartBoundaryClosed(sourceNodeV264, javaV107, miniKvV116),
+    miniKvNonParticipationAligned: isMiniKvNonParticipationAligned(miniKvV116),
     upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
     productionAuditStillBlocked: true,
     productionWindowStillBlocked: true,
     readyForManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification:
       false,
   };
+}
+
+function isShellContractAligned(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.shellMode === javaEcho.shellMode
+    && source.shellMode === receipt.sourceShellMode
+    && source.shellName === javaEcho.shellName
+    && source.shellName === receipt.sourceShellName
+    && source.resolverKind === javaEcho.resolverKind
+    && source.resolverKind === receipt.sourceResolverKind
+    && source.profileVersion === javaEcho.consumedNodeProfile
+    && source.profileVersion === receipt.sourceContractProfileVersion
+    && source.shellContractState === receipt.sourceContractState
+    && source.readyForTestOnlyShellContract
+    && javaEcho.fakeResolverOnlyEchoed
+    && receipt.sourceFakeResolverOnly;
+}
+
+function hasAlignedRequestShape(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.requestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
+    && javaEcho.requestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
+    && receipt.sourceRequestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
+    && arraysEqual(source.requestShapeFields, REQUEST_SHAPE_FIELDS)
+    && arraysEqual(receipt.requestShapeFields, REQUEST_SHAPE_FIELDS)
+    && source.handleOnlyRequest
+    && receipt.sourceHandleOnlyRequest
+    && receipt.handleOnlyRequest
+    && javaEcho.requestShapeEchoed;
+}
+
+function hasAlignedResponseShape(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.responseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
+    && javaEcho.responseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
+    && receipt.sourceResponseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
+    && arraysEqual(source.responseShapeFields, RESPONSE_SHAPE_FIELDS)
+    && arraysEqual(receipt.responseShapeFields, RESPONSE_SHAPE_FIELDS)
+    && javaEcho.responseShapeEchoed;
+}
+
+function hasAlignedFailureMapping(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.failureMappingCount === FAILURE_CLASS_CODES.length
+    && javaEcho.failureMappingCount === FAILURE_CLASS_CODES.length
+    && receipt.sourceFailureMappingCount === FAILURE_CLASS_CODES.length
+    && arraysEqual(source.failureClassCodes, FAILURE_CLASS_CODES)
+    && arraysEqual(receipt.failureClassCodes, FAILURE_CLASS_CODES)
+    && javaEcho.failureMappingEchoed;
+}
+
+function hasAlignedGuardConditions(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.guardConditionCount === GUARD_CONDITION_CODES.length
+    && javaEcho.guardConditionCount === GUARD_CONDITION_CODES.length
+    && receipt.sourceGuardConditionCount === GUARD_CONDITION_CODES.length
+    && arraysEqual(source.guardConditionCodes, GUARD_CONDITION_CODES)
+    && arraysEqual(receipt.guardConditionCodes, GUARD_CONDITION_CODES)
+    && javaEcho.guardConditionsEchoed;
+}
+
+function isFakeResolverProbeAligned(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_PROBE_TRUE_FIELDS, true)
+    && javaEcho.fakeResolverProbeEchoed
+    && receipt.fakeResolverProbeRequestId === "managed-audit-v264-test-only-resolver-shell-probe"
+    && allBooleanFieldsAre(receipt, MINIKV_PROBE_TRUE_FIELDS, true)
+    && receipt.fakeResolverProbeExecuted === false;
+}
+
+function isCredentialBoundaryClosed(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_CREDENTIAL_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_CREDENTIAL_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_CREDENTIAL_FALSE_FIELDS, false);
+}
+
+function isRawEndpointBoundaryClosed(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_ENDPOINT_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_ENDPOINT_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_ENDPOINT_FALSE_FIELDS, false);
+}
+
+function isConnectionBoundaryClosed(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return allBooleanFieldsAre(source, SOURCE_CONNECTION_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(javaEcho, JAVA_CONNECTION_FALSE_FIELDS, false)
+    && allBooleanFieldsAre(receipt, MINIKV_CONNECTION_FALSE_FIELDS, false);
+}
+
+function isWriteBoundaryClosed(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.schemaMigrationExecuted === false
+    && javaEcho.schemaMigrationExecuted === false
+    && javaEcho.productionRecordWritten === false
+    && allBooleanFieldsAre(receipt, MINIKV_WRITE_FALSE_FIELDS, false);
+}
+
+function isAutoStartBoundaryClosed(
+  source: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+  javaEcho: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return source.automaticUpstreamStart === false
+    && javaEcho.automaticUpstreamStart === false
+    && allBooleanFieldsAre(receipt, MINIKV_AUTOSTART_FALSE_FIELDS, false);
+}
+
+function isMiniKvNonParticipationAligned(
+  receipt: MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
+): boolean {
+  return receipt.readyForNodeV265Alignment
+    && receipt.readOnly
+    && receipt.executionAllowed === false
+    && receipt.testOnlyResolverShellContractOnly
+    && receipt.fakeResolverProbeExecuted === false;
 }
 
 export function collectProductionBlockers(

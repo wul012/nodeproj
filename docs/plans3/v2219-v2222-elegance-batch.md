@@ -28,7 +28,7 @@
 
 | 要求 | 实现边界 | 机械证据 | 状态 |
 | --- | --- | --- | --- |
-| 两套 resolver echo 检查可按语义阅读 | 复用 `allBooleanFieldsAre`，字段清单受 `keyof` 约束，非布尔规则保留具名谓词 | 固定时间 JSON/Markdown oracle、focused tests、complexity ratchet | pending v2219 |
+| 两套 resolver echo 检查可按语义阅读 | 复用 `allBooleanFieldsAre`，字段清单受 `keyof` 约束，非布尔规则保留具名谓词 | 固定时间 JSON/Markdown oracle、focused tests、complexity ratchet | v2219 passed |
 | disabled candidate 不再是一条 149 行判定链 | review/count/interface/boundary 分组，blocker 复用通用规则收集器 | 完整 profile oracle、负向配置测试、基线收紧 | pending v2220 |
 | v111 证据读取只有一个字段真相源 | 复用 `historicalEvidenceReportUtils` 和 `mapReceiptFields`，references 独立拥有解析与 readiness | 本地与强制 fallback 完整字节、缺失值 fail-closed、focused tests | pending v2221 |
 | v112 证据读取复用相同范式 | 声明式字段规格、具名 readiness、服务组合根不再拥有底层 JSON helper | 本地与强制 fallback 完整字节、缺失值 fail-closed、focused tests | pending v2222 |
@@ -62,6 +62,16 @@
 - `allBooleanFieldsAre` 的空/重复/nullable fail-closed 语义不得被绕过。
 
 预期基线最多为 85 / 101 / 224 / 0。
+
+### v2219 收口证据
+
+两套 156 行 `createChecks` 已变为保持旧键序的一屏组合根；字段清单由对象类型约束，
+计数、数组、模式、版本和跨对象关系由 12 个短小语义谓词表达。两个改动文件内均无长函数或
+复杂函数，账本按预期收紧为 85 / 101 / 224 / 0。固定时间且强制历史回退的 4 份完整
+JSON/Markdown 字节与 SHA-256 在源码改动前后完全一致；原业务、fallback、负向开关和 route
+测试连同 oracle 共 3 文件 12 项通过。typecheck、定向零警告 lint、七项静态门和讲解质量门
+均通过；讲解含 3,470 个中文字符、25 个二级章节。未修改 fixture、路由、执行权限或兄弟项目，
+没有创建图片目录或启动后台服务。
 
 ## v2220：disabled candidate 策略分层
 
