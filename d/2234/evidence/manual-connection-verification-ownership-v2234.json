@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "version": "v2234",
+  "scope": "manual-connection-verification-ownership",
+  "behaviorChanged": false,
+  "sourceCommit": "d96548e7",
+  "oracles": [
+    {
+      "domain": "manual-connection-packet-verification",
+      "historicalFallbackForced": true,
+      "generatedAt": "2026-07-21T14:00:00.000Z",
+      "bytes": 11099,
+      "sha256": "876df6e9a37680dc5b49c49d3deb7f0c0694dee8db5ec7138b62bdfbda7feb49"
+    },
+    {
+      "domain": "manual-connection-preflight-verification",
+      "historicalFallbackForced": true,
+      "generatedAt": "2026-07-21T14:00:00.000Z",
+      "bytes": 13344,
+      "sha256": "b00d1a28faf06dd992aaa1fe8cf5516adf040a07150e0a9f3e2eb38af1801d77"
+    }
+  ],
+  "architecture": {
+    "rendererOwner": "src/services/verificationReports/manualConnection.ts",
+    "evidenceSourceOwner": "src/services/manualConnectionSources.ts",
+    "advisoryOwner": "src/services/manualConnectionAdvisories.ts",
+    "stablePacketExportPreserved": true,
+    "stablePreflightExportPreserved": true,
+    "reportBuilderReused": true,
+    "newRendererWaivers": 0
+  },
+  "metrics": {
+    "verificationLogicBefore": 1146,
+    "verificationLogicAfter": 980,
+    "verificationLogicRemoved": 166,
+    "nearLimitFilesBefore": 73,
+    "nearLimitFilesAfter": 71,
+    "packetServiceLinesBefore": 733,
+    "packetServiceLinesAfter": 535,
+    "preflightServiceLinesBefore": 778,
+    "preflightServiceLinesAfter": 576,
+    "longFunctions": 72,
+    "complexFunctions": 193,
+    "importCycles": 0,
+    "nameDebt": 4444,
+    "trackedFamilies": 52,
+    "sourceFilesAbove800": 0
+  },
+  "verification": {
+    "preMigrationOracle": "passed-before-production-source-edit",
+    "postMigrationFocused": "passed-4-files-19-tests-max-4-workers",
+    "postMigrationOracle": "passed-two-of-two-exact-byte-hashes",
+    "forcedFallbackResolvedUnderHistoricalFixtures": true,
+    "typecheck": "passed",
+    "lint": "passed-zero-warnings",
+    "elegance": "passed-no-name-or-family-growth",
+    "familyLogic": "passed-980",
+    "maintainability": "passed-71-72-193-0",
+    "baselineDirection": "downward-only"
+  },
+  "boundaries": {
+    "routeChanged": false,
+    "jsonChanged": false,
+    "markdownChanged": false,
+    "fixtureChanged": false,
+    "testExpectationChangedAfterMigration": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "permissionsChanged": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false
+  }
+}

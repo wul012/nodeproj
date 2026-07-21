@@ -11,10 +11,6 @@
       "maxLines": 780
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionPreflightVerification.ts",
-      "maxLines": 778
-    },
-    {
       "key": "src/services/managedAuditSandboxAdapterDryRunPackage.ts",
       "maxLines": 778
     },
@@ -68,10 +64,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionArtifactIntakePreflight.ts",
-      "maxLines": 733
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionPacketVerification.ts",
       "maxLines": 733
     },
     {

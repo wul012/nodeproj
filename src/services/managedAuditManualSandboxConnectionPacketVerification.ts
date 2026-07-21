@@ -1,24 +1,34 @@
-import { createHash } from "node:crypto";
-
 import type { AppConfig } from "../config.js";
-import {
-  historicalEvidenceExists as existsSync,
-  readHistoricalEvidenceFile as readFileSync,
-  statHistoricalEvidence as statSync,
-} from "./historicalEvidenceResolver.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  booleanField,
+  evidenceById as fileById,
+  evidenceFile,
+  readEvidenceJson,
+  snippet,
+  snippetMatched,
+  stringField,
+  type ManualConnectionEvidenceFile,
+  type ManualConnectionSnippetMatch,
+} from "./manualConnectionSources.js";
+import {
+  addManualBlocker as addBlocker,
+  packetAdvisories,
+  type ManualConnectionMessage,
+} from "./manualConnectionAdvisories.js";
 import {
   loadManagedAuditManualSandboxConnectionOperatorPacket,
   type ManagedAuditManualSandboxConnectionOperatorPacketProfile,
 } from "./managedAuditManualSandboxConnectionOperatorPacket.js";
 import type { SandboxDryRunGuards } from "./managedAuditSandboxGuards.js";
+
+export {
+  renderPacketVerification as renderManagedAuditManualSandboxConnectionPacketVerificationMarkdown,
+} from "./verificationReports/manualConnection.js";
 
 export interface ManagedAuditManualSandboxConnectionPacketVerificationProfile extends SandboxDryRunGuards {
   service: "orderops-node";
@@ -136,20 +146,8 @@ interface MiniKvV96ReceiptEchoMarkerReference {
   readyForNodeV229PacketVerification: boolean;
 }
 
-interface PacketVerificationEvidenceFile {
-  id: string;
-  path: string;
-  exists: boolean;
-  sizeBytes: number;
-  digest: string | null;
-}
-
-interface PacketVerificationSnippetMatch {
-  id: string;
-  path: string;
-  expectedText: string;
-  matched: boolean;
-}
+type PacketVerificationEvidenceFile = ManualConnectionEvidenceFile;
+type PacketVerificationSnippetMatch = ManualConnectionSnippetMatch;
 
 type ManualSandboxPacketVerificationChecks = {
   sourceNodeV228PacketReady: boolean;
@@ -173,17 +171,7 @@ type ManualSandboxPacketVerificationChecks = {
   readyForManagedAuditManualSandboxConnectionPacketVerification: boolean;
 };
 
-interface ManualSandboxPacketVerificationMessage {
-  code: string;
-  severity: "blocker" | "warning" | "recommendation";
-  source:
-    | "managed-audit-manual-sandbox-connection-packet-verification"
-    | "node-v228-operator-packet"
-    | "java-v87-marker"
-    | "mini-kv-v96-marker"
-    | "runtime-config";
-  message: string;
-}
+type ManualSandboxPacketVerificationMessage = ManualConnectionMessage;
 
 interface MiniKvRuntimeSmokeEvidence extends Record<string, unknown> {
   managed_audit_sandbox_connection_receipt_echo_marker?: Record<string, unknown>;
@@ -230,7 +218,7 @@ export function loadManagedAuditManualSandboxConnectionPacketVerification(input:
   const sourcePacket = loadManagedAuditManualSandboxConnectionOperatorPacket({ config: input.config });
   const evidenceFiles = createEvidenceFiles();
   const snippetMatches = createSnippetMatches();
-  const miniKvEvidence = readMiniKvRuntimeSmokeEvidence();
+  const miniKvEvidence = readEvidenceJson<MiniKvRuntimeSmokeEvidence>(MINI_KV_RUNTIME_SMOKE);
   const javaV87 = createJavaV87Reference(evidenceFiles, snippetMatches);
   const miniKvV96 = createMiniKvV96Reference(evidenceFiles, snippetMatches, miniKvEvidence);
   const packetVerification = createPacketVerification(sourcePacket, javaV87, miniKvV96);
@@ -242,8 +230,7 @@ export function loadManagedAuditManualSandboxConnectionPacketVerification(input:
     ? "manual-sandbox-connection-packet-verification-ready"
     : "blocked";
   const productionBlockers = collectProductionBlockers(checks);
-  const warnings = collectWarnings();
-  const recommendations = collectRecommendations();
+  const { warnings, recommendations } = packetAdvisories();
 
   return {
     service: "orderops-node",
@@ -305,75 +292,6 @@ export function loadManagedAuditManualSandboxConnectionPacketVerification(input:
       "Keep credential values outside Node archives; v229 verifies handle and marker echoes only.",
     ],
   };
-}
-
-export function renderManagedAuditManualSandboxConnectionPacketVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionPacketVerificationProfile,
-): string {
-  return [
-    "# Managed audit manual sandbox connection packet verification",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Verification state: ${profile.verificationState}`,
-    `- Ready for packet verification: ${profile.readyForManagedAuditManualSandboxConnectionPacketVerification}`,
-    `- Ready for sandbox adapter connection: ${profile.readyForManagedAuditSandboxAdapterConnection}`,
-    `- Ready for production audit: ${profile.readyForProductionAudit}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    `- Reads managed audit credential: ${profile.readsManagedAuditCredential}`,
-    "",
-    "## Source Node v228",
-    "",
-    ...renderEntries(profile.sourceNodeV228),
-    "",
-    "## Java v87 Marker",
-    "",
-    ...renderEntries(profile.upstreamMarkers.javaV87),
-    "",
-    "## mini-kv v96 Marker",
-    "",
-    ...renderEntries(profile.upstreamMarkers.miniKvV96),
-    "",
-    "## Packet Verification",
-    "",
-    ...renderEntries(profile.packetVerification),
-    "",
-    "## Evidence Files",
-    "",
-    ...profile.evidenceFiles.flatMap(renderEvidenceFile),
-    "## Snippet Matches",
-    "",
-    ...profile.snippetMatches.flatMap(renderSnippet),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No manual sandbox packet verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No manual sandbox packet verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No manual sandbox packet verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
 }
 
 function createJavaV87Reference(
@@ -614,120 +532,4 @@ function collectProductionBlockers(
   addBlocker(blockers, checks.upstreamActionsStillDisabled, "UPSTREAM_ACTIONS_ENABLED", "runtime-config", "UPSTREAM_ACTIONS_ENABLED must remain false.");
   addBlocker(blockers, checks.productionAuditStillBlocked, "PRODUCTION_AUDIT_UNLOCKED", "managed-audit-manual-sandbox-connection-packet-verification", "v229 must not unlock production audit.");
   return blockers;
-}
-
-function collectWarnings(): ManualSandboxPacketVerificationMessage[] {
-  return [
-    {
-      code: "PACKET_VERIFICATION_ONLY_NO_CONNECTION",
-      severity: "warning",
-      source: "managed-audit-manual-sandbox-connection-packet-verification",
-      message: "This profile verifies packet evidence only; it does not connect to managed audit.",
-    },
-    {
-      code: "UPSTREAM_MARKERS_ARE_READ_ONLY",
-      severity: "warning",
-      source: "managed-audit-manual-sandbox-connection-packet-verification",
-      message: "Java v87 and mini-kv v96 are consumed as read-only marker evidence, not as execution approvals.",
-    },
-  ];
-}
-
-function collectRecommendations(): ManualSandboxPacketVerificationMessage[] {
-  return [
-    {
-      code: "START_POST_V229_PLAN",
-      severity: "recommendation",
-      source: "managed-audit-manual-sandbox-connection-packet-verification",
-      message: "Open a new plan before any manual sandbox connection rehearsal attempt.",
-    },
-    {
-      code: "KEEP_SANDBOX_CONNECTION_MANUAL",
-      severity: "recommendation",
-      source: "managed-audit-manual-sandbox-connection-packet-verification",
-      message: "Keep any future sandbox connection manual, credential-handle-only, and separated from production audit.",
-    },
-  ];
-}
-
-function evidenceFile(id: string, filePath: string): PacketVerificationEvidenceFile {
-  if (!existsSync(filePath)) {
-    return { id, path: filePath, exists: false, sizeBytes: 0, digest: null };
-  }
-  const content = readFileSync(filePath);
-  return {
-    id,
-    path: filePath,
-    exists: true,
-    sizeBytes: statSync(filePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function snippet(id: string, filePath: string, expectedText: string): PacketVerificationSnippetMatch {
-  const content = existsSync(filePath) ? readFileSync(filePath, "utf8") : "";
-  return {
-    id,
-    path: filePath,
-    expectedText,
-    matched: content.includes(expectedText),
-  };
-}
-
-function addBlocker(
-  messages: ManualSandboxPacketVerificationMessage[],
-  condition: boolean,
-  code: string,
-  source: ManualSandboxPacketVerificationMessage["source"],
-  message: string,
-): void {
-  if (!condition) {
-    messages.push({ code, severity: "blocker", source, message });
-  }
-}
-
-function readMiniKvRuntimeSmokeEvidence(): MiniKvRuntimeSmokeEvidence {
-  if (!existsSync(MINI_KV_RUNTIME_SMOKE)) {
-    return {};
-  }
-  return JSON.parse(readFileSync(MINI_KV_RUNTIME_SMOKE, "utf8")) as MiniKvRuntimeSmokeEvidence;
-}
-
-function fileById(files: PacketVerificationEvidenceFile[], id: string): PacketVerificationEvidenceFile {
-  const file = files.find((candidate) => candidate.id === id);
-  if (file === undefined) {
-    throw new Error(`Missing evidence file ${id}`);
-  }
-  return file;
-}
-
-function snippetMatched(snippets: PacketVerificationSnippetMatch[], id: string): boolean {
-  return snippets.some((snippetMatch) => snippetMatch.id === id && snippetMatch.matched);
-}
-
-function stringField(record: Record<string, unknown>, key: string): string | undefined {
-  const value = record[key];
-  return typeof value === "string" ? value : undefined;
-}
-
-function booleanField(record: Record<string, unknown>, key: string): boolean | undefined {
-  const value = record[key];
-  return typeof value === "boolean" ? value : undefined;
-}
-
-function renderEvidenceFile(file: PacketVerificationEvidenceFile): string[] {
-  return [
-    `### ${file.id}`,
-    "",
-    ...renderEntries(file),
-    "",
-  ];
-}
-
-function renderSnippet(snippetMatch: PacketVerificationSnippetMatch): string[] {
-  return [
-    `- ${snippetMatch.id}: ${snippetMatch.matched}`,
-    `  - Path: ${snippetMatch.path}`,
-    `  - Expected: ${snippetMatch.expectedText}`,
-  ];
 }

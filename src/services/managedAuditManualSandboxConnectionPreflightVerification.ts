@@ -1,24 +1,35 @@
-import { createHash } from "node:crypto";
-
 import type { AppConfig } from "../config.js";
-import {
-  historicalEvidenceExists as existsSync,
-  readHistoricalEvidenceFile as readFileSync,
-  statHistoricalEvidence as statSync,
-} from "./historicalEvidenceResolver.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  booleanField,
+  evidenceById as fileById,
+  evidenceFile,
+  numberField,
+  readEvidenceJson,
+  snippet,
+  snippetMatched,
+  stringField,
+  type ManualConnectionEvidenceFile,
+  type ManualConnectionSnippetMatch,
+} from "./manualConnectionSources.js";
+import {
+  addManualBlocker as addBlocker,
+  preflightAdvisories,
+  type ManualConnectionMessage,
+} from "./manualConnectionAdvisories.js";
 import {
   loadManagedAuditManualSandboxConnectionPreflightGate,
   type ManagedAuditManualSandboxConnectionPreflightGateProfile,
 } from "./managedAuditManualSandboxConnectionPreflightGate.js";
 import type { SandboxDryRunGuards } from "./managedAuditSandboxGuards.js";
+
+export {
+  renderPreflightVerification as renderManagedAuditManualSandboxConnectionPreflightVerificationMarkdown,
+} from "./verificationReports/manualConnection.js";
 
 export interface ManagedAuditManualSandboxConnectionPreflightVerificationProfile extends SandboxDryRunGuards {
   service: "orderops-node";
@@ -148,20 +159,8 @@ interface MiniKvV97NoStartGuardReference {
   readyForNodeV231PreflightVerification: boolean;
 }
 
-interface PreflightVerificationEvidenceFile {
-  id: string;
-  path: string;
-  exists: boolean;
-  sizeBytes: number;
-  digest: string | null;
-}
-
-interface PreflightVerificationSnippetMatch {
-  id: string;
-  path: string;
-  expectedText: string;
-  matched: boolean;
-}
+type PreflightVerificationEvidenceFile = ManualConnectionEvidenceFile;
+type PreflightVerificationSnippetMatch = ManualConnectionSnippetMatch;
 
 type ManualSandboxPreflightVerificationChecks = {
   sourceNodeV230PreflightGateReady: boolean;
@@ -186,17 +185,7 @@ type ManualSandboxPreflightVerificationChecks = {
   readyForManagedAuditManualSandboxConnectionPreflightVerification: boolean;
 };
 
-interface ManualSandboxPreflightVerificationMessage {
-  code: string;
-  severity: "blocker" | "warning" | "recommendation";
-  source:
-    | "managed-audit-manual-sandbox-connection-preflight-verification"
-    | "node-v230-preflight-gate"
-    | "java-v88-preflight-echo-marker"
-    | "mini-kv-v97-no-start-guard"
-    | "runtime-config";
-  message: string;
-}
+type ManualSandboxPreflightVerificationMessage = ManualConnectionMessage;
 
 interface MiniKvRuntimeSmokeEvidence extends Record<string, unknown> {
   project_version?: unknown;
@@ -241,7 +230,7 @@ export function loadManagedAuditManualSandboxConnectionPreflightVerification(inp
   const sourceGate = loadManagedAuditManualSandboxConnectionPreflightGate({ config: input.config });
   const evidenceFiles = createEvidenceFiles();
   const snippetMatches = createSnippetMatches();
-  const miniKvEvidence = readMiniKvRuntimeSmokeEvidence();
+  const miniKvEvidence = readEvidenceJson<MiniKvRuntimeSmokeEvidence>(MINI_KV_RUNTIME_SMOKE);
   const javaV88 = createJavaV88Reference(evidenceFiles, snippetMatches);
   const miniKvV97 = createMiniKvV97Reference(evidenceFiles, snippetMatches, miniKvEvidence);
   const preflightVerification = createPreflightVerification(sourceGate, javaV88, miniKvV97);
@@ -253,8 +242,7 @@ export function loadManagedAuditManualSandboxConnectionPreflightVerification(inp
     ? "manual-sandbox-connection-preflight-verification-ready"
     : "blocked";
   const productionBlockers = collectProductionBlockers(checks);
-  const warnings = collectWarnings();
-  const recommendations = collectRecommendations();
+  const { warnings, recommendations } = preflightAdvisories();
 
   return {
     service: "orderops-node",
@@ -319,75 +307,6 @@ export function loadManagedAuditManualSandboxConnectionPreflightVerification(inp
       "Keep Java v88 and mini-kv v97 markers read-only; they are evidence inputs, not execution approval.",
     ],
   };
-}
-
-export function renderManagedAuditManualSandboxConnectionPreflightVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionPreflightVerificationProfile,
-): string {
-  return [
-    "# Managed audit manual sandbox connection preflight verification",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Verification state: ${profile.verificationState}`,
-    `- Ready for preflight verification: ${profile.readyForManagedAuditManualSandboxConnectionPreflightVerification}`,
-    `- Ready for sandbox adapter connection: ${profile.readyForManagedAuditSandboxAdapterConnection}`,
-    `- Ready for production audit: ${profile.readyForProductionAudit}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    `- Reads managed audit credential: ${profile.readsManagedAuditCredential}`,
-    "",
-    "## Source Node v230",
-    "",
-    ...renderEntries(profile.sourceNodeV230),
-    "",
-    "## Java v88 Preflight Echo Marker",
-    "",
-    ...renderEntries(profile.upstreamMarkers.javaV88),
-    "",
-    "## mini-kv v97 No-Start Guard",
-    "",
-    ...renderEntries(profile.upstreamMarkers.miniKvV97),
-    "",
-    "## Preflight Verification",
-    "",
-    ...renderEntries(profile.preflightVerification),
-    "",
-    "## Evidence Files",
-    "",
-    ...profile.evidenceFiles.flatMap(renderEvidenceFile),
-    "## Snippet Matches",
-    "",
-    ...profile.snippetMatches.flatMap(renderSnippet),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No manual sandbox preflight verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No manual sandbox preflight verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No manual sandbox preflight verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
 }
 
 function createJavaV88Reference(
@@ -654,125 +573,4 @@ function collectProductionBlockers(
   addBlocker(blockers, checks.upstreamActionsStillDisabled, "UPSTREAM_ACTIONS_ENABLED", "runtime-config", "UPSTREAM_ACTIONS_ENABLED must remain false.");
   addBlocker(blockers, checks.productionAuditStillBlocked, "PRODUCTION_AUDIT_UNLOCKED", "managed-audit-manual-sandbox-connection-preflight-verification", "v231 must not unlock production audit.");
   return blockers;
-}
-
-function collectWarnings(): ManualSandboxPreflightVerificationMessage[] {
-  return [
-    {
-      code: "PREFLIGHT_VERIFICATION_ONLY_NO_CONNECTION",
-      severity: "warning",
-      source: "managed-audit-manual-sandbox-connection-preflight-verification",
-      message: "This profile verifies preflight fields only; it does not open a sandbox managed audit connection.",
-    },
-    {
-      code: "UPSTREAM_MARKERS_ARE_READ_ONLY",
-      severity: "warning",
-      source: "managed-audit-manual-sandbox-connection-preflight-verification",
-      message: "Java v88 and mini-kv v97 are consumed as read-only markers, not as execution approvals.",
-    },
-  ];
-}
-
-function collectRecommendations(): ManualSandboxPreflightVerificationMessage[] {
-  return [
-    {
-      code: "START_POST_V231_PLAN",
-      severity: "recommendation",
-      source: "managed-audit-manual-sandbox-connection-preflight-verification",
-      message: "Open a post-v231 plan before any manual sandbox connection rehearsal runbook or adapter connection attempt.",
-    },
-    {
-      code: "KEEP_PREFLIGHT_AND_CONNECTION_SEPARATE",
-      severity: "recommendation",
-      source: "managed-audit-manual-sandbox-connection-preflight-verification",
-      message: "Keep preflight verification separate from a later manual connection rehearsal and from production audit.",
-    },
-  ];
-}
-
-function evidenceFile(id: string, filePath: string): PreflightVerificationEvidenceFile {
-  if (!existsSync(filePath)) {
-    return { id, path: filePath, exists: false, sizeBytes: 0, digest: null };
-  }
-  const content = readFileSync(filePath);
-  return {
-    id,
-    path: filePath,
-    exists: true,
-    sizeBytes: statSync(filePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function snippet(id: string, filePath: string, expectedText: string): PreflightVerificationSnippetMatch {
-  const content = existsSync(filePath) ? readFileSync(filePath, "utf8") : "";
-  return {
-    id,
-    path: filePath,
-    expectedText,
-    matched: content.includes(expectedText),
-  };
-}
-
-function addBlocker(
-  messages: ManualSandboxPreflightVerificationMessage[],
-  condition: boolean,
-  code: string,
-  source: ManualSandboxPreflightVerificationMessage["source"],
-  message: string,
-): void {
-  if (!condition) {
-    messages.push({ code, severity: "blocker", source, message });
-  }
-}
-
-function readMiniKvRuntimeSmokeEvidence(): MiniKvRuntimeSmokeEvidence {
-  if (!existsSync(MINI_KV_RUNTIME_SMOKE)) {
-    return {};
-  }
-  return JSON.parse(readFileSync(MINI_KV_RUNTIME_SMOKE, "utf8")) as MiniKvRuntimeSmokeEvidence;
-}
-
-function fileById(files: PreflightVerificationEvidenceFile[], id: string): PreflightVerificationEvidenceFile {
-  const file = files.find((candidate) => candidate.id === id);
-  if (file === undefined) {
-    throw new Error(`Missing evidence file ${id}`);
-  }
-  return file;
-}
-
-function snippetMatched(snippets: PreflightVerificationSnippetMatch[], id: string): boolean {
-  return snippets.some((snippetMatch) => snippetMatch.id === id && snippetMatch.matched);
-}
-
-function stringField(record: Record<string, unknown>, key: string): string | undefined {
-  const value = record[key];
-  return typeof value === "string" ? value : undefined;
-}
-
-function booleanField(record: Record<string, unknown>, key: string): boolean | undefined {
-  const value = record[key];
-  return typeof value === "boolean" ? value : undefined;
-}
-
-function numberField(record: Record<string, unknown>, key: string): number | undefined {
-  const value = record[key];
-  return typeof value === "number" ? value : undefined;
-}
-
-function renderEvidenceFile(file: PreflightVerificationEvidenceFile): string[] {
-  return [
-    `### ${file.id}`,
-    "",
-    ...renderEntries(file),
-    "",
-  ];
-}
-
-function renderSnippet(snippetMatch: PreflightVerificationSnippetMatch): string[] {
-  return [
-    `- ${snippetMatch.id}: ${snippetMatch.matched}`,
-    `  - Path: ${snippetMatch.path}`,
-    `  - Expected: ${snippetMatch.expectedText}`,
-  ];
 }
