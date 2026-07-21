@@ -71,10 +71,6 @@
       "maxLines": 741
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts",
-      "maxLines": 740
-    },
-    {
       "key": "src/services/managedAuditDryRunAdapterCandidate.ts",
       "maxLines": 739
     },
@@ -477,10 +473,6 @@
       "maxLines": 143
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createMiniKvV112Reference",
-      "maxLines": 143
-    },
-    {
       "key": "src/services/approvalDecisionPrerequisiteGateCore.ts|loadApprovalDecisionPrerequisiteGate",
       "maxLines": 142
     },
@@ -743,10 +735,6 @@
   ],
   "complexFunctions": [
     {
-      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createMiniKvV112Reference",
-      "maxComplexity": 98
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
       "maxComplexity": 95
     },
@@ -785,10 +773,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionReadinessGateReferences.ts|createMiniKvV101Reference",
       "maxComplexity": 71
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createChecks",
-      "maxComplexity": 70
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewPacketGateNonSecretIntakeArchiveVerification.ts|createChecks",
@@ -1077,10 +1061,6 @@
     {
       "key": "src/services/rollbackWindowReadinessChecklist.ts|createChecks",
       "maxComplexity": 39
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts|createJavaV103Reference",
-      "maxComplexity": 38
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntakeArchiveVerification.ts|createChecks",

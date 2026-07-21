@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "version": "v2222",
+  "scope": "fake-transport-v112-source-ownership",
+  "behaviorChanged": false,
+  "modules": {
+    "profileService": "src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.ts",
+    "sourceOwner": "src/evidence/fakeTransportEchoReferences.ts",
+    "sharedEvidenceEngine": "src/services/historicalEvidenceReportUtils.ts",
+    "portableOracleSupport": "test/support/portableProfileParity.ts"
+  },
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "localAndForcedFallbackBothVerified": true,
+    "readyState": "fake-transport-packet-upstream-echo-verification-ready",
+    "readyChecks": "19-of-19",
+    "rawWindows": {
+      "readyJsonBytes": 26350,
+      "readyJsonSha256": "05bdc5dfed45f24ed49caa92b190fcdea96d5f97d7efda87589aa92caff62e57",
+      "readyMarkdownBytes": 25977,
+      "readyMarkdownSha256": "a4df749bb86ae5d8ffeae3d0f65e6d89a6fd6da945253acdce7d506761fe6f8b",
+      "blockedJsonBytes": 26657,
+      "blockedJsonSha256": "c8c2c7b02d484457e98de22cd272953bac2398180aa2a15e3c338792111f0ef8",
+      "blockedMarkdownBytes": 26139,
+      "blockedMarkdownSha256": "7d6daa66502ddb5290b9c8a5d9f280130c39710aab57aa2f16c9e71e4034d67d"
+    },
+    "portableCi": {
+      "normalization": "resolved-repository-root-to-<repo>-and-forward-slashes",
+      "readyJsonBytes": 25240,
+      "readyJsonSha256": "ccbce3c7be0aae7abc8b0ecbc8aa0df62ae4626d17380444c0a404ebb2408724",
+      "readyMarkdownBytes": 24867,
+      "readyMarkdownSha256": "7df50d5dd94be7574b95fd986922ef525f65239fda03623654b71c944f64dc59",
+      "blockedPassedChecks": "15-of-19",
+      "blockedCodes": [
+        "NODE_FAKE_TRANSPORT_SOURCES_NOT_READY",
+        "UPSTREAM_ACTIONS_ENABLED"
+      ],
+      "blockedJsonBytes": 25547,
+      "blockedJsonSha256": "3203f20f18b961596f646dbed7eddf280f363375098ea4f393b6eafc4abd9cf8",
+      "blockedMarkdownBytes": 25029,
+      "blockedMarkdownSha256": "1e5c7a057fa57ff14506d5feb81584cb6045bb1b01232c34d70fc90a39a18729"
+    },
+    "oracleTest": "test/resolverEchoParity.test.ts",
+    "passedBeforeBehaviorSwitch": true,
+    "passedAfterBehaviorSwitch": true,
+    "testExpectationsChanged": false,
+    "fixturesChanged": false
+  },
+  "fieldMapping": {
+    "engine": "mapReceiptFields",
+    "orderedSpecGroups": [
+      "V112_IDENTITY_FIELDS",
+      "V112_SOURCE_FIELDS",
+      "V112_REQUEST_FIELDS",
+      "V112_RESPONSE_FIELDS",
+      "V112_RUNTIME_FIELDS"
+    ],
+    "cleanupUnknownDefaults": -1,
+    "permissionAndSideEffectUnknownDefaults": true,
+    "objectKeyOrderPreserved": true,
+    "safeDefaultsPreserved": true,
+    "rawEvidenceMetadataMode": "explicit-textMode-raw"
+  },
+  "maintainability": {
+    "before": {
+      "nearLimitFiles": 84,
+      "longFunctions": 99,
+      "complexFunctions": 220,
+      "importCycles": 0,
+      "profileServiceLines": 740,
+      "miniKvBuilderLines": 143,
+      "miniKvBuilderComplexity": 98,
+      "checksComplexity": 70,
+      "javaBuilderComplexity": 38
+    },
+    "after": {
+      "nearLimitFiles": 83,
+      "longFunctions": 98,
+      "complexFunctions": 217,
+      "importCycles": 0,
+      "profileServiceLines": 468,
+      "sourceOwnerLines": 335,
+      "touchedLongFunctions": 0,
+      "touchedComplexFunctions": 0
+    },
+    "ratchetRefreshedDownward": true,
+    "unknownOrGrownEntries": 0
+  },
+  "localVerification": {
+    "focused": "passed-6-files-22-tests-serial-for-shared-env-isolation",
+    "typecheck": "passed",
+    "lint": "passed-targeted-zero-errors-zero-warnings",
+    "security": "passed-8335-files-18-of-18",
+    "archive": "passed-7143-files-64.34-of-80-mib",
+    "elegance": "passed-159-families-52-tracked",
+    "family": "passed-52-of-52",
+    "renderer": "passed-242-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-0-above-800",
+    "maintainability": "passed-83-98-217-0",
+    "governanceGrowth": "passed-services-1125-routes-80-after-evidence-boundary-repair",
+    "walkthroughGate": "passed-more-than-3000-chinese-32-scannable-h2-zero-padding-zero-oversized-sections",
+    "batchFullTest": "passed-8-of-8-shards-max-4-workers-579-unique-files-1764-tests-zero-final-failures",
+    "timeoutTriage": "shard-2-first-outer-300-second-budget-expired-without-assertion-failure-pid-12104-tree-cleaned-rerun-passed-73-files-197-tests-in-331.01-seconds",
+    "growthGateTriage": "shard-7-found-services-1127-over-1125-two-reference-modules-moved-to-existing-src-evidence-boundary-ratchet-not-raised-whole-shard-rerun-passed-72-files-210-tests",
+    "independentDiscovery": "passed-579-files-1764-unique-test-identities-zero-duplicates",
+    "build": "passed-typescript-build",
+    "httpSmoke": "passed-guarded-health-metrics-zero-requests-release-route-403-missing-policy-profile-json-markdown-200-ready-19-of-19-execution-false-connect-false-markdown-25977-bytes",
+    "smokeCleanup": "passed-pid-22556-stopped-port-43122-released-log-directory-removed",
+    "remoteCi": "pending-after-v2222-tag-and-batch-push"
+  },
+  "boundaries": {
+    "routeOrReportAdded": false,
+    "credentialReadAdded": false,
+    "networkOrWritePathAdded": false,
+    "executionAuthorityChanged": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvWorktreeChanged": false,
+    "screenshotOmittedReason": "no-html-ui-or-renderable-surface-changed"
+  },
+  "parallelProjects": {
+    "java": "recommended-parallel-read-only-frozen-v103-evidence",
+    "miniKv": "recommended-parallel-read-only-frozen-v112-evidence"
+  }
+}

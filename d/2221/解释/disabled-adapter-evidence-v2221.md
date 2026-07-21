@@ -5,7 +5,8 @@
 本版拆分 691 行 disabled-adapter upstream echo 服务，并把 mini-kv v111 的重复 JSON 标量读取迁入
 已有 `mapReceiptFields`。旧文件同时拥有 profile 编排、Node source、Java/mini-kv evidence、底层 JSON
 helper、readiness、checks 和消息，任何 receipt 字段变动都要穿过整份文件。改造后 profile 服务为
-412 行，`src/services/disabledAdapterSources.ts` 为 345 行，两者都只拥有一类知识。
+412 行，`src/evidence/disabledAdapterEchoReferences.ts` 为 345 行，两者都只拥有一类知识。该纯历史来源模块在
+v2222 批次治理门复核时归入仓库既有 `src/evidence` 边界，避免增加顶层 service 文件数。
 
 ## 数据与行为边界
 

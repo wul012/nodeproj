@@ -17,8 +17,9 @@ blocker 和最终 profile。职责过密的直接后果是：修改一个 receip
 loader 与 `renderManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationMarkdown`，
 route、测试和下游 import 无需迁移。
 
-新内部入口是 `src/services/disabledAdapterSources.ts`，只向 profile 服务导出
-`createJavaV102Reference` 与 `createMiniKvV111Reference`。它没有从稳定 facade re-export，因此内部拆分没有
+新内部入口最终位于 `src/evidence/disabledAdapterEchoReferences.ts`，只向 profile 服务导出
+`createJavaV102Reference` 与 `createMiniKvV111Reference`。v2221 首次落地后，v2222 批次治理复核将它移入
+仓库既有 evidence 边界，service 文件数没有增长。它没有从稳定 facade re-export，因此内部拆分没有
 扩大公共 API，也没有让消费者绕过完整 profile 直接依赖历史证据实现。
 
 ## Response Model / 对外模型保持什么

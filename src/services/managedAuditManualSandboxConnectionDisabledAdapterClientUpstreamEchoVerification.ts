@@ -2,7 +2,7 @@ import type { AppConfig } from "../config.js";
 import {
   createJavaV102Reference,
   createMiniKvV111Reference,
-} from "./disabledAdapterSources.js";
+} from "../evidence/disabledAdapterEchoReferences.js";
 import {
   countPassedReportChecks,
   countReportChecks,

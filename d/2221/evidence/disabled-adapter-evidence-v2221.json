@@ -5,7 +5,7 @@
   "behaviorChanged": false,
   "modules": {
     "profileService": "src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.ts",
-    "sourceOwner": "src/services/disabledAdapterSources.ts",
+    "sourceOwner": "src/evidence/disabledAdapterEchoReferences.ts",
     "sharedEvidenceEngine": "src/services/historicalEvidenceReportUtils.ts",
     "portableOracleSupport": "test/support/portableProfileParity.ts"
   },

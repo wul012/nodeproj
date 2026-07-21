@@ -12,6 +12,10 @@ import {
   renderManagedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionDisabledAdapterClientUpstreamEchoVerification.js";
 import {
+  loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification,
+  renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification.js";
+import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification,
   renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification.js";
@@ -191,6 +195,61 @@ describe("resolver echo report parity", () => {
       markdown: {
         bytes: 21_284,
         sha256: "07f4dbbef30ca49d452624b4e4ffbbe8e8ad684bd4e4e826f0e40219bca90738",
+      },
+    });
+  });
+
+  it("freezes fake-transport local, fallback, and blocked reports", () => {
+    delete process.env[FALLBACK_ENV];
+    const local = loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    local.generatedAt = FROZEN_TIME;
+
+    process.env[FALLBACK_ENV] = "true";
+    const fallback = loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification({
+      config: loadTestConfig(),
+    });
+    fallback.generatedAt = FROZEN_TIME;
+
+    const readyIdentity = {
+      json: {
+        bytes: 25_240,
+        sha256: "ccbce3c7be0aae7abc8b0ecbc8aa0df62ae4626d17380444c0a404ebb2408724",
+      },
+      markdown: {
+        bytes: 24_867,
+        sha256: "7df50d5dd94be7574b95fd986922ef525f65239fda03623654b71c944f64dc59",
+      },
+    };
+    expect(reportIdentity(
+      local,
+      renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
+    )).toEqual(readyIdentity);
+    expect(reportIdentity(
+      fallback,
+      renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
+    )).toEqual(readyIdentity);
+
+    const blocked = loadManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerification({
+      config: loadTestConfig({ UPSTREAM_ACTIONS_ENABLED: "true" }),
+    });
+    blocked.generatedAt = FROZEN_TIME;
+    expect(blocked.productionBlockers.map((item) => item.code)).toEqual([
+      "NODE_FAKE_TRANSPORT_SOURCES_NOT_READY",
+      "UPSTREAM_ACTIONS_ENABLED",
+    ]);
+    expect(reportIdentity(
+      blocked,
+      renderManagedAuditManualSandboxConnectionFakeTransportPacketUpstreamEchoVerificationMarkdown,
+    )).toEqual({
+      json: {
+        bytes: 25_547,
+        sha256: "3203f20f18b961596f646dbed7eddf280f363375098ea4f393b6eafc4abd9cf8",
+      },
+      markdown: {
+        bytes: 25_029,
+        sha256: "1e5c7a057fa57ff14506d5feb81584cb6045bb1b01232c34d70fc90a39a18729",
       },
     });
   });
