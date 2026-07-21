@@ -333,32 +333,8 @@
   ],
   "longFunctions": [
     {
-      "key": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSectionRenderer.ts|renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections",
-      "maxLines": 217
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewSourceMatrixRenderer.ts|renderControlledReadOnlyShardPreviewSourceMatrixSections",
-      "maxLines": 213
-    },
-    {
-      "key": "src/services/controlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSectionRenderer.ts|renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplyApprovalPacketProfileSections",
-      "maxLines": 208
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowProfileSectionsRenderer.ts|renderControlledReadOnlyShardPreviewLiveReadOnlyWindowSections",
-      "maxLines": 197
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewRouteCoverageRenderer.ts|renderControlledReadOnlyShardPreviewHandoffRouteCoverageSections",
-      "maxLines": 196
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntake.ts|createChecks",
       "maxLines": 171
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewHandoffSummaryRenderer.ts|renderControlledReadOnlyShardPreviewHandoffSummarySections",
-      "maxLines": 170
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflightArtifacts.ts|createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageComparisonPreflight",

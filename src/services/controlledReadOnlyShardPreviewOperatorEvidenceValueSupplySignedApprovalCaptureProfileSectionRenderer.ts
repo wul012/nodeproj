@@ -1,220 +1,98 @@
 import { renderEntries, renderProfileEntrySections } from "./liveProbeReportUtils.js";
 import type { ControlledReadOnlyShardPreviewProfile } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewTypes.js";
 
+const CAPTURE_SECTIONS = [
+  capturePreflightSection,
+  captureArtifactSection,
+] as const;
+
 export function renderControlledReadOnlyShardPreviewOperatorEvidenceValueSupplySignedApprovalCaptureProfileSections(
   profile: ControlledReadOnlyShardPreviewProfile,
 ): string[] {
-  return renderProfileEntrySections([
-    {
-      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Preflight",
-      lines: renderEntries({
-      signedApprovalCapturePreflightVersion:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .signedApprovalCapturePreflightVersion,
-      sourceSignedApprovalTemplateVersion:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .sourceSignedApprovalTemplateVersion,
-      preflightState:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .preflightState,
-      readyForSignedApprovalCapturePreflight:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyForSignedApprovalCapturePreflight,
-      readyForSignedApprovalCapture:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyForSignedApprovalCapture,
-      readyForOperatorValueSupply:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyForOperatorValueSupply,
-      readyForOperatorValueSubmission:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyForOperatorValueSubmission,
-      readyForEvidenceImport:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyForEvidenceImport,
-      readyForRuntimePayload:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyForRuntimePayload,
-      captureInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .captureInputCount,
-      captureAttestationCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .captureAttestationCount,
-      identityInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .identityInputCount,
-      digestBindingInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .digestBindingInputCount,
-      sourceEvidenceInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .sourceEvidenceInputCount,
-      valueBindingInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .valueBindingInputCount,
-      executionLockInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .executionLockInputCount,
-      readyInputCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyInputCount,
-      readyAttestationCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .readyAttestationCount,
-      missingInputBlockerCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .missingInputBlockerCount,
-      noExecutionAttestationCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .noExecutionAttestationCount,
-      captureValueProvidedCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .captureValueProvidedCount,
-      rawSignatureMaterialCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .rawSignatureMaterialCount,
-      approvalCaptured:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .approvalCaptured,
-      approvalGrantPresent:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .approvalGrantPresent,
-      signedApprovalPresent:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .signedApprovalPresent,
-      importsRuntimePayload:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .importsRuntimePayload,
-      acceptsSyntheticEvidence:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .acceptsSyntheticEvidence,
-      containsSecretValue:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .containsSecretValue,
-      signedApprovalCapturePreflightDigest:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight
-          .signedApprovalCapturePreflightDigest,
-      }),
-    },
-    {
-      heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Preflight",
-      lines: renderEntries({
-      signedApprovalCaptureArtifactPreflightVersion:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .signedApprovalCaptureArtifactPreflightVersion,
-      sourceSignedApprovalCapturePreflightVersion:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .sourceSignedApprovalCapturePreflightVersion,
-      artifactPreflightState:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .artifactPreflightState,
-      readyForSignedApprovalCaptureArtifactPreflight:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyForSignedApprovalCaptureArtifactPreflight,
-      readyForSignedApprovalCapture:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyForSignedApprovalCapture,
-      readyForOperatorValueSupply:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyForOperatorValueSupply,
-      readyForOperatorValueSubmission:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyForOperatorValueSubmission,
-      readyForEvidenceImport:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyForEvidenceImport,
-      readyForRuntimePayload:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyForRuntimePayload,
-      artifactFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .artifactFragmentCount,
-      artifactSealCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .artifactSealCount,
-      identityFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .identityFragmentCount,
-      digestBindingFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .digestBindingFragmentCount,
-      signatureEnvelopeFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .signatureEnvelopeFragmentCount,
-      sourceEvidenceFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .sourceEvidenceFragmentCount,
-      valueBindingFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .valueBindingFragmentCount,
-      policyFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .policyFragmentCount,
-      executionLockFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .executionLockFragmentCount,
-      closeoutFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .closeoutFragmentCount,
-      requiredFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .requiredFragmentCount,
-      readyFragmentCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readyFragmentCount,
-      readySealCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .readySealCount,
-      artifactBlockerCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .artifactBlockerCount,
-      noExecutionSealCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .noExecutionSealCount,
-      gateCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .gateCount,
-      passedGateCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .passedGateCount,
-      artifactMaterializedCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .artifactMaterializedCount,
-      rawSignatureMaterialCount:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .rawSignatureMaterialCount,
-      approvalCaptured:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .approvalCaptured,
-      approvalGrantPresent:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .approvalGrantPresent,
-      signedApprovalPresent:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .signedApprovalPresent,
-      sourceSignedApprovalCapturePreflightDigest:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .sourceSignedApprovalCapturePreflightDigest,
-      sourceSignedApprovalTemplateDigest:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .sourceSignedApprovalTemplateDigest,
-      sourceApprovalPacketReviewDigest:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .sourceApprovalPacketReviewDigest,
-      importsRuntimePayload:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .importsRuntimePayload,
-      acceptsSyntheticEvidence:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .acceptsSyntheticEvidence,
-      containsSecretValue:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .containsSecretValue,
-      signedApprovalCaptureArtifactPreflightDigest:
-        profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight
-          .signedApprovalCaptureArtifactPreflightDigest,
-      }),
-    },
-  ]);
+  return renderProfileEntrySections(CAPTURE_SECTIONS.map((buildSection) => buildSection(profile)));
+}
+
+function capturePreflightSection(profile: ControlledReadOnlyShardPreviewProfile) {
+  const capture = profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCapturePreflight;
+  return {
+    heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Preflight",
+    lines: renderEntries({
+      signedApprovalCapturePreflightVersion: capture.signedApprovalCapturePreflightVersion,
+      sourceSignedApprovalTemplateVersion: capture.sourceSignedApprovalTemplateVersion,
+      preflightState: capture.preflightState,
+      readyForSignedApprovalCapturePreflight: capture.readyForSignedApprovalCapturePreflight,
+      readyForSignedApprovalCapture: capture.readyForSignedApprovalCapture,
+      readyForOperatorValueSupply: capture.readyForOperatorValueSupply,
+      readyForOperatorValueSubmission: capture.readyForOperatorValueSubmission,
+      readyForEvidenceImport: capture.readyForEvidenceImport,
+      readyForRuntimePayload: capture.readyForRuntimePayload,
+      captureInputCount: capture.captureInputCount,
+      captureAttestationCount: capture.captureAttestationCount,
+      identityInputCount: capture.identityInputCount,
+      digestBindingInputCount: capture.digestBindingInputCount,
+      sourceEvidenceInputCount: capture.sourceEvidenceInputCount,
+      valueBindingInputCount: capture.valueBindingInputCount,
+      executionLockInputCount: capture.executionLockInputCount,
+      readyInputCount: capture.readyInputCount,
+      readyAttestationCount: capture.readyAttestationCount,
+      missingInputBlockerCount: capture.missingInputBlockerCount,
+      noExecutionAttestationCount: capture.noExecutionAttestationCount,
+      captureValueProvidedCount: capture.captureValueProvidedCount,
+      rawSignatureMaterialCount: capture.rawSignatureMaterialCount,
+      approvalCaptured: capture.approvalCaptured,
+      approvalGrantPresent: capture.approvalGrantPresent,
+      signedApprovalPresent: capture.signedApprovalPresent,
+      importsRuntimePayload: capture.importsRuntimePayload,
+      acceptsSyntheticEvidence: capture.acceptsSyntheticEvidence,
+      containsSecretValue: capture.containsSecretValue,
+      signedApprovalCapturePreflightDigest: capture.signedApprovalCapturePreflightDigest,
+    }),
+  };
+}
+
+function captureArtifactSection(profile: ControlledReadOnlyShardPreviewProfile) {
+  const artifact = profile.preview.liveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactPreflight;
+  return {
+    heading: "Live Read-Only Window Operator Evidence Value Supply Signed Approval Capture Artifact Preflight",
+    lines: renderEntries({
+      signedApprovalCaptureArtifactPreflightVersion: artifact.signedApprovalCaptureArtifactPreflightVersion,
+      sourceSignedApprovalCapturePreflightVersion: artifact.sourceSignedApprovalCapturePreflightVersion,
+      artifactPreflightState: artifact.artifactPreflightState,
+      readyForSignedApprovalCaptureArtifactPreflight: artifact.readyForSignedApprovalCaptureArtifactPreflight,
+      readyForSignedApprovalCapture: artifact.readyForSignedApprovalCapture,
+      readyForOperatorValueSupply: artifact.readyForOperatorValueSupply,
+      readyForOperatorValueSubmission: artifact.readyForOperatorValueSubmission,
+      readyForEvidenceImport: artifact.readyForEvidenceImport,
+      readyForRuntimePayload: artifact.readyForRuntimePayload,
+      artifactFragmentCount: artifact.artifactFragmentCount,
+      artifactSealCount: artifact.artifactSealCount,
+      identityFragmentCount: artifact.identityFragmentCount,
+      digestBindingFragmentCount: artifact.digestBindingFragmentCount,
+      signatureEnvelopeFragmentCount: artifact.signatureEnvelopeFragmentCount,
+      sourceEvidenceFragmentCount: artifact.sourceEvidenceFragmentCount,
+      valueBindingFragmentCount: artifact.valueBindingFragmentCount,
+      policyFragmentCount: artifact.policyFragmentCount,
+      executionLockFragmentCount: artifact.executionLockFragmentCount,
+      closeoutFragmentCount: artifact.closeoutFragmentCount,
+      requiredFragmentCount: artifact.requiredFragmentCount,
+      readyFragmentCount: artifact.readyFragmentCount,
+      readySealCount: artifact.readySealCount,
+      artifactBlockerCount: artifact.artifactBlockerCount,
+      noExecutionSealCount: artifact.noExecutionSealCount,
+      gateCount: artifact.gateCount,
+      passedGateCount: artifact.passedGateCount,
+      artifactMaterializedCount: artifact.artifactMaterializedCount,
+      rawSignatureMaterialCount: artifact.rawSignatureMaterialCount,
+      approvalCaptured: artifact.approvalCaptured,
+      approvalGrantPresent: artifact.approvalGrantPresent,
+      signedApprovalPresent: artifact.signedApprovalPresent,
+      sourceSignedApprovalCapturePreflightDigest: artifact.sourceSignedApprovalCapturePreflightDigest,
+      sourceSignedApprovalTemplateDigest: artifact.sourceSignedApprovalTemplateDigest,
+      sourceApprovalPacketReviewDigest: artifact.sourceApprovalPacketReviewDigest,
+      importsRuntimePayload: artifact.importsRuntimePayload,
+      acceptsSyntheticEvidence: artifact.acceptsSyntheticEvidence,
+      containsSecretValue: artifact.containsSecretValue,
+      signedApprovalCaptureArtifactPreflightDigest: artifact.signedApprovalCaptureArtifactPreflightDigest,
+    }),
+  };
 }
