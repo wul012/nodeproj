@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "version": "v2231",
+  "scope": "controlled-shard-artifact-state-and-assembly",
+  "behaviorChanged": false,
+  "startingPoint": {
+    "commit": "e69ff7f7",
+    "tag": "v2230",
+    "maintainability": "81/83/208/0",
+    "batchStartLongFunctions": 89,
+    "maxFunctionLines": 171,
+    "nameDebt": 4444,
+    "trackedFamilies": 52
+  },
+  "migratedBuilders": [
+    {
+      "stage": "comparison-preflight",
+      "functionLinesBefore": 167,
+      "entrypointLinesAfter": 17,
+      "digestInputLines": 36,
+      "resultLines": 77
+    },
+    {
+      "stage": "submission-preflight",
+      "functionLinesBefore": 163,
+      "entrypointLinesAfter": 17,
+      "digestInputLines": 35,
+      "resultLines": 76
+    },
+    {
+      "stage": "review-preflight",
+      "functionLinesBefore": 156,
+      "entrypointLinesAfter": 17,
+      "digestInputLines": 34,
+      "resultLines": 74
+    },
+    {
+      "stage": "text-package-intake",
+      "functionLinesBefore": 148,
+      "entrypointLinesAfter": 17,
+      "digestInputLines": 33,
+      "resultLines": 72
+    }
+  ],
+  "sharedState": {
+    "file": "src/services/shardArtifactState.ts",
+    "function": "resolveShardArtifactState",
+    "owns": [
+      "blocked-reason-count-to-ready",
+      "stable-json-digest"
+    ],
+    "doesNotOwn": [
+      "domain digest fields",
+      "response fields",
+      "catalog construction",
+      "gate construction",
+      "blocked reason codes"
+    ],
+    "directTests": 2,
+    "dynamicStringPaths": false
+  },
+  "maintainability": {
+    "before": "81/83/208/0",
+    "after": "81/79/208/0",
+    "versionLongFunctionsRemoved": 4,
+    "batchLongFunctionsBefore": 89,
+    "batchLongFunctionsAfter": 79,
+    "batchLongFunctionsRemoved": 10,
+    "largestTouchedFunctionLines": 77,
+    "largestTouchedFunctionComplexity": 2,
+    "maxFunctionLinesAfter": 171,
+    "maxFunctionOwner": "java-mini-kv-live-read-gate-plan-intake-createChecks",
+    "nameDebtBefore": 4444,
+    "nameDebtAfter": 4444,
+    "trackedFamilies": 52,
+    "sourceFilesAbove800": 0,
+    "importCycles": 0,
+    "baselineChange": "removed-four-stale-long-function-entries-only"
+  },
+  "parity": {
+    "fixedTime": "2026-07-20T00:00:00.000Z",
+    "fullProfileStates": [
+      "ready",
+      "probes-disabled"
+    ],
+    "domainTestFiles": 4,
+    "domainTestsPlusFullParity": 21,
+    "jsonHashUnchanged": true,
+    "markdownHashUnchanged": true,
+    "digestFieldsChanged": false,
+    "responseFieldsChanged": false,
+    "expectedValuesChanged": false,
+    "fixturesChanged": false,
+    "normalizerChanged": false
+  },
+  "verification": {
+    "focusedBefore": "passed-5-files-21-tests-max-4-workers",
+    "focusedAfter": "passed-5-files-21-tests-max-4-workers",
+    "sharedStateUnit": "passed-1-file-2-tests",
+    "typecheck": "passed",
+    "maintainability": "passed-after-ratchet-tighten",
+    "elegance": "passed-4444-name-debt-52-tracked-families",
+    "familyLogic": "passed",
+    "finalLintAndStatic": "passed-lint-security-archive-elegance-family-maintainability-renderer-source-size-growth-ratchet",
+    "fullTestBuildSmokeCi": "deferred-to-v2232-batch-close"
+  },
+  "boundaries": {
+    "routesChanged": false,
+    "jsonChanged": false,
+    "markdownChanged": false,
+    "permissionsChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityAdded": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false,
+    "nodeIsApprovalBlocker": false
+  }
+}

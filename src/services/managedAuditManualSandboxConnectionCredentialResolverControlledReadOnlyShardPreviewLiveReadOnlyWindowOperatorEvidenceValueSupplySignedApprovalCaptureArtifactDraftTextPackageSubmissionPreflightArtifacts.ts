@@ -1,79 +1,55 @@
-import { sha256StableJson } from "./liveProbeReportUtils.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControls,
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlots,
-} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBuilder.js";
-import {
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBlockedReasons,
-  createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightGates,
-} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightValidator.js";
-import type {
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight,
-} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightTypes.js";
-import type {
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight,
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControl,
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControlKind,
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlot,
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlotKind,
-} from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightTypes.js";
+import { resolveShardArtifactState, type ShardArtifactState } from "./shardArtifactState.js";
+import { createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControls, createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlots, } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBuilder.js";
+import { createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBlockedReasons, createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightGates, } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightValidator.js";
+import type { ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight, } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflightTypes.js";
+import type { ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight, ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControl, ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControlKind, ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlot, ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlotKind, } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightTypes.js";
 
-type ReviewPreflight =
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight;
-type SubmissionSlot =
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlot;
-type ComparisonControl =
-  ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControl;
+type ReviewPreflight = ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageReviewPreflight;
+type SubmissionSlot = ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlot;
+type ComparisonControl = ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControl;
+type SubmissionResult = ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight;
+
+interface SubmissionContext extends ShardArtifactState {
+  source: ReviewPreflight;
+  slots: SubmissionResult["slots"];
+  controls: SubmissionResult["controls"];
+  gates: SubmissionResult["gates"];
+  blockedReasons: SubmissionResult["blockedReasonCodes"];
+}
 
 export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight(
   reviewPreflight: ReviewPreflight,
 ): ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflight {
-  const slots =
-    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlots(
-      reviewPreflight,
-    );
-  const controls =
-    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControls(
-      slots,
-    );
-  const gates =
-    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightGates(
-      reviewPreflight,
-      slots,
-      controls,
-    );
-  const blockedReasonCodes =
-    createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBlockedReasons(
-      gates,
-    );
-  const readyForSignedApprovalArtifactDraftTextPackageSubmissionPreflight =
-    blockedReasonCodes.length === 0;
-  const signedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightDigest = sha256StableJson({
+  const slots = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlots(reviewPreflight);
+  const controls = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControls(slots);
+  const gates = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightGates(reviewPreflight, slots, controls);
+  const blockedReasonCodes = createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightBlockedReasons(gates);
+  const state = resolveShardArtifactState(blockedReasonCodes, submissionDigestInput(reviewPreflight, slots, controls, gates));
+  return submissionResult({
+    source: reviewPreflight,
+    slots,
+    controls,
+    gates,
+    blockedReasons: blockedReasonCodes,
+    ...state,
+  });
+}
+
+function submissionDigestInput(source: ReviewPreflight, slots: SubmissionResult["slots"], controls: SubmissionResult["controls"], gates: SubmissionResult["gates"]) {
+  return {
     signedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightVersion: "Node v1286",
-    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion:
-      reviewPreflight.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion,
-    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest:
-      reviewPreflight.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest,
-    sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest,
-    sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest,
-    sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
-    sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
-    sourceSignedApprovalCaptureArtifactDraftReadinessDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftReadinessDigest,
-    sourceSignedApprovalCaptureArtifactDraftPreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftPreflightDigest,
-    sourceSignedApprovalCaptureArtifactPreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactPreflightDigest,
-    sourceSignedApprovalCapturePreflightDigest:
-      reviewPreflight.sourceSignedApprovalCapturePreflightDigest,
-    sourceSignedApprovalTemplateDigest:
-      reviewPreflight.sourceSignedApprovalTemplateDigest,
-    sourceApprovalPacketReviewDigest:
-      reviewPreflight.sourceApprovalPacketReviewDigest,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion: source.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest: source.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest: source.sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest,
+    sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest: source.sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest,
+    sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest: source.sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
+    sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest: source.sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
+    sourceSignedApprovalCaptureArtifactDraftReadinessDigest: source.sourceSignedApprovalCaptureArtifactDraftReadinessDigest,
+    sourceSignedApprovalCaptureArtifactDraftPreflightDigest: source.sourceSignedApprovalCaptureArtifactDraftPreflightDigest,
+    sourceSignedApprovalCaptureArtifactPreflightDigest: source.sourceSignedApprovalCaptureArtifactPreflightDigest,
+    sourceSignedApprovalCapturePreflightDigest: source.sourceSignedApprovalCapturePreflightDigest,
+    sourceSignedApprovalTemplateDigest: source.sourceSignedApprovalTemplateDigest,
+    sourceApprovalPacketReviewDigest: source.sourceApprovalPacketReviewDigest,
     slots: slots.map((slot) => [
       slot.order,
       slot.nodeVersion,
@@ -92,23 +68,21 @@ export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEv
       control.guardCode,
     ]),
     gates,
-  });
+  };
+}
 
+function submissionResult(context: SubmissionContext): SubmissionResult {
+  const { source, slots, controls, gates, blockedReasons, ready, digest } = context;
   return {
     signedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightVersion: "Node v1286",
-    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion:
-      reviewPreflight.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion,
-    artifactDraftTextPackageSubmissionPreflightState:
-      readyForSignedApprovalArtifactDraftTextPackageSubmissionPreflight
-        ? "ready-for-signed-approval-artifact-draft-text-package-submission-preflight"
-        : "blocked",
-    readyForSignedApprovalArtifactDraftTextPackageSubmissionPreflight,
-    readyForManualSignedApprovalDraftTextPackageSubmission:
-      readyForSignedApprovalArtifactDraftTextPackageSubmissionPreflight,
-    readyForOfflineSignedApprovalDraftTextPackageComparison:
-      readyForSignedApprovalArtifactDraftTextPackageSubmissionPreflight,
-    readyForOfflineSignedApprovalDraftTextPackageReview:
-      reviewPreflight.readyForOfflineSignedApprovalDraftTextPackageReview,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion: source.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightVersion,
+    artifactDraftTextPackageSubmissionPreflightState: ready
+      ? "ready-for-signed-approval-artifact-draft-text-package-submission-preflight"
+      : "blocked",
+    readyForSignedApprovalArtifactDraftTextPackageSubmissionPreflight: ready,
+    readyForManualSignedApprovalDraftTextPackageSubmission: ready,
+    readyForOfflineSignedApprovalDraftTextPackageComparison: ready,
+    readyForOfflineSignedApprovalDraftTextPackageReview: source.readyForOfflineSignedApprovalDraftTextPackageReview,
     readyForSignedApprovalArtifactDraft: false,
     readyForSignedApprovalCapture: false,
     readyForOperatorValueSupply: false,
@@ -127,13 +101,9 @@ export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEv
     policySubmissionSlotCount: countSlots(slots, "policy-submission-slot"),
     executionLockSubmissionSlotCount: countSlots(slots, "execution-lock-submission-slot"),
     archiveCloseoutSubmissionSlotCount: countSlots(slots, "archive-closeout-submission-slot"),
-    digestModeSubmissionSlotCount:
-      slots.filter((slot) => slot.slotMode === "digest-comparison-pin").length,
-    readySubmissionSlotCount:
-      slots.filter((slot) => slot.readyForManualSignedApprovalDraftTextPackageSubmissionSlot).length,
-    readyComparisonControlCount:
-      controls.filter((control) =>
-        control.readyForManualSignedApprovalDraftTextPackageComparisonControl).length,
+    digestModeSubmissionSlotCount: slots.filter((slot) => slot.slotMode === "digest-comparison-pin").length,
+    readySubmissionSlotCount: slots.filter((slot) => slot.readyForManualSignedApprovalDraftTextPackageSubmissionSlot).length,
+    readyComparisonControlCount: controls.filter((control) => control.readyForManualSignedApprovalDraftTextPackageComparisonControl).length,
     digestBindingComparisonControlCount: countControls(controls, "digest-binding-comparison-control"),
     signatureEnvelopeComparisonControlCount: countControls(controls, "signature-envelope-comparison-control"),
     policyComparisonControlCount: countControls(controls, "policy-comparison-control"),
@@ -150,35 +120,24 @@ export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEv
     approvalCaptured: false,
     approvalGrantPresent: false,
     signedApprovalPresent: false,
-    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest:
-      reviewPreflight.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest,
-    sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest,
-    sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest,
-    sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
-    sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
-    sourceSignedApprovalCaptureArtifactDraftReadinessDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftReadinessDigest,
-    sourceSignedApprovalCaptureArtifactDraftPreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactDraftPreflightDigest,
-    sourceSignedApprovalCaptureArtifactPreflightDigest:
-      reviewPreflight.sourceSignedApprovalCaptureArtifactPreflightDigest,
-    sourceSignedApprovalCapturePreflightDigest:
-      reviewPreflight.sourceSignedApprovalCapturePreflightDigest,
-    sourceSignedApprovalTemplateDigest:
-      reviewPreflight.sourceSignedApprovalTemplateDigest,
-    sourceApprovalPacketReviewDigest:
-      reviewPreflight.sourceApprovalPacketReviewDigest,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest: source.signedApprovalCaptureArtifactDraftTextPackageReviewPreflightDigest,
+    sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest: source.sourceSignedApprovalCaptureArtifactDraftTextPackageIntakeDigest,
+    sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest: source.sourceSignedApprovalCaptureArtifactDraftInstructionPreflightDigest,
+    sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest: source.sourceSignedApprovalCaptureArtifactDraftAuthoringReadinessDigest,
+    sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest: source.sourceSignedApprovalCaptureArtifactDraftReviewPackagePreflightDigest,
+    sourceSignedApprovalCaptureArtifactDraftReadinessDigest: source.sourceSignedApprovalCaptureArtifactDraftReadinessDigest,
+    sourceSignedApprovalCaptureArtifactDraftPreflightDigest: source.sourceSignedApprovalCaptureArtifactDraftPreflightDigest,
+    sourceSignedApprovalCaptureArtifactPreflightDigest: source.sourceSignedApprovalCaptureArtifactPreflightDigest,
+    sourceSignedApprovalCapturePreflightDigest: source.sourceSignedApprovalCapturePreflightDigest,
+    sourceSignedApprovalTemplateDigest: source.sourceSignedApprovalTemplateDigest,
+    sourceApprovalPacketReviewDigest: source.sourceApprovalPacketReviewDigest,
     slots,
     controls,
     gates,
     gateCount: Object.keys(gates).length,
     passedGateCount: Object.values(gates).filter(Boolean).length,
-    blockedReasonCodes,
-    signedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightDigest,
+    blockedReasonCodes: blockedReasons,
+    signedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightDigest: digest,
     executionAllowed: false,
     writeRoutingAllowed: false,
     startsServices: false,
@@ -189,18 +148,10 @@ export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEv
   };
 }
 
-function countSlots(
-  slots: readonly SubmissionSlot[],
-  kind:
-    ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlotKind,
-): number {
+function countSlots(slots: readonly SubmissionSlot[], kind: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightSlotKind): number {
   return slots.filter((slot) => slot.kind === kind).length;
 }
 
-function countControls(
-  controls: readonly ComparisonControl[],
-  kind:
-    ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControlKind,
-): number {
+function countControls(controls: readonly ComparisonControl[], kind: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplySignedApprovalCaptureArtifactDraftTextPackageSubmissionPreflightComparisonControlKind): number {
   return controls.filter((control) => control.kind === kind).length;
 }
