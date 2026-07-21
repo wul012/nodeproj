@@ -37,8 +37,8 @@
 
 | 要求 | 实现边界 | 机械证据 | 状态 |
 | --- | --- | --- | --- |
-| 项目 JSON 证据读取只有一个安全内核 | `src/evidence` 提供 BOM-safe、missing/invalid/null-safe 的读取与类型收窄 | helper 单测覆盖 BOM、非法 JSON、数组 root、缺文件、非有限数和深路径 | v2223 pending |
-| CI action runtime 不依赖弃用的 Node 20 action runtime | checkout/setup-node 升至官方 v7，项目运行时仍固定 Node 22、npm cache 不变 | workflow diff、YAML 静态检查、批次末远端 CI | v2223 pending |
+| 项目 JSON 证据读取只有一个安全内核 | `src/evidence` 提供 BOM-safe、missing/invalid/null-safe 的读取与类型收窄 | helper 单测覆盖 BOM、非法 JSON、数组 root、缺文件、非有限数和深路径 | v2223 passed |
+| CI action runtime 不依赖弃用的 Node 20 action runtime | checkout/setup-node 升至官方 v7，项目运行时仍固定 Node 22、npm cache 不变 | workflow diff、YAML 静态检查、批次末远端 CI | v2223 local passed; remote pending batch close |
 | operator service lifecycle 成为可读 bounded context | 短目录/短文件/短导出，loader 与 checks 分层 | 完整 profile oracle、route/archive tests、name/maintainability ratchet | v2224 pending |
 | declared lifecycle 复用同一内核和目录语汇 | 不创建第三套 reader/check engine | 完整 profile oracle、负向测试、导入环为 0 | v2225 pending |
 | 758 行预实现 intake 不再承担读取、引用、检查和组合四责 | sources/checks/profile 分离并复用已有 historical helper | local/forced fallback、JSON/Markdown hash、维护性基线 | v2226 pending |
@@ -50,7 +50,7 @@
 
 新文件 family 实现前必须在源码顶部用不超过 10 行说明以下边界：
 
-1. `src/evidence/projectEvidence.ts` 只负责“读取和安全收窄”，不理解 Node 版本、route、readiness
+1. `src/evidence/projectJson.ts` 只负责“读取和安全收窄”，不理解 Node 版本、route、readiness
    或 blocker；缺失、非法 JSON、数组 root 和错类型必须返回失败关闭值。
 2. `src/services/operatorLifecycle/` 的 sources 拥有上游字段映射，checks 拥有领域判定，profile
    只拥有组装顺序；renderer 与 archive verifier 不反向拥有读取逻辑。
@@ -74,6 +74,17 @@ BOM 去除、JSON object root 守卫、深路径读取、string/finite-number/st
 
 本版预期至少移除两组文件中重复的 reader/value/string/number/includes/digest/BOM helper；若
 维护性计数尚未下降，至少不得增长。先冻结 lifecycle profile 的 JSON/Markdown hash，再改源码。
+
+### v2223 收口证据
+
+新增 56 行 `src/evidence/projectJson.ts`，以既有 `parseJsonEvidence` 统一 BOM-safe 解析，并明确
+拒绝 missing、invalid、array/null/scalar root、非有限数值与错误 digest。两份 lifecycle intake
+各删除七个重复 helper，从 589/554 行降为 551/516 行。固定时间下 local/forced fallback 的两份
+完整 JSON/Markdown 共八组长度与 SHA-256 在改造前后完全一致，未修改期望或 fixture。新增单测、
+既有领域测试与讲解门共 4 文件 16 项通过，3,230 个中文字符和 13 个可扫描章节达标；typecheck、
+定向 lint 和七项静态门通过。elegance 仍为 4,537，
+受管 family 仍为 52，维护性仍为 83/98/217/0，均无增长；实际热点在 v2224/v2225 拆除。
+checkout/setup-node 已更新到 v7，同时保留 Node 22、npm cache、permissions、trigger 与 smoke。
 
 ## v2224：operator service lifecycle bounded context
 

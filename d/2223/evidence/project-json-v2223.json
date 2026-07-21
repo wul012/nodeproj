@@ -1,0 +1,105 @@
+{
+  "schemaVersion": 1,
+  "version": "v2223",
+  "scope": "shared-project-json-access-and-ci-action-runtime",
+  "behaviorChanged": false,
+  "modules": {
+    "sharedReader": "src/evidence/projectJson.ts",
+    "serviceLifecycleConsumer": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts",
+    "declaredLifecycleConsumer": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleEvidenceIntake.ts",
+    "workflow": ".github/workflows/node-evidence.yml",
+    "focusedTest": "test/projectJson.test.ts"
+  },
+  "design": {
+    "dataOwner": "projectJson",
+    "behaviorOwners": "lifecycle intake modules",
+    "safeObjectRootOnly": true,
+    "bomSafe": true,
+    "finiteNumbersOnly": true,
+    "missingOrInvalidReturnsNull": true,
+    "domainVersionsOrRoutesInSharedReader": false
+  },
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "localAndForcedFallbackEqual": true,
+    "beforeAndAfterEqual": true,
+    "serviceLifecycle": {
+      "jsonBytes": 15922,
+      "jsonSha256": "979c9b8feefed725ffc36a71f7c9ca848ebc3fe610bde75fb589c8361ef168ff",
+      "markdownBytes": 13748,
+      "markdownSha256": "ff34aaa902ccca2a470db1ebc47d8b2035921d48afdac8e95da34d4328b480c9"
+    },
+    "declaredLifecycle": {
+      "jsonBytes": 15237,
+      "jsonSha256": "23009992c1707ae5c572a877a26bde583081e3e8b2ea7402f5d063c5423164ff",
+      "markdownBytes": 13047,
+      "markdownSha256": "7155bae78bdb6a2b8e39111179591367a8fcbfe4ba4d08445e5e21f8f6174100"
+    },
+    "testExpectationsChanged": false,
+    "fixturesChanged": false
+  },
+  "failClosedCoverage": {
+    "utf8BomObject": "accepted",
+    "missingFile": "null",
+    "invalidJson": "null",
+    "arrayRoot": "null",
+    "nullRoot": "null",
+    "scalarRoot": "null",
+    "missingNestedPath": "undefined",
+    "infiniteNumber": 0,
+    "wrongScalarTypes": "safe-empty-values",
+    "uppercaseOrWrongLengthDigest": false
+  },
+  "sourceChange": {
+    "sharedReaderLines": 56,
+    "serviceLifecycleLinesBefore": 589,
+    "serviceLifecycleLinesAfter": 551,
+    "declaredLifecycleLinesBefore": 554,
+    "declaredLifecycleLinesAfter": 516,
+    "duplicatedHelpersRemoved": 14,
+    "newNamesOverFortyCharacters": 0
+  },
+  "ciRuntime": {
+    "checkoutBefore": "actions/checkout@v4",
+    "checkoutAfter": "actions/checkout@v7",
+    "setupNodeBefore": "actions/setup-node@v4",
+    "setupNodeAfter": "actions/setup-node@v7",
+    "projectNodeVersion": "22",
+    "npmCachePreserved": true,
+    "permissionsTriggersAndSmokeChanged": false,
+    "officialCheckout": "https://github.com/actions/checkout",
+    "officialSetupNode": "https://github.com/actions/setup-node"
+  },
+  "ratchets": {
+    "maintainabilityBefore": "83/98/217/0",
+    "maintainabilityAfter": "83/98/217/0",
+    "nameDebtBefore": 4537,
+    "nameDebtAfter": 4537,
+    "structuralFamiliesAfter": 160,
+    "trackedFamiliesAfter": 52,
+    "newTrackedFamilies": 0,
+    "baselineRefreshed": false
+  },
+  "localVerification": {
+    "typecheck": "passed",
+    "targetedLint": "passed-zero-errors-zero-warnings",
+    "focused": "passed-4-files-16-tests-max-4-workers-including-walkthrough-gate",
+    "walkthrough": "passed-3230-chinese-characters-13-h2-sections",
+    "security": "passed-8344-files-18-of-18-config-checks",
+    "archive": "passed-7150-files-64.40-of-80-mib",
+    "elegance": "passed-4537-name-debt-52-tracked-families",
+    "family": "passed-52-of-52",
+    "maintainability": "passed-83-98-217-0",
+    "renderer": "passed-242-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-0-above-800"
+  },
+  "boundaries": {
+    "routesChanged": false,
+    "reportFieldsChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityChanged": false,
+    "javaOrMiniKvModified": false,
+    "screenshotApplicable": false
+  }
+}

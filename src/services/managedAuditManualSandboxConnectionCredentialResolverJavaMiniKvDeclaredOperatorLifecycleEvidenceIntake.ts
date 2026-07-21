@@ -1,7 +1,12 @@
-import { existsSync, readFileSync } from "node:fs";
-import path from "node:path";
-
 import type { AppConfig } from "../config.js";
+import {
+  includesAll,
+  isSha256,
+  numberValue,
+  readProjectJson,
+  stringValue,
+  valueAt,
+} from "../evidence/projectJson.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   createDeclaredOperatorLifecycleEvidenceFileReference,
@@ -123,7 +128,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverJavaMin
     miniKvDeclaredOperatorLifecycle,
     ready,
   );
-  checks.intakeDigestStable = isDigest(intake.intakeDigest);
+  checks.intakeDigestStable = isSha256(intake.intakeDigest);
   const productionBlockers = collectProductionBlockers(checks);
   const warnings = collectWarnings();
   const recommendations = collectRecommendations(ready);
@@ -423,7 +428,7 @@ function createChecks(
       && !java.runtimeProbeAllowed
       && !miniKv.runtimeGateApproved
       && !miniKv.runtimeProbeAllowed,
-    intakeDigestStable: isDigest(intake.intakeDigest),
+    intakeDigestStable: isSha256(intake.intakeDigest),
     noAutomaticUpstreamStartStop: !intake.startsUpstreamServices && !intake.stopsUpstreamServices,
     noUpstreamMutation: !intake.writesUpstreamState,
     noManagedAuditConnection: !intake.opensManagedAuditConnection,
@@ -508,47 +513,4 @@ function collectRecommendations(ready: boolean): DeclaredOperatorLifecycleEviden
       ? "Archive and verify v388 before writing any separate runtime live-read gate plan."
       : "Repair missing frozen declared lifecycle evidence before rerunning v388.",
   }];
-}
-
-function readProjectJson(projectRoot: string, relativePath: string): Record<string, unknown> | null {
-  const absolutePath = path.join(projectRoot, ...relativePath.split("/"));
-  if (!existsSync(absolutePath)) {
-    return null;
-  }
-  try {
-    return JSON.parse(stripBom(readFileSync(absolutePath, "utf8"))) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function includesAll(values: readonly string[], required: readonly string[]): boolean {
-  return required.every((value) => values.includes(value));
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
-}
-
-function numberValue(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? value : 0;
-}
-
-function isDigest(value: string | null): boolean {
-  return typeof value === "string" && /^[a-f0-9]{64}$/.test(value);
-}
-
-function stripBom(content: string): string {
-  return content.charCodeAt(0) === 0xfeff ? content.slice(1) : content;
 }

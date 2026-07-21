@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2223 - 2026-07-21
+
+- Added a 56-line project JSON access boundary with object-root validation,
+  BOM-safe parsing, deep-path and scalar narrowing, set inclusion, and SHA-256
+  shape checks. Migrated both lifecycle intake services off fourteen duplicate
+  helpers while preserving all eight fixed-time local/forced-fallback full
+  JSON/Markdown byte and digest oracles. Added fail-closed coverage for missing,
+  malformed, scalar, array-root, non-finite, and wrongly typed evidence. Updated
+  checkout/setup-node actions to v7 while retaining Node 22, npm cache,
+  permissions, triggers, and smoke behavior. No route, fixture, report, sibling
+  workspace, network, write path, or execution authority changed.
+
 ## v2218 - 2026-07-20
 
 - Separated the three runtime approval template definitions and canonical paths
