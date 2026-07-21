@@ -4,6 +4,7 @@ import {
   countReportChecks,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import { createBlockedDecisionChecks } from "./echoCheckGroups.js";
 import {
   booleanField,
   evidenceFile,
@@ -73,7 +74,13 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverProduct
   const sourceNodeV268 = createSourceNodeV268(input.config);
   const javaV111 = createJavaV111Reference();
   const miniKvV118 = createMiniKvV118Reference();
-  const checks = createChecks(input.config, sourceNodeV268, javaV111, miniKvV118);
+  const checks = createBlockedDecisionChecks(
+    input.config,
+    sourceNodeV268,
+    javaV111,
+    miniKvV118,
+    MISSING_REQUIREMENT_CODES,
+  );
   checks.readyForManagedAuditManualSandboxConnectionCredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerification =
     Object.entries(checks)
       .filter(([key]) =>
@@ -183,7 +190,6 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverProduct
     ],
   };
 }
-
 function createSourceNodeV268(config: AppConfig): SourceNodeV268ProductionReadinessDecisionGateReference {
   const source = loadManagedAuditManualSandboxConnectionCredentialResolverProductionReadinessDecisionGate({ config });
   return {
@@ -431,118 +437,6 @@ function createMiniKvV118Reference(): MiniKvV118ProductionReadinessBlockedDecisi
   return reference;
 }
 
-function createChecks(
-  config: AppConfig,
-  sourceNodeV268: SourceNodeV268ProductionReadinessDecisionGateReference,
-  javaV111: JavaV111ProductionReadinessBlockedDecisionEchoReceiptReference,
-  miniKvV118: MiniKvV118ProductionReadinessBlockedDecisionNonParticipationReference,
-): CredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerificationChecks {
-  return {
-    sourceNodeV268Ready:
-      sourceNodeV268.decisionGateState === "blocked"
-      && sourceNodeV268.readinessDecision === "blocked"
-      && sourceNodeV268.decisionGateEvaluated
-      && sourceNodeV268.sourceNodeV267Ready
-      && sourceNodeV268.sourceNodeV267BlocksRealResolver,
-    sourceNodeV268DecisionBlocked:
-      sourceNodeV268.readinessDecision === "blocked"
-      && sourceNodeV268.productionBlockerCount === 10
-      && sourceNodeV268.missingPreImplementationRequirementCount === 10,
-    sourceNodeV268KeepsRealResolverBlocked:
-      !sourceNodeV268.readyForCredentialResolverPreImplementationPlan
-      && !sourceNodeV268.realResolverImplementationAllowed
-      && !sourceNodeV268.connectsManagedAudit,
-    javaV111EchoReady: javaV111.readyForNodeV269Alignment,
-    miniKvV118NonParticipationReady: miniKvV118.readyForNodeV269Alignment,
-    blockedDecisionAligned:
-      javaV111.readinessDecision === "blocked"
-      && miniKvV118.sourceReadinessDecision === "blocked",
-    decisionModeAligned:
-      javaV111.decisionEchoMode === "java-v111-credential-resolver-production-readiness-blocked-decision-echo-receipt-only"
-      && miniKvV118.sourceDecisionMode === sourceNodeV268.decisionMode,
-    countSummaryAligned:
-      javaV111.checkCount === sourceNodeV268.checkCount
-      && miniKvV118.checkCount === sourceNodeV268.checkCount
-      && javaV111.passedCheckCount === sourceNodeV268.passedCheckCount
-      && miniKvV118.passedCheckCount === sourceNodeV268.passedCheckCount
-      && javaV111.sourceCheckCount === sourceNodeV268.sourceCheckCount
-      && miniKvV118.sourceCheckCount === sourceNodeV268.sourceCheckCount
-      && javaV111.missingPreImplementationRequirementCount === sourceNodeV268.missingPreImplementationRequirementCount
-      && miniKvV118.missingPreImplementationRequirementCount === sourceNodeV268.missingPreImplementationRequirementCount,
-    missingRequirementBlockersAligned:
-      javaV111.blockerCodesEchoed
-      && arrayEquals(miniKvV118.productionBlockerCodes, [...MISSING_REQUIREMENT_CODES])
-      && sourceNodeV268.productionBlockerCodes.every((code) => MISSING_REQUIREMENT_CODES.includes(code as typeof MISSING_REQUIREMENT_CODES[number])),
-    readOnlyDecisionGateAligned:
-      sourceNodeV268.productionReadinessGateOnly
-      && sourceNodeV268.readOnlyDecisionGate
-      && miniKvV118.productionReadinessGateOnly === true
-      && miniKvV118.readOnlyDecisionGate === true,
-    credentialBoundaryAligned:
-      !sourceNodeV268.readsManagedAuditCredential
-      && !sourceNodeV268.storesManagedAuditCredential
-      && !sourceNodeV268.credentialValueRead
-      && !javaV111.credentialValueRead
-      && miniKvV118.credentialValueReadAllowed === false
-      && miniKvV118.credentialValueLoaded === false
-      && miniKvV118.credentialValueStored === false
-      && miniKvV118.credentialValueIncluded === false,
-    rawEndpointBoundaryAligned:
-      !sourceNodeV268.rawEndpointUrlParsed
-      && !javaV111.rawEndpointUrlParsed
-      && miniKvV118.rawEndpointUrlParsed === false
-      && miniKvV118.rawEndpointUrlIncluded === false,
-    resolverBoundaryAligned:
-      !sourceNodeV268.resolverClientInstantiated
-      && !sourceNodeV268.secretProviderInstantiated
-      && !javaV111.resolverClientInstantiated
-      && !javaV111.secretProviderInstantiated
-      && miniKvV118.credentialResolverImplemented === false
-      && miniKvV118.credentialResolverInvoked === false
-      && miniKvV118.resolverClientInstantiated === false
-      && miniKvV118.secretProviderInstantiated === false
-      && miniKvV118.secretProviderStubDefined === false
-      && miniKvV118.secretProviderRuntimeAllowed === false,
-    connectionBoundaryAligned:
-      !sourceNodeV268.connectsManagedAudit
-      && !sourceNodeV268.externalRequestSent
-      && !javaV111.connectsManagedAudit
-      && !javaV111.externalRequestSent
-      && miniKvV118.connectionExecutionAllowed === false
-      && miniKvV118.externalRequestSent === false
-      && miniKvV118.readyForManagedAuditSandboxAdapterConnection === false,
-    writeBoundaryAligned:
-      !sourceNodeV268.executionAllowed
-      && !sourceNodeV268.schemaMigrationExecuted
-      && !javaV111.approvalLedgerWritten
-      && !javaV111.sqlExecuted
-      && !javaV111.schemaMigrationExecuted
-      && miniKvV118.executionAllowed === false
-      && miniKvV118.storageWriteAllowed === false
-      && miniKvV118.managedAuditWriteExecuted === false
-      && miniKvV118.approvalLedgerWriteAllowed === false
-      && miniKvV118.approvalLedgerWriteExecuted === false
-      && miniKvV118.schemaMigrationExecutionAllowed === false
-      && miniKvV118.restoreExecutionAllowed === false
-      && miniKvV118.loadRestoreCompactExecuted === false
-      && miniKvV118.setnxexExecutionAllowed === false
-      && miniKvV118.managedAuditStorageBackend === false,
-    autoStartBoundaryAligned:
-      !sourceNodeV268.automaticUpstreamStart
-      && !javaV111.automaticUpstreamStart
-      && miniKvV118.nodeAutoStartAllowed === false
-      && miniKvV118.javaAutoStartAllowed === false
-      && miniKvV118.miniKvAutoStartAllowed === false
-      && miniKvV118.externalAuditServiceAutoStartAllowed === false,
-    upstreamProbesStillDisabled: !config.upstreamProbesEnabled,
-    upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
-    productionAuditStillBlocked: true,
-    productionWindowStillBlocked: true,
-    realResolverImplementationStillBlocked: true,
-    readyForManagedAuditManualSandboxConnectionCredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerification: false,
-  };
-}
-
 function collectProductionBlockers(
   checks: CredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerificationChecks,
 ): CredentialResolverProductionReadinessBlockedDecisionUpstreamEchoVerificationMessage[] {
@@ -668,8 +562,4 @@ function collectRecommendations(): CredentialResolverProductionReadinessBlockedD
       message: "Keep the statusRoutes split and echo helper quality items visible for the next quality branch.",
     },
   ];
-}
-
-function arrayEquals(left: readonly string[], right: readonly string[]): boolean {
-  return left.length === right.length && left.every((value, index) => value === right[index]);
 }

@@ -193,11 +193,27 @@ export function createChecks(
   forbiddenOperations: ForbiddenOperation[],
 ): Record<string, boolean> {
   return {
+    ...sourceSummaryChecks(postV166Summary),
+    ...javaRunbookChecks(),
+    ...javaBoundaryChecks(),
+    ...miniKvEvidenceChecks(),
+    ...miniKvBoundaryChecks(),
+    ...intakeBoundaryChecks(config, intakeSteps, forbiddenOperations),
+  };
+}
+
+function sourceSummaryChecks(postV166Summary: PostV166ReadinessSummaryProfile) {
+  return {
     postV166SummaryReady: postV166Summary.readyForPostV166ReadinessSummary
       && postV166Summary.summaryState === "completed-with-production-blockers",
     postV166StillBlocksProduction: postV166Summary.readyForProductionRollback === false
       && postV166Summary.readyForProductionOperations === false
       && postV166Summary.executionAllowed === false,
+  };
+}
+
+function javaRunbookChecks() {
+  return {
     javaV60RunbookReady: JAVA_V60_DEPLOYMENT_RUNBOOK.plannedVersion === "Java v60"
       && JAVA_V60_DEPLOYMENT_RUNBOOK.evidenceTag === "v60订单平台production-deployment-runbook-contract",
     javaContractVersionReady:
@@ -224,6 +240,11 @@ export function createChecks(
     javaRunbookArtifactsComplete: JAVA_V60_DEPLOYMENT_RUNBOOK.runbookArtifacts.length === 5
       && JAVA_V60_DEPLOYMENT_RUNBOOK.runbookArtifacts.includes("/contracts/rollback-sql-review-gate.sample.json")
       && JAVA_V60_DEPLOYMENT_RUNBOOK.runbookArtifacts.includes("/contracts/production-secret-source-contract.sample.json"),
+  };
+}
+
+function javaBoundaryChecks() {
+  return {
     javaNodeConsumptionReadOnly: JAVA_V60_DEPLOYMENT_RUNBOOK.nodeConsumption.nodeMayConsume
       && JAVA_V60_DEPLOYMENT_RUNBOOK.nodeConsumption.nodeMayRenderIntakeGate
       && !JAVA_V60_DEPLOYMENT_RUNBOOK.nodeConsumption.nodeMayTriggerDeployment
@@ -243,6 +264,11 @@ export function createChecks(
       && JAVA_V60_DEPLOYMENT_RUNBOOK.forbiddenOperations.includes("Executing Java deployment from this runbook contract")
       && JAVA_V60_DEPLOYMENT_RUNBOOK.forbiddenOperations.includes("Reading production secret values from this runbook contract"),
     javaArchiveRootUsesC: JAVA_V60_DEPLOYMENT_RUNBOOK.archivePath === "c/60",
+  };
+}
+
+function miniKvEvidenceChecks() {
+  return {
     miniKvV69PackageReady: MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.plannedVersion === "mini-kv v69"
       && MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.evidenceTag === "第六十九版发布产物摘要包",
     miniKvPackageVersionReady:
@@ -271,6 +297,11 @@ export function createChecks(
     miniKvFixtureInputsComplete: MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.fixtureInputs.length === 5
       && MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.fixtureInputs.includes("fixtures/release/verification-manifest.json")
       && MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.fixtureInputs.includes("fixtures/ttl-token/recovery-evidence.json"),
+  };
+}
+
+function miniKvBoundaryChecks() {
+  return {
     miniKvExecutionBoundariesClosed: !MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.writeCommandsExecuted
       && !MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.adminCommandsExecuted
       && !MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.restoreExecutionAllowed
@@ -282,6 +313,15 @@ export function createChecks(
       && MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.doesNotReadProductionSecrets
       && MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.doesNotOpenUpstreamActions,
     miniKvArchiveRootUsesC: MINI_KV_V69_RELEASE_ARTIFACT_PACKAGE.archivePath === "c/69",
+  };
+}
+
+function intakeBoundaryChecks(
+  config: AppConfig,
+  intakeSteps: IntakeStep[],
+  forbiddenOperations: ForbiddenOperation[],
+) {
+  return {
     intakeStepsDryRunOnly: intakeSteps.length === 7
       && intakeSteps.every((step) => (
         step.dryRunOnly

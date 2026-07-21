@@ -27,6 +27,7 @@ import type {
   ReleaseHandoffReviewMessage,
   ReleaseHandoffReviewState,
 } from "./releaseHandoffReviewMessages.js";
+import { createReleaseHandoffChecks } from "./releaseGateCheckGroups.js";
 
 type ReviewState = ReleaseHandoffReviewState;
 type ReviewActor = "operator" | "node" | "java" | "mini-kv";
@@ -102,7 +103,13 @@ export function loadReleaseHandoffReadinessReview(config: AppConfig): ReleaseHan
   const handoffReviewSteps = createHandoffReviewSteps();
   const forbiddenOperations = createForbiddenOperations();
   const pauseConditions = createPauseConditions();
-  const checks = createChecks(config, envelope, handoffReviewSteps, forbiddenOperations, pauseConditions);
+  const checks = createReleaseHandoffChecks(
+    config,
+    envelope,
+    handoffReviewSteps,
+    forbiddenOperations,
+    pauseConditions,
+  );
   const reviewDigest = digestReview({
     profileVersion: "release-handoff-readiness-review.v1",
     sourceEnvelopeDigest: envelope.envelope.envelopeDigest,
@@ -290,125 +297,6 @@ export function renderReleaseHandoffReadinessReviewMarkdown(
     evidenceEndpoints: profile.evidenceEndpoints,
     nextActions: profile.nextActions,
   });
-}
-
-function createChecks(
-  config: AppConfig,
-  envelope: ProductionReleaseDryRunEnvelopeProfile,
-  handoffReviewSteps: HandoffReviewStep[],
-  forbiddenOperations: ForbiddenOperation[],
-  pauseConditions: string[],
-): Record<string, boolean> {
-  return {
-    sourceEnvelopeReady: envelope.readyForProductionReleaseDryRunEnvelope
-      && envelope.envelopeState === "ready-for-manual-production-release-dry-run",
-    sourceEnvelopeDigestValid: isReleaseReportDigest(envelope.envelope.envelopeDigest),
-    sourceEnvelopeStillBlocksProduction: envelope.readyForProductionRelease === false
-      && envelope.readyForProductionDeployment === false
-      && envelope.readyForProductionRollback === false
-      && envelope.readyForProductionOperations === false
-      && envelope.executionAllowed === false,
-    sourceEnvelopeReferencesV173: envelope.envelope.sourcePacketProfileVersion === "release-window-readiness-packet.v1",
-    javaV62FixtureReady: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.plannedVersion === "Java v62"
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.fixtureVersion === "java-release-handoff-checklist-fixture.v1"
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.scenario === "RELEASE_HANDOFF_CHECKLIST_FIXTURE_SAMPLE",
-    javaChecklistPlaceholdersPresent: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.releaseChecklist.releaseOperator === "release-operator-placeholder"
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.releaseChecklist.rollbackApprover === "rollback-approver-placeholder"
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.releaseChecklist.artifactTarget === "release-tag-or-artifact-version-placeholder"
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.releaseChecklist.operatorMustReplacePlaceholders
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.releaseChecklist.handoffStatus === "PENDING_OPERATOR_CONFIRMATION",
-    javaRequiredFieldsComplete: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.requiredChecklistFieldNames.length === 8
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.requiredChecklistFieldNames.includes("release-operator")
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.requiredChecklistFieldNames.includes("artifact-target")
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.requiredChecklistFieldNames.includes("secret-source-confirmation"),
-    javaChecklistArtifactsComplete: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.checklistArtifacts.includes("/contracts/release-bundle-manifest.sample.json")
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.checklistArtifacts.includes("/contracts/production-deployment-runbook-contract.sample.json")
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.checklistArtifacts.includes("/contracts/rollback-approval-record.fixture.json"),
-    javaMigrationDirectionClosed: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.databaseMigration.selectedDirection === "no-database-change"
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.databaseMigration.rollbackSqlExecutionAllowed
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.databaseMigration.requiresProductionDatabase,
-    javaSecretBoundaryClosed: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.secretSourceConfirmation.required
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.secretSourceConfirmation.secretValueRecorded
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.secretSourceConfirmation.nodeMayReadSecretValues
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.noSecretValueBoundaries.includes("Node may render the release handoff review only"),
-    javaNodeConsumptionReadOnly: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.nodeMayConsume
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.nodeMayRenderReleaseHandoffReview
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.nodeMayTriggerDeployment
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.nodeMayTriggerRollback
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.nodeMayExecuteRollbackSql
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.nodeMayReadSecretValues
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.nodeConsumption.requiresUpstreamActionsEnabled,
-    javaProductionBoundariesClosed: !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.boundaries.deploymentExecutionAllowed
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.boundaries.rollbackExecutionAllowed
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.boundaries.rollbackSqlExecutionAllowed
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.boundaries.requiresProductionDatabase
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.boundaries.requiresProductionSecrets
-      && !JAVA_V62_RELEASE_HANDOFF_CHECKLIST.boundaries.connectsMiniKv,
-    javaForbiddenOperationsComplete: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.forbiddenOperations.includes("Executing Java deployment from this fixture")
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.forbiddenOperations.includes("Triggering Java rollback from Node")
-      && JAVA_V62_RELEASE_HANDOFF_CHECKLIST.forbiddenOperations.includes("POST /api/v1/orders"),
-    javaArchiveRootUsesC: JAVA_V62_RELEASE_HANDOFF_CHECKLIST.archivePath === "c/62",
-    miniKvV71ChecklistReady: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.plannedVersion === "mini-kv v71"
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checklistVersion === "mini-kv-restore-handoff-checklist.v1"
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.projectVersion === "0.71.0",
-    miniKvTargetReleaseReady: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.targetReleaseVersion === "v71"
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.currentReleaseVersion === "v71",
-    miniKvPreviousEvidenceComplete: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.previousEvidence.includes("fixtures/release/restore-drill-evidence.json")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.previousEvidence.includes("fixtures/release/release-artifact-digest-package.json")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.previousEvidence.includes("fixtures/release/artifact-digest-compatibility-matrix.json"),
-    miniKvDigestPlaceholdersPresent: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.artifactDigestTarget === "sha256:<operator-recorded-restore-artifact-digest>"
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.snapshotReviewPlaceholder === "sha256:<operator-recorded-snapshot-review-digest>"
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.walReviewPlaceholder === "sha256:<operator-recorded-wal-review-digest>"
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffTarget.operatorConfirmationRequired,
-    miniKvChecklistFieldsComplete: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffChecklist.fields.length === 7
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffChecklist.fields.includes("restore_operator_id")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffChecklist.fields.includes("checkjson_risk_confirmed")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffChecklist.fields.includes("handoff_ready_for_node_review"),
-    miniKvRequiredConfirmationsComplete: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffChecklist.requiredConfirmations.includes("restore operator assigned")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.handoffChecklist.requiredConfirmations.includes("no restore execution requested"),
-    miniKvCheckJsonRiskCommandsReady: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checkjsonRiskConfirmation.commands.includes("CHECKJSON LOAD data/handoff-restore.snap")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checkjsonRiskConfirmation.commands.includes("CHECKJSON COMPACT")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checkjsonRiskConfirmation.commands.includes("CHECKJSON SETNXEX restore:handoff-token 30 value")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checkjsonRiskConfirmation.commands.includes("GET restore:handoff-token"),
-    miniKvNoWriteOrAdminExecuted: !MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checkjsonRiskConfirmation.writeCommandsExecuted
-      && !MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.checkjsonRiskConfirmation.adminCommandsExecuted
-      && !MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.restoreExecutionAllowed,
-    miniKvBoundariesClosed: !MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.executionAllowed
-      && !MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.restoreExecutionAllowed
-      && !MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.orderAuthoritative
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.boundaries.includes("does not execute LOAD/COMPACT/SETNXEX")
-      && MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.boundaries.includes("not connected to Java transaction chain"),
-    miniKvArchiveRootUsesC: MINI_KV_V71_RESTORE_HANDOFF_CHECKLIST.archivePath === "c/71",
-    handoffReviewStepsReadOnly: handoffReviewSteps.length === 6
-      && handoffReviewSteps.every((step) => (
-        step.readOnly
-        && step.dryRunOnly
-        && !step.mutatesState
-        && !step.executesRelease
-        && !step.executesDeployment
-        && !step.executesRollback
-        && !step.executesRestore
-        && !step.readsSecretValues
-        && !step.connectsProductionDatabase
-      )),
-    forbiddenOperationsCovered: forbiddenOperations.length === 10
-      && forbiddenOperations.some((operation) => operation.operation === "Trigger Java deployment from Node v175")
-      && forbiddenOperations.some((operation) => operation.operation === "Execute mini-kv restore from Node v175"),
-    pauseConditionsComplete: pauseConditions.length === 8
-      && pauseConditions.includes("UPSTREAM_ACTIONS_ENABLED must remain false.")
-      && pauseConditions.includes("Node must not start Java or mini-kv automatically."),
-    upstreamActionsStillDisabled: !config.upstreamActionsEnabled
-      && envelope.envelope.upstreamActionsEnabled === false,
-    noAutomaticUpstreamStart: true,
-    noProductionSecretRead: true,
-    noProductionDatabaseConnection: true,
-    readyForProductionReleaseStillFalse: true,
-    readyForProductionDeploymentStillFalse: true,
-    readyForProductionRollbackStillFalse: true,
-    readyForProductionOperationsStillFalse: true,
-    reviewDigestValid: false,
-    readyForReleaseHandoffReadinessReview: false,
-  };
 }
 
 function createHandoffReviewSteps(): HandoffReviewStep[] {

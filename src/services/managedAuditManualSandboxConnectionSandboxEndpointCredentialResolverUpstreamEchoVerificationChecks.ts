@@ -19,6 +19,22 @@ export function createChecks(
   miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
 ): CredentialResolverUpstreamEchoVerificationChecks {
   return {
+    ...sourceEvidenceChecks(sourceNodeV260, javaV105, miniKvV114),
+    ...resolverPolicyChecks(sourceNodeV260, javaV105, miniKvV114),
+    ...identityEvidenceChecks(sourceNodeV260, miniKvV114),
+    ...secretBoundaryChecks(sourceNodeV260, javaV105, miniKvV114),
+    ...runtimeBoundaryChecks(sourceNodeV260, javaV105, miniKvV114),
+    ...writeBoundaryChecks(sourceNodeV260, javaV105, miniKvV114),
+    ...launchBoundaryChecks(config, sourceNodeV260, javaV105, miniKvV114),
+  };
+}
+
+function sourceEvidenceChecks(
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  javaV105: JavaV105CredentialResolverDecisionEchoMarkerReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     sourceNodeV260Ready: sourceNodeV260.readyForNodeV261CredentialResolverUpstreamEchoVerification,
     javaV105EchoReady: javaV105.readyForNodeV261SandboxEndpointCredentialResolverUpstreamEchoVerification,
     miniKvV114NonParticipationReady: miniKvV114.readyForNodeV261Alignment,
@@ -40,6 +56,15 @@ export function createChecks(
       && javaV105.explicitNoGoConditionCount === 9
       && miniKvV114.explicitNoGoConditionCount === 9
       && arraysEqual(miniKvV114.explicitNoGoConditionCodes, [...EXPLICIT_NO_GO_CONDITION_CODES]),
+  };
+}
+
+function resolverPolicyChecks(
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  javaV105: JavaV105CredentialResolverDecisionEchoMarkerReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     resolverPolicyAligned:
       sourceNodeV260.resolverPolicyHandle === "ORDEROPS_MANAGED_AUDIT_SANDBOX_CREDENTIAL_RESOLVER_POLICY_HANDLE"
       && javaV105.resolverPolicyHandle === sourceNodeV260.resolverPolicyHandle
@@ -54,6 +79,14 @@ export function createChecks(
       sourceNodeV260.approvalMarker === "ORDEROPS_MANAGED_AUDIT_CREDENTIAL_RESOLVER_APPROVAL_MARKER"
       && javaV105.approvalMarker === sourceNodeV260.approvalMarker
       && miniKvV114.approvalMarker === sourceNodeV260.approvalMarker,
+  };
+}
+
+function identityEvidenceChecks(
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     operatorIdentityAligned:
       sourceNodeV260.operatorIdentityRequired
       && miniKvV114.operatorIdentityRequired
@@ -69,6 +102,15 @@ export function createChecks(
       && sourceNodeV260.requiredDecisionFieldIds.includes("fallback-rotation-plan")
       && miniKvV114.requiredDecisionFieldIds.includes("redaction-policy")
       && miniKvV114.requiredDecisionFieldIds.includes("fallback-rotation-plan"),
+  };
+}
+
+function secretBoundaryChecks(
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  javaV105: JavaV105CredentialResolverDecisionEchoMarkerReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     credentialBoundaryAligned:
       !sourceNodeV260.credentialValueMayBeRead
       && !sourceNodeV260.credentialValueMayBeLoaded
@@ -91,6 +133,15 @@ export function createChecks(
       && !miniKvV114.sourceRawEndpointUrlIncluded
       && !miniKvV114.rawEndpointUrlParsed
       && !miniKvV114.rawEndpointUrlIncluded,
+  };
+}
+
+function runtimeBoundaryChecks(
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  javaV105: JavaV105CredentialResolverDecisionEchoMarkerReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     connectionBoundaryAligned:
       !sourceNodeV260.managedAuditConnectionMayOpen
       && !sourceNodeV260.externalRequestMayBeSent
@@ -104,6 +155,15 @@ export function createChecks(
       && !miniKvV114.credentialResolverImplemented
       && !miniKvV114.credentialResolverInvoked
       && !miniKvV114.secretProviderInstantiated,
+  };
+}
+
+function writeBoundaryChecks(
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  javaV105: JavaV105CredentialResolverDecisionEchoMarkerReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     writeBoundaryAligned:
       !sourceNodeV260.schemaMigrationMayExecute
       && !sourceNodeV260.approvalLedgerMayBeWritten
@@ -123,6 +183,16 @@ export function createChecks(
       && !miniKvV114.managedAuditStorageBackend
       && !miniKvV114.sandboxAuditStorageBackend
       && !miniKvV114.orderAuthoritative,
+  };
+}
+
+function launchBoundaryChecks(
+  config: AppConfig,
+  sourceNodeV260: SourceNodeV260CredentialResolverDecisionRecordReference,
+  javaV105: JavaV105CredentialResolverDecisionEchoMarkerReference,
+  miniKvV114: MiniKvV114CredentialResolverNonParticipationReference,
+) {
+  return {
     autoStartBoundaryAligned:
       !sourceNodeV260.nodeMayStartJavaOrMiniKv
       && !javaV105.javaStarted

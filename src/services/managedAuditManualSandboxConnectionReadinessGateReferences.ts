@@ -25,6 +25,7 @@ import type {
 import type {
   ManagedAuditManualSandboxConnectionDryRunRequestEnvelopeProfile,
 } from "./managedAuditManualSandboxConnectionDryRunRequestEnvelope.js";
+import { miniKvV101GateReady } from "./readinessReferenceEvaluator.js";
 
 export function createSourceNodeV236(
   source: ManagedAuditManualSandboxConnectionDryRunRequestEnvelopeProfile,
@@ -185,40 +186,11 @@ export function createMiniKvV101Reference(
     readyForNodeV237Gate: false,
   };
 
-  reference.readyForNodeV237Gate = evidencePresent
-    && reference.followUpVersion === "mini-kv-runtime-no-start-no-write-follow-up.v1"
-    && acceptedMiniKvRuntimeNoStartNoWriteFollowUp(reference)
-    && reference.sourceEnvelopeProducer === "Node v236 manual sandbox connection dry-run request envelope"
-    && reference.operatorReviewFieldCount === 6
-    && reference.credentialHandleOnly
-    && !reference.credentialValueIncluded
-    && !reference.actualConnectionAttempted
-    && !reference.schemaMigrationRequested
-    && !reference.managedAuditStateWriteRequested
-    && !reference.upstreamServiceAutoStartRequested
-    && !reference.miniKvPermissionRequested
-    && reference.readyForOperatorReview
-    && !reference.readyForManagedAuditSandboxAdapterConnection
-    && reference.readOnly
-    && !reference.executionAllowed
-    && !reference.nodeAutoStartAllowed
-    && !reference.javaAutoStartAllowed
-    && !reference.miniKvAutoStartAllowed
-    && !reference.connectionExecutionAllowed
-    && !reference.writeCommandsExecuted
-    && !reference.adminCommandsExecuted
-    && !reference.runtimeWriteObserved
-    && !reference.managedAuditStore
-    && !reference.storageWriteAllowed
-    && !reference.managedAuditWriteExecuted
-    && !reference.sandboxManagedAuditStateWriteAllowed
-    && !reference.credentialValueReadAllowed
-    && !reference.schemaRehearsalExecutionAllowed
-    && !reference.schemaMigrationExecutionAllowed
-    && !reference.restoreExecutionAllowed
-    && !reference.loadRestoreCompactExecuted
-    && !reference.orderAuthoritative
-    && reference.historicalReceiptAnchorsStable;
+  reference.readyForNodeV237Gate = miniKvV101GateReady(
+    reference,
+    evidencePresent,
+    acceptedMiniKvRuntimeNoStartNoWriteFollowUp(reference),
+  );
 
   return reference;
 }

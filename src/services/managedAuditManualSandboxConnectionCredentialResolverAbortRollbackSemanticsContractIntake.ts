@@ -1,4 +1,5 @@
 import type { AppConfig } from "../config.js";
+import { createAbortRollbackIntakeChecks } from "./abortRollbackIntakeEvaluator.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "./liveProbeReportUtils.js";
 import {
   getHumanApprovalArtifactReviewPostEchoPrerequisite,
@@ -46,7 +47,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverAbortRo
     prerequisiteTransition,
     necessityProof,
   );
-  const checks = createChecks(
+  const checks = createAbortRollbackIntakeChecks(
     input.config,
     sourceNodeV325,
     abortRollbackSemanticsContract,
@@ -392,113 +393,6 @@ function createNecessityProof(): AbortRollbackSemanticsContractNecessityProof {
       "Reuse v325 as source state and v313 as the prerequisite catalog; create v326 only for the final abort/rollback semantics contract intake.",
     stopCondition:
       "Stop if the contract requires credential values, raw endpoint URLs, runtime shell commands, provider/client configuration, HTTP/TCP, deployment, rollback execution, Java SQL, mini-kv writes, ledger/schema writes, or automatic upstream start.",
-  };
-}
-
-function createChecks(
-  config: AppConfig,
-  sourceNodeV325: SourceNodeV325NoNetworkSafetyFixturePrerequisiteClosureReviewReference,
-  abortRollbackSemanticsContract: AbortRollbackSemanticsContract,
-  prerequisiteTransition: AbortRollbackSemanticsPrerequisiteTransition,
-  necessityProof: AbortRollbackSemanticsContractNecessityProof,
-): AbortRollbackSemanticsContractIntakeChecks {
-  const fieldIds = abortRollbackSemanticsContract.requiredFields.map((field) => field.id);
-  const prohibitedIds = abortRollbackSemanticsContract.prohibitedFields.map((field) => field.id);
-
-  return {
-    sourceNodeV325Ready: sourceNodeV325.readyForNoNetworkSafetyFixturePrerequisiteClosureReview,
-    sourceNodeV325PointsToAbortRollbackSemantics:
-      sourceNodeV325.nextConcretePrerequisiteId === TARGET_PREREQUISITE_ID
-      && sourceNodeV325.nextConcretePrerequisiteContractRequired
-      && sourceNodeV325.nextNodeVersionSuggested === "Node v326",
-    sourceNodeV325KeepsRuntimeBlocked:
-      sourceNodeV325.runtimeShellStillBlocked
-      && sourceNodeV325.runtimeShellImplemented === false
-      && sourceNodeV325.runtimeShellInvocationAllowed === false,
-    sourceNodeV325KeepsSideEffectsClosed:
-      sourceNodeV325.executionAllowed === false
-      && sourceNodeV325.connectsManagedAudit === false
-      && sourceNodeV325.credentialValueRead === false
-      && sourceNodeV325.rawEndpointUrlParsed === false
-      && sourceNodeV325.externalRequestSent === false
-      && sourceNodeV325.networkSafetyFixtureExecuted === false
-      && sourceNodeV325.httpRequestSent === false
-      && sourceNodeV325.tcpConnectionAttempted === false
-      && sourceNodeV325.networkSocketOpened === false
-      && sourceNodeV325.schemaMigrationExecuted === false
-      && sourceNodeV325.approvalLedgerWritten === false
-      && sourceNodeV325.automaticUpstreamStart === false,
-    abortRollbackSemanticsStillMissingInSource:
-      sourceNodeV325.remainingPrerequisiteIds.includes(TARGET_PREREQUISITE_ID)
-      && !sourceNodeV325.completedPrerequisiteIds.includes(TARGET_PREREQUISITE_ID),
-    catalogTargetMatchesAbortRollbackSemantics:
-      getHumanApprovalArtifactReviewPostEchoPrerequisite(TARGET_PREREQUISITE_ID).id === TARGET_PREREQUISITE_ID,
-    contractRequiredFieldsDocumented:
-      fieldIds.length === 10
-      && fieldIds.includes("manual_abort_marker")
-      && fieldIds.includes("rollback_runbook_reference")
-      && fieldIds.includes("operator_confirmation_handle")
-      && fieldIds.includes("approval_correlation_id")
-      && fieldIds.includes("cleanup_evidence_marker")
-      && fieldIds.includes("idempotent_noop_failure_policy")
-      && fieldIds.includes("rollback_authority_boundary")
-      && fieldIds.includes("abort_reason_code")
-      && fieldIds.includes("recovery_checkpoint_reference")
-      && fieldIds.includes("audit_digest"),
-    contractProhibitedFieldsDocumented:
-      prohibitedIds.includes("credential_value")
-      && prohibitedIds.includes("raw_endpoint_url")
-      && prohibitedIds.includes("runtime_shell_command")
-      && prohibitedIds.includes("shell_script_body")
-      && prohibitedIds.includes("secret_provider_config")
-      && prohibitedIds.includes("resolver_client_config")
-      && prohibitedIds.includes("external_request_payload")
-      && prohibitedIds.includes("approval_ledger_mutation")
-      && prohibitedIds.includes("schema_migration_sql")
-      && prohibitedIds.includes("deployment_action")
-      && prohibitedIds.includes("rollback_execution_action")
-      && prohibitedIds.includes("upstream_process_start")
-      && prohibitedIds.includes("mini_kv_write_command")
-      && prohibitedIds.includes("java_sql_execution"),
-    rejectionReasonsDocumented: abortRollbackSemanticsContract.rejectionReasonCount >= 6,
-    noGoBoundariesClosed:
-      abortRollbackSemanticsContract.noGoBoundaryCount >= 11
-      && abortRollbackSemanticsContract.noGoBoundaries.every((boundary) => boundary.allowed === false),
-    prerequisiteTransitionScopedToAbortRollbackSemantics:
-      prerequisiteTransition.prerequisiteId === TARGET_PREREQUISITE_ID
-      && prerequisiteTransition.beforeV326 === "still-missing"
-      && prerequisiteTransition.afterV326 === "contract-intake-defined"
-      && prerequisiteTransition.closureRequiresUpstreamEcho
-      && prerequisiteTransition.completedPrerequisiteCountBeforeV326 === 5
-      && prerequisiteTransition.remainingPrerequisiteCountBeforeV326 === 1
-      && prerequisiteTransition.preservesSignedHumanApprovalArtifactClosure
-      && prerequisiteTransition.preservesCredentialHandleApprovalClosure
-      && prerequisiteTransition.preservesEndpointHandleAllowlistApprovalClosure
-      && prerequisiteTransition.preservesNoNetworkSafetyFixtureClosure
-      && !prerequisiteTransition.closesAbortRollbackSemantics,
-    necessityProofDocumented:
-      necessityProof.proofComplete && necessityProof.consumer === "Java v150 + mini-kv v142, then Node v327",
-    javaMiniKvEchoRequestExplicitlyParallel:
-      abortRollbackSemanticsContract.upstreamEchoRequests.length === 2
-      && abortRollbackSemanticsContract.upstreamEchoRequests.every((request) =>
-        request.canRunInParallel && request.mustRemainReadOnly),
-    contractStaysNonSecretAndNonExecuting:
-      fieldIds.includes("manual_abort_marker")
-      && fieldIds.includes("rollback_runbook_reference")
-      && fieldIds.includes("audit_digest")
-      && prohibitedIds.includes("credential_value")
-      && prohibitedIds.includes("raw_endpoint_url")
-      && prohibitedIds.includes("runtime_shell_command")
-      && prohibitedIds.includes("rollback_execution_action")
-      && prohibitedIds.includes("mini_kv_write_command")
-      && prohibitedIds.includes("java_sql_execution"),
-    abortRollbackExecutionStillBlocked: abortRollbackSemanticsContract.abortRollbackExecutionAllowed === false,
-    upstreamProbesStillDisabled: config.upstreamProbesEnabled === false,
-    upstreamActionsStillDisabled: config.upstreamActionsEnabled === false,
-    runtimeShellImplementationStillBlocked: true,
-    productionAuditStillBlocked: true,
-    productionWindowStillBlocked: true,
-    readyForManagedAuditManualSandboxConnectionCredentialResolverAbortRollbackSemanticsContractIntake: false,
   };
 }
 

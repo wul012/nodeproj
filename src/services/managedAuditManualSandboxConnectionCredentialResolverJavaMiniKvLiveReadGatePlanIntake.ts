@@ -248,6 +248,24 @@ function createChecks(
   intake: LiveReadGatePlanIntakeRecord,
 ): LiveReadGatePlanIntakeChecks {
   return {
+    ...sourceArchiveChecks(source),
+    ...javaPlanChecks(javaLiveReadGatePlanFile, java),
+    ...miniKvSurfaceChecks(miniKvLiveReadGatePlanFile, miniKv),
+    ...miniKvConsumerChecks(miniKv),
+    ...miniKvPrerequisiteChecks(miniKv),
+    ...miniKvFreezeChecks(miniKvLiveReadGatePlanFile, miniKv),
+    ...frozenHandoffChecks(miniKvFrozenConsumerHandoffFile, miniKvFrozenConsumerHandoff),
+    ...intakeBoundaryChecks(
+      javaLiveReadGatePlanFile,
+      miniKvLiveReadGatePlanFile,
+      miniKvFrozenConsumerHandoffFile,
+      intake,
+    ),
+  };
+}
+
+function sourceArchiveChecks(source: SourceNodeV383ArchiveVerificationReference) {
+  return {
     sourceNodeV383Ready: source.readyForNodeV384NextBoundaryEvidenceOrLiveGate,
     sourceNodeV383ArchiveVerified:
       source.archiveVerificationState === "java-mini-kv-active-shard-plan-boundary-handoff-intake-archive-verified",
@@ -261,6 +279,14 @@ function createChecks(
       source.archiveVerificationOnly && !source.rerunsLiveRead && !source.startsJavaService && !source.startsMiniKvService
       && !source.stopsJavaService && !source.stopsMiniKvService && !source.connectsManagedAudit
       && !source.executionAllowed && !source.activeShardPrototypeEnabled,
+  };
+}
+
+function javaPlanChecks(
+  javaLiveReadGatePlanFile: LiveReadGatePlanEvidenceFileReference,
+  java: JavaLiveReadGatePlanReference,
+) {
+  return {
     javaV159FilePresent: javaLiveReadGatePlanFile.exists,
     javaV159VersionValid: java.version === "Java v159",
     javaV159ReadOnly: java.readOnly,
@@ -311,6 +337,14 @@ function createChecks(
         "request-would-run-non-get-smoke",
       ]),
     javaV159StatusPassed: java.status === "passed",
+  };
+}
+
+function miniKvSurfaceChecks(
+  miniKvLiveReadGatePlanFile: LiveReadGatePlanEvidenceFileReference,
+  miniKv: MiniKvLiveReadGatePlanReference,
+) {
+  return {
     miniKvV150FilePresent: miniKvLiveReadGatePlanFile.exists,
     miniKvV150ReleaseVersionValid: miniKv.releaseVersion === "v150",
     miniKvV150ReadOnly: miniKv.readOnly,
@@ -321,6 +355,11 @@ function createChecks(
       !miniKv.writeCommandsAllowed && !miniKv.adminCommandsAllowed && !miniKv.loadRestoreCompactAllowed
       && !miniKv.setnxexExecutionAllowed && !miniKv.activeRouterInstalled && !miniKv.storageDirectoriesCreated
       && !miniKv.multiProcessStarted && !miniKv.archivedNodeEvidenceMutated,
+  };
+}
+
+function miniKvConsumerChecks(miniKv: MiniKvLiveReadGatePlanReference) {
+  return {
     miniKvV150ConsumerHandoffReady:
       miniKv.consumerHandoffMode === "frozen-evidence-only"
       && miniKv.consumerFrozenReleaseVersion === "v149"
@@ -332,6 +371,11 @@ function createChecks(
       && !miniKv.consumerRouterActivationAllowed
       && !miniKv.consumerWriteRoutingAllowed
       && !miniKv.consumerExecutionAllowed,
+  };
+}
+
+function miniKvPrerequisiteChecks(miniKv: MiniKvLiveReadGatePlanReference) {
+  return {
     miniKvV150LiveReadGatePlanPrerequisiteOnly:
       miniKv.liveReadGatePlanMode === "service-lifecycle-prerequisite-only"
       && !miniKv.liveReadGateAllowed
@@ -354,6 +398,14 @@ function createChecks(
         "fail-closed missing evidence behavior",
         "cleanup responsibility and stop command",
       ]),
+  };
+}
+
+function miniKvFreezeChecks(
+  miniKvLiveReadGatePlanFile: LiveReadGatePlanEvidenceFileReference,
+  miniKv: MiniKvLiveReadGatePlanReference,
+) {
+  return {
     miniKvV150ActivePlanStillDisabled:
       !miniKv.activeShardPrototypeAllowed && !miniKv.routerActivationAllowed && !miniKv.shardDirectoryCreationAllowed
       && !miniKv.multiProcessStartAllowed && !miniKv.writeRoutingAllowed,
@@ -376,6 +428,14 @@ function createChecks(
       miniKvLiveReadGatePlanFile.configuredPath.endsWith("shard-readiness-v150.json")
       && !miniKv.rollingCurrentUsedForHistoricalBaseline
       && !miniKv.activePlanFreezeRollingCurrentUsedForFrozenBaseline,
+  };
+}
+
+function frozenHandoffChecks(
+  miniKvFrozenConsumerHandoffFile: LiveReadGatePlanEvidenceFileReference,
+  miniKvFrozenConsumerHandoff: MiniKvFrozenConsumerHandoffReference,
+) {
+  return {
     miniKvV149FrozenConsumerEvidencePresent: miniKvFrozenConsumerHandoffFile.exists,
     miniKvV149FrozenConsumerEvidenceSafe:
       miniKvFrozenConsumerHandoff.project === "mini-kv"
@@ -393,6 +453,16 @@ function createChecks(
       && !miniKvFrozenConsumerHandoff.consumerRouterActivationAllowed
       && !miniKvFrozenConsumerHandoff.consumerWriteRoutingAllowed
       && !miniKvFrozenConsumerHandoff.consumerExecutionAllowed,
+  };
+}
+
+function intakeBoundaryChecks(
+  javaLiveReadGatePlanFile: LiveReadGatePlanEvidenceFileReference,
+  miniKvLiveReadGatePlanFile: LiveReadGatePlanEvidenceFileReference,
+  miniKvFrozenConsumerHandoffFile: LiveReadGatePlanEvidenceFileReference,
+  intake: LiveReadGatePlanIntakeRecord,
+) {
+  return {
     allEvidenceUsesHistoricalFallbackSnapshots:
       javaLiveReadGatePlanFile.usedHistoricalFallback
       && miniKvLiveReadGatePlanFile.usedHistoricalFallback

@@ -184,6 +184,10 @@ recommended parallel；本版不读取新鲜兄弟证据，也不改变网络、
 
 ## v2232：最高复杂度 checks 收敛
 
+新 family `archiveChecks` 的数据边界是已解析归档、文件引用、来源摘要与验证记录；行为边界是按原键序生成严格布尔检查。入口服务继续负责文件读取、摘要和响应装配，共享模块只负责安全路径取值、digest/布尔集合判断；decision 与 closure 各自保留领域字段，不建立动态字段配置。
+
+`echoCheckGroups` 只比较已经类型化的 Node/Java/mini-kv 回声事实，`releaseGateCheckGroups` 只比较既有 fixture 与只读步骤；二者都不读文件、不改配置、不推导新权限。每个导出按连续键区间调用具名 predicate group，调用方仍拥有最终 ready 聚合与响应格式，避免 companion 演化成第二个服务入口。
+
 处理复杂度 85、84、76、76、72、71 的 checks/reference builder。按 source presence、identity、digest、
 credential、connection、permission、write/auto-start boundary 分组，复用 strict-true assembly；缺失、null、
 错类型和 conflicting evidence 必须 fail closed。版本完成条件是最高复杂度 <=70、复杂函数净减少至少 15，
@@ -195,6 +199,25 @@ credential、connection、permission、write/auto-start boundary 分组，复用
 下一组热点。目标第一批结束至少达到 75/75/180/0（近限/长/复杂/环）、最大函数 <=165、最大复杂度
 <=65、name debt <=4,300。若九分终局门已全绿，直接进入最终验证；否则写下一批 successor，阈值只能
 按当前真实值继续收紧，不得停下来请求“是否继续”。
+
+## v2232 收口证据
+
+四类 archive 判定已进入 `src/services/archiveVerification/`，由 kernel 提供严格路径读取、精确布尔集合、
+ID 集合、digest 形状和有序组装；decision、closure、intake、integration 保留各自字段与失败边界。echo、
+release/retention、readiness reference 和 abort/rollback 也按具名 predicate group 或 evaluator 分离。原服务
+继续拥有 I/O、ready 聚合和响应装配，没有产生第二套 route/report，也没有修改期望、fixture 或 normalizer。
+
+结构族初稿曾使 checks 由 5 增到 11、utils 由 3 增到 4，elegance gate 正确失败；最终使用目录上下文与
+短领域角色重新组织，旧 family baseline 未放宽，受管 family 保持 52。maintainability 从 81/79/208/0
+收紧为 73/72/193/0，最大函数 171→163，最大复杂度 85→59；近限净减 8、长函数净减 7、复杂函数净减
+15，导入环和 >800 行源码保持 0。21 个聚焦测试文件 64 项、typecheck、零告警 lint 与全部静态 census
+通过；九分门仍诚实报告近限、长函数、复杂函数、最大函数、name debt 和 verification logic 六项红色。
+
+本版没有 route/schema/权限/网络/写入/执行变化，无 UI，截图不适用。Java 与 mini-kv 继续 recommended
+parallel，Node 不消费新鲜兄弟证据。文档完成后，四个顺序 shard 在最多四个 worker 下通过 586 个文件、
+1,805 项测试，build 通过；默认安全模式验证 health、零请求 metrics 与 release readiness，强制 access
+guard 和 historical fallback 模式验证受保护归档 21/21、Markdown 200、execution=false。两个服务均按
+PID 关闭；coverage 与远端 CI 在提交推送后复核，失败只允许修复可复现根因，不得修改既有行为 oracle。
 
 ## 验证节奏
 

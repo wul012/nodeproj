@@ -18,6 +18,7 @@ import {
   JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE,
   MINI_KV_V72_RESTORE_EVIDENCE_RETENTION,
 } from "../evidence/crossProjectEvidenceRetentionGateFixtures.js";
+import { createRetentionGateChecks } from "./releaseGateCheckGroups.js";
 
 type GateState = "ready-for-cross-project-evidence-retention-review" | "blocked";
 type RetentionActor = "node" | "operator" | "java" | "mini-kv";
@@ -107,7 +108,7 @@ export function loadCrossProjectEvidenceRetentionGate(
   const retentionGateSteps = createRetentionGateSteps();
   const forbiddenOperations = createForbiddenOperations();
   const pauseConditions = createPauseConditions();
-  const checks = createChecks(
+  const checks = createRetentionGateChecks(
     config,
     identityPacket,
     retentionGateSteps,
@@ -301,124 +302,6 @@ export function renderCrossProjectEvidenceRetentionGateMarkdown(
     evidenceEndpoints: profile.evidenceEndpoints,
     nextActions: profile.nextActions,
   });
-}
-
-function createChecks(
-  config: AppConfig,
-  identityPacket: CiOperatorIdentityEvidencePacketProfile,
-  retentionGateSteps: RetentionGateStep[],
-  forbiddenOperations: ForbiddenOperation[],
-  pauseConditions: string[],
-): Record<string, boolean> {
-  return {
-    nodeV177IdentityEvidenceReady: identityPacket.readyForCiOperatorIdentityEvidencePacket
-      && identityPacket.packetState === "ready-for-operator-identity-evidence",
-    nodeV177IdentityDigestValid: isReleaseReportDigest(identityPacket.packet.packetDigest),
-    nodeV177StillBlocksProduction: identityPacket.readyForProductionAuth === false
-      && identityPacket.readyForProductionRelease === false
-      && identityPacket.readyForProductionDeployment === false
-      && identityPacket.readyForProductionRollback === false
-      && identityPacket.executionAllowed === false,
-    javaV63RetentionFixtureReady: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.plannedVersion === "Java v63"
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.fixtureVersion === "java-release-audit-retention-fixture.v1",
-    javaRetentionRecordComplete: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retentionRecord.retentionId === "release-retention-record-placeholder"
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retentionRecord.releaseOperator === "release-operator-placeholder"
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retentionRecord.artifactTarget === "release-tag-or-artifact-version-placeholder"
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retentionRecord.retentionDays === 180
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retentionRecord.operatorMustReplacePlaceholders === true,
-    javaAuditExportFieldsComplete: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.auditExportFields.length === 7
-      && hasAuditField("retention-id")
-      && hasAuditField("release-operator")
-      && hasAuditField("artifact-target")
-      && hasAuditField("retention-days")
-      && hasAuditField("no-secret-value-boundary"),
-    javaEvidenceEndpointsComplete: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.evidenceEndpoints.includes("/api/v1/ops/evidence")
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.evidenceEndpoints.includes("/contracts/release-verification-manifest.sample.json")
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.evidenceEndpoints.includes("/contracts/release-handoff-checklist.fixture.json"),
-    javaRetainedArtifactsComplete: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retainedArtifacts.length === 5
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.retainedArtifacts.includes("/contracts/production-secret-source-contract.sample.json"),
-    javaNoSecretBoundaryClosed: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.noSecretValueBoundaries.length === 4
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayReadSecretValues === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.requiresProductionSecrets === false,
-    javaNodeConsumptionReadOnly: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayConsume === true
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayRenderRetentionGate === true
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayTriggerDeployment === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayTriggerRollback === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayExecuteRollbackSql === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.nodeMayWriteAuditExport === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.nodeConsumption.requiresUpstreamActionsEnabled === false,
-    javaProductionBoundariesClosed: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.auditExportReadOnly
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.deploymentExecutionAllowed === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.rollbackExecutionAllowed === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.rollbackSqlExecutionAllowed === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.requiresProductionDatabase === false
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.boundaries.connectsMiniKv === false,
-    javaForbiddenOperationsComplete: JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.forbiddenOperations.includes("Triggering Java deployment from Node")
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.forbiddenOperations.includes("Writing audit export files from Node through this fixture")
-      && JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.forbiddenOperations.includes("Reading production secret values from this fixture"),
-    miniKvV72RetentionFixtureReady: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.plannedVersion === "mini-kv v72"
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retentionVersion === "mini-kv-restore-evidence-retention.v1"
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.projectVersion === "0.72.0",
-    miniKvRetentionTargetComplete: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retentionTarget.retentionId === "mini-kv-restore-retention-v72"
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retentionTarget.retentionDays === 90
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retentionTarget.artifactDigestPlaceholder === "sha256:<operator-retained-restore-artifact-digest>"
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retentionTarget.snapshotReviewRetention === "sha256:<operator-retained-snapshot-review-digest>"
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retentionTarget.walReviewRetention === "sha256:<operator-retained-wal-review-digest>",
-    miniKvRetainedEvidenceComplete: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retainedEvidence.fields.length === 8
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retainedEvidence.fields.includes("checkjson_risk_evidence_retained_at")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retainedEvidence.fields.includes("retention_gate_ready_for_node_review")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.retainedEvidence.requiredConfirmations.length === 6,
-    miniKvCheckJsonRiskEvidenceRetained: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.commands.includes("CHECKJSON LOAD data/retention-restore.snap")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.commands.includes("CHECKJSON COMPACT")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.commands.includes("CHECKJSON SETNXEX restore:retention-token 30 value")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.commands.includes("GET restore:retention-token")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.expected.includes("GET restore:retention-token returns (nil)"),
-    miniKvWriteAndAdminCommandsNotExecuted: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.writeCommandsExecuted === false
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.checkjsonRetentionEvidence.adminCommandsExecuted === false
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.restoreExecutionAllowed === false,
-    miniKvBoundariesClosed: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.readOnly
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.executionAllowed === false
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.restoreExecutionAllowed === false
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.orderAuthoritative === false
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.boundaries.includes("does not execute LOAD/COMPACT/SETNXEX")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.boundaries.includes("not connected to Java transaction chain")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.boundaries.includes("mini-kv remains not Java order authority"),
-    miniKvPauseConditionsComplete: MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.diagnostics.pauseConditions.includes("needs production secrets")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.diagnostics.pauseConditions.includes("needs mini-kv LOAD/COMPACT/SETNXEX execution")
-      && MINI_KV_V72_RESTORE_EVIDENCE_RETENTION.diagnostics.pauseConditions.includes("needs mini-kv in Java transaction consistency chain"),
-    retentionGateStepsReadOnly: retentionGateSteps.length === 6
-      && retentionGateSteps.every((step) => (
-        step.readOnly
-        && !step.executionAllowed
-        && !step.mutatesState
-        && !step.executesRelease
-        && !step.executesDeployment
-        && !step.executesRollback
-        && !step.executesRestore
-        && !step.readsSecretValues
-      )),
-    forbiddenOperationsCovered: forbiddenOperations.length === 10
-      && forbiddenOperations.some((operation) => operation.operation === "Trigger Java deployment from Node v178")
-      && forbiddenOperations.some((operation) => operation.operation === "Execute mini-kv restore from Node v178"),
-    pauseConditionsComplete: pauseConditions.length === 8
-      && pauseConditions.includes("Need production secrets or secret values.")
-      && pauseConditions.includes("Need Node to auto-start Java or mini-kv."),
-    upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
-    noAutomaticUpstreamStart: true,
-    noProductionSecretRead: true,
-    noProductionDatabaseConnection: true,
-    noProductionIdpConnection: true,
-    readyForProductionAuthStillFalse: true,
-    readyForProductionReleaseStillFalse: true,
-    readyForProductionRestoreStillFalse: true,
-    gateDigestValid: false,
-    readyForCrossProjectEvidenceRetentionGate: false,
-  };
-}
-
-function hasAuditField(name: string): boolean {
-  return JAVA_V63_RELEASE_AUDIT_RETENTION_FIXTURE.auditExportFields.some((field) =>
-    field.name === name && field.required);
 }
 
 function createRetentionGateSteps(): RetentionGateStep[] {

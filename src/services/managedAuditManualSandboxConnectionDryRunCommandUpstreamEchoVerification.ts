@@ -18,6 +18,7 @@ import {
   loadManagedAuditRouteRegistrationTableQualityPass,
   type ManagedAuditRouteRegistrationTableQualityPassProfile,
 } from "./managedAuditRouteRegistrationTableQualityPass.js";
+import { miniKvV107AlignmentReady } from "./readinessReferenceEvaluator.js";
 
 export interface ManagedAuditManualSandboxConnectionDryRunCommandUpstreamEchoVerificationProfile {
   service: "orderops-node";
@@ -526,34 +527,7 @@ function createMiniKvV107NonParticipationReference(): MiniKvV107NonParticipation
   };
   return {
     ...reference,
-    readyForNodeV244Alignment: reference.evidencePresent
-      && reference.verificationDocumented
-      && reference.receiptVersion === "mini-kv-manual-sandbox-dry-run-command-non-participation-receipt.v1"
-      && reference.releaseVersion === "v107"
-      && reference.consumerHint === "Node v244 manual sandbox dry-run command upstream echo verification"
-      && /^fnv1a64:[a-f0-9]{16}$/.test(reference.receiptDigest)
-      && reference.sourcePackageCommandCount === 6
-      && reference.sourcePackageDisabledByDefault
-      && reference.sourcePackageDryRunOnly
-      && !reference.sourcePackageCarriesCredentialValue
-      && !reference.sourcePackageActualConnectionAttempted
-      && !reference.sourcePackageManagedAuditStateWriteRequested
-      && !reference.sourcePackageSchemaMigrationRequested
-      && !reference.sourcePackageMiniKvWritePermissionRequested
-      && reference.readOnly
-      && !reference.executionAllowed
-      && !reference.nodeAutoStartAllowed
-      && !reference.javaAutoStartAllowed
-      && !reference.miniKvAutoStartAllowed
-      && !reference.connectionExecutionAllowed
-      && !reference.storageWriteAllowed
-      && !reference.managedAuditWriteExecuted
-      && !reference.credentialValueReadAllowed
-      && !reference.schemaMigrationExecutionAllowed
-      && !reference.loadRestoreCompactExecuted
-      && !reference.setnxexExecutionAllowed
-      && !reference.managedAuditStore
-      && !reference.orderAuthoritative,
+    readyForNodeV244Alignment: miniKvV107AlignmentReady(reference),
   };
 }
 

@@ -331,6 +331,20 @@ function createChecks(input: {
   const miniKvV200 = input.miniKvV200RouteCatalogCleanupBatchCloseoutAudit;
 
   return {
+    ...javaV211Checks(input, javaV211),
+    ...javaV211FixtureChecks(input, javaV211Fixture),
+    ...javaV214Checks(input, javaV214),
+    ...miniKvV199Checks(input, miniKvV199),
+    ...miniKvV200Checks(input, miniKvV200),
+    ...runtimeAuthorityChecks(javaV211, javaV211Fixture, javaV214, miniKvV199, miniKvV200),
+  };
+}
+
+function javaV211Checks(
+  input: Parameters<typeof createChecks>[0],
+  javaV211: JavaV211ConsumerHandoffBundleEvidence,
+) {
+  return {
     javaV211FilePresent: input.files.javaV211ConsumerHandoffBundle.exists,
     javaV211HandoffBundleReady:
       javaV211.version === "Java v211"
@@ -348,6 +362,14 @@ function createChecks(input: {
       && javaV211.handoffEvidenceCount === 4
       && javaV211.validationCount >= 3
       && javaV211.boundaryRuntimeClosed,
+  };
+}
+
+function javaV211FixtureChecks(
+  input: Parameters<typeof createChecks>[0],
+  javaV211Fixture: JavaV211ConsumerHandoffBundleFixtureEvidence,
+) {
+  return {
     javaV211FixtureFilePresent: input.files.javaV211ConsumerHandoffBundleFixture.exists,
     javaV211FixtureReady:
       javaV211Fixture.project === "advanced-order-platform"
@@ -364,6 +386,14 @@ function createChecks(input: {
       && javaV211Fixture.probesAreGetOnly === true
       && javaV211Fixture.upstreamActionsAllowed === false
       && javaV211Fixture.nodeMayStartOrStopJavaOrMiniKv === false,
+  };
+}
+
+function javaV214Checks(
+  input: Parameters<typeof createChecks>[0],
+  javaV214: JavaV214ConsumerHandoffBundleIntegrityEvidence,
+) {
+  return {
     javaV214FilePresent: input.files.javaV214ConsumerHandoffBundleIntegrity.exists,
     javaV214IntegrityReady:
       javaV214.version === "Java v214"
@@ -375,6 +405,14 @@ function createChecks(input: {
       && javaV214.guardCount === 6
       && javaV214.validationCount === 3
       && javaV214.boundaryRuntimeClosed,
+  };
+}
+
+function miniKvV199Checks(
+  input: Parameters<typeof createChecks>[0],
+  miniKvV199: MiniKvRouteCatalogCleanupBatchCloseoutEvidence,
+) {
+  return {
     miniKvV199FilePresent: input.files.miniKvV199RouteCatalogCleanupBatchCloseout.exists,
     miniKvV199CloseoutReady:
       miniKvV199.releaseVersion === "v199"
@@ -390,6 +428,14 @@ function createChecks(input: {
       && (miniKvV199.nodeConsumer?.includes("Node v481+") ?? false)
       && miniKvV199.evidenceDigest === "fnv1a64:3a5716f6f09c2b3b"
       && miniKvV199.changesArchivedNodeEvidence === false,
+  };
+}
+
+function miniKvV200Checks(
+  input: Parameters<typeof createChecks>[0],
+  miniKvV200: MiniKvRouteCatalogCleanupBatchCloseoutEvidence,
+) {
+  return {
     miniKvV200FilePresent: input.files.miniKvV200RouteCatalogCleanupBatchCloseoutAudit.exists,
     miniKvV200AuditReady:
       miniKvV200.releaseVersion === "v200"
@@ -412,6 +458,17 @@ function createChecks(input: {
       && snippetMatched(Object.values(input.snippets), "mini-kv-v200-digest")
       && snippetMatched(Object.values(input.snippets), "mini-kv-v200-full-ctest")
       && snippetMatched(Object.values(input.snippets), "mini-kv-v200-tcp-smoke"),
+  };
+}
+
+function runtimeAuthorityChecks(
+  javaV211: JavaV211ConsumerHandoffBundleEvidence,
+  javaV211Fixture: JavaV211ConsumerHandoffBundleFixtureEvidence,
+  javaV214: JavaV214ConsumerHandoffBundleIntegrityEvidence,
+  miniKvV199: MiniKvRouteCatalogCleanupBatchCloseoutEvidence,
+  miniKvV200: MiniKvRouteCatalogCleanupBatchCloseoutEvidence,
+) {
+  return {
     noRuntimeAuthorityOpened:
       javaV211.executionAllowed === false
       && javaV211Fixture.executionAllowed === false

@@ -179,6 +179,18 @@ function createChecks(
   pauseConditions: string[],
 ): Record<string, boolean> {
   return {
+    ...preApprovalChecks(preApprovalPacket),
+    ...javaSignoffChecks(),
+    ...javaBoundaryChecks(),
+    ...miniKvDigestChecks(),
+    ...miniKvBoundaryChecks(),
+    ...prerequisiteChecks(prerequisiteSignals, remainingApprovalBlockers, prerequisiteSteps),
+    ...localControlChecks(config, forbiddenOperations, pauseConditions),
+  };
+}
+
+function preApprovalChecks(preApprovalPacket: ProductionReleasePreApprovalPacketProfile) {
+  return {
     sourcePreApprovalPacketReady: preApprovalPacket.readyForProductionReleasePreApprovalPacket
       && preApprovalPacket.packetState === "ready-for-production-release-pre-approval-review",
     sourcePreApprovalPacketDigestValid: isReleaseReportDigest(preApprovalPacket.packet.packetDigest),
@@ -190,6 +202,11 @@ function createChecks(
       && preApprovalPacket.executionAllowed === false,
     sourcePreApprovalReferencesNodeV178: preApprovalPacket.packet.sourceRetentionGateProfileVersion === "cross-project-evidence-retention-gate.v1"
       && preApprovalPacket.packet.sourceRetentionGateState === "ready-for-cross-project-evidence-retention-review",
+  };
+}
+
+function javaSignoffChecks() {
+  return {
     javaV64SignoffFixtureReady: JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.plannedVersion === "Java v64"
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.fixtureVersion === "java-release-operator-signoff-fixture.v1"
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.scenario === "RELEASE_OPERATOR_SIGNOFF_FIXTURE_SAMPLE",
@@ -210,6 +227,11 @@ function createChecks(
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.signoffArtifacts.includes("/contracts/release-audit-retention.fixture.json")
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.signoffArtifacts.includes("/contracts/release-bundle-manifest.sample.json")
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.signoffArtifacts.includes("/contracts/rollback-approval-handoff.sample.json"),
+  };
+}
+
+function javaBoundaryChecks() {
+  return {
     javaNodeConsumptionSafe: JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.nodeConsumption.nodeMayConsume
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.nodeConsumption.nodeMayRenderApprovalPrerequisiteGate
       && !JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.nodeConsumption.nodeMayCreateApprovalDecision
@@ -231,6 +253,11 @@ function createChecks(
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.forbiddenOperations.includes("Writing approval ledger entries from this fixture")
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.forbiddenOperations.includes("Triggering Java deployment from Node")
       && JAVA_V64_RELEASE_OPERATOR_SIGNOFF_FIXTURE.forbiddenOperations.includes("Reading production secret values from this fixture"),
+  };
+}
+
+function miniKvDigestChecks() {
+  return {
     miniKvV73DigestFixtureReady: MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.plannedVersion === "mini-kv v73"
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.digestVersion === "mini-kv-retained-restore-artifact-digest.v1"
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.projectVersion === "0.73.0",
@@ -244,6 +271,11 @@ function createChecks(
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.retainedDigestEvidence.fields.includes("approval_prerequisite_ready_for_node_review")
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.retainedDigestEvidence.fields.includes("order_authoritative")
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.retainedDigestEvidence.requiredConfirmations.length === 6,
+  };
+}
+
+function miniKvBoundaryChecks() {
+  return {
     miniKvCheckJsonDigestEvidenceReadOnly: MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.checkjsonDigestEvidence.commands.includes("CHECKJSON LOAD data/retained-digest-restore.snap")
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.checkjsonDigestEvidence.commands.includes("CHECKJSON COMPACT")
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.checkjsonDigestEvidence.commands.includes("CHECKJSON SETNXEX restore:digest-token 30 value")
@@ -261,6 +293,15 @@ function createChecks(
     miniKvPauseConditionsComplete: MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.diagnostics.pauseConditions.includes("needs production secrets")
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.diagnostics.pauseConditions.includes("needs mini-kv LOAD/COMPACT/SETNXEX execution")
       && MINI_KV_V73_RETAINED_RESTORE_ARTIFACT_DIGEST.diagnostics.pauseConditions.includes("needs mini-kv in Java transaction consistency chain"),
+  };
+}
+
+function prerequisiteChecks(
+  prerequisiteSignals: ApprovalDecisionPrerequisiteGateProfile["prerequisiteSignals"],
+  remainingApprovalBlockers: ApprovalDecisionPrerequisiteGateProfile["remainingApprovalBlockers"],
+  prerequisiteSteps: ApprovalDecisionPrerequisiteGateProfile["prerequisiteSteps"],
+) {
+  return {
     prerequisiteSignalsComplete: prerequisiteSignals.length === 5
       && prerequisiteSignals.some((signal) => signal.id === "java-release-operator-signoff-present")
       && prerequisiteSignals.some((signal) => signal.id === "mini-kv-retained-artifact-digests-present")
@@ -279,6 +320,15 @@ function createChecks(
         && !step.readsSecretValues
         && !step.connectsProductionDatabase
       )),
+  };
+}
+
+function localControlChecks(
+  config: AppConfig,
+  forbiddenOperations: ApprovalDecisionPrerequisiteGateProfile["forbiddenOperations"],
+  pauseConditions: string[],
+) {
+  return {
     forbiddenOperationsCovered: forbiddenOperations.length === 12
       && forbiddenOperations.some((operation) => operation.operation === "Create approval decision from Node v180")
       && forbiddenOperations.some((operation) => operation.operation === "Write approval ledger from Node v180")

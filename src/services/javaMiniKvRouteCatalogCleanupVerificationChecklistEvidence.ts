@@ -330,6 +330,20 @@ function createChecks(input: {
   const miniKv = input.miniKvV201RouteCatalogCleanupPostCloseoutContinuity;
 
   return {
+    ...javaV215Checks(input, javaV215),
+    ...javaV215FixtureChecks(input, javaV215Fixture),
+    ...javaV216Checks(input, javaV216),
+    ...javaV217Checks(input, javaV217),
+    ...miniKvV201Checks(input, miniKv),
+    ...runtimeAuthorityChecks(javaV215, javaV215Fixture, javaV216, javaV217, miniKv),
+  };
+}
+
+function javaV215Checks(
+  input: Parameters<typeof createChecks>[0],
+  javaV215: JavaConsumerVerificationChecklistEvidence,
+) {
+  return {
     javaV215FilePresent: input.files.javaV215ConsumerVerificationChecklist.exists,
     javaV215ChecklistReady:
       javaV215.version === "Java v215"
@@ -346,6 +360,14 @@ function createChecks(input: {
       && javaV215.requiredEvidenceCount === 5
       && javaV215.validationCount === 2
       && javaV215.boundaryRuntimeClosed,
+  };
+}
+
+function javaV215FixtureChecks(
+  input: Parameters<typeof createChecks>[0],
+  javaV215Fixture: JavaConsumerVerificationChecklistFixtureEvidence,
+) {
+  return {
     javaV215FixtureFilePresent: input.files.javaV215ConsumerVerificationChecklistFixture.exists,
     javaV215FixtureReady:
       javaV215Fixture.project === "advanced-order-platform"
@@ -363,6 +385,14 @@ function createChecks(input: {
       && javaV215Fixture.startsJavaService === false
       && javaV215Fixture.startsMiniKvService === false
       && javaV215Fixture.nodeMayStartOrStopJavaOrMiniKv === false,
+  };
+}
+
+function javaV216Checks(
+  input: Parameters<typeof createChecks>[0],
+  javaV216: JavaChecklistGuardEvidence,
+) {
+  return {
     javaV216FilePresent: input.files.javaV216ConsumerVerificationChecklistSnapshotFreeze.exists,
     javaV216SnapshotFreezeReady:
       javaV216.version === "Java v216"
@@ -374,6 +404,14 @@ function createChecks(input: {
       && javaV216.guardCount === 6
       && javaV216.validationCount === 2
       && javaV216.boundaryRuntimeClosed,
+  };
+}
+
+function javaV217Checks(
+  input: Parameters<typeof createChecks>[0],
+  javaV217: JavaChecklistGuardEvidence,
+) {
+  return {
     javaV217FilePresent: input.files.javaV217ConsumerVerificationChecklistHistoricalCompatibility.exists,
     javaV217HistoricalCompatibilityReady:
       javaV217.version === "Java v217"
@@ -385,6 +423,14 @@ function createChecks(input: {
       && javaV217.guardCount === 4
       && javaV217.validationCount === 2
       && javaV217.boundaryRuntimeClosed,
+  };
+}
+
+function miniKvV201Checks(
+  input: Parameters<typeof createChecks>[0],
+  miniKv: MiniKvPostCloseoutContinuityEvidence,
+) {
+  return {
     miniKvV201FilePresent: input.files.miniKvV201RouteCatalogCleanupPostCloseoutContinuity.exists,
     miniKvV201ContinuityReady:
       miniKv.releaseVersion === "v201"
@@ -408,6 +454,17 @@ function createChecks(input: {
       && snippetMatched(Object.values(input.snippets), "mini-kv-v201-digest")
       && snippetMatched(Object.values(input.snippets), "mini-kv-v201-full-ctest")
       && snippetMatched(Object.values(input.snippets), "mini-kv-v201-tcp-smoke"),
+  };
+}
+
+function runtimeAuthorityChecks(
+  javaV215: JavaConsumerVerificationChecklistEvidence,
+  javaV215Fixture: JavaConsumerVerificationChecklistFixtureEvidence,
+  javaV216: JavaChecklistGuardEvidence,
+  javaV217: JavaChecklistGuardEvidence,
+  miniKv: MiniKvPostCloseoutContinuityEvidence,
+) {
+  return {
     noRuntimeAuthorityOpened:
       javaV215.executionAllowed === false
       && javaV215Fixture.executionAllowed === false

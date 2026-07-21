@@ -1,0 +1,101 @@
+{
+  "schemaVersion": 1,
+  "version": "v2232",
+  "scope": "verification-predicate-boundary-convergence",
+  "behaviorChanged": false,
+  "startingPoint": {
+    "commit": "a91a00e5",
+    "tag": "v2231",
+    "maintainability": "81/79/208/0",
+    "maxFunctionLines": 171,
+    "maxFunctionComplexity": 85,
+    "nameDebt": 4444,
+    "trackedFamilies": 52
+  },
+  "architecture": {
+    "archiveVerificationDirectory": "src/services/archiveVerification",
+    "archiveDomains": ["decision", "closure", "intake", "integration"],
+    "kernelResponsibilities": [
+      "strict nested value access",
+      "exact boolean check aggregation",
+      "required id membership",
+      "sha-256 digest shape",
+      "ordered check group assembly"
+    ],
+    "kernelDoesNotOwn": [
+      "file reads",
+      "route names",
+      "domain field names",
+      "ready aggregation",
+      "permissions",
+      "response rendering"
+    ],
+    "additionalBoundaries": [
+      "echoCheckGroups",
+      "releaseGateCheckGroups",
+      "readinessReferenceEvaluator",
+      "abortRollbackIntakeEvaluator"
+    ]
+  },
+  "maintainability": {
+    "before": "81/79/208/0",
+    "after": "73/72/193/0",
+    "nearLimitFilesRemoved": 8,
+    "longFunctionsRemoved": 7,
+    "complexFunctionsRemoved": 15,
+    "maxFunctionLinesBefore": 171,
+    "maxFunctionLinesAfter": 163,
+    "maxFunctionComplexityBefore": 85,
+    "maxFunctionComplexityAfter": 59,
+    "nameDebtBefore": 4444,
+    "nameDebtAfter": 4444,
+    "trackedFamiliesBefore": 52,
+    "trackedFamiliesAfter": 52,
+    "sourceFilesAbove800": 0,
+    "importCycles": 0,
+    "baselineChange": "tightened-to-current-73-72-193-0-without-any-ceiling-growth"
+  },
+  "parity": {
+    "checkKeyOrderPreserved": true,
+    "strictTrueSemanticsPreserved": true,
+    "malformedEvidenceFailsClosed": true,
+    "expectedValuesChanged": false,
+    "fixturesChanged": false,
+    "normalizerChanged": false,
+    "routesChanged": false,
+    "jsonSchemaChanged": false,
+    "markdownChanged": false
+  },
+  "localVerification": {
+    "focused": "passed-21-files-64-tests-max-4-workers",
+    "kernelUnit": "passed-5-tests-included-in-focused-group",
+    "typecheck": "passed",
+    "lint": "passed-zero-errors-zero-warnings",
+    "maintainability": "passed-73-72-193-0-after-downward-refresh",
+    "elegance": "passed-4444-name-debt-52-tracked-families",
+    "familyLogic": "passed-verification-1320-renderers-247",
+    "renderer": "passed-242-of-245-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-0-above-800",
+    "ninePoint": "honest-failure-6-thresholds-remain",
+    "fullTests": "passed-4-sequential-shards-586-files-1805-tests-max-4-workers",
+    "build": "passed",
+    "defaultHttpSmoke": "passed-health-metrics-zero-release-ready-execution-false",
+    "guardedHttpSmoke": "passed-health-archive-21-of-21-markdown-200-execution-false-forced-historical-fallback",
+    "coverageAndRemoteCi": "pending-push"
+  },
+  "boundaries": {
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityAdded": false,
+    "accessGuardChanged": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvModified": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false,
+    "nodeIsApprovalBlocker": false
+  }
+}

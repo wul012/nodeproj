@@ -14,6 +14,7 @@ import {
   countReportChecks,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import { createRuntimeCandidateChecks } from "./echoCheckGroups.js";
 import {
   loadManagedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellImplementationCandidateGate,
 } from "./managedAuditManualSandboxConnectionCredentialResolverDisabledRuntimeShellImplementationCandidateGate.js";
@@ -60,7 +61,14 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
   const sourceNodeV297 = createSourceNodeV297(input.config);
   const javaV134 = createJavaV134Reference();
   const miniKvV131 = createMiniKvV131Reference();
-  const checks = createChecks(input.config, sourceNodeV297, javaV134, miniKvV131);
+  const checks = createRuntimeCandidateChecks(
+    input.config,
+    sourceNodeV297,
+    javaV134,
+    miniKvV131,
+    GATE_DECISION,
+    REQUIRED_GATE_COUNT,
+  );
   checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerification =
     Object.entries(checks)
       .filter(([key]) =>
@@ -336,121 +344,6 @@ function createMiniKvV131Reference(): MiniKvV131RuntimeShellCandidateGateNonPart
     auditAuthoritative: booleanField(receipt, "audit_authoritative"),
     orderAuthoritative: booleanField(root, "order_authoritative") ?? booleanField(receipt, "order_authoritative"),
     productionBlockerCount: numberField(summary, "production_blocker_count"),
-  };
-}
-
-function createChecks(
-  config: AppConfig,
-  sourceNodeV297: SourceNodeV297RuntimeShellCandidateGateReference,
-  javaV134: JavaV134RuntimeShellCandidateGateEchoReference,
-  miniKvV131: MiniKvV131RuntimeShellCandidateGateNonParticipationReceiptReference,
-): RuntimeShellCandidateGateUpstreamEchoVerificationChecks {
-  return {
-    sourceNodeV297Ready:
-      sourceNodeV297.candidateGateState === "disabled-runtime-shell-implementation-candidate-gate-reviewed"
-      && sourceNodeV297.readyForCandidateGate
-      && sourceNodeV297.readyForParallelJavaV134MiniKvV131EchoRequest
-      && sourceNodeV297.productionBlockerCount === 0,
-    sourceNodeV297KeepsImplementationBlocked:
-      sourceNodeV297.readyForNodeV298RuntimeShellImplementation === false
-      && sourceNodeV297.runtimeShellImplemented === false
-      && sourceNodeV297.runtimeShellInvocationAllowed === false
-      && sourceNodeV297.executionAllowed === false,
-    sourceNodeV297KeepsSideEffectsClosed:
-      sourceNodeV297.credentialValueRead === false
-      && sourceNodeV297.rawEndpointUrlParsed === false
-      && sourceNodeV297.externalRequestSent === false
-      && sourceNodeV297.connectsManagedAudit === false
-      && sourceNodeV297.secretProviderInstantiated === false
-      && sourceNodeV297.resolverClientInstantiated === false
-      && sourceNodeV297.schemaMigrationExecuted === false
-      && sourceNodeV297.approvalLedgerWritten === false
-      && sourceNodeV297.automaticUpstreamStart === false,
-    javaV134EvidencePresent: javaV134.evidencePresent && javaV134.verificationDocumented,
-    javaV134CandidateGateEchoReady:
-      javaV134.candidateGateEchoPresent
-      && javaV134.readyForNodeV298
-      && javaV134.consumedNodeV297
-      && javaV134.gateDecisionEchoed
-      && javaV134.fiveGateSetEchoed
-      && javaV134.necessityEchoed,
-    miniKvV131EvidencePresent: miniKvV131.evidencePresent && miniKvV131.verificationDocumented,
-    miniKvV131NonParticipationReceiptReady:
-      miniKvV131.releaseVersion === "v131"
-      && miniKvV131.consumerHint === "Node v298 runtime shell candidate gate upstream echo verification"
-      && miniKvV131.readyForNodeV298 === true
-      && miniKvV131.productionBlockerCount === 0,
-    upstreamEchoConsumerAligned:
-      javaV134.readyForNodeV298
-      && miniKvV131.consumerHint === "Node v298 runtime shell candidate gate upstream echo verification",
-    nodeJavaMiniKvGateDecisionAligned:
-      sourceNodeV297.gateDecision === GATE_DECISION
-      && javaV134.gateDecisionEchoed
-      && miniKvV131.nodeV297GateDecision === GATE_DECISION,
-    candidateGateCountAligned:
-      sourceNodeV297.requiredGateCount === REQUIRED_GATE_COUNT
-      && sourceNodeV297.documentedGateCount === REQUIRED_GATE_COUNT
-      && sourceNodeV297.reviewEvidenceSatisfiedCount === REQUIRED_GATE_COUNT
-      && javaV134.fiveGateSetEchoed
-      && miniKvV131.requiredGateCount === REQUIRED_GATE_COUNT
-      && miniKvV131.documentedGateCount === REQUIRED_GATE_COUNT
-      && miniKvV131.reviewEvidenceSatisfiedCount === REQUIRED_GATE_COUNT
-      && miniKvV131.runtimePrerequisiteSatisfiedCount === 0
-      && miniKvV131.implementationAllowedGateCount === 0,
-    candidateGateDigestAnchored:
-      miniKvV131.nodeV297GateDigest === sourceNodeV297.gateDigest
-      && sourceNodeV297.gateDigest.length === 64,
-    runtimeShellImplementationStillForbidden:
-      !sourceNodeV297.runtimeShellImplemented
-      && javaV134.noRuntimeImplementation
-      && miniKvV131.runtimeShellImplemented === false
-      && miniKvV131.disabledRuntimeShellParticipates === false,
-    runtimeShellInvocationStillForbidden:
-      !sourceNodeV297.runtimeShellInvocationAllowed
-      && javaV134.noRuntimeInvocation
-      && miniKvV131.runtimeShellInvocationAllowed === false
-      && miniKvV131.executionAllowed === false,
-    credentialBoundaryClosed:
-      !sourceNodeV297.credentialValueRead
-      && javaV134.credentialValueBoundaryClosed
-      && miniKvV131.credentialValueRead === false,
-    rawEndpointBoundaryClosed:
-      !sourceNodeV297.rawEndpointUrlParsed
-      && javaV134.rawEndpointBoundaryClosed
-      && miniKvV131.rawEndpointUrlParsed === false,
-    providerClientBoundaryClosed:
-      !sourceNodeV297.secretProviderInstantiated
-      && !sourceNodeV297.resolverClientInstantiated
-      && javaV134.providerClientBoundaryClosed
-      && miniKvV131.providerClientInstantiationAllowed === false,
-    connectionBoundaryClosed:
-      !sourceNodeV297.connectsManagedAudit
-      && !sourceNodeV297.externalRequestSent
-      && javaV134.connectionBoundaryClosed
-      && miniKvV131.connectsManagedAudit === false
-      && miniKvV131.externalRequestSent === false,
-    writeBoundaryClosed:
-      !sourceNodeV297.approvalLedgerWritten
-      && !sourceNodeV297.schemaMigrationExecuted
-      && javaV134.ledgerSqlSchemaBoundaryClosed
-      && miniKvV131.storageWriteAllowed === false
-      && miniKvV131.approvalLedgerWritten === false
-      && miniKvV131.schemaMigrationExecuted === false,
-    loadCompactRestoreSetnxexStillBlocked:
-      miniKvV131.loadRestoreCompactExecuted === false
-      && miniKvV131.setnxexExecutionAllowed === false,
-    autoStartBoundaryClosed:
-      !sourceNodeV297.automaticUpstreamStart
-      && javaV134.automaticUpstreamStartBlocked
-      && miniKvV131.automaticUpstreamStart === false,
-    auditAndOrderAuthorityForbidden:
-      miniKvV131.auditAuthoritative === false
-      && miniKvV131.orderAuthoritative === false,
-    upstreamProbesStillDisabled: !config.upstreamProbesEnabled,
-    upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
-    productionAuditStillBlocked: true,
-    productionWindowStillBlocked: true,
-    readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellCandidateGateUpstreamEchoVerification: false,
   };
 }
 
