@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "version": "v2228",
+  "scope": "nine-point-gate-and-promotion-core-handoff-specs",
+  "behaviorChanged": false,
+  "step0": {
+    "commit": "34756cee",
+    "tag": "v2227",
+    "workingTree": "clean-and-synced-before-work",
+    "lastGreenCiRun": 29815849432,
+    "lastGreenCiJob": 88586909075,
+    "sourceFiles": 1289,
+    "functions": 6868,
+    "maintainability": "82/89/208/0",
+    "maxFunctionLines": 217,
+    "maxComplexity": 85,
+    "nameDebt": 4444,
+    "trackedFamilies": 52,
+    "rendererFamilyLogic": 1681,
+    "verificationFamilyLogic": 1320
+  },
+  "terminalGate": {
+    "command": "npm run elegance:nine",
+    "foundationChecks": 4,
+    "absoluteThresholdChecks": 12,
+    "unitTests": 17,
+    "averagingAllowed": false,
+    "currentReady": false,
+    "currentFailedChecks": [
+      "nearLimitFiles",
+      "longFunctions",
+      "complexFunctions",
+      "maxFunctionLines",
+      "maxComplexity",
+      "nameDebt",
+      "renderersLogic",
+      "verificationLogic"
+    ],
+    "ciActivation": "deferred-until-all-thresholds-pass-so-intermediate-honest-commits-stay-green"
+  },
+  "deterministicOracleBoundary": {
+    "runtimeDefaultIdFactory": "node:crypto.randomUUID",
+    "testId": "11111111-1111-4111-8111-111111111111",
+    "buildAppDefaultDeps": "createRuntimeDeps(config)",
+    "runtimeBehaviorChanged": false,
+    "reason": "decision ids and chained digests are random, so a deterministic dependency is required for exact-byte non-empty output proofs"
+  },
+  "promotionOracle": {
+    "fixedTime": "2026-07-21T10:00:00.000Z",
+    "artifactCount": 28,
+    "states": ["empty", "blocked-single-decision"],
+    "surfaces": 56,
+    "measurement": "raw-payload-byte-length-plus-sha256",
+    "expectedValuesChangedAfterProductionMigration": false,
+    "fixturesChanged": false,
+    "parityFailureCaught": "completion-verification-summary-order",
+    "repair": "summary helper accepts fields before and after the handoff-ready field",
+    "finalParity": "56-of-56-byte-identical"
+  },
+  "structure": {
+    "stablePublicRendererFile": "src/services/opsPromotionArchiveRenderers.ts",
+    "stablePublicRendererNames": 15,
+    "rendererLinesBefore": 742,
+    "rendererLinesAfter": 151,
+    "engine": "src/services/promotionMarkdownEngine.ts",
+    "coreSpecs": "src/services/promotionMarkdown/core.ts",
+    "coreSpecLines": 234,
+    "handoffSpecs": "src/services/promotionMarkdown/handoff.ts",
+    "handoffSpecLines": 565,
+    "dataBehaviorBoundary": "specs own labels-order-values; engine owns Markdown grammar; renderer owns stable public entrypoints"
+  },
+  "ratchets": {
+    "maintainabilityBefore": "82/89/208/0",
+    "maintainabilityAfter": "81/89/208/0",
+    "nearLimitFilesRemoved": 1,
+    "newLongFunctions": 0,
+    "newComplexFunctions": 0,
+    "rendererFamilyLogicBefore": 1681,
+    "rendererFamilyLogicAfter": 1110,
+    "nameDebtBefore": 4444,
+    "nameDebtAfter": 4444,
+    "trackedFamiliesBefore": 52,
+    "trackedFamiliesAfter": 52,
+    "importCycles": 0,
+    "sourceFilesAbove800": 0,
+    "baselineRefreshedDownward": true
+  },
+  "verification": {
+    "ninePointUnit": "passed-1-file-17-tests",
+    "promotionFocused": "passed-4-files-8-tests-max-4-workers",
+    "promotionOracleRepeated": "passed-twice-before-migration-and-after-repair",
+    "typecheck": "passed",
+    "targetedLint": "passed-zero-warnings",
+    "governanceGrowthRatchet": "passed-1-file-2-tests",
+    "elegance": "passed-4444-name-debt-52-tracked-families",
+    "familyLogic": "passed-renderers-1110-verification-1320",
+    "maintainability": "passed-after-baseline-refresh-81-89-208-0",
+    "finalFocusedAndStatic": "passed-8-files-35-tests-plus-all-static-gates",
+    "sixSurfaceParity": "passed-mixed-lf-crlf-new-56-route-and-old-15-route-oracles",
+    "fullTestBuildSmokeCi": "deferred-to-v2232-batch-close"
+  },
+  "boundaries": {
+    "routesChanged": false,
+    "jsonChanged": false,
+    "markdownChanged": false,
+    "fixturesChanged": false,
+    "permissionsChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityAdded": false,
+    "javaOrMiniKvModified": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false,
+    "nodeIsApprovalBlocker": false
+  }
+}

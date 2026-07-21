@@ -83,7 +83,10 @@ export class OpsPromotionDecisionLedger {
   private readonly records = new Map<string, OpsPromotionDecisionRecord>();
   private nextSequence = 1;
 
-  constructor(private readonly capacity = 100) {
+  constructor(
+    private readonly capacity = 100,
+    private readonly nextId: () => string = randomUUID,
+  ) {
     if (!Number.isInteger(capacity) || capacity <= 0) {
       throw new Error("OpsPromotionDecisionLedger capacity must be a positive integer");
     }
@@ -92,7 +95,7 @@ export class OpsPromotionDecisionLedger {
   create(input: CreateOpsPromotionDecisionInput): OpsPromotionDecisionRecord {
     const record: OpsPromotionDecisionRecord = {
       service: "orderops-node",
-      id: randomUUID(),
+      id: this.nextId(),
       sequence: this.nextSequence,
       createdAt: new Date().toISOString(),
       reviewer: normalizeReviewer(input.reviewer),

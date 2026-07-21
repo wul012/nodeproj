@@ -6,6 +6,16 @@ export interface MarkdownDigest {
 export type MarkdownField = readonly [label: string, value: unknown];
 export type MarkdownSection = readonly [heading: string, body: readonly string[]];
 
+export interface MarkdownDocumentSpec {
+  title: string;
+  fields: readonly MarkdownField[];
+  sections: readonly MarkdownSection[];
+}
+
+export function renderMarkdownSpec(spec: MarkdownDocumentSpec): string {
+  return renderMarkdownDocument(spec.title, spec.fields, spec.sections);
+}
+
 export function renderMarkdownDocument(
   title: string,
   fields: readonly MarkdownField[],

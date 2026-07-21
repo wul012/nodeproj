@@ -59,10 +59,6 @@
       "maxLines": 745
     },
     {
-      "key": "src/services/opsPromotionArchiveRenderers.ts",
-      "maxLines": 742
-    },
-    {
       "key": "src/services/productionReadinessSummaryV4.ts",
       "maxLines": 741
     },
