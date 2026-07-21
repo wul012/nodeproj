@@ -77,6 +77,38 @@ export function snippetMatched(snippets: readonly HistoricalSnippetMatch[], id: 
   return snippets.some((snippetMatch) => snippetMatch.id === id && snippetMatch.matched);
 }
 
+type SnippetFieldValue = string | number | boolean;
+
+export type SnippetFieldSpec = readonly [
+  target: string,
+  snippetId: string,
+  matchedValue: SnippetFieldValue,
+  missingValue: SnippetFieldValue,
+];
+
+type SnippetFieldValues<Specs extends readonly SnippetFieldSpec[]> = {
+  [Spec in Specs[number] as Spec[0]]: Spec[2] | Spec[3];
+};
+
+export function mapSnippetFields<const Specs extends readonly SnippetFieldSpec[]>(
+  snippets: readonly HistoricalSnippetMatch[],
+  specs: Specs,
+): SnippetFieldValues<Specs> {
+  const values: Record<string, SnippetFieldValue> = {};
+  for (const [target, snippetId, matchedValue, missingValue] of specs) {
+    if (Object.hasOwn(values, target)) throw new Error(`Duplicate snippet target field: ${target}`);
+    values[target] = snippetMatched(snippets, snippetId) ? matchedValue : missingValue;
+  }
+  return values as SnippetFieldValues<Specs>;
+}
+
+export function snippetsMatched(
+  snippets: readonly HistoricalSnippetMatch[],
+  ids: readonly string[],
+): boolean {
+  return ids.every((id) => snippetMatched(snippets, id));
+}
+
 export function readJsonObject(filePath: string): Record<string, unknown> {
   if (!historicalEvidenceExists(filePath)) {
     return {};

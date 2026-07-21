@@ -3,9 +3,11 @@ import { readV116Fields } from "../evidence/miniKvReceiptFields.js";
 import { isV116Ready } from "../evidence/miniKvReceiptReadiness.js";
 import {
   evidenceFile,
+  mapSnippetFields,
   readJsonObject,
   snippet,
   snippetMatched,
+  snippetsMatched,
 } from "./historicalEvidenceReportUtils.js";
 import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellContract,
@@ -32,6 +34,155 @@ import type {
   MiniKvV116CredentialResolverTestOnlyShellNonParticipationReference,
   SourceNodeV264CredentialResolverTestOnlyShellContractReference,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationTypes.js";
+
+const JAVA_V107_IDENTITY_FIELDS = [
+  ["responseSchemaVersion", "java-v107-response-schema", "java-release-approval-rehearsal-response-schema.v29", "missing"],
+  ["markerField", "java-v107-marker-field", "managedAuditSandboxEndpointCredentialResolverTestOnlyShellEchoMarker", "missing"],
+  ["consumedNodeVersion", "java-v107-node-v264", "Node v264", "missing"],
+  ["consumedNodeProfile", "java-v107-node-v264", "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract.v1", "missing"],
+  ["nextNodeConsumerVersion", "java-v107-node-v265", "Node v265", "missing"],
+  ["sourceSpan", "java-v107-source-span", "Node v264 credential resolver test-only shell contract", "missing"],
+  ["shellMode", "java-v107-shell-mode", "test-only-fake-resolver-contract", "missing"],
+  ["shellName", "java-v107-shell-name", "ManagedAuditSandboxEndpointCredentialResolverTestOnlyShell", "missing"],
+  ["resolverKind", "java-v107-resolver-kind", "fake-in-memory", "missing"],
+  ["requestShapeFieldCount", "java-v107-request-count", 9, 0],
+  ["responseShapeFieldCount", "java-v107-response-count", 13, 0],
+  ["failureMappingCount", "java-v107-failure-count", 7, 0],
+  ["guardConditionCount", "java-v107-guard-count", 10, 0],
+  ["fakeResolverProbeCount", "java-v107-fake-probe-credential", 1, 0],
+] as const;
+
+const JAVA_V107_ECHO_FIELDS = [
+  ["failureMappingEchoed", "java-v107-code-failure-codes", true, false],
+  ["guardConditionsEchoed", "java-v107-code-guard-codes", true, false],
+  ["fakeResolverProbeEchoed", "java-v107-fake-probe-credential", true, false],
+  ["fakeResolverOnlyEchoed", "java-v107-fake-only", true, false],
+  ["sideEffectBoundaryClosed", "java-v107-side-effect-connection", true, false],
+] as const;
+
+const JAVA_V107_CONNECTION_FIELDS = [
+  ["connectsManagedAudit", "java-v107-side-effect-connection", false, true],
+  ["credentialValueRead", "java-v107-fake-probe-credential", false, true],
+] as const;
+
+const JAVA_V107_RUNTIME_FIELDS = [
+  ["externalRequestSent", "java-v107-external-blocked", false, true],
+  ["secretProviderInstantiated", "java-v107-secret-provider-blocked", false, true],
+  ["resolverClientInstantiated", "java-v107-resolver-client-blocked", false, true],
+] as const;
+
+function nodeV264ContractReady(
+  reference: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+): boolean {
+  return [
+    reference.readyForTestOnlyShellContract,
+    reference.shellContractState === "sandbox-endpoint-credential-resolver-test-only-shell-contract-ready",
+    reference.profileVersion
+      === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract.v1",
+    reference.shellMode === "test-only-fake-resolver-contract",
+    reference.resolverKind === "fake-in-memory",
+    reference.testOnlyShell,
+    reference.readOnlyContract,
+    reference.fakeResolverOnly,
+    reference.handleOnlyRequest,
+    arraysEqual(reference.requestShapeFields, REQUEST_SHAPE_FIELDS),
+    arraysEqual(reference.responseShapeFields, RESPONSE_SHAPE_FIELDS),
+    arraysEqual(reference.failureClassCodes, FAILURE_CLASS_CODES),
+    arraysEqual(reference.guardConditionCodes, GUARD_CONDITION_CODES),
+    reference.requestShapeFieldCount === REQUEST_SHAPE_FIELDS.length,
+    reference.responseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length,
+    reference.failureMappingCount === FAILURE_CLASS_CODES.length,
+    reference.guardConditionCount === GUARD_CONDITION_CODES.length,
+    reference.sourceNodeV263Ready,
+    reference.sourceVerificationMode
+      === "java-v106-plus-mini-kv-v115-disabled-credential-resolver-precheck-upstream-echo-verification-only",
+    reference.sourceSpan === "Node v262 + Java v106 + mini-kv v115",
+    reference.sourceCheckCount === reference.sourcePassedCheckCount,
+    reference.sourceCheckCount === 19,
+    reference.checkCount === reference.passedCheckCount,
+    reference.checkCount === 20,
+    reference.productionBlockerCount === 0,
+    reference.warningCount === 2,
+    reference.recommendationCount === 2,
+  ].every(Boolean);
+}
+
+function nodeV264BoundaryClosed(
+  reference: SourceNodeV264CredentialResolverTestOnlyShellContractReference,
+): boolean {
+  return [
+    !reference.credentialResolverExecutionAllowed,
+    !reference.credentialValueRead,
+    !reference.credentialValueLoaded,
+    !reference.credentialValueStored,
+    !reference.credentialValueIncluded,
+    !reference.rawEndpointUrlParsed,
+    !reference.rawEndpointUrlIncluded,
+    !reference.externalRequestSent,
+    !reference.secretProviderInstantiated,
+    !reference.resolverClientInstantiated,
+    !reference.connectsManagedAudit,
+    !reference.schemaMigrationExecuted,
+    !reference.automaticUpstreamStart,
+    reference.fakeResolverProbeCovered,
+    reference.fakeResolverProbeNoCredentialRead,
+    reference.fakeResolverProbeNoExternalRequest,
+    reference.fakeResolverProbeNoProductionWrite,
+  ].every(Boolean);
+}
+
+function javaV107ContractReady(
+  reference: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+): boolean {
+  return [
+    reference.evidencePresent,
+    reference.verificationDocumented,
+    reference.responseSchemaVersion === "java-release-approval-rehearsal-response-schema.v29",
+    reference.markerField === "managedAuditSandboxEndpointCredentialResolverTestOnlyShellEchoMarker",
+    reference.consumedNodeVersion === "Node v264",
+    reference.consumedNodeProfile
+      === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract.v1",
+    reference.nextNodeConsumerVersion === "Node v265",
+    reference.sourceSpan === "Node v264 credential resolver test-only shell contract",
+    reference.shellMode === "test-only-fake-resolver-contract",
+    reference.shellName === "ManagedAuditSandboxEndpointCredentialResolverTestOnlyShell",
+    reference.resolverKind === "fake-in-memory",
+    reference.requestShapeFieldCount === 9,
+    reference.responseShapeFieldCount === 13,
+    reference.failureMappingCount === 7,
+    reference.guardConditionCount === 10,
+    reference.fakeResolverProbeCount === 1,
+    reference.requestShapeEchoed,
+    reference.responseShapeEchoed,
+    reference.failureMappingEchoed,
+    reference.guardConditionsEchoed,
+    reference.fakeResolverProbeEchoed,
+    reference.fakeResolverOnlyEchoed,
+    reference.sideEffectBoundaryClosed,
+  ].every(Boolean);
+}
+
+function javaV107BoundaryClosed(
+  reference: JavaV107CredentialResolverTestOnlyShellEchoMarkerReference,
+): boolean {
+  return [
+    !reference.credentialResolverExecutionAllowed,
+    !reference.connectsManagedAudit,
+    !reference.credentialValueRead,
+    !reference.credentialValueLoaded,
+    !reference.credentialValueStored,
+    !reference.credentialValueIncluded,
+    !reference.rawEndpointUrlParsed,
+    !reference.rawEndpointUrlIncluded,
+    !reference.externalRequestSent,
+    !reference.secretProviderInstantiated,
+    !reference.resolverClientInstantiated,
+    !reference.schemaMigrationExecuted,
+    !reference.automaticUpstreamStart,
+    !reference.productionRecordWritten,
+    !reference.readyForManagedAuditSandboxAdapterConnection,
+  ].every(Boolean);
+}
 
 export function createSourceNodeV264(
   config: AppConfig,
@@ -94,52 +245,7 @@ export function createSourceNodeV264(
   return {
     ...reference,
     readyForNodeV265TestOnlyShellUpstreamEchoVerification:
-      reference.readyForTestOnlyShellContract
-      && reference.shellContractState === "sandbox-endpoint-credential-resolver-test-only-shell-contract-ready"
-      && reference.profileVersion
-        === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract.v1"
-      && reference.shellMode === "test-only-fake-resolver-contract"
-      && reference.resolverKind === "fake-in-memory"
-      && reference.testOnlyShell
-      && reference.readOnlyContract
-      && reference.fakeResolverOnly
-      && reference.handleOnlyRequest
-      && arraysEqual(reference.requestShapeFields, REQUEST_SHAPE_FIELDS)
-      && arraysEqual(reference.responseShapeFields, RESPONSE_SHAPE_FIELDS)
-      && arraysEqual(reference.failureClassCodes, FAILURE_CLASS_CODES)
-      && arraysEqual(reference.guardConditionCodes, GUARD_CONDITION_CODES)
-      && reference.requestShapeFieldCount === REQUEST_SHAPE_FIELDS.length
-      && reference.responseShapeFieldCount === RESPONSE_SHAPE_FIELDS.length
-      && reference.failureMappingCount === FAILURE_CLASS_CODES.length
-      && reference.guardConditionCount === GUARD_CONDITION_CODES.length
-      && reference.sourceNodeV263Ready
-      && reference.sourceVerificationMode
-        === "java-v106-plus-mini-kv-v115-disabled-credential-resolver-precheck-upstream-echo-verification-only"
-      && reference.sourceSpan === "Node v262 + Java v106 + mini-kv v115"
-      && reference.sourceCheckCount === reference.sourcePassedCheckCount
-      && reference.sourceCheckCount === 19
-      && reference.checkCount === reference.passedCheckCount
-      && reference.checkCount === 20
-      && reference.productionBlockerCount === 0
-      && reference.warningCount === 2
-      && reference.recommendationCount === 2
-      && !reference.credentialResolverExecutionAllowed
-      && !reference.credentialValueRead
-      && !reference.credentialValueLoaded
-      && !reference.credentialValueStored
-      && !reference.credentialValueIncluded
-      && !reference.rawEndpointUrlParsed
-      && !reference.rawEndpointUrlIncluded
-      && !reference.externalRequestSent
-      && !reference.secretProviderInstantiated
-      && !reference.resolverClientInstantiated
-      && !reference.connectsManagedAudit
-      && !reference.schemaMigrationExecuted
-      && !reference.automaticUpstreamStart
-      && reference.fakeResolverProbeCovered
-      && reference.fakeResolverProbeNoCredentialRead
-      && reference.fakeResolverProbeNoExternalRequest
-      && reference.fakeResolverProbeNoProductionWrite,
+      [nodeV264ContractReady(reference), nodeV264BoundaryClosed(reference)].every(Boolean),
   };
 }
 
@@ -187,55 +293,29 @@ export function createJavaV107Reference(): JavaV107CredentialResolverTestOnlyShe
     expectedSnippets,
     evidencePresent,
     verificationDocumented,
-    responseSchemaVersion: snippetMatched(expectedSnippets, "java-v107-response-schema")
-      ? "java-release-approval-rehearsal-response-schema.v29" as const
-      : "missing" as const,
-    markerField: snippetMatched(expectedSnippets, "java-v107-marker-field")
-      ? "managedAuditSandboxEndpointCredentialResolverTestOnlyShellEchoMarker" as const
-      : "missing" as const,
-    consumedNodeVersion: snippetMatched(expectedSnippets, "java-v107-node-v264") ? "Node v264" as const : "missing" as const,
-    consumedNodeProfile: snippetMatched(expectedSnippets, "java-v107-node-v264")
-      ? "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract.v1"
-      : "missing",
-    nextNodeConsumerVersion: snippetMatched(expectedSnippets, "java-v107-node-v265") ? "Node v265" as const : "missing" as const,
-    sourceSpan: snippetMatched(expectedSnippets, "java-v107-source-span")
-      ? "Node v264 credential resolver test-only shell contract"
-      : "missing",
-    shellMode: snippetMatched(expectedSnippets, "java-v107-shell-mode") ? "test-only-fake-resolver-contract" : "missing",
-    shellName: snippetMatched(expectedSnippets, "java-v107-shell-name")
-      ? "ManagedAuditSandboxEndpointCredentialResolverTestOnlyShell"
-      : "missing",
-    resolverKind: snippetMatched(expectedSnippets, "java-v107-resolver-kind") ? "fake-in-memory" : "missing",
-    requestShapeFieldCount: snippetMatched(expectedSnippets, "java-v107-request-count") ? 9 : 0,
-    responseShapeFieldCount: snippetMatched(expectedSnippets, "java-v107-response-count") ? 13 : 0,
-    failureMappingCount: snippetMatched(expectedSnippets, "java-v107-failure-count") ? 7 : 0,
-    guardConditionCount: snippetMatched(expectedSnippets, "java-v107-guard-count") ? 10 : 0,
-    fakeResolverProbeCount: snippetMatched(expectedSnippets, "java-v107-fake-probe-credential") ? 1 : 0,
+    ...mapSnippetFields(expectedSnippets, JAVA_V107_IDENTITY_FIELDS),
     requestShapeEchoed:
-      snippetMatched(expectedSnippets, "java-v107-code-request-fields")
-      && snippetMatched(expectedSnippets, "java-v107-credential-value-blocked")
-      && snippetMatched(expectedSnippets, "java-v107-raw-endpoint-blocked"),
+      snippetsMatched(expectedSnippets, [
+        "java-v107-code-request-fields",
+        "java-v107-credential-value-blocked",
+        "java-v107-raw-endpoint-blocked",
+      ]),
     responseShapeEchoed:
-      snippetMatched(expectedSnippets, "java-v107-code-response-fields")
-      && snippetMatched(expectedSnippets, "java-v107-resolver-client-blocked")
-      && snippetMatched(expectedSnippets, "java-v107-secret-provider-blocked")
-      && snippetMatched(expectedSnippets, "java-v107-external-blocked"),
-    failureMappingEchoed: snippetMatched(expectedSnippets, "java-v107-code-failure-codes"),
-    guardConditionsEchoed: snippetMatched(expectedSnippets, "java-v107-code-guard-codes"),
-    fakeResolverProbeEchoed: snippetMatched(expectedSnippets, "java-v107-fake-probe-credential"),
-    fakeResolverOnlyEchoed: snippetMatched(expectedSnippets, "java-v107-fake-only"),
-    sideEffectBoundaryClosed: snippetMatched(expectedSnippets, "java-v107-side-effect-connection"),
+      snippetsMatched(expectedSnippets, [
+        "java-v107-code-response-fields",
+        "java-v107-resolver-client-blocked",
+        "java-v107-secret-provider-blocked",
+        "java-v107-external-blocked",
+      ]),
+    ...mapSnippetFields(expectedSnippets, JAVA_V107_ECHO_FIELDS),
     credentialResolverExecutionAllowed: false,
-    connectsManagedAudit: !snippetMatched(expectedSnippets, "java-v107-side-effect-connection"),
-    credentialValueRead: !snippetMatched(expectedSnippets, "java-v107-fake-probe-credential"),
+    ...mapSnippetFields(expectedSnippets, JAVA_V107_CONNECTION_FIELDS),
     credentialValueLoaded: false,
     credentialValueStored: false,
     credentialValueIncluded: false,
     rawEndpointUrlParsed: false,
     rawEndpointUrlIncluded: false,
-    externalRequestSent: !snippetMatched(expectedSnippets, "java-v107-external-blocked"),
-    secretProviderInstantiated: !snippetMatched(expectedSnippets, "java-v107-secret-provider-blocked"),
-    resolverClientInstantiated: !snippetMatched(expectedSnippets, "java-v107-resolver-client-blocked"),
+    ...mapSnippetFields(expectedSnippets, JAVA_V107_RUNTIME_FIELDS),
     schemaMigrationExecuted: false,
     automaticUpstreamStart: false,
     productionRecordWritten: false,
@@ -246,45 +326,7 @@ export function createJavaV107Reference(): JavaV107CredentialResolverTestOnlyShe
   return {
     ...reference,
     readyForNodeV265SandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification:
-      reference.evidencePresent
-      && reference.verificationDocumented
-      && reference.responseSchemaVersion === "java-release-approval-rehearsal-response-schema.v29"
-      && reference.markerField === "managedAuditSandboxEndpointCredentialResolverTestOnlyShellEchoMarker"
-      && reference.consumedNodeVersion === "Node v264"
-      && reference.consumedNodeProfile
-        === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-test-only-shell-contract.v1"
-      && reference.nextNodeConsumerVersion === "Node v265"
-      && reference.sourceSpan === "Node v264 credential resolver test-only shell contract"
-      && reference.shellMode === "test-only-fake-resolver-contract"
-      && reference.shellName === "ManagedAuditSandboxEndpointCredentialResolverTestOnlyShell"
-      && reference.resolverKind === "fake-in-memory"
-      && reference.requestShapeFieldCount === 9
-      && reference.responseShapeFieldCount === 13
-      && reference.failureMappingCount === 7
-      && reference.guardConditionCount === 10
-      && reference.fakeResolverProbeCount === 1
-      && reference.requestShapeEchoed
-      && reference.responseShapeEchoed
-      && reference.failureMappingEchoed
-      && reference.guardConditionsEchoed
-      && reference.fakeResolverProbeEchoed
-      && reference.fakeResolverOnlyEchoed
-      && reference.sideEffectBoundaryClosed
-      && !reference.credentialResolverExecutionAllowed
-      && !reference.connectsManagedAudit
-      && !reference.credentialValueRead
-      && !reference.credentialValueLoaded
-      && !reference.credentialValueStored
-      && !reference.credentialValueIncluded
-      && !reference.rawEndpointUrlParsed
-      && !reference.rawEndpointUrlIncluded
-      && !reference.externalRequestSent
-      && !reference.secretProviderInstantiated
-      && !reference.resolverClientInstantiated
-      && !reference.schemaMigrationExecuted
-      && !reference.automaticUpstreamStart
-      && !reference.productionRecordWritten
-      && !reference.readyForManagedAuditSandboxAdapterConnection,
+      [javaV107ContractReady(reference), javaV107BoundaryClosed(reference)].every(Boolean),
   };
 }
 

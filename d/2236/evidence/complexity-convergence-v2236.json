@@ -1,0 +1,63 @@
+{
+  "version": "v2236",
+  "scope": "ordered blocked-reason rules and historical snippet projection",
+  "executionMode": "read-only refactor",
+  "parallelProjects": {
+    "java": "recommended parallel; Node consumes frozen Java v106/v107 evidence",
+    "miniKv": "recommended parallel; Node consumes frozen mini-kv v115/v116 evidence"
+  },
+  "profileOracles": {
+    "javaV106": {
+      "generatedAt": "2026-07-21T16:00:00.000Z",
+      "bytes": 38343,
+      "sha256": "774add4d75f8222cfa72d57efa1087972eeb7ba49b89aa1320d6d27c53609aa9"
+    },
+    "javaV107": {
+      "generatedAt": "2026-07-21T16:00:00.000Z",
+      "bytes": 43068,
+      "sha256": "f338d2f3b78afc8e3130a80bfcad8c975bb5ad395f4acfb570c2c70b4b2c72cc"
+    }
+  },
+  "ruleMigration": {
+    "validatorFunctions": 19,
+    "orderedRules": 744,
+    "remainingConditionalExpressions": 0,
+    "replacementComplexFunctions": 0,
+    "directTestFiles": 20,
+    "directTests": 93
+  },
+  "referenceRefactor": {
+    "sourceNodeV262": { "lines": 67, "complexity": 1 },
+    "javaV106": { "lines": 71, "complexity": 1 },
+    "sourceNodeV264": { "lines": 64, "complexity": 1 },
+    "javaV107": { "lines": 80, "complexity": 1 },
+    "profileParityTestFiles": 3,
+    "profileParityTests": 12
+  },
+  "maintainability": {
+    "before": { "nearLimitFiles": 70, "longFunctions": 71, "complexFunctions": 188, "importCycles": 0 },
+    "after": { "nearLimitFiles": 70, "longFunctions": 69, "complexFunctions": 165, "importCycles": 0 },
+    "target": { "nearLimitFiles": 70, "longFunctions": 70, "complexFunctions": 170, "importCycles": 0 }
+  },
+  "elegance": {
+    "nameDebt": 4444,
+    "trackedFamilies": 52,
+    "newTrackedFamilies": 0,
+    "sourceFilesOver800Lines": 0,
+    "rawRenderers": 3,
+    "nonWaivedRawRenderers": 0
+  },
+  "safety": {
+    "forcedHistoricalFallback": true,
+    "networkOpened": false,
+    "servicesStarted": false,
+    "productionWrites": false,
+    "fixturesChanged": false,
+    "testExpectationsChanged": false
+  },
+  "screenshot": {
+    "required": false,
+    "reason": "The version changes pure TypeScript projection and validation internals; it adds no HTML, route, or renderable UI surface."
+  },
+  "status": "passed"
+}

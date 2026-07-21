@@ -14,6 +14,7 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageLedgerGate,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageTypes.js";
+import { collectBlockedReasons } from "./blockedReasonKernel.js";
 
 const EXPECTED_REVIEW_PACKAGE_VERSIONS = [
   "Node v812",
@@ -337,29 +338,29 @@ function review(
 function createReviewPackageBlockedReasons(
   gates: ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageGates,
 ): string[] {
-  return [
-    gates.sourceIntakeLedgerReady ? null : "SOURCE_INTAKE_LEDGER_NOT_READY",
-    gates.controlCountComplete ? null : "INTAKE_REVIEW_CONTROL_COUNT_INCOMPLETE",
-    gates.versionsSequential ? null : "INTAKE_REVIEW_VERSIONS_NOT_SEQUENTIAL",
-    gates.sourceLedgerGateNamesCovered ? null : "INTAKE_REVIEW_LEDGER_GATES_NOT_COVERED",
-    gates.sourceLedgerGatePassagePreserved ? null : "INTAKE_REVIEW_LEDGER_GATES_NOT_PASSED",
-    gates.sourceLedgerEntriesCovered ? null : "INTAKE_REVIEW_LEDGER_ENTRIES_NOT_COVERED",
-    gates.sourceLedgerEntryCodesValid ? null : "INTAKE_REVIEW_LEDGER_ENTRY_CODE_INVALID",
-    gates.manualReviewStateOnly ? null : "INTAKE_REVIEW_NOT_OPERATOR_REVIEW_ONLY",
-    gates.requiredFieldsPreserved ? null : "INTAKE_REVIEW_REQUIRED_FIELDS_NOT_PRESERVED",
-    gates.acceptanceCriteriaPreserved ? null : "INTAKE_REVIEW_ACCEPTANCE_CRITERIA_NOT_PRESERVED",
-    gates.redactionRulesPreserved ? null : "INTAKE_REVIEW_REDACTION_RULES_NOT_PRESERVED",
-    gates.targetCoveragePreserved ? null : "INTAKE_REVIEW_TARGET_COVERAGE_NOT_PRESERVED",
-    gates.cleanupCoveragePreserved ? null : "INTAKE_REVIEW_CLEANUP_COVERAGE_NOT_PRESERVED",
-    gates.failureClassesPreserved ? null : "INTAKE_REVIEW_FAILURE_CLASSES_NOT_PRESERVED",
-    gates.maintenanceControlsPresent ? null : "INTAKE_REVIEW_MAINTENANCE_CONTROL_MISSING",
-    gates.crossProjectParallelPlanClear ? null : "INTAKE_REVIEW_CROSS_PROJECT_PLAN_NOT_CLEAR",
-    gates.noRuntimePayloadImported ? null : "INTAKE_REVIEW_RUNTIME_PAYLOAD_IMPORTED",
-    gates.noSyntheticEvidenceAccepted ? null : "INTAKE_REVIEW_SYNTHETIC_EVIDENCE_ACCEPTED",
-    gates.noSecretValues ? null : "INTAKE_REVIEW_SECRET_VALUE_PRESENT",
-    gates.allControlsReadOnly ? null : "INTAKE_REVIEW_CONTROL_NOT_READ_ONLY",
-    gates.noWritesAllowed ? null : "INTAKE_REVIEW_WRITES_ALLOWED",
-    gates.noAutomaticServiceStart ? null : "INTAKE_REVIEW_SERVICE_START_ENABLED",
-    gates.productionExecutionBlocked ? null : "INTAKE_REVIEW_PRODUCTION_EXECUTION_ENABLED",
-  ].filter((reason): reason is string => reason !== null);
+  return collectBlockedReasons([
+    [gates.sourceIntakeLedgerReady, "SOURCE_INTAKE_LEDGER_NOT_READY"],
+    [gates.controlCountComplete, "INTAKE_REVIEW_CONTROL_COUNT_INCOMPLETE"],
+    [gates.versionsSequential, "INTAKE_REVIEW_VERSIONS_NOT_SEQUENTIAL"],
+    [gates.sourceLedgerGateNamesCovered, "INTAKE_REVIEW_LEDGER_GATES_NOT_COVERED"],
+    [gates.sourceLedgerGatePassagePreserved, "INTAKE_REVIEW_LEDGER_GATES_NOT_PASSED"],
+    [gates.sourceLedgerEntriesCovered, "INTAKE_REVIEW_LEDGER_ENTRIES_NOT_COVERED"],
+    [gates.sourceLedgerEntryCodesValid, "INTAKE_REVIEW_LEDGER_ENTRY_CODE_INVALID"],
+    [gates.manualReviewStateOnly, "INTAKE_REVIEW_NOT_OPERATOR_REVIEW_ONLY"],
+    [gates.requiredFieldsPreserved, "INTAKE_REVIEW_REQUIRED_FIELDS_NOT_PRESERVED"],
+    [gates.acceptanceCriteriaPreserved, "INTAKE_REVIEW_ACCEPTANCE_CRITERIA_NOT_PRESERVED"],
+    [gates.redactionRulesPreserved, "INTAKE_REVIEW_REDACTION_RULES_NOT_PRESERVED"],
+    [gates.targetCoveragePreserved, "INTAKE_REVIEW_TARGET_COVERAGE_NOT_PRESERVED"],
+    [gates.cleanupCoveragePreserved, "INTAKE_REVIEW_CLEANUP_COVERAGE_NOT_PRESERVED"],
+    [gates.failureClassesPreserved, "INTAKE_REVIEW_FAILURE_CLASSES_NOT_PRESERVED"],
+    [gates.maintenanceControlsPresent, "INTAKE_REVIEW_MAINTENANCE_CONTROL_MISSING"],
+    [gates.crossProjectParallelPlanClear, "INTAKE_REVIEW_CROSS_PROJECT_PLAN_NOT_CLEAR"],
+    [gates.noRuntimePayloadImported, "INTAKE_REVIEW_RUNTIME_PAYLOAD_IMPORTED"],
+    [gates.noSyntheticEvidenceAccepted, "INTAKE_REVIEW_SYNTHETIC_EVIDENCE_ACCEPTED"],
+    [gates.noSecretValues, "INTAKE_REVIEW_SECRET_VALUE_PRESENT"],
+    [gates.allControlsReadOnly, "INTAKE_REVIEW_CONTROL_NOT_READ_ONLY"],
+    [gates.noWritesAllowed, "INTAKE_REVIEW_WRITES_ALLOWED"],
+    [gates.noAutomaticServiceStart, "INTAKE_REVIEW_SERVICE_START_ENABLED"],
+    [gates.productionExecutionBlocked, "INTAKE_REVIEW_PRODUCTION_EXECUTION_ENABLED"],
+  ]);
 }

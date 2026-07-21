@@ -11,6 +11,7 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetSlotKind,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetVersion,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetTypes.js";
+import { collectBlockedReasons } from "./blockedReasonKernel.js";
 
 const EXPECTED_WORKSHEET_VERSIONS = [
   "Node v837",
@@ -347,27 +348,27 @@ function slot(
 function createWorksheetBlockedReasons(
   gates: ControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetGates,
 ): string[] {
-  return [
-    gates.sourceReviewPackageReady ? null : "SOURCE_REVIEW_PACKAGE_NOT_READY",
-    gates.slotCountComplete ? null : "MANUAL_ENTRY_WORKSHEET_SLOT_COUNT_INCOMPLETE",
-    gates.versionsSequential ? null : "MANUAL_ENTRY_WORKSHEET_VERSIONS_NOT_SEQUENTIAL",
-    gates.eachSlotMapsReviewControl ? null : "MANUAL_ENTRY_WORKSHEET_REVIEW_CONTROL_MISSING",
-    gates.sourceControlsPassed ? null : "MANUAL_ENTRY_WORKSHEET_SOURCE_CONTROLS_NOT_PASSED",
-    gates.blankManualEntryOnly ? null : "MANUAL_ENTRY_WORKSHEET_NOT_BLANK",
-    gates.worksheetFieldsPresent ? null : "MANUAL_ENTRY_WORKSHEET_FIELDS_MISSING",
-    gates.operatorPromptsPresent ? null : "MANUAL_ENTRY_WORKSHEET_PROMPTS_MISSING",
-    gates.validationRulesPresent ? null : "MANUAL_ENTRY_WORKSHEET_VALIDATION_RULES_MISSING",
-    gates.redactionRulesPresent ? null : "MANUAL_ENTRY_WORKSHEET_REDACTION_RULES_MISSING",
-    gates.targetScopesCovered ? null : "MANUAL_ENTRY_WORKSHEET_SCOPE_COVERAGE_INCOMPLETE",
-    gates.maintenanceSlotPresent ? null : "MANUAL_ENTRY_WORKSHEET_MAINTENANCE_SLOT_MISSING",
-    gates.closeoutSlotPresent ? null : "MANUAL_ENTRY_WORKSHEET_CLOSEOUT_SLOT_MISSING",
-    gates.crossProjectParallelPlanClear ? null : "MANUAL_ENTRY_WORKSHEET_CROSS_PROJECT_PLAN_NOT_CLEAR",
-    gates.noRuntimePayloadImported ? null : "MANUAL_ENTRY_WORKSHEET_RUNTIME_PAYLOAD_IMPORTED",
-    gates.noSyntheticEvidenceAccepted ? null : "MANUAL_ENTRY_WORKSHEET_SYNTHETIC_EVIDENCE_ACCEPTED",
-    gates.noSecretValues ? null : "MANUAL_ENTRY_WORKSHEET_SECRET_VALUE_PRESENT",
-    gates.allSlotsReadOnly ? null : "MANUAL_ENTRY_WORKSHEET_SLOT_NOT_READ_ONLY",
-    gates.noWritesAllowed ? null : "MANUAL_ENTRY_WORKSHEET_WRITES_ALLOWED",
-    gates.noAutomaticServiceStart ? null : "MANUAL_ENTRY_WORKSHEET_SERVICE_START_ENABLED",
-    gates.productionExecutionBlocked ? null : "MANUAL_ENTRY_WORKSHEET_PRODUCTION_EXECUTION_ENABLED",
-  ].filter((reason): reason is string => reason !== null);
+  return collectBlockedReasons([
+    [gates.sourceReviewPackageReady, "SOURCE_REVIEW_PACKAGE_NOT_READY"],
+    [gates.slotCountComplete, "MANUAL_ENTRY_WORKSHEET_SLOT_COUNT_INCOMPLETE"],
+    [gates.versionsSequential, "MANUAL_ENTRY_WORKSHEET_VERSIONS_NOT_SEQUENTIAL"],
+    [gates.eachSlotMapsReviewControl, "MANUAL_ENTRY_WORKSHEET_REVIEW_CONTROL_MISSING"],
+    [gates.sourceControlsPassed, "MANUAL_ENTRY_WORKSHEET_SOURCE_CONTROLS_NOT_PASSED"],
+    [gates.blankManualEntryOnly, "MANUAL_ENTRY_WORKSHEET_NOT_BLANK"],
+    [gates.worksheetFieldsPresent, "MANUAL_ENTRY_WORKSHEET_FIELDS_MISSING"],
+    [gates.operatorPromptsPresent, "MANUAL_ENTRY_WORKSHEET_PROMPTS_MISSING"],
+    [gates.validationRulesPresent, "MANUAL_ENTRY_WORKSHEET_VALIDATION_RULES_MISSING"],
+    [gates.redactionRulesPresent, "MANUAL_ENTRY_WORKSHEET_REDACTION_RULES_MISSING"],
+    [gates.targetScopesCovered, "MANUAL_ENTRY_WORKSHEET_SCOPE_COVERAGE_INCOMPLETE"],
+    [gates.maintenanceSlotPresent, "MANUAL_ENTRY_WORKSHEET_MAINTENANCE_SLOT_MISSING"],
+    [gates.closeoutSlotPresent, "MANUAL_ENTRY_WORKSHEET_CLOSEOUT_SLOT_MISSING"],
+    [gates.crossProjectParallelPlanClear, "MANUAL_ENTRY_WORKSHEET_CROSS_PROJECT_PLAN_NOT_CLEAR"],
+    [gates.noRuntimePayloadImported, "MANUAL_ENTRY_WORKSHEET_RUNTIME_PAYLOAD_IMPORTED"],
+    [gates.noSyntheticEvidenceAccepted, "MANUAL_ENTRY_WORKSHEET_SYNTHETIC_EVIDENCE_ACCEPTED"],
+    [gates.noSecretValues, "MANUAL_ENTRY_WORKSHEET_SECRET_VALUE_PRESENT"],
+    [gates.allSlotsReadOnly, "MANUAL_ENTRY_WORKSHEET_SLOT_NOT_READ_ONLY"],
+    [gates.noWritesAllowed, "MANUAL_ENTRY_WORKSHEET_WRITES_ALLOWED"],
+    [gates.noAutomaticServiceStart, "MANUAL_ENTRY_WORKSHEET_SERVICE_START_ENABLED"],
+    [gates.productionExecutionBlocked, "MANUAL_ENTRY_WORKSHEET_PRODUCTION_EXECUTION_ENABLED"],
+  ]);
 }

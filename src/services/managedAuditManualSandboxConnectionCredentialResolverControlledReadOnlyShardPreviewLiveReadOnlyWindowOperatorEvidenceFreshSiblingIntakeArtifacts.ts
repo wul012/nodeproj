@@ -15,6 +15,7 @@ import type {
 import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
+import { collectBlockedReasons } from "./blockedReasonKernel.js";
 
 export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntake(
   valueDraft: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
@@ -149,31 +150,31 @@ function projectEvidenceCovered(
 function createFreshSiblingIntakeBlockedReasons(
   gates: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceFreshSiblingIntakeGates,
 ): string[] {
-  return [
-    gates.sourceValueDraftReady ? null : "SOURCE_VALUE_DRAFT_NOT_READY",
-    gates.intakeSlotCountComplete ? null : "FRESH_SIBLING_INTAKE_SLOT_COUNT_INCOMPLETE",
-    gates.versionsSequential ? null : "FRESH_SIBLING_INTAKE_VERSIONS_NOT_SEQUENTIAL",
-    gates.sourceValueDraftSlotsReady ? null : "FRESH_SIBLING_SOURCE_VALUE_DRAFT_SLOTS_NOT_READY",
-    gates.allEvidenceFilesPresent ? null : "FRESH_SIBLING_EVIDENCE_FILES_MISSING",
-    gates.allEvidenceSnippetsMatched ? null : "FRESH_SIBLING_EVIDENCE_SNIPPETS_NOT_MATCHED",
-    gates.javaV608EvidenceCovered ? null : "JAVA_V608_EVIDENCE_NOT_COVERED",
-    gates.miniKvV560EvidenceCovered ? null : "MINI_KV_V560_EVIDENCE_NOT_COVERED",
-    gates.nodeV911ValueDraftCovered ? null : "NODE_V911_VALUE_DRAFT_NOT_COVERED",
-    gates.valueDraftStillHasNoActualValues ? null : "FRESH_SIBLING_VALUE_DRAFT_HAS_ACTUAL_VALUES",
-    gates.evidenceImportStillBlocked ? null : "FRESH_SIBLING_EVIDENCE_IMPORT_ENABLED",
-    gates.manualEntryStillBlocked ? null : "FRESH_SIBLING_MANUAL_ENTRY_ENABLED",
-    gates.liveExecutionStillBlocked ? null : "FRESH_SIBLING_LIVE_EXECUTION_ENABLED",
-    gates.productionExecutionStillBlocked ? null : "FRESH_SIBLING_PRODUCTION_EXECUTION_ENABLED",
-    gates.noRuntimePayloadImported ? null : "FRESH_SIBLING_RUNTIME_PAYLOAD_IMPORTED",
-    gates.noSyntheticEvidenceAccepted ? null : "FRESH_SIBLING_SYNTHETIC_EVIDENCE_ACCEPTED",
-    gates.noSecretValues ? null : "FRESH_SIBLING_SECRET_VALUE_PRESENT",
-    gates.allSlotsReadOnly ? null : "FRESH_SIBLING_SLOT_NOT_READ_ONLY",
-    gates.noWritesAllowed ? null : "FRESH_SIBLING_WRITES_ALLOWED",
-    gates.noAutomaticServiceStart ? null : "FRESH_SIBLING_SERVICE_START_ENABLED",
-    gates.noSiblingMutation ? null : "FRESH_SIBLING_MUTATES_SIBLING_STATE",
-    gates.crossProjectVersionsCleanAndSynced ? null : "FRESH_SIBLING_VERSION_STATUS_NOT_RECORDED",
-    gates.historicalFallbackReady ? null : "FRESH_SIBLING_HISTORICAL_FALLBACK_NOT_READY",
-    gates.noLiveServiceRequired ? null : "FRESH_SIBLING_LIVE_SERVICE_REQUIRED",
-    gates.nextValueSupplyRequiresExplicitValues ? null : "FRESH_SIBLING_NEXT_VALUES_NOT_EXPLICIT",
-  ].filter((reason): reason is string => reason !== null);
+  return collectBlockedReasons([
+    [gates.sourceValueDraftReady, "SOURCE_VALUE_DRAFT_NOT_READY"],
+    [gates.intakeSlotCountComplete, "FRESH_SIBLING_INTAKE_SLOT_COUNT_INCOMPLETE"],
+    [gates.versionsSequential, "FRESH_SIBLING_INTAKE_VERSIONS_NOT_SEQUENTIAL"],
+    [gates.sourceValueDraftSlotsReady, "FRESH_SIBLING_SOURCE_VALUE_DRAFT_SLOTS_NOT_READY"],
+    [gates.allEvidenceFilesPresent, "FRESH_SIBLING_EVIDENCE_FILES_MISSING"],
+    [gates.allEvidenceSnippetsMatched, "FRESH_SIBLING_EVIDENCE_SNIPPETS_NOT_MATCHED"],
+    [gates.javaV608EvidenceCovered, "JAVA_V608_EVIDENCE_NOT_COVERED"],
+    [gates.miniKvV560EvidenceCovered, "MINI_KV_V560_EVIDENCE_NOT_COVERED"],
+    [gates.nodeV911ValueDraftCovered, "NODE_V911_VALUE_DRAFT_NOT_COVERED"],
+    [gates.valueDraftStillHasNoActualValues, "FRESH_SIBLING_VALUE_DRAFT_HAS_ACTUAL_VALUES"],
+    [gates.evidenceImportStillBlocked, "FRESH_SIBLING_EVIDENCE_IMPORT_ENABLED"],
+    [gates.manualEntryStillBlocked, "FRESH_SIBLING_MANUAL_ENTRY_ENABLED"],
+    [gates.liveExecutionStillBlocked, "FRESH_SIBLING_LIVE_EXECUTION_ENABLED"],
+    [gates.productionExecutionStillBlocked, "FRESH_SIBLING_PRODUCTION_EXECUTION_ENABLED"],
+    [gates.noRuntimePayloadImported, "FRESH_SIBLING_RUNTIME_PAYLOAD_IMPORTED"],
+    [gates.noSyntheticEvidenceAccepted, "FRESH_SIBLING_SYNTHETIC_EVIDENCE_ACCEPTED"],
+    [gates.noSecretValues, "FRESH_SIBLING_SECRET_VALUE_PRESENT"],
+    [gates.allSlotsReadOnly, "FRESH_SIBLING_SLOT_NOT_READ_ONLY"],
+    [gates.noWritesAllowed, "FRESH_SIBLING_WRITES_ALLOWED"],
+    [gates.noAutomaticServiceStart, "FRESH_SIBLING_SERVICE_START_ENABLED"],
+    [gates.noSiblingMutation, "FRESH_SIBLING_MUTATES_SIBLING_STATE"],
+    [gates.crossProjectVersionsCleanAndSynced, "FRESH_SIBLING_VERSION_STATUS_NOT_RECORDED"],
+    [gates.historicalFallbackReady, "FRESH_SIBLING_HISTORICAL_FALLBACK_NOT_READY"],
+    [gates.noLiveServiceRequired, "FRESH_SIBLING_LIVE_SERVICE_REQUIRED"],
+    [gates.nextValueSupplyRequiresExplicitValues, "FRESH_SIBLING_NEXT_VALUES_NOT_EXPLICIT"],
+  ]);
 }

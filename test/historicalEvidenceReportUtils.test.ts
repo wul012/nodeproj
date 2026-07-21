@@ -5,7 +5,12 @@ import path from "node:path";
 
 import { afterEach, describe, expect, it } from "vitest";
 
-import { evidenceFile, mapReceiptFields } from "../src/services/historicalEvidenceReportUtils.js";
+import {
+  evidenceFile,
+  mapReceiptFields,
+  mapSnippetFields,
+  snippetsMatched,
+} from "../src/services/historicalEvidenceReportUtils.js";
 
 describe("historical evidence report utilities", () => {
   const temporaryRoots: string[] = [];
@@ -85,6 +90,26 @@ describe("historical evidence report utilities", () => {
     ] as const)).toThrow("Duplicate receipt target field: state");
   });
 
+  it("maps snippet evidence in declared order with explicit missing fallbacks", () => {
+    const snippets = [snippetMatch("schema", true), snippetMatch("boundary", false)];
+    const fields = mapSnippetFields(snippets, [
+      ["schemaVersion", "schema", "v1", "missing"],
+      ["boundaryClosed", "boundary", false, true],
+    ] as const);
+
+    expect(Object.keys(fields)).toEqual(["schemaVersion", "boundaryClosed"]);
+    expect(fields).toEqual({ schemaVersion: "v1", boundaryClosed: true });
+    expect(snippetsMatched(snippets, ["schema"])).toBe(true);
+    expect(snippetsMatched(snippets, ["schema", "boundary"])).toBe(false);
+  });
+
+  it("rejects duplicate snippet projection targets", () => {
+    expect(() => mapSnippetFields([snippetMatch("schema", true)], [
+      ["state", "schema", "ready", "missing"],
+      ["state", "schema", "verified", "missing"],
+    ] as const)).toThrow("Duplicate snippet target field: state");
+  });
+
   function writeEvidence(name: string, content: string): string {
     const filePath = path.join(createTemporaryRoot(), name);
     writeFileSync(filePath, content, "utf8");
@@ -95,5 +120,15 @@ describe("historical evidence report utilities", () => {
     const root = mkdtempSync(path.join(os.tmpdir(), "orderops-historical-evidence-"));
     temporaryRoots.push(root);
     return root;
+  }
+
+  function snippetMatch(id: string, matched: boolean) {
+    return {
+      id,
+      path: `${id}.txt`,
+      resolvedPath: `${id}.txt`,
+      expectedText: id,
+      matched,
+    };
   }
 });

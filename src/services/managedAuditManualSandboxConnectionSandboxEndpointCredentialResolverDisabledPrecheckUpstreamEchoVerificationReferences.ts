@@ -2,9 +2,9 @@ import { readV115Fields } from "../evidence/miniKvReceiptFields.js";
 import { isV115Ready } from "../evidence/miniKvReceiptReadiness.js";
 import {
   evidenceFile,
+  mapSnippetFields,
   readJsonObject,
   snippet,
-  snippetMatched,
 } from "./historicalEvidenceReportUtils.js";
 import type {
   ManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckProfile,
@@ -28,6 +28,161 @@ import type {
   MiniKvV115CredentialResolverDisabledPrecheckNonParticipationReference,
   SourceNodeV262CredentialResolverDisabledPrecheckReference,
 } from "./managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerificationTypes.js";
+
+const JAVA_V106_IDENTITY_FIELDS = [
+  ["responseSchemaVersion", "java-v106-response-schema", "java-release-approval-rehearsal-response-schema.v28", "missing"],
+  ["markerField", "java-v106-marker-field", "managedAuditSandboxEndpointCredentialResolverDisabledPrecheckEchoMarker", "missing"],
+  ["consumedNodeVersion", "java-v106-node-v262", "Node v262", "missing"],
+  ["consumedNodeProfile", "java-v106-node-v262", "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-disabled-precheck.v1", "missing"],
+  ["nextNodeConsumerVersion", "java-v106-node-v263", "Node v263", "missing"],
+  ["precheckMode", "java-v106-precheck-mode", "sandbox-endpoint-credential-resolver-disabled-precheck-only", "missing"],
+  ["sourceSpan", "java-v106-source-span", "Node v261 credential resolver upstream echo verification", "missing"],
+  ["sourceVerificationMode", "java-v106-source-mode", "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only", "missing"],
+  ["sourceNodeV261Span", "java-v106-source-span", "Node v260 + Java v105 + mini-kv v114", "missing"],
+  ["requiredEnvHandleCount", "java-v106-required-env-count", 6, 0],
+  ["optInGateCount", "java-v106-opt-in-count", 2, 0],
+  ["failureClassCount", "java-v106-failure-count", 7, 0],
+  ["dryRunResponseFieldCount", "java-v106-dry-run-count", 12, 0],
+  ["inheritedNoGoConditionCount", "java-v106-inherited-count", 9, 0],
+  ["sourceCheckCount", "java-v106-source-check-count", 20, 0],
+  ["sourcePassedCheckCount", "java-v106-source-passed-count", 20, 0],
+] as const;
+
+const JAVA_V106_IMPLEMENTATION_FIELDS = [
+  ["resolverImplementationStatus", "java-v106-resolver-status", "not-implemented", "missing"],
+  ["secretProviderImplementationStatus", "java-v106-secret-status", "not-implemented", "missing"],
+  ["resolverClientMayBeInstantiated", "java-v106-resolver-client-blocked", false, true],
+  ["secretProviderMayBeInstantiated", "java-v106-secret-provider-blocked", false, true],
+  ["credentialValueMayBeLoaded", "java-v106-credential-load-blocked", false, true],
+  ["rawEndpointUrlMayBeParsed", "java-v106-raw-endpoint-blocked", false, true],
+  ["externalRequestMayBeSent", "java-v106-external-blocked", false, true],
+] as const;
+
+const JAVA_V106_CONNECTION_FIELD = [
+  ["connectsManagedAudit", "java-v106-side-effect-connection", false, true],
+] as const;
+
+const JAVA_V106_EXTERNAL_FIELD = [
+  ["externalRequestSent", "java-v106-side-effect-external", false, true],
+] as const;
+
+function nodeV262ContractReady(
+  reference: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+): boolean {
+  return [
+    reference.readyForDisabledPrecheck,
+    reference.precheckState === "sandbox-endpoint-credential-resolver-disabled-precheck-ready",
+    reference.precheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only",
+    reference.sourceNodeV261Ready,
+    reference.sourceVerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only",
+    reference.sourceSpan === "Node v260 + Java v105 + mini-kv v114",
+    reference.sourceBlocksCredentialResolution,
+    reference.sourceCredentialBoundaryAligned,
+    reference.sourceRawEndpointBoundaryAligned,
+    reference.sourceConnectionBoundaryAligned,
+    reference.sourceWriteBoundaryAligned,
+    reference.sourceAutoStartBoundaryAligned,
+    reference.upstreamActionsStillDisabled,
+    reference.resolverImplementationStatus === "not-implemented",
+    reference.secretProviderImplementationStatus === "not-implemented",
+    reference.requiredEnvHandleCount === REQUIRED_ENV_HANDLE_NAMES.length,
+    reference.optInGateCount === OPT_IN_GATE_NAMES.length,
+    reference.failureClassCount === FAILURE_CLASS_CODES.length,
+    reference.dryRunResponseFieldCount === DRY_RUN_RESPONSE_FIELDS.length,
+    reference.inheritedNoGoConditionCount === INHERITED_NO_GO_CONDITIONS.length,
+    arraysEqual(reference.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES]),
+    arraysEqual(reference.optInGateNames, [...OPT_IN_GATE_NAMES]),
+    arraysEqual(reference.failureClassCodes, [...FAILURE_CLASS_CODES]),
+    arraysEqual(reference.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS]),
+    arraysEqual([...reference.inheritedNoGoConditions], [...INHERITED_NO_GO_CONDITIONS]),
+  ].every(Boolean);
+}
+
+function nodeV262BoundaryClosed(
+  reference: SourceNodeV262CredentialResolverDisabledPrecheckReference,
+): boolean {
+  return [
+    !reference.resolverClientMayBeInstantiated,
+    !reference.secretProviderMayBeInstantiated,
+    !reference.credentialValueMayBeLoaded,
+    !reference.rawEndpointUrlMayBeParsed,
+    !reference.externalRequestMayBeSent,
+    reference.optInGateRequired,
+    !reference.credentialResolverExecutionAllowed,
+    !reference.credentialValueRead,
+    !reference.credentialValueLoaded,
+    !reference.credentialValueStored,
+    !reference.credentialValueIncluded,
+    !reference.rawEndpointUrlParsed,
+    !reference.rawEndpointUrlIncluded,
+    !reference.externalRequestSent,
+    !reference.secretProviderInstantiated,
+    !reference.resolverClientInstantiated,
+    !reference.connectsManagedAudit,
+    !reference.schemaMigrationExecuted,
+    !reference.automaticUpstreamStart,
+    reference.checkCount === reference.passedCheckCount,
+    reference.checkCount === 24,
+    reference.productionBlockerCount === 0,
+    reference.warningCount === 2,
+    reference.recommendationCount === 2,
+  ].every(Boolean);
+}
+
+function javaV106ContractReady(
+  reference: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+): boolean {
+  return [
+    reference.evidencePresent,
+    reference.verificationDocumented,
+    reference.responseSchemaVersion === "java-release-approval-rehearsal-response-schema.v28",
+    reference.markerField === "managedAuditSandboxEndpointCredentialResolverDisabledPrecheckEchoMarker",
+    reference.consumedNodeVersion === "Node v262",
+    reference.consumedNodeProfile
+      === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-disabled-precheck.v1",
+    reference.nextNodeConsumerVersion === "Node v263",
+    reference.precheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only",
+    reference.sourceVerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only",
+    reference.requiredEnvHandleCount === 6,
+    reference.optInGateCount === 2,
+    reference.failureClassCount === 7,
+    reference.dryRunResponseFieldCount === 12,
+    reference.inheritedNoGoConditionCount === 9,
+    reference.sourceCheckCount === reference.sourcePassedCheckCount,
+    reference.sourceCheckCount === 20,
+    reference.sourceProductionBlockerCount === 0,
+    reference.sourceWarningCount === 2,
+    reference.sourceRecommendationCount === 2,
+    reference.resolverImplementationStatus === "not-implemented",
+    reference.secretProviderImplementationStatus === "not-implemented",
+  ].every(Boolean);
+}
+
+function javaV106BoundaryClosed(
+  reference: JavaV106CredentialResolverDisabledPrecheckEchoMarkerReference,
+): boolean {
+  return [
+    !reference.resolverClientMayBeInstantiated,
+    !reference.secretProviderMayBeInstantiated,
+    !reference.credentialValueMayBeLoaded,
+    !reference.rawEndpointUrlMayBeParsed,
+    !reference.externalRequestMayBeSent,
+    !reference.credentialResolverExecutionAllowed,
+    !reference.connectsManagedAudit,
+    !reference.credentialValueRead,
+    !reference.credentialValueLoaded,
+    !reference.credentialValueStored,
+    !reference.credentialValueIncluded,
+    !reference.rawEndpointUrlParsed,
+    !reference.rawEndpointUrlIncluded,
+    !reference.externalRequestSent,
+    !reference.secretProviderInstantiated,
+    !reference.resolverClientInstantiated,
+    !reference.schemaMigrationExecuted,
+    !reference.automaticUpstreamStart,
+    !reference.readyForManagedAuditSandboxAdapterConnection,
+  ].every(Boolean);
+}
 
 export function createSourceNodeV262(
   source: ManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverDisabledPrecheckProfile,
@@ -93,55 +248,7 @@ export function createSourceNodeV262(
   return {
     ...reference,
     readyForNodeV263DisabledPrecheckUpstreamEchoVerification:
-      reference.readyForDisabledPrecheck
-      && reference.precheckState === "sandbox-endpoint-credential-resolver-disabled-precheck-ready"
-      && reference.precheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only"
-      && reference.sourceNodeV261Ready
-      && reference.sourceVerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only"
-      && reference.sourceSpan === "Node v260 + Java v105 + mini-kv v114"
-      && reference.sourceBlocksCredentialResolution
-      && reference.sourceCredentialBoundaryAligned
-      && reference.sourceRawEndpointBoundaryAligned
-      && reference.sourceConnectionBoundaryAligned
-      && reference.sourceWriteBoundaryAligned
-      && reference.sourceAutoStartBoundaryAligned
-      && reference.upstreamActionsStillDisabled
-      && reference.resolverImplementationStatus === "not-implemented"
-      && reference.secretProviderImplementationStatus === "not-implemented"
-      && reference.requiredEnvHandleCount === REQUIRED_ENV_HANDLE_NAMES.length
-      && reference.optInGateCount === OPT_IN_GATE_NAMES.length
-      && reference.failureClassCount === FAILURE_CLASS_CODES.length
-      && reference.dryRunResponseFieldCount === DRY_RUN_RESPONSE_FIELDS.length
-      && reference.inheritedNoGoConditionCount === INHERITED_NO_GO_CONDITIONS.length
-      && arraysEqual(reference.requiredEnvHandleNames, [...REQUIRED_ENV_HANDLE_NAMES])
-      && arraysEqual(reference.optInGateNames, [...OPT_IN_GATE_NAMES])
-      && arraysEqual(reference.failureClassCodes, [...FAILURE_CLASS_CODES])
-      && arraysEqual(reference.dryRunResponseFields, [...DRY_RUN_RESPONSE_FIELDS])
-      && arraysEqual([...reference.inheritedNoGoConditions], [...INHERITED_NO_GO_CONDITIONS])
-      && !reference.resolverClientMayBeInstantiated
-      && !reference.secretProviderMayBeInstantiated
-      && !reference.credentialValueMayBeLoaded
-      && !reference.rawEndpointUrlMayBeParsed
-      && !reference.externalRequestMayBeSent
-      && reference.optInGateRequired
-      && !reference.credentialResolverExecutionAllowed
-      && !reference.credentialValueRead
-      && !reference.credentialValueLoaded
-      && !reference.credentialValueStored
-      && !reference.credentialValueIncluded
-      && !reference.rawEndpointUrlParsed
-      && !reference.rawEndpointUrlIncluded
-      && !reference.externalRequestSent
-      && !reference.secretProviderInstantiated
-      && !reference.resolverClientInstantiated
-      && !reference.connectsManagedAudit
-      && !reference.schemaMigrationExecuted
-      && !reference.automaticUpstreamStart
-      && reference.checkCount === reference.passedCheckCount
-      && reference.checkCount === 24
-      && reference.productionBlockerCount === 0
-      && reference.warningCount === 2
-      && reference.recommendationCount === 2,
+      [nodeV262ContractReady(reference), nodeV262BoundaryClosed(reference)].every(Boolean),
   };
 }
 
@@ -188,55 +295,20 @@ export function createJavaV106Reference(): JavaV106CredentialResolverDisabledPre
     expectedSnippets,
     evidencePresent,
     verificationDocumented,
-    responseSchemaVersion: snippetMatched(expectedSnippets, "java-v106-response-schema")
-      ? "java-release-approval-rehearsal-response-schema.v28" as const
-      : "missing" as const,
-    markerField: snippetMatched(expectedSnippets, "java-v106-marker-field")
-      ? "managedAuditSandboxEndpointCredentialResolverDisabledPrecheckEchoMarker" as const
-      : "missing" as const,
-    consumedNodeVersion: snippetMatched(expectedSnippets, "java-v106-node-v262") ? "Node v262" as const : "missing" as const,
-    consumedNodeProfile: snippetMatched(expectedSnippets, "java-v106-node-v262")
-      ? "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-disabled-precheck.v1"
-      : "missing",
-    nextNodeConsumerVersion: snippetMatched(expectedSnippets, "java-v106-node-v263") ? "Node v263" as const : "missing" as const,
-    precheckMode: snippetMatched(expectedSnippets, "java-v106-precheck-mode")
-      ? "sandbox-endpoint-credential-resolver-disabled-precheck-only"
-      : "missing",
-    sourceSpan: snippetMatched(expectedSnippets, "java-v106-source-span")
-      ? "Node v261 credential resolver upstream echo verification"
-      : "missing",
-    sourceVerificationMode: snippetMatched(expectedSnippets, "java-v106-source-mode")
-      ? "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only"
-      : "missing",
-    sourceNodeV261Span: snippetMatched(expectedSnippets, "java-v106-source-span")
-      ? "Node v260 + Java v105 + mini-kv v114"
-      : "missing",
-    requiredEnvHandleCount: snippetMatched(expectedSnippets, "java-v106-required-env-count") ? 6 : 0,
-    optInGateCount: snippetMatched(expectedSnippets, "java-v106-opt-in-count") ? 2 : 0,
-    failureClassCount: snippetMatched(expectedSnippets, "java-v106-failure-count") ? 7 : 0,
-    dryRunResponseFieldCount: snippetMatched(expectedSnippets, "java-v106-dry-run-count") ? 12 : 0,
-    inheritedNoGoConditionCount: snippetMatched(expectedSnippets, "java-v106-inherited-count") ? 9 : 0,
-    sourceCheckCount: snippetMatched(expectedSnippets, "java-v106-source-check-count") ? 20 : 0,
-    sourcePassedCheckCount: snippetMatched(expectedSnippets, "java-v106-source-passed-count") ? 20 : 0,
+    ...mapSnippetFields(expectedSnippets, JAVA_V106_IDENTITY_FIELDS),
     sourceProductionBlockerCount: 0,
     sourceWarningCount: 2,
     sourceRecommendationCount: 2,
-    resolverImplementationStatus: snippetMatched(expectedSnippets, "java-v106-resolver-status") ? "not-implemented" : "missing",
-    secretProviderImplementationStatus: snippetMatched(expectedSnippets, "java-v106-secret-status") ? "not-implemented" : "missing",
-    resolverClientMayBeInstantiated: !snippetMatched(expectedSnippets, "java-v106-resolver-client-blocked"),
-    secretProviderMayBeInstantiated: !snippetMatched(expectedSnippets, "java-v106-secret-provider-blocked"),
-    credentialValueMayBeLoaded: !snippetMatched(expectedSnippets, "java-v106-credential-load-blocked"),
-    rawEndpointUrlMayBeParsed: !snippetMatched(expectedSnippets, "java-v106-raw-endpoint-blocked"),
-    externalRequestMayBeSent: !snippetMatched(expectedSnippets, "java-v106-external-blocked"),
+    ...mapSnippetFields(expectedSnippets, JAVA_V106_IMPLEMENTATION_FIELDS),
     credentialResolverExecutionAllowed: false,
-    connectsManagedAudit: !snippetMatched(expectedSnippets, "java-v106-side-effect-connection"),
+    ...mapSnippetFields(expectedSnippets, JAVA_V106_CONNECTION_FIELD),
     credentialValueRead: false,
     credentialValueLoaded: false,
     credentialValueStored: false,
     credentialValueIncluded: false,
     rawEndpointUrlParsed: false,
     rawEndpointUrlIncluded: false,
-    externalRequestSent: !snippetMatched(expectedSnippets, "java-v106-side-effect-external"),
+    ...mapSnippetFields(expectedSnippets, JAVA_V106_EXTERNAL_FIELD),
     secretProviderInstantiated: false,
     resolverClientInstantiated: false,
     schemaMigrationExecuted: false,
@@ -248,47 +320,7 @@ export function createJavaV106Reference(): JavaV106CredentialResolverDisabledPre
   return {
     ...reference,
     readyForNodeV263SandboxEndpointCredentialResolverDisabledPrecheckUpstreamEchoVerification:
-      reference.evidencePresent
-      && reference.verificationDocumented
-      && reference.responseSchemaVersion === "java-release-approval-rehearsal-response-schema.v28"
-      && reference.markerField === "managedAuditSandboxEndpointCredentialResolverDisabledPrecheckEchoMarker"
-      && reference.consumedNodeVersion === "Node v262"
-      && reference.consumedNodeProfile
-        === "managed-audit-manual-sandbox-connection-sandbox-endpoint-credential-resolver-disabled-precheck.v1"
-      && reference.nextNodeConsumerVersion === "Node v263"
-      && reference.precheckMode === "sandbox-endpoint-credential-resolver-disabled-precheck-only"
-      && reference.sourceVerificationMode === "java-v105-plus-mini-kv-v114-credential-resolver-upstream-echo-verification-only"
-      && reference.requiredEnvHandleCount === 6
-      && reference.optInGateCount === 2
-      && reference.failureClassCount === 7
-      && reference.dryRunResponseFieldCount === 12
-      && reference.inheritedNoGoConditionCount === 9
-      && reference.sourceCheckCount === reference.sourcePassedCheckCount
-      && reference.sourceCheckCount === 20
-      && reference.sourceProductionBlockerCount === 0
-      && reference.sourceWarningCount === 2
-      && reference.sourceRecommendationCount === 2
-      && reference.resolverImplementationStatus === "not-implemented"
-      && reference.secretProviderImplementationStatus === "not-implemented"
-      && !reference.resolverClientMayBeInstantiated
-      && !reference.secretProviderMayBeInstantiated
-      && !reference.credentialValueMayBeLoaded
-      && !reference.rawEndpointUrlMayBeParsed
-      && !reference.externalRequestMayBeSent
-      && !reference.credentialResolverExecutionAllowed
-      && !reference.connectsManagedAudit
-      && !reference.credentialValueRead
-      && !reference.credentialValueLoaded
-      && !reference.credentialValueStored
-      && !reference.credentialValueIncluded
-      && !reference.rawEndpointUrlParsed
-      && !reference.rawEndpointUrlIncluded
-      && !reference.externalRequestSent
-      && !reference.secretProviderInstantiated
-      && !reference.resolverClientInstantiated
-      && !reference.schemaMigrationExecuted
-      && !reference.automaticUpstreamStart
-      && !reference.readyForManagedAuditSandboxAdapterConnection,
+      [javaV106ContractReady(reference), javaV106BoundaryClosed(reference)].every(Boolean),
   };
 }
 

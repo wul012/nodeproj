@@ -13,6 +13,7 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraft,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftGates,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftTypes.js";
+import { collectBlockedReasons } from "./blockedReasonKernel.js";
 
 const REQUIRED_SCOPES: readonly ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageControlScope[] = [
   "ledger",
@@ -124,32 +125,32 @@ export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEv
 function createValueDraftBlockedReasons(
   gates: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueDraftGates,
 ): string[] {
-  return [
-    gates.sourceImportPreflightReady ? null : "SOURCE_IMPORT_PREFLIGHT_NOT_READY",
-    gates.valueDraftSlotCountComplete ? null : "VALUE_DRAFT_SLOT_COUNT_INCOMPLETE",
-    gates.versionsSequential ? null : "VALUE_DRAFT_VERSIONS_NOT_SEQUENTIAL",
-    gates.eachSlotMapsPreflightSlot ? null : "VALUE_DRAFT_PREFLIGHT_SLOT_MISSING",
-    gates.sourcePreflightControlsPassed ? null : "VALUE_DRAFT_SOURCE_PREFLIGHT_CONTROLS_NOT_PASSED",
-    gates.sourcePreflightSlotsNotImported ? null : "VALUE_DRAFT_SOURCE_PREFLIGHT_VALUES_IMPORTED",
-    gates.sourcePreflightFieldsPresent ? null : "VALUE_DRAFT_SOURCE_FIELDS_MISSING",
-    gates.sourcePreflightNormalizersPresent ? null : "VALUE_DRAFT_SOURCE_NORMALIZERS_MISSING",
-    gates.sourcePreflightValidationRulesPresent ? null : "VALUE_DRAFT_SOURCE_VALIDATION_RULES_MISSING",
-    gates.sourcePreflightRedactionRulesPresent ? null : "VALUE_DRAFT_SOURCE_REDACTION_RULES_MISSING",
-    gates.sourcePreflightBlockRulesPresent ? null : "VALUE_DRAFT_SOURCE_BLOCK_RULES_MISSING",
-    gates.draftFieldsPresent ? null : "VALUE_DRAFT_FIELDS_MISSING",
-    gates.operatorInstructionsPresent ? null : "VALUE_DRAFT_OPERATOR_INSTRUCTIONS_MISSING",
-    gates.draftValuesAwaitingOperator ? null : "VALUE_DRAFT_VALUES_NOT_AWAITING_OPERATOR",
-    gates.noActualValuesSupplied ? null : "VALUE_DRAFT_ACTUAL_VALUES_SUPPLIED",
-    gates.targetScopesCovered ? null : "VALUE_DRAFT_SCOPE_COVERAGE_INCOMPLETE",
-    gates.maintenanceDraftPresent ? null : "VALUE_DRAFT_MAINTENANCE_SLOT_MISSING",
-    gates.closeoutDraftPresent ? null : "VALUE_DRAFT_CLOSEOUT_SLOT_MISSING",
-    gates.crossProjectParallelPlanClear ? null : "VALUE_DRAFT_CROSS_PROJECT_PLAN_NOT_CLEAR",
-    gates.noRuntimePayloadImported ? null : "VALUE_DRAFT_RUNTIME_PAYLOAD_IMPORTED",
-    gates.noSyntheticEvidenceAccepted ? null : "VALUE_DRAFT_SYNTHETIC_EVIDENCE_ACCEPTED",
-    gates.noSecretValues ? null : "VALUE_DRAFT_SECRET_VALUE_PRESENT",
-    gates.allSlotsReadOnly ? null : "VALUE_DRAFT_SLOT_NOT_READ_ONLY",
-    gates.noWritesAllowed ? null : "VALUE_DRAFT_WRITES_ALLOWED",
-    gates.noAutomaticServiceStart ? null : "VALUE_DRAFT_SERVICE_START_ENABLED",
-    gates.productionExecutionBlocked ? null : "VALUE_DRAFT_PRODUCTION_EXECUTION_ENABLED",
-  ].filter((reason): reason is string => reason !== null);
+  return collectBlockedReasons([
+    [gates.sourceImportPreflightReady, "SOURCE_IMPORT_PREFLIGHT_NOT_READY"],
+    [gates.valueDraftSlotCountComplete, "VALUE_DRAFT_SLOT_COUNT_INCOMPLETE"],
+    [gates.versionsSequential, "VALUE_DRAFT_VERSIONS_NOT_SEQUENTIAL"],
+    [gates.eachSlotMapsPreflightSlot, "VALUE_DRAFT_PREFLIGHT_SLOT_MISSING"],
+    [gates.sourcePreflightControlsPassed, "VALUE_DRAFT_SOURCE_PREFLIGHT_CONTROLS_NOT_PASSED"],
+    [gates.sourcePreflightSlotsNotImported, "VALUE_DRAFT_SOURCE_PREFLIGHT_VALUES_IMPORTED"],
+    [gates.sourcePreflightFieldsPresent, "VALUE_DRAFT_SOURCE_FIELDS_MISSING"],
+    [gates.sourcePreflightNormalizersPresent, "VALUE_DRAFT_SOURCE_NORMALIZERS_MISSING"],
+    [gates.sourcePreflightValidationRulesPresent, "VALUE_DRAFT_SOURCE_VALIDATION_RULES_MISSING"],
+    [gates.sourcePreflightRedactionRulesPresent, "VALUE_DRAFT_SOURCE_REDACTION_RULES_MISSING"],
+    [gates.sourcePreflightBlockRulesPresent, "VALUE_DRAFT_SOURCE_BLOCK_RULES_MISSING"],
+    [gates.draftFieldsPresent, "VALUE_DRAFT_FIELDS_MISSING"],
+    [gates.operatorInstructionsPresent, "VALUE_DRAFT_OPERATOR_INSTRUCTIONS_MISSING"],
+    [gates.draftValuesAwaitingOperator, "VALUE_DRAFT_VALUES_NOT_AWAITING_OPERATOR"],
+    [gates.noActualValuesSupplied, "VALUE_DRAFT_ACTUAL_VALUES_SUPPLIED"],
+    [gates.targetScopesCovered, "VALUE_DRAFT_SCOPE_COVERAGE_INCOMPLETE"],
+    [gates.maintenanceDraftPresent, "VALUE_DRAFT_MAINTENANCE_SLOT_MISSING"],
+    [gates.closeoutDraftPresent, "VALUE_DRAFT_CLOSEOUT_SLOT_MISSING"],
+    [gates.crossProjectParallelPlanClear, "VALUE_DRAFT_CROSS_PROJECT_PLAN_NOT_CLEAR"],
+    [gates.noRuntimePayloadImported, "VALUE_DRAFT_RUNTIME_PAYLOAD_IMPORTED"],
+    [gates.noSyntheticEvidenceAccepted, "VALUE_DRAFT_SYNTHETIC_EVIDENCE_ACCEPTED"],
+    [gates.noSecretValues, "VALUE_DRAFT_SECRET_VALUE_PRESENT"],
+    [gates.allSlotsReadOnly, "VALUE_DRAFT_SLOT_NOT_READ_ONLY"],
+    [gates.noWritesAllowed, "VALUE_DRAFT_WRITES_ALLOWED"],
+    [gates.noAutomaticServiceStart, "VALUE_DRAFT_SERVICE_START_ENABLED"],
+    [gates.productionExecutionBlocked, "VALUE_DRAFT_PRODUCTION_EXECUTION_ENABLED"],
+  ]);
 }

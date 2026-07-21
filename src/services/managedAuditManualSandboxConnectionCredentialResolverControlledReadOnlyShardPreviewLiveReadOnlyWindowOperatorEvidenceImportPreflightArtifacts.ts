@@ -13,6 +13,7 @@ import type {
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflight,
   ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightGates,
 } from "./managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightTypes.js";
+import { collectBlockedReasons } from "./blockedReasonKernel.js";
 
 const REQUIRED_SCOPES: readonly ControlledReadOnlyShardPreviewLiveReadOnlyWindowEvidenceIntakeReviewPackageControlScope[] = [
   "ledger",
@@ -127,30 +128,30 @@ export function createControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEv
 function createImportPreflightBlockedReasons(
   gates: ControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceImportPreflightGates,
 ): string[] {
-  return [
-    gates.sourceWorksheetReady ? null : "SOURCE_WORKSHEET_NOT_READY",
-    gates.preflightSlotCountComplete ? null : "IMPORT_PREFLIGHT_SLOT_COUNT_INCOMPLETE",
-    gates.versionsSequential ? null : "IMPORT_PREFLIGHT_VERSIONS_NOT_SEQUENTIAL",
-    gates.eachSlotMapsWorksheetSlot ? null : "IMPORT_PREFLIGHT_WORKSHEET_SLOT_MISSING",
-    gates.sourceWorksheetControlsPassed ? null : "IMPORT_PREFLIGHT_SOURCE_WORKSHEET_CONTROLS_NOT_PASSED",
-    gates.sourceWorksheetSlotsBlank ? null : "IMPORT_PREFLIGHT_SOURCE_WORKSHEET_NOT_BLANK",
-    gates.importFieldNamesPresent ? null : "IMPORT_PREFLIGHT_FIELD_NAMES_MISSING",
-    gates.normalizerRulesPresent ? null : "IMPORT_PREFLIGHT_NORMALIZER_RULES_MISSING",
-    gates.validationRulesPresent ? null : "IMPORT_PREFLIGHT_VALIDATION_RULES_MISSING",
-    gates.redactionRulesPresent ? null : "IMPORT_PREFLIGHT_REDACTION_RULES_MISSING",
-    gates.importBlockRulesPresent ? null : "IMPORT_PREFLIGHT_BLOCK_RULES_MISSING",
-    gates.missingValuePoliciesPreserved ? null : "IMPORT_PREFLIGHT_MISSING_VALUE_POLICIES_MISSING",
-    gates.targetScopesCovered ? null : "IMPORT_PREFLIGHT_SCOPE_COVERAGE_INCOMPLETE",
-    gates.maintenancePreflightPresent ? null : "IMPORT_PREFLIGHT_MAINTENANCE_SLOT_MISSING",
-    gates.closeoutPreflightPresent ? null : "IMPORT_PREFLIGHT_CLOSEOUT_SLOT_MISSING",
-    gates.crossProjectParallelPlanClear ? null : "IMPORT_PREFLIGHT_CROSS_PROJECT_PLAN_NOT_CLEAR",
-    gates.noValuesImported ? null : "IMPORT_PREFLIGHT_VALUES_IMPORTED",
-    gates.noRuntimePayloadImported ? null : "IMPORT_PREFLIGHT_RUNTIME_PAYLOAD_IMPORTED",
-    gates.noSyntheticEvidenceAccepted ? null : "IMPORT_PREFLIGHT_SYNTHETIC_EVIDENCE_ACCEPTED",
-    gates.noSecretValues ? null : "IMPORT_PREFLIGHT_SECRET_VALUE_PRESENT",
-    gates.allSlotsReadOnly ? null : "IMPORT_PREFLIGHT_SLOT_NOT_READ_ONLY",
-    gates.noWritesAllowed ? null : "IMPORT_PREFLIGHT_WRITES_ALLOWED",
-    gates.noAutomaticServiceStart ? null : "IMPORT_PREFLIGHT_SERVICE_START_ENABLED",
-    gates.productionExecutionBlocked ? null : "IMPORT_PREFLIGHT_PRODUCTION_EXECUTION_ENABLED",
-  ].filter((reason): reason is string => reason !== null);
+  return collectBlockedReasons([
+    [gates.sourceWorksheetReady, "SOURCE_WORKSHEET_NOT_READY"],
+    [gates.preflightSlotCountComplete, "IMPORT_PREFLIGHT_SLOT_COUNT_INCOMPLETE"],
+    [gates.versionsSequential, "IMPORT_PREFLIGHT_VERSIONS_NOT_SEQUENTIAL"],
+    [gates.eachSlotMapsWorksheetSlot, "IMPORT_PREFLIGHT_WORKSHEET_SLOT_MISSING"],
+    [gates.sourceWorksheetControlsPassed, "IMPORT_PREFLIGHT_SOURCE_WORKSHEET_CONTROLS_NOT_PASSED"],
+    [gates.sourceWorksheetSlotsBlank, "IMPORT_PREFLIGHT_SOURCE_WORKSHEET_NOT_BLANK"],
+    [gates.importFieldNamesPresent, "IMPORT_PREFLIGHT_FIELD_NAMES_MISSING"],
+    [gates.normalizerRulesPresent, "IMPORT_PREFLIGHT_NORMALIZER_RULES_MISSING"],
+    [gates.validationRulesPresent, "IMPORT_PREFLIGHT_VALIDATION_RULES_MISSING"],
+    [gates.redactionRulesPresent, "IMPORT_PREFLIGHT_REDACTION_RULES_MISSING"],
+    [gates.importBlockRulesPresent, "IMPORT_PREFLIGHT_BLOCK_RULES_MISSING"],
+    [gates.missingValuePoliciesPreserved, "IMPORT_PREFLIGHT_MISSING_VALUE_POLICIES_MISSING"],
+    [gates.targetScopesCovered, "IMPORT_PREFLIGHT_SCOPE_COVERAGE_INCOMPLETE"],
+    [gates.maintenancePreflightPresent, "IMPORT_PREFLIGHT_MAINTENANCE_SLOT_MISSING"],
+    [gates.closeoutPreflightPresent, "IMPORT_PREFLIGHT_CLOSEOUT_SLOT_MISSING"],
+    [gates.crossProjectParallelPlanClear, "IMPORT_PREFLIGHT_CROSS_PROJECT_PLAN_NOT_CLEAR"],
+    [gates.noValuesImported, "IMPORT_PREFLIGHT_VALUES_IMPORTED"],
+    [gates.noRuntimePayloadImported, "IMPORT_PREFLIGHT_RUNTIME_PAYLOAD_IMPORTED"],
+    [gates.noSyntheticEvidenceAccepted, "IMPORT_PREFLIGHT_SYNTHETIC_EVIDENCE_ACCEPTED"],
+    [gates.noSecretValues, "IMPORT_PREFLIGHT_SECRET_VALUE_PRESENT"],
+    [gates.allSlotsReadOnly, "IMPORT_PREFLIGHT_SLOT_NOT_READ_ONLY"],
+    [gates.noWritesAllowed, "IMPORT_PREFLIGHT_WRITES_ALLOWED"],
+    [gates.noAutomaticServiceStart, "IMPORT_PREFLIGHT_SERVICE_START_ENABLED"],
+    [gates.productionExecutionBlocked, "IMPORT_PREFLIGHT_PRODUCTION_EXECUTION_ENABLED"],
+  ]);
 }
