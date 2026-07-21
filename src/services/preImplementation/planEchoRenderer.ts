@@ -1,10 +1,10 @@
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationTypes.js";
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+  PlanEchoProfile,
+} from "./types.js";
+import { renderVerificationReportMarkdown } from "../verificationReportBuilder.js";
 
-export function renderManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationProfile,
+export function renderPlanEchoMarkdown(
+  profile: PlanEchoProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: "Managed audit manual sandbox connection credential resolver pre-implementation plan intake upstream echo verification",

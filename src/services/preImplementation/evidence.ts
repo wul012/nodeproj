@@ -1,7 +1,7 @@
 import type {
   CredentialResolverPreImplementationBoundaryCode,
   CredentialResolverPreImplementationRequirementCode,
-} from "../services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
+} from "../managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
 
 export const PROFILE_VERSION =
   "managed-audit-manual-sandbox-connection-credential-resolver-pre-implementation-plan-intake-upstream-echo-verification.v1";

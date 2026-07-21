@@ -2,7 +2,7 @@ import type { AppConfig } from "../../../config.js";
 import { isSha256, numberValue, readProjectJson, stringValue, valueAt } from "../../../evidence/projectJson.js";
 import { readJsonObject } from "../../historicalEvidenceReportUtils.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../../liveProbeReportUtils.js";
-import { completeChecks } from "../checkAssembly.js";
+import { completeChecks } from "../../reportCheckAssembly.js";
 import { createDeclaredChecks } from "./intakeChecks.js";
 import { createDeclaredProfile } from "./profile.js";
 import {
@@ -20,7 +20,6 @@ import type {
   JavaDeclaredLifecycle,
   DeclaredIntakeProfile,
   MiniKvDeclaredLifecycle,
-  FrozenOperatorTemplate,
   SourceV387Archive,
 } from "./intakeTypes.js";
 

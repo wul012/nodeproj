@@ -3,13 +3,13 @@
   "maxNameLength": 40,
   "familyThreshold": 3,
   "nameDebt": {
-    "count": 4475,
-    "fileCount": 970,
-    "exportCount": 3505,
-    "keyDigest": "sha256:e1efd6d9f8873ef6eee360516e3c0748a5d68450e49e2eafe8c3e22924e2bd9b"
+    "count": 4461,
+    "fileCount": 966,
+    "exportCount": 3495,
+    "keyDigest": "sha256:97f50ce91afa6e3593757cb4336f5b25ae717701b1ef799f9077964973a3d902"
   },
   "structuralFamilies": {
-    "src/evidence:evidence": 7,
+    "src/evidence:evidence": 6,
     "src/evidence:fixtures": 5,
     "src/integration:probe": 3,
     "src/routes:routes": 73,
@@ -47,7 +47,7 @@
     "src/services:record": 8,
     "src/services:references": 10,
     "src/services:rehearsal": 6,
-    "src/services:renderer": 241,
+    "src/services:renderer": 240,
     "src/services:renderers": 6,
     "src/services:report": 19,
     "src/services:request": 4,
@@ -55,11 +55,11 @@
     "src/services:runbook": 7,
     "src/services:summary": 14,
     "src/services:support": 6,
-    "src/services:types": 217,
+    "src/services:types": 216,
     "src/services:utils": 3,
     "src/services:validation": 3,
     "src/services:validator": 16,
-    "src/services:verification": 96,
+    "src/services:verification": 95,
     "src/ui:script": 4
   }
 }

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { completeChecks } from "../../src/services/operatorLifecycle/checkAssembly.js";
+import { completeChecks } from "../src/services/reportCheckAssembly.js";
 
 describe("operator lifecycle check assembly", () => {
   it("completes all-true evidence without mutating the draft or changing key order", () => {

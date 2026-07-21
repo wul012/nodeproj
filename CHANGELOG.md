@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2226 - 2026-07-21
+
+- Replaced the 758-line pre-implementation plan echo service with a bounded
+  context whose Node source, Java evidence, nullable mini-kv receipt, ordered
+  checks, policy messages, public profile, and renderer have explicit owners.
+  Promoted strict readiness completion to a project-level report primitive for
+  five consumers. READY and fail-closed JSON/Markdown byte oracles remain
+  identical, including the original public readiness field. Target naming debt
+  fell by 14 to zero; repository name debt tightened from 4,475 to 4,461 and
+  maintainability from 83/94/213/0 to 82/90/211/0, with no route, fixture,
+  sibling workspace, network, write, or execution-authority change.
+
 ## v2225 - 2026-07-21
 
 - Completed the operator-lifecycle bounded context with separate `service` and

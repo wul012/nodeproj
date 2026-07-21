@@ -12,7 +12,7 @@ import {
 } from "../../../evidence/projectJson.js";
 import { stripJsonBom } from "../../jsonEvidenceUtils.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../../liveProbeReportUtils.js";
-import { completeChecks } from "../checkAssembly.js";
+import { completeChecks } from "../../reportCheckAssembly.js";
 import { createDeclaredArchiveChecks } from "./archiveChecks.js";
 import {
   loadDeclaredIntake,

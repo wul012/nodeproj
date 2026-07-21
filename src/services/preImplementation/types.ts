@@ -2,13 +2,13 @@ import type {
   CredentialResolverPreImplementationBoundaryCode,
   CredentialResolverPreImplementationRequirementCode,
   ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
+} from "../managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
 import type {
   HistoricalEvidenceFile,
   HistoricalSnippetMatch,
-} from "./historicalEvidenceReportUtils.js";
+} from "../historicalEvidenceReportUtils.js";
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationProfile {
+export interface PlanEchoProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -35,13 +35,13 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverPreImpleme
   schemaMigrationExecuted: false;
   approvalLedgerWritten: false;
   automaticUpstreamStart: false;
-  sourceNodeV270: SourceNodeV270PreImplementationPlanIntakeReference;
+  sourceNodeV270: SourceV270PlanIntake;
   upstreamEchoes: {
-    javaV112: JavaV112PreImplementationPlanIntakeEchoReceiptReference;
-    miniKvV119: MiniKvV119PreImplementationPlanIntakeNonParticipationReference;
+    javaV112: JavaV112PlanEcho;
+    miniKvV119: MiniKvV119NonParticipation;
   };
-  echoVerification: CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification;
-  checks: CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationChecks;
+  echoVerification: PlanEchoVerification;
+  checks: PlanEchoChecks;
   summary: {
     checkCount: number;
     passedCheckCount: number;
@@ -56,9 +56,9 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverPreImpleme
     warningCount: number;
     recommendationCount: number;
   };
-  productionBlockers: CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMessage[];
-  warnings: CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMessage[];
-  recommendations: CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMessage[];
+  productionBlockers: PlanEchoMessage[];
+  warnings: PlanEchoMessage[];
+  recommendations: PlanEchoMessage[];
   evidenceEndpoints: {
     planIntakeUpstreamEchoVerificationJson: string;
     planIntakeUpstreamEchoVerificationMarkdown: string;
@@ -77,7 +77,7 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverPreImpleme
   nextActions: string[];
 }
 
-export interface SourceNodeV270PreImplementationPlanIntakeReference {
+export interface SourceV270PlanIntake {
   sourceVersion: "Node v270";
   profileVersion: ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeProfile["profileVersion"];
   planIntakeState: ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeProfile["planIntakeState"];
@@ -120,7 +120,7 @@ export interface SourceNodeV270PreImplementationPlanIntakeReference {
   recommendationCount: number;
 }
 
-export interface JavaV112PreImplementationPlanIntakeEchoReceiptReference {
+export interface JavaV112PlanEcho {
   sourceVersion: "Java v112";
   tagLabel: string;
   evidenceFiles: HistoricalEvidenceFile[];
@@ -161,7 +161,7 @@ export interface JavaV112PreImplementationPlanIntakeEchoReceiptReference {
   readyForManagedAuditSandboxAdapterConnection: false;
 }
 
-export interface MiniKvV119PreImplementationPlanIntakeNonParticipationReference {
+export interface MiniKvV119NonParticipation {
   sourceVersion: "mini-kv v119";
   tagLabel: string;
   evidenceFiles: HistoricalEvidenceFile[];
@@ -251,7 +251,7 @@ export interface MiniKvV119PreImplementationPlanIntakeNonParticipationReference 
   readyForNodeV272Alignment: boolean;
 }
 
-export interface CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification {
+export interface PlanEchoVerification {
   verificationDigest: string;
   verificationMode: "java-v112-plus-mini-kv-v119-plan-intake-upstream-echo-verification-only";
   sourceSpan: "Node v270 + Java v112 + mini-kv v119";
@@ -272,7 +272,7 @@ export interface CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerifi
   nodeV272KeepsRealResolverBlocked: true;
 }
 
-export type CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationChecks = {
+export type PlanEchoChecks = {
   sourceNodeV270Ready: boolean;
   sourceNodeV270KeepsPlanIntakeOnly: boolean;
   sourceNodeV270KeepsRealResolverBlocked: boolean;
@@ -297,7 +297,7 @@ export type CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificatio
   readyForManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification: boolean;
 };
 
-export interface CredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationMessage {
+export interface PlanEchoMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source:

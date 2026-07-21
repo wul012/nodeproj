@@ -5,8 +5,8 @@ import {
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification,
-} from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.js";
+  loadPlanEchoVerification,
+} from "./preImplementation/verification.js";
 import type {
   CredentialResolverPreImplementationBoundaryCode,
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
@@ -166,7 +166,7 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverDisable
 }
 
 function createSourceNodeV272(config: AppConfig): SourceNodeV272PlanIntakeUpstreamEchoVerificationReference {
-  const source = loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification({
+  const source = loadPlanEchoVerification({
     config,
   });
 

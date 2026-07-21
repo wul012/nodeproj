@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "version": "v2226",
+  "scope": "pre-implementation-plan-echo-bounded-context",
+  "behaviorChanged": false,
+  "boundedContext": {
+    "root": "src/services/preImplementation",
+    "files": {
+      "orchestrator": "verification.ts",
+      "nodeSource": "sourceNode.ts",
+      "javaEvidence": "javaEcho.ts",
+      "miniKvEvidence": "miniKvReceipt.ts",
+      "orderedChecks": "checks.ts",
+      "messages": "messages.ts",
+      "profile": "profile.ts",
+      "types": "types.ts",
+      "renderer": "planEchoRenderer.ts",
+      "constants": "evidence.ts"
+    },
+    "publicLoader": "loadPlanEchoVerification",
+    "publicRenderer": "renderPlanEchoMarkdown",
+    "compatibilityAliasesKept": 0,
+    "targetFamilyNameViolationsBefore": 14,
+    "targetFamilyNameViolationsAfter": 0
+  },
+  "sharedMechanism": {
+    "module": "src/services/reportCheckAssembly.ts",
+    "promotedFrom": "src/services/operatorLifecycle/checkAssembly.ts",
+    "reason": "preImplementation is the third bounded context requiring strict aggregate readiness completion",
+    "domainAgnostic": true,
+    "requiresReadinessKey": true,
+    "requiresEvidenceChecks": true,
+    "acceptsOnlyStrictTrue": true,
+    "preservesKeyOrder": true,
+    "mutatesInput": false,
+    "consumerCount": 5
+  },
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "localAndForcedFallbackVerified": true,
+    "beforeAndAfterEqual": true,
+    "ready": {
+      "verificationState": "credential-resolver-pre-implementation-plan-intake-upstream-echo-verification-ready",
+      "checks": "22-of-22",
+      "sourceChecks": "26-of-26",
+      "productionBlockers": 0,
+      "jsonBytes": 52250,
+      "jsonSha256": "fa1bedae0e1fd8a505e593bc464836d83dcb7a934ac89828c8eb3b1ea4d78b00",
+      "markdownBytes": 51719,
+      "markdownSha256": "8fb687c268903457c6d5124c83392f4ee6f1325e20a4dbb7c018cb37718e2f9c"
+    },
+    "blocked": {
+      "runtimeOverrides": [
+        "UPSTREAM_PROBES_ENABLED=true",
+        "UPSTREAM_ACTIONS_ENABLED=true"
+      ],
+      "verificationState": "blocked",
+      "checks": "16-of-22",
+      "sourceChecks": "21-of-26",
+      "productionBlockers": 4,
+      "jsonBytes": 53007,
+      "jsonSha256": "89a9b923e2f3538cb15d300b98725d5c97acc2ed6c9882ed163fc39fcc78a0f8",
+      "markdownBytes": 52252,
+      "markdownSha256": "e1aabda5189247a798482e228d9c54b24284e71837b8407740c965454577ec80"
+    },
+    "publicReadinessFieldRestoredAfterOracleCaughtDrift": true,
+    "testExpectationsChanged": false,
+    "fixturesChanged": false
+  },
+  "ownership": {
+    "verification": "orchestration only",
+    "sourceNode": "Node v270 profile narrowing",
+    "javaEcho": "Java file and snippet evidence interpretation",
+    "miniKvReceipt": "nullable JSON receipt narrowing without fallback substitution",
+    "checks": "ordered domain predicates and aggregate readiness",
+    "messages": "blocker, warning, and recommendation policy text",
+    "profile": "public object order, digest, summary, endpoints, and next actions",
+    "renderer": "Markdown formatting only"
+  },
+  "ratchets": {
+    "maintainabilityBefore": "83/94/213/0",
+    "maintainabilityAfter": "82/90/211/0",
+    "nearLimitFilesRemoved": 1,
+    "longFunctionsRemoved": 4,
+    "complexFunctionsRemoved": 2,
+    "replacementLongFunctions": 0,
+    "replacementComplexFunctions": 0,
+    "nameDebtBefore": 4475,
+    "nameDebtAfter": 4461,
+    "fileNameDebtBefore": 970,
+    "fileNameDebtAfter": 966,
+    "exportNameDebtBefore": 3505,
+    "exportNameDebtAfter": 3495,
+    "trackedFamilies": 52,
+    "importCycles": 0,
+    "baselinesRefreshedDownward": true
+  },
+  "localVerification": {
+    "typecheck": "passed",
+    "targetedLint": "passed-zero-errors-zero-warnings",
+    "focusedAndStaticTests": "passed-14-files-53-tests-max-4-workers",
+    "fullProfileByteParity": "passed-ready-and-blocked-json-and-markdown-oracles",
+    "walkthrough": "passed-3386-han-characters-16-h2-sections",
+    "security": "passed-8367-files-18-of-18-config-checks",
+    "archive": "passed-7159-files-64.48-of-80-mib",
+    "elegance": "passed-4461-name-debt-52-tracked-families",
+    "family": "passed-52-of-52",
+    "maintainability": "passed-82-90-211-0",
+    "renderer": "passed-242-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-0-above-800",
+    "governance": "passed-1109-root-services-of-1125-and-80-routes-of-80"
+  },
+  "boundaries": {
+    "routePathsChanged": false,
+    "profileFieldsChanged": false,
+    "checkKeysOrOrderChanged": false,
+    "blockerWarningRecommendationTextChanged": false,
+    "digestInputsChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "executionAuthorityAdded": false,
+    "javaOrMiniKvStarted": false,
+    "javaOrMiniKvModified": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel-read-only-from-node",
+    "miniKv": "recommended-parallel-read-only-from-node",
+    "freshEvidenceRequired": false,
+    "nodeIsApprovalBlocker": false
+  }
+}

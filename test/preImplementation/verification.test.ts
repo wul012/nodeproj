@@ -1,10 +1,10 @@
 import { afterEach, describe, expect, it } from "vitest";
 
-import { buildApp } from "../src/app.js";
-import { loadConfig } from "../src/config.js";
+import { buildApp } from "../../src/app.js";
+import { loadConfig } from "../../src/config.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.js";
+  loadPlanEchoVerification,
+} from "../../src/services/preImplementation/verification.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const ROUTE =
@@ -22,7 +22,7 @@ describe("managed audit manual sandbox connection credential resolver pre-implem
   });
 
   it("verifies Node v270 plan intake with Java v112 and mini-kv v119", () => {
-    const profile = loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification({
+    const profile = loadPlanEchoVerification({
       config: loadTestConfig(),
     });
 
@@ -273,7 +273,7 @@ describe("managed audit manual sandbox connection credential resolver pre-implem
   it("uses committed historical fixture fallback for GitHub runner style checks", () => {
     process.env[FORCE_FALLBACK_ENV] = "true";
 
-    const profile = loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification({
+    const profile = loadPlanEchoVerification({
       config: loadTestConfig(),
     });
 
@@ -291,7 +291,7 @@ describe("managed audit manual sandbox connection credential resolver pre-implem
   });
 
   it("blocks when upstream probes or actions are enabled", () => {
-    const profile = loadManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification({
+    const profile = loadPlanEchoVerification({
       config: loadTestConfig({
         UPSTREAM_PROBES_ENABLED: "true",
         UPSTREAM_ACTIONS_ENABLED: "true",

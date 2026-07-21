@@ -3,8 +3,8 @@ import type {
   CredentialResolverPreImplementationRequirementCode,
 } from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeTypes.js";
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationTypes.js";
+  PlanEchoProfile,
+} from "./preImplementation/types.js";
 
 export interface ManagedAuditManualSandboxConnectionCredentialResolverDisabledImplementationCandidateReviewProfile {
   service: "orderops-node";
@@ -68,8 +68,8 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverDisabledIm
 
 export interface SourceNodeV272PlanIntakeUpstreamEchoVerificationReference {
   sourceVersion: "Node v272";
-  profileVersion: ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationProfile["profileVersion"];
-  verificationState: ManagedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerificationProfile["verificationState"];
+  profileVersion: PlanEchoProfile["profileVersion"];
+  verificationState: PlanEchoProfile["verificationState"];
   readyForPlanIntakeUpstreamEchoVerification: boolean;
   readOnlyUpstreamEchoVerification: true;
   planIntakeEchoVerificationOnly: true;

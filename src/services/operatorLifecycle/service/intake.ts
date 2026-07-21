@@ -8,7 +8,7 @@ import {
 } from "../../../evidence/projectJson.js";
 import { readJsonObject } from "../../historicalEvidenceReportUtils.js";
 import { countPassedReportChecks, countReportChecks, sha256StableJson } from "../../liveProbeReportUtils.js";
-import { completeChecks } from "../checkAssembly.js";
+import { completeChecks } from "../../reportCheckAssembly.js";
 import { createServiceChecks } from "./intakeChecks.js";
 import { createServiceProfile } from "./profile.js";
 import {
