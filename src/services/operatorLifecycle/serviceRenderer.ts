@@ -1,10 +1,10 @@
 import type {
-  ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeProfile,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeTypes.js";
-import { renderVerificationReportMarkdown } from "./verificationReportBuilder.js";
+  ServiceIntakeProfile,
+} from "./serviceTypes.js";
+import { renderVerificationReportMarkdown } from "../verificationReportBuilder.js";
 
-export function renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeMarkdown(
-  profile: ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeProfile,
+export function renderServiceIntakeMarkdown(
+  profile: ServiceIntakeProfile,
 ): string {
   return renderVerificationReportMarkdown({
     title: profile.title,

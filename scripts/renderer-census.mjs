@@ -27,11 +27,9 @@ const waiverManifestRelativePath = "docs/plans/renderer-consolidation-waivers.js
 
 export async function buildRendererCensus() {
   const waiverManifest = await loadRendererWaiverManifest();
-  const rendererFiles = (await readdir(servicesDirectory))
-    .filter((fileName) => fileName.endsWith("Renderer.ts"))
-    .sort();
+  const rendererFiles = await listRendererFiles(servicesDirectory);
   const sourceRecords = await Promise.all(rendererFiles.map(async (fileName) => {
-    const source = await readFile(join(servicesDirectory, fileName), "utf8");
+    const source = await readFile(join(servicesDirectory, ...fileName.split("/")), "utf8");
     const markers = STANDARDIZATION_MARKERS.filter((marker) => source.includes(marker));
 
     return {
@@ -84,7 +82,8 @@ export async function buildRendererCensus() {
   return {
     definition: {
       directory: "src/services",
-      filePattern: "*Renderer.ts",
+      filePattern: "**/*Renderer.ts",
+      recursive: true,
       standardizationMarkers: STANDARDIZATION_MARKERS,
       note: "Shape signals overlap and are planning hints; standardized/unstandardized counts are authoritative.",
     },
@@ -95,6 +94,7 @@ export async function buildRendererCensus() {
       rule: "A waiver is valid only when the file is an unstandardized exported function whose body returns only spread calls to the declared child renderers.",
     },
     totalRenderers: sourceRecords.length,
+    discoveredFiles: sourceRecords.map((record) => record.file),
     standardizedRenderers: standardized.length,
     unstandardizedRenderers: unstandardized.length,
     waivedUnstandardizedRenderers: waivedUnstandardized.length,
@@ -104,6 +104,20 @@ export async function buildRendererCensus() {
     waivedFiles: validatedWaivers,
     nonWaivedUnstandardizedFiles: nonWaivedUnstandardized.map(toRendererSummary),
   };
+}
+
+async function listRendererFiles(directory, prefix = "") {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+  for (const entry of entries.sort((left, right) => left.name.localeCompare(right.name))) {
+    const relativePath = prefix.length > 0 ? `${prefix}/${entry.name}` : entry.name;
+    if (entry.isDirectory()) {
+      files.push(...await listRendererFiles(join(directory, entry.name), relativePath));
+    } else if (entry.isFile() && entry.name.endsWith("Renderer.ts")) {
+      files.push(relativePath);
+    }
+  }
+  return files;
 }
 
 export function inspectCompositionOnlyRenderer(source, fileName = "renderer.ts") {

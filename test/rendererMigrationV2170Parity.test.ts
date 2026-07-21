@@ -20,11 +20,11 @@ import {
   renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecordRenderer.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.js";
+  loadServiceIntake,
+} from "../src/services/operatorLifecycle/serviceIntake.js";
 import {
-  renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeMarkdown,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeRenderer.js";
+  renderServiceIntakeMarkdown,
+} from "../src/services/operatorLifecycle/serviceRenderer.js";
 import { normalizeRendererMigrationMarkdown, sha256 } from "./rendererMigrationParityUtils.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
@@ -55,8 +55,8 @@ describe("renderer migration v2170 parity", () => {
         {
           name: "operatorServiceLifecycle",
           render: () =>
-            renderManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeMarkdown({
-              ...loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake({
+            renderServiceIntakeMarkdown({
+              ...loadServiceIntake({
                 config,
               }),
               generatedAt: GENERATED_AT,

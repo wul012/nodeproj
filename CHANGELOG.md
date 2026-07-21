@@ -11,6 +11,18 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2224 - 2026-07-21
+
+- Moved the operator service lifecycle intake and archive verifier into a
+  bounded `operatorLifecycle` context with short local APIs and no compatibility
+  aliases. Split source mapping, 45 ordered service checks, profile assembly,
+  37 archive checks, types, and renderers into explicit owners. All local and
+  forced-fallback full JSON/Markdown byte oracles remain identical. Target
+  naming violations fell from 32 to zero; the repository ratchets tightened
+  from 4,537 to 4,505 names and from 83/98/217/0 to 83/96/215/0. Renderer
+  discovery now recurses into bounded contexts, restoring the real 242/245
+  census and preventing nested renderers from escaping the gate.
+
 ## v2223 - 2026-07-21
 
 - Added a 56-line project JSON access boundary with object-root validation,

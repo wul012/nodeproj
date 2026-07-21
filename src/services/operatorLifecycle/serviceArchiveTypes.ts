@@ -1,11 +1,23 @@
-export interface OperatorServiceLifecycleEvidenceIntakeArchiveFileReference {
+export interface ServiceArchiveFile {
   path: string;
   exists: boolean;
   byteLength: number;
   digest: string | null;
 }
 
-export interface SourceNodeV386OperatorServiceLifecycleEvidenceIntakeReference {
+export interface ParsedServiceArchive {
+  json: Record<string, unknown> | null;
+  markdown: string;
+  summary: Record<string, unknown> | null;
+  browserSnapshot: string;
+  explanation: string;
+  codeWalkthrough: string;
+  sourcePlan: string;
+  plansIndex: string;
+  archiveIndex: string;
+}
+
+export interface SourceV386ServiceIntake {
   sourceVersion: "Node v386";
   profileVersion: string;
   intakeState: string;
@@ -43,7 +55,7 @@ export interface SourceNodeV386OperatorServiceLifecycleEvidenceIntakeReference {
   executionAllowed: false;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeReplayReference {
+export interface ServiceReplay {
   replayState: "ready" | "blocked";
   replayedProfileVersion: string;
   readyForOperatorServiceLifecycleEvidenceIntake: boolean;
@@ -70,22 +82,22 @@ export interface OperatorServiceLifecycleEvidenceIntakeReplayReference {
   executionAllowed: false;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeArchiveReferences {
+export interface ServiceArchiveRefs {
   archiveRoot: "e/386";
-  jsonEvidence: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  markdownEvidence: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  summaryEvidence: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  browserSnapshot: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  htmlArchive: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  screenshot: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  explanation: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  codeWalkthrough: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  sourcePlan: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  plansIndex: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
-  archiveIndex: OperatorServiceLifecycleEvidenceIntakeArchiveFileReference;
+  jsonEvidence: ServiceArchiveFile;
+  markdownEvidence: ServiceArchiveFile;
+  summaryEvidence: ServiceArchiveFile;
+  browserSnapshot: ServiceArchiveFile;
+  htmlArchive: ServiceArchiveFile;
+  screenshot: ServiceArchiveFile;
+  explanation: ServiceArchiveFile;
+  codeWalkthrough: ServiceArchiveFile;
+  sourcePlan: ServiceArchiveFile;
+  plansIndex: ServiceArchiveFile;
+  archiveIndex: ServiceArchiveFile;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationRecord {
+export interface ServiceArchiveRecord {
   archiveVerificationDigest: string;
   verificationMode: "java-mini-kv-operator-service-lifecycle-evidence-intake-archive-verification";
   sourceSpan: "Node v386 operator service lifecycle evidence intake";
@@ -108,7 +120,7 @@ export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationRecord
   nextNodeVersionSuggested: "Node v388";
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationChecks {
+export interface ServiceArchiveChecks {
   archiveFilesPresent: boolean;
   jsonEvidenceReadable: boolean;
   jsonProfileVersionValid: boolean;
@@ -148,7 +160,7 @@ export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationChecks
   readyForOperatorServiceLifecycleEvidenceIntakeArchiveVerification: boolean;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationSummary {
+export interface ServiceArchiveSummary {
   checkCount: number;
   passedCheckCount: number;
   archiveFileCount: number;
@@ -163,14 +175,14 @@ export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationSummar
   recommendationCount: number;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeArchiveVerificationMessage {
+export interface ServiceArchiveMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerificationProfile {
+export interface ServiceArchiveProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -201,15 +213,15 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  archiveReferences: OperatorServiceLifecycleEvidenceIntakeArchiveReferences;
-  sourceNodeV386: SourceNodeV386OperatorServiceLifecycleEvidenceIntakeReference;
-  replay: OperatorServiceLifecycleEvidenceIntakeReplayReference;
-  archiveVerification: OperatorServiceLifecycleEvidenceIntakeArchiveVerificationRecord;
-  checks: OperatorServiceLifecycleEvidenceIntakeArchiveVerificationChecks;
-  summary: OperatorServiceLifecycleEvidenceIntakeArchiveVerificationSummary;
-  productionBlockers: OperatorServiceLifecycleEvidenceIntakeArchiveVerificationMessage[];
-  warnings: OperatorServiceLifecycleEvidenceIntakeArchiveVerificationMessage[];
-  recommendations: OperatorServiceLifecycleEvidenceIntakeArchiveVerificationMessage[];
+  archiveReferences: ServiceArchiveRefs;
+  sourceNodeV386: SourceV386ServiceIntake;
+  replay: ServiceReplay;
+  archiveVerification: ServiceArchiveRecord;
+  checks: ServiceArchiveChecks;
+  summary: ServiceArchiveSummary;
+  productionBlockers: ServiceArchiveMessage[];
+  warnings: ServiceArchiveMessage[];
+  recommendations: ServiceArchiveMessage[];
   evidenceEndpoints: {
     archiveVerificationJson: string;
     archiveVerificationMarkdown: string;

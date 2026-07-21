@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "version": "v2224",
+  "scope": "operator-service-lifecycle-bounded-context",
+  "behaviorChanged": false,
+  "boundedContext": {
+    "root": "src/services/operatorLifecycle",
+    "files": {
+      "intake": "serviceIntake.ts",
+      "types": "serviceTypes.ts",
+      "sources": "serviceSources.ts",
+      "checks": "serviceChecks.ts",
+      "profile": "serviceProfile.ts",
+      "renderer": "serviceRenderer.ts",
+      "archive": "serviceArchive.ts",
+      "archiveTypes": "serviceArchiveTypes.ts",
+      "archiveChecks": "serviceArchiveChecks.ts",
+      "archiveRenderer": "serviceArchiveRenderer.ts"
+    },
+    "publicLoaders": [
+      "loadServiceIntake",
+      "loadServiceArchive"
+    ],
+    "publicRenderers": [
+      "renderServiceIntakeMarkdown",
+      "renderServiceArchiveMarkdown"
+    ],
+    "compatibilityAliasesKept": 0,
+    "targetFamilyNameViolationsBefore": 32,
+    "targetFamilyNameViolationsAfter": 0
+  },
+  "behaviorOracles": {
+    "fixedGeneratedAt": "2026-07-21T00:00:00.000Z",
+    "localAndForcedFallbackEqual": true,
+    "beforeAndAfterEqual": true,
+    "serviceIntake": {
+      "checks": "45-of-45",
+      "jsonBytes": 15922,
+      "jsonSha256": "979c9b8feefed725ffc36a71f7c9ca848ebc3fe610bde75fb589c8361ef168ff",
+      "markdownBytes": 13748,
+      "markdownSha256": "ff34aaa902ccca2a470db1ebc47d8b2035921d48afdac8e95da34d4328b480c9"
+    },
+    "serviceArchive": {
+      "checks": "37-of-37",
+      "jsonBytes": 12850,
+      "jsonSha256": "33f4b2f9ebdccd588488d8feba9d295273bcf4ca0b2e09e093e62d483b678016",
+      "markdownBytes": 11147,
+      "markdownSha256": "7098c601672cde98889930557c5300eeef360894fee00e8d2dd791c43079e7e1"
+    },
+    "testExpectationsChanged": false,
+    "fixturesChanged": false
+  },
+  "checkOwnership": {
+    "serviceGroups": [
+      "source",
+      "java",
+      "mini-kv",
+      "runtime-boundary"
+    ],
+    "archiveGroups": [
+      "json",
+      "assets",
+      "replay",
+      "archive-boundary"
+    ],
+    "publicCheckOrderPreserved": true,
+    "replacementLongFunctions": 0,
+    "replacementComplexFunctions": 0
+  },
+  "rendererDiscovery": {
+    "problem": "top-level-only-discovery-would-hide-renderers-moved-into-bounded-contexts",
+    "beforeObserved": "240-of-243",
+    "afterRecursive": "242-of-245",
+    "filePattern": "**/*Renderer.ts",
+    "nestedFilesAsserted": [
+      "operatorLifecycle/serviceRenderer.ts",
+      "operatorLifecycle/serviceArchiveRenderer.ts"
+    ],
+    "waived": 3,
+    "nonWaivedUnstandardized": 0
+  },
+  "ratchets": {
+    "maintainabilityBefore": "83/98/217/0",
+    "maintainabilityAfter": "83/96/215/0",
+    "longFunctionsRemoved": 2,
+    "complexFunctionsRemoved": 2,
+    "nameDebtBefore": 4537,
+    "nameDebtAfter": 4505,
+    "fileNameDebtBefore": 984,
+    "fileNameDebtAfter": 977,
+    "exportNameDebtBefore": 3553,
+    "exportNameDebtAfter": 3528,
+    "trackedFamilies": 52,
+    "importCycles": 0,
+    "rootServiceFiles": 1118,
+    "rootServiceFileCeiling": 1125,
+    "routeFiles": 80,
+    "routeFileCeiling": 80,
+    "baselinesRefreshedDownward": true
+  },
+  "localVerification": {
+    "typecheck": "passed",
+    "targetedLint": "passed-zero-errors-zero-warnings",
+    "focused": "passed-7-files-21-tests-max-4-workers",
+    "profileArchiveAndRendererParity": "passed",
+    "rendererAndFamilyCensusTests": "passed",
+    "governanceRatchet": "passed",
+    "walkthrough": "passed-3050-chinese-characters-14-h2-sections",
+    "security": "passed-8350-files-18-of-18-config-checks",
+    "archive": "passed-7153-files-64.43-of-80-mib",
+    "elegance": "passed-4505-name-debt-52-tracked-families",
+    "family": "passed-52-of-52",
+    "maintainability": "passed-83-96-215-0",
+    "renderer": "passed-242-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed-0-above-800"
+  },
+  "boundaries": {
+    "routePathsChanged": false,
+    "profileFieldsChanged": false,
+    "checkKeysOrOrderChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "runtimeGateOpened": false,
+    "executionAuthorityChanged": false,
+    "javaOrMiniKvModified": false,
+    "screenshotApplicable": false
+  }
+}

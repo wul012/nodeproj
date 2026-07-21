@@ -1,4 +1,4 @@
-export interface OperatorServiceLifecycleEvidenceFileReference {
+export interface LifecycleEvidenceFile {
   id: string;
   configuredPath: string;
   resolvedPath: string;
@@ -9,7 +9,7 @@ export interface OperatorServiceLifecycleEvidenceFileReference {
   digest: string | null;
 }
 
-export interface SourceNodeV385ArchiveVerificationReference {
+export interface SourceV385Archive {
   sourceVersion: "Node v385";
   profileVersion: string;
   archiveVerificationState: string;
@@ -35,7 +35,7 @@ export interface SourceNodeV385ArchiveVerificationReference {
   activeShardPrototypeEnabled: false;
 }
 
-export interface JavaOperatorServiceLifecycleReference {
+export interface JavaServiceLifecycle {
   project: "advanced-order-platform" | "unknown";
   version: string;
   readOnly: boolean;
@@ -61,7 +61,7 @@ export interface JavaOperatorServiceLifecycleReference {
   status: string;
 }
 
-export interface MiniKvOperatorServiceLifecycleTemplateReference {
+export interface MiniKvServiceTemplate {
   project: "mini-kv" | "unknown";
   contract: string;
   releaseVersion: string;
@@ -118,7 +118,7 @@ export interface MiniKvOperatorServiceLifecycleTemplateReference {
   evidenceDigest: string | null;
 }
 
-export interface MiniKvFrozenLiveReadGatePlanReference {
+export interface FrozenLiveReadPlan {
   project: "mini-kv" | "unknown";
   releaseVersion: string;
   readOnly: boolean;
@@ -134,7 +134,7 @@ export interface MiniKvFrozenLiveReadGatePlanReference {
   liveReadGateExecutionAllowed: boolean;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeRecord {
+export interface ServiceIntakeRecord {
   intakeDigest: string;
   intakeMode: "java-mini-kv-operator-service-lifecycle-evidence-intake";
   sourceSpan: "Node v385 + Java v160 + mini-kv v151";
@@ -160,7 +160,7 @@ export interface OperatorServiceLifecycleEvidenceIntakeRecord {
   ready: boolean;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeChecks {
+export interface ServiceIntakeChecks {
   sourceNodeV385Ready: boolean;
   sourceNodeV385ArchiveVerified: boolean;
   sourceNodeV385ChecksAllPassed: boolean;
@@ -208,7 +208,7 @@ export interface OperatorServiceLifecycleEvidenceIntakeChecks {
   readyForOperatorServiceLifecycleEvidenceIntake: boolean;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeSummary {
+export interface ServiceIntakeSummary {
   evidenceSourceCount: number;
   readyEvidenceSourceCount: number;
   javaSmokeTargetCount: number;
@@ -222,14 +222,14 @@ export interface OperatorServiceLifecycleEvidenceIntakeSummary {
   recommendationCount: number;
 }
 
-export interface OperatorServiceLifecycleEvidenceIntakeMessage {
+export interface ServiceIntakeMessage {
   code: string;
   severity: "blocker" | "warning" | "recommendation";
   source: string;
   message: string;
 }
 
-export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeProfile {
+export interface ServiceIntakeProfile {
   service: "orderops-node";
   title: string;
   generatedAt: string;
@@ -262,19 +262,19 @@ export interface ManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKv
   readyForProductionAudit: false;
   readyForProductionWindow: false;
   readyForProductionOperations: false;
-  sourceNodeV385: SourceNodeV385ArchiveVerificationReference;
-  javaOperatorServiceLifecycleFile: OperatorServiceLifecycleEvidenceFileReference;
-  miniKvOperatorServiceLifecycleTemplateFile: OperatorServiceLifecycleEvidenceFileReference;
-  miniKvFrozenLiveReadGatePlanFile: OperatorServiceLifecycleEvidenceFileReference;
-  javaOperatorServiceLifecycle: JavaOperatorServiceLifecycleReference;
-  miniKvOperatorServiceLifecycleTemplate: MiniKvOperatorServiceLifecycleTemplateReference;
-  miniKvFrozenLiveReadGatePlan: MiniKvFrozenLiveReadGatePlanReference;
-  intake: OperatorServiceLifecycleEvidenceIntakeRecord;
-  checks: OperatorServiceLifecycleEvidenceIntakeChecks;
-  summary: OperatorServiceLifecycleEvidenceIntakeSummary;
-  productionBlockers: OperatorServiceLifecycleEvidenceIntakeMessage[];
-  warnings: OperatorServiceLifecycleEvidenceIntakeMessage[];
-  recommendations: OperatorServiceLifecycleEvidenceIntakeMessage[];
+  sourceNodeV385: SourceV385Archive;
+  javaOperatorServiceLifecycleFile: LifecycleEvidenceFile;
+  miniKvOperatorServiceLifecycleTemplateFile: LifecycleEvidenceFile;
+  miniKvFrozenLiveReadGatePlanFile: LifecycleEvidenceFile;
+  javaOperatorServiceLifecycle: JavaServiceLifecycle;
+  miniKvOperatorServiceLifecycleTemplate: MiniKvServiceTemplate;
+  miniKvFrozenLiveReadGatePlan: FrozenLiveReadPlan;
+  intake: ServiceIntakeRecord;
+  checks: ServiceIntakeChecks;
+  summary: ServiceIntakeSummary;
+  productionBlockers: ServiceIntakeMessage[];
+  warnings: ServiceIntakeMessage[];
+  recommendations: ServiceIntakeMessage[];
   evidenceEndpoints: {
     operatorServiceLifecycleEvidenceIntakeJson: string;
     operatorServiceLifecycleEvidenceIntakeMarkdown: string;

@@ -1,23 +1,28 @@
 import { createHash } from "node:crypto";
 
 import {
+  stringValue,
+  stringValues,
+  valueAt,
+} from "../../evidence/projectJson.js";
+import {
   historicalEvidenceExists,
   readHistoricalEvidenceFile,
   resolveHistoricalEvidencePath,
   statHistoricalEvidence,
-} from "./historicalEvidenceResolver.js";
+} from "../historicalEvidenceResolver.js";
 import type {
-  JavaOperatorServiceLifecycleReference,
-  MiniKvFrozenLiveReadGatePlanReference,
-  MiniKvOperatorServiceLifecycleTemplateReference,
-  OperatorServiceLifecycleEvidenceFileReference,
-} from "./managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeTypes.js";
+  JavaServiceLifecycle,
+  FrozenLiveReadPlan,
+  MiniKvServiceTemplate,
+  LifecycleEvidenceFile,
+} from "./serviceTypes.js";
 
-export function createOperatorServiceLifecycleEvidenceFileReference(
+export function createLifecycleFile(
   id: string,
   configuredPath: string,
   historicalFallbackPath: string,
-): OperatorServiceLifecycleEvidenceFileReference {
+): LifecycleEvidenceFile {
   const resolvedPath = resolveHistoricalEvidencePath(configuredPath);
   const exists = historicalEvidenceExists(configuredPath);
   if (!exists) {
@@ -45,20 +50,9 @@ export function createOperatorServiceLifecycleEvidenceFileReference(
   };
 }
 
-export function readHistoricalJson(inputPath: string): Record<string, unknown> | null {
-  if (!historicalEvidenceExists(inputPath)) {
-    return null;
-  }
-  try {
-    return JSON.parse(readHistoricalEvidenceFile(inputPath, "utf8")) as Record<string, unknown>;
-  } catch {
-    return null;
-  }
-}
-
-export function createJavaOperatorServiceLifecycle(
+export function createJavaServiceLifecycle(
   json: Record<string, unknown> | null,
-): JavaOperatorServiceLifecycleReference {
+): JavaServiceLifecycle {
   return {
     project: valueAt(json, "project") === "advanced-order-platform" ? "advanced-order-platform" : "unknown",
     version: stringValue(valueAt(json, "version")),
@@ -76,19 +70,19 @@ export function createJavaOperatorServiceLifecycle(
     javaStopOwner: stringOrNull(valueAt(json, "javaStopOwner")),
     javaPortDeclaration: stringOrNull(valueAt(json, "javaPortDeclaration")),
     javaBaseUrlTemplate: stringOrNull(valueAt(json, "javaBaseUrlTemplate")),
-    operatorPrerequisites: stringArray(valueAt(json, "operatorPrerequisites")),
-    getOnlySmokeTargets: stringArray(valueAt(json, "getOnlySmokeTargets")),
-    failClosedRules: stringArray(valueAt(json, "failClosedRules")),
-    cleanupResponsibilities: stringArray(valueAt(json, "cleanupResponsibilities")),
-    stopConditions: stringArray(valueAt(json, "stopConditions")),
+    operatorPrerequisites: stringValues(valueAt(json, "operatorPrerequisites")),
+    getOnlySmokeTargets: stringValues(valueAt(json, "getOnlySmokeTargets")),
+    failClosedRules: stringValues(valueAt(json, "failClosedRules")),
+    cleanupResponsibilities: stringValues(valueAt(json, "cleanupResponsibilities")),
+    stopConditions: stringValues(valueAt(json, "stopConditions")),
     evidencePath: stringOrNull(valueAt(json, "evidencePath")),
     status: stringValue(valueAt(json, "status")),
   };
 }
 
-export function createMiniKvOperatorServiceLifecycleTemplate(
+export function createMiniKvServiceTemplate(
   json: Record<string, unknown> | null,
-): MiniKvOperatorServiceLifecycleTemplateReference {
+): MiniKvServiceTemplate {
   return {
     project: valueAt(json, "project") === "mini-kv" ? "mini-kv" : "unknown",
     contract: stringValue(valueAt(json, "contract")),
@@ -114,7 +108,7 @@ export function createMiniKvOperatorServiceLifecycleTemplate(
     nodeV385ArchiveVerificationPreserved:
       valueAt(json, "historicalFallback", "nodeV385ArchiveVerificationPreserved") === true,
     nodeV386ReadsUnfinishedUpstream: valueAt(json, "historicalFallback", "nodeV386ReadsUnfinishedUpstream") === true,
-    archivedNodeVersions: stringArray(valueAt(json, "archiveCompatibility", "archivedNodeVersions")),
+    archivedNodeVersions: stringValues(valueAt(json, "archiveCompatibility", "archivedNodeVersions")),
     changesArchivedNodeEvidence: valueAt(json, "archiveCompatibility", "changesArchivedNodeEvidence") === true,
     futureNodeConsumer: stringOrNull(valueAt(json, "archiveCompatibility", "futureNodeConsumer"))
       ?? stringOrNull(valueAt(json, "diagnostics", "nodeConsumer")),
@@ -156,15 +150,15 @@ export function createMiniKvOperatorServiceLifecycleTemplate(
       valueAt(json, "operatorServiceLifecycleTemplate", "routerActivationAllowed") === true,
     operatorWriteRoutingAllowed: valueAt(json, "operatorServiceLifecycleTemplate", "writeRoutingAllowed") === true,
     operatorExecutionAllowed: valueAt(json, "operatorServiceLifecycleTemplate", "executionAllowed") === true,
-    requiredOperatorEvidence: stringArray(valueAt(json, "operatorServiceLifecycleTemplate", "requiredOperatorEvidence")),
-    readOnlyBoundaryFields: stringArray(valueAt(json, "readOnlyBoundaryFields")),
+    requiredOperatorEvidence: stringValues(valueAt(json, "operatorServiceLifecycleTemplate", "requiredOperatorEvidence")),
+    readOnlyBoundaryFields: stringValues(valueAt(json, "readOnlyBoundaryFields")),
     evidenceDigest: stringOrNull(valueAt(json, "evidenceDigest")),
   };
 }
 
-export function createMiniKvFrozenLiveReadGatePlan(
+export function createFrozenLiveReadPlan(
   json: Record<string, unknown> | null,
-): MiniKvFrozenLiveReadGatePlanReference {
+): FrozenLiveReadPlan {
   return {
     project: valueAt(json, "project") === "mini-kv" ? "mini-kv" : "unknown",
     releaseVersion: stringValue(valueAt(json, "releaseVersion")),
@@ -180,25 +174,6 @@ export function createMiniKvFrozenLiveReadGatePlan(
     writeRoutingAllowed: valueAt(json, "liveReadGatePlan", "writeRoutingAllowed") === true,
     liveReadGateExecutionAllowed: valueAt(json, "liveReadGatePlan", "executionAllowed") === true,
   };
-}
-
-function valueAt(source: unknown, ...keys: string[]): unknown {
-  let value = source;
-  for (const key of keys) {
-    if (value === null || typeof value !== "object") {
-      return undefined;
-    }
-    value = (value as Record<string, unknown>)[key];
-  }
-  return value;
-}
-
-function stringArray(value: unknown): string[] {
-  return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
-}
-
-function stringValue(value: unknown): string {
-  return typeof value === "string" ? value : "";
 }
 
 function stringOrNull(value: unknown): string | null {

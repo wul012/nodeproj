@@ -4,11 +4,11 @@ import path from "node:path";
 
 import { describe, expect, it } from "vitest";
 
-import { buildApp } from "../src/app.js";
-import { loadConfig } from "../src/config.js";
+import { buildApp } from "../../src/app.js";
+import { loadConfig } from "../../src/config.js";
 import {
-  loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerification,
-} from "../src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerification.js";
+  loadServiceArchive,
+} from "../../src/services/operatorLifecycle/serviceArchive.js";
 
 const ROUTE =
   "/api/v1/audit/managed-audit-manual-sandbox-connection-credential-resolver-java-mini-kv-operator-service-lifecycle-evidence-intake-archive-verification";
@@ -17,7 +17,7 @@ const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 describe("managed audit manual sandbox connection credential resolver Java/mini-kv operator service lifecycle evidence intake archive verification", () => {
   it("verifies the Node v386 archive and frozen evidence replay", () => {
     const profile = withForcedHistoricalFallback(() =>
-      loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerification({
+      loadServiceArchive({
         config: loadTestConfig(),
       }));
 
@@ -193,7 +193,7 @@ describe("managed audit manual sandbox connection credential resolver Java/mini-
 
     try {
       const profile = withForcedHistoricalFallback(() =>
-        loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerification({
+        loadServiceArchive({
           config: loadTestConfig(),
           archiveRoot: emptyProjectRoot,
         }));

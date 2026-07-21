@@ -21,6 +21,11 @@ describe("renderer census script", () => {
 
     expect(census.totalRenderers).toBe(245);
     expect(census.standardizedRenderers).toBe(242);
+    expect(census.definition).toMatchObject({ filePattern: "**/*Renderer.ts", recursive: true });
+    expect(census.discoveredFiles).toEqual(expect.arrayContaining([
+      "operatorLifecycle/serviceRenderer.ts",
+      "operatorLifecycle/serviceArchiveRenderer.ts",
+    ]));
     expect(census.unstandardizedRenderers).toBe(3);
     expect(census.waivedUnstandardizedRenderers).toBe(3);
     expect(census.nonWaivedUnstandardizedRenderers).toBe(0);

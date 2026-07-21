@@ -361,10 +361,6 @@
       "maxLines": 196
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|createChecks",
-      "maxLines": 178
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvLiveReadGatePlanIntake.ts|createChecks",
       "maxLines": 171
     },
@@ -447,10 +443,6 @@
     {
       "key": "src/services/productionLiveProbeRealReadSmokeProductionPassEvidenceVerification.ts|loadProductionLiveProbeRealReadSmokeProductionPassEvidenceVerification",
       "maxLines": 147
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|loadManagedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake",
-      "maxLines": 146
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverMinimalReadOnlyIntegrationGateExecutionArchiveVerification.ts|createChecks",
@@ -737,10 +729,6 @@
     {
       "key": "src/services/managedAuditManualSandboxConnectionPrecheckUpstreamReceiptVerificationReferences.ts|createMiniKvV108PrecheckNonParticipationReference",
       "maxComplexity": 95
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntake.ts|createChecks",
-      "maxComplexity": 88
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverPreImplementationPlanIntakeUpstreamEchoVerification.ts|createChecks",
@@ -1156,10 +1144,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvDeclaredOperatorLifecycleRuntimeExecutionPacketStopRecord.ts|createChecks",
-      "maxComplexity": 35
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverJavaMiniKvOperatorServiceLifecycleEvidenceIntakeArchiveVerification.ts|createChecks",
       "maxComplexity": 35
     },
     {

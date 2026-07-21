@@ -39,7 +39,7 @@
 | --- | --- | --- | --- |
 | 项目 JSON 证据读取只有一个安全内核 | `src/evidence` 提供 BOM-safe、missing/invalid/null-safe 的读取与类型收窄 | helper 单测覆盖 BOM、非法 JSON、数组 root、缺文件、非有限数和深路径 | v2223 passed |
 | CI action runtime 不依赖弃用的 Node 20 action runtime | checkout/setup-node 升至官方 v7，项目运行时仍固定 Node 22、npm cache 不变 | workflow diff、YAML 静态检查、批次末远端 CI | v2223 local passed; remote pending batch close |
-| operator service lifecycle 成为可读 bounded context | 短目录/短文件/短导出，loader 与 checks 分层 | 完整 profile oracle、route/archive tests、name/maintainability ratchet | v2224 pending |
+| operator service lifecycle 成为可读 bounded context | 短目录/短文件/短导出，loader 与 checks 分层 | 完整 profile oracle、route/archive tests、name/maintainability ratchet | v2224 passed |
 | declared lifecycle 复用同一内核和目录语汇 | 不创建第三套 reader/check engine | 完整 profile oracle、负向测试、导入环为 0 | v2225 pending |
 | 758 行预实现 intake 不再承担读取、引用、检查和组合四责 | sources/checks/profile 分离并复用已有 historical helper | local/forced fallback、JSON/Markdown hash、维护性基线 | v2226 pending |
 | v108 预检 receipt 使用声明式字段映射和具名安全谓词 | references 不再拥有 153 行复杂 builder | 缺失/错类型 fail-closed、完整输出 parity | v2227 pending |
@@ -96,6 +96,18 @@ checkout/setup-node 已更新到 v7，同时保留 Node 22、npm cache、permiss
 JSON/Markdown 对象键、插入顺序、summary、digest、blocker、warning、recommendation、route 路径、
 profileVersion 与 historical fallback 必须逐字不变。archive verifier 同步进入该上下文，但不做
 与 profile 重构无关的行为变化。
+
+### v2224 收口证据
+
+7 个超长生产文件和 2 个测试迁入 `operatorLifecycle/`，由 10 个短职责文件承接 intake、sources、
+checks、profile、renderer 与 archive；仓内消费者全部使用短 API，未保留兼容 alias。目标家族
+32 条命名违规归零，全仓 name debt 从 4,537 收紧为 4,505。178 行/复杂度 88 的主 checks、146 行
+loader 和复杂度 35 的 archive checks 均由具名分组与谓词替代，维护性从 83/98/217/0 收紧为
+83/96/215/0。固定时间下 local/forced fallback 的 intake 45/45、archive 37/37，完整 JSON/Markdown
+八组长度和 SHA-256 与改造前完全一致；fixture 与期望未修改。renderer census 的顶层扫描盲点同步
+修复为递归 `**/*Renderer.ts`，结果恢复 242/245，嵌套路径由单测锁定。route 仍为 80，顶层 service
+为 1,118/1,125；typecheck、lint、7 文件 21 项 focused、governance 和七项静态门通过，讲解含
+3,050 个中文字符和 14 个可扫描章节。
 
 ## v2225：declared lifecycle 收敛
 
