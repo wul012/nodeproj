@@ -1,0 +1,73 @@
+{
+  "schemaVersion": 1,
+  "version": "v2233",
+  "scope": "production-archive-renderer-ownership",
+  "behaviorChanged": false,
+  "sourceCommit": "f1cd6ead",
+  "renderers": [
+    {
+      "domain": "production-connection-archive",
+      "ownerBefore": "src/services/productionConnectionArchiveVerification.ts",
+      "ownerAfter": "src/services/verificationReports/productionArchives.ts#renderConnectionArchive",
+      "oracleState": "blocked-empty-approval-ledger",
+      "bytes": 3535,
+      "sha256": "d1898d64f0ca8e615e2e6d41d0153f106a986bf9a55d79c871e84f87536dfae9",
+      "undefinedValueContract": "missing"
+    },
+    {
+      "domain": "production-live-probe-archive",
+      "ownerBefore": "src/services/productionLiveProbeEvidenceArchiveVerification.ts",
+      "ownerAfter": "src/services/verificationReports/productionArchives.ts#renderLiveProbeArchive",
+      "oracleState": "blocked-empty-approval-ledger-skipped-probes",
+      "bytes": 3456,
+      "sha256": "50a13c577a64816aeec1aab6b4b9eeef05aded423af0d3b1aff6322f99829883",
+      "undefinedValueContract": "unknown"
+    }
+  ],
+  "architecture": {
+    "builder": "src/services/verificationReportBuilder.ts",
+    "stableExportPathsPreserved": true,
+    "serviceOwns": ["profile", "checks", "digest", "messages", "loader"],
+    "rendererOwns": ["title", "meta order", "section order", "nested artifact lines", "trailing newline"],
+    "newLongExports": 0,
+    "newRendererWaivers": 0
+  },
+  "metrics": {
+    "verificationLogicBefore": 1320,
+    "verificationLogicAfter": 1146,
+    "verificationLogicRemoved": 174,
+    "maintainability": "73/72/193/0-unchanged",
+    "nameDebt": "4444-unchanged",
+    "trackedFamilies": 52,
+    "sourceFilesAbove800": 0,
+    "nonWaivedRenderers": 0
+  },
+  "verification": {
+    "preMigrationOracle": "passed-1-file-1-test-before-source-edit",
+    "postMigrationFocused": "passed-4-files-19-tests-max-4-workers",
+    "postMigrationOracle": "passed-two-of-two-exact-byte-hashes",
+    "typecheck": "passed",
+    "targetedLint": "passed-zero-warnings",
+    "elegance": "passed",
+    "familyLogic": "passed-1146",
+    "maintainability": "passed",
+    "renderer": "passed-242-of-245-standardized-3-waived-0-non-waived",
+    "sourceSize": "passed"
+  },
+  "boundaries": {
+    "routeChanged": false,
+    "jsonChanged": false,
+    "markdownChanged": false,
+    "fixtureChanged": false,
+    "testExpectationChangedAfterMigration": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "permissionsChanged": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false
+  }
+}

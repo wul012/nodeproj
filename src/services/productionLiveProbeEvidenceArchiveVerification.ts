@@ -10,6 +10,10 @@ import {
 } from "./productionLiveProbeEvidenceArchive.js";
 import type { ProductionConnectionDryRunApprovalLedger } from "./productionConnectionDryRunApprovalLedger.js";
 
+export {
+  renderLiveProbeArchive as renderProductionLiveProbeEvidenceArchiveVerificationMarkdown,
+} from "./verificationReports/productionArchives.js";
+
 export interface ProductionLiveProbeEvidenceArchiveVerificationProfile {
   service: "orderops-node";
   title: string;
@@ -238,69 +242,6 @@ export async function loadProductionLiveProbeEvidenceArchiveVerification(input: 
   };
 }
 
-export function renderProductionLiveProbeEvidenceArchiveVerificationMarkdown(
-  profile: ProductionLiveProbeEvidenceArchiveVerificationProfile,
-): string {
-  return [
-    "# Production live probe evidence archive verification",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Ready for archive verification: ${profile.readyForArchiveVerification}`,
-    `- Ready for production operations: ${profile.readyForProductionOperations}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Verification",
-    "",
-    ...renderEntries(profile.verification),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Artifacts",
-    "",
-    "### Archive record",
-    "",
-    ...renderEntries(profile.artifacts.archiveRecord),
-    "",
-    "### Version references",
-    "",
-    ...renderEntries(profile.artifacts.versionReferences),
-    "",
-    "### Evidence state",
-    "",
-    ...renderEntries(profile.artifacts.evidenceState),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No live probe archive verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No live probe archive verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No live probe archive verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
-}
-
 function collectProductionBlockers(
   checks: ProductionLiveProbeEvidenceArchiveVerificationProfile["checks"],
 ): ProductionLiveProbeEvidenceArchiveVerificationMessage[] {
@@ -363,32 +304,6 @@ function digestVerification(value: unknown): string {
   return createHash("sha256")
     .update(stableJson(value))
     .digest("hex");
-}
-
-function renderMessages(messages: ProductionLiveProbeEvidenceArchiveVerificationMessage[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
-
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.source}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "unknown";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }
 
 function stableJson(value: unknown): string {

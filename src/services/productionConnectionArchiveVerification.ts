@@ -11,6 +11,10 @@ import type { ProductionConnectionDryRunApprovalRecord } from "./productionConne
 import { loadProductionConnectionDryRunChangeRequest } from "./productionConnectionDryRunChangeRequest.js";
 import { loadProductionConnectionImplementationPrecheck } from "./productionConnectionImplementationPrecheck.js";
 
+export {
+  renderConnectionArchive as renderProductionConnectionArchiveVerificationMarkdown,
+} from "./verificationReports/productionArchives.js";
+
 export interface ProductionConnectionArchiveVerificationProfile {
   service: "orderops-node";
   title: string;
@@ -230,63 +234,6 @@ export async function loadProductionConnectionArchiveVerification(input: {
   };
 }
 
-export function renderProductionConnectionArchiveVerificationMarkdown(
-  profile: ProductionConnectionArchiveVerificationProfile,
-): string {
-  return [
-    "# Production connection archive verification",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Ready for archive verification: ${profile.readyForArchiveVerification}`,
-    `- Ready for production connections: ${profile.readyForProductionConnections}`,
-    `- Read only: ${profile.readOnly}`,
-    `- Execution allowed: ${profile.executionAllowed}`,
-    "",
-    "## Archive",
-    "",
-    ...renderEntries(profile.archive),
-    "",
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Artifacts",
-    "",
-    ...renderEntries(profile.artifacts.implementationPrecheck),
-    "",
-    ...renderEntries(profile.artifacts.dryRunChangeRequest),
-    "",
-    ...renderLatestApproval(profile.artifacts.latestApproval),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No archive verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No archive verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No archive verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
-}
-
 function collectProductionBlockers(
   checks: ProductionConnectionArchiveVerificationProfile["checks"],
 ): ProductionConnectionArchiveVerificationMessage[] {
@@ -350,48 +297,6 @@ function digestArchive(value: unknown): string {
   return createHash("sha256")
     .update(stableJson(value))
     .digest("hex");
-}
-
-function renderLatestApproval(approval: ProductionConnectionArchiveVerificationProfile["artifacts"]["latestApproval"]): string[] {
-  if (approval === undefined) {
-    return ["- Latest approval: missing"];
-  }
-
-  return [
-    `- Latest approval id: ${approval.approvalId}`,
-    `- Latest approval sequence: ${approval.sequence}`,
-    `- Latest approval decision: ${approval.decision}`,
-    `- Latest approval reviewer: ${approval.reviewer}`,
-    `- Latest approval digest: ${approval.approvalDigest}`,
-    `- Latest approval change request digest: ${approval.changeRequestDigest}`,
-    `- Latest approval real connection attempted: ${approval.realConnectionAttempted}`,
-  ];
-}
-
-function renderMessages(messages: ProductionConnectionArchiveVerificationMessage[], emptyText: string): string[] {
-  if (messages.length === 0) {
-    return [`- ${emptyText}`];
-  }
-
-  return messages.map((message) => `- ${message.code} (${message.severity}, ${message.source}): ${message.message}`);
-}
-
-function renderEntries(record: object): string[] {
-  return Object.entries(record).map(([key, value]) => `- ${key}: ${formatValue(value)}`);
-}
-
-function renderList(items: string[], emptyText: string): string[] {
-  return items.length === 0 ? [`- ${emptyText}`] : items.map((item) => `- ${item}`);
-}
-
-function formatValue(value: unknown): string {
-  if (value === undefined) {
-    return "missing";
-  }
-  if (typeof value === "string") {
-    return value;
-  }
-  return JSON.stringify(value);
 }
 
 function stableJson(value: unknown): string {
