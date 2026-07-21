@@ -79,7 +79,7 @@
     "build": "passed-typescript-build",
     "httpSmoke": "passed-guarded-health-92-bytes-forced-fallback-json-10483-markdown-7052-30-of-30-three-historical-sources-preview-json-1763296-markdown-80224-blocked-execution-false-connect-false-ops-summary-1461-readiness-1993",
     "smokeCleanup": "passed-pids-16832-and-25124-stopped-port-31218-released",
-    "remoteCi": "pending-single-batch-run-after-push"
+    "remoteCi": "passed-run-29794003784-head-f5fa295a-578-files-1758-tests-795.89-seconds-build-health-metrics-release-readiness-and-cleanup"
   },
   "boundaries": {
     "templateTextOrOrderChanged": false,
