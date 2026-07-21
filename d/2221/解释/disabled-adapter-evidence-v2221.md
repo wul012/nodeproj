@@ -27,6 +27,10 @@ repository root 规范成 `<repo>`：local 与 forced fallback 均为 17/17 read
 21,502/21,115 字节；actions 开启时仍为 13/17，并按顺序产生 `NODE_SOURCES_NOT_READY` 与
 `UPSTREAM_ACTIONS_ENABLED`，blocked 输出保持 21,818/21,284 字节。3 文件 14 项 focused 测试通过。
 
+批次末 Linux CI 证明路径规范化还不完整：raw 模式有意记录宿主 checkout 的文本字节，因此 CRLF/LF 会改变
+嵌入 profile 的 `sizeBytes` 与 `digest`。portable 测试副本现在先把历史文本统一为 LF 并重算这两个字段，再做
+`<repo>` 路径替换；生产 profile 的 raw metadata、上述字节长度、17 项检查和 blocker 行为都没有改变。
+
 维护性账本从 85 / 100 / 223 / 0 收紧为 84 / 99 / 220 / 0，准确删除一个大文件、一个长函数和三个
 复杂函数。两个新职责文件均无超限函数或复杂函数，未产生导入环。用于对比旧实现的临时 v2220 worktree
 与 node_modules junction 已按核验路径删除。

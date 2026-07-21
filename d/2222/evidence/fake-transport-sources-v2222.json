@@ -25,25 +25,27 @@
       "blockedMarkdownSha256": "7d6daa66502ddb5290b9c8a5d9f280130c39710aab57aa2f16c9e71e4034d67d"
     },
     "portableCi": {
-      "normalization": "resolved-repository-root-to-<repo>-and-forward-slashes",
+      "normalization": "text-evidence-line-endings-to-lf-plus-resolved-repository-root-to-<repo>-and-forward-slashes",
+      "productionRawMetadataChanged": false,
       "readyJsonBytes": 25240,
-      "readyJsonSha256": "ccbce3c7be0aae7abc8b0ecbc8aa0df62ae4626d17380444c0a404ebb2408724",
+      "readyJsonSha256": "cda7000a3f61a89bd81a96cd3d5581a2d2396e2ab96977a205364a1a09fe3aa1",
       "readyMarkdownBytes": 24867,
-      "readyMarkdownSha256": "7df50d5dd94be7574b95fd986922ef525f65239fda03623654b71c944f64dc59",
+      "readyMarkdownSha256": "e006f8dde8cc380511489500d0745324d0073515482539af30144cfd8a06838d",
       "blockedPassedChecks": "15-of-19",
       "blockedCodes": [
         "NODE_FAKE_TRANSPORT_SOURCES_NOT_READY",
         "UPSTREAM_ACTIONS_ENABLED"
       ],
       "blockedJsonBytes": 25547,
-      "blockedJsonSha256": "3203f20f18b961596f646dbed7eddf280f363375098ea4f393b6eafc4abd9cf8",
+      "blockedJsonSha256": "b07dab1216a675327969334ac03eedb56a1c746b32c3988ff115ea70a035f6fb",
       "blockedMarkdownBytes": 25029,
-      "blockedMarkdownSha256": "1e5c7a057fa57ff14506d5feb81584cb6045bb1b01232c34d70fc90a39a18729"
+      "blockedMarkdownSha256": "4c58aabebbcdaad9791199222b62e6eb5dd01516512dc69fccda014ef413a58d"
     },
     "oracleTest": "test/resolverEchoParity.test.ts",
     "passedBeforeBehaviorSwitch": true,
     "passedAfterBehaviorSwitch": true,
-    "testExpectationsChanged": false,
+    "migrationTestExpectationsChanged": false,
+    "ciPortabilityExpectationsChanged": true,
     "fixturesChanged": false
   },
   "fieldMapping": {
@@ -106,7 +108,8 @@
     "build": "passed-typescript-build",
     "httpSmoke": "passed-guarded-health-metrics-zero-requests-release-route-403-missing-policy-profile-json-markdown-200-ready-19-of-19-execution-false-connect-false-markdown-25977-bytes",
     "smokeCleanup": "passed-pid-22556-stopped-port-43122-released-log-directory-removed",
-    "remoteCi": "pending-after-v2222-tag-and-batch-push"
+    "remoteCi": "first-run-29801098105-failed-only-portable-oracle-line-ending-noise-repair-in-progress",
+    "portableParityRepair": "passed-2-files-8-tests-windows-canonical-hashes-match-first-linux-ci-actuals"
   },
   "boundaries": {
     "routeOrReportAdded": false,

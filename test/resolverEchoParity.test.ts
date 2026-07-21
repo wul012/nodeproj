@@ -23,7 +23,11 @@ import {
   loadManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification,
   renderManagedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionSandboxEndpointCredentialResolverTestOnlyShellUpstreamEchoVerification.js";
-import { normalizeForParity, normalizeText } from "./support/portableProfileParity.js";
+import {
+  normalizeForParity,
+  normalizeHistoricalReportForParity,
+  normalizeText,
+} from "./support/portableProfileParity.js";
 
 const FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 const FROZEN_TIME = "2026-07-21T00:00:00.000Z";
@@ -107,11 +111,11 @@ describe("resolver echo report parity", () => {
     )).toEqual({
       json: {
         bytes: 48_784,
-        sha256: "f31103cc64bfdff7b866821d8cfbd71991d757803b09c8949abc6f4f60ab04c6",
+        sha256: "494eb32af445dd6eb104a0ef3d49ae2093d6402bc74e12c412d0f899d368245c",
       },
       markdown: {
         bytes: 48_304,
-        sha256: "c7b8b4fab1f3b3c6dc81de908eb679f6eb553a468bc9cfcf2294cd62db05977e",
+        sha256: "dfe5cfa6db7984b7ca0b8fb42d3ffb814a828ab3d49240ba265e6abdd5606493",
       },
     });
 
@@ -135,11 +139,11 @@ describe("resolver echo report parity", () => {
     )).toEqual({
       json: {
         bytes: 49_638,
-        sha256: "a42cd1034dc35d1d81b62f1ba9d64d9ad3a24b9edc331e53424c6e73df03bfc3",
+        sha256: "bb7ef6d8608a3a857235a06e20ed200d03b8384adea547c7af5a9b134358d8e3",
       },
       markdown: {
         bytes: 48_947,
-        sha256: "eccfe3ee84745785f91ef9dfdf0bd04eb975fc68ac0cbf65dfaf4e798788952d",
+        sha256: "97f08b978f8e43509814f2d6a317ff87414ff2ba587c52761b47efd5c92bf806",
       },
     });
   });
@@ -160,11 +164,11 @@ describe("resolver echo report parity", () => {
     const readyIdentity = {
       json: {
         bytes: 21_502,
-        sha256: "b51ebacc7b10d101176b8ca245d7f86155443b0166e602b66abb143bd7084047",
+        sha256: "be416997ac7103136b33e42d9c63b41376a315a9ea2a28aad1a41ac5793f58cb",
       },
       markdown: {
         bytes: 21_115,
-        sha256: "293393d31d69e894e7939b53a4c1b95488d6efb092cfb9d0b29a520e45e3207f",
+        sha256: "4c657eee22c6a727d864051873c2cc2ddd83fd9da5244527bb06bbd585c6e4aa",
       },
     };
     expect(reportIdentity(
@@ -190,11 +194,11 @@ describe("resolver echo report parity", () => {
     )).toEqual({
       json: {
         bytes: 21_818,
-        sha256: "1fae1e5e8243bd9d098602629d8be8f1589772ebfb3e485ebf23479333cbaf6b",
+        sha256: "0a92afaf3615fb2ebb4c9e9f60a4a42bca94f7d49176c0fc288cf42061d1f113",
       },
       markdown: {
         bytes: 21_284,
-        sha256: "07f4dbbef30ca49d452624b4e4ffbbe8e8ad684bd4e4e826f0e40219bca90738",
+        sha256: "8b89580e075abc02e1bbcb13d20a658aabfbcaca2747e3caa21804776af2ec63",
       },
     });
   });
@@ -215,11 +219,11 @@ describe("resolver echo report parity", () => {
     const readyIdentity = {
       json: {
         bytes: 25_240,
-        sha256: "ccbce3c7be0aae7abc8b0ecbc8aa0df62ae4626d17380444c0a404ebb2408724",
+        sha256: "cda7000a3f61a89bd81a96cd3d5581a2d2396e2ab96977a205364a1a09fe3aa1",
       },
       markdown: {
         bytes: 24_867,
-        sha256: "7df50d5dd94be7574b95fd986922ef525f65239fda03623654b71c944f64dc59",
+        sha256: "e006f8dde8cc380511489500d0745324d0073515482539af30144cfd8a06838d",
       },
     };
     expect(reportIdentity(
@@ -245,11 +249,11 @@ describe("resolver echo report parity", () => {
     )).toEqual({
       json: {
         bytes: 25_547,
-        sha256: "3203f20f18b961596f646dbed7eddf280f363375098ea4f393b6eafc4abd9cf8",
+        sha256: "b07dab1216a675327969334ac03eedb56a1c746b32c3988ff115ea70a035f6fb",
       },
       markdown: {
         bytes: 25_029,
-        sha256: "1e5c7a057fa57ff14506d5feb81584cb6045bb1b01232c34d70fc90a39a18729",
+        sha256: "4c58aabebbcdaad9791199222b62e6eb5dd01516512dc69fccda014ef413a58d",
       },
     });
   });
@@ -266,7 +270,7 @@ function reportIdentity<Profile>(
   profile: Profile,
   render: (value: Profile) => string,
 ) {
-  const portableProfile = normalizeForParity(profile) as Profile;
+  const portableProfile = normalizeHistoricalReportForParity(profile) as Profile;
   return {
     json: artifactIdentity(JSON.stringify(portableProfile)),
     markdown: artifactIdentity(normalizeText(render(portableProfile))),

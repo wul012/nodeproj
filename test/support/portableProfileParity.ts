@@ -1,4 +1,5 @@
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
 
 const DECLARED_REPO_ROOT = "D:/nodeproj/orderops-node";
 
@@ -11,6 +12,10 @@ export function normalizeForParity(value: unknown): unknown {
     );
   }
   return value;
+}
+
+export function normalizeHistoricalReportForParity(value: unknown): unknown {
+  return normalizeForParity(canonicalizeEvidenceMetadata(value));
 }
 
 export function normalizeText(value: string, repositoryRoot = process.cwd()): string {
@@ -31,4 +36,43 @@ export function sha256(value: string): string {
 
 function escapeRegex(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+function canonicalizeEvidenceMetadata(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(canonicalizeEvidenceMetadata);
+  if (!isRecord(value)) return value;
+
+  const metadata = isReadableEvidenceFile(value)
+    ? canonicalTextMetadata(value.resolvedPath)
+    : null;
+  return Object.fromEntries(
+    Object.entries(value).map(([key, entry]) => {
+      if (metadata && key === "sizeBytes") return [key, metadata.sizeBytes];
+      if (metadata && key === "digest") return [key, metadata.digest];
+      return [key, canonicalizeEvidenceMetadata(entry)];
+    }),
+  );
+}
+
+function canonicalTextMetadata(resolvedPath: string) {
+  const content = readFileSync(resolvedPath, "utf8").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  return {
+    sizeBytes: Buffer.byteLength(content, "utf8"),
+    digest: sha256(content),
+  };
+}
+
+function isReadableEvidenceFile(value: Record<string, unknown>): value is Record<string, unknown> & {
+  resolvedPath: string;
+} {
+  return value.exists === true
+    && typeof value.id === "string"
+    && typeof value.path === "string"
+    && typeof value.resolvedPath === "string"
+    && typeof value.sizeBytes === "number"
+    && typeof value.digest === "string";
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === "object" && value !== null;
 }

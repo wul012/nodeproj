@@ -19,22 +19,23 @@
       "readyMarkdownSha256": "e8305c4a55fb533e8c6723fc8019e10746da7077f463234a8886331988c0eee3"
     },
     "portableCi": {
-      "normalization": "resolved-repository-root-to-<repo>-and-forward-slashes",
+      "normalization": "text-evidence-line-endings-to-lf-plus-resolved-repository-root-to-<repo>-and-forward-slashes",
+      "productionRawMetadataChanged": false,
       "readyState": "disabled-adapter-client-upstream-echo-verification-ready",
       "readyChecks": "17-of-17",
       "readyJsonBytes": 21502,
-      "readyJsonSha256": "b51ebacc7b10d101176b8ca245d7f86155443b0166e602b66abb143bd7084047",
+      "readyJsonSha256": "be416997ac7103136b33e42d9c63b41376a315a9ea2a28aad1a41ac5793f58cb",
       "readyMarkdownBytes": 21115,
-      "readyMarkdownSha256": "293393d31d69e894e7939b53a4c1b95488d6efb092cfb9d0b29a520e45e3207f",
+      "readyMarkdownSha256": "4c657eee22c6a727d864051873c2cc2ddd83fd9da5244527bb06bbd585c6e4aa",
       "blockedPassedChecks": "13-of-17",
       "blockedCodes": [
         "NODE_SOURCES_NOT_READY",
         "UPSTREAM_ACTIONS_ENABLED"
       ],
       "blockedJsonBytes": 21818,
-      "blockedJsonSha256": "1fae1e5e8243bd9d098602629d8be8f1589772ebfb3e485ebf23479333cbaf6b",
+      "blockedJsonSha256": "0a92afaf3615fb2ebb4c9e9f60a4a42bca94f7d49176c0fc288cf42061d1f113",
       "blockedMarkdownBytes": 21284,
-      "blockedMarkdownSha256": "07f4dbbef30ca49d452624b4e4ffbbe8e8ad684bd4e4e826f0e40219bca90738"
+      "blockedMarkdownSha256": "8b89580e075abc02e1bbcb13d20a658aabfbcaca2747e3caa21804776af2ec63"
     },
     "oracleTest": "test/resolverEchoParity.test.ts",
     "passedBeforeBehaviorSwitch": true,
