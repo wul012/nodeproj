@@ -5,6 +5,9 @@ import type {
 import type {
   ManagedAuditManualSandboxConnectionPreflightVerificationProfile,
 } from "../managedAuditManualSandboxConnectionPreflightVerification.js";
+import type {
+  ManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationProfile,
+} from "../managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.js";
 import {
   renderVerificationReportMarkdown,
   type VerificationReportSection,
@@ -91,6 +94,35 @@ export function renderPreflightVerification(
     ],
     profile,
     emptyScope: "manual sandbox preflight verification",
+  });
+}
+
+export function renderOperatorWindowVerification(
+  profile: ManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationProfile,
+): string {
+  return renderManualVerification({
+    title: "Managed audit manual sandbox connection operator window evidence verification",
+    meta: [
+      ["Service", profile.service],
+      ["Generated at", profile.generatedAt],
+      ["Profile version", profile.profileVersion],
+      ["Verification state", profile.verificationState],
+      [
+        "Ready for operator window evidence verification",
+        profile.readyForManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerification,
+      ],
+      ["Ready for sandbox adapter connection", profile.readyForManagedAuditSandboxAdapterConnection],
+      ["Connects managed audit", profile.connectsManagedAudit],
+      ["Reads managed audit credential", profile.readsManagedAuditCredential],
+    ],
+    leadingSections: [
+      { heading: "Source Node v238", entries: profile.sourceNodeV238 },
+      { heading: "Java v93 Echo Receipt", entries: profile.upstreamEvidence.javaV93 },
+      { heading: "mini-kv v102 No-Start/No-Write Receipt", entries: profile.upstreamEvidence.miniKvV102 },
+      { heading: "Operator Window Evidence Verification", entries: profile.operatorWindowEvidenceVerification },
+    ],
+    profile,
+    emptyScope: "operator window evidence verification",
   });
 }
 

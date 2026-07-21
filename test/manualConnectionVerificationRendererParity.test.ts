@@ -12,6 +12,10 @@ import {
   loadManagedAuditManualSandboxConnectionPreflightVerification,
   renderManagedAuditManualSandboxConnectionPreflightVerificationMarkdown,
 } from "../src/services/managedAuditManualSandboxConnectionPreflightVerification.js";
+import {
+  loadManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerification,
+  renderManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationMarkdown,
+} from "../src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.js";
 
 describe("manual connection verification renderer parity", () => {
   const previousFallback = process.env.ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK;
@@ -49,6 +53,20 @@ describe("manual connection verification renderer parity", () => {
     expect(siblingPaths.length).toBeGreaterThan(0);
     expect(siblingPaths.every((filePath) =>
       resolveHistoricalEvidencePath(filePath).replace(/\\/g, "/")
+        .includes("/fixtures/historical/sibling-workspaces/"))).toBe(true);
+  });
+
+  it("preserves operator-window Markdown bytes under historical fallback", () => {
+    vi.setSystemTime(new Date("2026-07-21T15:00:00.000Z"));
+    const profile = loadManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerification({
+      config: loadTestConfig(),
+    });
+    const markdown = renderManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationMarkdown(profile);
+
+    expect(Buffer.byteLength(markdown)).toBe(17_955);
+    expect(sha256(markdown)).toBe("093bb3bafb8035349a5721c2a0d252cbb0b2cc643131306cc78f482aea8fe23f");
+    expect(profile.evidenceFiles.some((file) =>
+      resolveHistoricalEvidencePath(file.path).replace(/\\/g, "/")
         .includes("/fixtures/historical/sibling-workspaces/"))).toBe(true);
   });
 });

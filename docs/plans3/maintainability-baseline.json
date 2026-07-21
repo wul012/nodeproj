@@ -39,10 +39,6 @@
       "maxLines": 755
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts",
-      "maxLines": 754
-    },
-    {
       "key": "src/services/opsPromotionArchiveSteps.ts",
       "maxLines": 748
     },
@@ -292,10 +288,6 @@
     }
   ],
   "longFunctions": [
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass.ts|loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass",
-      "maxLines": 163
-    },
     {
       "key": "src/services/codeWalkthroughDocumentationQualityGate.ts|loadCodeWalkthroughDocumentationQualityGate",
       "maxLines": 158
@@ -603,10 +595,6 @@
       "maxComplexity": 57
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts|createMiniKvV102Reference",
-      "maxComplexity": 57
-    },
-    {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverSandboxHandleReviewContractDecisionArchiveVerification.ts|createChecks",
       "maxComplexity": 56
     },
@@ -636,10 +624,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverFakeShellArchiveUpstreamEchoVerification.ts|createChecks",
-      "maxComplexity": 53
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionPreflightVerification.ts|createMiniKvV97Reference",
       "maxComplexity": 53
     },
     {
@@ -936,10 +920,6 @@
     },
     {
       "key": "src/services/javaMiniKvRouteCatalogCleanupHandoffEvidence.ts|createChecks",
-      "maxComplexity": 35
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts|createOperatorWindowEvidenceVerification",
       "maxComplexity": 35
     },
     {
@@ -1247,10 +1227,6 @@
       "maxComplexity": 24
     },
     {
-      "key": "src/services/managedAuditManualSandboxConnectionPreflightVerification.ts|createChecks",
-      "maxComplexity": 24
-    },
-    {
       "key": "src/services/managedAuditExternalAdapterConnectionReadinessReview.ts|createChecks",
       "maxComplexity": 24
     },
@@ -1308,10 +1284,6 @@
     },
     {
       "key": "src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowManualEvidenceEntryWorksheetArtifacts.ts|createWorksheetBlockedReasons",
-      "maxComplexity": 22
-    },
-    {
-      "key": "src/services/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerification.ts|miniKvBoundaryAccepted",
       "maxComplexity": 22
     },
     {

@@ -1,19 +1,19 @@
-import { createHash } from "node:crypto";
-
 import type { AppConfig } from "../config.js";
-import {
-  historicalEvidenceExists as existsSync,
-  readHistoricalEvidenceFile as readFileSync,
-  statHistoricalEvidence as statSync,
-} from "./historicalEvidenceResolver.js";
 import {
   countPassedReportChecks,
   countReportChecks,
-  renderEntries,
-  renderList,
-  renderMessages,
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
+import {
+  evidenceById as fileById,
+  evidenceFile,
+  readEvidenceJson,
+  snippet,
+  snippetMatched,
+  stringField,
+} from "./manualConnectionSources.js";
+import { operatorWindowAdvisories } from "./manualConnectionAdvisories.js";
+import { mapOperatorReceipt } from "./manualConnectionReceiptMaps.js";
 import {
   loadManagedAuditManualSandboxConnectionOperatorWindowChecklist,
   type ManagedAuditManualSandboxConnectionOperatorWindowChecklistProfile,
@@ -39,6 +39,10 @@ import {
   type OperatorWindowEvidenceVerificationMessage,
   type OperatorWindowSnippetMatch,
 } from "../evidence/managedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationEvidence.js";
+
+export {
+  renderOperatorWindowVerification as renderManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationMarkdown,
+} from "./verificationReports/manualConnection.js";
 
 export interface ManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationProfile
   extends SandboxDryRunGuards {
@@ -131,7 +135,10 @@ export function loadManagedAuditManualSandboxConnectionOperatorWindowEvidenceVer
   const evidenceFiles = createEvidenceFiles();
   const snippetMatches = createSnippetMatches();
   const javaV93 = createJavaV93Reference(evidenceFiles, snippetMatches);
-  const miniKvV102 = createMiniKvV102Reference(evidenceFiles, readMiniKvOperatorWindowReceiptFixture());
+  const miniKvV102 = createMiniKvV102Reference(
+    evidenceFiles,
+    readEvidenceJson<MiniKvOperatorWindowReceiptFixture>(MINI_KV_V102_RECEIPT),
+  );
   const operatorWindowEvidenceVerification = createOperatorWindowEvidenceVerification(
     sourceNodeV238,
     javaV93,
@@ -145,8 +152,7 @@ export function loadManagedAuditManualSandboxConnectionOperatorWindowEvidenceVer
     ? "manual-sandbox-connection-operator-window-evidence-verification-ready"
     : "blocked";
   const productionBlockers = collectProductionBlockers(checks);
-  const warnings = collectWarnings();
-  const recommendations = collectRecommendations();
+  const { warnings, recommendations } = operatorWindowAdvisories();
 
   return {
     service: "orderops-node",
@@ -196,74 +202,6 @@ export function loadManagedAuditManualSandboxConnectionOperatorWindowEvidenceVer
       "Keep v239 dependencies pinned to Java v93 and mini-kv v102; later Java v94 / mini-kv v103 are optimization follow-ups, not new prerequisites.",
     ],
   };
-}
-
-export function renderManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationMarkdown(
-  profile: ManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationProfile,
-): string {
-  return [
-    "# Managed audit manual sandbox connection operator window evidence verification",
-    "",
-    `- Service: ${profile.service}`,
-    `- Generated at: ${profile.generatedAt}`,
-    `- Profile version: ${profile.profileVersion}`,
-    `- Verification state: ${profile.verificationState}`,
-    `- Ready for operator window evidence verification: ${profile.readyForManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerification}`,
-    `- Ready for sandbox adapter connection: ${profile.readyForManagedAuditSandboxAdapterConnection}`,
-    `- Connects managed audit: ${profile.connectsManagedAudit}`,
-    `- Reads managed audit credential: ${profile.readsManagedAuditCredential}`,
-    "",
-    "## Source Node v238",
-    "",
-    ...renderEntries(profile.sourceNodeV238),
-    "",
-    "## Java v93 Echo Receipt",
-    "",
-    ...renderEntries(profile.upstreamEvidence.javaV93),
-    "",
-    "## mini-kv v102 No-Start/No-Write Receipt",
-    "",
-    ...renderEntries(profile.upstreamEvidence.miniKvV102),
-    "",
-    "## Operator Window Evidence Verification",
-    "",
-    ...renderEntries(profile.operatorWindowEvidenceVerification),
-    "",
-    "## Evidence Files",
-    "",
-    ...profile.evidenceFiles.flatMap(renderEvidenceFile),
-    "## Snippet Matches",
-    "",
-    ...profile.snippetMatches.flatMap(renderSnippet),
-    "## Checks",
-    "",
-    ...renderEntries(profile.checks),
-    "",
-    "## Summary",
-    "",
-    ...renderEntries(profile.summary),
-    "",
-    "## Production Blockers",
-    "",
-    ...renderMessages(profile.productionBlockers, "No operator window evidence verification blockers."),
-    "",
-    "## Warnings",
-    "",
-    ...renderMessages(profile.warnings, "No operator window evidence verification warnings."),
-    "",
-    "## Recommendations",
-    "",
-    ...renderMessages(profile.recommendations, "No operator window evidence verification recommendations."),
-    "",
-    "## Evidence Endpoints",
-    "",
-    ...renderEntries(profile.evidenceEndpoints),
-    "",
-    "## Next Actions",
-    "",
-    ...renderList(profile.nextActions, "No next actions."),
-    "",
-  ].join("\n");
 }
 
 function createSourceNodeV238(
@@ -355,43 +293,7 @@ function createMiniKvV102Reference(
       && fileById(evidenceFiles, "mini-kv-runtime-smoke").exists
       && fileById(evidenceFiles, "mini-kv-v102-walkthrough").exists
       && fileById(evidenceFiles, "mini-kv-v102-test").exists,
-    receiptVersion: stringField(receipt, "receipt_version") ?? "missing",
-    projectVersion: stringField(receipt, "current_project_version") ?? "missing",
-    releaseVersion: stringField(receipt, "current_release_version") ?? "missing",
-    consumerHint: stringField(receipt, "consumer_hint") ?? "missing",
-    sourceChecklist: stringField(receipt, "source_checklist") ?? "missing",
-    sourceChecklistState: stringField(receipt, "source_checklist_state") ?? "missing",
-    approvalItemCount: numberField(receipt, "approval_item_count") ?? -1,
-    checklistStepCount: numberField(receipt, "checklist_step_count") ?? -1,
-    pauseConditionCount: numberField(receipt, "pause_condition_count") ?? -1,
-    forbiddenOperationCount: numberField(receipt, "forbidden_operation_count") ?? -1,
-    readyForJavaV93EchoReceipt: booleanField(receipt, "ready_for_java_v93_echo_receipt") ?? false,
-    readyForManagedAuditSandboxAdapterConnection:
-      booleanField(receipt, "ready_for_managed_audit_sandbox_adapter_connection") ?? true,
-    currentArtifactPathHint: stringField(receipt, "current_artifact_path_hint") ?? "missing",
-    currentLiveReadSessionEcho: stringField(receipt, "current_live_read_session_echo") ?? "missing",
-    readOnly: booleanField(receipt, "read_only") ?? false,
-    executionAllowed: booleanField(receipt, "execution_allowed") ?? true,
-    restoreExecutionAllowed: booleanField(receipt, "restore_execution_allowed") ?? true,
-    orderAuthoritative: booleanField(receipt, "order_authoritative") ?? true,
-    nodeAutoStartAllowed: booleanField(receipt, "node_auto_start_allowed") ?? true,
-    javaAutoStartAllowed: booleanField(receipt, "java_auto_start_allowed") ?? true,
-    miniKvAutoStartAllowed: booleanField(receipt, "mini_kv_auto_start_allowed") ?? true,
-    connectionExecutionAllowed: booleanField(receipt, "connection_execution_allowed") ?? true,
-    writeCommandsExecuted: booleanField(receipt, "write_commands_executed") ?? true,
-    adminCommandsExecuted: booleanField(receipt, "admin_commands_executed") ?? true,
-    runtimeWriteObserved: booleanField(receipt, "runtime_write_observed") ?? true,
-    managedAuditStore: booleanField(receipt, "managed_audit_store") ?? true,
-    storageWriteAllowed: booleanField(receipt, "storage_write_allowed") ?? true,
-    managedAuditWriteExecuted: booleanField(receipt, "managed_audit_write_executed") ?? true,
-    sandboxManagedAuditStateWriteAllowed: booleanField(receipt, "sandbox_managed_audit_state_write_allowed") ?? true,
-    credentialValueRequired: booleanField(receipt, "credential_value_required") ?? true,
-    credentialValueReadAllowed: booleanField(receipt, "credential_value_read_allowed") ?? true,
-    schemaRehearsalExecutionAllowed: booleanField(receipt, "schema_rehearsal_execution_allowed") ?? true,
-    schemaMigrationExecutionAllowed: booleanField(receipt, "schema_migration_execution_allowed") ?? true,
-    loadRestoreCompactExecuted: booleanField(receipt, "load_restore_compact_executed") ?? true,
-    setnxexExecutionAllowed: booleanField(receipt, "setnxex_execution_allowed") ?? true,
-    operatorWindowWriteAllowed: booleanField(receipt, "operator_window_write_allowed") ?? true,
+    ...mapOperatorReceipt(receipt),
     currentDigestSetPresent: [
       "binary_provenance_digest",
       "retention_check_digest",
@@ -406,29 +308,47 @@ function createMiniKvV102Reference(
       "sandbox_no_start_receipt_digest",
       "failure_taxonomy_digest",
       "read_command_list_digest",
-    ].every((key) => FNV1A64.test(stringField(receipt, key) ?? "")),
+    ].every((key) => digestFieldPresent(receipt, key)),
     readyForNodeV239EvidenceVerification: false,
   };
   return {
     ...reference,
-    readyForNodeV239EvidenceVerification: reference.evidencePresent
-      && reference.receiptVersion === "mini-kv-operator-window-no-start-no-write-receipt.v1"
-      && reference.projectVersion === "0.102.0"
-      && reference.releaseVersion === "v102"
-      && reference.consumerHint === "Node v239 manual sandbox connection operator window evidence verification"
-      && reference.sourceChecklist === "Node v238 manual sandbox connection operator window checklist"
-      && reference.sourceChecklistState === "manual-sandbox-connection-operator-window-checklist-ready"
-      && reference.currentArtifactPathHint === "c/102/"
-      && reference.currentLiveReadSessionEcho === "mini-kv-live-read-v102"
-      && reference.approvalItemCount === 3
-      && reference.checklistStepCount === 8
-      && reference.pauseConditionCount === 8
-      && reference.forbiddenOperationCount === 6
-      && reference.readyForJavaV93EchoReceipt
-      && !reference.readyForManagedAuditSandboxAdapterConnection
-      && reference.currentDigestSetPresent
-      && miniKvBoundaryAccepted(reference),
+    readyForNodeV239EvidenceVerification: operatorReceiptReady(reference),
   };
+}
+
+function digestFieldPresent(receipt: Record<string, unknown>, key: string): boolean {
+  return FNV1A64.test(stringField(receipt, key) ?? "");
+}
+
+function operatorReceiptReady(reference: MiniKvV102OperatorWindowNoStartNoWriteReference): boolean {
+  return [
+    operatorReceiptIdentityAccepted(reference),
+    miniKvBoundaryAccepted(reference),
+  ].every(Boolean);
+}
+
+function operatorReceiptIdentityAccepted(
+  reference: MiniKvV102OperatorWindowNoStartNoWriteReference,
+): boolean {
+  return [
+    reference.evidencePresent,
+    reference.receiptVersion === "mini-kv-operator-window-no-start-no-write-receipt.v1",
+    reference.projectVersion === "0.102.0",
+    reference.releaseVersion === "v102",
+    reference.consumerHint === "Node v239 manual sandbox connection operator window evidence verification",
+    reference.sourceChecklist === "Node v238 manual sandbox connection operator window checklist",
+    reference.sourceChecklistState === "manual-sandbox-connection-operator-window-checklist-ready",
+    reference.currentArtifactPathHint === "c/102/",
+    reference.currentLiveReadSessionEcho === "mini-kv-live-read-v102",
+    reference.approvalItemCount === 3,
+    reference.checklistStepCount === 8,
+    reference.pauseConditionCount === 8,
+    reference.forbiddenOperationCount === 6,
+    reference.readyForJavaV93EchoReceipt,
+    !reference.readyForManagedAuditSandboxAdapterConnection,
+    reference.currentDigestSetPresent,
+  ].every(Boolean);
 }
 
 function createOperatorWindowEvidenceVerification(
@@ -436,28 +356,29 @@ function createOperatorWindowEvidenceVerification(
   javaV93: JavaV93OperatorWindowChecklistEchoReference,
   miniKvV102: MiniKvV102OperatorWindowNoStartNoWriteReference,
 ): ManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationProfile["operatorWindowEvidenceVerification"] {
-  const checklistCountsAligned = source.approvalItemCount === 3
-    && source.checklistStepCount === 8
-    && source.pauseConditionCount === 8
-    && source.forbiddenOperationCount === 6
-    && javaV93.checklistCountsDocumented
-    && miniKvV102.approvalItemCount === source.approvalItemCount
-    && miniKvV102.checklistStepCount === source.checklistStepCount
-    && miniKvV102.pauseConditionCount === source.pauseConditionCount
-    && miniKvV102.forbiddenOperationCount === source.forbiddenOperationCount;
-  const boundaryFlagsAligned = !source.readyForSandboxAdapterConnectionFromSource
-    && !source.connectsManagedAudit
-    && !source.readsManagedAuditCredential
-    && !source.schemaMigrationExecuted
-    && !source.credentialValueRead
-    && !source.actualConnectionAttempted
-    && !source.schemaMigrationRequested
-    && !source.upstreamServiceAutoStartRequested
-    && !javaV93.credentialValueReadByJava
-    && !javaV93.schemaMigrationSqlExecutedByJava
-    && !javaV93.approvalLedgerWrittenByJava
-    && !javaV93.actualConnectionAttemptedByJava
-    && miniKvBoundaryAccepted(miniKvV102);
+  const checklistCountsAligned = [
+    source.approvalItemCount === 3,
+    source.checklistStepCount === 8,
+    source.pauseConditionCount === 8,
+    source.forbiddenOperationCount === 6,
+    javaV93.checklistCountsDocumented,
+    miniKvV102.approvalItemCount === source.approvalItemCount,
+    miniKvV102.checklistStepCount === source.checklistStepCount,
+    miniKvV102.pauseConditionCount === source.pauseConditionCount,
+    miniKvV102.forbiddenOperationCount === source.forbiddenOperationCount,
+  ].every(Boolean);
+  const boundaryFlagsAligned = [
+    !source.readyForSandboxAdapterConnectionFromSource,
+    !source.connectsManagedAudit,
+    !source.readsManagedAuditCredential,
+    !source.schemaMigrationExecuted,
+    !source.credentialValueRead,
+    !source.actualConnectionAttempted,
+    !source.schemaMigrationRequested,
+    !source.upstreamServiceAutoStartRequested,
+    javaOperatorBoundaryAccepted(javaV93),
+    miniKvBoundaryAccepted(miniKvV102),
+  ].every(Boolean);
 
   return {
     verificationDigest: sha256StableJson({
@@ -471,21 +392,7 @@ function createOperatorWindowEvidenceVerification(
     sourceChecklistDigest: source.checklistDigest,
     markerSpan: "Node v238 + Java v93 + mini-kv v102",
     verificationMode: "manual-sandbox-connection-operator-window-evidence-verification-only",
-    javaEchoAccepted: javaV93.evidencePresent
-      && javaV93.receiptVersionDocumented
-      && javaV93.sourceNodeV238ProfileDocumented
-      && javaV93.nextNodeV239ProfileDocumented
-      && javaV93.readyForNodeV239EvidenceVerification
-      && javaV93.checklistCountsDocumented
-      && javaV93.checklistFieldNamesEchoed
-      && javaV93.approvalItemsEchoed
-      && javaV93.pauseCodesEchoed
-      && javaV93.credentialHandleOnly
-      && !javaV93.credentialValueReadByJava
-      && !javaV93.schemaMigrationSqlExecutedByJava
-      && !javaV93.approvalLedgerWrittenByJava
-      && !javaV93.actualConnectionAttemptedByJava
-      && javaV93.javaAutoStartForbidden,
+    javaEchoAccepted: javaOperatorEchoAccepted(javaV93),
     miniKvReceiptAccepted: miniKvV102.readyForNodeV239EvidenceVerification,
     checklistCountsAligned,
     boundaryFlagsAligned,
@@ -542,6 +449,34 @@ function createChecks(
     productionWindowStillBlocked: true,
     readyForManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerification: false,
   };
+}
+
+function javaOperatorEchoAccepted(reference: JavaV93OperatorWindowChecklistEchoReference): boolean {
+  return [
+    reference.evidencePresent,
+    reference.receiptVersionDocumented,
+    reference.sourceNodeV238ProfileDocumented,
+    reference.nextNodeV239ProfileDocumented,
+    reference.readyForNodeV239EvidenceVerification,
+    reference.checklistCountsDocumented,
+    reference.checklistFieldNamesEchoed,
+    reference.approvalItemsEchoed,
+    reference.pauseCodesEchoed,
+    reference.credentialHandleOnly,
+    javaOperatorBoundaryAccepted(reference),
+  ].every(Boolean);
+}
+
+function javaOperatorBoundaryAccepted(
+  reference: JavaV93OperatorWindowChecklistEchoReference,
+): boolean {
+  return [
+    !reference.credentialValueReadByJava,
+    !reference.schemaMigrationSqlExecutedByJava,
+    !reference.approvalLedgerWrittenByJava,
+    !reference.actualConnectionAttemptedByJava,
+    reference.javaAutoStartForbidden,
+  ].every(Boolean);
 }
 
 function createEvidenceFiles(): OperatorWindowEvidenceFile[] {
@@ -607,87 +542,31 @@ function collectProductionBlockers(
   return blockers;
 }
 
-function collectWarnings(): OperatorWindowEvidenceVerificationMessage[] {
-  return [
-    {
-      code: "EVIDENCE_VERIFICATION_ONLY_NO_CONNECTION",
-      severity: "warning",
-      source: "managed-audit-manual-sandbox-connection-operator-window-evidence-verification",
-      message: "This profile verifies v238/v93/v102 evidence only; it does not open a managed audit sandbox connection.",
-    },
-    {
-      code: "OPTIMIZATION_VERSIONS_ARE_NOT_NEW_DEPENDENCIES",
-      severity: "warning",
-      source: "managed-audit-manual-sandbox-connection-operator-window-evidence-verification",
-      message: "Java v94 and mini-kv v103 are optimization follow-ups; v239 remains pinned to Java v93 and mini-kv v102 evidence.",
-    },
-  ];
-}
-
-function collectRecommendations(): OperatorWindowEvidenceVerificationMessage[] {
-  return [
-    {
-      code: "NEXT_NODE_V240_DISABLED_DRY_RUN_COMMAND_PACKAGE",
-      severity: "recommendation",
-      source: "managed-audit-manual-sandbox-connection-operator-window-evidence-verification",
-      message: "After v239, Node v240 may create a disabled dry-run command package, still without credential values or real connection.",
-    },
-    {
-      code: "KEEP_VERIFICATION_AND_CONNECTION_SEPARATE",
-      severity: "recommendation",
-      source: "runtime-config",
-      message: "Keep evidence verification separate from any later manual connection rehearsal and from production audit.",
-    },
-  ];
-}
-
 function miniKvBoundaryAccepted(reference: MiniKvV102OperatorWindowNoStartNoWriteReference): boolean {
-  return reference.readOnly
-    && !reference.executionAllowed
-    && !reference.restoreExecutionAllowed
-    && !reference.orderAuthoritative
-    && !reference.nodeAutoStartAllowed
-    && !reference.javaAutoStartAllowed
-    && !reference.miniKvAutoStartAllowed
-    && !reference.connectionExecutionAllowed
-    && !reference.writeCommandsExecuted
-    && !reference.adminCommandsExecuted
-    && !reference.runtimeWriteObserved
-    && !reference.managedAuditStore
-    && !reference.storageWriteAllowed
-    && !reference.managedAuditWriteExecuted
-    && !reference.sandboxManagedAuditStateWriteAllowed
-    && !reference.credentialValueRequired
-    && !reference.credentialValueReadAllowed
-    && !reference.schemaRehearsalExecutionAllowed
-    && !reference.schemaMigrationExecutionAllowed
-    && !reference.loadRestoreCompactExecuted
-    && !reference.setnxexExecutionAllowed
-    && !reference.operatorWindowWriteAllowed;
-}
-
-function evidenceFile(id: string, filePath: string): OperatorWindowEvidenceFile {
-  if (!existsSync(filePath)) {
-    return { id, path: filePath, exists: false, sizeBytes: 0, digest: null };
-  }
-  const content = readFileSync(filePath);
-  return {
-    id,
-    path: filePath,
-    exists: true,
-    sizeBytes: statSync(filePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
-  };
-}
-
-function snippet(id: string, filePath: string, expectedText: string): OperatorWindowSnippetMatch {
-  const content = existsSync(filePath) ? readFileSync(filePath, "utf8") : "";
-  return {
-    id,
-    path: filePath,
-    expectedText,
-    matched: content.includes(expectedText),
-  };
+  return [
+    reference.readOnly,
+    !reference.executionAllowed,
+    !reference.restoreExecutionAllowed,
+    !reference.orderAuthoritative,
+    !reference.nodeAutoStartAllowed,
+    !reference.javaAutoStartAllowed,
+    !reference.miniKvAutoStartAllowed,
+    !reference.connectionExecutionAllowed,
+    !reference.writeCommandsExecuted,
+    !reference.adminCommandsExecuted,
+    !reference.runtimeWriteObserved,
+    !reference.managedAuditStore,
+    !reference.storageWriteAllowed,
+    !reference.managedAuditWriteExecuted,
+    !reference.sandboxManagedAuditStateWriteAllowed,
+    !reference.credentialValueRequired,
+    !reference.credentialValueReadAllowed,
+    !reference.schemaRehearsalExecutionAllowed,
+    !reference.schemaMigrationExecutionAllowed,
+    !reference.loadRestoreCompactExecuted,
+    !reference.setnxexExecutionAllowed,
+    !reference.operatorWindowWriteAllowed,
+  ].every(Boolean);
 }
 
 function addBlocker(
@@ -700,55 +579,4 @@ function addBlocker(
   if (!condition) {
     messages.push({ code, severity: "blocker", source, message });
   }
-}
-
-function readMiniKvOperatorWindowReceiptFixture(): MiniKvOperatorWindowReceiptFixture {
-  if (!existsSync(MINI_KV_V102_RECEIPT)) {
-    return {};
-  }
-  return JSON.parse(readFileSync(MINI_KV_V102_RECEIPT, "utf8")) as MiniKvOperatorWindowReceiptFixture;
-}
-
-function fileById(files: OperatorWindowEvidenceFile[], id: string): OperatorWindowEvidenceFile {
-  const file = files.find((candidate) => candidate.id === id);
-  if (file === undefined) {
-    throw new Error(`Missing evidence file ${id}`);
-  }
-  return file;
-}
-
-function snippetMatched(snippets: OperatorWindowSnippetMatch[], id: string): boolean {
-  return snippets.some((snippetMatch) => snippetMatch.id === id && snippetMatch.matched);
-}
-
-function stringField(record: Record<string, unknown>, key: string): string | undefined {
-  const value = record[key];
-  return typeof value === "string" ? value : undefined;
-}
-
-function booleanField(record: Record<string, unknown>, key: string): boolean | undefined {
-  const value = record[key];
-  return typeof value === "boolean" ? value : undefined;
-}
-
-function numberField(record: Record<string, unknown>, key: string): number | undefined {
-  const value = record[key];
-  return typeof value === "number" ? value : undefined;
-}
-
-function renderEvidenceFile(file: OperatorWindowEvidenceFile): string[] {
-  return [
-    `### ${file.id}`,
-    "",
-    ...renderEntries(file),
-    "",
-  ];
-}
-
-function renderSnippet(snippetMatch: OperatorWindowSnippetMatch): string[] {
-  return [
-    `- ${snippetMatch.id}: ${snippetMatch.matched}`,
-    `  - Path: ${snippetMatch.path}`,
-    `  - Expected: ${snippetMatch.expectedText}`,
-  ];
 }

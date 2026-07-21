@@ -24,6 +24,14 @@ interface ManualConnectionAdvisories {
   recommendations: ManualConnectionMessage[];
 }
 
+type OperatorWindowSource =
+  | "managed-audit-manual-sandbox-connection-operator-window-evidence-verification"
+  | "runtime-config";
+
+interface OperatorWindowAdvisory extends Omit<ManualConnectionMessage, "source"> {
+  source: OperatorWindowSource;
+}
+
 export function addManualBlocker(
   messages: ManualConnectionMessage[],
   condition: boolean,
@@ -97,6 +105,42 @@ export function preflightAdvisories(): ManualConnectionAdvisories {
         severity: "recommendation",
         source: "managed-audit-manual-sandbox-connection-preflight-verification",
         message: "Keep preflight verification separate from a later manual connection rehearsal and from production audit.",
+      },
+    ],
+  };
+}
+
+export function operatorWindowAdvisories(): {
+  warnings: OperatorWindowAdvisory[];
+  recommendations: OperatorWindowAdvisory[];
+} {
+  return {
+    warnings: [
+      {
+        code: "EVIDENCE_VERIFICATION_ONLY_NO_CONNECTION",
+        severity: "warning",
+        source: "managed-audit-manual-sandbox-connection-operator-window-evidence-verification",
+        message: "This profile verifies v238/v93/v102 evidence only; it does not open a managed audit sandbox connection.",
+      },
+      {
+        code: "OPTIMIZATION_VERSIONS_ARE_NOT_NEW_DEPENDENCIES",
+        severity: "warning",
+        source: "managed-audit-manual-sandbox-connection-operator-window-evidence-verification",
+        message: "Java v94 and mini-kv v103 are optimization follow-ups; v239 remains pinned to Java v93 and mini-kv v102 evidence.",
+      },
+    ],
+    recommendations: [
+      {
+        code: "NEXT_NODE_V240_DISABLED_DRY_RUN_COMMAND_PACKAGE",
+        severity: "recommendation",
+        source: "managed-audit-manual-sandbox-connection-operator-window-evidence-verification",
+        message: "After v239, Node v240 may create a disabled dry-run command package, still without credential values or real connection.",
+      },
+      {
+        code: "KEEP_VERIFICATION_AND_CONNECTION_SEPARATE",
+        severity: "recommendation",
+        source: "runtime-config",
+        message: "Keep evidence verification separate from any later manual connection rehearsal and from production audit.",
       },
     ],
   };

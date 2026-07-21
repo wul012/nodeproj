@@ -5,17 +5,15 @@ import {
   sha256StableJson,
 } from "./liveProbeReportUtils.js";
 import {
-  booleanField,
   evidenceById as fileById,
   evidenceFile,
-  numberField,
   readEvidenceJson,
   snippet,
   snippetMatched,
-  stringField,
   type ManualConnectionEvidenceFile,
   type ManualConnectionSnippetMatch,
 } from "./manualConnectionSources.js";
+import { mapPreflightGuard } from "./manualConnectionReceiptMaps.js";
 import {
   addManualBlocker as addBlocker,
   preflightAdvisories,
@@ -354,66 +352,67 @@ function createMiniKvV97Reference(
       && fileById(evidenceFiles, "mini-kv-v97-walkthrough").exists
       && fileById(evidenceFiles, "mini-kv-runtime-smoke").exists
       && fileById(evidenceFiles, "mini-kv-verification-manifest").exists,
-    projectVersion: stringField(evidence, "project_version") ?? "missing",
-    releaseVersion: stringField(evidence, "release_version") ?? "missing",
-    consumer: stringField(guard, "consumer") ?? "missing",
-    consumedReleaseVersion: stringField(guard, "consumed_release_version") ?? "missing",
-    consumedMarkerDigest: stringField(guard, "consumed_marker_digest") ?? "missing",
-    receiptDigest: stringField(guard, "receipt_digest") ?? "missing",
-    manualWindowFlagName: stringField(guard, "manual_window_flag_name") ?? "missing",
-    manualWindowMode: stringField(guard, "manual_window_mode") ?? "missing",
-    timeoutBudgetMs: numberField(guard, "timeout_budget_ms") ?? -1,
-    readOnly: booleanField(guard, "read_only") ?? false,
-    executionAllowed: booleanField(guard, "execution_allowed") ?? true,
-    manualWindowOpenByDefault: booleanField(guard, "manual_window_open_by_default") ?? true,
-    connectionExecutionAllowed: booleanField(guard, "connection_execution_allowed") ?? true,
-    nodeAutoStartAllowed: booleanField(guard, "node_auto_start_allowed") ?? true,
-    javaAutoStartAllowed: booleanField(guard, "java_auto_start_allowed") ?? true,
-    miniKvAutoStartAllowed: booleanField(guard, "mini_kv_auto_start_allowed") ?? true,
-    credentialValueReadAllowed: booleanField(guard, "credential_value_read_allowed") ?? true,
-    schemaRehearsalExecutionAllowed: booleanField(guard, "schema_rehearsal_execution_allowed") ?? true,
-    schemaMigrationExecutionAllowed: booleanField(guard, "schema_migration_execution_allowed") ?? true,
-    managedAuditWriteAllowed: booleanField(guard, "managed_audit_write_allowed") ?? true,
-    participatesInSandboxConnection: booleanField(guard, "participates_in_sandbox_connection") ?? true,
-    restoreExecutionAllowed: booleanField(guard, "restore_execution_allowed") ?? true,
-    orderAuthoritative: booleanField(guard, "order_authoritative") ?? true,
+    ...mapPreflightGuard(evidence, guard),
     readyForNodeV231PreflightVerification: false,
   };
   return {
     ...reference,
-    readyForNodeV231PreflightVerification: reference.evidencePresent
-      && /^0\.(?:98|99|100|101|102)\.0$/.test(reference.projectVersion)
-      && MINI_KV_CURRENT_RELEASES_WITH_V97_GUARD.includes(reference.releaseVersion)
-      && [
-        "Node v231 manual sandbox connection preflight verification",
-        "Node v233 manual sandbox connection rehearsal packet review",
-        "Node v234 manual sandbox connection blocked execution rehearsal",
-        "Node v235 manual sandbox connection precondition intake",
-        "Node v237 manual sandbox connection readiness gate",
-      ].includes(reference.consumer)
-      && reference.consumedReleaseVersion === "v96"
-      && reference.consumedMarkerDigest === "fnv1a64:b9fc556875ea625b"
-      && MINI_KV_V97_NO_START_GUARD_RECEIPT_DIGESTS.includes(reference.receiptDigest)
-      && reference.manualWindowFlagName === "ORDEROPS_MANAGED_AUDIT_MANUAL_SANDBOX_WINDOW_APPROVED"
-      && reference.manualWindowMode === "manual-window-required-no-auto-start"
-      && reference.timeoutBudgetMs === 15000
-      && FNV1A64.test(reference.receiptDigest)
-      && reference.readOnly
-      && !reference.executionAllowed
-      && !reference.manualWindowOpenByDefault
-      && !reference.connectionExecutionAllowed
-      && !reference.nodeAutoStartAllowed
-      && !reference.javaAutoStartAllowed
-      && !reference.miniKvAutoStartAllowed
-      && !reference.credentialValueReadAllowed
-      && !reference.schemaRehearsalExecutionAllowed
-      && !reference.schemaMigrationExecutionAllowed
-      && !reference.managedAuditWriteAllowed
-      && !reference.participatesInSandboxConnection
-      && !reference.restoreExecutionAllowed
-      && !reference.orderAuthoritative
-      && snippetMatched(snippets, "mini-kv-v97-no-start-guard"),
+    readyForNodeV231PreflightVerification: preflightGuardReady(reference, snippets),
   };
+}
+
+const PREFLIGHT_GUARD_CONSUMERS = Object.freeze([
+  "Node v231 manual sandbox connection preflight verification",
+  "Node v233 manual sandbox connection rehearsal packet review",
+  "Node v234 manual sandbox connection blocked execution rehearsal",
+  "Node v235 manual sandbox connection precondition intake",
+  "Node v237 manual sandbox connection readiness gate",
+]);
+
+function preflightGuardReady(
+  reference: MiniKvV97NoStartGuardReference,
+  snippets: PreflightVerificationSnippetMatch[],
+): boolean {
+  return [
+    preflightGuardIdentityAccepted(reference),
+    preflightGuardBoundaryAccepted(reference),
+    snippetMatched(snippets, "mini-kv-v97-no-start-guard"),
+  ].every(Boolean);
+}
+
+function preflightGuardIdentityAccepted(reference: MiniKvV97NoStartGuardReference): boolean {
+  return [
+    reference.evidencePresent,
+    /^0\.(?:98|99|100|101|102)\.0$/.test(reference.projectVersion),
+    MINI_KV_CURRENT_RELEASES_WITH_V97_GUARD.includes(reference.releaseVersion),
+    PREFLIGHT_GUARD_CONSUMERS.includes(reference.consumer),
+    reference.consumedReleaseVersion === "v96",
+    reference.consumedMarkerDigest === "fnv1a64:b9fc556875ea625b",
+    MINI_KV_V97_NO_START_GUARD_RECEIPT_DIGESTS.includes(reference.receiptDigest),
+    reference.manualWindowFlagName === "ORDEROPS_MANAGED_AUDIT_MANUAL_SANDBOX_WINDOW_APPROVED",
+    reference.manualWindowMode === "manual-window-required-no-auto-start",
+    reference.timeoutBudgetMs === 15000,
+    FNV1A64.test(reference.receiptDigest),
+  ].every(Boolean);
+}
+
+function preflightGuardBoundaryAccepted(reference: MiniKvV97NoStartGuardReference): boolean {
+  return [
+    reference.readOnly,
+    !reference.executionAllowed,
+    !reference.manualWindowOpenByDefault,
+    !reference.connectionExecutionAllowed,
+    !reference.nodeAutoStartAllowed,
+    !reference.javaAutoStartAllowed,
+    !reference.miniKvAutoStartAllowed,
+    !reference.credentialValueReadAllowed,
+    !reference.schemaRehearsalExecutionAllowed,
+    !reference.schemaMigrationExecutionAllowed,
+    !reference.managedAuditWriteAllowed,
+    !reference.participatesInSandboxConnection,
+    !reference.restoreExecutionAllowed,
+    !reference.orderAuthoritative,
+  ].every(Boolean);
 }
 
 function createPreflightVerification(
@@ -421,15 +420,19 @@ function createPreflightVerification(
   javaV88: JavaV88PreflightEchoMarkerReference,
   miniKvV97: MiniKvV97NoStartGuardReference,
 ): ManagedAuditManualSandboxConnectionPreflightVerificationProfile["preflightVerification"] {
-  const preflightFieldsAligned = javaV88.preflightFieldsDocumented
-    && javaV88.manualWindowFlagDocumented
-    && javaV88.credentialHandleNameEchoed
-    && miniKvV97.manualWindowFlagName === sourceGate.preflightGate.manualWindowFlagName
-    && miniKvV97.timeoutBudgetMs === sourceGate.preflightGate.timeoutBudgetMs
-    && miniKvV97.consumedMarkerDigest === "fnv1a64:b9fc556875ea625b";
-  const manualWindowClosedByAllSources = !sourceGate.preflightGate.manualWindowOpenByDefault
-    && javaV88.manualWindowClosedByDefault
-    && !miniKvV97.manualWindowOpenByDefault;
+  const preflightFieldsAligned = [
+    javaV88.preflightFieldsDocumented,
+    javaV88.manualWindowFlagDocumented,
+    javaV88.credentialHandleNameEchoed,
+    miniKvV97.manualWindowFlagName === sourceGate.preflightGate.manualWindowFlagName,
+    miniKvV97.timeoutBudgetMs === sourceGate.preflightGate.timeoutBudgetMs,
+    miniKvV97.consumedMarkerDigest === "fnv1a64:b9fc556875ea625b",
+  ].every(Boolean);
+  const manualWindowClosedByAllSources = [
+    !sourceGate.preflightGate.manualWindowOpenByDefault,
+    javaV88.manualWindowClosedByDefault,
+    !miniKvV97.manualWindowOpenByDefault,
+  ].every(Boolean);
 
   return {
     verificationDigest: sha256StableJson({
@@ -443,15 +446,7 @@ function createPreflightVerification(
     sourcePreflightGateDigest: sourceGate.preflightGate.gateDigest,
     markerSpan: "Node v230 + Java v88 + mini-kv v97",
     verificationMode: "manual-sandbox-connection-preflight-verification-only",
-    javaPreflightEchoAccepted: javaV88.evidencePresent
-      && javaV88.markerFieldPresent
-      && javaV88.readyFieldDocumented
-      && javaV88.readyForNodeV231PreflightVerification
-      && javaV88.nodeV231MayConsume
-      && !javaV88.credentialValueReadByJava
-      && !javaV88.schemaMigrationSqlExecutedByJava
-      && !javaV88.approvalLedgerWrittenByJava
-      && !javaV88.managedAuditConnectionOpenedByJava,
+    javaPreflightEchoAccepted: javaPreflightAccepted(javaV88),
     miniKvNoStartGuardAccepted: miniKvV97.readyForNodeV231PreflightVerification,
     preflightFieldsAligned,
     manualWindowClosedByAllSources,
@@ -472,38 +467,15 @@ function createChecks(
   verification: ManagedAuditManualSandboxConnectionPreflightVerificationProfile["preflightVerification"],
 ): ManualSandboxPreflightVerificationChecks {
   return {
-    sourceNodeV230PreflightGateReady: sourceGate.readyForManagedAuditManualSandboxConnectionPreflightGate
-      && sourceGate.gateState === "manual-sandbox-connection-preflight-gate-ready",
-    sourceNodeV230StillConnectionBlocked: !sourceGate.readyForManagedAuditSandboxAdapterConnection
-      && !sourceGate.connectsManagedAudit
-      && !sourceGate.readsManagedAuditCredential
-      && !sourceGate.schemaMigrationExecuted,
-    sourceNodeV230GateDigestPresent: SHA256_HEX.test(sourceGate.preflightGate.gateDigest)
-      && SHA256_HEX.test(sourceGate.preflightGate.sourceVerificationDigest)
-      && SHA256_HEX.test(sourceGate.preflightGate.sourcePacketDigest),
+    sourceNodeV230PreflightGateReady: sourcePreflightReady(sourceGate),
+    sourceNodeV230StillConnectionBlocked: sourcePreflightClosed(sourceGate),
+    sourceNodeV230GateDigestPresent: sourcePreflightDigestsPresent(sourceGate),
     javaV88EvidencePresent: javaV88.evidencePresent,
     javaV88PreflightEchoAccepted: verification.javaPreflightEchoAccepted,
-    javaV88NoWriteNoSqlNoCredentialBoundaryAccepted: !javaV88.credentialValueReadByJava
-      && !javaV88.schemaMigrationSqlExecutedByJava
-      && !javaV88.approvalLedgerWrittenByJava
-      && !javaV88.managedAuditConnectionOpenedByJava
-      && javaV88.autoStartForbidden,
+    javaV88NoWriteNoSqlNoCredentialBoundaryAccepted: javaPreflightBoundaryAccepted(javaV88),
     miniKvV97EvidencePresent: miniKvV97.evidencePresent,
     miniKvV97NoStartGuardAccepted: verification.miniKvNoStartGuardAccepted,
-    miniKvV97BoundaryAccepted: miniKvV97.readOnly
-      && !miniKvV97.executionAllowed
-      && !miniKvV97.manualWindowOpenByDefault
-      && !miniKvV97.connectionExecutionAllowed
-      && !miniKvV97.nodeAutoStartAllowed
-      && !miniKvV97.javaAutoStartAllowed
-      && !miniKvV97.miniKvAutoStartAllowed
-      && !miniKvV97.credentialValueReadAllowed
-      && !miniKvV97.schemaRehearsalExecutionAllowed
-      && !miniKvV97.schemaMigrationExecutionAllowed
-      && !miniKvV97.managedAuditWriteAllowed
-      && !miniKvV97.participatesInSandboxConnection
-      && !miniKvV97.restoreExecutionAllowed
-      && !miniKvV97.orderAuthoritative,
+    miniKvV97BoundaryAccepted: preflightGuardBoundaryAccepted(miniKvV97),
     preflightFieldsAlignedAcrossSources: verification.preflightFieldsAligned,
     manualWindowClosedAcrossSources: verification.manualWindowClosedByAllSources,
     credentialValueStillForbidden: !verification.credentialValueReadAllowed,
@@ -516,6 +488,53 @@ function createChecks(
     productionWindowStillBlocked: true,
     readyForManagedAuditManualSandboxConnectionPreflightVerification: false,
   };
+}
+
+function javaPreflightAccepted(reference: JavaV88PreflightEchoMarkerReference): boolean {
+  return [
+    reference.evidencePresent,
+    reference.markerFieldPresent,
+    reference.readyFieldDocumented,
+    reference.readyForNodeV231PreflightVerification,
+    reference.nodeV231MayConsume,
+    javaPreflightBoundaryAccepted(reference),
+  ].every(Boolean);
+}
+
+function javaPreflightBoundaryAccepted(reference: JavaV88PreflightEchoMarkerReference): boolean {
+  return [
+    !reference.credentialValueReadByJava,
+    !reference.schemaMigrationSqlExecutedByJava,
+    !reference.approvalLedgerWrittenByJava,
+    !reference.managedAuditConnectionOpenedByJava,
+    reference.autoStartForbidden,
+  ].every(Boolean);
+}
+
+function sourcePreflightReady(source: ManagedAuditManualSandboxConnectionPreflightGateProfile): boolean {
+  return [
+    source.readyForManagedAuditManualSandboxConnectionPreflightGate,
+    source.gateState === "manual-sandbox-connection-preflight-gate-ready",
+  ].every(Boolean);
+}
+
+function sourcePreflightClosed(source: ManagedAuditManualSandboxConnectionPreflightGateProfile): boolean {
+  return [
+    !source.readyForManagedAuditSandboxAdapterConnection,
+    !source.connectsManagedAudit,
+    !source.readsManagedAuditCredential,
+    !source.schemaMigrationExecuted,
+  ].every(Boolean);
+}
+
+function sourcePreflightDigestsPresent(
+  source: ManagedAuditManualSandboxConnectionPreflightGateProfile,
+): boolean {
+  return [
+    SHA256_HEX.test(source.preflightGate.gateDigest),
+    SHA256_HEX.test(source.preflightGate.sourceVerificationDigest),
+    SHA256_HEX.test(source.preflightGate.sourcePacketDigest),
+  ].every(Boolean);
 }
 
 function createEvidenceFiles(): PreflightVerificationEvidenceFile[] {

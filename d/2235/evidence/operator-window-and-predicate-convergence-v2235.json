@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "version": "v2235",
+  "scope": "operator-window-and-predicate-convergence",
+  "behaviorChanged": false,
+  "sourceCommit": "07f494a7",
+  "oracles": {
+    "operatorWindowMarkdown": {
+      "historicalFallbackForced": true,
+      "generatedAt": "2026-07-21T15:00:00.000Z",
+      "bytes": 17955,
+      "sha256": "093bb3bafb8035349a5721c2a0d252cbb0b2cc643131306cc78f482aea8fe23f"
+    },
+    "catalogQualityProfile": {
+      "generatedAt": "2026-07-21T15:30:00.000Z",
+      "jsonBytes": 5947,
+      "jsonSha256": "0aee7c29c888304cbf380dfdf995d489be1e287d93c24347f31d58e5b36fe19f",
+      "qualityDigest": "c7cf6c8bb2cef5bf4c94d77a593f01551d9e4da6939ad84f4668c2da03a5be74"
+    }
+  },
+  "architecture": {
+    "operatorRendererOwner": "src/services/verificationReports/manualConnection.ts#renderOperatorWindowVerification",
+    "receiptMapOwner": "src/services/manualConnectionReceiptMaps.ts",
+    "catalogLoaderStages": [
+      "createCatalogScope",
+      "createSourceNodeV301",
+      "createCatalogChecks",
+      "createCatalogSummary",
+      "assembleQualityProfile"
+    ],
+    "stableExportsPreserved": true,
+    "newRendererWaivers": 0,
+    "newImportCycles": 0
+  },
+  "metrics": {
+    "verificationLogicBefore": 980,
+    "verificationLogicAfter": 898,
+    "nearLimitFilesBefore": 71,
+    "nearLimitFilesAfter": 70,
+    "longFunctionsBefore": 72,
+    "longFunctionsAfter": 71,
+    "complexFunctionsBefore": 193,
+    "complexFunctionsAfter": 188,
+    "maxFunctionLinesBefore": 163,
+    "maxFunctionLinesAfter": 158,
+    "operatorServiceLinesBefore": 754,
+    "operatorServiceLinesAfter": 582,
+    "nameDebt": 4444,
+    "trackedFamilies": 52,
+    "sourceFilesAbove800": 0
+  },
+  "hotspots": [
+    { "name": "catalog quality loader", "before": "163L/6C", "after": "27L/2C" },
+    { "name": "createMiniKvV102Reference", "before": "91L/57C", "after": "39L/5C" },
+    { "name": "createMiniKvV97Reference", "before": "78L/53C", "after": "25L/5C" },
+    { "name": "createOperatorWindowEvidenceVerification", "before": "67L/35C", "after": "54L/1C" },
+    { "name": "preflight createChecks", "before": "53L/24C", "after": "30L/1C" },
+    { "name": "miniKvBoundaryAccepted", "before": "24L/22C", "after": "26L/1C" }
+  ],
+  "verification": {
+    "preMigrationOracles": "passed-before-source-edits",
+    "operatorFocused": "passed-3-files-17-tests",
+    "profileFocused": "passed-2-files-4-tests",
+    "combinedManualConnectionFocused": "passed-3-files-8-tests",
+    "typecheck": "passed",
+    "lint": "passed-zero-warnings",
+    "elegance": "passed-no-name-or-family-growth",
+    "familyLogic": "passed-898",
+    "maintainability": "passed-70-71-188-0",
+    "baselineDirection": "downward-only"
+  },
+  "boundaries": {
+    "routeChanged": false,
+    "jsonChanged": false,
+    "markdownChanged": false,
+    "fixtureChanged": false,
+    "networkAdded": false,
+    "writesAdded": false,
+    "permissionsChanged": false,
+    "screenshotApplicable": false
+  },
+  "crossProject": {
+    "java": "recommended-parallel",
+    "miniKv": "recommended-parallel",
+    "freshSiblingEvidenceRequired": false
+  }
+}

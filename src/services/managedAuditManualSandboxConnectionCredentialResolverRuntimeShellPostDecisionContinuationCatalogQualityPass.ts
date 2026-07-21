@@ -151,31 +151,65 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
     config: input.config,
   });
   const continuationOptions = createRuntimeShellPostDecisionContinuationOptions();
-  const catalogScope = {
+  const catalogScope = createCatalogScope(continuationOptions);
+  const sourceNodeV301 = createSourceNodeV301(source);
+  const checks = createCatalogChecks(input.config, sourceNodeV301, catalogScope);
+  const qualityPassState = checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass
+    ? "runtime-shell-post-decision-continuation-catalog-quality-pass-ready"
+    : "blocked";
+  const productionBlockers = collectProductionBlockers(checks);
+  const warnings = collectWarnings();
+  const recommendations = collectRecommendations();
+
+  return assembleQualityProfile({
+    catalogScope,
+    sourceNodeV301,
+    checks,
+    qualityPassState,
+    productionBlockers,
+    warnings,
+    recommendations,
+  });
+}
+
+type QualityProfile =
+  ManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPassProfile;
+type PlanIntakeProfile = ReturnType<
+  typeof loadManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake
+>;
+type ContinuationOptions = ReturnType<typeof createRuntimeShellPostDecisionContinuationOptions>;
+
+function createCatalogScope(
+  continuationOptions: ContinuationOptions,
+): QualityProfile["catalogScope"] {
+  return {
     catalogVersion:
-      RUNTIME_SHELL_POST_DECISION_CONTINUATION_CATALOG_VERSION as typeof RUNTIME_SHELL_POST_DECISION_CONTINUATION_CATALOG_VERSION,
-    sourceVersion: "Node v301" as const,
-    currentVersion: "Node v302" as const,
+      RUNTIME_SHELL_POST_DECISION_CONTINUATION_CATALOG_VERSION,
+    sourceVersion: "Node v301",
+    currentVersion: "Node v302",
     nextVerificationVersion: RUNTIME_SHELL_POST_DECISION_CONTINUATION_VERSIONS.nextNodeVerificationVersion,
     catalogFile:
-      "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalog.ts" as const,
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalog.ts",
     consumerServiceFile:
-      "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake.ts" as const,
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake.ts",
     consumerTypesFile:
-      "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntakeTypes.ts" as const,
+      "src/services/managedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntakeTypes.ts",
     continuationOptionCount: continuationOptions.length,
     selectedContinuationOptionCount:
       continuationOptions.filter((option) => option.status === "selected").length,
     rejectedRuntimeImplementationOptionCount:
       continuationOptions.filter((option) =>
         option.code === "IMPLEMENT_RUNTIME_SHELL_NOW" && option.status === "rejected").length,
-    duplicatedOptionBuilderRemoved: true as const,
-    duplicatedNecessityProofBuilderRemoved: true as const,
-    v301LegacyNodeV302ReferenceKeptAsCompatibilityMarker: true as const,
+    duplicatedOptionBuilderRemoved: true,
+    duplicatedNecessityProofBuilderRemoved: true,
+    v301LegacyNodeV302ReferenceKeptAsCompatibilityMarker: true,
     activeNodeVerificationTarget:
       RUNTIME_SHELL_POST_DECISION_CONTINUATION_VERSIONS.nextNodeVerificationVersion,
   };
-  const sourceNodeV301 = {
+}
+
+function createSourceNodeV301(source: PlanIntakeProfile): QualityProfile["sourceNodeV301"] {
+  return {
     planIntakeState: source.planIntakeState,
     readyForPlanIntake:
       source.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationPlanIntake,
@@ -200,7 +234,14 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
     passedCheckCount: source.summary.passedCheckCount,
     productionBlockerCount: source.summary.productionBlockerCount,
   };
-  const checks = {
+}
+
+function createCatalogChecks(
+  config: AppConfig,
+  sourceNodeV301: QualityProfile["sourceNodeV301"],
+  catalogScope: QualityProfile["catalogScope"],
+): QualityProfile["checks"] {
+  const checks: QualityProfile["checks"] = {
     sourceNodeV301Ready: sourceNodeV301.readyForPlanIntake,
     sourceNodeV301UsesCatalog:
       sourceNodeV301.catalogVersion === RUNTIME_SHELL_POST_DECISION_CONTINUATION_CATALOG_VERSION,
@@ -223,8 +264,8 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
     noExternalRequest: !sourceNodeV301.externalRequestSent,
     noLedgerOrSchemaWrite:
       !sourceNodeV301.approvalLedgerWritten && !sourceNodeV301.schemaMigrationExecuted,
-    upstreamProbesStillDisabled: !input.config.upstreamProbesEnabled,
-    upstreamActionsStillDisabled: !input.config.upstreamActionsEnabled,
+    upstreamProbesStillDisabled: !config.upstreamProbesEnabled,
+    upstreamActionsStillDisabled: !config.upstreamActionsEnabled,
     productionAuditStillBlocked: true,
     productionWindowStillBlocked: true,
     readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass: false,
@@ -234,21 +275,46 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
       .filter(([key]) =>
         key !== "readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass")
       .every(([, value]) => value);
-  const qualityPassState = checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass
-    ? "runtime-shell-post-decision-continuation-catalog-quality-pass-ready"
-    : "blocked";
-  const productionBlockers = collectProductionBlockers(checks);
-  const warnings = collectWarnings();
-  const recommendations = collectRecommendations();
+  return checks;
+}
 
+function createCatalogSummary(input: {
+  checks: QualityProfile["checks"];
+  catalogScope: QualityProfile["catalogScope"];
+  productionBlockers: CatalogQualityPassMessage[];
+  warnings: CatalogQualityPassMessage[];
+  recommendations: CatalogQualityPassMessage[];
+}): QualityProfile["summary"] {
+  return {
+    checkCount: countReportChecks(input.checks),
+    passedCheckCount: countPassedReportChecks(input.checks),
+    continuationOptionCount: input.catalogScope.continuationOptionCount,
+    selectedContinuationOptionCount: input.catalogScope.selectedContinuationOptionCount,
+    rejectedRuntimeImplementationOptionCount:
+      input.catalogScope.rejectedRuntimeImplementationOptionCount,
+    productionBlockerCount: input.productionBlockers.length,
+    warningCount: input.warnings.length,
+    recommendationCount: input.recommendations.length,
+  };
+}
+
+function assembleQualityProfile(input: {
+  catalogScope: QualityProfile["catalogScope"];
+  sourceNodeV301: QualityProfile["sourceNodeV301"];
+  checks: QualityProfile["checks"];
+  qualityPassState: QualityProfile["qualityPassState"];
+  productionBlockers: CatalogQualityPassMessage[];
+  warnings: CatalogQualityPassMessage[];
+  recommendations: CatalogQualityPassMessage[];
+}): QualityProfile {
   return {
     service: "orderops-node",
     title: "Managed audit manual sandbox connection credential resolver runtime shell post-decision continuation catalog quality pass",
     generatedAt: new Date().toISOString(),
     profileVersion: PROFILE_VERSION,
-    qualityPassState,
+    qualityPassState: input.qualityPassState,
     readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass:
-      checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass,
+      input.checks.readyForManagedAuditManualSandboxConnectionCredentialResolverRuntimeShellPostDecisionContinuationCatalogQualityPass,
     readOnlyQualityPass: true,
     consumesNodeV301PostDecisionContinuationPlanIntake: true,
     consumesJavaV136PostDecisionPlanIntakeEcho: false,
@@ -269,30 +335,20 @@ export function loadManagedAuditManualSandboxConnectionCredentialResolverRuntime
     schemaMigrationExecuted: false,
     approvalLedgerWritten: false,
     automaticUpstreamStart: false,
-    catalogScope,
-    sourceNodeV301,
-    checks,
-    summary: {
-      checkCount: countReportChecks(checks),
-      passedCheckCount: countPassedReportChecks(checks),
-      continuationOptionCount: catalogScope.continuationOptionCount,
-      selectedContinuationOptionCount: catalogScope.selectedContinuationOptionCount,
-      rejectedRuntimeImplementationOptionCount:
-        catalogScope.rejectedRuntimeImplementationOptionCount,
-      productionBlockerCount: productionBlockers.length,
-      warningCount: warnings.length,
-      recommendationCount: recommendations.length,
-    },
+    catalogScope: input.catalogScope,
+    sourceNodeV301: input.sourceNodeV301,
+    checks: input.checks,
+    summary: createCatalogSummary(input),
     qualityDigest: sha256StableJson({
       profileVersion: PROFILE_VERSION,
-      qualityPassState,
-      catalogScope,
-      sourceNodeV301,
-      checks,
+      qualityPassState: input.qualityPassState,
+      catalogScope: input.catalogScope,
+      sourceNodeV301: input.sourceNodeV301,
+      checks: input.checks,
     }),
-    productionBlockers,
-    warnings,
-    recommendations,
+    productionBlockers: input.productionBlockers,
+    warnings: input.warnings,
+    recommendations: input.recommendations,
     evidenceEndpoints: {
       catalogQualityPassJson: ROUTE_PATH,
       catalogQualityPassMarkdown: `${ROUTE_PATH}?format=markdown`,
