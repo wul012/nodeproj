@@ -55,7 +55,16 @@
       "trackedFamilies": 52
     }
   },
-  "remoteNodeEvidence": "pending v2238 commit and push",
+  "remoteNodeEvidence": {
+    "runId": 29883103416,
+    "status": "failed",
+    "originalV2237ParityFailuresPresent": false,
+    "newFailures": [
+      "portableProfileParity attempted to read canonical report aliases as Linux filesystem paths",
+      "relative e/398 and e/408 report paths were promoted to absolute aliases in v2168/v2169 parity"
+    ],
+    "repairVersion": "v2239"
+  },
   "parallelProjects": {
     "java": "recommended parallel; no fresh evidence required",
     "miniKv": "recommended parallel; no fresh evidence required"
@@ -64,5 +73,5 @@
     "required": false,
     "reason": "No UI, route, or renderable page changed; the affected outputs are existing JSON and Markdown parity surfaces."
   },
-  "status": "local-final-verification-passed-awaiting-remote-ci"
+  "status": "local-final-verification-passed-remote-ci-failed-superseded-by-v2239"
 }

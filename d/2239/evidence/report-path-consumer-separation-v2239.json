@@ -1,0 +1,80 @@
+{
+  "version": "v2239",
+  "scope": "relative report path preservation and portable parity content resolution",
+  "trigger": {
+    "version": "v2238",
+    "runId": 29883103416,
+    "status": "failed",
+    "v2237FailuresReproduced": false,
+    "failures": [
+      "portable profile helper opened canonical D:\\nodeproj report aliases on Linux",
+      "v2168 canonicalValueValidation relative path expanded by 156 bytes",
+      "v2169 passEvidenceCloseout relative path expanded by 182 bytes"
+    ]
+  },
+  "repair": {
+    "relativeReportPathsPreserved": true,
+    "readableSelectedPathPreferred": true,
+    "declaredContentPathFallback": true,
+    "platformSpecificExpectedHashesAdded": false,
+    "rendererGoldenValuesChanged": false,
+    "fixturesChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "executionAuthorityChanged": false
+  },
+  "focusedVerification": {
+    "files": 13,
+    "tests": 42,
+    "typecheck": "passed",
+    "lint": "passed with zero warnings",
+    "coveredSeams": [
+      "all nine portableProfileParity consumers",
+      "v2168 and v2169 renderer migration golden output",
+      "v2236 resolver profile parity",
+      "v2237 controlled preview parity",
+      "manual connection renderer parity"
+    ]
+  },
+  "fullLocalVerification": {
+    "maxWorkers": 4,
+    "testFiles": {
+      "passed": 592,
+      "total": 592
+    },
+    "tests": {
+      "passed": 1820,
+      "total": 1820
+    },
+    "durationSeconds": 1008.88,
+    "coverage": {
+      "statements": "95.78% (27895/29124)",
+      "branches": "90.06% (25912/28769)",
+      "functions": "98.54% (12190/12370)",
+      "lines": "95.75% (27077/28277)"
+    },
+    "typecheck": "passed",
+    "lint": "passed with zero warnings",
+    "build": "passed",
+    "securityScan": "18/18 checks passed; 6/6 signals narrowly waived",
+    "archiveRetention": "7203 files; 64.79/80.00 MiB",
+    "familyCensus": "52/52 tracked families; ready=true",
+    "maintainability": "70 near-limit files; 69 long functions; 165 complex functions; 0 import cycles; ready=true",
+    "rendererCensus": "245/245 covered; 3 composition-only waivers; 0 non-waived",
+    "sourceSize": "0 source files above 800 lines",
+    "ninePointReadiness": true,
+    "documentationGates": "6/6 existing test files and 19/19 tests passed after evidence refresh"
+  },
+  "remaining": [
+    "remote Node Evidence"
+  ],
+  "parallelProjects": {
+    "java": "recommended parallel; no fresh evidence required",
+    "miniKv": "recommended parallel; no fresh evidence required"
+  },
+  "screenshot": {
+    "required": false,
+    "reason": "This version changes a resolver guard and test-only evidence content lookup; no UI or route changed."
+  },
+  "status": "local-final-passed-awaiting-remote-ci"
+}

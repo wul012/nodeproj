@@ -16,11 +16,11 @@
 | 要求 | 实现 | 机械证据 | 状态 |
 | --- | --- | --- | --- |
 | 读取路径仍指向当前 runner 的真实文件 | `resolveHistoricalEvidencePath` 与 `resolveHistoricalEvidenceContentPath` 保持 I/O 职责 | resolver focused tests、现有 fallback tests | passed |
-| profile 不暴露 runner 根目录 | `resolveHistoricalEvidenceReportPath` 将仓库内 fallback 映射到稳定 Windows 兼容别名 | 精确路径测试、v106/v107 byte parity、Linux CI | local passed；CI pending |
-| 文本证据不受 LF/CRLF/BOM 影响 | `manualConnectionSources.evidenceFile` 复用 `historicalEvidenceReportUtils.evidenceFile` | LF 与 mixed/BOM 同 size/digest test、operator parity | local passed；CI pending |
+| profile 不暴露 runner 根目录 | `resolveHistoricalEvidenceReportPath` 将仓库内 fallback 映射到稳定 Windows 兼容别名 | 精确路径测试、v106/v107 byte parity、Linux CI | production parity passed；stale test consumer failed，转 v2239 |
+| 文本证据不受 LF/CRLF/BOM 影响 | `manualConnectionSources.evidenceFile` 复用 `historicalEvidenceReportUtils.evidenceFile` | LF 与 mixed/BOM 同 size/digest test、operator parity | production parity passed；CI downstream failed，转 v2239 |
 | 不用改 fixture 掩盖问题 | 不改任何历史 fixture 字节 | `git diff --name-status`、v961 blob test | passed |
 | 不放宽优雅结果 | baseline 与九分阈值不变 | `npm run elegance:nine` | passed |
-| 远端真实完成 | build/smoke/coverage 在 Linux runner 全绿 | Node Evidence 同 commit SHA | pending |
+| 远端真实完成 | build/smoke/coverage 在 Linux runner 全绿 | Node Evidence 同 commit SHA | failed；由 v2239 修复 downstream consumer seam |
 
 ## Oracle 修正规则
 
@@ -39,4 +39,6 @@ Java 与 mini-kv **推荐继续并行**；本版只消费 Node 内冻结的 sibl
 
 ## 本地最终结果（2026-07-22）
 
-最终文档写入后，10 个相关/文档测试文件共 41 项通过；其中 v106/v107 完整 profile、packet/preflight/operator Markdown、resolver、规范文本元数据与三个领域 service 全绿。typecheck、全仓零警告 lint、build、安全配置 18/18、归档预算 7,199 文件与 64.77/80 MiB 通过。family 52/52、maintainability `70/69/165/0`、renderer 245/245 且非 waiver 为零、超 800 行源码为零；`elegance:nine` 全项通过，最大函数 158、最大复杂度 58、name debt 4,130。中文 walkthrough 为 3,079 个汉字。当前状态只缺同 commit 的远端 Node Evidence。
+最终文档写入后，10 个相关/文档测试文件共 41 项通过；其中 v106/v107 完整 profile、packet/preflight/operator Markdown、resolver、规范文本元数据与三个领域 service 全绿。typecheck、全仓零警告 lint、build、安全配置 18/18、归档预算 7,199 文件与 64.77/80 MiB 通过。family 52/52、maintainability `70/69/165/0`、renderer 245/245 且非 waiver 为零、超 800 行源码为零；`elegance:nine` 全项通过，最大函数 158、最大复杂度 58、name debt 4,130。中文 walkthrough 为 3,079 个汉字。
+
+远端 Node Evidence run `29883103416` 证明 v106/v107 与 operator 三项原失败已经消失，但 coverage 又暴露两个 downstream test seam：portable helper 试图在 Linux 上直接打开稳定 `D:\\nodeproj` 展示别名，v2168/v2169 则发现本函数把原本相对的 `e/398`、`e/408` 报告路径提升成绝对别名。v2238 因此未获最终九分；v2239 只修消费者分层与相对路径保持。

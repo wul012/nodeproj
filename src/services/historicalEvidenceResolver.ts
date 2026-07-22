@@ -74,6 +74,8 @@ export function resolveHistoricalEvidenceContentPath(inputPath: string): string 
 
 export function resolveHistoricalEvidenceReportPath(inputPath: string): string {
   const resolvedPath = resolveHistoricalEvidencePath(inputPath);
+  if (!path.isAbsolute(resolvedPath)) return resolvedPath;
+
   const relativePath = path.relative(REPO_ROOT, resolvedPath);
   const outsideRepo = relativePath === ".."
     || relativePath.startsWith(`..${path.sep}`)

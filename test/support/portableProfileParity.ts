@@ -1,5 +1,7 @@
 import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
+
+import { resolveHistoricalEvidenceContentPath } from "../../src/services/historicalEvidenceResolver.js";
 
 const DECLARED_REPO_ROOT = "D:/nodeproj/orderops-node";
 
@@ -43,7 +45,7 @@ function canonicalizeEvidenceMetadata(value: unknown): unknown {
   if (!isRecord(value)) return value;
 
   const metadata = isReadableEvidenceFile(value)
-    ? canonicalTextMetadata(value.resolvedPath)
+    ? canonicalTextMetadata(value.path, value.resolvedPath)
     : null;
   return Object.fromEntries(
     Object.entries(value).map(([key, entry]) => {
@@ -54,8 +56,13 @@ function canonicalizeEvidenceMetadata(value: unknown): unknown {
   );
 }
 
-function canonicalTextMetadata(resolvedPath: string) {
-  const content = readFileSync(resolvedPath, "utf8").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+function canonicalTextMetadata(filePath: string, resolvedPath: string) {
+  const contentPath = existsSync(resolvedPath)
+    ? resolvedPath
+    : resolveHistoricalEvidenceContentPath(filePath);
+  const content = readFileSync(contentPath, "utf8")
+    .replace(/\r\n/g, "\n")
+    .replace(/\r/g, "\n");
   return {
     sizeBytes: Buffer.byteLength(content, "utf8"),
     digest: sha256(content),

@@ -81,4 +81,10 @@ describe("historicalEvidenceResolver", () => {
     );
     expect(historicalEvidenceExists(declaredPath)).toBe(true);
   });
+
+  it("preserves repository-relative report paths", () => {
+    const relativePath = "e/398/input/node-approved-runtime-window-v398.json";
+
+    expect(resolveHistoricalEvidenceReportPath(relativePath)).toBe(relativePath);
+  });
 });

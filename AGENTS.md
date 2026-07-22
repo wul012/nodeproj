@@ -15,7 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
-| Active maintenance track | `docs/plans3/v2238-cross-platform-evidence-parity-repair.md`; v2237 remote Linux parity failed, v2238 is the only authorized repair successor, and green Node Evidence is the stop gate |
+| Active maintenance track | `docs/plans3/v2239-report-path-consumer-separation.md`; v2238 fixed production parity but exposed two stale test consumers, v2239 is the only repair successor, and green Node Evidence is the stop gate |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule

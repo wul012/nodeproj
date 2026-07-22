@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2239 - 2026-07-22
+
+- Preserved repository-relative evidence report paths instead of promoting
+  them to the canonical absolute alias, restoring the v2168/v2169 renderer
+  migration contracts without changing their golden output.
+- Updated the portable parity test kernel to treat `resolvedPath` as display
+  metadata when it is not readable on the current host. It now reads the
+  selected path when available and otherwise resolves content from the
+  declared path, covering Linux aliases, synthetic temp fixtures, pinned
+  snapshots, and environment changes without weakening full-output parity.
+
 ## v2238 - 2026-07-22
 
 - Separated host-native historical evidence content paths from stable report
