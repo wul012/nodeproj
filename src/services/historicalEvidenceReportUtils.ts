@@ -4,7 +4,7 @@ import { parseJsonEvidence } from "./jsonEvidenceUtils.js";
 import {
   historicalEvidenceExists,
   readHistoricalEvidenceFile,
-  resolveHistoricalEvidencePath,
+  resolveHistoricalEvidenceReportPath,
 } from "./historicalEvidenceResolver.js";
 
 export interface HistoricalEvidenceFile {
@@ -33,7 +33,7 @@ export function evidenceFile(
   filePath: string,
   options: EvidenceFileOptions = {},
 ): HistoricalEvidenceFile {
-  const resolvedPath = resolveHistoricalEvidencePath(filePath);
+  const resolvedPath = resolveHistoricalEvidenceReportPath(filePath);
   if (!historicalEvidenceExists(filePath)) {
     return { id, path: filePath, resolvedPath, exists: false, sizeBytes: 0, digest: null };
   }
@@ -60,7 +60,7 @@ export function evidenceFile(
 }
 
 export function snippet(id: string, filePath: string, expectedText: string): HistoricalSnippetMatch {
-  const resolvedPath = resolveHistoricalEvidencePath(filePath);
+  const resolvedPath = resolveHistoricalEvidenceReportPath(filePath);
   const content = historicalEvidenceExists(filePath)
     ? normalizeHistoricalEvidenceText(readHistoricalEvidenceFile(filePath, "utf8"))
     : "";

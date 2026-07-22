@@ -5,6 +5,7 @@ import {
   historicalEvidenceExists,
   resolveHistoricalEvidenceContentPath,
   resolveHistoricalEvidencePath,
+  resolveHistoricalEvidenceReportPath,
 } from "../src/services/historicalEvidenceResolver.js";
 
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
@@ -69,5 +70,15 @@ describe("historicalEvidenceResolver", () => {
       sizeBytes: 11_741,
       digest: "e69b1e1bbfa1983b4e54c9c0b194409bf14349beac104e7a0180a5b4997a172e",
     });
+  });
+
+  it("keeps fallback report paths stable across checkout hosts", () => {
+    process.env[FORCE_FALLBACK_ENV] = "true";
+    const declaredPath = "D:/C/mini-kv/fixtures/release/runtime-smoke-evidence.json";
+
+    expect(resolveHistoricalEvidenceReportPath(declaredPath)).toBe(
+      "D:\\nodeproj\\orderops-node\\fixtures\\historical\\sibling-workspaces\\mini-kv\\fixtures\\release\\runtime-smoke-evidence.json",
+    );
+    expect(historicalEvidenceExists(declaredPath)).toBe(true);
   });
 });

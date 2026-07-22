@@ -1,13 +1,11 @@
-import { createHash } from "node:crypto";
-
 import {
   historicalEvidenceExists,
   readHistoricalEvidenceFile,
-  statHistoricalEvidence,
 } from "./historicalEvidenceResolver.js";
+import { evidenceFile as historicalEvidenceFile } from "./historicalEvidenceReportUtils.js";
 
-// Design: this module owns historical evidence I/O and primitive projection.
-// Domain services retain their paths, expected snippets, and acceptance rules.
+// Design: this module owns the manual-connection evidence projection.
+// Shared utilities own canonical metadata; domain services retain paths and rules.
 
 export interface ManualConnectionEvidenceFile {
   id: string;
@@ -25,16 +23,13 @@ export interface ManualConnectionSnippetMatch {
 }
 
 export function evidenceFile(id: string, filePath: string): ManualConnectionEvidenceFile {
-  if (!historicalEvidenceExists(filePath)) {
-    return { id, path: filePath, exists: false, sizeBytes: 0, digest: null };
-  }
-  const content = readHistoricalEvidenceFile(filePath);
+  const evidence = historicalEvidenceFile(id, filePath);
   return {
-    id,
-    path: filePath,
-    exists: true,
-    sizeBytes: statHistoricalEvidence(filePath).size,
-    digest: createHash("sha256").update(content).digest("hex"),
+    id: evidence.id,
+    path: evidence.path,
+    exists: evidence.exists,
+    sizeBytes: evidence.sizeBytes,
+    digest: evidence.digest,
   };
 }
 

@@ -5,6 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
+const CANONICAL_REPO_ROOT = "D:/nodeproj/orderops-node";
 
 const PINNED_CONTENT_MAPPINGS = Object.freeze([
   {
@@ -69,6 +70,17 @@ export function resolveHistoricalEvidenceContentPath(inputPath: string): string 
   return pinned === undefined
     ? resolveHistoricalEvidencePath(inputPath)
     : path.resolve(REPO_ROOT, pinned.contentPath);
+}
+
+export function resolveHistoricalEvidenceReportPath(inputPath: string): string {
+  const resolvedPath = resolveHistoricalEvidencePath(inputPath);
+  const relativePath = path.relative(REPO_ROOT, resolvedPath);
+  const outsideRepo = relativePath === ".."
+    || relativePath.startsWith(`..${path.sep}`)
+    || path.isAbsolute(relativePath);
+  if (outsideRepo) return resolvedPath;
+
+  return path.win32.join(CANONICAL_REPO_ROOT, ...relativePath.split(path.sep));
 }
 
 function mappedHistoricalEvidencePath(inputPath: string): string | null {

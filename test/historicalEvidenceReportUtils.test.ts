@@ -11,6 +11,7 @@ import {
   mapSnippetFields,
   snippetsMatched,
 } from "../src/services/historicalEvidenceReportUtils.js";
+import { evidenceFile as manualConnectionEvidenceFile } from "../src/services/manualConnectionSources.js";
 
 describe("historical evidence report utilities", () => {
   const temporaryRoots: string[] = [];
@@ -43,6 +44,20 @@ describe("historical evidence report utilities", () => {
       exists: true,
       sizeBytes: Buffer.byteLength(canonicalText, "utf8"),
       digest: canonical.digest,
+    });
+  });
+
+  it("shares canonical text metadata with manual connection reports", () => {
+    const lf = manualConnectionEvidenceFile("lf", writeEvidence("manual-lf.txt", "alpha\nbeta\n"));
+    const mixed = manualConnectionEvidenceFile(
+      "mixed",
+      writeEvidence("manual-mixed.txt", "\ufeffalpha\r\nbeta\r"),
+    );
+
+    expect(mixed).toMatchObject({
+      exists: true,
+      sizeBytes: lf.sizeBytes,
+      digest: lf.digest,
     });
   });
 

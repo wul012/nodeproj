@@ -64,7 +64,7 @@ describe("manual connection verification renderer parity", () => {
     const markdown = renderManagedAuditManualSandboxConnectionOperatorWindowEvidenceVerificationMarkdown(profile);
 
     expect(Buffer.byteLength(markdown)).toBe(17_955);
-    expect(sha256(markdown)).toBe("093bb3bafb8035349a5721c2a0d252cbb0b2cc643131306cc78f482aea8fe23f");
+    expect(sha256(markdown)).toBe("7f657609c88d996789c8431e2e45072d8510a0911c58b6b24d029a04694745b4");
     expect(profile.evidenceFiles.some((file) =>
       resolveHistoricalEvidencePath(file.path).replace(/\\/g, "/")
         .includes("/fixtures/historical/sibling-workspaces/"))).toBe(true);

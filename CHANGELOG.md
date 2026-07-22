@@ -11,6 +11,17 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2238 - 2026-07-22
+
+- Separated host-native historical evidence content paths from stable report
+  paths, so forced-fallback profiles retain byte-identical output on Windows
+  and Linux while file I/O still uses the real checkout location.
+- Reused the existing normalized historical text metadata kernel for manual
+  connection evidence. This removes an accidental mixed-line-ending oracle,
+  preserves business fields and safety gates, and adds a direct LF/CRLF/BOM
+  regression test. This version repairs Node Evidence run 29881584343; it does
+  not add routes, schemas, execution authority, or sibling startup.
+
 ## v2237 - 2026-07-22
 
 - Reduced the private controlled-shard type barrel from 352 named exports to

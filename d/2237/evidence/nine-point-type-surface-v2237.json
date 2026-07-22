@@ -107,7 +107,21 @@
       "pinnedV961Sha256": "e69b1e1bbfa1983b4e54c9c0b194409bf14349beac104e7a0180a5b4997a172e",
       "status": "passed"
     },
-    "remoteNodeEvidence": "pending commit/tag push"
+    "remoteNodeEvidence": {
+      "runId": 29881584343,
+      "status": "failed",
+      "passedBeforeFailure": [
+        "typecheck",
+        "lint",
+        "security",
+        "archive",
+        "elegance",
+        "family census",
+        "maintainability census"
+      ],
+      "failure": "Linux-only profile and Markdown parity drift caused by host-native report paths and raw mixed line endings",
+      "repairVersion": "v2238"
+    }
   },
   "safety": {
     "runtimeCodeChanged": true,
@@ -123,5 +137,5 @@
     "required": false,
     "reason": "The version changes a TypeScript export surface and historical evidence resolution; it adds no UI or new HTTP page. Both existing JSON and Markdown routes were verified by HTTP smoke."
   },
-  "status": "local-verification-passed-awaiting-remote-ci"
+  "status": "local-verification-passed-remote-ci-failed-superseded-by-v2238"
 }

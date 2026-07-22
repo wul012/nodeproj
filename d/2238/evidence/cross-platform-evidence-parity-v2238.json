@@ -1,0 +1,68 @@
+{
+  "version": "v2238",
+  "scope": "cross-platform historical evidence profile and renderer parity repair",
+  "trigger": {
+    "version": "v2237",
+    "runId": 29881584343,
+    "status": "failed",
+    "linuxFailures": {
+      "javaV106ProfileBytes": { "expected": 38343, "received": 38242 },
+      "javaV107ProfileBytes": { "expected": 43068, "received": 42958 },
+      "operatorWindowExpectedSha256": "093bb3bafb8035349a5721c2a0d252cbb0b2cc643131306cc78f482aea8fe23f",
+      "operatorWindowLinuxSha256": "7f657609c88d996789c8431e2e45072d8510a0911c58b6b24d029a04694745b4"
+    }
+  },
+  "rootCause": {
+    "profilePaths": "Historical report objects serialized the host-native absolute checkout root.",
+    "textMetadata": "Manual connection evidence hashed raw working-tree bytes, including an uncommitted mixed CRLF/LF checkout representation that the Git LF blob cannot reproduce.",
+    "businessBehaviorChanged": false,
+    "safetyBoundaryChanged": false
+  },
+  "repair": {
+    "contentPathOwner": "resolveHistoricalEvidencePath and resolveHistoricalEvidenceContentPath",
+    "reportPathOwner": "resolveHistoricalEvidenceReportPath",
+    "canonicalReportRoot": "D:\\nodeproj\\orderops-node",
+    "textMetadataOwner": "historicalEvidenceReportUtils.evidenceFile",
+    "fixtureBytesChanged": false,
+    "routesChanged": false,
+    "schemasChanged": false,
+    "executionAuthorityChanged": false
+  },
+  "localVerification": {
+    "focusedAndDocumentationFiles": 10,
+    "focusedAndDocumentationTests": 41,
+    "walkthroughHanCharacters": 3079,
+    "typecheck": "passed",
+    "lint": "passed with zero warnings",
+    "build": "passed",
+    "security": "18/18 config checks passed; 6/6 credential signals narrowly waived",
+    "archive": "7199 files; 64.77 MiB of 80.00 MiB",
+    "familyCensus": "52/52; ready=true",
+    "maintainability": {
+      "nearLimitFiles": 70,
+      "longFunctions": 69,
+      "complexFunctions": 165,
+      "importCycles": 0,
+      "maxFunctionLines": 158,
+      "maxComplexity": 58
+    },
+    "rendererCensus": "245/245; 3 composition-only waivers; 0 non-waived",
+    "sourceFilesOver800Lines": 0,
+    "ninePoint": {
+      "ready": true,
+      "nameDebt": 4130,
+      "verificationLogic": 898,
+      "trackedFamilies": 52
+    }
+  },
+  "remoteNodeEvidence": "pending v2238 commit and push",
+  "parallelProjects": {
+    "java": "recommended parallel; no fresh evidence required",
+    "miniKv": "recommended parallel; no fresh evidence required"
+  },
+  "screenshot": {
+    "required": false,
+    "reason": "No UI, route, or renderable page changed; the affected outputs are existing JSON and Markdown parity surfaces."
+  },
+  "status": "local-final-verification-passed-awaiting-remote-ci"
+}
