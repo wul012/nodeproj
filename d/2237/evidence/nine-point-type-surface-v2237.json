@@ -1,0 +1,127 @@
+{
+  "version": "v2237",
+  "scope": "private type barrel reduction, immutable Node v961 evidence, and nine-point acceptance",
+  "executionMode": "compile-time surface refactor plus historical-evidence immutability repair",
+  "parallelProjects": {
+    "java": "recommended parallel; no fresh Java evidence required",
+    "miniKv": "recommended parallel; no fresh mini-kv evidence required"
+  },
+  "typeSurface": {
+    "privateBarrelLinesBefore": 498,
+    "privateBarrelLinesAfter": 75,
+    "privateExportsBefore": 352,
+    "privateExportsAfter": 37,
+    "removedUnusedExports": 315,
+    "facadeDirectExports": 4,
+    "consumedSurfaceNames": 41,
+    "unusedPrivateExports": 0,
+    "missingSurfaceImports": 0,
+    "duplicatePrivateExports": 0,
+    "wildcardPrivateExports": 0,
+    "unsupportedNamespaceImports": 0
+  },
+  "regressionRepair": {
+    "detectedBy": "test/controlledReadOnlyShardPreviewParity.test.ts in final shard 1",
+    "firstBadVersion": "v2236",
+    "testExpectationChanged": false,
+    "baselineRelaxed": false,
+    "rootCause": "Node v961 evidence still read a mutable current source path, so the v2236 equivalent refactor changed one physical size/digest and cascaded through 236 derived digests.",
+    "pinnedSnapshot": "fixtures/historical/node/v961/value-supply-envelope-artifacts.ts.snapshot",
+    "snapshotBytes": 11741,
+    "snapshotSha256": "e69b1e1bbfa1983b4e54c9c0b194409bf14349beac104e7a0180a5b4997a172e",
+    "snapshotGitBlob": "260776b475fd113203b79c1e753be2254e275052",
+    "v961GitBlob": "260776b475fd113203b79c1e753be2254e275052",
+    "currentSourceGitBlob": "89b94e396557218a01833fdbdd3de9ed9d461dc3",
+    "v2236SourceGitBlob": "89b94e396557218a01833fdbdd3de9ed9d461dc3"
+  },
+  "ninePoint": {
+    "ready": true,
+    "nearLimitFiles": 70,
+    "longFunctions": 69,
+    "complexFunctions": 165,
+    "importCycles": 0,
+    "maxFunctionLines": 158,
+    "maxComplexity": 58,
+    "nameDebt": 4130,
+    "verificationLogic": 898,
+    "trackedFamilies": 52,
+    "nonWaivedRenderers": 0,
+    "sourceFilesOver800Lines": 0
+  },
+  "focusedVerification": {
+    "typeBarrelTestFiles": 4,
+    "typeBarrelTests": 11,
+    "historicalEvidenceAndParityTestFiles": 4,
+    "historicalEvidenceAndParityTests": 15,
+    "typecheck": "passed",
+    "lint": "passed",
+    "eleganceNine": "passed"
+  },
+  "finalVerification": {
+    "testDiscovery": "592 files represented exactly once by four disjoint Vitest shards",
+    "vitestShards": [
+      { "shard": "1/4", "files": 148, "tests": 416, "durationSeconds": 443.02, "status": "passed" },
+      { "shard": "2/4", "files": 148, "tests": 507, "durationSeconds": 343.69, "status": "passed" },
+      { "shard": "3/4", "files": 148, "tests": 429, "durationSeconds": 293.94, "status": "passed" },
+      { "shard": "4/4", "files": 148, "tests": 465, "durationSeconds": 247.23, "status": "passed" }
+    ],
+    "vitestTotals": { "files": 592, "tests": 1817, "maxWorkers": 4, "status": "passed" },
+    "coverage": {
+      "files": 592,
+      "tests": 1817,
+      "durationSeconds": 1073.47,
+      "statementsPercent": 95.77,
+      "branchesPercent": 90.06,
+      "functionsPercent": 98.54,
+      "linesPercent": 95.75,
+      "status": "passed"
+    },
+    "typecheck": "passed",
+    "lint": "passed with zero warnings",
+    "build": "passed",
+    "security": "18/18 config checks passed; 6/6 credential signals narrowly waived",
+    "archive": "7195 files; 64.74 MiB of 80.00 MiB",
+    "staticGates": "elegance, family, maintainability, renderer, source-size, and nine-point gates passed",
+    "defaultSmoke": {
+      "port": 4191,
+      "health": "ok",
+      "orderPlatformRequests": 0,
+      "miniKvRequests": 0,
+      "readyForReleaseEvidenceArchive": true,
+      "executionAllowed": false,
+      "status": "passed"
+    },
+    "guardedHistoricalFallbackSmoke": {
+      "port": 4192,
+      "healthStatus": 200,
+      "jsonStatus": 200,
+      "markdownStatus": 200,
+      "markdownBytes": 80224,
+      "previewState": "blocked",
+      "executionAllowed": false,
+      "startsJavaService": false,
+      "startsMiniKvService": false,
+      "writeRoutingAllowed": false,
+      "unauthenticatedStatus": 401,
+      "pinnedV961Bytes": 11741,
+      "pinnedV961Sha256": "e69b1e1bbfa1983b4e54c9c0b194409bf14349beac104e7a0180a5b4997a172e",
+      "status": "passed"
+    },
+    "remoteNodeEvidence": "pending commit/tag push"
+  },
+  "safety": {
+    "runtimeCodeChanged": true,
+    "runtimeBehaviorChange": "one exact Node v961 historical evidence path now reads immutable content while retaining its declared report path",
+    "routesChanged": false,
+    "schemasChanged": false,
+    "fixturesChanged": true,
+    "fixtureChange": "added a byte-identical snapshot of the real v961 Git blob",
+    "testExpectationsChanged": false,
+    "productionWrites": false
+  },
+  "screenshot": {
+    "required": false,
+    "reason": "The version changes a TypeScript export surface and historical evidence resolution; it adds no UI or new HTTP page. Both existing JSON and Markdown routes were verified by HTTP smoke."
+  },
+  "status": "local-verification-passed-awaiting-remote-ci"
+}

@@ -1,7 +1,8 @@
 # Historical Fixture Manifest
 
-This manifest describes the frozen sibling-workspace evidence committed under
-`fixtures/historical/sibling-workspaces/`.
+This manifest describes frozen sibling-workspace evidence under
+`fixtures/historical/sibling-workspaces/` and immutable local Node evidence
+under `fixtures/historical/node/`.
 
 ## Rules
 
@@ -25,6 +26,7 @@ This manifest describes the frozen sibling-workspace evidence committed under
 | --- | --- | ---: | ---: | --- | --- |
 | Java | `fixtures/historical/sibling-workspaces/javaproj/advanced-order-platform/` | 222 | 50 | v82-v274 | Includes Java explanation snapshots, Java ops source snapshots, and 44 shard-readiness evidence JSON files under `e/<version>/evidence/`. |
 | mini-kv | `fixtures/historical/sibling-workspaces/mini-kv/` | 174 | 77 | v91-v610 | Includes release receipt JSON under `fixtures/release/`, source/test snapshots, and explanation snapshots. |
+| Node | `fixtures/historical/node/` | 1 | 0 | v961 | Pins one source artifact that downstream digest chains consume as immutable Node v961 evidence. |
 
 ## Java Coverage
 
@@ -62,6 +64,15 @@ The mini-kv snapshot covers:
 mini-kv files are consumed by Node services as frozen evidence only. They are
 not a live mini-kv workspace and must not be edited from the Node repo.
 
+## Node Coverage
+
+The local Node snapshot contains the original v961 value-supply-envelope
+artifact blob under `fixtures/historical/node/v961/`. Its Git blob must remain
+`260776b475fd113203b79c1e753be2254e275052`; the historical resolver reads this
+immutable content while reports retain the original declared source path.
+Current source refactors must not rewrite this snapshot or refresh downstream
+digest expectations.
+
 ## Current Node Consumer Expectations
 
 Node consumers rely on these fixture properties:
@@ -74,7 +85,7 @@ Node consumers rely on these fixture properties:
 
 ## Update Checklist
 
-When adding a new frozen sibling artifact:
+When adding a new frozen sibling or local Node artifact:
 
 1. Add the artifact under the appropriate sibling snapshot tree.
 2. Update this manifest with the new version span and artifact family.

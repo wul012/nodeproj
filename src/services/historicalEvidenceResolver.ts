@@ -6,6 +6,14 @@ import { fileURLToPath } from "node:url";
 const REPO_ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const FORCE_FALLBACK_ENV = "ORDEROPS_FORCE_HISTORICAL_FIXTURE_FALLBACK";
 
+const PINNED_CONTENT_MAPPINGS = Object.freeze([
+  {
+    path:
+      "D:/nodeproj/orderops-node/src/services/managedAuditManualSandboxConnectionCredentialResolverControlledReadOnlyShardPreviewLiveReadOnlyWindowOperatorEvidenceValueSupplyEnvelopeArtifacts.ts",
+    contentPath: "fixtures/historical/node/v961/value-supply-envelope-artifacts.ts.snapshot",
+  },
+]);
+
 const FALLBACK_MAPPINGS = Object.freeze([
   {
     prefix: "D:/nodeproj/orderops-node/",
@@ -55,6 +63,14 @@ export function resolveHistoricalEvidencePath(inputPath: string): string {
   return fallbackPath ?? inputPath;
 }
 
+export function resolveHistoricalEvidenceContentPath(inputPath: string): string {
+  const normalizedPath = inputPath.replace(/\\/g, "/");
+  const pinned = PINNED_CONTENT_MAPPINGS.find((mapping) => mapping.path === normalizedPath);
+  return pinned === undefined
+    ? resolveHistoricalEvidencePath(inputPath)
+    : path.resolve(REPO_ROOT, pinned.contentPath);
+}
+
 function mappedHistoricalEvidencePath(inputPath: string): string | null {
   const normalizedPath = inputPath.replace(/\\/g, "/");
   for (const mapping of FALLBACK_MAPPINGS) {
@@ -67,13 +83,13 @@ function mappedHistoricalEvidencePath(inputPath: string): string | null {
 }
 
 export function historicalEvidenceExists(inputPath: string): boolean {
-  return existsSync(resolveHistoricalEvidencePath(inputPath));
+  return existsSync(resolveHistoricalEvidenceContentPath(inputPath));
 }
 
 export function readHistoricalEvidenceFile(inputPath: string): Buffer;
 export function readHistoricalEvidenceFile(inputPath: string, encoding: BufferEncoding): string;
 export function readHistoricalEvidenceFile(inputPath: string, encoding?: BufferEncoding): Buffer | string {
-  const resolvedPath = resolveHistoricalEvidencePath(inputPath);
+  const resolvedPath = resolveHistoricalEvidenceContentPath(inputPath);
   if (!encoding) {
     return readFileSync(resolvedPath);
   }
@@ -82,5 +98,5 @@ export function readHistoricalEvidenceFile(inputPath: string, encoding?: BufferE
 }
 
 export function statHistoricalEvidence(inputPath: string): Stats {
-  return statSync(resolveHistoricalEvidencePath(inputPath));
+  return statSync(resolveHistoricalEvidenceContentPath(inputPath));
 }

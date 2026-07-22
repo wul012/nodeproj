@@ -15,7 +15,7 @@ Update this table instead of appending relative-time rules ("starting with the n
 | Session bootstrap | run `.\scripts\codex-bootstrap.ps1` at session start (git/tag/CI/pointers in one command) |
 | Authorized maturity label | `single-project validation + verified read-only cross-project integration (env-gated, single machine, no execution authority)` |
 | Capstone regression trigger | run `INTEGRATION_LIVE=1 npm run readiness:cross` at Java final track close and after capstone-contract changes |
-| Active maintenance track | `docs/plans3/v2228-v2232-nine-point-convergence.md`; execute continuously until the mechanical nine-point gate passes, writing shrink-only successors instead of pausing for a subjective review |
+| Active maintenance track | `docs/plans3/v2233-v2237-nine-point-final-convergence.md`; v2237 local acceptance passed, remote Node Evidence is the final stop gate, and no subjective-score successor is authorized |
 | Frozen history (never move) | `a/`, `b/`, `c/`, older walkthrough volumes, `fixtures/` |
 
 ## Collaboration Rule

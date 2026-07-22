@@ -3,10 +3,10 @@
   "maxNameLength": 40,
   "familyThreshold": 3,
   "nameDebt": {
-    "count": 4444,
+    "count": 4130,
     "fileCount": 959,
-    "exportCount": 3485,
-    "keyDigest": "sha256:d41bf07268296276cdece69d589645dad72a64cedd4513915f41a7891d073daa"
+    "exportCount": 3171,
+    "keyDigest": "sha256:ff2a2579d80ae04f6d041da12fd75a69bbba9ae9ff16e6d3cf8654bf08e64d66"
   },
   "structuralFamilies": {
     "src/evidence:evidence": 6,

@@ -11,6 +11,47 @@ All notable Node project changes are tracked by git tags.
   file must be updated with the new package-version policy before changing
   `package.json`.
 
+## v2237 - 2026-07-22
+
+- Reduced the private controlled-shard type barrel from 352 named exports to
+  the 37 names actually consumed through the stable facade. A TypeScript AST
+  ratchet now rejects unused, missing, duplicate, wildcard, namespace, default,
+  and missing-source surface debt. Name debt tightened from 4,444 to 4,130.
+- The final batch audit traced a preview parity failure to mutable Node v961
+  source evidence. It now reads a byte-identical v961 snapshot without changing
+  the declared report path, test expectations, or maintenance baseline. The
+  mechanical nine-point gate passes at 70/69/165/0, maximum function 158,
+  maximum complexity 58, verification logic 898, and zero non-waived renderers.
+
+## v2236 - 2026-07-21
+
+- Replaced 744 repeated blocked-reason ternaries across 19 validators with an
+  ordered typed rule kernel, and moved Java v106/v107 evidence projection to
+  typed snippet specifications. Maintainability tightened from 70/71/188/0 to
+  70/69/165/0. The v2237 final audit subsequently froze the v961 source evidence
+  whose mutable physical digest had exposed an otherwise equivalent refactor.
+
+## v2235 - 2026-07-21
+
+- Moved operator-window Markdown ownership into the shared manual-connection
+  report context, split the 163-line catalog-quality loader into named stages,
+  and converged adjacent receipt and predicate helpers. Verification logic fell
+  from 980 to 898 and maintainability tightened to 70/71/188/0 with byte parity.
+
+## v2234 - 2026-07-21
+
+- Consolidated packet and preflight renderers, historical evidence loading, and
+  advisories into bounded manual-connection owners. Both forced-fallback
+  Markdown oracles remain byte-identical; verification logic fell from 1,146 to
+  980 and the two original services left the near-limit ledger.
+
+## v2233 - 2026-07-21
+
+- Moved production connection and live-probe archive Markdown ownership into a
+  short shared report module while preserving stable exports and exact output
+  hashes. Verification formatting logic fell from 1,320 to 1,146 without new
+  renderer waivers, naming debt, families, routes, or execution authority.
+
 ## v2227 - 2026-07-21
 
 - Replaced the flat precheck upstream-receipt verification family with a
